@@ -1,0 +1,48 @@
+{
+  "date": "2026-09-30",
+  "result": "passed",
+  "browser": "Chromium through persistent Playwright; requested in-app Browser tool unavailable",
+  "backend": "real modified Codex app-server",
+  "inference": "separately built deterministic model plugin, no live provider credentials",
+  "source_removed": true,
+  "host_binaries_unchanged": true,
+  "binaries": {
+    "host": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "25a6862b6f14de4a7bbfefe66013e8cde305bf094eba57dcd2136858abff902a",
+      "mtime_ns": 1790762606846368457,
+      "bytes": 15384800
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "df41ac1c2ffed751d2bacb4602d11c92673e03cc3e4c557055edc7cbc592b549",
+      "mtime_ns": 1790763179454581540,
+      "bytes": 1034217768
+    }
+  },
+  "thread_id": "01a0f1d6-537e-7a20-a5b9-e66224a0d990",
+  "checks": [
+    "Installed GUI built outside source tree, source then removed",
+    "Real thread/start and turn/start through app-server",
+    "Native exec_command approval shown; Allow once submitted; printf gui-native-approval exited 0 and output displayed",
+    "Streamed assistant response rendered",
+    "Stop invoked turn/interrupt; UI Task interrupted; blocked plugin process terminated",
+    "Browser reload recovered successful tool output and interrupted turn",
+    "Manager/app-server stopped and restarted; saved thread recovered same tool output and interrupted status",
+    "A subsequent turn succeeded in recovered thread"
+  ],
+  "cancelled_plugin_pid": 107904,
+  "cancelled_plugin_process_exists": false,
+  "limitations": [
+    "Desktop Linux tested; Windows/macOS not executed",
+    "No live model inference; deterministic fixture requests native operations",
+    "This verifies the new additive presentation plugin and native model seam, not complete extraction of all engine components"
+  ],
+  "screenshots": [
+    "gui-real-approval-request.png",
+    "gui-real-approval-completed.png",
+    "gui-real-interrupted.png",
+    "gui-real-recovered-after-restart.png",
+    "gui-real-response-after-restart.png"
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "passed_behavioral_cycle": true,
+  "scope": "Preliminary GUI/native storage composition. Manager is prior build; direct GUI SIGTERM ended each launch, causing expected manager EOF failure. Does NOT verify manager Ctrl+C/graceful-launch change. Native storage binary built in checkout; not outside-source milestone. Browser reload uncovered gateway broken-pipe double-response noise; fix and final rerun pending.",
+  "browser": "Actual Chromium via Playwright, manually driven; requested in-app Browser unavailable",
+  "inference": "Deterministic external model; actual Codex appserver/native exec/approval/storage",
+  "thread_id": "01a0f233-d191-7362-aae5-60a2399c623f",
+  "verified": [
+    "normal response",
+    "native command approval",
+    "printf gui-native-approval exit0",
+    "stream text visible before Stop",
+    "Stop terminates blocked model PID202326",
+    "reload recovers tool output and interrupted status",
+    "new gateway/appserver/selected native storage PIDs",
+    "full restart recovers interrupted task and completes subsequent turn",
+    "observed processes exited",
+    "unchanged binary hashes"
+  ],
+  "first": {
+    "gateway": 202151,
+    "app_server": 202152,
+    "storage": 202170
+  },
+  "restart": {
+    "gateway": 202397,
+    "app_server": 202398,
+    "storage": 202415
+  },
+  "binaries_before": {
+    "host": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "0c120ccaf35502447c81927f6c4dccf697fbe6c349c6c0a831de4f7dffb8a7a3",
+      "mtime_ns": 1790765719159140003,
+      "bytes": 16175848
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "785d87c030c8c6cc1e1720a1edbe56f4cff2879b9caa0c946c26d3ad63819227",
+      "mtime_ns": 1790769494750760495,
+      "bytes": 1035960008
+    }
+  },
+  "binaries_after": {
+    "host": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "0c120ccaf35502447c81927f6c4dccf697fbe6c349c6c0a831de4f7dffb8a7a3",
+      "bytes": 16175848,
+      "mtime_ns": 1790765719159140003
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "785d87c030c8c6cc1e1720a1edbe56f4cff2879b9caa0c946c26d3ad63819227",
+      "bytes": 1035960008,
+      "mtime_ns": 1790769494750760495
+    }
+  },
+  "screenshots": [
+    "gui-storage-composition-turn.png",
+    "gui-storage-composition-approval.png",
+    "gui-storage-composition-tool.png",
+    "gui-storage-composition-interrupted.png",
+    "gui-storage-composition-recovered.png"
+  ]
+}

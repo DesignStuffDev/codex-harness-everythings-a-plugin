@@ -1,0 +1,46 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-rollout v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/rollout)
+   Compiling codex-state v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/state)
+   Compiling codex-app-server-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-protocol)
+   Compiling codex-feedback v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/feedback)
+   Compiling codex-model-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider)
+   Compiling codex-mcp v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-mcp)
+   Compiling codex-extension-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/extension-api)
+   Compiling codex-agent-message-board-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent-message-board)
+   Compiling codex-thread-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store)
+   Compiling codex-thread-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component)
+   Compiling codex-thread-store-local-plugin v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-local-plugin)
+    Finished `test` profile [unoptimized] target(s) in 1m 05s
+────────────
+ Nextest run ID 8309963e-60b5-47cc-8370-1e5520c4fa39 with nextest profile: local
+    Starting 653 tests across 7 binaries
+        FAIL [   0.347s] (652/653) codex-thread-store-local-plugin::process_storage maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+  stdout ───
+
+    running 1 test
+    test maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown ... FAILED
+
+    failures:
+
+    failures:
+        maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.34s
+
+  stderr ───
+
+    thread 'maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown' (270534) panicked at thread-store-local-plugin/tests/cases/maintenance.rs:105:5:
+    assertion failed: `(left == right)`
+
+    Diff < left / right > :
+    <Legacy
+    >Paginated
+
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [  33.125s] 653 tests run: 652 passed, 1 failed, 0 skipped
+        FAIL [   0.347s] (652/653) codex-thread-store-local-plugin::process_storage maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+error: test run failed
+error: recipe `test` failed on line 88 with exit code 100

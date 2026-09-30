@@ -1,0 +1,60 @@
+{
+  "started_utc": "2026-09-30T17:15:06.677345+00:00",
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-core",
+    "--lib",
+    "--test-threads",
+    "2",
+    "--retries",
+    "0",
+    "--status-level",
+    "fail",
+    "--final-status-level",
+    "fail"
+  ],
+  "source": {
+    "manifest": "recovery-core-lib-portable-20260930.source.json",
+    "sha256": "38a866549659cca98219fa6c3e28d56de2ebb3104add642a1f7c043900188899",
+    "files": 8600,
+    "tracked_patch": "recovery-core-lib-portable-20260930.tracked.patch",
+    "verified_unchanged_after_tests": true,
+    "description": "Actual primary Rust and SDK source during recovery-core-lib-portable-20260930; includes the two session fixture corrections and test-only Linux subreaper runner. No production source changed after accepted v2 runtime checkpoint. Before formatting."
+  },
+  "environment": "/workspace/toolchains/component-verification-env.sh",
+  "cargo_build_jobs": 1,
+  "nextest_profile": "local",
+  "fail_fast": false,
+  "status": "passed",
+  "limits": "Complete codex-core library selection only; excludes integration targets, doctests and ignored helper. No complete workspace or cross-platform result.",
+  "exit_status": 0,
+  "elapsed_seconds": 399.5872356891632,
+  "finished_utc": "2026-09-30T17:21:46.264555+00:00",
+  "junit": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/recovery-core-lib-portable-20260930.junit.xml",
+  "junit_totals": {
+    "name": "nextest-run",
+    "tests": "2694",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "30e4ea84-f664-40f8-ba22-fac95cb27b80",
+    "timestamp": "2026-09-30T17:17:39.868+00:00",
+    "time": "246.369"
+  },
+  "suites": [
+    {
+      "name": "codex-core",
+      "tests": "2694",
+      "skipped": "0",
+      "errors": "0",
+      "failures": "0"
+    }
+  ],
+  "failures": [],
+  "reporting_correction": "The temporary wrapper originally stamped its older frozen Rust archive label. Replaced only source identity with contemporaneous manifest; command, exit status, timings, JUnit and failures unchanged. Raw wrapper report retained in cloud recovery backup.",
+  "runner": "component-sdk/tests/subreaper_runner.py; init-style orphan ownership, unchanged environment and strict execution assertions",
+  "runner_report": "recovery-core-lib-portable-20260930.subreaper.json",
+  "skipped_helper_tests": 1
+}

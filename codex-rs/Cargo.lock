@@ -2389,9 +2389,41 @@ dependencies = [
 name = "codex-attachment-store"
 version = "0.0.0"
 dependencies = [
+ "codex-attachment-store-api",
+ "codex-attachment-store-inline",
+ "pretty_assertions",
+ "tokio",
+]
+
+[[package]]
+name = "codex-attachment-store-api"
+version = "0.0.0"
+dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "codex-attachment-store-component"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "codex-attachment-store-api",
+ "codex-attachment-store-inline",
+ "codex-component-api",
+ "codex-component-host",
+ "codex-utils-cargo-bin",
  "pretty_assertions",
  "serde",
+ "serde_json",
+ "tempfile",
  "tokio",
+]
+
+[[package]]
+name = "codex-attachment-store-inline"
+version = "0.0.0"
+dependencies = [
+ "codex-attachment-store-api",
  "tracing",
 ]
 
@@ -2785,6 +2817,66 @@ name = "codex-collaboration-mode-templates"
 version = "0.0.0"
 
 [[package]]
+name = "codex-component-adapters"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "codex-component-host",
+ "codex-context-fragments",
+ "codex-extension-api",
+ "codex-protocol",
+ "codex-tools",
+ "codex-utils-cargo-bin",
+ "codex-utils-output-truncation",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
+name = "codex-component-api"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "codex-component-host"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "base64 0.22.1",
+ "clap",
+ "codex-component-api",
+ "libc",
+ "pretty_assertions",
+ "semver",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+]
+
+[[package]]
+name = "codex-component-state-codec"
+version = "0.0.0"
+dependencies = [
+ "chrono",
+ "codex-extension-items",
+ "codex-history",
+ "codex-protocol",
+ "codex-utils-absolute-path",
+ "codex-utils-path-uri",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "codex-config"
 version = "0.0.0"
 dependencies = [
@@ -2911,8 +3003,11 @@ dependencies = [
  "codex-apply-patch",
  "codex-async-utils",
  "codex-attachment-store",
+ "codex-attachment-store-component",
  "codex-client",
  "codex-code-mode",
+ "codex-component-adapters",
+ "codex-component-host",
  "codex-config",
  "codex-connectors",
  "codex-context-fragments",
@@ -2959,6 +3054,7 @@ dependencies = [
  "codex-terminal-detection",
  "codex-test-binary-support",
  "codex-thread-store",
+ "codex-thread-store-component",
  "codex-tools",
  "codex-utils-absolute-path",
  "codex-utils-audio",
@@ -3802,6 +3898,7 @@ dependencies = [
  "base64 0.22.1",
  "chrono",
  "codex-agent-identity",
+ "codex-component-host",
  "codex-config",
  "codex-http-client",
  "codex-keyring-store",
@@ -3810,6 +3907,7 @@ dependencies = [
  "codex-protocol",
  "codex-secrets",
  "codex-terminal-detection",
+ "codex-utils-cargo-bin",
  "codex-utils-process",
  "codex-utils-template",
  "codex-workload-identity",
@@ -4721,6 +4819,52 @@ dependencies = [
  "tracing",
  "uuid",
  "zstd",
+]
+
+[[package]]
+name = "codex-thread-store-component"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "chrono",
+ "codex-app-server-protocol",
+ "codex-component-host",
+ "codex-component-state-codec",
+ "codex-protocol",
+ "codex-rollout",
+ "codex-state",
+ "codex-thread-store",
+ "codex-utils-absolute-path",
+ "codex-utils-path-uri",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tracing",
+ "uuid",
+]
+
+[[package]]
+name = "codex-thread-store-local-plugin"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "codex-agent-message-board-extension",
+ "codex-component-api",
+ "codex-component-host",
+ "codex-protocol",
+ "codex-rollout",
+ "codex-state",
+ "codex-thread-store",
+ "codex-thread-store-component",
+ "codex-utils-absolute-path",
+ "codex-utils-cargo-bin",
+ "pretty_assertions",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "uuid",
 ]
 
 [[package]]

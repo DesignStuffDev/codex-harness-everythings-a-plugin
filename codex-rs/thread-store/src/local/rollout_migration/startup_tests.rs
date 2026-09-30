@@ -546,3 +546,6 @@ async fn treats_writer_owned_empty_rollouts_as_busy() {
         ThreadHistoryMode::Paginated
     );
 }
+
+#[path = "startup_lifecycle_tests.rs"]
+mod lifecycle;

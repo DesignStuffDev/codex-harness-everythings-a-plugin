@@ -23,6 +23,33 @@ use tokio::time::timeout;
 
 struct ThreadStartRecorder(Arc<AtomicUsize>);
 
+struct DelegateAttachmentStore;
+
+impl codex_attachment_store::AttachmentStore for DelegateAttachmentStore {
+    fn upload(
+        &self,
+        _request: codex_attachment_store::UploadRequest,
+    ) -> codex_attachment_store::UploadFuture<'_> {
+        Box::pin(async {
+            Ok(codex_attachment_store::UploadResult::File {
+                file_id: "explicit-delegate-file".to_owned(),
+            })
+        })
+    }
+
+    fn resolve<'a>(
+        &'a self,
+        _request: codex_attachment_store::ResolveRequest<'a>,
+    ) -> codex_attachment_store::ResolveFuture<'a> {
+        Box::pin(async {
+            Err(codex_attachment_store::AttachmentStoreError::new(
+                codex_attachment_store::AttachmentStoreErrorKind::NotFound,
+                "not found",
+            ))
+        })
+    }
+}
+
 impl ThreadLifecycleContributor<Config> for ThreadStartRecorder {
     fn on_thread_start<'a>(
         &'a self,
@@ -403,4 +430,64 @@ async fn run_codex_thread_interactive_rejects_approval_policy_that_can_prompt() 
                     if message == "Codex delegates require approval policy `never`"
             )
     ));
+}
+
+#[tokio::test]
+async fn isolated_delegate_resets_default_attachments_but_keeps_explicit_store() {
+    use codex_attachment_store::UploadRequest;
+    use codex_attachment_store::UploadResult;
+    use codex_attachment_store_component::AttachmentStoreSelection;
+
+    for selection in [
+        AttachmentStoreSelection::Default,
+        AttachmentStoreSelection::Explicit(Arc::new(DelegateAttachmentStore)),
+    ] {
+        let expected = match &selection {
+            AttachmentStoreSelection::Default => UploadResult::Inline {
+                bytes: vec![1, 2, 3],
+            },
+            AttachmentStoreSelection::Explicit(_) => UploadResult::File {
+                file_id: "explicit-delegate-file".to_owned(),
+            },
+        };
+        let (mut parent_session, parent_ctx, _events) =
+            crate::session::tests::make_session_and_context_with_rx().await;
+        let services = &mut Arc::get_mut(&mut parent_session)
+            .expect("unique parent")
+            .services;
+        // Represent an already-resolved parent implementation. The delegate must
+        // receive its provenance, not unconditionally clone this active store.
+        services.image_store = Arc::new(DelegateAttachmentStore);
+        services.image_store_selection = selection;
+        let mut config = parent_ctx.config.as_ref().clone();
+        config.permissions.approval_policy = Constrained::allow_only(AskForApproval::Never);
+        let (session, io) = run_codex_thread_interactive(
+            config,
+            Arc::clone(&parent_session.services.auth_manager),
+            Arc::clone(&parent_session.services.models_manager),
+            Arc::clone(&parent_session),
+            Arc::clone(&parent_ctx),
+            parent_ctx.initial_environments.clone(),
+            CancellationToken::new(),
+            SubAgentSource::Review,
+            codex_extension_api::SessionIsolation::Isolated,
+            /*initial_history*/ None,
+            crate::session::GitEnrichmentPolicy::Fresh,
+            codex_sandboxing::WindowsSandboxProxySettingsMode::Reconcile,
+        )
+        .await
+        .expect("isolated delegate");
+        let result = session
+            .services
+            .image_store
+            .upload(UploadRequest {
+                thread_id: session.thread_id().to_string(),
+                file_name: None,
+                data: vec![1, 2, 3],
+            })
+            .await
+            .expect("delegate upload");
+        assert_eq!(result, expected);
+        io.shutdown_and_wait().await.expect("delegate shutdown");
+    }
 }

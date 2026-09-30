@@ -1,0 +1,41 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+   Compiling codex-login v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/login)
+   Compiling codex-thread-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component)
+   Compiling codex-connectors v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/connectors)
+   Compiling codex-models-manager v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/models-manager)
+   Compiling codex-feedback v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/feedback)
+   Compiling codex-model-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider)
+   Compiling codex-tools v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/tools)
+   Compiling codex-mcp v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-mcp)
+   Compiling codex-extension-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/extension-api)
+   Compiling codex-agent-message-board-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent-message-board)
+   Compiling codex-thread-store-local-plugin v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-local-plugin)
+    Finished `test` profile [unoptimized] target(s) in 37.70s
+────────────
+ Nextest run ID 83e6434b-83bc-4b1d-b50b-c8e1055f8f91 with nextest profile: local
+    Starting 27 tests across 4 binaries
+        FAIL [   0.138s] (17/27) codex-thread-store-local-plugin::process_storage fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary
+  stdout ───
+
+    running 1 test
+    test fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary ... FAILED
+
+    failures:
+
+    failures:
+        fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.13s
+
+  stderr ───
+
+    thread 'fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary' (255083) panicked at thread-store-local-plugin/tests/cases/fidelity.rs:109:14:
+    called `Result::unwrap()` on an `Err` value: InvalidRequest { message: "pending thread metadata cannot set rollout_path" }
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   9.675s] 27 tests run: 26 passed, 1 failed, 0 skipped
+        FAIL [   0.138s] (17/27) codex-thread-store-local-plugin::process_storage fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary
+error: test run failed
+error: recipe `test` failed on line 88 with exit code 100

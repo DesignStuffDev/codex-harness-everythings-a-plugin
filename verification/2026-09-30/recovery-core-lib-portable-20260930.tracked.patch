@@ -1,0 +1,4412 @@
+diff --git a/codex-rs/Cargo.lock b/codex-rs/Cargo.lock
+index ea89723..702b357 100644
+--- a/codex-rs/Cargo.lock
++++ b/codex-rs/Cargo.lock
+@@ -2389,9 +2389,41 @@ dependencies = [
+ name = "codex-attachment-store"
+ version = "0.0.0"
+ dependencies = [
++ "codex-attachment-store-api",
++ "codex-attachment-store-inline",
++ "pretty_assertions",
++ "tokio",
++]
++
++[[package]]
++name = "codex-attachment-store-api"
++version = "0.0.0"
++dependencies = [
++ "serde",
++]
++
++[[package]]
++name = "codex-attachment-store-component"
++version = "0.0.0"
++dependencies = [
++ "anyhow",
++ "codex-attachment-store-api",
++ "codex-attachment-store-inline",
++ "codex-component-api",
++ "codex-component-host",
++ "codex-utils-cargo-bin",
+  "pretty_assertions",
+  "serde",
++ "serde_json",
++ "tempfile",
+  "tokio",
++]
++
++[[package]]
++name = "codex-attachment-store-inline"
++version = "0.0.0"
++dependencies = [
++ "codex-attachment-store-api",
+  "tracing",
+ ]
+ 
+@@ -2784,6 +2816,66 @@ dependencies = [
+ name = "codex-collaboration-mode-templates"
+ version = "0.0.0"
+ 
++[[package]]
++name = "codex-component-adapters"
++version = "0.0.0"
++dependencies = [
++ "anyhow",
++ "codex-component-host",
++ "codex-context-fragments",
++ "codex-extension-api",
++ "codex-protocol",
++ "codex-tools",
++ "codex-utils-cargo-bin",
++ "codex-utils-output-truncation",
++ "pretty_assertions",
++ "serde",
++ "serde_json",
++ "tempfile",
++ "tokio",
++ "tracing",
++]
++
++[[package]]
++name = "codex-component-api"
++version = "0.0.0"
++dependencies = [
++ "serde",
++ "serde_json",
++]
++
++[[package]]
++name = "codex-component-host"
++version = "0.0.0"
++dependencies = [
++ "anyhow",
++ "base64 0.22.1",
++ "clap",
++ "codex-component-api",
++ "libc",
++ "pretty_assertions",
++ "semver",
++ "serde",
++ "serde_json",
++ "tempfile",
++ "tokio",
++]
++
++[[package]]
++name = "codex-component-state-codec"
++version = "0.0.0"
++dependencies = [
++ "chrono",
++ "codex-extension-items",
++ "codex-history",
++ "codex-protocol",
++ "codex-utils-absolute-path",
++ "codex-utils-path-uri",
++ "pretty_assertions",
++ "serde",
++ "serde_json",
++]
++
+ [[package]]
+ name = "codex-config"
+ version = "0.0.0"
+@@ -2911,8 +3003,11 @@ dependencies = [
+  "codex-apply-patch",
+  "codex-async-utils",
+  "codex-attachment-store",
++ "codex-attachment-store-component",
+  "codex-client",
+  "codex-code-mode",
++ "codex-component-adapters",
++ "codex-component-host",
+  "codex-config",
+  "codex-connectors",
+  "codex-context-fragments",
+@@ -2959,6 +3054,7 @@ dependencies = [
+  "codex-terminal-detection",
+  "codex-test-binary-support",
+  "codex-thread-store",
++ "codex-thread-store-component",
+  "codex-tools",
+  "codex-utils-absolute-path",
+  "codex-utils-audio",
+@@ -3802,6 +3898,7 @@ dependencies = [
+  "base64 0.22.1",
+  "chrono",
+  "codex-agent-identity",
++ "codex-component-host",
+  "codex-config",
+  "codex-http-client",
+  "codex-keyring-store",
+@@ -3810,6 +3907,7 @@ dependencies = [
+  "codex-protocol",
+  "codex-secrets",
+  "codex-terminal-detection",
++ "codex-utils-cargo-bin",
+  "codex-utils-process",
+  "codex-utils-template",
+  "codex-workload-identity",
+@@ -4723,6 +4821,52 @@ dependencies = [
+  "zstd",
+ ]
+ 
++[[package]]
++name = "codex-thread-store-component"
++version = "0.0.0"
++dependencies = [
++ "anyhow",
++ "chrono",
++ "codex-app-server-protocol",
++ "codex-component-host",
++ "codex-component-state-codec",
++ "codex-protocol",
++ "codex-rollout",
++ "codex-state",
++ "codex-thread-store",
++ "codex-utils-absolute-path",
++ "codex-utils-path-uri",
++ "pretty_assertions",
++ "serde",
++ "serde_json",
++ "tempfile",
++ "tokio",
++ "tracing",
++ "uuid",
++]
++
++[[package]]
++name = "codex-thread-store-local-plugin"
++version = "0.0.0"
++dependencies = [
++ "anyhow",
++ "codex-agent-message-board-extension",
++ "codex-component-api",
++ "codex-component-host",
++ "codex-protocol",
++ "codex-rollout",
++ "codex-state",
++ "codex-thread-store",
++ "codex-thread-store-component",
++ "codex-utils-absolute-path",
++ "codex-utils-cargo-bin",
++ "pretty_assertions",
++ "serde_json",
++ "tempfile",
++ "tokio",
++ "uuid",
++]
++
+ [[package]]
+ name = "codex-tools"
+ version = "0.0.0"
+diff --git a/codex-rs/Cargo.toml b/codex-rs/Cargo.toml
+index fc1becc..ebf0cf5 100644
+--- a/codex-rs/Cargo.toml
++++ b/codex-rs/Cargo.toml
+@@ -11,6 +11,9 @@ members = [
+     "build-info",
+     "ansi-escape",
+     "attachment-store",
++    "attachment-store-api",
++    "attachment-store-inline",
++    "attachment-store-component",
+     "async-utils",
+     "app-server",
+     "app-server-transport",
+@@ -40,6 +43,10 @@ members = [
+     "config",
+     "config-schema",
+     "context-fragments",
++    "component-api",
++    "component-host",
++    "component-adapters",
++    "component-state-codec",
+     "shell-command",
+     "shell-escalation",
+     "skills",
+@@ -151,6 +158,8 @@ members = [
+     "test-binary-support",
+     "thread-manager-sample",
+     "thread-store",
++    "thread-store-component",
++    "thread-store-local-plugin",
+     "uds",
+     "codex-experimental-api-macros",
+     "plugin",
+@@ -178,6 +187,9 @@ codex-agent-roles = { path = "agent-roles" }
+ codex-ansi-escape = { path = "ansi-escape" }
+ codex-api = { path = "codex-api" }
+ codex-attachment-store = { path = "attachment-store" }
++codex-attachment-store-api = { path = "attachment-store-api" }
++codex-attachment-store-inline = { path = "attachment-store-inline" }
++codex-attachment-store-component = { path = "attachment-store-component" }
+ codex-aws-auth = { path = "aws-auth" }
+ codex-app-server = { path = "app-server" }
+ codex-app-server-transport = { path = "app-server-transport" }
+@@ -211,6 +223,10 @@ codex-agent-message-board-client = { path = "agent-message-board-client" }
+ codex-agent-message-board-extension = { path = "ext/agent-message-board" }
+ codex-connectors-extension = { path = "ext/connectors" }
+ codex-context-fragments = { path = "context-fragments" }
++codex-component-api = { path = "component-api" }
++codex-component-host = { path = "component-host" }
++codex-component-adapters = { path = "component-adapters" }
++codex-component-state-codec = { path = "component-state-codec" }
+ codex-core = { path = "core" }
+ codex-core-api = { path = "core-api" }
+ codex-core-plugin-common = { path = "core-plugin-common" }
+@@ -282,6 +298,7 @@ codex-stdio-to-uds = { path = "stdio-to-uds" }
+ codex-terminal-detection = { path = "terminal-detection" }
+ codex-test-binary-support = { path = "test-binary-support" }
+ codex-thread-store = { path = "thread-store" }
++codex-thread-store-component = { path = "thread-store-component" }
+ codex-tools = { path = "tools" }
+ codex-tcp-tunnel = { path = "tcp-tunnel" }
+ codex-tui = { path = "tui" }
+diff --git a/codex-rs/app-server/src/in_process.rs b/codex-rs/app-server/src/in_process.rs
+index b467a33..51911fc 100644
+--- a/codex-rs/app-server/src/in_process.rs
++++ b/codex-rs/app-server/src/in_process.rs
+@@ -63,6 +63,7 @@ use crate::outgoing_message::OutgoingEnvelope;
+ use crate::outgoing_message::OutgoingMessage;
+ use crate::outgoing_message::OutgoingMessageSender;
+ use crate::outgoing_message::QueuedOutgoingMessage;
++use crate::persistence_lifecycle::StoreShutdownGuard;
+ use crate::plugin_config_reload::PluginStartupConfig;
+ use crate::transport::CHANNEL_CAPACITY;
+ use crate::transport::OutboundConnectionState;
+@@ -104,8 +105,11 @@ mod bootstrap;
+ 
+ const IN_PROCESS_CONNECTION_ID: ConnectionId = ConnectionId(0);
+ const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
+-// Covers both bounded runtime drains plus the analytics client's 25-second best-effort flush.
+-const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(35);
++// Connection, background work and thread shutdown each have their own drain.
++const PROCESSOR_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(45);
++// Covers processor (45s), store (120s), outbound (5s), and analytics (25s),
++// including a small margin. All client-side shutdown waits share this deadline.
++const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(200);
+ /// Default bounded channel capacity for in-process runtime queues.
+ pub const DEFAULT_IN_PROCESS_CHANNEL_CAPACITY: usize = CHANNEL_CAPACITY;
+ 
+@@ -285,7 +289,10 @@ impl InProcessClientSender {
+ pub struct InProcessClientHandle {
+     client: InProcessClientSender,
+     event_rx: mpsc::Receiver<InProcessServerEvent>,
+-    runtime_handle: tokio::task::JoinHandle<()>,
++    runtime_handle: tokio::task::JoinHandle<IoResult<()>>,
++    // Separate ownership ensures dropping a handle or cancelling shutdown also
++    // fences storage while the runtime or detached requests retain their Arcs.
++    _store_lifecycle: Option<StoreShutdownGuard>,
+     #[cfg(test)]
+     _test_codex_home: Option<tempfile::TempDir>,
+ }
+@@ -342,26 +349,48 @@ impl InProcessClientHandle {
+     /// Requests runtime shutdown and waits for worker termination.
+     ///
+     /// Shutdown is bounded by internal timeouts and may abort background tasks
+-    /// if graceful drain does not complete in time.
++    /// if graceful drain does not complete in time. Selected storage cleanup may
++    /// take up to 120 seconds within the overall 200-second budget; incomplete
++    /// cleanup returns an error, including uncertainty about accepted writes.
+     pub async fn shutdown(self) -> IoResult<()> {
+         let mut runtime_handle = self.runtime_handle;
++        // This method consumes the only event receiver. Release it before
++        // waiting so a required notification cannot block the runtime's drain.
++        drop(self.event_rx);
+         let (done_tx, done_rx) = oneshot::channel();
+-
+-        if self
+-            .client
+-            .client_tx
+-            .send(InProcessClientMessage::Shutdown { done_tx })
+-            .await
+-            .is_ok()
++        let deadline = tokio::time::Instant::now() + SHUTDOWN_ACK_TIMEOUT;
++        let request = tokio::time::timeout_at(
++            deadline,
++            self.client
++                .client_tx
++                .send(InProcessClientMessage::Shutdown { done_tx }),
++        )
++        .await;
++        if request.is_err()
++            || (matches!(request, Ok(Ok(())))
++                && tokio::time::timeout_at(deadline, done_rx).await.is_err())
+         {
+-            let _ = timeout(SHUTDOWN_ACK_TIMEOUT, done_rx).await;
+-        }
+-
+-        if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut runtime_handle).await {
+             runtime_handle.abort();
+             let _ = runtime_handle.await;
++            return Err(IoError::new(
++                ErrorKind::TimedOut,
++                "in-process shutdown timed out; accepted write outcomes may be unknown",
++            ));
++        }
++        match tokio::time::timeout_at(deadline, &mut runtime_handle).await {
++            Ok(Ok(result)) => result,
++            Ok(Err(_)) => Err(IoError::other(
++                "in-process runtime failed; accepted write outcomes may be unknown",
++            )),
++            Err(_) => {
++                runtime_handle.abort();
++                let _ = runtime_handle.await;
++                Err(IoError::new(
++                    ErrorKind::TimedOut,
++                    "in-process shutdown timed out; accepted write outcomes may be unknown",
++                ))
++            }
+         }
+-        Ok(())
+     }
+ 
+     pub fn sender(&self) -> InProcessClientSender {
+@@ -387,20 +416,31 @@ pub async fn start(mut args: InProcessStartArgs) -> IoResult<InProcessClientHand
+     let initialize = args.initialize.clone();
+     let client = Box::pin(start_uninitialized(args)).await?;
+ 
+-    let initialize_response = client
+-        .request(ClientRequest::Initialize {
+-            request_id: RequestId::Integer(0),
+-            params: initialize,
+-        })
+-        .await?;
+-    if let Err(error) = initialize_response {
+-        let _ = client.shutdown().await;
+-        return Err(IoError::new(
+-            ErrorKind::InvalidData,
+-            format!("in-process initialize failed: {}", error.message),
+-        ));
++    let initialized = async {
++        let initialize_response = client
++            .request(ClientRequest::Initialize {
++                request_id: RequestId::Integer(0),
++                params: initialize,
++            })
++            .await?;
++        if let Err(error) = initialize_response {
++            return Err(IoError::new(
++                ErrorKind::InvalidData,
++                format!("in-process initialize failed: {}", error.message),
++            ));
++        }
++        client.notify(ClientNotification::Initialized)
++    }
++    .await;
++    if let Err(primary) = initialized {
++        return match client.shutdown().await {
++            Ok(()) => Err(primary),
++            Err(cleanup) => Err(IoError::new(
++                primary.kind(),
++                format!("{primary}; {cleanup}"),
++            )),
++        };
+     }
+-    client.notify(ClientNotification::Initialized)?;
+ 
+     Ok(client)
+ }
+@@ -441,8 +481,13 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
+         args.enable_codex_api_key_env,
+     )
+     .await?;
+-    let channel_capacity = args.channel_capacity.max(1);
+     let installation_id = resolve_installation_id(&args.config.codex_home).await?;
++    let persistence = codex_core::persistence_from_config(&args.config, args.state_db.clone())
++        .await
++        .map_err(IoError::other)?;
++    let channel_capacity = args.channel_capacity.max(1);
++    let runtime_store_lifecycle = StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
++    let handle_store_lifecycle = StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
+     let (client_tx, mut client_rx) = mpsc::channel::<InProcessClientMessage>(channel_capacity);
+     let (event_tx, event_rx) = mpsc::channel::<InProcessServerEvent>(channel_capacity);
+ 
+@@ -503,6 +548,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
+                 environment_manager: args.environment_manager,
+                 feedback: args.feedback,
+                 log_db: args.log_db,
++                persistence,
+                 state_db: args.state_db,
+                 config_warnings: args.config_warnings,
+                 session_source: args.session_source,
+@@ -790,10 +836,8 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
+             )));
+         }
+ 
+-        if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut processor_handle).await {
+-            processor_handle.abort();
+-            let _ = processor_handle.await;
+-        }
++        let shutdown_result =
++            finish_processor_and_store(&mut processor_handle, &runtime_store_lifecycle).await;
+         let _ = outbound_shutdown_tx.send(());
+         if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut outbound_handle).await {
+             outbound_handle.abort();
+@@ -805,17 +849,44 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
+         if let Some(done_tx) = shutdown_ack {
+             let _ = done_tx.send(());
+         }
++        shutdown_result
+     });
+ 
+     Ok(InProcessClientHandle {
+         client: InProcessClientSender { client_tx },
+         event_rx,
+         runtime_handle,
++        _store_lifecycle: Some(handle_store_lifecycle),
+         #[cfg(test)]
+         _test_codex_home: None,
+     })
+ }
+ 
++async fn finish_processor_and_store(
++    processor: &mut tokio::task::JoinHandle<()>,
++    store: &StoreShutdownGuard,
++) -> IoResult<()> {
++    let processor_result = match timeout(PROCESSOR_SHUTDOWN_TIMEOUT, &mut *processor).await {
++        Ok(Ok(())) => Ok(()),
++        Ok(Err(_)) => Err(IoError::other(
++            "in-process request processor failed during shutdown",
++        )),
++        Err(_) => {
++            processor.abort();
++            let _ = processor.await;
++            Err(IoError::new(
++                ErrorKind::TimedOut,
++                "in-process request processor shutdown timed out",
++            ))
++        }
++    };
++    store.finish(processor_result).await
++}
++
++#[cfg(test)]
++#[path = "in_process_lifecycle_tests.rs"]
++mod lifecycle_tests;
++
+ #[cfg(test)]
+ mod tests {
+     use super::*;
+@@ -1011,11 +1082,13 @@ mod tests {
+             tokio::time::sleep(SHUTDOWN_TIMEOUT + SHUTDOWN_TIMEOUT + Duration::from_secs(24)).await;
+             runtime_completed.store(true, Ordering::Release);
+             let _ = done_tx.send(());
++            Ok(())
+         });
+         let client = InProcessClientHandle {
+             client: InProcessClientSender { client_tx },
+             event_rx,
+             runtime_handle,
++            _store_lifecycle: None,
+             _test_codex_home: None,
+         };
+ 
+diff --git a/codex-rs/app-server/src/lib.rs b/codex-rs/app-server/src/lib.rs
+index d1a622c..1b0ed7f 100644
+--- a/codex-rs/app-server/src/lib.rs
++++ b/codex-rs/app-server/src/lib.rs
+@@ -130,6 +130,7 @@ mod models_refresh_worker;
+ mod notification_media;
+ mod otel_reloader;
+ mod outgoing_message;
++mod persistence_lifecycle;
+ mod plugin_config_reload;
+ mod request_processors;
+ mod request_serialization;
+@@ -662,6 +663,15 @@ pub async fn run_main_with_transport_options(
+         }
+     };
+     let state_db = state_db_init.state_db;
++    let installation_id = resolve_installation_id(&config.codex_home).await?;
++    let persistence = codex_core::persistence_from_config(&config, state_db.clone())
++        .await
++        .map_err(std::io::Error::other)?;
++    let store_lifecycle =
++        persistence_lifecycle::StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
++    // Every failure after selecting storage must observe its cleanup. The
++    // outer guard also fences admission if this startup/runtime future is cancelled.
++    let result = async {
+     if let Some(recovery_notice) = state_db_init.recovery_notice {
+         config_warnings.push(ConfigWarningNotification {
+             summary: SQLITE_RECOVERY_CONFIG_WARNING_SUMMARY.to_string(),
+@@ -774,7 +784,6 @@ pub async fn run_main_with_transport_options(
+             "remote control is disabled by managed requirements",
+         ));
+     }
+-    let installation_id = resolve_installation_id(&config.codex_home).await?;
+     let transport_shutdown_token = CancellationToken::new();
+     // Remote enrollment must cancel before RPC drain without shutting down telemetry.
+     let remote_control_shutdown_token = transport_shutdown_token.child_token();
+@@ -978,6 +987,7 @@ pub async fn run_main_with_transport_options(
+             environment_manager,
+             feedback: feedback.clone(),
+             log_db,
++            persistence,
+             state_db: state_db.clone(),
+             config_warnings,
+             session_source,
+@@ -1348,7 +1358,11 @@ pub async fn run_main_with_transport_options(
+ 
+     drop(transport_event_tx);
+ 
+-    if matches!(processor_handle.await, Ok(AppServerExit::Forced)) {
++    let processor_exit = processor_handle.await;
++    // Ancillary routers can retain senders after request processing stops; do
++    // not postpone the storage fence until all transport tasks have exited.
++    store_lifecycle.begin_shutdown();
++    if matches!(processor_exit, Ok(AppServerExit::Forced)) {
+         return Ok(AppServerExit::Forced);
+     }
+     let _ = outbound_handle.await;
+@@ -1360,6 +1374,14 @@ pub async fn run_main_with_transport_options(
+     }
+ 
+     Ok(AppServerExit::Graceful)
++    }.await;
++    if matches!(&result, Ok(AppServerExit::Forced)) {
++        // Force shutdown remains responsive. Drop fences storage immediately;
++        // its supervisor/runtime teardown owns termination. Accepted write
++        // completion and durability are unknown on this path.
++        return result;
++    }
++    store_lifecycle.finish(result).await
+ }
+ 
+ struct SqliteRecoveryNotice {
+diff --git a/codex-rs/app-server/src/message_processor.rs b/codex-rs/app-server/src/message_processor.rs
+index 796ecf2..8473248 100644
+--- a/codex-rs/app-server/src/message_processor.rs
++++ b/codex-rs/app-server/src/message_processor.rs
+@@ -255,6 +255,7 @@ pub(crate) struct MessageProcessorArgs {
+     pub(crate) environment_manager: Arc<EnvironmentManager>,
+     pub(crate) feedback: CodexFeedback,
+     pub(crate) log_db: Option<LogDbLayer>,
++    pub(crate) persistence: codex_core::PersistenceServices,
+     pub(crate) state_db: Option<StateDbHandle>,
+     pub(crate) config_warnings: Vec<ConfigWarningNotification>,
+     pub(crate) session_source: SessionSource,
+@@ -281,6 +282,7 @@ impl MessageProcessor {
+             environment_manager,
+             feedback,
+             log_db,
++            persistence,
+             state_db,
+             config_warnings,
+             session_source,
+@@ -301,7 +303,7 @@ impl MessageProcessor {
+         // The thread store is intentionally process-scoped. Config reloads can
+         // affect per-thread behavior, but they must not move newly started,
+         // resumed, or forked threads to a different persistence backend/root.
+-        let thread_store = codex_core::thread_store_from_config(config.as_ref(), state_db.clone());
++        let thread_store = Arc::clone(&persistence.thread_store);
+         // Queue persistence requires SQLite, so in-memory thread stores and
+         // app servers without a state database do not have a queue backend.
+         let queue_store: Option<Arc<dyn QueueStore>> = match &config.experimental_thread_store {
+@@ -333,7 +335,7 @@ impl MessageProcessor {
+                     Arc::clone(&extension_event_sink),
+                 ))
+             });
+-            let manager = ThreadManager::new(
++            let manager = ThreadManager::new_with_persistence(
+                 config.as_ref(),
+                 auth_manager.clone(),
+                 codex_core::build_models_manager(config.as_ref(), auth_manager.clone()),
+@@ -359,19 +361,16 @@ impl MessageProcessor {
+                 )),
+                 Some(analytics_events_client.clone()),
+                 codex_core::passthrough_image_store(),
+-                Arc::clone(&thread_store),
++                persistence.clone(),
+                 codex_core::local_agent_graph_store_from_state_db(state_db.as_ref()),
+                 installation_id,
+                 Some(app_server_attestation_provider(
+                     outgoing.clone(),
+                     thread_state_manager.clone(),
+                 )),
+-                Some({
+-                    let time_provider =
+-                        app_server_time_provider(outgoing.clone(), thread_state_manager.clone());
+-                    time_provider
+-                }),
+-            );
++                Some(app_server_time_provider(outgoing.clone(), thread_state_manager.clone()) as _),
++            )
++            .with_default_attachment_store_components();
+             match code_mode_session_provider {
+                 Some(provider) => manager.with_code_mode_session_provider(provider),
+                 None => manager,
+@@ -1438,7 +1437,7 @@ impl MessageProcessor {
+                 self.thread_processor.memory_status(params).await
+             }
+             ClientRequest::MemoryReset { .. } => self.thread_processor.memory_reset().await,
+-            ClientRequest::RolloutCompress { .. } => self.thread_processor.rollout_compress(),
++            ClientRequest::RolloutCompress { .. } => self.thread_processor.rollout_compress().await,
+             ClientRequest::ThreadUnarchive { params, .. } => {
+                 self.thread_processor
+                     .thread_unarchive(request_id.clone(), params)
+diff --git a/codex-rs/app-server/src/message_processor_tracing_tests.rs b/codex-rs/app-server/src/message_processor_tracing_tests.rs
+index 41d843c..b1e8270 100644
+--- a/codex-rs/app-server/src/message_processor_tracing_tests.rs
++++ b/codex-rs/app-server/src/message_processor_tracing_tests.rs
+@@ -261,6 +261,11 @@ pub(super) async fn build_test_processor(
+         analytics_events_client.clone(),
+     ));
+     let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
++        persistence: codex_core::PersistenceServices {
++            thread_store: codex_core::thread_store_from_config(&config, None),
++            host_state_db: None,
++        },
++        state_db: None,
+         outgoing,
+         analytics_events_client,
+         arg0_paths: Arg0DispatchPaths::default(),
+@@ -269,7 +274,6 @@ pub(super) async fn build_test_processor(
+         environment_manager: Arc::new(EnvironmentManager::default_for_tests()),
+         feedback: CodexFeedback::new(),
+         log_db: None,
+-        state_db: None,
+         config_warnings: Vec::new(),
+         session_source: SessionSource::VSCode,
+         user_verification: Arc::new(crate::user_verification::Service::new(Arc::clone(
+diff --git a/codex-rs/app-server/src/request_processors.rs b/codex-rs/app-server/src/request_processors.rs
+index 38110ec..c9b3908 100644
+--- a/codex-rs/app-server/src/request_processors.rs
++++ b/codex-rs/app-server/src/request_processors.rs
+@@ -490,7 +490,6 @@ use codex_thread_store::ListThreadsParams as StoreListThreadsParams;
+ use codex_thread_store::ListTimelineParams as StoreListTimelineParams;
+ use codex_thread_store::ListTurnsParams as StoreListTurnsParams;
+ use codex_thread_store::LoadThreadHistoryParams as StoreLoadThreadHistoryParams;
+-use codex_thread_store::LocalThreadStore;
+ use codex_thread_store::ReadThreadByRolloutPathParams as StoreReadThreadByRolloutPathParams;
+ use codex_thread_store::ReadThreadParams as StoreReadThreadParams;
+ use codex_thread_store::SearchThreadOccurrencesParams as StoreSearchThreadOccurrencesParams;
+diff --git a/codex-rs/app-server/src/request_processors/rollout.rs b/codex-rs/app-server/src/request_processors/rollout.rs
+index 873ebdc..fcbfa01 100644
+--- a/codex-rs/app-server/src/request_processors/rollout.rs
++++ b/codex-rs/app-server/src/request_processors/rollout.rs
+@@ -2,23 +2,26 @@
+ 
+ use super::ThreadRequestProcessor;
+ use super::thread_processor::unsupported_thread_store_operation;
++use crate::error_code::internal_error;
+ use codex_app_server_protocol::ClientResponsePayload;
+ use codex_app_server_protocol::JSONRPCErrorError;
+ use codex_app_server_protocol::RolloutCompressResponse;
+-use codex_thread_store::LocalThreadStore;
++use codex_thread_store::RolloutMaintenance;
+ 
+ impl ThreadRequestProcessor {
+-    pub(crate) fn rollout_compress(
++    pub(crate) async fn rollout_compress(
+         &self,
+     ) -> Result<Option<ClientResponsePayload>, JSONRPCErrorError> {
+-        if !self.thread_store.as_any().is::<LocalThreadStore>() {
++        if !self.thread_store.supports_rollout_maintenance() {
+             return Err(unsupported_thread_store_operation("rollout/compress"));
+         }
+ 
+-        codex_rollout::spawn_rollout_compression_worker(
+-            self.config.codex_home.to_path_buf(),
+-            codex_rollout::RolloutCompressionTrigger::Rpc,
+-        );
++        self.thread_store
++            .run_rollout_maintenance(RolloutMaintenance::Compress)
++            .await
++            .map_err(|error| {
++                internal_error(format!("failed to schedule rollout compression: {error}"))
++            })?;
+         Ok(Some(RolloutCompressResponse {}.into()))
+     }
+ }
+diff --git a/codex-rs/app-server/src/request_processors/thread_processor.rs b/codex-rs/app-server/src/request_processors/thread_processor.rs
+index 289cb63..62aa66b 100644
+--- a/codex-rs/app-server/src/request_processors/thread_processor.rs
++++ b/codex-rs/app-server/src/request_processors/thread_processor.rs
+@@ -1291,6 +1291,13 @@ impl ThreadRequestProcessor {
+         for thread_id in report.timed_out {
+             warn!("timed out waiting for thread {thread_id} to shut down");
+         }
++        match tokio::time::timeout(Duration::from_secs(10), self.thread_store.shutdown_store())
++            .await
++        {
++            Ok(Ok(())) => {}
++            Ok(Err(error)) => warn!("failed to close thread-store service: {error}"),
++            Err(_) => warn!("timed out draining thread-store service; completion is unknown"),
++        }
+     }
+ 
+     async fn request_trace_context(
+@@ -5427,22 +5434,17 @@ impl ThreadRequestProcessor {
+                 .await
+                 .map_err(|err| conversation_summary_thread_id_read_error(conversation_id, err)),
+             GetConversationSummaryParams::RolloutPath { rollout_path } => {
+-                let Some(local_thread_store) = self
+-                    .thread_store
+-                    .as_any()
+-                    .downcast_ref::<LocalThreadStore>()
+-                else {
++                if !self.thread_store.supports_rollout_path_reads() {
+                     return Err(invalid_request(
+                         "rollout path queries are only supported with the local thread store",
+                     ));
+-                };
+-
+-                local_thread_store
+-                    .read_thread_by_rollout_path(
+-                        rollout_path.clone(),
+-                        /*include_archived*/ true,
+-                        /*include_history*/ false,
+-                    )
++                }
++                self.thread_store
++                    .read_thread_by_rollout_path(StoreReadThreadByRolloutPathParams {
++                        rollout_path: rollout_path.clone(),
++                        include_archived: true,
++                        include_history: false,
++                    })
+                     .await
+                     .map_err(|err| conversation_summary_rollout_path_read_error(&rollout_path, err))
+             }
+diff --git a/codex-rs/app-server/src/user_verification_test_support.rs b/codex-rs/app-server/src/user_verification_test_support.rs
+index d2096bc..0c3932c 100644
+--- a/codex-rs/app-server/src/user_verification_test_support.rs
++++ b/codex-rs/app-server/src/user_verification_test_support.rs
+@@ -154,6 +154,11 @@ impl Harness {
+             AnalyticsEventsClient::disabled(),
+         ));
+         let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
++            persistence: codex_core::PersistenceServices {
++                thread_store: codex_core::thread_store_from_config(&config, None),
++                host_state_db: None,
++            },
++            state_db: None,
+             outgoing: Arc::clone(&outgoing),
+             analytics_events_client: AnalyticsEventsClient::disabled(),
+             arg0_paths: Arg0DispatchPaths::default(),
+@@ -162,7 +167,6 @@ impl Harness {
+             environment_manager: Arc::new(EnvironmentManager::default_for_tests()),
+             feedback: CodexFeedback::new(),
+             log_db: None,
+-            state_db: None,
+             config_warnings: Vec::new(),
+             session_source: SessionSource::Cli,
+             auth_manager: Arc::clone(&auth),
+diff --git a/codex-rs/attachment-store/Cargo.toml b/codex-rs/attachment-store/Cargo.toml
+index dd66412..1f5c525 100644
+--- a/codex-rs/attachment-store/Cargo.toml
++++ b/codex-rs/attachment-store/Cargo.toml
+@@ -13,8 +13,8 @@ path = "src/lib.rs"
+ workspace = true
+ 
+ [dependencies]
+-serde = { workspace = true, features = ["derive"] }
+-tracing = { workspace = true }
++codex-attachment-store-api = { workspace = true }
++codex-attachment-store-inline = { workspace = true }
+ 
+ [dev-dependencies]
+ pretty_assertions = { workspace = true }
+diff --git a/codex-rs/attachment-store/src/lib.rs b/codex-rs/attachment-store/src/lib.rs
+index 99cb482..dab0dbb 100644
+--- a/codex-rs/attachment-store/src/lib.rs
++++ b/codex-rs/attachment-store/src/lib.rs
+@@ -1,228 +1,7 @@
+-//! Storage-neutral attachment persistence interfaces.
++//! Compatibility facade for the attachment API and native inline implementation.
+ 
+-use std::error::Error;
+-use std::fmt;
+-use std::future::Future;
+-use std::pin::Pin;
+-use std::time::Duration;
+-
+-use serde::Deserialize;
+-use serde::Serialize;
+-
+-/// Result returned by [`AttachmentStore`] operations.
+-pub type AttachmentStoreResult<T> = Result<T, AttachmentStoreError>;
+-
+-/// Future returned by [`AttachmentStore::upload`].
+-pub type UploadFuture<'a> =
+-    Pin<Box<dyn Future<Output = AttachmentStoreResult<UploadResult>> + Send + 'a>>;
+-
+-/// Future returned by [`AttachmentStore::resolve`].
+-pub type ResolveFuture<'a> =
+-    Pin<Box<dyn Future<Output = AttachmentStoreResult<AttachmentMetadata>> + Send + 'a>>;
+-
+-/// Uploads attachments and resolves metadata for stored files.
+-///
+-/// Implementations choose whether uploaded attachments remain inline or become file references.
+-/// File references returned by [`AttachmentStore::upload`] must be resolvable by
+-/// [`AttachmentStore::resolve`].
+-pub trait AttachmentStore: Send + Sync {
+-    /// Uploads an attachment and returns the representation callers should retain.
+-    fn upload(&self, request: UploadRequest) -> UploadFuture<'_>;
+-
+-    /// Resolves metadata and, when requested, a fresh URL for a stored attachment.
+-    fn resolve<'a>(&'a self, request: ResolveRequest<'a>) -> ResolveFuture<'a>;
+-}
+-
+-/// Attachment data supplied to [`AttachmentStore::upload`].
+-#[derive(Clone, Eq, PartialEq)]
+-pub struct UploadRequest {
+-    /// Thread receiving this attachment; storage backends may use it for placement.
+-    pub thread_id: String,
+-    /// Optional name associated with the attachment.
+-    pub file_name: Option<String>,
+-    /// Attachment bytes to persist.
+-    pub data: Vec<u8>,
+-}
+-
+-impl fmt::Debug for UploadRequest {
+-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+-        formatter
+-            .debug_struct("UploadRequest")
+-            .field("thread_id", &self.thread_id)
+-            .field("file_name", &self.file_name)
+-            .field("data", &"<redacted>")
+-            .finish()
+-    }
+-}
+-
+-/// Parameters supplied to [`AttachmentStore::resolve`].
+-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+-pub struct ResolveRequest<'a> {
+-    /// Identifier assigned by the attachment store.
+-    pub file_id: &'a str,
+-    /// Minimum remaining lifetime required for the returned file URL.
+-    ///
+-    /// When absent, implementations must omit the file URL and may return cached metadata. When
+-    /// present, implementations must return a URL that remains valid for at least this duration
+-    /// after the resolve operation completes.
+-    pub download_url_ttl: Option<Duration>,
+-}
+-
+-/// Metadata used to validate and interpret an attachment.
+-#[derive(Clone, Default, Deserialize, Eq, PartialEq, Serialize)]
+-pub struct AttachmentMetadata {
+-    /// Name associated with the attachment.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub file_name: Option<String>,
+-    /// MD5 digest of the attachment bytes.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub digest: Option<String>,
+-    /// Length of the attachment byte payload.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub size_bytes: Option<u64>,
+-    /// IANA media type used to interpret the attachment bytes.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub mime_type: Option<String>,
+-    /// Metadata specific to the attachment's format.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub format_specific: Option<FormatSpecificMetadata>,
+-    /// URL for reading the attachment bytes when requested during resolution.
+-    ///
+-    /// Implementations must omit this field when [`ResolveRequest::download_url_ttl`] is absent.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub file_url: Option<String>,
+-}
+-
+-impl fmt::Debug for AttachmentMetadata {
+-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+-        let file_url = self.file_url.as_ref().map(|_| "<redacted>");
+-        formatter
+-            .debug_struct("AttachmentMetadata")
+-            .field("file_name", &self.file_name)
+-            .field("digest", &self.digest)
+-            .field("size_bytes", &self.size_bytes)
+-            .field("mime_type", &self.mime_type)
+-            .field("format_specific", &self.format_specific)
+-            .field("file_url", &file_url)
+-            .finish()
+-    }
+-}
+-
+-/// Metadata specific to an attachment format.
+-#[derive(Clone, Debug, Deserialize, Eq, PartialEq, Serialize)]
+-#[serde(tag = "kind", rename_all = "lowercase")]
+-pub enum FormatSpecificMetadata {
+-    /// Metadata for an image attachment.
+-    Image(ImageMetadata),
+-}
+-
+-/// Metadata specific to an image attachment.
+-#[derive(Clone, Debug, Default, Deserialize, Eq, PartialEq, Serialize)]
+-pub struct ImageMetadata {
+-    /// Image width in pixels.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub width: Option<u32>,
+-    /// Image height in pixels.
+-    #[serde(default, skip_serializing_if = "Option::is_none")]
+-    pub height: Option<u32>,
+-}
+-
+-/// Representation callers should retain after uploading an attachment.
+-#[derive(Clone, Deserialize, Eq, PartialEq, Serialize)]
+-pub enum UploadResult {
+-    /// Attachment data remains inline.
+-    Inline {
+-        /// Original attachment bytes passed to [`AttachmentStore::upload`].
+-        bytes: Vec<u8>,
+-    },
+-    /// Attachment data is available through an external file reference.
+-    File {
+-        /// Identifier assigned by the attachment store.
+-        file_id: String,
+-    },
+-}
+-
+-impl fmt::Debug for UploadResult {
+-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+-        match self {
+-            Self::Inline { .. } => formatter
+-                .debug_struct("Inline")
+-                .field("bytes", &"<redacted>")
+-                .finish(),
+-            Self::File { file_id } => formatter
+-                .debug_struct("File")
+-                .field("file_id", file_id)
+-                .finish(),
+-        }
+-    }
+-}
+-
+-/// Leaves attachments inline instead of storing them.
+-pub struct InlineAttachmentStore;
+-
+-impl AttachmentStore for InlineAttachmentStore {
+-    #[tracing::instrument(level = "trace", skip_all)]
+-    fn upload(&self, request: UploadRequest) -> UploadFuture<'_> {
+-        Box::pin(async move {
+-            Ok(UploadResult::Inline {
+-                bytes: request.data,
+-            })
+-        })
+-    }
+-
+-    #[tracing::instrument(level = "trace", skip_all)]
+-    fn resolve<'a>(&'a self, request: ResolveRequest<'a>) -> ResolveFuture<'a> {
+-        let file_id = request.file_id;
+-        Box::pin(async move {
+-            Err(AttachmentStoreError::new(
+-                AttachmentStoreErrorKind::NotFound,
+-                format!("attachment `{file_id}` was not found"),
+-            ))
+-        })
+-    }
+-}
+-
+-/// Category of failure returned by an [`AttachmentStore`].
+-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+-pub enum AttachmentStoreErrorKind {
+-    /// The requested attachment could not be resolved.
+-    NotFound,
+-    /// The attachment data or metadata is invalid.
+-    InvalidAttachment,
+-    /// The backing store could not complete the operation.
+-    Backend,
+-}
+-
+-/// Error returned by an [`AttachmentStore`] implementation.
+-#[derive(Clone, Debug, Eq, PartialEq)]
+-pub struct AttachmentStoreError {
+-    kind: AttachmentStoreErrorKind,
+-    message: String,
+-}
+-
+-impl AttachmentStoreError {
+-    /// Creates an error without exposing backend-specific error types.
+-    pub fn new(kind: AttachmentStoreErrorKind, message: impl Into<String>) -> Self {
+-        Self {
+-            kind,
+-            message: message.into(),
+-        }
+-    }
+-
+-    /// Returns the category callers can use to handle this error.
+-    #[must_use]
+-    pub const fn kind(&self) -> AttachmentStoreErrorKind {
+-        self.kind
+-    }
+-}
+-
+-impl fmt::Display for AttachmentStoreError {
+-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+-        self.message.fmt(formatter)
+-    }
+-}
+-
+-impl Error for AttachmentStoreError {}
++pub use codex_attachment_store_api::*;
++pub use codex_attachment_store_inline::InlineAttachmentStore;
+ 
+ #[cfg(test)]
+ #[path = "lib_tests.rs"]
+diff --git a/codex-rs/context-fragments/src/lib.rs b/codex-rs/context-fragments/src/lib.rs
+index 5f2b266..c5d51c1 100644
+--- a/codex-rs/context-fragments/src/lib.rs
++++ b/codex-rs/context-fragments/src/lib.rs
+@@ -2,6 +2,7 @@ mod answered_question;
+ pub use answered_question::AnsweredQuestion;
+ mod additional_context;
+ mod annotated_content;
++mod component_context;
+ mod fragment;
+ mod recap_prompt;
+ 
+@@ -10,6 +11,7 @@ pub use additional_context::AdditionalContextUserFragment;
+ pub use annotated_content::AnnotatedContent;
+ pub use annotated_content::set_annotated_content;
+ pub use annotated_content::to_annotated_content;
++pub use component_context::ComponentContextFragment;
+ pub use fragment::ContextualUserFragment;
+ pub use fragment::RenderedFragment;
+ 
+diff --git a/codex-rs/core-api/src/lib.rs b/codex-rs/core-api/src/lib.rs
+index 0c7549b..70e7a38 100644
+--- a/codex-rs/core-api/src/lib.rs
++++ b/codex-rs/core-api/src/lib.rs
+@@ -44,6 +44,7 @@ pub use codex_core::NetworkUnixSocketPermission;
+ pub use codex_core::NetworkUnixSocketPermissions;
+ pub use codex_core::NewThread;
+ pub use codex_core::NotSubmittedReason;
++pub use codex_core::PersistenceServices;
+ pub use codex_core::RecoverTurnRequest;
+ pub use codex_core::StartIfIdleSubmission;
+ pub use codex_core::StartThreadOptions;
+@@ -52,6 +53,7 @@ pub use codex_core::SteerSubmission;
+ pub use codex_core::SuspendTurnOutcome;
+ pub use codex_core::ThreadManager;
+ pub use codex_core::ThreadShutdownReport;
++pub use codex_core::ThreadStoreShutdownGuard;
+ pub use codex_core::TurnInput;
+ pub use codex_core::TurnInputRequest;
+ pub use codex_core::TurnInputSubmission;
+@@ -74,6 +76,7 @@ pub use codex_core::config::resolve_bootstrap_respect_system_proxy;
+ pub use codex_core::init_state_db;
+ pub use codex_core::local_agent_graph_store_from_state_db;
+ pub use codex_core::passthrough_image_store;
++pub use codex_core::persistence_from_config;
+ pub use codex_core::resolve_installation_id;
+ pub use codex_core::thread_store_from_config;
+ pub use codex_exec_server::EnvironmentManager;
+diff --git a/codex-rs/core/BUILD.bazel b/codex-rs/core/BUILD.bazel
+index cb35952..ce225e0 100644
+--- a/codex-rs/core/BUILD.bazel
++++ b/codex-rs/core/BUILD.bazel
+@@ -13,6 +13,7 @@ codex_rust_crate(
+         "//codex-rs/linux-sandbox:codex-linux-sandbox",
+         "//codex-rs/rmcp-client:test_stdio_server",
+         "//codex-rs/rmcp-client:test_streamable_http_server",
++        "//codex-rs/thread-store-local-plugin:codex-thread-store-local-plugin",
+         "//codex-rs/cli:codex",
+         "//codex-rs/windows-sandbox-rs:codex-command-runner",
+         "//codex-rs/windows-sandbox-rs:codex-windows-managed-deny-probe",
+diff --git a/codex-rs/core/Cargo.toml b/codex-rs/core/Cargo.toml
+index 661bfdd..c1ca9bc 100644
+--- a/codex-rs/core/Cargo.toml
++++ b/codex-rs/core/Cargo.toml
+@@ -12,6 +12,8 @@ path = "src/lib.rs"
+ workspace = true
+ 
+ [dependencies]
++codex-component-host = { workspace = true }
++codex-component-adapters = { workspace = true }
+ codex-utils-process = { workspace = true }
+ anyhow = { workspace = true }
+ arc-swap = { workspace = true }
+@@ -27,6 +29,7 @@ codex-app-server-protocol = { workspace = true }
+ codex-apply-patch = { workspace = true }
+ codex-async-utils = { workspace = true }
+ codex-attachment-store = { workspace = true }
++codex-attachment-store-component = { workspace = true }
+ codex-client = { workspace = true }
+ codex-code-mode = { workspace = true }
+ codex-connectors = { workspace = true }
+@@ -72,6 +75,7 @@ codex-agent-message-board-extension = { workspace = true }
+ codex-agent-message-board-client = { workspace = true }
+ codex-terminal-detection = { workspace = true }
+ codex-thread-store = { workspace = true }
++codex-thread-store-component = { workspace = true }
+ codex-tools = { workspace = true }
+ codex-utils-absolute-path = { workspace = true }
+ codex-utils-audio = { workspace = true }
+diff --git a/codex-rs/core/src/client.rs b/codex-rs/core/src/client.rs
+index e852b63..780efe0 100644
+--- a/codex-rs/core/src/client.rs
++++ b/codex-rs/core/src/client.rs
+@@ -271,6 +271,7 @@ pub struct ModelClient {
+     http_client_factory: HttpClientFactory,
+     restored_history: bool,
+     request_contributors: Vec<Arc<dyn codex_extension_api::ModelRequestContributor>>,
++    component_transport: Option<codex_component_host::ComponentBinding>,
+     executed_tool_calls: Option<ExecutedToolCalls>,
+     // Resolved once when the session is created, like other session feature flags.
+     api_key_cyber_access_programs: cyber_access_program::ApiKeyCyberAccessPrograms,
+@@ -542,6 +543,7 @@ impl ModelClient {
+             http_client_factory,
+             restored_history: false,
+             request_contributors,
++            component_transport: None,
+             executed_tool_calls: None,
+             api_key_cyber_access_programs:
+                 cyber_access_program::ApiKeyCyberAccessPrograms::UnsupportedProvider,
+@@ -553,6 +555,14 @@ impl ModelClient {
+         self
+     }
+ 
++    pub(crate) fn with_component_catalog(
++        mut self,
++        catalog: &codex_component_host::ComponentCatalog,
++    ) -> Self {
++        self.component_transport = catalog.selected("model_transport", "default");
++        self
++    }
++
+     pub(crate) fn reasoning_effort_override_enabled(&self, model_info: &ModelInfo) -> bool {
+         self.state.reasoning_effort_override_enabled
+             && self.state.provider.info().is_openai()
+@@ -1028,7 +1038,8 @@ impl ModelClient {
+     ///
+     /// WebSocket use is controlled by provider capability and session-scoped fallback state.
+     pub fn responses_websocket_enabled(&self) -> bool {
+-        if !self.state.provider.info().supports_websockets
++        if self.component_transport.is_some()
++            || !self.state.provider.info().supports_websockets
+             || self.state.disable_websockets.load(Ordering::Relaxed)
+         {
+             return false;
+@@ -1204,6 +1215,9 @@ impl ModelClient {
+     }
+ 
+     pub(crate) async fn prewarm_auth(&self) -> Result<()> {
++        if self.component_transport.is_some() {
++            return Ok(());
++        }
+         self.current_client_setup(ClientRouting::Workspace)
+             .await
+             .map(|_| ())
+@@ -2234,6 +2248,50 @@ impl ModelClientSession {
+         responses_metadata: &CodexResponsesMetadata,
+         inference_trace: &InferenceTraceContext,
+     ) -> Result<ResponseStream> {
++        if let Some(binding) = &self.client.component_transport {
++            let mut request = self.client.build_responses_request(
++                prompt,
++                model_info,
++                effort,
++                summary,
++                service_tier,
++                responses_metadata,
++                /*include_internal*/ false,
++            )?;
++            self.client
++                .prepare_response_items_for_request(&mut request.input);
++            let interceptors = crate::model_request::prepare(
++                &self.client.request_contributors,
++                &self.client.state.thread_id.to_string(),
++                &model_info.slug,
++                codex_extension_api::ModelRequestKind::Generation,
++                &mut request.client_metadata,
++            );
++            let request_session_telemetry =
++                session_telemetry_for_request(session_telemetry, &request);
++            let attempt = inference_trace.start_attempt();
++            attempt.record_started(&request);
++            let stream =
++                crate::component_model::stream(binding, self.client.state.thread_id, request)
++                    .await
++                    .map_err(|error| {
++                        let error = self.client.state.provider.map_api_error(error);
++                        attempt.record_failed(
++                            &error,
++                            /*upstream_request_id*/ None,
++                            /*output_items*/ &[],
++                        );
++                        error
++                    })?;
++            let (stream, _) = map_response_events(
++                /*upstream_request_id*/ None,
++                crate::model_request::intercept_stream(stream, interceptors),
++                request_session_telemetry,
++                attempt,
++                Arc::clone(&self.client.state.provider),
++            );
++            return Ok(stream);
++        }
+         let wire_api = self.client.state.provider.info().wire_api;
+         match wire_api {
+             WireApi::Responses => {
+diff --git a/codex-rs/core/src/codex_delegate.rs b/codex-rs/core/src/codex_delegate.rs
+index 9d6b965..bde7f7e 100644
+--- a/codex-rs/core/src/codex_delegate.rs
++++ b/codex-rs/core/src/codex_delegate.rs
+@@ -17,6 +17,7 @@ use std::time::Duration;
+ use tokio::time::timeout;
+ use tokio_util::sync::CancellationToken;
+ 
++use crate::component_persistence::PersistenceServices;
+ use crate::config::Config;
+ use crate::config::Constrained;
+ use crate::environment_selection::TurnEnvironmentSnapshot;
+@@ -130,8 +131,11 @@ pub(crate) async fn run_codex_thread_interactive(
+         client_mcp_extensions: parent_session.services.client_mcp_extensions.clone(),
+         reserved_thread_id: None,
+         analytics_events_client: Some(parent_session.services.analytics_events_client.clone()),
+-        image_store: Arc::clone(&parent_session.services.image_store),
+-        thread_store: Arc::clone(&parent_session.services.thread_store),
++        image_store: parent_session.services.image_store_selection.clone(),
++        persistence: PersistenceServices {
++            thread_store: Arc::clone(&parent_session.services.thread_store),
++            host_state_db: parent_session.services.state_db.clone(),
++        },
+         attestation_provider: parent_session.services.attestation_provider.clone(),
+         external_time_provider: Some(Arc::clone(&parent_session.services.time_provider)),
+         inherited_multi_agent_version: Some(MultiAgentVersion::Disabled),
+diff --git a/codex-rs/core/src/codex_delegate_tests.rs b/codex-rs/core/src/codex_delegate_tests.rs
+index f8762c9..b337812 100644
+--- a/codex-rs/core/src/codex_delegate_tests.rs
++++ b/codex-rs/core/src/codex_delegate_tests.rs
+@@ -23,6 +23,33 @@ use tokio::time::timeout;
+ 
+ struct ThreadStartRecorder(Arc<AtomicUsize>);
+ 
++struct DelegateAttachmentStore;
++
++impl codex_attachment_store::AttachmentStore for DelegateAttachmentStore {
++    fn upload(
++        &self,
++        _request: codex_attachment_store::UploadRequest,
++    ) -> codex_attachment_store::UploadFuture<'_> {
++        Box::pin(async {
++            Ok(codex_attachment_store::UploadResult::File {
++                file_id: "explicit-delegate-file".to_owned(),
++            })
++        })
++    }
++
++    fn resolve<'a>(
++        &'a self,
++        _request: codex_attachment_store::ResolveRequest<'a>,
++    ) -> codex_attachment_store::ResolveFuture<'a> {
++        Box::pin(async {
++            Err(codex_attachment_store::AttachmentStoreError::new(
++                codex_attachment_store::AttachmentStoreErrorKind::NotFound,
++                "not found",
++            ))
++        })
++    }
++}
++
+ impl ThreadLifecycleContributor<Config> for ThreadStartRecorder {
+     fn on_thread_start<'a>(
+         &'a self,
+@@ -404,3 +431,63 @@ async fn run_codex_thread_interactive_rejects_approval_policy_that_can_prompt()
+             )
+     ));
+ }
++
++#[tokio::test]
++async fn isolated_delegate_resets_default_attachments_but_keeps_explicit_store() {
++    use codex_attachment_store::UploadRequest;
++    use codex_attachment_store::UploadResult;
++    use codex_attachment_store_component::AttachmentStoreSelection;
++
++    for selection in [
++        AttachmentStoreSelection::Default,
++        AttachmentStoreSelection::Explicit(Arc::new(DelegateAttachmentStore)),
++    ] {
++        let expected = match &selection {
++            AttachmentStoreSelection::Default => UploadResult::Inline {
++                bytes: vec![1, 2, 3],
++            },
++            AttachmentStoreSelection::Explicit(_) => UploadResult::File {
++                file_id: "explicit-delegate-file".to_owned(),
++            },
++        };
++        let (mut parent_session, parent_ctx, _events) =
++            crate::session::tests::make_session_and_context_with_rx().await;
++        let services = &mut Arc::get_mut(&mut parent_session)
++            .expect("unique parent")
++            .services;
++        // Represent an already-resolved parent implementation. The delegate must
++        // receive its provenance, not unconditionally clone this active store.
++        services.image_store = Arc::new(DelegateAttachmentStore);
++        services.image_store_selection = selection;
++        let mut config = parent_ctx.config.as_ref().clone();
++        config.permissions.approval_policy = Constrained::allow_only(AskForApproval::Never);
++        let (session, io) = run_codex_thread_interactive(
++            config,
++            Arc::clone(&parent_session.services.auth_manager),
++            Arc::clone(&parent_session.services.models_manager),
++            Arc::clone(&parent_session),
++            Arc::clone(&parent_ctx),
++            parent_ctx.initial_environments.clone(),
++            CancellationToken::new(),
++            SubAgentSource::Review,
++            codex_extension_api::SessionIsolation::Isolated,
++            /*initial_history*/ None,
++            crate::session::GitEnrichmentPolicy::Fresh,
++            codex_sandboxing::WindowsSandboxProxySettingsMode::Reconcile,
++        )
++        .await
++        .expect("isolated delegate");
++        let result = session
++            .services
++            .image_store
++            .upload(UploadRequest {
++                thread_id: session.thread_id().to_string(),
++                file_name: None,
++                data: vec![1, 2, 3],
++            })
++            .await
++            .expect("delegate upload");
++        assert_eq!(result, expected);
++        io.shutdown_and_wait().await.expect("delegate shutdown");
++    }
++}
+diff --git a/codex-rs/core/src/context/contextual_user_message.rs b/codex-rs/core/src/context/contextual_user_message.rs
+index a74f10a..aa7c5b8 100644
+--- a/codex-rs/core/src/context/contextual_user_message.rs
++++ b/codex-rs/core/src/context/contextual_user_message.rs
+@@ -5,6 +5,7 @@ use codex_protocol::models::ResponseItem;
+ 
+ use super::AdditionalContextUserFragment;
+ use super::AgentMessageBoardNotification;
++use super::ComponentContextFragment;
+ use super::ContextualUserFragment;
+ use super::GuardianRetainedInstructions;
+ use super::InternalModelContextFragment;
+@@ -23,6 +24,7 @@ const CONTEXTUAL_USER_FRAGMENT_MATCHERS: &[fn(&str) -> bool] = &[
+     UserInstructions::matches_text,
+     EnvironmentsState::matches_text,
+     AdditionalContextUserFragment::matches_text,
++    ComponentContextFragment::matches_text,
+     AgentMessageBoardNotification::matches_text,
+     codex_skills_extension::is_skill_prompt_fragment,
+     UserShellCommand::matches_text,
+diff --git a/codex-rs/core/src/context/contextual_user_message_tests.rs b/codex-rs/core/src/context/contextual_user_message_tests.rs
+index cc6772d..43a2bcb 100644
+--- a/codex-rs/core/src/context/contextual_user_message_tests.rs
++++ b/codex-rs/core/src/context/contextual_user_message_tests.rs
+@@ -9,6 +9,14 @@ use codex_protocol::models::ContentItemKind;
+ use codex_protocol::models::ResponseItem;
+ use pretty_assertions::assert_eq;
+ 
++#[test]
++fn component_context_is_not_user_authorization() {
++    let fragment = ComponentContextFragment::new("calendar", "today", "external context");
++    let message = ResponseItem::from(fragment.render_fragment());
++    assert!(is_guardian_context_message(&message));
++    assert!(!is_user_authorization_message(&message));
++}
++
+ #[test]
+ fn detects_environment_context_fragment() {
+     assert!(is_contextual_user_fragment(&ContentItem::InputText {
+diff --git a/codex-rs/core/src/context/mod.rs b/codex-rs/core/src/context/mod.rs
+index e9cf47d..6c2db1a 100644
+--- a/codex-rs/core/src/context/mod.rs
++++ b/codex-rs/core/src/context/mod.rs
+@@ -65,6 +65,7 @@ pub(crate) use base_instructions::BaseInstructionsFragment;
+ pub(crate) use codex_context_fragments::AdditionalContextDeveloperFragment;
+ pub(crate) use codex_context_fragments::AdditionalContextUserFragment;
+ pub use codex_context_fragments::AnsweredQuestion;
++pub use codex_context_fragments::ComponentContextFragment;
+ pub use codex_context_fragments::ContextualUserFragment;
+ pub(crate) use codex_guardian_context::PermissionContext as GuardianPermissionContext;
+ pub(crate) use codex_prompts::MultiAgentRoleInstructions;
+diff --git a/codex-rs/core/src/lib.rs b/codex-rs/core/src/lib.rs
+index 45ff58a..d97191b 100644
+--- a/codex-rs/core/src/lib.rs
++++ b/codex-rs/core/src/lib.rs
+@@ -9,6 +9,7 @@ mod apply_patch;
+ mod apps;
+ mod client;
+ mod client_common;
++mod component_model;
+ mod model_request;
+ mod realtime_context;
+ mod realtime_conversation;
+@@ -142,7 +143,11 @@ pub use client::X_RESPONSESAPI_INCLUDE_TIMING_METRICS_HEADER;
+ pub use codex_protocol::config_types::ModelProviderAuthInfo;
+ mod event_mapping;
+ pub use codex_prompts as review_prompts;
++mod component_persistence;
+ mod thread_manager;
++pub use codex_thread_store::ThreadStoreShutdownGuard;
++pub use component_persistence::PersistenceServices;
++pub use component_persistence::persistence_from_config;
+ pub(crate) mod web_search;
+ pub(crate) mod windows_sandbox_read_grants;
+ pub use thread_manager::ForkSnapshot;
+diff --git a/codex-rs/core/src/prompt_debug.rs b/codex-rs/core/src/prompt_debug.rs
+index e9853bf..e6ce95f 100644
+--- a/codex-rs/core/src/prompt_debug.rs
++++ b/codex-rs/core/src/prompt_debug.rs
+@@ -10,8 +10,10 @@ use codex_protocol::error::Result as CodexResult;
+ use codex_protocol::models::ResponseItem;
+ use codex_protocol::protocol::SessionSource;
+ use codex_protocol::user_input::UserInput;
++use codex_thread_store::ThreadStoreShutdownGuard;
+ use tokio_util::sync::CancellationToken;
+ 
++use crate::component_persistence::persistence_from_config;
+ use crate::config::Config;
+ use crate::resolve_installation_id;
+ use crate::session::session::Session;
+@@ -19,7 +21,6 @@ use crate::session::turn::build_prompt;
+ use crate::state_db_bridge::StateDbHandle;
+ use crate::thread_manager::StartThreadOptions;
+ use crate::thread_manager::ThreadManager;
+-use crate::thread_manager::thread_store_from_config;
+ 
+ /// Build the model-visible `input` list for a single debug turn.
+ #[doc(hidden)]
+@@ -42,43 +43,62 @@ pub async fn build_prompt_input(
+         config.codex_linux_sandbox_exe.clone(),
+     )?;
+ 
+-    let thread_store = thread_store_from_config(&config, state_db.clone());
+     let installation_id = resolve_installation_id(&config.codex_home).await?;
+-    let thread_manager = ThreadManager::new(
++    let environment_manager = Arc::new(
++        EnvironmentManager::from_codex_home(
++            config.codex_home.clone(),
++            Some(local_runtime_paths),
++            config.http_client_factory(),
++        )
++        .await
++        .map_err(|err| CodexErr::Fatal(err.to_string()))?,
++    );
++    let persistence = persistence_from_config(&config, state_db.clone())
++        .await
++        .map_err(|err| CodexErr::Fatal(err.to_string()))?;
++    let store_lifecycle = ThreadStoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
++    let thread_manager = ThreadManager::new_with_persistence(
+         &config,
+         Arc::clone(&auth_manager),
+         crate::thread_manager::build_models_manager(&config, Arc::clone(&auth_manager)),
+         crate::CodexAppsToolsCache::default(),
+         SessionSource::Exec,
+-        Arc::new(
+-            EnvironmentManager::from_codex_home(
+-                config.codex_home.clone(),
+-                Some(local_runtime_paths),
+-                config.http_client_factory(),
+-            )
+-            .await
+-            .map_err(|err| CodexErr::Fatal(err.to_string()))?,
+-        ),
++        environment_manager,
+         extensions,
+         user_instructions_provider,
+         /*analytics_events_client*/ None,
+         crate::thread_manager::passthrough_image_store(),
+-        thread_store,
++        persistence,
+         crate::local_agent_graph_store_from_state_db(state_db.as_ref()),
+         installation_id,
+         /*attestation_provider*/ None,
+         /*external_time_provider*/ None,
+-    );
+-    let thread = thread_manager
+-        .start_thread(StartThreadOptions::new(config))
+-        .await?;
++    )
++    .with_default_attachment_store_components();
++    let output = async {
++        let thread = thread_manager
++            .start_thread(StartThreadOptions::new(config))
++            .await?;
+ 
+-    let output = build_prompt_input_from_session(&thread.thread.session, input).await;
+-    let shutdown = thread.thread.shutdown_and_wait().await;
+-    let _removed = thread_manager.remove_thread(&thread.thread_id).await;
++        let output = build_prompt_input_from_session(&thread.thread.session, input).await;
++        let shutdown = thread.thread.shutdown_and_wait().await;
++        let _removed = thread_manager.remove_thread(&thread.thread_id).await;
+ 
+-    shutdown?;
+-    output
++        shutdown?;
++        output
++    }
++    .await;
++    let store_shutdown = store_lifecycle
++        .shutdown()
++        .await
++        .map_err(|err| CodexErr::Fatal(err.to_string()));
++    match (output, store_shutdown) {
++        (Ok(output), Ok(())) => Ok(output),
++        (Err(error), Ok(())) | (Ok(_), Err(error)) => Err(error),
++        (Err(primary), Err(cleanup)) => Err(CodexErr::Fatal(format!(
++            "{primary}; thread-store shutdown also failed: {cleanup}"
++        ))),
++    }
+ }
+ 
+ pub(crate) async fn build_prompt_input_from_session(
+diff --git a/codex-rs/core/src/session/mod.rs b/codex-rs/core/src/session/mod.rs
+index b876976..0f0946d 100644
+--- a/codex-rs/core/src/session/mod.rs
++++ b/codex-rs/core/src/session/mod.rs
+@@ -20,6 +20,7 @@ use crate::agents_md_manager::SessionInstructions;
+ use crate::attestation::AttestationProvider;
+ use crate::compact;
+ use crate::compact::CompactedHistoryMetadata;
++use crate::component_persistence::PersistenceServices;
+ use crate::config::ManagedFeatures;
+ use crate::context::ContextualUserFragment;
+ use crate::context::DeveloperInstructions;
+@@ -62,7 +63,6 @@ use codex_analytics::ImagePreparationMetadata;
+ use codex_analytics::SubAgentThreadStartedInput;
+ use codex_analytics::TurnCodexErrorFact;
+ use codex_async_utils::OrCancelExt;
+-use codex_attachment_store::AttachmentStore;
+ use codex_attachment_store::InlineAttachmentStore;
+ use codex_connectors::connector_runtime_context_key;
+ use codex_context_fragments::RenderedFragment;
+@@ -171,7 +171,6 @@ use codex_terminal_detection::user_agent;
+ use codex_thread_store::CreateThreadParams;
+ use codex_thread_store::LiveThread;
+ use codex_thread_store::LiveThreadInitGuard;
+-use codex_thread_store::LocalThreadStore;
+ use codex_thread_store::PersistContext;
+ use codex_thread_store::ReadThreadParams;
+ use codex_thread_store::ResumeThreadParams;
+@@ -472,8 +471,8 @@ pub(crate) struct SessionSpawnArgs {
+     pub(crate) client_mcp_extensions: ClientMcpExtensions,
+     pub(crate) reserved_thread_id: Option<ThreadId>,
+     pub(crate) analytics_events_client: Option<AnalyticsEventsClient>,
+-    pub(crate) image_store: Arc<dyn AttachmentStore>,
+-    pub(crate) thread_store: Arc<dyn ThreadStore>,
++    pub(crate) image_store: codex_attachment_store_component::AttachmentStoreSelection,
++    pub(crate) persistence: PersistenceServices,
+     pub(crate) attestation_provider: Option<Arc<dyn AttestationProvider>>,
+     pub(crate) external_time_provider: Option<Arc<dyn TimeProvider>>,
+     pub(crate) inherited_multi_agent_version: Option<MultiAgentVersion>,
+@@ -576,7 +575,7 @@ impl Session {
+             reserved_thread_id,
+             analytics_events_client,
+             image_store,
+-            thread_store,
++            persistence,
+             attestation_provider,
+             external_time_provider,
+             inherited_multi_agent_version,
+@@ -740,7 +739,8 @@ impl Session {
+             resolve_multi_agent_version(&conversation_history, inherited_multi_agent_version)
+         });
+         let history_mode = conversation_history.get_history_mode(
+-            requested_history_mode.unwrap_or_else(|| thread_store.default_history_mode()),
++            requested_history_mode
++                .unwrap_or_else(|| persistence.thread_store.default_history_mode()),
+         );
+         let base_instructions = config
+             .base_instructions
+@@ -904,7 +904,7 @@ impl Session {
+             inherited_environments,
+             analytics_events_client,
+             image_store,
+-            thread_store,
++            persistence,
+             parent_rollout_thread_trace,
+             attestation_provider,
+             external_time_provider,
+diff --git a/codex-rs/core/src/session/session.rs b/codex-rs/core/src/session/session.rs
+index e92aaee..0a8cf8f 100644
+--- a/codex-rs/core/src/session/session.rs
++++ b/codex-rs/core/src/session/session.rs
+@@ -23,7 +23,6 @@ use crate::shell_snapshot::SnapshotCredentialBrokerState;
+ use crate::state::ActiveTurn;
+ use crate::turn_metadata::ExecutionMetadata;
+ use codex_analytics::ThreadProductUpdate;
+-use codex_attachment_store::AttachmentStore;
+ use codex_extension_api::ExtensionDataInit;
+ use codex_http_client::ClientRouteClass;
+ use codex_http_client::RouteAwareClientPool;
+@@ -766,8 +765,8 @@ impl Session {
+         environment_manager: Arc<EnvironmentManager>,
+         inherited_environments: Option<TurnEnvironmentSnapshot>,
+         analytics_events_client: Option<AnalyticsEventsClient>,
+-        image_store: Arc<dyn AttachmentStore>,
+-        thread_store: Arc<dyn ThreadStore>,
++        image_store: codex_attachment_store_component::AttachmentStoreSelection,
++        persistence: PersistenceServices,
+         parent_rollout_thread_trace: ThreadTraceContext,
+         attestation_provider: Option<Arc<dyn AttestationProvider>>,
+         external_time_provider: Option<Arc<dyn TimeProvider>>,
+@@ -775,6 +774,26 @@ impl Session {
+         git_enrichment_policy: GitEnrichmentPolicy,
+         windows_sandbox_proxy_settings_mode: codex_sandboxing::WindowsSandboxProxySettingsMode,
+     ) -> anyhow::Result<Arc<Self>> {
++        let PersistenceServices {
++            thread_store,
++            host_state_db,
++        } = persistence;
++        let isolation = thread_extension_init
++            .get::<codex_extension_api::SessionIsolation>()
++            .map(|policy| *policy)
++            .unwrap_or_default();
++        // Isolated reviewer/internal sessions receive only the extensions their
++        // caller explicitly supplied. Global engine plugins cannot cross that boundary.
++        let component_catalog = if isolation == codex_extension_api::SessionIsolation::Isolated {
++            codex_component_host::ComponentCatalog::default()
++        } else {
++            codex_component_host::ComponentCatalog::load(&config.codex_home)?
++        };
++        let mut component_extensions = extensions.to_builder();
++        let image_store_selection = image_store;
++        let image_store = image_store_selection.resolve(&component_catalog)?;
++        codex_component_adapters::install(&mut component_extensions, &component_catalog)?;
++        let extensions = Arc::new(component_extensions.build());
+         debug!(
+             "Configuring session: model={}; provider={:?}",
+             session_configuration
+@@ -865,10 +884,6 @@ impl Session {
+                 ));
+             }
+         };
+-        let isolation = thread_extension_init
+-            .get::<codex_extension_api::SessionIsolation>()
+-            .map(|policy| *policy)
+-            .unwrap_or_default();
+         if !session_configuration.session_source.is_non_root_agent()
+             && isolation != codex_extension_api::SessionIsolation::Isolated
+         {
+@@ -1111,12 +1126,8 @@ impl Session {
+         let state_db_fut = async {
+             if config.ephemeral {
+                 None
+-            } else if let Some(local_store) =
+-                thread_store.as_any().downcast_ref::<LocalThreadStore>()
+-            {
+-                local_store.state_db().await
+             } else {
+-                None
++                host_state_db
+             }
+         }
+         .instrument(info_span!(
+@@ -1722,6 +1733,7 @@ impl Session {
+                 state_db: state_db_ctx.clone(),
+                 live_thread: live_thread.clone(),
+                 image_store,
++                image_store_selection,
+                 thread_store: Arc::clone(&thread_store),
+                 attestation_provider: attestation_provider.clone(),
+                 time_provider,
+@@ -1750,6 +1762,7 @@ impl Session {
+                     workspace_routing.as_ref().clone(),
+                     extensions.model_request_contributors().to_vec(),
+                 )
++                .with_component_catalog(&component_catalog)
+                 .with_executed_tool_calls(executed_tool_calls.clone())
+                 .with_restored_history(matches!(
+                     &initial_history,
+diff --git a/codex-rs/core/src/session/tests.rs b/codex-rs/core/src/session/tests.rs
+index 8221619..b22cbd5 100644
+--- a/codex-rs/core/src/session/tests.rs
++++ b/codex-rs/core/src/session/tests.rs
+@@ -1288,9 +1288,11 @@ async fn managed_network_proxy_decider_survives_full_access_start() -> anyhow::R
+         .expect("HTTP proxy URL")
+         .parse::<std::net::SocketAddr>()?;
+     let mut stream = tokio::net::TcpStream::connect(proxy_addr).await?;
++    // The decider denies this request before any upstream connection. A public IP
++    // literal keeps the test independent of ambient DNS failures or private answers.
+     stream
+         .write_all(
+-            b"GET http://example.com/ HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n",
++            b"GET http://8.8.8.8/ HTTP/1.1\r\nHost: 8.8.8.8\r\nConnection: close\r\n\r\n",
+         )
+         .await?;
+     let mut buffer = [0_u8; 4096];
+@@ -1668,6 +1670,9 @@ async fn disabled_managed_network_does_not_start_or_expose_proxy() -> anyhow::Re
+ 
+ #[tokio::test]
+ async fn user_shell_commands_do_not_inherit_managed_network_proxy() -> anyhow::Result<()> {
++    // Preserve an ambient proxy (for example, a cloud executor's egress proxy).
++    // This test rejects the session's managed proxy, not the inherited environment.
++    let inherited_http_proxy = std::env::var("HTTP_PROXY").unwrap_or_default();
+     let permission_profile = PermissionProfile::workspace_write();
+     let network_spec = crate::config::NetworkProxySpec::from_config_and_constraints(
+         NetworkProxyConfig::default(),
+@@ -1709,7 +1714,12 @@ async fn user_shell_commands_do_not_inherit_managed_network_proxy() -> anyhow::R
+         let event = rx.recv().await.expect("channel open");
+         if let EventMsg::ExecCommandEnd(event) = event.msg {
+             assert_eq!(event.exit_code, 0);
+-            assert_eq!(event.stdout.trim(), "not-set");
++            let expected_proxy = if inherited_http_proxy.is_empty() {
++                "not-set"
++            } else {
++                inherited_http_proxy.as_str()
++            };
++            assert_eq!(event.stdout.trim(), expected_proxy);
+             break;
+         }
+     }
+@@ -6558,10 +6568,12 @@ async fn session_new_fails_when_zsh_fork_enabled_without_packaged_zsh() {
+         environment_manager,
+         /*inherited_environments*/ None,
+         /*analytics_events_client*/ None,
+-        crate::passthrough_image_store(),
+-        Arc::new(codex_thread_store::LocalThreadStore::new(
+-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+-            /*state_db*/ None,
++        crate::passthrough_image_store().into(),
++        PersistenceServices::from_legacy_native(Arc::new(
++            codex_thread_store::LocalThreadStore::new(
++                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
++                /*state_db*/ None,
++            ),
+         )),
+         codex_rollout_trace::ThreadTraceContext::disabled(),
+         /*attestation_provider*/ None,
+@@ -6849,6 +6861,7 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
+         state_db: None,
+         live_thread: None,
+         image_store: crate::passthrough_image_store(),
++        image_store_selection: crate::passthrough_image_store().into(),
+         thread_store: Arc::new(codex_thread_store::LocalThreadStore::new(
+             codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+             /*state_db*/ None,
+@@ -7108,10 +7121,12 @@ async fn make_session_with_config_and_rx(
+         environment_manager,
+         /*inherited_environments*/ None,
+         /*analytics_events_client*/ None,
+-        crate::passthrough_image_store(),
+-        Arc::new(codex_thread_store::LocalThreadStore::new(
+-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+-            /*state_db*/ None,
++        crate::passthrough_image_store().into(),
++        PersistenceServices::from_legacy_native(Arc::new(
++            codex_thread_store::LocalThreadStore::new(
++                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
++                /*state_db*/ None,
++            ),
+         )),
+         codex_rollout_trace::ThreadTraceContext::disabled(),
+         /*attestation_provider*/ None,
+@@ -7240,16 +7255,18 @@ async fn make_session_with_history_source_and_agent_control_and_rx(
+         environment_manager,
+         /*inherited_environments*/ None,
+         /*analytics_events_client*/ None,
+-        crate::passthrough_image_store(),
+-        Arc::new(codex_thread_store::LocalThreadStore::new(
+-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+-            Some(
+-                codex_state::StateRuntime::init(
+-                    config.sqlite.clone(),
+-                    config.model_provider_id.clone(),
+-                )
+-                .await
+-                .expect("state db should initialize"),
++        crate::passthrough_image_store().into(),
++        PersistenceServices::from_legacy_native(Arc::new(
++            codex_thread_store::LocalThreadStore::new(
++                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
++                Some(
++                    codex_state::StateRuntime::init(
++                        config.sqlite.clone(),
++                        config.model_provider_id.clone(),
++                    )
++                    .await
++                    .expect("state db should initialize"),
++                ),
+             ),
+         )),
+         codex_rollout_trace::ThreadTraceContext::disabled(),
+@@ -9125,6 +9142,7 @@ where
+         state_db: state_db.clone(),
+         live_thread: None,
+         image_store: crate::passthrough_image_store(),
++        image_store_selection: crate::passthrough_image_store().into(),
+         thread_store: Arc::new(codex_thread_store::LocalThreadStore::new(
+             codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+             state_db,
+diff --git a/codex-rs/core/src/session/tests/guardian_tests.rs b/codex-rs/core/src/session/tests/guardian_tests.rs
+index 2d78c4a..e8ef213 100644
+--- a/codex-rs/core/src/session/tests/guardian_tests.rs
++++ b/codex-rs/core/src/session/tests/guardian_tests.rs
+@@ -1338,8 +1338,11 @@ async fn guardian_subagent_does_not_inherit_parent_exec_policy_rules() {
+         client_mcp_extensions: ClientMcpExtensions::default(),
+         reserved_thread_id: None,
+         analytics_events_client: None,
+-        image_store: crate::thread_manager::passthrough_image_store(),
+-        thread_store,
++        image_store: crate::thread_manager::passthrough_image_store().into(),
++        persistence: PersistenceServices {
++            thread_store,
++            host_state_db: None,
++        },
+         attestation_provider: None,
+         external_time_provider: None,
+         inherited_multi_agent_version: None,
+diff --git a/codex-rs/core/src/state/service.rs b/codex-rs/core/src/state/service.rs
+index ded1f87..ab37f08 100644
+--- a/codex-rs/core/src/state/service.rs
++++ b/codex-rs/core/src/state/service.rs
+@@ -92,6 +92,8 @@ pub(crate) struct SessionServices {
+     pub(crate) state_db: Option<StateDbHandle>,
+     pub(crate) live_thread: Option<LiveThread>,
+     pub(crate) image_store: Arc<dyn AttachmentStore>,
++    /// Preserve default versus explicit provenance when creating isolated delegates.
++    pub(crate) image_store_selection: codex_attachment_store_component::AttachmentStoreSelection,
+     pub(crate) thread_store: Arc<dyn ThreadStore>,
+     pub(crate) attestation_provider: Option<Arc<dyn AttestationProvider>>,
+     pub(crate) time_provider: Arc<dyn TimeProvider>,
+diff --git a/codex-rs/core/src/thread_manager.rs b/codex-rs/core/src/thread_manager.rs
+index ba195d8..039d7dc 100644
+--- a/codex-rs/core/src/thread_manager.rs
++++ b/codex-rs/core/src/thread_manager.rs
+@@ -9,6 +9,7 @@ use crate::agent::control::AgentControlInit;
+ use crate::agents_md_manager::SessionInstructions;
+ use crate::attestation::AttestationProvider;
+ use crate::codex_thread::CodexThread;
++use crate::component_persistence::PersistenceServices;
+ use crate::config::Config;
+ use crate::config::ThreadStoreConfig;
+ use crate::current_time::TimeProvider;
+@@ -34,6 +35,7 @@ use codex_app_server_protocol::ThreadHistoryBuilder;
+ use codex_app_server_protocol::TurnStatus;
+ use codex_attachment_store::AttachmentStore;
+ use codex_attachment_store::InlineAttachmentStore;
++use codex_attachment_store_component::AttachmentStoreSelection;
+ use codex_code_mode::CodeModeSessionProvider;
+ use codex_code_mode::DisabledCodeModeSessionProvider;
+ use codex_code_mode::ProcessOwnedCodeModeSessionProvider;
+@@ -417,8 +419,9 @@ pub(crate) struct ThreadManagerState {
+     code_mode_session_provider: Arc<dyn CodeModeSessionProvider>,
+     extensions: Arc<ExtensionRegistry<Config>>,
+     user_instructions_provider: Arc<dyn UserInstructionsProvider>,
+-    image_store: Arc<dyn AttachmentStore>,
++    image_store: AttachmentStoreSelection,
+     thread_store: Arc<dyn ThreadStore>,
++    host_state_db: Option<StateDbHandle>,
+     agent_graph_store: Option<Arc<dyn AgentGraphStore>>,
+     attestation_provider: Option<Arc<dyn AttestationProvider>>,
+     external_time_provider: Option<Arc<dyn TimeProvider>>,
+@@ -517,6 +520,9 @@ pub fn local_agent_graph_store_from_state_db(
+ }
+ 
+ impl ThreadManager {
++    /// Compatibility constructor for callers that provide a native store.
++    /// Hosts selecting external storage pass explicit dependencies to
++    /// [`Self::new_with_persistence`] instead.
+     #[allow(clippy::too_many_arguments)]
+     pub fn new(
+         config: &Config,
+@@ -535,6 +541,48 @@ impl ThreadManager {
+         attestation_provider: Option<Arc<dyn AttestationProvider>>,
+         external_time_provider: Option<Arc<dyn TimeProvider>>,
+     ) -> Self {
++        Self::new_with_persistence(
++            config,
++            auth_manager,
++            models_manager,
++            codex_apps_tools_cache,
++            session_source,
++            environment_manager,
++            extensions,
++            user_instructions_provider,
++            analytics_events_client,
++            image_store,
++            PersistenceServices::from_legacy_native(thread_store),
++            agent_graph_store,
++            installation_id,
++            attestation_provider,
++            external_time_provider,
++        )
++    }
++
++    /// Construct the engine with storage and auxiliary state owned explicitly.
++    #[allow(clippy::too_many_arguments)]
++    pub fn new_with_persistence(
++        config: &Config,
++        auth_manager: Arc<AuthManager>,
++        models_manager: SharedModelsManager,
++        codex_apps_tools_cache: CodexAppsToolsCache,
++        session_source: SessionSource,
++        environment_manager: Arc<EnvironmentManager>,
++        extensions: Arc<ExtensionRegistry<Config>>,
++        user_instructions_provider: Arc<dyn UserInstructionsProvider>,
++        analytics_events_client: Option<AnalyticsEventsClient>,
++        image_store: Arc<dyn AttachmentStore>,
++        persistence: PersistenceServices,
++        agent_graph_store: Option<Arc<dyn AgentGraphStore>>,
++        installation_id: String,
++        attestation_provider: Option<Arc<dyn AttestationProvider>>,
++        external_time_provider: Option<Arc<dyn TimeProvider>>,
++    ) -> Self {
++        let PersistenceServices {
++            thread_store,
++            host_state_db,
++        } = persistence;
+         let codex_home = config.codex_home.clone();
+         let restriction_product = session_source.restriction_product();
+         let (thread_created_tx, _) = broadcast::channel(THREAD_CREATED_CHANNEL_CAPACITY);
+@@ -579,8 +627,9 @@ impl ThreadManager {
+                 code_mode_session_provider,
+                 extensions,
+                 user_instructions_provider,
+-                image_store,
++                image_store: image_store.into(),
+                 thread_store,
++                host_state_db,
+                 agent_graph_store,
+                 attestation_provider,
+                 external_time_provider,
+@@ -595,6 +644,17 @@ impl ThreadManager {
+         }
+     }
+ 
++    /// Opt the host's default attachment store into explicit component selections.
++    /// Ordinary constructors preserve their caller-injected store. Session startup
++    /// resolves this default against that session's isolation-filtered catalog.
++    pub fn with_default_attachment_store_components(mut self) -> Self {
++        let Some(state) = Arc::get_mut(&mut self.state) else {
++            unreachable!("attachment selection must be set before thread manager is shared");
++        };
++        state.image_store = AttachmentStoreSelection::Default;
++        self
++    }
++
+     /// Generate every new thread identifier with the caller-provided factory.
+     pub fn with_thread_id_generator(
+         mut self,
+@@ -754,8 +814,9 @@ impl ThreadManager {
+                 user_instructions_provider: Arc::new(
+                     crate::test_support::EmptyUserInstructionsProvider,
+                 ),
+-                image_store: passthrough_image_store(),
++                image_store: passthrough_image_store().into(),
+                 thread_store,
++                host_state_db: state_db,
+                 agent_graph_store,
+                 attestation_provider: None,
+                 external_time_provider: None,
+@@ -794,8 +855,10 @@ impl ThreadManager {
+         self.state.environment_manager.clone()
+     }
+ 
++    /// Return the injected store or native baseline. Component defaults resolve
++    /// per session and are not activated by this compatibility getter.
+     pub fn image_store(&self) -> Arc<dyn AttachmentStore> {
+-        Arc::clone(&self.state.image_store)
++        self.state.image_store.baseline()
+     }
+ 
+     /// Starts the local rollout migration path after a runtime feature enablement.
+@@ -803,17 +866,15 @@ impl ThreadManager {
+     /// Startup config handles the initial launch in [`thread_store_from_config`]. This covers
+     /// clients that decide to enable background migration after constructing the app-server.
+     pub fn start_background_rollout_migration(&self) {
+-        let Some(store) = self
+-            .state
+-            .thread_store
+-            .as_any()
+-            .downcast_ref::<LocalThreadStore>()
+-        else {
++        if !self.state.thread_store.supports_rollout_maintenance() {
+             return;
+-        };
+-        let store = store.clone();
++        }
++        let store = Arc::clone(&self.state.thread_store);
+         tokio::spawn(async move {
+-            if let Err(err) = store.migrate_rollouts_on_startup().await {
++            if let Err(err) = store
++                .run_rollout_maintenance(codex_thread_store::RolloutMaintenance::MigrateOnStartup)
++                .await
++            {
+                 warn!("failed to migrate legacy rollouts on startup: {err}");
+             }
+         });
+@@ -2313,8 +2374,11 @@ impl ThreadManagerState {
+             client_mcp_extensions,
+             reserved_thread_id,
+             analytics_events_client: self.analytics_events_client.clone(),
+-            image_store: Arc::clone(&self.image_store),
+-            thread_store: Arc::clone(&self.thread_store),
++            image_store: self.image_store.clone(),
++            persistence: PersistenceServices {
++                thread_store: Arc::clone(&self.thread_store),
++                host_state_db: self.host_state_db.clone(),
++            },
+             attestation_provider: self.attestation_provider.clone(),
+             external_time_provider: self.external_time_provider.clone(),
+             inherited_multi_agent_version: multi_agent_version,
+diff --git a/codex-rs/core/src/tools/handlers/extension_tools.rs b/codex-rs/core/src/tools/handlers/extension_tools.rs
+index 927e9b3..b0e0c74 100644
+--- a/codex-rs/core/src/tools/handlers/extension_tools.rs
++++ b/codex-rs/core/src/tools/handlers/extension_tools.rs
+@@ -50,6 +50,10 @@ impl ToolExecutor<ToolInvocation> for ExtensionToolAdapter {
+         self.0.spec()
+     }
+ 
++    fn replaces_existing_tool(&self) -> bool {
++        self.0.replaces_existing_tool()
++    }
++
+     fn exposure(&self) -> crate::tools::registry::ToolExposure {
+         self.0.exposure()
+     }
+diff --git a/codex-rs/core/src/tools/registry.rs b/codex-rs/core/src/tools/registry.rs
+index 9ac7b76..bc8efc4 100644
+--- a/codex-rs/core/src/tools/registry.rs
++++ b/codex-rs/core/src/tools/registry.rs
+@@ -399,6 +399,13 @@ impl ToolRegistry {
+                 entry.insert(RegisteredTool { runtime, exposure });
+                 true
+             }
++            Entry::Occupied(mut entry) if runtime.replaces_existing_tool() => {
++                // Replacing the implementation must not widen its existing model/code-mode
++                // visibility. The host still owns exposure policy for the selected tool.
++                let exposure = entry.get().exposure;
++                entry.insert(RegisteredTool { runtime, exposure });
++                true
++            }
+             Entry::Occupied(entry) => {
+                 tracing::warn!(
+                     tool_name = %entry.key(),
+diff --git a/codex-rs/core/src/tools/registry_tests.rs b/codex-rs/core/src/tools/registry_tests.rs
+index 895d8d4..55ddf8e 100644
+--- a/codex-rs/core/src/tools/registry_tests.rs
++++ b/codex-rs/core/src/tools/registry_tests.rs
+@@ -39,6 +39,73 @@ impl ToolExecutor<ToolInvocation> for TestHandler {
+ 
+ impl CoreToolRuntime for TestHandler {}
+ 
++struct SelectedReplacement(TestHandler);
++
++impl ToolExecutor<ToolInvocation> for SelectedReplacement {
++    fn tool_name(&self) -> codex_tools::ToolName {
++        self.0.tool_name()
++    }
++
++    fn spec(&self) -> codex_tools::ToolSpec {
++        self.0.spec()
++    }
++
++    fn replaces_existing_tool(&self) -> bool {
++        true
++    }
++
++    fn handle<'a>(&'a self, invocation: ToolInvocation) -> codex_tools::ToolExecutorFuture<'a>
++    where
++        ToolInvocation: 'a,
++    {
++        self.0.handle(invocation)
++    }
++}
++
++impl CoreToolRuntime for SelectedReplacement {}
++
++#[test]
++fn explicitly_selected_tool_replaces_existing_runtime() {
++    let name = codex_tools::ToolName::plain("lookup");
++    let original = Arc::new(TestHandler {
++        tool_name: name.clone(),
++    }) as Arc<dyn CoreToolRuntime>;
++    let replacement = Arc::new(SelectedReplacement(TestHandler {
++        tool_name: name.clone(),
++    })) as Arc<dyn CoreToolRuntime>;
++    let mut registry = ToolRegistry::default();
++    registry.register_trusted_with_exposure(original, ToolExposure::Deferred);
++    assert!(registry.register_external(Arc::clone(&replacement)));
++    assert!(
++        registry
++            .tool(&name)
++            .is_some_and(|runtime| Arc::ptr_eq(&runtime, &replacement))
++    );
++    assert_eq!(registry.first_collision(), None);
++    assert_eq!(registry.tool_exposure(&name), Some(ToolExposure::Deferred));
++}
++
++#[test]
++fn selected_replacement_preserves_tool_policy_and_reserved_execution_names() {
++    let mut registry = ToolRegistry::with_tool_policy(Arc::new(ToolPolicy {
++        allowed_tools: Some(Vec::new()),
++        ..Default::default()
++    }));
++    assert!(
++        !registry.register_external(Arc::new(SelectedReplacement(TestHandler {
++            tool_name: codex_tools::ToolName::plain("lookup"),
++        })))
++    );
++    let mut registry = ToolRegistry::default();
++    for name in ["exec_command", "shell_command"] {
++        assert!(
++            !registry.register_external(Arc::new(SelectedReplacement(TestHandler {
++                tool_name: codex_tools::ToolName::plain(name),
++            })))
++        );
++    }
++}
++
+ struct ReadinessTestHandler {
+     handler: TestHandler,
+     readiness_waits: Arc<AtomicUsize>,
+diff --git a/codex-rs/core/tests/common/test_codex.rs b/codex-rs/core/tests/common/test_codex.rs
+index a34bcd4..2e6ba0d 100644
+--- a/codex-rs/core/tests/common/test_codex.rs
++++ b/codex-rs/core/tests/common/test_codex.rs
+@@ -17,15 +17,16 @@ use codex_analytics::AnalyticsEventsClient;
+ use codex_attachment_store::AttachmentStore;
+ use codex_config::CloudConfigBundleLoader;
+ use codex_core::CodexThread;
++use codex_core::PersistenceServices;
+ pub use codex_core::StartThreadOptions;
+ use codex_core::ThreadManager;
+ use codex_core::TimeProvider;
+ pub use codex_core::TurnInputRequest;
+ use codex_core::config::Config;
++use codex_core::persistence_from_config;
+ use codex_core::resolve_installation_id;
+ use codex_core::shell::Shell;
+ use codex_core::shell::get_shell_by_model_provided_path;
+-use codex_core::thread_store_from_config;
+ use codex_core::windows_sandbox::WindowsSandboxLevelExt;
+ use codex_exec_server::CreateDirectoryOptions;
+ use codex_exec_server::ExecutorFileSystem;
+@@ -782,10 +783,11 @@ impl TestCodexBuilder {
+         environment_manager: Arc<codex_exec_server::EnvironmentManager>,
+     ) -> anyhow::Result<TestCodex> {
+         let state_db = codex_core::init_state_db(&config).await;
+-        let thread_store = self
+-            .thread_store
+-            .clone()
+-            .unwrap_or_else(|| thread_store_from_config(&config, state_db.clone()));
++        let persistence = match self.thread_store.clone() {
++            Some(store) => PersistenceServices::from_legacy_native(store),
++            None => persistence_from_config(&config, state_db.clone()).await?,
++        };
++        let thread_store = Arc::clone(&persistence.thread_store);
+         let installation_id = resolve_installation_id(&config.codex_home).await?;
+         let user_instructions_provider =
+             self.user_instructions_provider.clone().unwrap_or_else(|| {
+@@ -810,7 +812,7 @@ impl TestCodexBuilder {
+             } else {
+                 codex_guardian_v2::install_reviewer(&mut extensions, manager.clone());
+             }
+-            let thread_manager = ThreadManager::new(
++            let thread_manager = ThreadManager::new_with_persistence(
+                 &config,
+                 auth_manager.clone(),
+                 models_manager,
+@@ -821,7 +823,7 @@ impl TestCodexBuilder {
+                 user_instructions_provider,
+                 self.analytics_events_client.clone(),
+                 Arc::clone(&self.image_store),
+-                Arc::clone(&thread_store),
++                persistence.clone(),
+                 codex_core::local_agent_graph_store_from_state_db(state_db.as_ref()),
+                 installation_id,
+                 /*attestation_provider*/ None,
+diff --git a/codex-rs/core/tests/suite/mod.rs b/codex-rs/core/tests/suite/mod.rs
+index 2971b12..1153025 100644
+--- a/codex-rs/core/tests/suite/mod.rs
++++ b/codex-rs/core/tests/suite/mod.rs
+@@ -71,6 +71,9 @@ mod collaboration_instructions;
+ mod compact;
+ mod compact_remote;
+ mod compact_resume_fork;
++mod component_attachments;
++mod component_model;
++mod component_persistence;
+ mod context_annotations;
+ mod current_time_reminder;
+ mod cyber_access_program;
+diff --git a/codex-rs/core/tests/suite/openai_file_mcp.rs b/codex-rs/core/tests/suite/openai_file_mcp.rs
+index db3d52b..f99daca 100644
+--- a/codex-rs/core/tests/suite/openai_file_mcp.rs
++++ b/codex-rs/core/tests/suite/openai_file_mcp.rs
+@@ -44,7 +44,6 @@ use serde_json::json;
+ use wiremock::Mock;
+ use wiremock::MockServer;
+ use wiremock::ResponseTemplate;
+-use wiremock::matchers::body_json;
+ use wiremock::matchers::body_partial_json;
+ use wiremock::matchers::header;
+ use wiremock::matchers::method;
+diff --git a/codex-rs/core/tests/suite/scenarios.rs b/codex-rs/core/tests/suite/scenarios.rs
+index 9f2e33d..c7877bb 100644
+--- a/codex-rs/core/tests/suite/scenarios.rs
++++ b/codex-rs/core/tests/suite/scenarios.rs
+@@ -39,7 +39,6 @@ use codex_protocol::items::TurnItem;
+ use codex_protocol::models::ImageReference;
+ use codex_protocol::models::ResponseItem;
+ use codex_protocol::openai_models::CodeModeToolMessages;
+-use codex_protocol::openai_models::ReasoningEffort;
+ use codex_protocol::openai_models::ToolMessage;
+ use codex_protocol::openai_models::ToolMode;
+ use codex_protocol::protocol::EnvironmentConfigState;
+diff --git a/codex-rs/login/BUILD.bazel b/codex-rs/login/BUILD.bazel
+index 78eea8c..6d56454 100644
+--- a/codex-rs/login/BUILD.bazel
++++ b/codex-rs/login/BUILD.bazel
+@@ -1,13 +1,24 @@
++load("@rules_rust//rust:defs.bzl", "rust_binary")
+ load("//:defs.bzl", "codex_rust_crate")
+ 
++rust_binary(
++    name = "component-auth-test-plugin",
++    testonly = True,
++    srcs = ["tests/fixtures/component_auth_plugin.rs"],
++    crate_root = "tests/fixtures/component_auth_plugin.rs",
++    edition = "2024",
++)
++
+ codex_rust_crate(
+     name = "login",
+     compile_data = [
+         "src/assets/error.html",
+         "src/assets/success.html",
+         "src/assets/success_legacy.html",
++        "tests/fixtures/component_auth_plugin.rs",
+     ],
+     crate_name = "codex_login",
++    extra_binaries = ["//codex-rs/login:component-auth-test-plugin"],
+     test_shard_counts = {
+         # Gateway credential tests exercise real encryption and run serially on Windows.
+         "login-unit-tests": 4,
+diff --git a/codex-rs/login/Cargo.toml b/codex-rs/login/Cargo.toml
+index 7762770..1ef39cb 100644
+--- a/codex-rs/login/Cargo.toml
++++ b/codex-rs/login/Cargo.toml
+@@ -13,6 +13,7 @@ anyhow = { workspace = true }
+ base64 = { workspace = true }
+ chrono = { workspace = true, features = ["serde"] }
+ codex-agent-identity = { workspace = true }
++codex-component-host = { workspace = true }
+ codex-http-client = { workspace = true }
+ codex-config = { workspace = true }
+ codex-keyring-store = { workspace = true }
+@@ -45,6 +46,7 @@ urlencoding = { workspace = true }
+ webbrowser = { workspace = true }
+ 
+ [dev-dependencies]
++codex-utils-cargo-bin = { workspace = true }
+ opentelemetry_sdk = { workspace = true, features = ["testing"] }
+ core_test_support = { workspace = true }
+ jsonwebtoken = { workspace = true }
+diff --git a/codex-rs/login/src/auth/manager.rs b/codex-rs/login/src/auth/manager.rs
+index cdc9c8d..683a9b6 100644
+--- a/codex-rs/login/src/auth/manager.rs
++++ b/codex-rs/login/src/auth/manager.rs
+@@ -178,11 +178,17 @@ impl PartialEq for CodexAuth {
+     }
+ }
+ 
+-#[derive(Debug, Clone)]
++#[derive(Clone)]
+ pub struct ApiKeyAuth {
+     api_key: String,
+ }
+ 
++impl Debug for ApiKeyAuth {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter.debug_struct("ApiKeyAuth").finish_non_exhaustive()
++    }
++}
++
+ #[derive(Debug, Clone)]
+ pub struct ChatgptAuth {
+     state: ChatgptAuthState,
+@@ -194,12 +200,20 @@ pub struct ChatgptAuthTokens {
+     state: ChatgptAuthState,
+ }
+ 
+-#[derive(Debug, Clone)]
++#[derive(Clone)]
+ struct ChatgptAuthState {
+     auth_dot_json: Arc<Mutex<Option<AuthDotJson>>>,
+     client: HttpClient,
+ }
+ 
++impl Debug for ChatgptAuthState {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter
++            .debug_struct("ChatgptAuthState")
++            .finish_non_exhaustive()
++    }
++}
++
+ const TOKEN_REFRESH_INTERVAL: i64 = 8;
+ const CHATGPT_ACCESS_TOKEN_REFRESH_WINDOW_MINUTES: i64 = 5;
+ 
+@@ -2790,11 +2804,19 @@ impl AuthManager {
+         Self::shared_from_auth_config(auth_config_from(config), enable_codex_api_key_env).await
+     }
+ 
+-    /// Activates workload identity against an auth config resolved before full runtime config.
++    /// Activates selected external credentials while preserving workload identity ownership.
+     pub async fn shared_from_auth_config(
+         auth_config: AuthConfig,
+         enable_codex_api_key_env: bool,
+     ) -> Result<Arc<Self>, AuthManagerInitializationError> {
++        let component_auth =
++            crate::component_auth::ComponentAuth::selected(&auth_config.codex_home)?;
++        if component_auth.is_some() && super::workload_identity::is_workload_identity_selected() {
++            return Err(permanent_external_auth_error(
++                "workload identity auth cannot be replaced by a component",
++            )
++            .into());
++        }
+         let external_auth = WorkloadIdentityExternalAuth::from_process_config(&auth_config)?;
+         let mut manager = Self::new_from_auth_config(auth_config, enable_codex_api_key_env).await;
+         manager.workload_identity_selected = external_auth.is_some();
+@@ -2803,6 +2825,8 @@ impl AuthManager {
+             manager
+                 .install_external_auth(Arc::new(external_auth))
+                 .await?;
++        } else if let Some(component_auth) = component_auth {
++            manager.set_external_auth(Arc::new(component_auth)).await?;
+         }
+         Ok(manager)
+     }
+diff --git a/codex-rs/login/src/lib.rs b/codex-rs/login/src/lib.rs
+index abbbf1d..8053ec5 100644
+--- a/codex-rs/login/src/lib.rs
++++ b/codex-rs/login/src/lib.rs
+@@ -8,6 +8,7 @@ pub use auth::WorkspaceRoutingResolver;
+ pub use auth::WorkspaceRoutingSession;
+ 
+ mod callback_params;
++mod component_auth;
+ mod device_code_auth;
+ mod gateway_auth;
+ mod oauth;
+diff --git a/codex-rs/protocol/src/models.rs b/codex-rs/protocol/src/models.rs
+index bb29f84..689ceb8 100644
+--- a/codex-rs/protocol/src/models.rs
++++ b/codex-rs/protocol/src/models.rs
+@@ -51,6 +51,8 @@ pub use executed_tool_calls::ToolResultSources;
+ pub use executed_tool_calls::bound_executed_tool_calls_for_message;
+ pub use executed_tool_calls::executed_tool_call_metadata_bytes;
+ pub use executed_tool_calls::normalize_executed_tool_call_arguments;
++pub use executed_tool_calls::trusted_component::InvalidTrustedComponentExecutedToolCall;
++pub use executed_tool_calls::trusted_component::TrustedComponentExecutedToolCall;
+ pub use item_metadata::ContentItemKind;
+ 
+ /// Controls the per-command sandbox override requested by a shell-like tool call.
+diff --git a/codex-rs/protocol/src/models/executed_tool_calls.rs b/codex-rs/protocol/src/models/executed_tool_calls.rs
+index 5bd758d..f20d39b 100644
+--- a/codex-rs/protocol/src/models/executed_tool_calls.rs
++++ b/codex-rs/protocol/src/models/executed_tool_calls.rs
+@@ -8,6 +8,8 @@ use ts_rs::TS;
+ use super::InternalChatMessageMetadataPassthrough;
+ use super::ResponseItem;
+ 
++pub mod trusted_component;
++
+ const MAX_EXECUTED_TOOL_CALL_ARGUMENT_BYTES: usize = 8 * 1024;
+ /// Maximum distinct result sources retained for one tool invocation.
+ const MAX_TOOL_RESULT_SOURCES: usize = 32;
+diff --git a/codex-rs/rollout/src/compression.rs b/codex-rs/rollout/src/compression.rs
+index ba7eb24..940011a 100644
+--- a/codex-rs/rollout/src/compression.rs
++++ b/codex-rs/rollout/src/compression.rs
+@@ -18,6 +18,9 @@ use std::os::unix::fs::PermissionsExt;
+ 
+ mod error_metrics;
+ mod read_metrics;
++mod worker_error;
++
++pub use worker_error::RolloutCompressionWorkerError;
+ 
+ use error_metrics::FailureMetric;
+ use read_metrics::ReadFailureSource;
+@@ -54,6 +57,20 @@ pub fn spawn_rollout_compression_worker(codex_home: PathBuf, trigger: RolloutCom
+     worker::spawn(codex_home, trigger)
+ }
+ 
++/// Runs a native compression pass and joins every accepted blocking operation.
++///
++/// A true cancellation value or closed channel stops admitting more work. Already
++/// accepted file compression finishes normally; it is never aborted. Cancellation
++/// leaves no completed-run marker. The owner must retain and await this future
++/// through shutdown rather than canceling it with `select!` or aborting its task.
++pub async fn run_rollout_compression_worker(
++    codex_home: PathBuf,
++    trigger: RolloutCompressionTrigger,
++    cancellation: tokio::sync::watch::Receiver<bool>,
++) -> Result<(), RolloutCompressionWorkerError> {
++    worker::run_controlled(codex_home, trigger, cancellation).await
++}
++
+ /// Returns the modified time for the existing plain or compressed rollout file.
+ pub(crate) async fn file_modified_time(path: &Path) -> io::Result<Option<time::OffsetDateTime>> {
+     Ok(path::existing_rollout_with_metadata(path)
+@@ -302,810 +319,7 @@ impl RolloutLineReader {
+ 
+ type BlockingLineReader = std::io::Lines<std::io::BufReader<Box<dyn Read + Send>>>;
+ 
+-mod worker {
+-    use std::ffi::OsStr;
+-    use std::fs::File;
+-    use std::fs::FileTimes;
+-    use std::fs::Permissions;
+-    use std::io;
+-    use std::io::Write;
+-    use std::path::Path;
+-    use std::path::PathBuf;
+-    use std::sync::Arc;
+-    use std::time::Duration;
+-    use std::time::Instant;
+-    use std::time::SystemTime;
+-
+-    use tracing::debug;
+-    use tracing::info;
+-    use tracing::warn;
+-
+-    use tokio::task::JoinSet;
+-
+-    use crate::ARCHIVED_SESSIONS_SUBDIR;
+-    use crate::SESSIONS_SUBDIR;
+-
+-    use super::RolloutCompressionTrigger;
+-    use super::RolloutFile;
+-    use super::error_metrics::FailureMetric;
+-    use super::metrics;
+-    use super::path;
+-
+-    const TEMP_SUFFIX: &str = ".tmp";
+-    const COMPRESSION_LEVEL: i32 = 3;
+-    const MIN_ROLLOUT_AGE: Duration = Duration::from_secs(7 * 24 * 60 * 60);
+-    const RUN_MARKER_STALE_AFTER: Duration = Duration::from_secs(6 * 60 * 60);
+-    const TEMP_FILE_STALE_AFTER: Duration = RUN_MARKER_STALE_AFTER;
+-    const WORKER_MAX_RUNTIME: Duration = Duration::from_secs(5 * 60 * 60);
+-    const RUN_MARKER_FILE_NAME: &str = "rollout-compression.lock";
+-    const MAX_CONCURRENT_COMPRESSION_JOBS: usize = 2;
+-    const MAX_METADATA_WARNINGS_PER_RUN: usize = 5;
+-
+-    #[derive(Default)]
+-    struct CompressionStats {
+-        scanned: usize,
+-        compressed: usize,
+-        skipped: usize,
+-        failed: usize,
+-        scan_errors: bool,
+-        metadata_read_failures: usize,
+-        cleanup_errors: bool,
+-        time_budget_exhausted: bool,
+-    }
+-
+-    pub(super) struct CompressionRunMarker {
+-        path: PathBuf,
+-        remove_on_drop: bool,
+-    }
+-
+-    impl CompressionRunMarker {
+-        pub(super) fn try_claim(codex_home: &Path) -> io::Result<Option<Self>> {
+-            let marker_dir = codex_home.join(".tmp");
+-            std::fs::create_dir_all(marker_dir.as_path())?;
+-            let path = marker_dir.join(RUN_MARKER_FILE_NAME);
+-            match create_run_marker_file(path.as_path()) {
+-                Ok(()) => return Ok(Some(Self::new(path))),
+-                Err(err) if err.kind() == io::ErrorKind::AlreadyExists => {}
+-                Err(err) => return Err(err),
+-            }
+-
+-            let stale = std::fs::metadata(path.as_path())
+-                .and_then(|metadata| metadata.modified())
+-                .ok()
+-                .and_then(|modified| SystemTime::now().duration_since(modified).ok())
+-                .is_some_and(|age| age >= RUN_MARKER_STALE_AFTER);
+-            if !stale {
+-                return Ok(None);
+-            }
+-            match std::fs::remove_file(path.as_path()) {
+-                Ok(()) => {}
+-                Err(err) if err.kind() == io::ErrorKind::NotFound => {}
+-                Err(err) => return Err(err),
+-            }
+-            match create_run_marker_file(path.as_path()) {
+-                Ok(()) => Ok(Some(Self::new(path))),
+-                Err(err) if err.kind() == io::ErrorKind::AlreadyExists => Ok(None),
+-                Err(err) => Err(err),
+-            }
+-        }
+-
+-        fn new(path: PathBuf) -> Self {
+-            Self {
+-                path,
+-                remove_on_drop: true,
+-            }
+-        }
+-
+-        pub(super) fn persist(mut self) {
+-            self.remove_on_drop = false;
+-        }
+-    }
+-
+-    impl Drop for CompressionRunMarker {
+-        fn drop(&mut self) {
+-            if self.remove_on_drop {
+-                let _ = std::fs::remove_file(self.path.as_path());
+-            }
+-        }
+-    }
+-
+-    pub(super) fn spawn(codex_home: PathBuf, trigger: RolloutCompressionTrigger) {
+-        let Ok(handle) = tokio::runtime::Handle::try_current() else {
+-            metrics::run(trigger, "skipped_no_runtime");
+-            warn!(
+-                "failed to start rollout compression worker for {}: no Tokio runtime",
+-                codex_home.display()
+-            );
+-            return;
+-        };
+-        handle.spawn(async move {
+-            if let Err(err) = run(codex_home.clone(), trigger).await {
+-                warn!(
+-                    "rollout compression worker failed for {}: {err}",
+-                    codex_home.display()
+-                );
+-            }
+-        });
+-    }
+-
+-    pub(super) async fn run(
+-        codex_home: PathBuf,
+-        trigger: RolloutCompressionTrigger,
+-    ) -> io::Result<()> {
+-        let Some(_maintenance_guard) =
+-            crate::try_acquire_rollout_maintenance_lock(codex_home.as_path())
+-                .inspect_err(|err| FailureMetric::Run(trigger).record("maintenance_lock", err))?
+-        else {
+-            metrics::run(trigger, "skipped_maintenance");
+-            debug!(
+-                "rollout maintenance is already running for {}",
+-                codex_home.display()
+-            );
+-            return Ok(());
+-        };
+-        let marker = match CompressionRunMarker::try_claim(codex_home.as_path()) {
+-            Ok(Some(marker)) => marker,
+-            Ok(None) => {
+-                metrics::run(trigger, "skipped_already_running");
+-                debug!(
+-                    "rollout compression worker recently ran or is already running for {}",
+-                    codex_home.display()
+-                );
+-                return Ok(());
+-            }
+-            Err(err) => {
+-                FailureMetric::Run(trigger).record("run_marker", &err);
+-                return Err(err);
+-            }
+-        };
+-
+-        metrics::run(trigger, "started");
+-        let started_at = Instant::now();
+-        let writer_locks = Arc::new(crate::WriterLockCoordinator::new(&codex_home));
+-        let mut stage = "temp_cleanup";
+-        let result = async {
+-            let mut stats = CompressionStats {
+-                cleanup_errors: cleanup_stale_temps(codex_home.as_path(), trigger).await?,
+-                ..Default::default()
+-            };
+-            stage = "scan";
+-            for root in [
+-                codex_home.join(ARCHIVED_SESSIONS_SUBDIR),
+-                codex_home.join(SESSIONS_SUBDIR),
+-            ] {
+-                if started_at.elapsed() >= WORKER_MAX_RUNTIME {
+-                    stats.time_budget_exhausted = true;
+-                    break;
+-                }
+-                compress_rollouts_in_root(
+-                    root.as_path(),
+-                    started_at,
+-                    &mut stats,
+-                    &writer_locks,
+-                    trigger,
+-                )
+-                .await?;
+-            }
+-            Ok::<_, io::Error>(stats)
+-        }
+-        .await;
+-        let stats = match result {
+-            Ok(stats) => stats,
+-            Err(err) => {
+-                FailureMetric::Run(trigger).record(stage, &err);
+-                metrics::run_duration(trigger, "failed", started_at.elapsed());
+-                return Err(err);
+-            }
+-        };
+-        info!(
+-            metadata_read_failures = stats.metadata_read_failures,
+-            "rollout compression worker finished: scanned={}, compressed={}, skipped={}, failed={}",
+-            stats.scanned,
+-            stats.compressed,
+-            stats.skipped,
+-            stats.failed
+-        );
+-        // Keep the existing completed outcome: it means the pass returned, not
+-        // that every directory was scanned or every file was compressed.
+-        let completion = if stats.time_budget_exhausted {
+-            "time_budget"
+-        } else {
+-            "scan_finished"
+-        };
+-        let tags = [
+-            ("status", "completed"),
+-            ("trigger", trigger.tag()),
+-            ("completion_reason", completion),
+-            (
+-                "file_errors",
+-                if stats.failed > 0 { "true" } else { "false" },
+-            ),
+-            (
+-                "scan_errors",
+-                if stats.scan_errors { "true" } else { "false" },
+-            ),
+-            (
+-                "cleanup_errors",
+-                if stats.cleanup_errors {
+-                    "true"
+-                } else {
+-                    "false"
+-                },
+-            ),
+-        ];
+-        metrics::counter(metrics::RUN_COUNTER, &tags);
+-        metrics::duration_histogram(metrics::RUN_DURATION_HISTOGRAM, started_at.elapsed(), &tags);
+-        marker.persist();
+-        Ok(())
+-    }
+-
+-    fn create_run_marker_file(path: &Path) -> io::Result<()> {
+-        let mut file = std::fs::OpenOptions::new()
+-            .write(true)
+-            .create_new(true)
+-            .open(path)?;
+-        writeln!(
+-            file,
+-            "pid={} started_at={:?}",
+-            std::process::id(),
+-            SystemTime::now()
+-        )?;
+-        Ok(())
+-    }
+-
+-    async fn compress_rollouts_in_root(
+-        root: &Path,
+-        started_at: Instant,
+-        stats: &mut CompressionStats,
+-        writer_locks: &Arc<crate::WriterLockCoordinator>,
+-        trigger: RolloutCompressionTrigger,
+-    ) -> io::Result<()> {
+-        if !tokio::fs::try_exists(root)
+-            .await
+-            .inspect_err(|err| {
+-                stats.scan_errors = true;
+-                FailureMetric::Scan(trigger).record("check_root", err);
+-            })
+-            .unwrap_or(false)
+-        {
+-            return Ok(());
+-        }
+-        let mut stack = vec![root.to_path_buf()];
+-        let mut jobs = JoinSet::new();
+-        while let Some(dir) = stack.pop() {
+-            if started_at.elapsed() >= WORKER_MAX_RUNTIME {
+-                stats.time_budget_exhausted = true;
+-                break;
+-            }
+-            let mut read_dir = match tokio::fs::read_dir(dir.as_path()).await {
+-                Ok(read_dir) => read_dir,
+-                Err(err) => {
+-                    stats.scan_errors = true;
+-                    FailureMetric::Scan(trigger).record("read_directory", &err);
+-                    warn!(
+-                        "failed to read rollout compression directory {}: {err}",
+-                        dir.display()
+-                    );
+-                    continue;
+-                }
+-            };
+-            loop {
+-                let entry = match read_dir.next_entry().await {
+-                    Ok(Some(entry)) => entry,
+-                    Ok(None) => break,
+-                    Err(err) => {
+-                        drain_compression_jobs(&mut jobs, stats, trigger).await;
+-                        return Err(err);
+-                    }
+-                };
+-                if started_at.elapsed() >= WORKER_MAX_RUNTIME {
+-                    stats.time_budget_exhausted = true;
+-                    break;
+-                }
+-                let path = entry.path();
+-                let file_type = match entry.file_type().await {
+-                    Ok(file_type) => file_type,
+-                    Err(err) => {
+-                        stats.scan_errors = true;
+-                        FailureMetric::Scan(trigger).record("read_file_type", &err);
+-                        warn!(
+-                            "failed to read rollout compression file type {}: {err}",
+-                            path.display()
+-                        );
+-                        continue;
+-                    }
+-                };
+-                if file_type.is_dir() {
+-                    stack.push(path);
+-                    continue;
+-                }
+-                if !file_type.is_file() {
+-                    continue;
+-                }
+-                let Some(rollout_file) = RolloutFile::from_path(path) else {
+-                    continue;
+-                };
+-                if rollout_file.is_compressed() {
+-                    continue;
+-                }
+-                let path = rollout_file.into_path();
+-                let Some(rollout_id) = crate::rollout_id_from_path(path.as_path()) else {
+-                    stats.scan_errors = true;
+-                    stats.skipped = stats.skipped.saturating_add(1);
+-                    metrics::file(trigger, "skipped_unreadable_meta");
+-                    continue;
+-                };
+-                let thread_id = match crate::read_session_meta_line(path.as_path()).await {
+-                    Ok(metadata) => metadata.meta.id,
+-                    Err(err) => {
+-                        stats.scan_errors = true;
+-                        let reason = err
+-                            .get_ref()
+-                            .and_then(|error| {
+-                                error.downcast_ref::<crate::list::MetadataReadError>()
+-                            })
+-                            .map_or("io", |error| error.reason);
+-                        let error_kind = super::error_metrics::error_kind(&err);
+-                        metrics::counter(
+-                            "codex.rollout_compression.scan",
+-                            &[
+-                                ("outcome", "failed"),
+-                                ("stage", "read_metadata"),
+-                                ("error_kind", error_kind),
+-                                ("trigger", trigger.tag()),
+-                                ("reason", reason),
+-                            ],
+-                        );
+-                        stats.metadata_read_failures =
+-                            stats.metadata_read_failures.saturating_add(1);
+-                        if stats.metadata_read_failures <= MAX_METADATA_WARNINGS_PER_RUN {
+-                            let metadata = tokio::fs::metadata(&path).await.ok();
+-                            let file_size_bytes = metadata.as_ref().map(std::fs::Metadata::len);
+-                            let mtime_age_seconds = metadata
+-                                .and_then(|metadata| metadata.modified().ok())
+-                                .and_then(|modified| modified.elapsed().ok())
+-                                .map(|age| age.as_secs());
+-                            // Only bounded labels and parsed IDs, never paths or error messages.
+-                            warn!(
+-                                trigger = trigger.tag(),
+-                                %rollout_id,
+-                                reason,
+-                                error_kind,
+-                                file_size_bytes,
+-                                mtime_age_seconds,
+-                                "skipping rollout compression because session metadata could not be read"
+-                            );
+-                        }
+-                        stats.skipped = stats.skipped.saturating_add(1);
+-                        metrics::file(trigger, "skipped_unreadable_meta");
+-                        continue;
+-                    }
+-                };
+-                stats.scanned = stats.scanned.saturating_add(1);
+-                metrics::file(trigger, "scanned");
+-                while jobs.len() >= MAX_CONCURRENT_COMPRESSION_JOBS {
+-                    collect_next_compression_job(&mut jobs, stats, trigger).await;
+-                }
+-                let writer_locks = Arc::clone(writer_locks);
+-                jobs.spawn_blocking(move || {
+-                    let started_at = Instant::now();
+-                    let result = compress_rollout_if_cold_blocking(
+-                        path.as_path(),
+-                        &writer_locks,
+-                        thread_id,
+-                        trigger,
+-                    );
+-                    let duration = started_at.elapsed();
+-                    (path, duration, result)
+-                });
+-            }
+-        }
+-        drain_compression_jobs(&mut jobs, stats, trigger).await;
+-        Ok(())
+-    }
+-
+-    type CompressionJobResult = (PathBuf, Duration, io::Result<CompressionMeasurement>);
+-
+-    #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+-    enum CompressionOutcome {
+-        Compressed,
+-        SkippedNotCold,
+-        SkippedBusy,
+-        SkippedChanged,
+-        SkippedAlreadyCompressed,
+-    }
+-
+-    impl CompressionOutcome {
+-        fn tag(self) -> &'static str {
+-            match self {
+-                CompressionOutcome::Compressed => "compressed",
+-                CompressionOutcome::SkippedNotCold => "skipped_not_cold",
+-                CompressionOutcome::SkippedBusy => "skipped_busy",
+-                CompressionOutcome::SkippedChanged => "skipped_changed",
+-                CompressionOutcome::SkippedAlreadyCompressed => "skipped_already_compressed",
+-            }
+-        }
+-    }
+-
+-    struct CompressionMeasurement {
+-        outcome: CompressionOutcome,
+-        source_bytes: Option<u64>,
+-        compressed_bytes: Option<u64>,
+-    }
+-
+-    impl CompressionMeasurement {
+-        fn new(
+-            outcome: CompressionOutcome,
+-            source_bytes: Option<u64>,
+-            compressed_bytes: Option<u64>,
+-        ) -> Self {
+-            Self {
+-                outcome,
+-                source_bytes,
+-                compressed_bytes,
+-            }
+-        }
+-    }
+-
+-    enum ColdFileState {
+-        Cold(FileState),
+-        NotCold(Option<FileState>),
+-    }
+-
+-    async fn drain_compression_jobs(
+-        jobs: &mut JoinSet<CompressionJobResult>,
+-        stats: &mut CompressionStats,
+-        trigger: RolloutCompressionTrigger,
+-    ) {
+-        while !jobs.is_empty() {
+-            collect_next_compression_job(jobs, stats, trigger).await;
+-        }
+-    }
+-
+-    async fn collect_next_compression_job(
+-        jobs: &mut JoinSet<CompressionJobResult>,
+-        stats: &mut CompressionStats,
+-        trigger: RolloutCompressionTrigger,
+-    ) {
+-        let Some(result) = jobs.join_next().await else {
+-            return;
+-        };
+-        match result {
+-            Ok((_, duration, Ok(measurement))) => {
+-                let outcome = measurement.outcome;
+-                match outcome {
+-                    CompressionOutcome::Compressed => {
+-                        stats.compressed = stats.compressed.saturating_add(1);
+-                    }
+-                    CompressionOutcome::SkippedNotCold
+-                    | CompressionOutcome::SkippedBusy
+-                    | CompressionOutcome::SkippedChanged
+-                    | CompressionOutcome::SkippedAlreadyCompressed => {
+-                        stats.skipped = stats.skipped.saturating_add(1);
+-                    }
+-                }
+-                metrics::file(trigger, outcome.tag());
+-                metrics::file_duration(trigger, outcome.tag(), duration);
+-                if let Some(source_bytes) = measurement.source_bytes {
+-                    metrics::source_bytes(trigger, outcome.tag(), source_bytes);
+-                }
+-                if let Some(compressed_bytes) = measurement.compressed_bytes {
+-                    metrics::compressed_bytes(trigger, outcome.tag(), compressed_bytes);
+-                    if let Some(source_bytes) = measurement.source_bytes {
+-                        metrics::compression_ratio(
+-                            trigger,
+-                            outcome.tag(),
+-                            source_bytes,
+-                            compressed_bytes,
+-                        );
+-                    }
+-                }
+-            }
+-            Ok((path, duration, Err(err))) => {
+-                stats.failed = stats.failed.saturating_add(1);
+-                // The failing operation records its stage before returning the error.
+-                metrics::file_duration(trigger, "failed", duration);
+-                warn!("failed to compress rollout {}: {err}", path.display());
+-            }
+-            Err(err) => {
+-                stats.failed = stats.failed.saturating_add(1);
+-                warn!("rollout compression task failed: {err}");
+-                FailureMetric::File(trigger).record("task_join", &io::Error::other(err));
+-            }
+-        }
+-    }
+-
+-    fn compress_rollout_if_cold_blocking(
+-        path: &Path,
+-        writer_locks: &Arc<crate::WriterLockCoordinator>,
+-        thread_id: codex_protocol::ThreadId,
+-        trigger: RolloutCompressionTrigger,
+-    ) -> io::Result<CompressionMeasurement> {
+-        let before = match cold_file_state(path)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("read_metadata", err))?
+-        {
+-            ColdFileState::Cold(state) => state,
+-            ColdFileState::NotCold(state) => {
+-                return Ok(CompressionMeasurement::new(
+-                    CompressionOutcome::SkippedNotCold,
+-                    state.map(|state| state.len),
+-                    /*compressed_bytes*/ None,
+-                ));
+-            }
+-        };
+-        let source_bytes = Some(before.len);
+-        let compressed_path = path::compressed_rollout_path(path);
+-        if compressed_path.exists() {
+-            return Ok(CompressionMeasurement::new(
+-                CompressionOutcome::SkippedAlreadyCompressed,
+-                source_bytes,
+-                /*compressed_bytes*/ None,
+-            ));
+-        }
+-
+-        let temp_dir = compressed_path
+-            .parent()
+-            .filter(|parent| !parent.as_os_str().is_empty())
+-            .unwrap_or_else(|| Path::new("."));
+-        std::fs::create_dir_all(temp_dir)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("prepare_directory", err))?;
+-        let mut temp_file = tempfile::Builder::new()
+-            .prefix("rollout-compress-")
+-            .suffix(TEMP_SUFFIX)
+-            .tempfile_in(temp_dir)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("create_temp", err))?;
+-        encode_zstd_to_writer(path, temp_file.as_file_mut())
+-            .inspect_err(|err| FailureMetric::File(trigger).record("encode_and_write", err))?;
+-        temp_file
+-            .as_file_mut()
+-            .flush()
+-            .inspect_err(|err| FailureMetric::File(trigger).record("flush", err))?;
+-        verify_zstd(temp_file.path())
+-            .inspect_err(|err| FailureMetric::File(trigger).record("verify", err))?;
+-        if !same_file_state(path, &before)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("recheck_source", err))?
+-        {
+-            return Ok(CompressionMeasurement::new(
+-                CompressionOutcome::SkippedChanged,
+-                source_bytes,
+-                /*compressed_bytes*/ None,
+-            ));
+-        }
+-        set_file_metadata(temp_file.as_file(), before.modified, &before.permissions)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("set_metadata", err))?;
+-        temp_file
+-            .as_file()
+-            .sync_all()
+-            .inspect_err(|err| FailureMetric::File(trigger).record("sync", err))?;
+-        let compressed_bytes = temp_file
+-            .as_file()
+-            .metadata()
+-            .inspect_err(|err| FailureMetric::File(trigger).record("read_metadata", err))?
+-            .len();
+-
+-        // Encoding and verification do not block writers. Coordination prevents writer
+-        // acquisition while we recheck, publish, and remove the original file.
+-        let Some(_publication_guard) = writer_locks
+-            .try_acquire_for_publication(thread_id)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("writer_lock", err))?
+-        else {
+-            return Ok(CompressionMeasurement::new(
+-                CompressionOutcome::SkippedBusy,
+-                source_bytes,
+-                /*compressed_bytes*/ None,
+-            ));
+-        };
+-        if !same_file_state(path, &before)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("recheck_source", err))?
+-        {
+-            return Ok(CompressionMeasurement::new(
+-                CompressionOutcome::SkippedChanged,
+-                source_bytes,
+-                /*compressed_bytes*/ None,
+-            ));
+-        }
+-
+-        match temp_file.persist_noclobber(compressed_path.as_path()) {
+-            Ok(_) => {}
+-            Err(err) if err.error.kind() == io::ErrorKind::AlreadyExists => {
+-                return Ok(CompressionMeasurement::new(
+-                    CompressionOutcome::SkippedAlreadyCompressed,
+-                    source_bytes,
+-                    /*compressed_bytes*/ None,
+-                ));
+-            }
+-            Err(err) => {
+-                FailureMetric::File(trigger).record("publish", &err.error);
+-                return Err(err.error);
+-            }
+-        }
+-        if !same_file_state(path, &before)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("recheck_source", err))?
+-        {
+-            let _ = std::fs::remove_file(compressed_path.as_path());
+-            return Ok(CompressionMeasurement::new(
+-                CompressionOutcome::SkippedChanged,
+-                source_bytes,
+-                /*compressed_bytes*/ None,
+-            ));
+-        }
+-        std::fs::remove_file(path)
+-            .inspect_err(|err| FailureMetric::File(trigger).record("remove_source", err))?;
+-        Ok(CompressionMeasurement::new(
+-            CompressionOutcome::Compressed,
+-            source_bytes,
+-            Some(compressed_bytes),
+-        ))
+-    }
+-
+-    struct FileState {
+-        len: u64,
+-        modified: SystemTime,
+-        permissions: Permissions,
+-    }
+-
+-    fn cold_file_state(path: &Path) -> io::Result<ColdFileState> {
+-        let metadata = match std::fs::metadata(path) {
+-            Ok(metadata) => metadata,
+-            Err(err) if err.kind() == io::ErrorKind::NotFound => {
+-                return Ok(ColdFileState::NotCold(None));
+-            }
+-            Err(err) => return Err(err),
+-        };
+-        if !metadata.is_file() {
+-            return Ok(ColdFileState::NotCold(None));
+-        }
+-        let modified = metadata.modified()?;
+-        let state = FileState {
+-            len: metadata.len(),
+-            modified,
+-            permissions: metadata.permissions(),
+-        };
+-        let age = SystemTime::now()
+-            .duration_since(modified)
+-            .unwrap_or(Duration::ZERO);
+-        if age < MIN_ROLLOUT_AGE {
+-            return Ok(ColdFileState::NotCold(Some(state)));
+-        }
+-        Ok(ColdFileState::Cold(state))
+-    }
+-
+-    fn same_file_state(path: &Path, expected: &FileState) -> io::Result<bool> {
+-        match std::fs::metadata(path) {
+-            Ok(metadata) => Ok(metadata.len() == expected.len
+-                && metadata.modified()? == expected.modified
+-                && metadata.permissions() == expected.permissions),
+-            Err(err) if err.kind() == io::ErrorKind::NotFound => Ok(false),
+-            Err(err) => Err(err),
+-        }
+-    }
+-
+-    fn encode_zstd_to_writer(source: &Path, output: impl Write) -> io::Result<()> {
+-        let mut input = File::open(source)?;
+-        let mut encoder = zstd::stream::write::Encoder::new(output, COMPRESSION_LEVEL)?;
+-        // Preserve fast byte-bound checks for paginated history without decoding the whole file.
+-        encoder.set_pledged_src_size(Some(input.metadata()?.len()))?;
+-        io::copy(&mut input, &mut encoder)?;
+-        encoder.finish()?;
+-        Ok(())
+-    }
+-
+-    fn verify_zstd(path: &Path) -> io::Result<()> {
+-        let input = File::open(path)?;
+-        let mut decoder = zstd::stream::read::Decoder::new(input)?;
+-        let mut sink = io::sink();
+-        io::copy(&mut decoder, &mut sink)?;
+-        Ok(())
+-    }
+-
+-    fn set_file_metadata(
+-        file: &File,
+-        modified: SystemTime,
+-        permissions: &Permissions,
+-    ) -> io::Result<()> {
+-        file.set_times(FileTimes::new().set_modified(modified))?;
+-        file.set_permissions(permissions.clone())
+-    }
+-
+-    async fn cleanup_stale_temps(
+-        codex_home: &Path,
+-        trigger: RolloutCompressionTrigger,
+-    ) -> io::Result<bool> {
+-        let mut errors = false;
+-        for root in [
+-            codex_home.join(SESSIONS_SUBDIR),
+-            codex_home.join(ARCHIVED_SESSIONS_SUBDIR),
+-        ] {
+-            errors |= cleanup_stale_temps_in_root(root.as_path(), trigger).await?;
+-        }
+-        Ok(errors)
+-    }
+-
+-    async fn cleanup_stale_temps_in_root(
+-        root: &Path,
+-        trigger: RolloutCompressionTrigger,
+-    ) -> io::Result<bool> {
+-        let mut errors = false;
+-        if !tokio::fs::try_exists(root)
+-            .await
+-            .inspect_err(|err| {
+-                errors = true;
+-                FailureMetric::TempCleanup(trigger).record("check_root", err);
+-            })
+-            .unwrap_or(false)
+-        {
+-            return Ok(errors);
+-        }
+-        let mut stack = vec![root.to_path_buf()];
+-        while let Some(dir) = stack.pop() {
+-            let mut read_dir = match tokio::fs::read_dir(dir.as_path()).await {
+-                Ok(read_dir) => read_dir,
+-                Err(err) => {
+-                    errors = true;
+-                    FailureMetric::TempCleanup(trigger).record("read_directory", &err);
+-                    warn!(
+-                        "failed to read rollout temp cleanup directory {}: {err}",
+-                        dir.display()
+-                    );
+-                    continue;
+-                }
+-            };
+-            while let Some(entry) = read_dir.next_entry().await? {
+-                let path = entry.path();
+-                let file_type = match entry.file_type().await {
+-                    Ok(file_type) => file_type,
+-                    Err(err) => {
+-                        errors = true;
+-                        FailureMetric::TempCleanup(trigger).record("read_file_type", &err);
+-                        warn!(
+-                            "failed to read rollout temp cleanup file type {}: {err}",
+-                            path.display()
+-                        );
+-                        continue;
+-                    }
+-                };
+-                if file_type.is_dir() {
+-                    stack.push(path);
+-                    continue;
+-                }
+-                if file_type.is_file()
+-                    && path
+-                        .file_name()
+-                        .and_then(OsStr::to_str)
+-                        .is_some_and(|name| name.ends_with(TEMP_SUFFIX))
+-                {
+-                    let stale = entry
+-                        .metadata()
+-                        .await
+-                        .and_then(|metadata| metadata.modified())
+-                        .inspect_err(|err| {
+-                            errors = true;
+-                            FailureMetric::TempCleanup(trigger).record("read_metadata", err);
+-                        })
+-                        .ok()
+-                        .and_then(|modified| SystemTime::now().duration_since(modified).ok())
+-                        .is_some_and(|age| age >= TEMP_FILE_STALE_AFTER);
+-                    if !stale {
+-                        continue;
+-                    }
+-                    match tokio::fs::remove_file(path.as_path()).await {
+-                        Ok(()) => metrics::temp_cleanup(trigger, "removed"),
+-                        Err(err) if err.kind() == io::ErrorKind::NotFound => {}
+-                        Err(err) => {
+-                            errors = true;
+-                            FailureMetric::TempCleanup(trigger).record("remove_temp", &err);
+-                            warn!(
+-                                "failed to remove stale rollout temp {}: {err}",
+-                                path.display()
+-                            );
+-                        }
+-                    }
+-                }
+-            }
+-        }
+-        Ok(errors)
+-    }
+-}
++mod worker;
+ 
+ mod metrics {
+     use super::RolloutCompressionTrigger;
+diff --git a/codex-rs/rollout/src/lib.rs b/codex-rs/rollout/src/lib.rs
+index 6bcbf57..0c4b5a5 100644
+--- a/codex-rs/rollout/src/lib.rs
++++ b/codex-rs/rollout/src/lib.rs
+@@ -96,10 +96,12 @@ pub static INTERACTIVE_SESSION_SOURCES: LazyLock<Vec<SessionSource>> = LazyLock:
+ 
+ pub use codex_protocol::protocol::SessionMeta;
+ pub use compression::RolloutCompressionTrigger;
++pub use compression::RolloutCompressionWorkerError;
+ pub use compression::RolloutLineReader;
+ pub use compression::existing_rollout_path;
+ pub use compression::open_rollout_line_reader;
+ pub use compression::plain_rollout_path;
++pub use compression::run_rollout_compression_worker;
+ pub use compression::spawn_rollout_compression_worker;
+ pub use seekable_reader::open_rollout_seekable_reader;
+ pub use seekable_reader::read_rollout_prefix;
+diff --git a/codex-rs/state/src/model/project.rs b/codex-rs/state/src/model/project.rs
+index 5489dd5..77d0112 100644
+--- a/codex-rs/state/src/model/project.rs
++++ b/codex-rs/state/src/model/project.rs
+@@ -20,7 +20,7 @@ pub struct Project {
+     pub recency_at_ms: Option<i64>,
+ }
+ 
+-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+ pub enum ProjectSortKey {
+     Position,
+     RecencyAt,
+diff --git a/codex-rs/state/src/model/thread_attachment.rs b/codex-rs/state/src/model/thread_attachment.rs
+index 0712b21..5b28ea3 100644
+--- a/codex-rs/state/src/model/thread_attachment.rs
++++ b/codex-rs/state/src/model/thread_attachment.rs
+@@ -1,10 +1,12 @@
+ //! Thread attachment records and outcomes; membership changes independently of resource contents.
+ 
+ use codex_protocol::ThreadId;
++use serde::Deserialize;
++use serde::Serialize;
+ use serde_json::Value;
+ 
+ /// A bounded attachment durably associated with one thread.
+-#[derive(Debug, Clone, PartialEq, Eq)]
++#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct ThreadAttachment {
+     /// Stable, server-assigned UUIDv7 attachment identity.
+     pub id: String,
+@@ -21,7 +23,7 @@ pub struct ThreadAttachment {
+ }
+ 
+ /// Result of attaching one uniquely identified thread attachment.
+-#[derive(Debug, Clone, PartialEq, Eq)]
++#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+ pub enum AddThreadAttachmentOutcome {
+     /// A new durable attachment was created.
+     Created(ThreadAttachment),
+@@ -30,7 +32,7 @@ pub enum AddThreadAttachmentOutcome {
+ }
+ 
+ /// Result of removing a thread attachment.
+-#[derive(Debug, Clone, PartialEq, Eq)]
++#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+ pub enum RemoveThreadAttachmentOutcome {
+     /// An attached attachment was removed.
+     Removed(ThreadAttachment),
+@@ -39,7 +41,7 @@ pub enum RemoveThreadAttachmentOutcome {
+ }
+ 
+ /// One deterministically ordered page of attachments across selected threads.
+-#[derive(Debug, Clone, PartialEq, Eq)]
++#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct ThreadAttachmentPage {
+     /// Attachments ordered by thread identity, creation time, and attachment identity.
+     pub attachments: Vec<ThreadAttachment>,
+diff --git a/codex-rs/thread-manager-sample/src/main.rs b/codex-rs/thread-manager-sample/src/main.rs
+index 5e1d975..b108e6d 100644
+--- a/codex-rs/thread-manager-sample/src/main.rs
++++ b/codex-rs/thread-manager-sample/src/main.rs
+@@ -53,6 +53,7 @@ use codex_core_api::StartThreadOptions;
+ use codex_core_api::TerminalResizeReflowConfig;
+ use codex_core_api::ThreadManager;
+ use codex_core_api::ThreadStoreConfig;
++use codex_core_api::ThreadStoreShutdownGuard;
+ use codex_core_api::ToolSuggestConfig;
+ use codex_core_api::TuiKeymap;
+ use codex_core_api::TuiNotificationSettings;
+@@ -72,10 +73,10 @@ use codex_core_api::item_event_to_server_notification;
+ use codex_core_api::load_config_toml_with_layer_stack;
+ use codex_core_api::local_agent_graph_store_from_state_db;
+ use codex_core_api::passthrough_image_store;
++use codex_core_api::persistence_from_config;
+ use codex_core_api::resolve_bootstrap_respect_system_proxy;
+ use codex_core_api::resolve_installation_id;
+ use codex_core_api::set_default_originator;
+-use codex_core_api::thread_store_from_config;
+ 
+ #[derive(Debug, Parser)]
+ #[command(
+@@ -129,7 +130,6 @@ async fn run_main(arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
+         config.codex_self_exe.clone(),
+         config.codex_linux_sandbox_exe.clone(),
+     )?;
+-    let thread_store = thread_store_from_config(&config, state_db.clone());
+     let environment_manager = Arc::new(
+         EnvironmentManager::from_codex_home(
+             config.codex_home.clone(),
+@@ -146,7 +146,9 @@ async fn run_main(arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
+     install_image_generation_extension(&mut extensions, auth_manager.clone(), |config: &Config| {
+         Some(config.codex_home.clone())
+     });
+-    let thread_manager = ThreadManager::new(
++    let persistence = persistence_from_config(&config, state_db.clone()).await?;
++    let store_lifecycle = ThreadStoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
++    let thread_manager = ThreadManager::new_with_persistence(
+         &config,
+         Arc::clone(&auth_manager),
+         build_models_manager(&config, auth_manager),
+@@ -157,29 +159,43 @@ async fn run_main(arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
+         user_instructions_provider,
+         /*analytics_events_client*/ None,
+         passthrough_image_store(),
+-        Arc::clone(&thread_store),
++        persistence,
+         local_agent_graph_store_from_state_db(state_db.as_ref()),
+         installation_id,
+         /*attestation_provider*/ None,
+         /*external_time_provider*/ None,
+-    );
+-
+-    let NewThread {
+-        thread_id, thread, ..
+-    } = thread_manager
+-        .start_thread(StartThreadOptions::new(config))
+-        .await
+-        .context("start Codex thread")?;
++    )
++    .with_default_attachment_store_components();
+ 
+-    let thread_id_string = thread_id.to_string();
+-    let turn_output = run_turn(&thread, &thread_id_string, prompt).await;
+-    let shutdown_result = thread.shutdown_and_wait().await;
+-    let _ = thread_manager.remove_thread(&thread_id).await;
++    let turn_result: anyhow::Result<()> = async {
++        let NewThread {
++            thread_id, thread, ..
++        } = thread_manager
++            .start_thread(StartThreadOptions::new(config))
++            .await
++            .context("start Codex thread")?;
+ 
+-    turn_output?;
+-    shutdown_result.context("shut down Codex thread")?;
++        let thread_id_string = thread_id.to_string();
++        let turn_output = run_turn(&thread, &thread_id_string, prompt).await;
++        let shutdown_result = thread.shutdown_and_wait().await;
++        let _ = thread_manager.remove_thread(&thread_id).await;
+ 
+-    Ok(())
++        turn_output?;
++        shutdown_result.context("shut down Codex thread")?;
++        Ok(())
++    }
++    .await;
++    let store_shutdown = store_lifecycle
++        .shutdown()
++        .await
++        .context("shut down thread store");
++    match (turn_result, store_shutdown) {
++        (Ok(()), Ok(())) => Ok(()),
++        (Err(error), Ok(())) | (Ok(()), Err(error)) => Err(error),
++        (Err(primary), Err(cleanup)) => {
++            Err(primary.context(format!("thread-store shutdown also failed: {cleanup:#}")))
++        }
++    }
+ }
+ 
+ async fn new_config(
+diff --git a/codex-rs/thread-store/src/lib.rs b/codex-rs/thread-store/src/lib.rs
+index 26eba76..4f89f8b 100644
+--- a/codex-rs/thread-store/src/lib.rs
++++ b/codex-rs/thread-store/src/lib.rs
+@@ -4,8 +4,10 @@
+ //! Implementations are responsible for resolving that id to local rollout files, RPC requests, or
+ //! any other backing store.
+ 
++mod compatibility;
+ mod error;
+ mod in_memory;
++mod lifecycle;
+ mod live_thread;
+ mod local;
+ mod projects;
+@@ -24,10 +26,13 @@ pub use codex_state::QueuedUserSubmissionRecord;
+ pub use codex_state::RemoveThreadAttachmentOutcome;
+ pub use codex_state::ThreadAttachment;
+ pub use codex_state::ThreadAttachmentPage;
++pub use compatibility::ResumeMetadata;
++pub use compatibility::RolloutMaintenance;
+ pub use error::ThreadStoreError;
+ pub use error::ThreadStoreResult;
+ pub use in_memory::InMemoryThreadStore;
+ pub use in_memory::InMemoryThreadStoreCalls;
++pub use lifecycle::ThreadStoreShutdownGuard;
+ pub use live_thread::LiveThread;
+ pub use live_thread::LiveThreadInitGuard;
+ pub use local::LocalThreadStore;
+diff --git a/codex-rs/thread-store/src/live_thread.rs b/codex-rs/thread-store/src/live_thread.rs
+index f6f57e6..25b25e1 100644
+--- a/codex-rs/thread-store/src/live_thread.rs
++++ b/codex-rs/thread-store/src/live_thread.rs
+@@ -15,7 +15,6 @@ use tracing::warn;
+ use crate::AppendThreadItemsParams;
+ use crate::CreateThreadParams;
+ use crate::LoadThreadHistoryParams;
+-use crate::LocalThreadStore;
+ use crate::PersistContext;
+ use crate::ReadThreadParams;
+ use crate::ResumeThreadParams;
+@@ -187,16 +186,8 @@ impl LiveThread {
+         let thread_id = params.thread_id;
+         let should_load_history = params.history.is_none();
+         let include_archived = params.include_archived;
+-        let metadata = if history_mode == ThreadHistoryMode::Paginated
+-            && let Some(local_store) = thread_store.as_any().downcast_ref::<LocalThreadStore>()
+-            && let Some(state_db) = local_store.state_db().await
+-        {
+-            state_db
+-                .get_thread(thread_id)
+-                .await
+-                .map_err(|err| ThreadStoreError::Internal {
+-                    message: format!("failed to read thread metadata for {thread_id}: {err}"),
+-                })?
++        let metadata = if history_mode == ThreadHistoryMode::Paginated {
++            thread_store.read_resume_metadata(thread_id).await?
+         } else {
+             None
+         };
+@@ -407,17 +398,7 @@ impl LiveThread {
+     ///
+     /// Remote stores do not expose rollout files, so they return `Ok(None)`.
+     pub async fn local_rollout_path(&self) -> ThreadStoreResult<Option<PathBuf>> {
+-        let Some(local_store) = self
+-            .thread_store
+-            .as_any()
+-            .downcast_ref::<LocalThreadStore>()
+-        else {
+-            return Ok(None);
+-        };
+-        local_store
+-            .live_rollout_path(self.thread_id)
+-            .await
+-            .map(Some)
++        self.thread_store.local_rollout_path(self.thread_id).await
+     }
+ 
+     async fn flush_pending_metadata_update(&self) -> ThreadStoreResult<()> {
+diff --git a/codex-rs/thread-store/src/local/mod.rs b/codex-rs/thread-store/src/local/mod.rs
+index 05f2d90..9c4a00b 100644
+--- a/codex-rs/thread-store/src/local/mod.rs
++++ b/codex-rs/thread-store/src/local/mod.rs
+@@ -4,6 +4,7 @@ mod delete_thread;
+ mod helpers;
+ mod list_threads;
+ mod live_writer;
++mod maintenance;
+ mod model_context;
+ mod move_thread_to_section;
+ mod paginated_fork;
+@@ -149,6 +150,7 @@ pub struct LocalThreadStore {
+     state_db: Option<StateDbHandle>,
+     thread_history_db: Arc<OnceCell<sqlx::SqlitePool>>,
+     thread_data_cleanup: Option<Arc<ThreadDataCleanup>>,
++    maintenance: Arc<maintenance::MaintenanceSupervisor>,
+ }
+ 
+ type ThreadDataCleanup = dyn Fn(Vec<ThreadId>) -> ThreadStoreFuture<'static, ()> + Send + Sync;
+@@ -267,6 +269,7 @@ impl LocalThreadStore {
+             state_db,
+             thread_history_db: Arc::new(OnceCell::new()),
+             thread_data_cleanup: None,
++            maintenance: Arc::new(maintenance::MaintenanceSupervisor::default()),
+         }
+     }
+ 
+@@ -286,6 +289,12 @@ impl LocalThreadStore {
+         self.state_db.clone()
+     }
+ 
++    /// Returns the local handle for legacy native host composition. External
++    /// stores receive auxiliary host state as a separate service dependency.
++    pub fn state_db_handle(&self) -> Option<StateDbHandle> {
++        self.state_db.clone()
++    }
++
+     async fn thread_history_db(&self) -> ThreadStoreResult<&sqlx::SqlitePool> {
+         if self.state_db.is_none() {
+             return Err(ThreadStoreError::Unsupported {
+@@ -474,6 +483,53 @@ impl LocalThreadStore {
+ }
+ 
+ impl ThreadStore for LocalThreadStore {
++    fn read_resume_metadata(
++        &self,
++        thread_id: ThreadId,
++    ) -> ThreadStoreFuture<'_, Option<crate::ResumeMetadata>> {
++        Box::pin(async move {
++            let Some(state_db) = &self.state_db else {
++                return Ok(None);
++            };
++            state_db
++                .get_thread(thread_id)
++                .await
++                .map(|metadata| metadata.as_ref().map(crate::ResumeMetadata::from))
++                .map_err(|err| ThreadStoreError::Internal {
++                    message: format!("failed to read thread metadata for {thread_id}: {err}"),
++                })
++        })
++    }
++
++    fn local_rollout_path(&self, thread_id: ThreadId) -> ThreadStoreFuture<'_, Option<PathBuf>> {
++        Box::pin(async move { self.live_rollout_path(thread_id).await.map(Some) })
++    }
++
++    fn supports_rollout_maintenance(&self) -> bool {
++        true
++    }
++
++    fn supports_rollout_path_reads(&self) -> bool {
++        true
++    }
++
++    fn run_rollout_maintenance(
++        &self,
++        request: crate::RolloutMaintenance,
++    ) -> ThreadStoreFuture<'_, ()> {
++        Box::pin(async move { maintenance::schedule(self, request) })
++    }
++
++    fn begin_shutdown_store(&self) {
++        self.maintenance.begin_shutdown();
++    }
++
++    fn shutdown_store(&self) -> ThreadStoreFuture<'_, ()> {
++        self.maintenance
++            .finish_store(Arc::clone(&self.thread_history_db));
++        Box::pin(self.maintenance.wait_closed())
++    }
++
+     fn default_history_mode(&self) -> ThreadHistoryMode {
+         ThreadHistoryMode::Paginated
+     }
+diff --git a/codex-rs/thread-store/src/local/rollout_migration.rs b/codex-rs/thread-store/src/local/rollout_migration.rs
+index c259a6f..9443d62 100644
+--- a/codex-rs/thread-store/src/local/rollout_migration.rs
++++ b/codex-rs/thread-store/src/local/rollout_migration.rs
+@@ -258,11 +258,36 @@ impl RolloutMigrationRateLimiter {
+     }
+ }
+ 
++/// Stop only at transaction boundaries; dropping an in-flight path could detach
++/// blocking compression/fsync or interrupt its journal recovery protocol.
++#[derive(Clone, Copy)]
++enum MigrationControl<'a> {
++    Uninterrupted,
++    Cooperative(&'a tokio::sync::watch::Receiver<bool>),
++}
++
++impl MigrationControl<'_> {
++    fn is_stopped(self) -> bool {
++        match self {
++            Self::Uninterrupted => false,
++            Self::Cooperative(cancellation) => *cancellation.borrow(),
++        }
++    }
++}
++
+ impl LocalThreadStore {
+     /// Check whether startup needs to migrate legacy rollouts, then migrate in the background
+     /// when it does.
+     pub async fn migrate_rollouts_on_startup(&self) -> ThreadStoreResult<()> {
+-        startup::migrate_rollouts_on_startup(self).await
++        startup::migrate_rollouts_on_startup(self, MigrationControl::Uninterrupted).await
++    }
++
++    pub(super) async fn migrate_rollouts_on_startup_cancellable(
++        &self,
++        cancellation: &mut tokio::sync::watch::Receiver<bool>,
++    ) -> ThreadStoreResult<()> {
++        startup::migrate_rollouts_on_startup(self, MigrationControl::Cooperative(cancellation))
++            .await
+     }
+ 
+     /// Inspect or migrate eligible legacy rollout files beneath active and archived sessions.
+@@ -275,6 +300,7 @@ impl LocalThreadStore {
+             |_| {},
+             RolloutMigrationTrigger::Manual,
+             RolloutMigrationPaths::Discover,
++            MigrationControl::Uninterrupted,
+         )
+         .await
+     }
+@@ -290,6 +316,7 @@ impl LocalThreadStore {
+             on_progress,
+             RolloutMigrationTrigger::Manual,
+             RolloutMigrationPaths::Discover,
++            MigrationControl::Uninterrupted,
+         )
+         .await
+     }
+@@ -300,12 +327,13 @@ impl LocalThreadStore {
+         mut on_progress: impl FnMut(RolloutMigrationProgress),
+         trigger: RolloutMigrationTrigger,
+         paths: RolloutMigrationPaths,
++        control: MigrationControl<'_>,
+     ) -> ThreadStoreResult<RolloutMigrationReport> {
+         let telemetry = RolloutMigrationTelemetry::new(trigger, &options);
+         let result = self
+-            .migrate_rollouts_with_progress_inner(options, &mut on_progress, paths)
++            .migrate_rollouts_with_progress_inner(options, &mut on_progress, paths, control)
+             .await;
+-        telemetry.finish(&result);
++        telemetry.finish(&result, control);
+         result
+     }
+ 
+@@ -314,8 +342,12 @@ impl LocalThreadStore {
+         options: RolloutMigrationOptions,
+         on_progress: &mut impl FnMut(RolloutMigrationProgress),
+         paths: RolloutMigrationPaths,
++        control: MigrationControl<'_>,
+     ) -> ThreadStoreResult<RolloutMigrationReport> {
+         let mut limiter = RolloutMigrationRateLimiter::new(options.max_mib_per_second)?;
++        if control.is_stopped() {
++            return Ok(RolloutMigrationReport::default());
++        }
+         let _maintenance_guard = match options.mode {
+             RolloutMigrationMode::DryRun => None,
+             RolloutMigrationMode::Apply => Some(
+@@ -356,6 +388,9 @@ impl LocalThreadStore {
+         let mut report = RolloutMigrationReport::default();
+ 
+         for (index, path) in paths.into_iter().enumerate() {
++            if control.is_stopped() {
++                break;
++            }
+             let outcome = self
+                 .migrate_rollout_path(path, &options, &legacy_names, &mut limiter)
+                 .await?;
+diff --git a/codex-rs/thread-store/src/local/rollout_migration/startup.rs b/codex-rs/thread-store/src/local/rollout_migration/startup.rs
+index dbc48ed..92981bc 100644
+--- a/codex-rs/thread-store/src/local/rollout_migration/startup.rs
++++ b/codex-rs/thread-store/src/local/rollout_migration/startup.rs
+@@ -23,6 +23,7 @@ use codex_state::RolloutMigrationCursor;
+ use codex_state::RolloutMigrationSkippedRollout;
+ 
+ use super::LocalThreadStore;
++use super::MigrationControl;
+ use super::RolloutMigrationMode;
+ use super::RolloutMigrationOptions;
+ use super::RolloutMigrationReport;
+@@ -58,7 +59,13 @@ enum StartupInspection {
+     Unresolved,
+ }
+ 
+-pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> ThreadStoreResult<()> {
++pub(super) async fn migrate_rollouts_on_startup(
++    store: &LocalThreadStore,
++    control: MigrationControl<'_>,
++) -> ThreadStoreResult<()> {
++    if control.is_stopped() {
++        return Ok(());
++    }
+     let Some(state_db) = store.state_db.as_ref() else {
+         return Ok(());
+     };
+@@ -67,7 +74,16 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
+         .list_rollout_migration_skipped_rollouts(LEGACY_TO_PAGINATED_MIGRATION_ID)
+         .await
+         .map_err(migration_error)?;
+-    retry_busy_rollouts(store, skipped_rollouts.as_slice(), paths.as_slice()).await?;
++    retry_busy_rollouts(
++        store,
++        skipped_rollouts.as_slice(),
++        paths.as_slice(),
++        control,
++    )
++    .await?;
++    if control.is_stopped() {
++        return Ok(());
++    }
+     skipped_rollouts = state_db
+         .list_rollout_migration_skipped_rollouts(LEGACY_TO_PAGINATED_MIGRATION_ID)
+         .await
+@@ -76,7 +92,7 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
+         .await?
+         .is_empty()
+     {
+-        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice()).await;
++        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice(), control).await;
+     }
+     let skipped_file_names = skipped_rollout_file_names(store, skipped_rollouts.as_slice());
+     let state = state_db
+@@ -85,7 +101,7 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
+         .map_err(migration_error)?;
+ 
+     if state.is_none() {
+-        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice()).await;
++        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice(), control).await;
+     }
+ 
+     let last_checked_thread = state.and_then(|state| state.last_checked_thread);
+@@ -112,15 +128,19 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
+ 
+     let mut unresolved = false;
+     for path in candidates {
++        if control.is_stopped() {
++            return Ok(());
++        }
+         match inspect_rollout_path(store, path).await? {
+             StartupInspection::Paginated | StartupInspection::Skipped => {}
+             StartupInspection::Legacy | StartupInspection::NeedsMigration => {
+-                return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice()).await;
++                return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice(), control)
++                    .await;
+             }
+             StartupInspection::Unresolved => unresolved = true,
+         }
+     }
+-    if unresolved {
++    if unresolved || control.is_stopped() {
+         return Ok(());
+     }
+ 
+@@ -131,6 +151,7 @@ async fn migrate_all_rollouts(
+     store: &LocalThreadStore,
+     paths_before_migration: Vec<PathBuf>,
+     existing_skips: &[RolloutMigrationSkippedRollout],
++    control: MigrationControl<'_>,
+ ) -> ThreadStoreResult<()> {
+     let skipped_file_names = skipped_rollout_file_names(store, existing_skips);
+     let pending_thread_ids = pending_migration_thread_ids(&store.config.codex_home).await?;
+@@ -144,11 +165,19 @@ async fn migrate_all_rollouts(
+         })
+         .cloned()
+         .collect();
+-    let report = run_startup_migration(store, paths_to_migrate).await?;
++    let report = run_startup_migration(store, paths_to_migrate, control).await?;
++    // A stopped pass may have completed only a prefix. Keep the old cursor and
++    // skip index so the next startup inspects every unprocessed path again.
++    if control.is_stopped() {
++        return Ok(());
++    }
+     for outcome in &report.outcomes {
+         update_skip_after_outcome(store, outcome).await?;
+     }
+     // Only mark the pre-migration snapshot; newer rollouts wait for the next startup check.
++    if control.is_stopped() {
++        return Ok(());
++    }
+     advance_last_checked_thread(store, paths_before_migration.as_slice()).await
+ }
+ 
+@@ -156,6 +185,7 @@ async fn retry_busy_rollouts(
+     store: &LocalThreadStore,
+     skipped_rollouts: &[RolloutMigrationSkippedRollout],
+     discovered_paths: &[PathBuf],
++    control: MigrationControl<'_>,
+ ) -> ThreadStoreResult<()> {
+     let mut paths = Vec::new();
+     let mut moved_skip_paths = Vec::new();
+@@ -189,7 +219,10 @@ async fn retry_busy_rollouts(
+     if paths.is_empty() {
+         return Ok(());
+     }
+-    let report = run_startup_migration(store, paths).await?;
++    let report = run_startup_migration(store, paths, control).await?;
++    if control.is_stopped() {
++        return Ok(());
++    }
+     for moved_skip_path in moved_skip_paths {
+         remove_skip(store, moved_skip_path).await?;
+     }
+@@ -202,13 +235,30 @@ async fn retry_busy_rollouts(
+ async fn run_startup_migration(
+     store: &LocalThreadStore,
+     paths: Vec<PathBuf>,
++    control: MigrationControl<'_>,
+ ) -> ThreadStoreResult<RolloutMigrationReport> {
+     loop {
++        if control.is_stopped() {
++            return Ok(RolloutMigrationReport::default());
++        }
+         let Some(maintenance_guard) =
+             codex_rollout::try_acquire_rollout_maintenance_lock(&store.config.codex_home)
+                 .map_err(migration_error)?
+         else {
+-            tokio::time::sleep(MAINTENANCE_RETRY_DELAY).await;
++            match control {
++                MigrationControl::Uninterrupted => {
++                    tokio::time::sleep(MAINTENANCE_RETRY_DELAY).await
++                }
++                MigrationControl::Cooperative(cancellation) => {
++                    let mut cancellation = cancellation.clone();
++                    tokio::select! {
++                        _ = tokio::time::sleep(MAINTENANCE_RETRY_DELAY) => {}
++                        _ = cancellation.wait_for(|stopped| *stopped) => {
++                            return Ok(RolloutMigrationReport::default());
++                        }
++                    }
++                }
++            }
+             continue;
+         };
+         // Avoid counting expected compression contention as a failed migration run. The migration
+@@ -224,6 +274,7 @@ async fn run_startup_migration(
+                 |_| {},
+                 RolloutMigrationTrigger::Startup,
+                 super::RolloutMigrationPaths::Known(paths.clone()),
++                control,
+             )
+             .await
+         {
+diff --git a/codex-rs/thread-store/src/local/rollout_migration/startup_tests.rs b/codex-rs/thread-store/src/local/rollout_migration/startup_tests.rs
+index d2e144c..9c9ccbe 100644
+--- a/codex-rs/thread-store/src/local/rollout_migration/startup_tests.rs
++++ b/codex-rs/thread-store/src/local/rollout_migration/startup_tests.rs
+@@ -546,3 +546,6 @@ async fn treats_writer_owned_empty_rollouts_as_busy() {
+         ThreadHistoryMode::Paginated
+     );
+ }
++
++#[path = "startup_lifecycle_tests.rs"]
++mod lifecycle;
+diff --git a/codex-rs/thread-store/src/local/rollout_migration/telemetry.rs b/codex-rs/thread-store/src/local/rollout_migration/telemetry.rs
+index e27c66b..487b385 100644
+--- a/codex-rs/thread-store/src/local/rollout_migration/telemetry.rs
++++ b/codex-rs/thread-store/src/local/rollout_migration/telemetry.rs
+@@ -5,6 +5,7 @@
+ 
+ use std::time::Instant;
+ 
++use super::MigrationControl;
+ use super::RolloutMigrationFailureReason;
+ use super::RolloutMigrationMode;
+ use super::RolloutMigrationOptions;
+@@ -50,7 +51,11 @@ impl RolloutMigrationTelemetry {
+         }
+     }
+ 
+-    pub(super) fn finish(&self, result: &ThreadStoreResult<RolloutMigrationReport>) {
++    pub(super) fn finish(
++        &self,
++        result: &ThreadStoreResult<RolloutMigrationReport>,
++        control: MigrationControl<'_>,
++    ) {
+         let Some(metrics) = codex_otel::global() else {
+             return;
+         };
+@@ -72,6 +77,7 @@ impl RolloutMigrationTelemetry {
+         }
+         let result = match result {
+             Err(_) => "error",
++            Ok(_) if control.is_stopped() => "cancelled",
+             Ok(report)
+                 if report
+                     .outcomes
+diff --git a/codex-rs/thread-store/src/local/rollout_migration_tests.rs b/codex-rs/thread-store/src/local/rollout_migration_tests.rs
+index d27cbd0..dca6eb4 100644
+--- a/codex-rs/thread-store/src/local/rollout_migration_tests.rs
++++ b/codex-rs/thread-store/src/local/rollout_migration_tests.rs
+@@ -2432,6 +2432,7 @@ async fn migration_retries_a_rollout_moved_after_path_discovery() {
+             |_| {},
+             RolloutMigrationTrigger::Startup,
+             RolloutMigrationPaths::Known(vec![active_path]),
++            super::MigrationControl::Uninterrupted,
+         )
+         .await
+         .expect("migrate moved rollout");
+@@ -3057,3 +3058,6 @@ async fn migration_skips_malformed_lines_and_trailing_partial_tail() {
+     assert_eq!(turns.turns.len(), 1);
+     assert_eq!(turns.turns[0].items.len(), 2);
+ }
++
++#[path = "rollout_migration_lifecycle_tests.rs"]
++mod lifecycle;
+diff --git a/codex-rs/thread-store/src/projects.rs b/codex-rs/thread-store/src/projects.rs
+index fd918b9..11d871f 100644
+--- a/codex-rs/thread-store/src/projects.rs
++++ b/codex-rs/thread-store/src/projects.rs
+@@ -1,13 +1,16 @@
+ use std::collections::BTreeMap;
+ 
++use serde::Deserialize;
++use serde::Serialize;
++
+ use crate::SortDirection;
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct StoredProjectRoot {
+     pub path: String,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct StoredProject {
+     pub id: String,
+     pub name: String,
+@@ -19,13 +22,13 @@ pub struct StoredProject {
+     pub recency_at_ms: Option<i64>,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct StoredProjectsPage {
+     pub projects: Vec<StoredProject>,
+     pub next_cursor: Option<String>,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct ListProjectsParams {
+     pub cursor: Option<String>,
+     pub limit: usize,
+@@ -33,7 +36,7 @@ pub struct ListProjectsParams {
+     pub sort_direction: SortDirection,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct CreateProjectParams {
+     pub name: String,
+     pub roots: Vec<StoredProjectRoot>,
+@@ -42,13 +45,13 @@ pub struct CreateProjectParams {
+     pub idempotency_key: String,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct CreatedProject {
+     pub project: StoredProject,
+     pub created: bool,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct UpdateProjectParams {
+     pub project_id: String,
+     pub name: Option<String>,
+@@ -56,25 +59,25 @@ pub struct UpdateProjectParams {
+     pub metadata: Option<BTreeMap<String, String>>,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct MoveProjectParams {
+     pub project_id: String,
+     pub before_project_id: Option<String>,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub enum ProjectMoveOutcome {
+     Unchanged,
+     Moved,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct UpdatedProject {
+     pub project: StoredProject,
+     pub changed: bool,
+ }
+ 
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct DeletedProject {
+     pub affected_active_thread_ids: Vec<String>,
+     pub affected_archived_thread_ids: Vec<String>,
+diff --git a/codex-rs/thread-store/src/store.rs b/codex-rs/thread-store/src/store.rs
+index d67c3b7..505b856 100644
+--- a/codex-rs/thread-store/src/store.rs
++++ b/codex-rs/thread-store/src/store.rs
+@@ -1,5 +1,7 @@
+ use codex_protocol::ThreadId;
+ use codex_protocol::protocol::ThreadHistoryMode;
++use serde::Deserialize;
++use serde::Serialize;
+ use std::any::Any;
+ use std::future::Future;
+ use std::pin::Pin;
+@@ -62,7 +64,7 @@ use crate::UpdatedProject;
+ pub type ThreadStoreFuture<'a, T> = Pin<Box<dyn Future<Output = ThreadStoreResult<T>> + Send + 'a>>;
+ 
+ /// Why thread persistence is being requested.
+-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
++#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+ pub enum PersistContext {
+     /// Thread initialization or context injection is complete without starting a turn.
+     ThreadPreparation,
+@@ -94,6 +96,20 @@ pub trait ThreadStore: Any + Send + Sync {
+     /// Return this store as [`Any`] for implementation-owned escape hatches.
+     fn as_any(&self) -> &dyn Any;
+ 
++    /// Initiates terminal shutdown without waiting, even if other users retain
++    /// this store. Hosts call this from an outer lifecycle guard when their
++    /// async cleanup is cancelled. Owned transports must stop admission and
++    /// start a bounded drain; this signal does not promise durable completion.
++    /// Call [`Self::shutdown_store`] to observe the final outcome.
++    fn begin_shutdown_store(&self) {}
++
++    /// Ends the process-scoped store after the host has stopped accepting thread
++    /// work and joined background users. Implementations with owned transports
++    /// drain accepted operations and fence live writers before returning.
++    fn shutdown_store(&self) -> ThreadStoreFuture<'_, ()> {
++        Box::pin(async { Ok(()) })
++    }
++
+     /// Returns the history mode to use when history does not carry a persisted mode.
+     ///
+     /// The default is legacy so existing stores stay compatible. Stores whose durable contract is
+@@ -102,6 +118,48 @@ pub trait ThreadStore: Any + Send + Sync {
+         ThreadHistoryMode::Legacy
+     }
+ 
++    /// Reads the persisted facts used by metadata observation during resume.
++    /// Stores without this projection may rely on replay history instead.
++    fn read_resume_metadata(
++        &self,
++        _thread_id: ThreadId,
++    ) -> ThreadStoreFuture<'_, Option<crate::ResumeMetadata>> {
++        Box::pin(async { Ok(None) })
++    }
++
++    /// Returns a local rollout path only when the implementation explicitly
++    /// supports legacy path-addressed callers in the host's filesystem.
++    fn local_rollout_path(
++        &self,
++        _thread_id: ThreadId,
++    ) -> ThreadStoreFuture<'_, Option<std::path::PathBuf>> {
++        Box::pin(async { Ok(None) })
++    }
++
++    /// Whether legacy hosts may accept user-supplied rollout paths for this
++    /// implementation. This is distinct from supporting synthetic internal paths.
++    fn supports_rollout_path_reads(&self) -> bool {
++        false
++    }
++
++    /// Whether this backend implements local rollout maintenance scheduling.
++    fn supports_rollout_maintenance(&self) -> bool {
++        false
++    }
++
++    /// Schedules implementation-owned rollout maintenance, returning after
++    /// acceptance rather than after a potentially long background pass.
++    fn run_rollout_maintenance(
++        &self,
++        _request: crate::RolloutMaintenance,
++    ) -> ThreadStoreFuture<'_, ()> {
++        Box::pin(async {
++            Err(ThreadStoreError::Unsupported {
++                operation: "rollout_maintenance",
++            })
++        })
++    }
++
+     /// Creates a new live thread.
+     fn create_thread(&self, params: CreateThreadParams) -> ThreadStoreFuture<'_, ()>;
+ 
+diff --git a/codex-rs/thread-store/src/thread_attachments.rs b/codex-rs/thread-store/src/thread_attachments.rs
+index 4abe2d1..296a72a 100644
+--- a/codex-rs/thread-store/src/thread_attachments.rs
++++ b/codex-rs/thread-store/src/thread_attachments.rs
+@@ -1,10 +1,12 @@
+ //! Typed parameters for attachment operations on stored threads.
+ 
+ use codex_protocol::ThreadId;
++use serde::Deserialize;
++use serde::Serialize;
+ use serde_json::Value;
+ 
+ /// Parameters for attaching a thread-owned attachment.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct AddThreadAttachmentParams {
+     /// Thread that owns the attachment.
+     pub thread_id: ThreadId,
+@@ -17,7 +19,7 @@ pub struct AddThreadAttachmentParams {
+ }
+ 
+ /// Parameters for listing attachments owned by one thread.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct ListThreadAttachmentsParams {
+     /// Thread whose attachments should be returned.
+     pub thread_id: ThreadId,
+@@ -28,7 +30,7 @@ pub struct ListThreadAttachmentsParams {
+ }
+ 
+ /// Parameters for removing a thread-owned attachment.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct RemoveThreadAttachmentParams {
+     /// Thread that owns the attachment.
+     pub thread_id: ThreadId,
+diff --git a/codex-rs/thread-store/src/thread_metadata_sync.rs b/codex-rs/thread-store/src/thread_metadata_sync.rs
+index 8e1fc67..9bb7a71 100644
+--- a/codex-rs/thread-store/src/thread_metadata_sync.rs
++++ b/codex-rs/thread-store/src/thread_metadata_sync.rs
+@@ -1,6 +1,7 @@
+ use std::time::Duration;
+ use std::time::Instant;
+ 
++use crate::ResumeMetadata;
+ use chrono::DateTime;
+ use chrono::NaiveDateTime;
+ use chrono::Utc;
+@@ -10,14 +11,12 @@ use codex_protocol::ThreadId;
+ use codex_protocol::items::TurnItem;
+ use codex_protocol::protocol::EventMsg;
+ use codex_protocol::protocol::GitInfo;
+-use codex_protocol::protocol::SessionSource;
+ use codex_protocol::protocol::ThreadHistoryMode;
+ use codex_protocol::protocol::ThreadMemoryMode;
+ use codex_protocol::protocol::UserMessageEvent;
+ use codex_protocol::protocol::strip_user_message_prefix;
+ use codex_protocol::protocol::user_message_preview;
+ use codex_rollout::RolloutItem;
+-use codex_state::ThreadMetadata;
+ 
+ use crate::CreateThreadParams;
+ use crate::GitInfoPatch;
+@@ -102,13 +101,9 @@ impl ThreadMetadataSync {
+ 
+     pub(crate) fn for_resume(
+         params: &ResumeThreadParams,
+-        metadata: Option<&ThreadMetadata>,
++        metadata: Option<&ResumeMetadata>,
+     ) -> Self {
+-        let guardian_review = metadata.is_some_and(|metadata| {
+-            serde_json::from_str::<SessionSource>(&metadata.source)
+-                .as_ref()
+-                .is_ok_and(codex_state::is_guardian_review_source)
+-        });
++        let guardian_review = metadata.is_some_and(|metadata| metadata.guardian_review);
+         let mut sync = Self {
+             thread_id: params.thread_id,
+             cwd_seen: params
+@@ -116,14 +111,10 @@ impl ThreadMetadataSync {
+                 .cwd
+                 .as_ref()
+                 .is_some_and(|cwd| !cwd.as_os_str().is_empty()),
+-            preview_seen: guardian_review
+-                || metadata
+-                    .and_then(|metadata| metadata.preview.as_deref())
+-                    .is_some_and(|preview| !preview.is_empty()),
++            preview_seen: guardian_review || metadata.is_some_and(|metadata| metadata.preview_seen),
+             first_user_message_seen: guardian_review
+-                || metadata.is_some_and(|metadata| metadata.first_user_message.is_some()),
+-            title_seen: guardian_review
+-                || metadata.is_some_and(|metadata| !metadata.title.is_empty()),
++                || metadata.is_some_and(|metadata| metadata.first_user_message_seen),
++            title_seen: guardian_review || metadata.is_some_and(|metadata| metadata.title_seen),
+             pending_update: None,
+             pending_update_generation: 0,
+             last_touch_persisted_at: None,
+@@ -537,7 +528,7 @@ mod tests {
+                     },
+                 ))],
+             ),
+-            Some(&metadata),
++            Some(&crate::ResumeMetadata::from(&metadata)),
+         );
+ 
+         let update = sync.take_pending_update().expect("pending metadata update");
+@@ -855,7 +846,8 @@ mod tests {
+             )))],
+         );
+ 
+-        let sync = ThreadMetadataSync::for_resume(&params, Some(&metadata));
++        let sync =
++            ThreadMetadataSync::for_resume(&params, Some(&crate::ResumeMetadata::from(&metadata)));
+         let update = sync.take_pending_update().expect("pending metadata update");
+ 
+         assert_eq!(update.patch.preview, None);
+diff --git a/codex-rs/thread-store/src/thread_sections.rs b/codex-rs/thread-store/src/thread_sections.rs
+index 0fda4a6..3ee261b 100644
+--- a/codex-rs/thread-store/src/thread_sections.rs
++++ b/codex-rs/thread-store/src/thread_sections.rs
+@@ -1,5 +1,8 @@
++use serde::Deserialize;
++use serde::Serialize;
++
+ /// Parameters for listing independently persisted thread sections.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct ListThreadSectionsParams {
+     /// Opaque cursor returned by a previous section listing.
+     pub cursor: Option<String>,
+@@ -8,7 +11,7 @@ pub struct ListThreadSectionsParams {
+ }
+ 
+ /// Parameters for creating a thread section.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct CreateThreadSectionParams {
+     /// User-facing section name.
+     pub name: String,
+@@ -16,24 +19,29 @@ pub struct CreateThreadSectionParams {
+ }
+ 
+ /// Parameters for renaming a thread section.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct RenameThreadSectionParams {
+     /// Stable identifier of the section to rename.
+     pub section_id: String,
+     /// Replacement user-facing section name.
+     pub name: String,
++    #[serde(
++        default,
++        skip_serializing_if = "Option::is_none",
++        with = "crate::types::optional_option"
++    )]
+     pub appearance: Option<Option<codex_state::ThreadSectionAppearance>>,
+ }
+ 
+ /// Parameters for deleting a thread section.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct DeleteThreadSectionParams {
+     /// Stable identifier of the section to delete.
+     pub section_id: String,
+ }
+ 
+ /// An independently persisted thread section and its user-facing name.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct StoredThreadSection {
+     /// Stable, server-owned section identifier.
+     pub id: String,
+@@ -43,7 +51,7 @@ pub struct StoredThreadSection {
+ }
+ 
+ /// A cursor-paginated page of independently persisted thread sections.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct StoredThreadSectionsPage {
+     /// Sections returned for this page.
+     pub sections: Vec<StoredThreadSection>,
+diff --git a/codex-rs/thread-store/src/types.rs b/codex-rs/thread-store/src/types.rs
+index 5030f88..0efb43a 100644
+--- a/codex-rs/thread-store/src/types.rs
++++ b/codex-rs/thread-store/src/types.rs
+@@ -29,7 +29,7 @@ use serde::Deserializer;
+ use serde::Serialize;
+ use serde::Serializer;
+ 
+-mod optional_option {
++pub(crate) mod optional_option {
+     use super::*;
+ 
+     pub fn serialize<T, S>(value: &Option<Option<T>>, serializer: S) -> Result<S::Ok, S::Error>
+@@ -148,7 +148,7 @@ pub(crate) fn canonical_history_mode_from_rollout_items(
+ }
+ 
+ /// Parameters for appending rollout items to a live thread.
+-#[derive(Clone, Debug)]
++#[derive(Clone, Debug, Serialize, Deserialize)]
+ pub struct AppendThreadItemsParams {
+     /// Thread id to append to.
+     pub thread_id: ThreadId,
+@@ -191,7 +191,7 @@ pub struct StoredModelContext {
+ }
+ 
+ /// Requested boundary for inheriting a paginated thread's history.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub enum ForkBoundary {
+     /// Inherit the source thread's latest durable state.
+     Latest,
+@@ -202,7 +202,7 @@ pub enum ForkBoundary {
+ }
+ 
+ /// Parameters for freezing the source history used to initialize a fork.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct PrepareForkParams {
+     /// Immediate source thread whose metadata and approval settings are inherited.
+     pub thread_id: ThreadId,
+@@ -211,7 +211,7 @@ pub struct PrepareForkParams {
+ }
+ 
+ /// Parameters for reverting a paginated thread's durable history.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct RevertThreadParams {
+     /// Stable logical thread to revert.
+     pub thread_id: ThreadId,
+@@ -328,9 +328,19 @@ pub struct ListThreadsParams {
+     pub cwd_filters: Option<Vec<PathBuf>>,
+     /// Omit to include every section, set to `None` to match unsectioned
+     /// threads, or provide a section ID to match that section.
++    #[serde(
++        default,
++        skip_serializing_if = "Option::is_none",
++        with = "optional_option"
++    )]
+     pub section: Option<Option<String>>,
+     /// Omit to include every project, set to None for unassigned threads,
+     /// or provide a project ID to match that project.
++    #[serde(
++        default,
++        skip_serializing_if = "Option::is_none",
++        with = "optional_option"
++    )]
+     pub project_id: ClearableField<String>,
+     /// Whether archived threads should be listed instead of active threads.
+     pub archived: bool,
+@@ -540,7 +550,7 @@ pub struct ItemPage {
+ }
+ 
+ /// Parameters for reading a bounded mixed thread timeline.
+-#[derive(Clone, Debug, PartialEq, Eq)]
++#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+ pub struct ListTimelineParams {
+     pub thread_id: ThreadId,
+     pub cursor: Option<String>,
+@@ -548,7 +558,7 @@ pub struct ListTimelineParams {
+ }
+ 
+ /// Ordinary items, realtime facts, and the session state preceding their page.
+-#[derive(Clone, Debug, PartialEq)]
++#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+ pub struct TimelinePage {
+     pub items: Vec<ThreadTimelineEntry>,
+     pub next_cursor: Option<String>,
+diff --git a/codex-rs/tools/src/tool_executor.rs b/codex-rs/tools/src/tool_executor.rs
+index 5af16c3..9d1a3bb 100644
+--- a/codex-rs/tools/src/tool_executor.rs
++++ b/codex-rs/tools/src/tool_executor.rs
+@@ -109,6 +109,13 @@ pub trait ToolExecutor<Invocation>: Send + Sync {
+ 
+     fn spec(&self) -> ToolSpec;
+ 
++    /// Whether trusted host configuration explicitly selected this implementation to replace an
++    /// existing tool with the same name. Discovery alone must never enable replacement. The
++    /// registry still enforces tool policy and reserved execution-tool names.
++    fn replaces_existing_tool(&self) -> bool {
++        false
++    }
++
+     /// The preferred exposure before the host applies step-specific policy.
+     fn exposure(&self) -> ToolExposure {
+         ToolExposure::Direct

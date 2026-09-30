@@ -1,0 +1,465 @@
+Unapplied activation artifact: persistent-session dependency admission
+===================================================================
+
+Prepared against the active persistent-reap session.rs/session_supervisor.rs baseline.
+The reentry guard stays in public connect before its owner task is spawned.
+This file changes no runtime until explicitly applied.
+
+Prerequisites:
+- Link the broker modules/API/exports and include required build inputs separately.
+- Runtime owner must use session::ensure_persistent_call_allowed() from
+  connect_with_broker too. That new module already initializes broker: Some(...).
+- Broker connection must revoke parent authority, join reverse work and its
+  payload decoding, then release the context and publish the ordinary response.
+- revoke_all must prevent subsequent scope admission, not only revoke current
+  contexts. No new scope may survive terminal connection shutdown.
+
+Admission is one transaction after both channel/slot reservations: candidate ID,
+fallible broker.scope, then committed ID + Pending + infallible permit.send with
+no await. A rejected scope consumes no forward ID or capacity. Accepted scope
+state belongs to the broker until supervised parent completion, independent of
+the response waiter. Scope expiry/cancellation fences dependencies, not the
+already accepted forward operation.
+
+Detached DeferredControl is deliberately unscoped. Its pre-authorized reserved
+lane and after_sent gate remain valid when the parent waiter disappears; it
+cannot reuse stale parent authority. release() rejects reentrant waiting, while
+its Drop still queues the pre-authorized cleanup. Scoped cleanup is not offered.
+The task-local guard cannot detect ancestry in spawned helper tasks; host service
+implementations must obey the no-persistent-callback contract in those tasks too.
+
+Seven admission/lifetime regression tests are included, not yet compiled/run.
+These supplement, not replace, real broker process/close/saturation tests.
+No Cargo/build command has been run for this artifact.
+
+diff --git a/codex-rs/component-host/src/session.rs b/codex-rs/component-host/src/session.rs
+--- a/codex-rs/component-host/src/session.rs
++++ b/codex-rs/component-host/src/session.rs
+@@ -19,6 +19,11 @@
+ use tokio::sync::watch;
+ use tokio::time::timeout;
+ 
++use crate::broker_api::DependencyError;
++use crate::broker_api::DependencyErrorCode;
++use crate::broker_api::HostOperationScope;
++use crate::broker_host::BrokerHost;
++use crate::broker_host::IN_DEPENDENCY_HANDLER;
+ use crate::session_wire::Header;
+ use crate::session_wire::Outgoing;
+ use crate::session_wire::Payload;
+@@ -27,6 +32,16 @@
+ pub(super) const CALL_SLOTS: usize = 32;
+ type Completion = std::result::Result<Payload, String>;
+ pub(super) type FinalStatus = Option<std::result::Result<(), String>>;
++
++/// Persistent callbacks from a dependency handler can form a wait cycle even
++/// through a previously connected session. One-shot native auth remains separate.
++pub(super) fn ensure_persistent_call_allowed() -> Result<()> {
++    anyhow::ensure!(
++        IN_DEPENDENCY_HANDLER.try_with(|_| ()).is_err(),
++        DependencyError::new(DependencyErrorCode::ReentrantCall)
++    );
++    Ok(())
++}
+ 
+ /// A persistent process shared by calls. Cancelling a waiter never replays or
+ /// cancels an accepted operation. Failed connections require explicit recovery.
+@@ -51,6 +66,7 @@
+     pub shared: Arc<Shared>,
+     pub shutdown: watch::Sender<bool>,
+     pub timeout: Duration,
++    pub broker: Option<BrokerHost>,
+ }
+ 
+ impl Drop for SessionInner {
+@@ -113,6 +129,9 @@
+ 
+ /// A pre-reserved cleanup request. Drop queues it without blocking or competing
+ /// for ordinary call capacity. The paired request is always fully sent first.
++/// Cleanup is an unscoped operation authorized by its original reservation; it
++/// cannot inherit or extend a parent's dependency authority after that parent
++/// completes or is cancelled. Cleanup handlers must not need reverse services.
+ pub struct DeferredControl {
+     inner: Arc<SessionInner>,
+     permit: Option<mpsc::OwnedPermit<Outgoing>>,
+@@ -175,6 +194,7 @@
+     /// Queue cleanup and wait for its acknowledgement. A timeout stops waiting;
+     /// the cleanup remains owned by the session until completion or disconnect.
+     pub async fn release(mut self) -> Result<()> {
++        ensure_persistent_call_allowed()?;
+         let response = self.enqueue()?;
+         timeout(self.inner.timeout, async {
+             let payload = response
+@@ -202,7 +222,33 @@
+ impl ComponentSession {
+     pub async fn call(&self, method: &str, params: Value) -> Result<Value> {
+         timeout(self.inner.timeout, async {
+-            let (response, _cleanup) = self.start(method, params, None).await?;
++            let (response, _cleanup) = self
++                .start(method, params, /*cleanup*/ None, /*scope*/ None)
++                .await?;
++            let payload = response
++                .await
++                .context("component response lost; outcome is unknown")?
++                .map_err(anyhow::Error::msg)?;
++            payload.into_value().await
++        })
++        .await
++        .context("component request wait timed out; accepted operation outcome is unknown")?
++    }
++
++    /// Admit a request with host-issued dependency authority. The accepted scope
++    /// and request-local dependencies outlive a cancelled or timed-out waiter.
++    /// Explicit scope cancellation/expiry fences reverse services; it does not
++    /// retract or replay the accepted forward operation.
++    pub async fn call_scoped(
++        &self,
++        method: &str,
++        params: Value,
++        scope: HostOperationScope,
++    ) -> Result<Value> {
++        timeout(self.inner.timeout, async {
++            let (response, _cleanup) = self
++                .start(method, params, /*cleanup*/ None, Some(scope))
++                .await?;
+             let payload = response
+                 .await
+                 .context("component response lost; outcome is unknown")?
+@@ -229,6 +275,7 @@
+                     method,
+                     params,
+                     Some((cleanup_method.to_owned(), cleanup_params)),
++                    /*scope*/ None,
+                 )
+                 .await?;
+             let cleanup = cleanup.context("component cleanup reservation missing")?;
+@@ -247,7 +294,20 @@
+         method: &str,
+         params: Value,
+         cleanup: Option<(String, Value)>,
++        scope: Option<HostOperationScope>,
+     ) -> Result<(oneshot::Receiver<Completion>, Option<DeferredControl>)> {
++        // Guard before waiting for either lane, including calls through held
++        // session clones. A dependency handler must not consume forward capacity.
++        ensure_persistent_call_allowed()?;
++        let broker = match scope.as_ref() {
++            Some(_) => Some(
++                self.inner
++                    .broker
++                    .as_ref()
++                    .ok_or_else(|| DependencyError::new(DependencyErrorCode::UnsupportedVersion))?,
++            ),
++            None => None,
++        };
+         let cleanup = match cleanup {
+             Some((method, params)) => {
+                 // Validation before reserving/admitting avoids killing a healthy
+@@ -305,11 +365,17 @@
+         if let Some(reason) = &state.closed {
+             bail!("component session unavailable: {reason}");
+         }
+-        state.next_id = state
++        let id = state
+             .next_id
+             .checked_add(1)
+             .context("component request IDs exhausted")?;
+-        let id = state.next_id;
++        if let (Some(broker), Some(scope)) = (broker, scope) {
++            // Scope admission can reject cancellation, expiry, or exhaustion.
++            // Do not consume the request ID, publish Pending, or enqueue anything
++            // until it succeeds. No await/fallible work follows this admission.
++            broker.scope(id, scope)?;
++        }
++        state.next_id = id;
+         state.calls.insert(
+             id,
+             Pending {
+@@ -350,6 +416,9 @@
+     /// Stop admission, drain accepted requests, and close the child. Release all
+     /// application-owned cleanup guards first. Forced shutdown reports ambiguity.
+     pub async fn close(&self) -> Result<()> {
++        // Waiting for close from a dependency handler would wait on its own
++        // unfinished parent. Nonblocking begin_close remains available.
++        ensure_persistent_call_allowed()?;
+         let mut completion = self.inner.shared.completion.subscribe();
+         self.begin_close();
+         loop {
+@@ -367,3 +436,7 @@
+ #[cfg(test)]
+ #[path = "session_tests.rs"]
+ mod tests;
++
++#[cfg(test)]
++#[path = "session_broker_tests.rs"]
++mod broker_tests;
+diff --git a/codex-rs/component-host/src/session_supervisor.rs b/codex-rs/component-host/src/session_supervisor.rs
+--- a/codex-rs/component-host/src/session_supervisor.rs
++++ b/codex-rs/component-host/src/session_supervisor.rs
+@@ -35,6 +35,7 @@
+ use crate::session::PendingState;
+ use crate::session::SessionInner;
+ use crate::session::Shared;
++use crate::session::ensure_persistent_call_allowed;
+ use crate::session_wire::Header;
+ use crate::session_wire::MessageReader;
+ use crate::session_wire::Outgoing;
+@@ -50,6 +51,7 @@
+     /// reported unconfirmed. Dropping this future signals its owned startup task
+     /// to cancel and reap; it does not acknowledge cleanup to the absent waiter.
+     pub async fn connect(&self) -> Result<ComponentSession> {
++        ensure_persistent_call_allowed()?;
+         let binding = self.clone();
+         let (cancel, cancelled) = watch::channel(false);
+         let _cancellation = StartupCancellation(cancel);
+@@ -177,6 +179,7 @@
+                 shared,
+                 shutdown,
+                 timeout: deadline,
++                broker: None,
+             }),
+         })
+     }
+diff --git a/codex-rs/component-host/src/session_broker_tests.rs b/codex-rs/component-host/src/session_broker_tests.rs
+new file mode 100644
+--- /dev/null
++++ b/codex-rs/component-host/src/session_broker_tests.rs
+@@ -0,0 +1,239 @@
++#![allow(clippy::expect_used, clippy::unwrap_used)]
++
++use std::future::Future;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::atomic::AtomicBool;
++use std::task::Poll;
++use std::time::Duration;
++
++use pretty_assertions::assert_eq;
++use serde_json::json;
++use tokio::sync::Notify;
++use tokio::sync::Semaphore;
++use tokio::sync::mpsc;
++use tokio::sync::watch;
++use tokio::time::Instant;
++
++use super::CALL_SLOTS;
++use super::ComponentSession;
++use super::PendingState;
++use super::SessionInner;
++use super::Shared;
++use crate::broker_api::DependencyError;
++use crate::broker_api::DependencyErrorCode;
++use crate::broker_api::DependencyOwner;
++use crate::broker_api::HostOperationScope;
++use crate::broker_host::BrokerHost;
++use crate::broker_host::HostDependencyRegistry;
++use crate::broker_host::IN_DEPENDENCY_HANDLER;
++use crate::session_wire::Header;
++use crate::session_wire::Outgoing;
++use crate::session_wire::SessionComponent;
++
++struct Fixture {
++    session: ComponentSession,
++    regular: mpsc::Receiver<Outgoing>,
++    control: mpsc::Receiver<Outgoing>,
++}
++
++impl Fixture {
++    fn new(broker: Option<BrokerHost>) -> Self {
++        let (regular, regular_rx) = mpsc::channel(CALL_SLOTS);
++        let (control, control_rx) = mpsc::channel(CALL_SLOTS);
++        let (shutdown, _) = watch::channel(false);
++        let (completion, _) = watch::channel(None);
++        Self {
++            session: ComponentSession {
++                inner: Arc::new(SessionInner {
++                    component: SessionComponent {
++                        kind: "model_catalog".to_owned(),
++                        name: "default".to_owned(),
++                    },
++                    regular,
++                    control,
++                    shared: Arc::new(Shared {
++                        pending: Mutex::new(PendingState::default()),
++                        regular_slots: Arc::new(Semaphore::new(CALL_SLOTS)),
++                        control_slots: Arc::new(Semaphore::new(CALL_SLOTS)),
++                        closing: AtomicBool::new(false),
++                        changed: Notify::new(),
++                        completion,
++                    }),
++                    shutdown,
++                    timeout: Duration::from_secs(5),
++                    broker,
++                }),
++            },
++            regular: regular_rx,
++            control: control_rx,
++        }
++    }
++
++    fn assert_not_admitted(&mut self) {
++        let shared = &self.session.inner.shared;
++        let state = shared.pending.lock().unwrap();
++        assert_eq!(
++            (
++                state.next_id,
++                state.calls.len(),
++                shared.regular_slots.available_permits(),
++                shared.control_slots.available_permits(),
++                self.regular.try_recv().is_err(),
++                self.control.try_recv().is_err(),
++            ),
++            (0, 0, CALL_SLOTS, CALL_SLOTS, true, true)
++        );
++    }
++}
++
++fn scope() -> HostOperationScope {
++    HostOperationScope::new(
++        DependencyOwner { generation: 1, identity: Some("owner".to_owned()) },
++        Instant::now() + Duration::from_secs(5),
++    )
++}
++
++fn assert_code(error: anyhow::Error, expected: DependencyErrorCode) {
++    assert_eq!(error.downcast_ref::<DependencyError>().unwrap().code, expected);
++}
++
++#[tokio::test]
++async fn failed_scoped_admission_preserves_next_id_and_all_capacity() {
++    let broker = BrokerHost::new(HostDependencyRegistry::new());
++    let mut fixture = Fixture::new(Some(broker.clone()));
++    let cancelled = scope();
++    cancelled.cancellation.cancel();
++    let mut expired = scope();
++    expired.deadline = Instant::now();
++    for (scope, expected) in [
++        (cancelled, DependencyErrorCode::Cancelled),
++        (expired, DependencyErrorCode::DeadlineExceeded),
++    ] {
++        assert_code(
++            fixture.session.call_scoped("refresh", json!({}), scope).await.unwrap_err(),
++            expected,
++        );
++        fixture.assert_not_admitted();
++        assert!(broker.scope_for_parent(1).is_none());
++    }
++    let (_receiver, cleanup) = fixture.session
++        .start("refresh", json!({}), /*cleanup*/ None, Some(scope()))
++        .await.unwrap();
++    assert!(cleanup.is_none());
++    assert!(matches!(fixture.regular.recv().await.unwrap().header, Header::Request { id: 1, .. }));
++    assert!(broker.scope_for_parent(1).is_some());
++}
++
++#[tokio::test]
++async fn nonnegotiated_session_rejects_scope_without_admission() {
++    let mut fixture = Fixture::new(None);
++    assert_code(
++        fixture.session.call_scoped("refresh", json!({}), scope()).await.unwrap_err(),
++        DependencyErrorCode::UnsupportedVersion,
++    );
++    fixture.assert_not_admitted();
++}
++
++#[tokio::test]
++async fn full_scope_table_does_not_consume_forward_id_or_capacity() {
++    let broker = BrokerHost::new(HostDependencyRegistry::new());
++    for parent in 100..100 + CALL_SLOTS as u64 {
++        broker.scope(parent, scope()).unwrap();
++    }
++    let mut fixture = Fixture::new(Some(broker.clone()));
++    assert_code(
++        fixture.session.call_scoped("refresh", json!({}), scope()).await.unwrap_err(),
++        DependencyErrorCode::Busy,
++    );
++    fixture.assert_not_admitted();
++    broker.finish_parent(100);
++    let (_receiver, _) = fixture.session
++        .start("refresh", json!({}), /*cleanup*/ None, Some(scope()))
++        .await.unwrap();
++    assert!(matches!(fixture.regular.recv().await.unwrap().header, Header::Request { id: 1, .. }));
++}
++
++#[tokio::test]
++async fn held_session_reentry_is_rejected_before_reserving_either_lane() {
++    for broker in [None, Some(BrokerHost::new(HostDependencyRegistry::new()))] {
++        let mut fixture = Fixture::new(broker);
++        IN_DEPENDENCY_HANDLER.scope((), async {
++            assert_code(
++                fixture.session.call("refresh", json!({})).await.unwrap_err(),
++                DependencyErrorCode::ReentrantCall,
++            );
++            assert_code(
++                fixture.session.call_scoped("refresh", json!({}), scope()).await.unwrap_err(),
++                DependencyErrorCode::ReentrantCall,
++            );
++            assert_code(
++                fixture.session.call_with_cleanup("prepare", json!({}), "release", json!({}))
++                    .await.unwrap_err(),
++                DependencyErrorCode::ReentrantCall,
++            );
++            assert_code(fixture.session.close().await.unwrap_err(), DependencyErrorCode::ReentrantCall);
++        }).await;
++        fixture.assert_not_admitted();
++        assert!(!fixture.session.inner.shared.closing.load(std::sync::atomic::Ordering::Acquire));
++    }
++}
++
++#[tokio::test]
++async fn rejected_release_still_detaches_pre_authorized_unscoped_cleanup() {
++    let broker = BrokerHost::new(HostDependencyRegistry::new());
++    let mut fixture = Fixture::new(Some(broker.clone()));
++    let (_receiver, cleanup) = fixture.session
++        .start("prepare", json!({}), Some(("release".to_owned(), json!({}))), /*scope*/ None)
++        .await.unwrap();
++    let outgoing = fixture.regular.recv().await.unwrap();
++    IN_DEPENDENCY_HANDLER.scope((), async {
++        assert_code(cleanup.unwrap().release().await.unwrap_err(), DependencyErrorCode::ReentrantCall);
++    }).await;
++    let cleanup = fixture.control.recv().await.unwrap();
++    assert!(matches!(cleanup.header, Header::Request { id: 2, is_control: true, .. }));
++    assert!(Arc::ptr_eq(cleanup.after_sent.as_ref().unwrap(), outgoing.sent.as_ref().unwrap()));
++    assert!(!cleanup.after_sent.unwrap().load(std::sync::atomic::Ordering::Acquire));
++    assert!(broker.scope_for_parent(1).is_none());
++    assert!(broker.scope_for_parent(2).is_none());
++}
++
++#[tokio::test]
++async fn waiter_cancellation_retains_scope_and_request_local_dependencies() {
++    let broker = BrokerHost::new(HostDependencyRegistry::new());
++    let mut fixture = Fixture::new(Some(broker.clone()));
++    let request_context = Arc::new(());
++    let retained = Arc::downgrade(&request_context);
++    let scope = scope().with_request_context(request_context);
++    let session = fixture.session.clone();
++    let waiter = tokio::spawn(async move { session.call_scoped("refresh", json!({}), scope).await });
++    let outgoing = fixture.regular.recv().await.unwrap();
++    assert!(matches!(outgoing.header, Header::Request { id: 1, .. }));
++    waiter.abort();
++    assert!(waiter.await.unwrap_err().is_cancelled());
++    assert_eq!(retained.strong_count(), 1);
++    assert_eq!(fixture.session.inner.shared.pending.lock().unwrap().calls.len(), 1);
++    assert!(broker.scope_for_parent(1).is_some());
++    // No reverse work was started in this admission-only fixture.
++    broker.finish_parent(1);
++    assert_eq!(retained.strong_count(), 0);
++}
++
++#[tokio::test]
++async fn cancellation_while_waiting_for_capacity_does_not_admit_a_scope() {
++    let broker = BrokerHost::new(HostDependencyRegistry::new());
++    let mut fixture = Fixture::new(Some(broker.clone()));
++    let slots = Arc::clone(&fixture.session.inner.shared.regular_slots)
++        .acquire_many_owned(CALL_SLOTS as u32).await.unwrap();
++    {
++        let call = fixture.session.call_scoped("refresh", json!({}), scope());
++        tokio::pin!(call);
++        std::future::poll_fn(|context| {
++            assert!(call.as_mut().poll(context).is_pending());
++            Poll::Ready(())
++        }).await;
++    }
++    drop(slots);
++    fixture.assert_not_admitted();
++    assert!(broker.scope_for_parent(1).is_none());
++}

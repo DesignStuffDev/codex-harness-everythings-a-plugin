@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="56" skipped="0" failures="0" errors="0" uuid="ceff8efc-0a99-422f-9f84-31b34464000c" timestamp="2026-09-30T14:20:25.816+00:00" time="6.834">
+    <testsuite name="codex-component-host" tests="50" skipped="0" errors="0" failures="0">
+        <testcase name="catalog::tests::absent_settings_preserves_native_runtime" classname="codex-component-host" timestamp="2026-09-30T14:20:25.817+00:00" time="0.006"/>
+        <testcase name="catalog::tests::debug_output_omits_plugin_credentials_and_arguments" classname="codex-component-host" timestamp="2026-09-30T14:20:25.817+00:00" time="0.006"/>
+        <testcase name="catalog::tests::competing_install_requires_preserving_the_current_explicit_selection" classname="codex-component-host" timestamp="2026-09-30T14:20:25.817+00:00" time="0.010"/>
+        <testcase name="catalog::tests::incompatible_versions_cycles_and_conflicts_fail_before_activation" classname="codex-component-host" timestamp="2026-09-30T14:20:25.824+00:00" time="0.006"/>
+        <testcase name="catalog::tests::explicit_selection_can_be_reset_and_does_not_accept_unknown_provider" classname="codex-component-host" timestamp="2026-09-30T14:20:25.818+00:00" time="0.012"/>
+        <testcase name="catalog::tests::installation_rejects_symlinks_without_copying_outside_content" classname="codex-component-host" timestamp="2026-09-30T14:20:25.828+00:00" time="0.004"/>
+        <testcase name="catalog::tests::installed_objects_cannot_be_symlinks_to_external_packages" classname="codex-component-host" timestamp="2026-09-30T14:20:25.830+00:00" time="0.005"/>
+        <testcase name="catalog::tests::installed_object_names_cannot_escape_the_store" classname="codex-component-host" timestamp="2026-09-30T14:20:25.830+00:00" time="0.005"/>
+        <testcase name="catalog::tests::installation_rejects_a_store_nested_inside_its_source" classname="codex-component-host" timestamp="2026-09-30T14:20:25.824+00:00" time="0.012"/>
+        <testcase name="catalog::tests::installs_resolves_dependencies_and_preserves_state_on_removal" classname="codex-component-host" timestamp="2026-09-30T14:20:25.832+00:00" time="0.007"/>
+        <testcase name="catalog::tests::invalid_install_rolls_back_without_changing_registry" classname="codex-component-host" timestamp="2026-09-30T14:20:25.834+00:00" time="0.006"/>
+        <testcase name="catalog::tests::manifest_rejects_unsupported_contract_and_entrypoint_escape" classname="codex-component-host" timestamp="2026-09-30T14:20:25.835+00:00" time="0.007"/>
+        <testcase name="catalog::tests::storage_installation_rejects_lossy_contract_before_activation" classname="codex-component-host" timestamp="2026-09-30T14:20:25.839+00:00" time="0.007"/>
+        <testcase name="catalog::tests::removal_and_reinstallation_preserve_existing_bindings" classname="codex-component-host" timestamp="2026-09-30T14:20:25.836+00:00" time="0.014"/>
+        <testcase name="process::tests::cancellation_terminates_plugin_process_group" classname="codex-component-host" timestamp="2026-09-30T14:20:25.841+00:00" time="0.049"/>
+        <testcase name="process::tests::cancelling_initialization_kills_and_reaps_child" classname="codex-component-host" timestamp="2026-09-30T14:20:25.842+00:00" time="0.053"/>
+        <testcase name="process::tests::dropping_stream_and_cancelling_next_kill_and_reap_children" classname="codex-component-host" timestamp="2026-09-30T14:20:25.851+00:00" time="0.109"/>
+        <testcase name="process::tests::explicit_force_reaps_even_when_event_delivery_is_backpressured" classname="codex-component-host" timestamp="2026-09-30T14:20:25.890+00:00" time="0.088"/>
+        <testcase name="process::tests::graceful_deadline_runs_without_polling_and_cannot_be_extended" classname="codex-component-host" timestamp="2026-09-30T14:20:25.895+00:00" time="0.137"/>
+        <testcase name="process::tests::invocation_passes_explicit_contract_and_shutdown" classname="codex-component-host" timestamp="2026-09-30T14:20:26.032+00:00" time="0.040"/>
+        <testcase name="process::tests::linux_parent_death::killed_parent_terminates_blocked_components_in_separate_process_groups" classname="codex-component-host" timestamp="2026-09-30T14:20:26.072+00:00" time="0.068"/>
+        <testcase name="process::tests::deadline_remains_active_while_consumer_is_idle" classname="codex-component-host" timestamp="2026-09-30T14:20:25.846+00:00" time="0.334"/>
+        <testcase name="process::tests::oversized_requests_fail_without_waiting_for_a_response" classname="codex-component-host" timestamp="2026-09-30T14:20:26.180+00:00" time="0.151"/>
+        <testcase name="process::tests::sensitive_components_cannot_emit_inherited_stderr" classname="codex-component-host" timestamp="2026-09-30T14:20:26.332+00:00" time="0.099"/>
+        <testcase name="process::tests::separate_invocations_keep_durable_state" classname="codex-component-host" timestamp="2026-09-30T14:20:26.430+00:00" time="0.060"/>
+        <testcase name="process::tests::streaming_preserves_event_order_and_finishes_once" classname="codex-component-host" timestamp="2026-09-30T14:20:26.491+00:00" time="0.039"/>
+        <testcase name="session::tests::abandoned_waiters_still_occupy_bounded_admission_until_completed" classname="codex-component-host" timestamp="2026-09-30T14:20:26.530+00:00" time="0.099"/>
+        <testcase name="process::tests::graceful_request_can_extend_cleanup_after_the_plugin_result" classname="codex-component-host" timestamp="2026-09-30T14:20:25.960+00:00" time="0.739"/>
+        <testcase name="session::tests::cancelled_waiter_keeps_write_owned_and_close_drains_it" classname="codex-component-host" timestamp="2026-09-30T14:20:26.629+00:00" time="0.073"/>
+        <testcase name="process::tests::graceful_shutdown_preserves_partial_frame_and_waits_for_cleanup" classname="codex-component-host" timestamp="2026-09-30T14:20:25.978+00:00" time="0.771"/>
+        <testcase name="session::tests::invalid_methods_are_rejected_without_disrupting_accepted_calls" classname="codex-component-host" timestamp="2026-09-30T14:20:26.703+00:00" time="0.047"/>
+        <testcase name="session::tests::fork_cleanup_bypasses_blocked_deletion_and_covers_cancelled_prepare" classname="codex-component-host" timestamp="2026-09-30T14:20:26.699+00:00" time="0.070"/>
+        <testcase name="session::tests::old_single_invocation_plugins_cannot_opt_in_accidentally" classname="codex-component-host" timestamp="2026-09-30T14:20:26.749+00:00" time="0.040"/>
+        <testcase name="session::tests::peer_failure_is_terminal_without_automatic_restart" classname="codex-component-host" timestamp="2026-09-30T14:20:26.750+00:00" time="0.071"/>
+        <testcase name="session::tests::reaping::cancelled_startup_keeps_its_owner_until_the_child_is_reaped" classname="codex-component-host" timestamp="2026-09-30T14:20:26.789+00:00" time="0.055"/>
+        <testcase name="process::tests::malformed_frames_and_plugin_failures_are_reported" classname="codex-component-host" timestamp="2026-09-30T14:20:26.140+00:00" time="0.856"/>
+        <testcase name="session::tests::reaping::reader_writer_and_peer_failures_reap_before_terminal_completion" classname="codex-component-host" timestamp="2026-09-30T14:20:26.821+00:00" time="0.191"/>
+        <testcase name="session::tests::synchronous_close_fences_retained_clones_and_drains_without_a_close_waiter" classname="codex-component-host" timestamp="2026-09-30T14:20:27.012+00:00" time="0.061"/>
+        <testcase name="session::tests::timed_out_waiter_does_not_kill_healthy_service_or_replay_write" classname="codex-component-host" timestamp="2026-09-30T14:20:27.073+00:00" time="0.292"/>
+        <testcase name="session_server::tests::cancelling_next_during_reader_completion_preserves_shutdown" classname="codex-component-host" timestamp="2026-09-30T14:20:27.365+00:00" time="0.017"/>
+        <testcase name="session_supervisor::tests::completed_worker_error_is_preserved_while_the_sibling_is_cancelled_and_joined" classname="codex-component-host" timestamp="2026-09-30T14:20:27.384+00:00" time="0.005"/>
+        <testcase name="session_wire::tests::error_discards_partial_result_and_json_parsing_is_lazy" classname="codex-component-host" timestamp="2026-09-30T14:20:27.389+00:00" time="0.006"/>
+        <testcase name="session::tests::reaping::startup_rejection_and_deadline_reap_before_returning_error" classname="codex-component-host" timestamp="2026-09-30T14:20:26.996+00:00" time="1.042"/>
+        <testcase name="session_wire::tests::malformed_streams_fail_without_accepting_partial_values" classname="codex-component-host" timestamp="2026-09-30T14:20:28.045+00:00" time="0.085"/>
+        <testcase name="session_wire::tests::out_of_order_ids_are_bounded_and_completed_duplicates_rejected" classname="codex-component-host" timestamp="2026-09-30T14:20:28.130+00:00" time="0.079"/>
+        <testcase name="session_wire::tests::oversized_controls_and_never_sent_dependencies_fail" classname="codex-component-host" timestamp="2026-09-30T14:20:28.209+00:00" time="0.007"/>
+        <testcase name="session_wire::tests::urgent_controls_interleave_but_cleanup_waits_for_request_end" classname="codex-component-host" timestamp="2026-09-30T14:20:28.217+00:00" time="0.075"/>
+        <testcase name="session::tests::persistent_process_multiplexes_calls_and_large_payloads" classname="codex-component-host" timestamp="2026-09-30T14:20:26.770+00:00" time="1.812"/>
+        <testcase name="session::tests::reaping::shutdown_deadline_failed_exit_and_success_all_return_after_reaping" classname="codex-component-host" timestamp="2026-09-30T14:20:26.844+00:00" time="2.178"/>
+        <testcase name="session_wire::tests::histories_larger_than_sixteen_megabytes_round_trip" classname="codex-component-host" timestamp="2026-09-30T14:20:27.395+00:00" time="5.255"/>
+    </testsuite>
+    <testsuite name="codex-component-host::bin/codex-component" tests="6" skipped="0" errors="0" failures="0">
+        <testcase name="launch::tests::launch_deadline_force_terminates_with_explicit_unknown_durability" classname="codex-component-host::bin/codex-component" timestamp="2026-09-30T14:20:28.292+00:00" time="0.144"/>
+        <testcase name="launch::tests::launch_interrupt_during_handshake_cleans_up_and_reports_uncertainty" classname="codex-component-host::bin/codex-component" timestamp="2026-09-30T14:20:28.436+00:00" time="0.031"/>
+        <testcase name="launch::tests::service::launch_failure_paths_without_interrupt_report_uncertainty_after_reaping" classname="codex-component-host::bin/codex-component" timestamp="2026-09-30T14:20:28.582+00:00" time="0.623"/>
+        <testcase name="launch::tests::service::interrupt_near_startup_limit_receives_its_full_cleanup_budget" classname="codex-component-host::bin/codex-component" timestamp="2026-09-30T14:20:28.467+00:00" time="0.804"/>
+        <testcase name="launch::tests::service::launch_survives_its_startup_timeout_after_readiness" classname="codex-component-host::bin/codex-component" timestamp="2026-09-30T14:20:29.022+00:00" time="0.649"/>
+        <testcase name="launch::tests::service::normal_result_allows_presentation_cleanup_beyond_half_a_second" classname="codex-component-host::bin/codex-component" timestamp="2026-09-30T14:20:29.205+00:00" time="0.856"/>
+    </testsuite>
+</testsuites>

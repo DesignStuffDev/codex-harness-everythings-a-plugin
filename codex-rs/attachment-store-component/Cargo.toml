@@ -1,0 +1,27 @@
+[package]
+name = "codex-attachment-store-component"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+codex-attachment-store-api = { workspace = true }
+codex-attachment-store-inline = { workspace = true }
+codex-component-api = { workspace = true }
+codex-component-host = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["fs", "io-util", "macros", "rt-multi-thread"] }
+
+[[bin]]
+name = "codex-attachment-inline-component"
+path = "src/bin/inline.rs"
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+codex-utils-cargo-bin = { workspace = true }

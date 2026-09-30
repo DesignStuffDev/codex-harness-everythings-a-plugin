@@ -1,0 +1,102 @@
+{
+  "passed": true,
+  "tests": 3,
+  "host": "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+  "host_before": {
+    "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+    "bytes": 7092568,
+    "mtime_ns": 1790778198616991936
+  },
+  "host_after": {
+    "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+    "bytes": 7092568,
+    "mtime_ns": 1790778198616991936
+  },
+  "cases": [
+    {
+      "mode": "graceful",
+      "launch": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/manager-shutdown/graceful/home",
+        "launch",
+        "desktop",
+        "--codex-bin",
+        "/usr/bin/true"
+      ],
+      "manager_pid": 313557,
+      "fixture": {
+        "pid": 313565,
+        "parent_pid": 313557,
+        "entrypoint": "/tmp/codex-recovery-runtime-20260930/manager-shutdown/graceful/home/components/objects/test.manager-shutdown-313551-18da280223267acb-0/presentation-fixture",
+        "state": "S",
+        "start_ticks": "2671167"
+      },
+      "first_sigint_seconds": 0.13243276400316972,
+      "blocked_drain_survived_seconds": 1.0,
+      "exit_status": 0,
+      "stdout": "{\"type\":\"fixture/ready\",\"pid\":313565,\"parent_pid\":313557,\"entrypoint\":\"/tmp/codex-recovery-runtime-20260930/manager-shutdown/graceful/home/components/objects/test.manager-shutdown-313551-18da280223267acb-0/presentation-fixture\"}\n{\"type\":\"fixture/draining\"}\n{\"drained\":true,\"fixture\":\"manager-shutdown\"}\n",
+      "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\n",
+      "fixture_after": null,
+      "fixture_reaped": true,
+      "passed": true
+    },
+    {
+      "mode": "forced",
+      "launch": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/manager-shutdown/forced/home",
+        "launch",
+        "desktop",
+        "--codex-bin",
+        "/usr/bin/true"
+      ],
+      "manager_pid": 313966,
+      "fixture": {
+        "pid": 313974,
+        "parent_pid": 313966,
+        "entrypoint": "/tmp/codex-recovery-runtime-20260930/manager-shutdown/forced/home/components/objects/test.manager-shutdown-313961-18da280268849e5c-0/presentation-fixture",
+        "state": "S",
+        "start_ticks": "2671283"
+      },
+      "first_sigint_seconds": 0.13112965199979953,
+      "blocked_drain_survived_seconds": 1.0,
+      "second_sigint_seconds": 1.141891779996513,
+      "exit_status": 1,
+      "stdout": "{\"type\":\"fixture/ready\",\"pid\":313974,\"parent_pid\":313966,\"entrypoint\":\"/tmp/codex-recovery-runtime-20260930/manager-shutdown/forced/home/components/objects/test.manager-shutdown-313961-18da280268849e5c-0/presentation-fixture\"}\n{\"type\":\"fixture/draining\"}\n",
+      "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\nError: presentation cleanup was not confirmed; accepted writes may not have completed and durability is unknown\n\nCaused by:\n    forced termination after a second interrupt; accepted writes may not have completed and durability is unknown\n",
+      "fixture_after": null,
+      "fixture_reaped": true,
+      "passed": true
+    },
+    {
+      "mode": "startup",
+      "launch": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/manager-shutdown/startup/home",
+        "launch",
+        "desktop",
+        "--codex-bin",
+        "/usr/bin/true"
+      ],
+      "manager_pid": 314308,
+      "fixture": {
+        "pid": 314317,
+        "parent_pid": 314308,
+        "entrypoint": "/tmp/codex-recovery-runtime-20260930/manager-shutdown/startup/home/components/objects/test.manager-shutdown-314300-18da2802ad5de4f2-0/presentation-fixture",
+        "state": "S",
+        "start_ticks": "2671398"
+      },
+      "first_sigint_seconds": 0.13092334300017683,
+      "exit_status": 1,
+      "stdout": "",
+      "stderr": "Error: presentation cleanup was not confirmed; accepted writes may not have completed and durability is unknown\n\nCaused by:\n    forced termination during presentation startup before readiness; accepted writes may not have completed and durability is unknown\n",
+      "fixture_after": null,
+      "fixture_reaped": true,
+      "passed": true
+    }
+  ],
+  "scope": "actual manager and installed protocol fixture; no desktop UI or real storage engine"
+}

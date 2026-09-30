@@ -23,7 +23,6 @@ use crate::shell_snapshot::SnapshotCredentialBrokerState;
 use crate::state::ActiveTurn;
 use crate::turn_metadata::ExecutionMetadata;
 use codex_analytics::ThreadProductUpdate;
-use codex_attachment_store::AttachmentStore;
 use codex_extension_api::ExtensionDataInit;
 use codex_http_client::ClientRouteClass;
 use codex_http_client::RouteAwareClientPool;
@@ -766,8 +765,8 @@ impl Session {
         environment_manager: Arc<EnvironmentManager>,
         inherited_environments: Option<TurnEnvironmentSnapshot>,
         analytics_events_client: Option<AnalyticsEventsClient>,
-        image_store: Arc<dyn AttachmentStore>,
-        thread_store: Arc<dyn ThreadStore>,
+        image_store: codex_attachment_store_component::AttachmentStoreSelection,
+        persistence: PersistenceServices,
         parent_rollout_thread_trace: ThreadTraceContext,
         attestation_provider: Option<Arc<dyn AttestationProvider>>,
         external_time_provider: Option<Arc<dyn TimeProvider>>,
@@ -775,6 +774,26 @@ impl Session {
         git_enrichment_policy: GitEnrichmentPolicy,
         windows_sandbox_proxy_settings_mode: codex_sandboxing::WindowsSandboxProxySettingsMode,
     ) -> anyhow::Result<Arc<Self>> {
+        let PersistenceServices {
+            thread_store,
+            host_state_db,
+        } = persistence;
+        let isolation = thread_extension_init
+            .get::<codex_extension_api::SessionIsolation>()
+            .map(|policy| *policy)
+            .unwrap_or_default();
+        // Isolated reviewer/internal sessions receive only the extensions their
+        // caller explicitly supplied. Global engine plugins cannot cross that boundary.
+        let component_catalog = if isolation == codex_extension_api::SessionIsolation::Isolated {
+            codex_component_host::ComponentCatalog::default()
+        } else {
+            codex_component_host::ComponentCatalog::load(&config.codex_home)?
+        };
+        let mut component_extensions = extensions.to_builder();
+        let image_store_selection = image_store;
+        let image_store = image_store_selection.resolve(&component_catalog)?;
+        codex_component_adapters::install(&mut component_extensions, &component_catalog)?;
+        let extensions = Arc::new(component_extensions.build());
         debug!(
             "Configuring session: model={}; provider={:?}",
             session_configuration
@@ -865,10 +884,6 @@ impl Session {
                 ));
             }
         };
-        let isolation = thread_extension_init
-            .get::<codex_extension_api::SessionIsolation>()
-            .map(|policy| *policy)
-            .unwrap_or_default();
         if !session_configuration.session_source.is_non_root_agent()
             && isolation != codex_extension_api::SessionIsolation::Isolated
         {
@@ -1111,12 +1126,8 @@ impl Session {
         let state_db_fut = async {
             if config.ephemeral {
                 None
-            } else if let Some(local_store) =
-                thread_store.as_any().downcast_ref::<LocalThreadStore>()
-            {
-                local_store.state_db().await
             } else {
-                None
+                host_state_db
             }
         }
         .instrument(info_span!(
@@ -1722,6 +1733,7 @@ impl Session {
                 state_db: state_db_ctx.clone(),
                 live_thread: live_thread.clone(),
                 image_store,
+                image_store_selection,
                 thread_store: Arc::clone(&thread_store),
                 attestation_provider: attestation_provider.clone(),
                 time_provider,
@@ -1750,6 +1762,7 @@ impl Session {
                     workspace_routing.as_ref().clone(),
                     extensions.model_request_contributors().to_vec(),
                 )
+                .with_component_catalog(&component_catalog)
                 .with_executed_tool_calls(executed_tool_calls.clone())
                 .with_restored_history(matches!(
                     &initial_history,

@@ -1338,8 +1338,11 @@ async fn guardian_subagent_does_not_inherit_parent_exec_policy_rules() {
         client_mcp_extensions: ClientMcpExtensions::default(),
         reserved_thread_id: None,
         analytics_events_client: None,
-        image_store: crate::thread_manager::passthrough_image_store(),
-        thread_store,
+        image_store: crate::thread_manager::passthrough_image_store().into(),
+        persistence: PersistenceServices {
+            thread_store,
+            host_state_db: None,
+        },
         attestation_provider: None,
         external_time_provider: None,
         inherited_multi_agent_version: None,

@@ -1,0 +1,88 @@
+Unapplied activation artifact: staged broker runtime foundations
+===============================================================
+
+This patch is NOT sufficient by itself to compile the broker or expose it to
+native catalog users. It remains unapplied against the active persistent-reap baseline.
+
+Apply only after the coordinated source gate, alongside
+broker-session-activation.patch and the still-required shared codec extraction:
+- session_wire Frame visibility, read_frame_bytes, MessageAssembler(limit) with
+  push/finish/has_seen/is_active, Sending new/next_frame/mark_sent.
+- Apply broker-spool-activation.patch before the codec extraction; preserve its
+  Sending::from_payload and joined serialization path.
+- Preserve ordinary framing, parser strictness, send fences and existing tests.
+- Implement ComponentServer broker handshake/DependencyClient demux, per-request
+  dependency scopes, owned callback failure/EOF/disconnect cleanup before use.
+- Update Cargo.lock and repository-required Bazel dependency/build metadata when
+  adding UUID, then run linked tests. No broker tests have been compiled yet.
+
+This patch only links staged modules/exports, adds UUID v4, transfers spool
+ownership for the joined decoder. The explicit child reap helper is already
+crate-visible in the active persistent-reap baseline. Broker reverse request parameters have an explicit
+8 MiB cap and typed request_too_large error before parsing/handler admission;
+ordinary history and broker response payloads remain uncapped.
+
+diff --git a/codex-rs/component-host/src/session_wire.rs b/codex-rs/component-host/src/session_wire.rs
+--- a/codex-rs/component-host/src/session_wire.rs
++++ b/codex-rs/component-host/src/session_wire.rs
+@@ -66,6 +66,12 @@
+ }
+ 
+ impl Payload {
++    /// Transfer private spool ownership without spawning detached parser work.
++    /// Consumers must reopen/rewind before reading; `bytes` is the verified body size.
++    pub(super) fn into_parts(self) -> (NamedTempFile, u64) {
++        (self.file, self.bytes)
++    }
++
+     pub(super) async fn from_value(value: Value) -> Result<Self> {
+         tokio::task::spawn_blocking(move || {
+             let mut file = NamedTempFile::new()?;
+
+diff --git a/codex-rs/component-host/src/lib.rs b/codex-rs/component-host/src/lib.rs
+--- a/codex-rs/component-host/src/lib.rs
++++ b/codex-rs/component-host/src/lib.rs
+@@ -13,6 +13,31 @@
+ //! explicit persistent-session handshake and retains one process for concurrent
+ //! calls. Persistent cancellation abandons only the waiter; accepted operations
+ //! stay supervised and are never automatically replayed after a disconnect.
++
++mod broker_api;
++mod broker_client;
++mod broker_completion;
++mod broker_connection;
++mod broker_decode;
++mod broker_dispatch;
++mod broker_host;
++mod broker_spool;
++mod broker_wire;
++mod broker_writer;
++
++pub use broker_api::DependencyCancellation;
++pub use broker_api::DependencyContext;
++pub use broker_api::DependencyError;
++pub use broker_api::DependencyErrorCode;
++pub use broker_api::DependencyFuture;
++pub use broker_api::DependencyOwner;
++pub use broker_api::HostDependencyAuthority;
++pub use broker_api::HostDependencyDescriptor;
++pub use broker_api::HostDependencyService;
++pub use broker_api::HostOperationScope;
++pub use broker_client::DependencyClient;
++pub use broker_client::DependencyRequestScope;
++pub use broker_host::HostDependencyRegistry;
+ 
+ mod catalog;
+ mod management;
+
+diff --git a/codex-rs/component-host/Cargo.toml b/codex-rs/component-host/Cargo.toml
+--- a/codex-rs/component-host/Cargo.toml
++++ b/codex-rs/component-host/Cargo.toml
+@@ -23,5 +23,7 @@
+ tempfile = { workspace = true }
+ tokio = { workspace = true, features = ["process", "io-util", "io-std", "fs", "time", "sync", "rt-multi-thread", "macros", "signal"] }
+ 
++uuid = { workspace = true, features = ["v4"] }
++
+ [dev-dependencies]
+ pretty_assertions = { workspace = true }

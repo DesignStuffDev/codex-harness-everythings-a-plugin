@@ -1,0 +1,75 @@
+{
+  "upstream": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "scope": "Frozen Rust source at storage-v2/service-lifetime checkpoint, including staged unlinked modules; exact CLI/manager used by independent and GUI acceptance. No authored commit or publication.",
+  "binaries": {
+    "codex": {
+      "path": "/workspace/verified-component-checkpoint-v2-20260930/codex",
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "bytes": 625072120,
+      "source": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex-f731699cb80b2def"
+    },
+    "host": {
+      "path": "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "bytes": 7092568,
+      "source": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component"
+    }
+  },
+  "archives": [
+    {
+      "path": "/workspace/verified-component-checkpoint-v2-20260930/rust-source.tar.zst",
+      "bytes": 15006315,
+      "sha256": "0446c6698d4c11541a921701154b6aa5321ba45803d70266bb380e7088536eb0",
+      "tar_command": [
+        "tar",
+        "--exclude=codex-rs/target",
+        "--exclude=*/__pycache__",
+        "-C",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "-cf",
+        "-",
+        "codex-rs",
+        "LICENSE",
+        "NOTICE",
+        "UPSTREAM_PROVENANCE.md"
+      ],
+      "compression": "zstd -T1 -3",
+      "checksum_verified": true,
+      "elapsed_seconds": 0.5315943659988989
+    },
+    {
+      "path": "/workspace/verified-component-checkpoint-v2-20260930/host-binaries.tar.zst",
+      "bytes": 137618260,
+      "sha256": "28f6b2704a7bcd0f644f3d3473102b0243e3c01b919e05bc19076ae38053b499",
+      "tar_command": [
+        "tar",
+        "-C",
+        "/workspace/verified-component-checkpoint-v2-20260930",
+        "-cf",
+        "-",
+        "binaries.json",
+        "codex",
+        "codex-component"
+      ],
+      "compression": "zstd -T1 -3",
+      "checksum_verified": true,
+      "elapsed_seconds": 3.2625054079981055,
+      "stream_verified_members": {
+        "codex": {
+          "bytes": 625072120,
+          "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+          "mode": 448
+        },
+        "codex-component": {
+          "bytes": 7092568,
+          "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+          "mode": 448
+        }
+      }
+    }
+  ],
+  "restoration": "Use tar --zstd -xf ARCHIVE -C NEW_DIRECTORY after verifying the recorded SHA256. Source archive contains codex-rs plus upstream notices/provenance. Binary archive contains exact codex and codex-component and their manifest.",
+  "limitations": [
+    "Rust source snapshot includes unlinked staged modules and has not itself been tested as a standalone host source distribution. The separate native-plugin source export has its own successful independent-build proof."
+  ]
+}

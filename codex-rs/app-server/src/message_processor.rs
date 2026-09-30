@@ -255,6 +255,7 @@ pub(crate) struct MessageProcessorArgs {
     pub(crate) environment_manager: Arc<EnvironmentManager>,
     pub(crate) feedback: CodexFeedback,
     pub(crate) log_db: Option<LogDbLayer>,
+    pub(crate) persistence: codex_core::PersistenceServices,
     pub(crate) state_db: Option<StateDbHandle>,
     pub(crate) config_warnings: Vec<ConfigWarningNotification>,
     pub(crate) session_source: SessionSource,
@@ -281,6 +282,7 @@ impl MessageProcessor {
             environment_manager,
             feedback,
             log_db,
+            persistence,
             state_db,
             config_warnings,
             session_source,
@@ -301,7 +303,7 @@ impl MessageProcessor {
         // The thread store is intentionally process-scoped. Config reloads can
         // affect per-thread behavior, but they must not move newly started,
         // resumed, or forked threads to a different persistence backend/root.
-        let thread_store = codex_core::thread_store_from_config(config.as_ref(), state_db.clone());
+        let thread_store = Arc::clone(&persistence.thread_store);
         // Queue persistence requires SQLite, so in-memory thread stores and
         // app servers without a state database do not have a queue backend.
         let queue_store: Option<Arc<dyn QueueStore>> = match &config.experimental_thread_store {
@@ -333,7 +335,7 @@ impl MessageProcessor {
                     Arc::clone(&extension_event_sink),
                 ))
             });
-            let manager = ThreadManager::new(
+            let manager = ThreadManager::new_with_persistence(
                 config.as_ref(),
                 auth_manager.clone(),
                 codex_core::build_models_manager(config.as_ref(), auth_manager.clone()),
@@ -359,19 +361,16 @@ impl MessageProcessor {
                 )),
                 Some(analytics_events_client.clone()),
                 codex_core::passthrough_image_store(),
-                Arc::clone(&thread_store),
+                persistence.clone(),
                 codex_core::local_agent_graph_store_from_state_db(state_db.as_ref()),
                 installation_id,
                 Some(app_server_attestation_provider(
                     outgoing.clone(),
                     thread_state_manager.clone(),
                 )),
-                Some({
-                    let time_provider =
-                        app_server_time_provider(outgoing.clone(), thread_state_manager.clone());
-                    time_provider
-                }),
-            );
+                Some(app_server_time_provider(outgoing.clone(), thread_state_manager.clone()) as _),
+            )
+            .with_default_attachment_store_components();
             match code_mode_session_provider {
                 Some(provider) => manager.with_code_mode_session_provider(provider),
                 None => manager,
@@ -1438,7 +1437,7 @@ impl MessageProcessor {
                 self.thread_processor.memory_status(params).await
             }
             ClientRequest::MemoryReset { .. } => self.thread_processor.memory_reset().await,
-            ClientRequest::RolloutCompress { .. } => self.thread_processor.rollout_compress(),
+            ClientRequest::RolloutCompress { .. } => self.thread_processor.rollout_compress().await,
             ClientRequest::ThreadUnarchive { params, .. } => {
                 self.thread_processor
                     .thread_unarchive(request_id.clone(), params)

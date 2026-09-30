@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="1" skipped="0" failures="1" errors="0" uuid="2fb90970-5814-4bb0-bf1c-1ea1b7247409" timestamp="2026-09-30T13:16:59.438+00:00" time="0.195">
+    <testsuite name="codex-thread-store-local-plugin::process_storage" tests="1" skipped="0" errors="0" failures="1">
+        <testcase name="lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:16:59.439+00:00" time="0.192">
+            <failure message="thread &apos;lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts&apos; (248452) panicked at thread-store-local-plugin/tests/cases/lifecycle.rs:108:9" type="test failure with exit code 101">thread &apos;lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts&apos; (248452) panicked at thread-store-local-plugin/tests/cases/lifecycle.rs:108:9:
+assertion failed: `(left == right)`: selected process storage must preserve the native durable payload in Legacy
+
+Diff &lt; left / right &gt; :
+ Object {
+     &quot;call_id&quot;: String(&quot;host-evidence-call&quot;),
+     &quot;internal_chat_message_metadata_passthrough&quot;: Object {
+&gt;        &quot;cell_id&quot;: String(&quot;host-evidence-cell&quot;),
+&gt;        &quot;executed_tool_calls&quot;: Array [
+&gt;            Object {
+&gt;                &quot;arguments&quot;: Object {
+&gt;                    &quot;expression&quot;: String(&quot;6 * 7&quot;),
+&gt;                },
+&gt;                &quot;name&quot;: String(&quot;calculator&quot;),
+&gt;            },
+&gt;        ],
+&gt;        &quot;tool_calls_complete&quot;: Bool(true),
+         &quot;turn_id&quot;: String(&quot;host-evidence-turn&quot;),
+     },
+     &quot;name&quot;: String(&quot;exec&quot;),
+     &quot;output&quot;: String(&quot;42&quot;),
+     &quot;type&quot;: String(&quot;function_call_output&quot;),
+ }
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts ... FAILED
+
+failures:
+
+failures:
+    lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 12 filtered out; finished in 0.19s
+
+</system-out>
+            <system-err>
+thread &apos;lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts&apos; (248452) panicked at thread-store-local-plugin/tests/cases/lifecycle.rs:108:9:
+assertion failed: `(left == right)`: selected process storage must preserve the native durable payload in Legacy
+
+Diff &lt; left / right &gt; :
+ Object {
+     &quot;call_id&quot;: String(&quot;host-evidence-call&quot;),
+     &quot;internal_chat_message_metadata_passthrough&quot;: Object {
+&gt;        &quot;cell_id&quot;: String(&quot;host-evidence-cell&quot;),
+&gt;        &quot;executed_tool_calls&quot;: Array [
+&gt;            Object {
+&gt;                &quot;arguments&quot;: Object {
+&gt;                    &quot;expression&quot;: String(&quot;6 * 7&quot;),
+&gt;                },
+&gt;                &quot;name&quot;: String(&quot;calculator&quot;),
+&gt;            },
+&gt;        ],
+&gt;        &quot;tool_calls_complete&quot;: Bool(true),
+         &quot;turn_id&quot;: String(&quot;host-evidence-turn&quot;),
+     },
+     &quot;name&quot;: String(&quot;exec&quot;),
+     &quot;output&quot;: String(&quot;42&quot;),
+     &quot;type&quot;: String(&quot;function_call_output&quot;),
+ }
+
+
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+    </testsuite>
+</testsuites>

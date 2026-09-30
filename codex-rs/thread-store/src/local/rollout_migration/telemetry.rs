@@ -5,6 +5,7 @@
 
 use std::time::Instant;
 
+use super::MigrationControl;
 use super::RolloutMigrationFailureReason;
 use super::RolloutMigrationMode;
 use super::RolloutMigrationOptions;
@@ -50,7 +51,11 @@ impl RolloutMigrationTelemetry {
         }
     }
 
-    pub(super) fn finish(&self, result: &ThreadStoreResult<RolloutMigrationReport>) {
+    pub(super) fn finish(
+        &self,
+        result: &ThreadStoreResult<RolloutMigrationReport>,
+        control: MigrationControl<'_>,
+    ) {
         let Some(metrics) = codex_otel::global() else {
             return;
         };
@@ -72,6 +77,7 @@ impl RolloutMigrationTelemetry {
         }
         let result = match result {
             Err(_) => "error",
+            Ok(_) if control.is_stopped() => "cancelled",
             Ok(report)
                 if report
                     .outcomes

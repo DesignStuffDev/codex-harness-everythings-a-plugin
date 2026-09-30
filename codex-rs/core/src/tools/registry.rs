@@ -399,6 +399,13 @@ impl ToolRegistry {
                 entry.insert(RegisteredTool { runtime, exposure });
                 true
             }
+            Entry::Occupied(mut entry) if runtime.replaces_existing_tool() => {
+                // Replacing the implementation must not widen its existing model/code-mode
+                // visibility. The host still owns exposure policy for the selected tool.
+                let exposure = entry.get().exposure;
+                entry.insert(RegisteredTool { runtime, exposure });
+                true
+            }
             Entry::Occupied(entry) => {
                 tracing::warn!(
                     tool_name = %entry.key(),

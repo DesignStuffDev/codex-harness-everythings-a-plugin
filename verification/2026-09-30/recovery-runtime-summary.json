@@ -1,0 +1,31 @@
+{
+  "passed": true,
+  "recorded_utc": "2026-09-30T17:05:11.050907+00:00",
+  "scope": "Recovery validation of preserved hosts and previously independently built native storage/attachment packages; fresh external test homes; no Rust builds or implementation edits",
+  "inference": "Deterministic external process and loopback provider; no live model",
+  "reports": [
+    "recovery-harness-command.json",
+    "recovery-harness-acceptance.json",
+    "recovery-harness-commands.json",
+    "recovery-harness-native-requests.json",
+    "recovery-manager-shutdown-command.json",
+    "recovery-manager-shutdown-acceptance.json",
+    "recovery-attachment-acceptance.json",
+    "recovery-attachment-revalidated.json"
+  ],
+  "storage_pids_absent": {
+    "311489": true,
+    "311582": true,
+    "311671": true
+  },
+  "hosts_unchanged": true,
+  "attachment_blob_unchanged": true,
+  "corrected_reporter_mismatch": {
+    "original_status": "failed",
+    "cause": "Ad hoc verifier expected a different absent-component diagnostic phrase. Actual exit1 and diagnostic are the native host behavior; no implementation failure.",
+    "actual_error": "Error: requested component is not installed and enabled\n",
+    "source": "codex-rs/component-host/src/main.rs:148",
+    "runtime_repeated": false
+  },
+  "gui_and_core_tests": "Owned separately by root; excluded from this report"
+}

@@ -1,0 +1,36 @@
+{
+  "method": "single actual Ctrl+C to component manager PTY after cold resume",
+  "exit_status": 0,
+  "elapsed_seconds": 0.072139233,
+  "processes": [
+    {
+      "pid": 334142,
+      "ppid": 515,
+      "state": "S",
+      "exe": "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "proc_absent_after_ctrl_c": true
+    },
+    {
+      "pid": 334150,
+      "ppid": 334142,
+      "state": "S",
+      "exe": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "proc_absent_after_ctrl_c": true
+    },
+    {
+      "pid": 334151,
+      "ppid": 334150,
+      "state": "S",
+      "exe": "/workspace/verified-component-checkpoint-v2-20260930/codex",
+      "proc_absent_after_ctrl_c": true
+    },
+    {
+      "pid": 334170,
+      "ppid": 334151,
+      "state": "S",
+      "exe": "/tmp/codex-recovery-runtime-20260930/gui/codex-home/components/objects/native.thread-store-local-311864-18da2800b05ea630-0/codex-thread-store-local-plugin",
+      "proc_absent_after_ctrl_c": true
+    }
+  ],
+  "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\n"
+}

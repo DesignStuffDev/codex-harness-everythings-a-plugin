@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="17" skipped="0" failures="0" errors="0" uuid="8a7cc975-2870-480e-98f1-2bc81de18a2a" timestamp="2026-09-30T12:24:38.470+00:00" time="9.544">
+    <testsuite name="codex-thread-store-component" tests="5" skipped="0" errors="0" failures="0">
+        <testcase name="adapter::tests::cancelled_connect_still_drains_accepted_open" classname="codex-thread-store-component" timestamp="2026-09-30T12:24:38.471+00:00" time="0.052"/>
+        <testcase name="adapter::tests::invalid_open_waits_for_service_cleanup_before_returning" classname="codex-thread-store-component" timestamp="2026-09-30T12:24:38.522+00:00" time="0.132"/>
+        <testcase name="adapter::tests::shutdown_owner_closes_process_with_retained_store_and_unpolled_future" classname="codex-thread-store-component" timestamp="2026-09-30T12:24:38.654+00:00" time="0.080"/>
+        <testcase name="service::tests::release_before_native_prepare_completes_drops_late_reservation" classname="codex-thread-store-component" timestamp="2026-09-30T12:24:38.735+00:00" time="0.058"/>
+        <testcase name="adapter::tests::initialization_cleanup_failure_preserves_both_errors" classname="codex-thread-store-component" timestamp="2026-09-30T12:24:38.471+00:00" time="1.038"/>
+    </testsuite>
+    <testsuite name="codex-thread-store-local-plugin::process_storage" tests="12" skipped="0" errors="0" failures="0">
+        <testcase name="acquisition::confirmed_native_acquisition_errors_leave_store_usable" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:38.792+00:00" time="0.272"/>
+        <testcase name="acquisition::mismatched_native_acquisition_reply_fences_store_and_releases_writer" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:39.509+00:00" time="0.344"/>
+        <testcase name="collections::installed_store_preserves_projects_sections_attachments_and_literal_clears" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:39.853+00:00" time="0.530"/>
+        <testcase name="collections::metadata_and_paginated_reads_preserve_native_results_and_revert" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:40.383+00:00" time="0.470"/>
+        <testcase name="lifecycle::failed_fork_calls_release_cleanup_capacity_and_keep_native_error_types" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:40.853+00:00" time="0.445"/>
+        <testcase name="lifecycle::failed_preparation_discard_does_not_materialize_a_thread" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:41.298+00:00" time="0.331"/>
+        <testcase name="lifecycle::fork_owner_cancellation_releases_source_while_delete_is_waiting" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:41.629+00:00" time="0.378"/>
+        <testcase name="lifecycle::fork_reference_survives_restart_and_preserves_delete_conflicts" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:42.007+00:00" time="0.315"/>
+        <testcase name="lifecycle::installed_storage_preserves_native_history_and_resume_across_process_restart" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:42.322+00:00" time="0.495"/>
+        <testcase name="acquisition::late_native_acquisition_times_out_fences_clones_and_releases_writer" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:39.065+00:00" time="4.725"/>
+        <testcase name="lifecycle::optional_sqlite_features_match_native_capabilities_and_errors" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:43.790+00:00" time="0.175"/>
+        <testcase name="lifecycle::large_native_rollout_roundtrips_beyond_transport_frame_size" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T12:24:42.817+00:00" time="5.196"/>
+    </testsuite>
+</testsuites>

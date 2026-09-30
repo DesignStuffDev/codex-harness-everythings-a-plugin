@@ -1,0 +1,2297 @@
+{
+  "package": "codex-thread-store-local-plugin",
+  "workspace": "codex-rs",
+  "local_crates": [
+    {
+      "name": "codex-agent-identity",
+      "path": "codex-rs/agent-identity"
+    },
+    {
+      "name": "codex-app-server-protocol",
+      "path": "codex-rs/app-server-protocol"
+    },
+    {
+      "name": "codex-app-server-protocol-noop-macros",
+      "path": "codex-rs/app-server-protocol-noop-macros"
+    },
+    {
+      "name": "codex-async-utils",
+      "path": "codex-rs/async-utils"
+    },
+    {
+      "name": "codex-aws-auth",
+      "path": "codex-rs/aws-auth"
+    },
+    {
+      "name": "codex-build-info",
+      "path": "codex-rs/build-info"
+    },
+    {
+      "name": "codex-code-mode",
+      "path": "codex-rs/code-mode"
+    },
+    {
+      "name": "codex-code-mode-protocol",
+      "path": "codex-rs/code-mode-protocol"
+    },
+    {
+      "name": "codex-api",
+      "path": "codex-rs/codex-api"
+    },
+    {
+      "name": "codex-client",
+      "path": "codex-rs/codex-client"
+    },
+    {
+      "name": "codex-experimental-api-macros",
+      "path": "codex-rs/codex-experimental-api-macros"
+    },
+    {
+      "name": "codex-mcp",
+      "path": "codex-rs/codex-mcp"
+    },
+    {
+      "name": "codex-collaboration-mode-templates",
+      "path": "codex-rs/collaboration-mode-templates"
+    },
+    {
+      "name": "codex-component-api",
+      "path": "codex-rs/component-api"
+    },
+    {
+      "name": "codex-component-host",
+      "path": "codex-rs/component-host"
+    },
+    {
+      "name": "codex-config",
+      "path": "codex-rs/config"
+    },
+    {
+      "name": "codex-connectors",
+      "path": "codex-rs/connectors"
+    },
+    {
+      "name": "codex-context-fragments",
+      "path": "codex-rs/context-fragments"
+    },
+    {
+      "name": "codex-core-plugin-common",
+      "path": "codex-rs/core-plugin-common"
+    },
+    {
+      "name": "codex-diagnostics",
+      "path": "codex-rs/diagnostics"
+    },
+    {
+      "name": "codex-exec-server",
+      "path": "codex-rs/exec-server"
+    },
+    {
+      "name": "codex-exec-server-protocol",
+      "path": "codex-rs/exec-server-protocol"
+    },
+    {
+      "name": "codex-execpolicy",
+      "path": "codex-rs/execpolicy"
+    },
+    {
+      "name": "codex-agent-message-board-extension",
+      "path": "codex-rs/ext/agent-message-board"
+    },
+    {
+      "name": "codex-extension-api",
+      "path": "codex-rs/ext/extension-api"
+    },
+    {
+      "name": "codex-extension-items",
+      "path": "codex-rs/ext/items"
+    },
+    {
+      "name": "codex-features",
+      "path": "codex-rs/features"
+    },
+    {
+      "name": "codex-feedback",
+      "path": "codex-rs/feedback"
+    },
+    {
+      "name": "codex-file-search",
+      "path": "codex-rs/file-search"
+    },
+    {
+      "name": "codex-file-system",
+      "path": "codex-rs/file-system"
+    },
+    {
+      "name": "codex-file-watcher",
+      "path": "codex-rs/file-watcher"
+    },
+    {
+      "name": "codex-git-utils",
+      "path": "codex-rs/git-utils"
+    },
+    {
+      "name": "codex-guardian-context",
+      "path": "codex-rs/guardian-context"
+    },
+    {
+      "name": "codex-history",
+      "path": "codex-rs/history"
+    },
+    {
+      "name": "codex-http-client",
+      "path": "codex-rs/http-client"
+    },
+    {
+      "name": "codex-install-context",
+      "path": "codex-rs/install-context"
+    },
+    {
+      "name": "codex-keyring-store",
+      "path": "codex-rs/keyring-store"
+    },
+    {
+      "name": "codex-login",
+      "path": "codex-rs/login"
+    },
+    {
+      "name": "codex-model-provider",
+      "path": "codex-rs/model-provider"
+    },
+    {
+      "name": "codex-model-provider-info",
+      "path": "codex-rs/model-provider-info"
+    },
+    {
+      "name": "codex-models-manager",
+      "path": "codex-rs/models-manager"
+    },
+    {
+      "name": "codex-mxc-sandbox",
+      "path": "codex-rs/mxc-sandbox"
+    },
+    {
+      "name": "codex-network-proxy",
+      "path": "codex-rs/network-proxy"
+    },
+    {
+      "name": "codex-otel",
+      "path": "codex-rs/otel"
+    },
+    {
+      "name": "codex-plugin",
+      "path": "codex-rs/plugin"
+    },
+    {
+      "name": "codex-prompts",
+      "path": "codex-rs/prompts"
+    },
+    {
+      "name": "codex-protocol",
+      "path": "codex-rs/protocol"
+    },
+    {
+      "name": "codex-response-debug-context",
+      "path": "codex-rs/response-debug-context"
+    },
+    {
+      "name": "codex-rmcp-client",
+      "path": "codex-rs/rmcp-client"
+    },
+    {
+      "name": "codex-rollout",
+      "path": "codex-rs/rollout"
+    },
+    {
+      "name": "codex-sandboxing",
+      "path": "codex-rs/sandboxing"
+    },
+    {
+      "name": "codex-secrets",
+      "path": "codex-rs/secrets"
+    },
+    {
+      "name": "codex-shell-command",
+      "path": "codex-rs/shell-command"
+    },
+    {
+      "name": "codex-skills",
+      "path": "codex-rs/skills"
+    },
+    {
+      "name": "codex-state",
+      "path": "codex-rs/state"
+    },
+    {
+      "name": "codex-terminal-detection",
+      "path": "codex-rs/terminal-detection"
+    },
+    {
+      "name": "codex-thread-store",
+      "path": "codex-rs/thread-store"
+    },
+    {
+      "name": "codex-thread-store-component",
+      "path": "codex-rs/thread-store-component"
+    },
+    {
+      "name": "codex-thread-store-local-plugin",
+      "path": "codex-rs/thread-store-local-plugin"
+    },
+    {
+      "name": "codex-tools",
+      "path": "codex-rs/tools"
+    },
+    {
+      "name": "codex-uds",
+      "path": "codex-rs/uds"
+    },
+    {
+      "name": "codex-utils-absolute-path",
+      "path": "codex-rs/utils/absolute-path"
+    },
+    {
+      "name": "codex-utils-cache",
+      "path": "codex-rs/utils/cache"
+    },
+    {
+      "name": "codex-utils-home-dir",
+      "path": "codex-rs/utils/home-dir"
+    },
+    {
+      "name": "codex-utils-image",
+      "path": "codex-rs/utils/image"
+    },
+    {
+      "name": "codex-utils-output-truncation",
+      "path": "codex-rs/utils/output-truncation"
+    },
+    {
+      "name": "codex-utils-path-uri",
+      "path": "codex-rs/utils/path-uri"
+    },
+    {
+      "name": "codex-utils-path",
+      "path": "codex-rs/utils/path-utils"
+    },
+    {
+      "name": "codex-utils-plugins",
+      "path": "codex-rs/utils/plugins"
+    },
+    {
+      "name": "codex-utils-process",
+      "path": "codex-rs/utils/process"
+    },
+    {
+      "name": "codex-utils-pty",
+      "path": "codex-rs/utils/pty"
+    },
+    {
+      "name": "codex-utils-redacted-string",
+      "path": "codex-rs/utils/redacted-string"
+    },
+    {
+      "name": "codex-utils-rustls-provider",
+      "path": "codex-rs/utils/rustls-provider"
+    },
+    {
+      "name": "codex-utils-stream-parser",
+      "path": "codex-rs/utils/stream-parser"
+    },
+    {
+      "name": "codex-utils-string",
+      "path": "codex-rs/utils/string"
+    },
+    {
+      "name": "codex-utils-template",
+      "path": "codex-rs/utils/template"
+    },
+    {
+      "name": "codex-websocket-auth",
+      "path": "codex-rs/websocket-auth"
+    },
+    {
+      "name": "codex-websocket-client",
+      "path": "codex-rs/websocket-client"
+    },
+    {
+      "name": "codex-windows-sandbox",
+      "path": "codex-rs/windows-sandbox-rs"
+    },
+    {
+      "name": "codex-workload-identity",
+      "path": "codex-rs/workload-identity"
+    }
+  ],
+  "local_edges": [
+    {
+      "from": "codex-agent-identity",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-agent-identity",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-agent-message-board-extension",
+      "alias": "codex-extension-api",
+      "to": "ext/extension-api",
+      "optional": false
+    },
+    {
+      "from": "codex-agent-message-board-extension",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-agent-message-board-extension",
+      "alias": "codex-state",
+      "to": "state",
+      "optional": false
+    },
+    {
+      "from": "codex-agent-message-board-extension",
+      "alias": "codex-tools",
+      "to": "tools",
+      "optional": false
+    },
+    {
+      "from": "codex-api",
+      "alias": "codex-client",
+      "to": "codex-client",
+      "optional": false
+    },
+    {
+      "from": "codex-api",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-api",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-api",
+      "alias": "codex-utils-rustls-provider",
+      "to": "utils/rustls-provider",
+      "optional": false
+    },
+    {
+      "from": "codex-api",
+      "alias": "codex-websocket-client",
+      "to": "websocket-client",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-app-server-protocol-noop-macros",
+      "to": "app-server-protocol-noop-macros",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-experimental-api-macros",
+      "to": "codex-experimental-api-macros",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-extension-items",
+      "to": "ext/items",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-history",
+      "to": "history",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-rollout",
+      "to": "rollout",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-secrets",
+      "to": "secrets",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-shell-command",
+      "to": "shell-command",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-app-server-protocol",
+      "alias": "codex-utils-redacted-string",
+      "to": "utils/redacted-string",
+      "optional": false
+    },
+    {
+      "from": "codex-aws-auth",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-build-info",
+      "alias": "codex-install-context",
+      "to": "install-context",
+      "optional": false
+    },
+    {
+      "from": "codex-client",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-code-mode",
+      "alias": "codex-code-mode-protocol",
+      "to": "code-mode-protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-code-mode",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-code-mode",
+      "alias": "codex-install-context",
+      "to": "install-context",
+      "optional": false
+    },
+    {
+      "from": "codex-code-mode",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-code-mode",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-code-mode-protocol",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-component-host",
+      "alias": "codex-component-api",
+      "to": "component-api",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-execpolicy",
+      "to": "execpolicy",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-features",
+      "to": "features",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-file-system",
+      "to": "file-system",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-git-utils",
+      "to": "git-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-model-provider-info",
+      "to": "model-provider-info",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-utils-path",
+      "to": "utils/path-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-utils-redacted-string",
+      "to": "utils/redacted-string",
+      "optional": false
+    },
+    {
+      "from": "codex-config",
+      "alias": "codex-windows-sandbox",
+      "to": "windows-sandbox-rs",
+      "optional": false
+    },
+    {
+      "from": "codex-connectors",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-connectors",
+      "alias": "codex-login",
+      "to": "login",
+      "optional": false
+    },
+    {
+      "from": "codex-connectors",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-connectors",
+      "alias": "codex-plugin",
+      "to": "plugin",
+      "optional": false
+    },
+    {
+      "from": "codex-connectors",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-context-fragments",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-context-fragments",
+      "alias": "codex-utils-string",
+      "to": "utils/string",
+      "optional": false
+    },
+    {
+      "from": "codex-core-plugin-common",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-build-info",
+      "to": "build-info",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-core-plugin-common",
+      "to": "core-plugin-common",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-exec-server-protocol",
+      "to": "exec-server-protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-file-system",
+      "to": "file-system",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-file-watcher",
+      "to": "file-watcher",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-sandboxing",
+      "to": "sandboxing",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-shell-command",
+      "to": "shell-command",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-skills",
+      "to": "skills",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-uds",
+      "to": "uds",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-home-dir",
+      "to": "utils/home-dir",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-process",
+      "to": "utils/process",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-pty",
+      "to": "utils/pty",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-redacted-string",
+      "to": "utils/redacted-string",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-utils-rustls-provider",
+      "to": "utils/rustls-provider",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-websocket-auth",
+      "to": "websocket-auth",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server",
+      "alias": "codex-websocket-client",
+      "to": "websocket-client",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-file-system",
+      "to": "file-system",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-install-context",
+      "to": "install-context",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-mxc-sandbox",
+      "to": "mxc-sandbox",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-shell-command",
+      "to": "shell-command",
+      "optional": false
+    },
+    {
+      "from": "codex-exec-server-protocol",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-execpolicy",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-context-fragments",
+      "to": "context-fragments",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-exec-server-protocol",
+      "to": "exec-server-protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-file-system",
+      "to": "file-system",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-guardian-context",
+      "to": "guardian-context",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-history",
+      "to": "history",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-mcp",
+      "to": "codex-mcp",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-tools",
+      "to": "tools",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-api",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-extension-items",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-features",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-features",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-features",
+      "alias": "codex-utils-redacted-string",
+      "to": "utils/redacted-string",
+      "optional": false
+    },
+    {
+      "from": "codex-feedback",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-feedback",
+      "alias": "codex-login",
+      "to": "login",
+      "optional": false
+    },
+    {
+      "from": "codex-feedback",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-feedback",
+      "alias": "codex-rollout",
+      "to": "rollout",
+      "optional": false
+    },
+    {
+      "from": "codex-feedback",
+      "alias": "codex-state",
+      "to": "state",
+      "optional": false
+    },
+    {
+      "from": "codex-file-system",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-file-system",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-file-system",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-git-utils",
+      "alias": "codex-file-system",
+      "to": "file-system",
+      "optional": false
+    },
+    {
+      "from": "codex-git-utils",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-git-utils",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-git-utils",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-git-utils",
+      "alias": "codex-utils-process",
+      "to": "utils/process",
+      "optional": false
+    },
+    {
+      "from": "codex-git-utils",
+      "alias": "codex-utils-pty",
+      "to": "utils/pty",
+      "optional": false
+    },
+    {
+      "from": "codex-guardian-context",
+      "alias": "codex-context-fragments",
+      "to": "context-fragments",
+      "optional": false
+    },
+    {
+      "from": "codex-guardian-context",
+      "alias": "codex-history",
+      "to": "history",
+      "optional": false
+    },
+    {
+      "from": "codex-guardian-context",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-history",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-http-client",
+      "alias": "codex-utils-rustls-provider",
+      "to": "utils/rustls-provider",
+      "optional": false
+    },
+    {
+      "from": "codex-install-context",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-install-context",
+      "alias": "codex-utils-home-dir",
+      "to": "utils/home-dir",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-agent-identity",
+      "to": "agent-identity",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-component-host",
+      "to": "component-host",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-keyring-store",
+      "to": "keyring-store",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-model-provider-info",
+      "to": "model-provider-info",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-secrets",
+      "to": "secrets",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-terminal-detection",
+      "to": "terminal-detection",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-utils-process",
+      "to": "utils/process",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-utils-template",
+      "to": "utils/template",
+      "optional": false
+    },
+    {
+      "from": "codex-login",
+      "alias": "codex-workload-identity",
+      "to": "workload-identity",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-async-utils",
+      "to": "async-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-connectors",
+      "to": "connectors",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-diagnostics",
+      "to": "diagnostics",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-exec-server",
+      "to": "exec-server",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-login",
+      "to": "login",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-model-provider",
+      "to": "model-provider",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-rmcp-client",
+      "to": "rmcp-client",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-mcp",
+      "alias": "codex-utils-plugins",
+      "to": "utils/plugins",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-agent-identity",
+      "to": "agent-identity",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-aws-auth",
+      "to": "aws-auth",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-feedback",
+      "to": "feedback",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-keyring-store",
+      "to": "keyring-store",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-login",
+      "to": "login",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-model-provider-info",
+      "to": "model-provider-info",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-models-manager",
+      "to": "models-manager",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-response-debug-context",
+      "to": "response-debug-context",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-secrets",
+      "to": "secrets",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider",
+      "alias": "codex-utils-process",
+      "to": "utils/process",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider-info",
+      "alias": "codex-client",
+      "to": "codex-client",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider-info",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-model-provider-info",
+      "alias": "codex-utils-redacted-string",
+      "to": "utils/redacted-string",
+      "optional": false
+    },
+    {
+      "from": "codex-models-manager",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-models-manager",
+      "alias": "codex-login",
+      "to": "login",
+      "optional": false
+    },
+    {
+      "from": "codex-models-manager",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-models-manager",
+      "alias": "codex-prompts",
+      "to": "prompts",
+      "optional": false
+    },
+    {
+      "from": "codex-models-manager",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-models-manager",
+      "alias": "codex-utils-output-truncation",
+      "to": "utils/output-truncation",
+      "optional": false
+    },
+    {
+      "from": "codex-mxc-sandbox",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-mxc-sandbox",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-mxc-sandbox",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-mxc-sandbox",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-mxc-sandbox",
+      "alias": "codex-windows-sandbox",
+      "to": "windows-sandbox-rs",
+      "optional": false
+    },
+    {
+      "from": "codex-network-proxy",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-network-proxy",
+      "alias": "codex-utils-home-dir",
+      "to": "utils/home-dir",
+      "optional": false
+    },
+    {
+      "from": "codex-network-proxy",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-network-proxy",
+      "alias": "codex-utils-rustls-provider",
+      "to": "utils/rustls-provider",
+      "optional": false
+    },
+    {
+      "from": "codex-otel",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-otel",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-otel",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-otel",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-otel",
+      "alias": "codex-utils-stream-parser",
+      "to": "utils/stream-parser",
+      "optional": false
+    },
+    {
+      "from": "codex-otel",
+      "alias": "codex-utils-string",
+      "to": "utils/string",
+      "optional": false
+    },
+    {
+      "from": "codex-plugin",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-plugin",
+      "alias": "codex-core-plugin-common",
+      "to": "core-plugin-common",
+      "optional": false
+    },
+    {
+      "from": "codex-plugin",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-plugin",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-plugin",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-plugin",
+      "alias": "codex-utils-plugins",
+      "to": "utils/plugins",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-collaboration-mode-templates",
+      "to": "collaboration-mode-templates",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-context-fragments",
+      "to": "context-fragments",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-execpolicy",
+      "to": "execpolicy",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-git-utils",
+      "to": "git-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-guardian-context",
+      "to": "guardian-context",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-prompts",
+      "alias": "codex-utils-template",
+      "to": "utils/template",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-async-utils",
+      "to": "async-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-execpolicy",
+      "to": "execpolicy",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-extension-items",
+      "to": "ext/items",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-utils-image",
+      "to": "utils/image",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-utils-redacted-string",
+      "to": "utils/redacted-string",
+      "optional": false
+    },
+    {
+      "from": "codex-protocol",
+      "alias": "codex-utils-string",
+      "to": "utils/string",
+      "optional": false
+    },
+    {
+      "from": "codex-response-debug-context",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-api",
+      "to": "codex-api",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-config",
+      "to": "config",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-exec-server",
+      "to": "exec-server",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-keyring-store",
+      "to": "keyring-store",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-secrets",
+      "to": "secrets",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-utils-home-dir",
+      "to": "utils/home-dir",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-rmcp-client",
+      "alias": "codex-utils-pty",
+      "to": "utils/pty",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-extension-items",
+      "to": "ext/items",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-file-search",
+      "to": "file-search",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-git-utils",
+      "to": "git-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-history",
+      "to": "history",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-state",
+      "to": "state",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-utils-path",
+      "to": "utils/path-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-rollout",
+      "alias": "codex-utils-process",
+      "to": "utils/process",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-mxc-sandbox",
+      "to": "mxc-sandbox",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-network-proxy",
+      "to": "network-proxy",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-uds",
+      "to": "uds",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-utils-home-dir",
+      "to": "utils/home-dir",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-utils-pty",
+      "to": "utils/pty",
+      "optional": false
+    },
+    {
+      "from": "codex-sandboxing",
+      "alias": "codex-windows-sandbox",
+      "to": "windows-sandbox-rs",
+      "optional": false
+    },
+    {
+      "from": "codex-secrets",
+      "alias": "codex-git-utils",
+      "to": "git-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-secrets",
+      "alias": "codex-keyring-store",
+      "to": "keyring-store",
+      "optional": false
+    },
+    {
+      "from": "codex-shell-command",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-shell-command",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-skills",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-skills",
+      "alias": "codex-shell-command",
+      "to": "shell-command",
+      "optional": false
+    },
+    {
+      "from": "codex-skills",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-skills",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-state",
+      "alias": "codex-history",
+      "to": "history",
+      "optional": false
+    },
+    {
+      "from": "codex-state",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-state",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-app-server-protocol",
+      "to": "app-server-protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-extension-items",
+      "to": "ext/items",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-git-utils",
+      "to": "git-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-install-context",
+      "to": "install-context",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-rollout",
+      "to": "rollout",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-state",
+      "to": "state",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-utils-path",
+      "to": "utils/path-utils",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-component",
+      "alias": "codex-component-host",
+      "to": "component-host",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-component",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-component",
+      "alias": "codex-thread-store",
+      "to": "thread-store",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-agent-message-board-extension",
+      "to": "ext/agent-message-board",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-component-host",
+      "to": "component-host",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-rollout",
+      "to": "rollout",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-state",
+      "to": "state",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-thread-store",
+      "to": "thread-store",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-thread-store-component",
+      "to": "thread-store-component",
+      "optional": false
+    },
+    {
+      "from": "codex-thread-store-local-plugin",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-code-mode",
+      "to": "code-mode",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-connectors",
+      "to": "connectors",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-extension-items",
+      "to": "ext/items",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-features",
+      "to": "features",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-file-system",
+      "to": "file-system",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-utils-output-truncation",
+      "to": "utils/output-truncation",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-tools",
+      "alias": "codex-utils-string",
+      "to": "utils/string",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-home-dir",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-image",
+      "alias": "codex-utils-cache",
+      "to": "utils/cache",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-output-truncation",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-output-truncation",
+      "alias": "codex-utils-string",
+      "to": "utils/string",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-path",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-path-uri",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-plugins",
+      "alias": "codex-exec-server",
+      "to": "exec-server",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-plugins",
+      "alias": "codex-exec-server-protocol",
+      "to": "exec-server-protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-plugins",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-utils-plugins",
+      "alias": "codex-utils-path-uri",
+      "to": "utils/path-uri",
+      "optional": false
+    },
+    {
+      "from": "codex-websocket-auth",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-websocket-client",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-otel",
+      "to": "otel",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-protocol",
+      "to": "protocol",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-utils-absolute-path",
+      "to": "utils/absolute-path",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-utils-process",
+      "to": "utils/process",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-utils-pty",
+      "to": "utils/pty",
+      "optional": false
+    },
+    {
+      "from": "codex-windows-sandbox",
+      "alias": "codex-utils-string",
+      "to": "utils/string",
+      "optional": false
+    },
+    {
+      "from": "codex-workload-identity",
+      "alias": "codex-http-client",
+      "to": "http-client",
+      "optional": false
+    }
+  ],
+  "files": 3126,
+  "source_bytes": 26336723,
+  "dev_dependencies_removed": true,
+  "all_targets_and_optional_dependencies_included": true,
+  "warnings": [
+    "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+  ],
+  "independent_build_verified": false,
+  "build_command": [
+    "cargo",
+    "build",
+    "--offline",
+    "--manifest-path",
+    "codex-rs/Cargo.toml",
+    "-p",
+    "codex-thread-store-local-plugin"
+  ],
+  "registry_and_git_sources_vendored": false,
+  "date": "2026-09-30",
+  "source_export_path": "/workspace/acceptance/thread-store-local-source",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "source_export_sha256": "8d3457a34e2c51c8825edfca91af60ce4016607ffa9cc0c2cf8544febc505424",
+  "source_hash_inventory": "thread-store-source-inventory.json",
+  "exporter_sha256": "9b197d19af1c76fb881edacd548c82780a750fa43fdc703d201ed568e07690ce",
+  "tests": {
+    "command": "python3 -m unittest discover -s component-sdk/tests -p test_rust_package.py -v",
+    "passed": 6
+  },
+  "metadata": {
+    "cwd": "/workspace/acceptance/thread-store-local-source/codex-rs",
+    "local": {
+      "command": "cargo metadata --offline --no-deps --format-version 1",
+      "exit_code": 0,
+      "packages": 80,
+      "all_local_paths_inside_export": true,
+      "dev_dependencies": 0
+    },
+    "linux": {
+      "command": "cargo metadata --offline --filter-platform x86_64-unknown-linux-gnu --format-version 1",
+      "exit_code": 0,
+      "resolved_packages": 916,
+      "metadata_sha256": "2d4b5c02343b51e135c7d7dccc0b32d9d63fa2ff5ec6e4c6704eb8b5983370b1"
+    },
+    "all_platforms": {
+      "command": "cargo metadata --offline --format-version 1",
+      "exit_code": 101,
+      "reason": "android_system_properties v0.1.5 is not in the available Cargo cache; offline mode prevented HTTP download"
+    },
+    "warning": "Retained pinned crossterm patch is unused in this reduced production graph"
+  },
+  "excluded_engine_packages": [
+    "codex-app-server",
+    "codex-cli",
+    "codex-core",
+    "codex-tui",
+    "core_test_support"
+  ],
+  "lockfile": {
+    "source_entries": 1481,
+    "resolved_entries": 1070,
+    "added_version_source_checksum_identities": 0,
+    "source_sha256": "b95887e8046d03823c4f4c4cdcbe3b41b46753488638e10a4734d715809bb4f4",
+    "resolved_sha256": "6100ae04397c06517c59ec3c0d5ecc923ddb66cc6a3afdb7f1d9d2fa664c4958",
+    "files_changed_after_export": [
+      "codex-rs/Cargo.lock"
+    ]
+  },
+  "git_dependencies": [
+    {
+      "name": "appcontainer_common",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "learning_mode_core",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "learning_mode_windows",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "mxc_config_contract",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "mxc_telemetry",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "nucleo",
+      "version": "0.5.0",
+      "source": "git+https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9faabb4e5c6d81d946a5e35a90f87347ee"
+    },
+    {
+      "name": "nucleo-matcher",
+      "version": "0.3.1",
+      "source": "git+https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9faabb4e5c6d81d946a5e35a90f87347ee"
+    },
+    {
+      "name": "process_security_environment_spec",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "rmcp",
+      "version": "3.3.0",
+      "source": "git+https://github.com/modelcontextprotocol/rust-sdk?rev=3e636cab26c013eca5131103c03d20237f12c4df#3e636cab26c013eca5131103c03d20237f12c4df"
+    },
+    {
+      "name": "rmcp-macros",
+      "version": "3.3.0",
+      "source": "git+https://github.com/modelcontextprotocol/rust-sdk?rev=3e636cab26c013eca5131103c03d20237f12c4df#3e636cab26c013eca5131103c03d20237f12c4df"
+    },
+    {
+      "name": "sandbox_spec",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    },
+    {
+      "name": "tokio-tungstenite",
+      "version": "0.28.0",
+      "source": "git+https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186"
+    },
+    {
+      "name": "tungstenite",
+      "version": "0.27.0",
+      "source": "git+https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+    },
+    {
+      "name": "wxc_common",
+      "version": "0.8.0",
+      "source": "git+https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f05d3447e67109cfb75e042803b843ca4"
+    }
+  ],
+  "no_cargo_build_or_rust_tests_performed": true,
+  "limitations": [
+    "Registry/git sources and native build tools are not bundled. Offline builds require populated compatible caches.",
+    "Resource audit covers literal includes and copied package resources; only a separate build can validate computed build-script reads.",
+    "No independent thread-store executable build/install/runtime acceptance claimed by this report."
+  ]
+}

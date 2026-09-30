@@ -1,0 +1,209 @@
+{
+  "passed": true,
+  "date": "2026-09-30",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "artifact_directory": "/workspace/acceptance/thread-store-native-final-20260930",
+  "plugin_id": "native.thread-store-local",
+  "package_directory": "/workspace/acceptance/thread-store-native-final-20260930/package",
+  "source_export": {
+    "local_crates": 80,
+    "resolved_packages": 916,
+    "all_local_paths_inside_export": true,
+    "development_dependencies_removed": true,
+    "excluded_engines": [
+      "codex-core",
+      "codex-cli",
+      "codex-tui",
+      "codex-app-server",
+      "core_test_support"
+    ],
+    "lock_identities_before": 1481,
+    "lock_identities_after": 1070,
+    "lock_new_identities": 0,
+    "source_files": 3160,
+    "source_bytes": 26626772,
+    "source_inventory_sha256": "d4cc57df0d1ad1a82d54be6f988b67d433129ebc9fec0a391babef7dfbc4108b",
+    "warnings": [
+      "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+    ]
+  },
+  "build": {
+    "command": [
+      "env",
+      "CARGO_INCREMENTAL=0",
+      "CARGO_TARGET_DIR=/workspace/codex-harness-everythings-a-plugin/codex-rs/target",
+      "cargo",
+      "build",
+      "--offline",
+      "--locked",
+      "-j",
+      "1",
+      "-p",
+      "codex-thread-store-local-plugin",
+      "--bin",
+      "codex-thread-store-local-plugin",
+      "--message-format=json-render-diagnostics"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930/source/codex-rs",
+    "started_utc": "2026-09-30T12:48:04.633974+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/build.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/build.stderr",
+    "status": 0,
+    "elapsed_seconds": 65.69875264300026
+  },
+  "build_artifact": {
+    "binary": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-thread-store-local-plugin",
+    "package_id": "path+file:///workspace/acceptance/thread-store-native-final-20260930/source/codex-rs/thread-store-local-plugin#codex-thread-store-local-plugin@0.0.0",
+    "target_source": "/workspace/acceptance/thread-store-native-final-20260930/source/codex-rs/thread-store-local-plugin/src/main.rs",
+    "fresh": false,
+    "local_artifacts": 85,
+    "local_recompiled_artifacts": 14,
+    "third_party_cache_reused": true,
+    "shared_target": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target",
+    "bytes": 340614384,
+    "sha256": "bada74395646aa5cdb4ee9e4c7f6384b4a928dd5858ff8c4827f498a1d8c9431"
+  },
+  "package_files": [
+    {
+      "path": "LICENSE",
+      "bytes": 10926,
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mode": "0o600"
+    },
+    {
+      "path": "NOTICE",
+      "bytes": 242,
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mode": "0o600"
+    },
+    {
+      "path": "codex-component.json",
+      "bytes": 309,
+      "sha256": "209c1045ba5190fb73a63ca74e6b5f9600380de7c5cdc048396a5f65af701cf8",
+      "mode": "0o600"
+    },
+    {
+      "path": "codex-thread-store-local-plugin",
+      "bytes": 98229424,
+      "sha256": "290dcf1bbfa069ea7413e12893d61f267ed81a2f2caf39dbe2975b6efd94dc98",
+      "mode": "0o700"
+    }
+  ],
+  "runtime_libraries": "\tlinux-vdso.so.1 (0x00007f794184e000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f793d890000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f793d7a0000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f793d5ac000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f7941850000)\n",
+  "source_removal": {
+    "source": "/workspace/acceptance/thread-store-native-final-20260930/source",
+    "removed": true,
+    "removed_before_install": true,
+    "removed_utc": "2026-09-30T12:50:07.331765+00:00",
+    "old_export_preserved": true,
+    "host_fingerprints_unchanged_after_build": true,
+    "inventory_sha256": "d4cc57df0d1ad1a82d54be6f988b67d433129ebc9fec0a391babef7dfbc4108b"
+  },
+  "binaries_before_export_and_build": {
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "bytes": 1035548088,
+      "mtime_ns": 1790772328210984573
+    },
+    "manager": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "bytes": 16462992,
+      "mtime_ns": 1790770859379633820
+    }
+  },
+  "binaries_after_runtime": {
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "bytes": 1035548088,
+      "mtime_ns": 1790772328210984573
+    },
+    "manager": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "bytes": 16462992,
+      "mtime_ns": 1790770859379633820
+    }
+  },
+  "binaries_unchanged": true,
+  "runtime_acceptance": {
+    "passed": true,
+    "inference": "deterministic external process + loopback native fixture; no live model",
+    "verified": [
+      "independent builds",
+      "source removed",
+      "real CLI turn",
+      "external tool execution",
+      "context contribution",
+      "model event streaming",
+      "persisted session resume",
+      "zero native inference while replacement selected",
+      "native restoration with retained history",
+      "selected native storage process",
+      "cold storage process restart and resume",
+      "storage child termination after each CLI process",
+      "native storage restoration with retained history"
+    ],
+    "thread_id": "01a0f25d-b9fc-7862-afa6-2dc20e537a00",
+    "binaries_before": {
+      "host": {
+        "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+        "mtime_ns": 1790770859379633820,
+        "bytes": 16462992
+      },
+      "codex": {
+        "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+        "mtime_ns": 1790772328210984573,
+        "bytes": 1035548088
+      }
+    },
+    "binaries_after": {
+      "host": {
+        "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+        "mtime_ns": 1790770859379633820,
+        "bytes": 16462992
+      },
+      "codex": {
+        "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+        "mtime_ns": 1790772328210984573,
+        "bytes": 1035548088
+      }
+    },
+    "commands_file": "/workspace/acceptance/thread-store-native-final-20260930/runtime/commands.json",
+    "native_requests_file": "/workspace/acceptance/thread-store-native-final-20260930/runtime/native-requests.json",
+    "thread_store_plugin": "native.thread-store-local",
+    "storage_children": [
+      {
+        "pid": 219420,
+        "executable": "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home/components/objects/native.thread-store-local-219392-18da1a369990013d-0/codex-thread-store-local-plugin",
+        "terminated": true,
+        "pid_absent_after_acceptance": true
+      },
+      {
+        "pid": 219508,
+        "executable": "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home/components/objects/native.thread-store-local-219392-18da1a369990013d-0/codex-thread-store-local-plugin",
+        "terminated": true,
+        "pid_absent_after_acceptance": true
+      },
+      {
+        "pid": 219596,
+        "executable": "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home/components/objects/native.thread-store-local-219392-18da1a369990013d-0/codex-thread-store-local-plugin",
+        "terminated": true,
+        "pid_absent_after_acceptance": true
+      }
+    ]
+  },
+  "retained_files": {
+    "source_inventory": "thread-store-native-final-source-inventory.json",
+    "commands": "thread-store-native-independent-commands.json"
+  },
+  "limitations": [
+    "Linux x86_64 build using already populated registry/git/toolchain caches and a shared Cargo target; this is not a clean-cache or cross-platform build. Local dependency paths are all inside the exported source and the plugin binary was rebuilt from that source.",
+    "Model inference uses deterministic external and loopback test providers; engine, native storage process, calculator tool, context, streaming adapters, persisted recovery and native restoration execute for real.",
+    "The exported source was removed before installation; the older source export is preserved. Package and installed copy remain for GUI acceptance.",
+    "The shared target storage-worker executable was replaced by the independent build; neither Codex CLI nor component manager was rebuilt or changed.",
+    "This package makes the native thread-store implementation independently installable; remaining unextracted subsystems are not claimed complete."
+  ]
+}

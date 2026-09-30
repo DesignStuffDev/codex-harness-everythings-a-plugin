@@ -1,0 +1,29 @@
+{
+  "command": "CARGO_TARGET_DIR=/workspace/toolchains/component-target CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 just test -p codex-component-host",
+  "working_directory": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+  "nextest_run_id": "9ee2318b-af22-4b9d-882c-c873a5c54597",
+  "result": "passed",
+  "tests_passed": 40,
+  "tests_failed": 0,
+  "tests_skipped": 1,
+  "skipped_reason": "The ignored helper test runs only as a subprocess. The parent-death regression invoked it separately for one-shot and persistent components.",
+  "test_duration_seconds": 5.998,
+  "new_regression": "process::tests::linux_parent_death::killed_parent_terminates_blocked_components_in_separate_process_groups",
+  "verified_behavior": [
+    "A real intermediate engine process spawns a component through the normal shared command helper",
+    "The component acknowledges initialization, accepts a request and blocks in its handler",
+    "Its PID and process group differ from its owning parent's group",
+    "SIGKILL of the owning process terminates the blocked component without Rust cleanup or stdin polling",
+    "Both one-shot and persistent invocation paths pass",
+    "All previously linked host regression tests pass"
+  ],
+  "limits": [
+    "Linux only: PR_SET_PDEATHSIG follows the creating OS thread, which must outlive the component; current engine runtime workers are long-lived",
+    "The getppid check covers parent death before the signal is armed",
+    "Credential-changing executable transitions can clear the kernel setting",
+    "Forced termination does not guarantee graceful durability and accepted-write outcomes can remain unknown",
+    "Orphan reaping belongs to the adopter; tests accept a terminated zombie where container PID 1 has not reaped it",
+    "Arbitrary escaped descendants and equivalent macOS/Windows parent-death behavior are not covered",
+    "New broker modules remain unlinked and were not compiled or exercised"
+  ]
+}

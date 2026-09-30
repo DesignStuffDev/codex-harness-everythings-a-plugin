@@ -1,0 +1,192 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/tmp/codex-recovery-runtime-20260930/harness/calculator-source",
+      "--output",
+      "/tmp/codex-recovery-runtime-20260930/harness/calculator-package"
+    ],
+    "status": 0,
+    "stdout": "/tmp/codex-recovery-runtime-20260930/harness/calculator-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "install",
+      "/tmp/codex-recovery-runtime-20260930/harness/calculator-package"
+    ],
+    "status": 0,
+    "stdout": "example.calculator\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/tmp/codex-recovery-runtime-20260930/harness/model-fixture-source",
+      "--output",
+      "/tmp/codex-recovery-runtime-20260930/harness/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "/tmp/codex-recovery-runtime-20260930/harness/model-fixture-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "install",
+      "/tmp/codex-recovery-runtime-20260930/harness/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "example.model-fixture\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "select",
+      "model_transport",
+      "default",
+      "example.model-fixture"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "install",
+      "/workspace/acceptance/thread-store-native-v2-linux-20260930/package"
+    ],
+    "status": 0,
+    "stdout": "native.thread-store-local\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "select",
+      "thread_store",
+      "default",
+      "native.thread-store-local"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex",
+      "exec",
+      "--skip-git-repo-check",
+      "--json",
+      "Use calculator for six times seven; confirm this acceptance turn."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f344-ec6d-7563-a2f6-9149605833b0\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"external-model acceptance complete\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":0,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":0,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "Reading additional input from stdin...\n",
+    "storage_children": [
+      {
+        "pid": 311489,
+        "executable": "/tmp/codex-recovery-runtime-20260930/harness/codex-home/components/objects/native.thread-store-local-311458-18da27fe62776f0b-0/codex-thread-store-local-plugin"
+      }
+    ]
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f344-ec6d-7563-a2f6-9149605833b0",
+      "Continue the persisted acceptance session."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f344-ec6d-7563-a2f6-9149605833b0\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"external-model resumed\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":0,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":0,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "",
+    "storage_children": [
+      {
+        "pid": 311582,
+        "executable": "/tmp/codex-recovery-runtime-20260930/harness/codex-home/components/objects/native.thread-store-local-311458-18da27fe62776f0b-0/codex-thread-store-local-plugin"
+      }
+    ]
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "reset",
+      "model_transport",
+      "default"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f344-ec6d-7563-a2f6-9149605833b0",
+      "Continue using native transport."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f344-ec6d-7563-a2f6-9149605833b0\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"native transport restored\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":1,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":1,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "",
+    "storage_children": [
+      {
+        "pid": 311671,
+        "executable": "/tmp/codex-recovery-runtime-20260930/harness/codex-home/components/objects/native.thread-store-local-311458-18da27fe62776f0b-0/codex-thread-store-local-plugin"
+      }
+    ]
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/harness/codex-home",
+      "reset",
+      "thread_store",
+      "default"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f344-ec6d-7563-a2f6-9149605833b0",
+      "Recover the externally stored history using native storage."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f344-ec6d-7563-a2f6-9149605833b0\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"native transport restored\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":2,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":2,\"reasoning_output_tokens\":0}}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,53 @@
+{
+  "status": "passed",
+  "browser": "Chromium via Playwright fallback; in-app Browser unavailable",
+  "model": "deterministic independently packaged external model fixture; not a live provider",
+  "thread_id": "01a0f345-b05e-7cb1-83f4-d4af28bdfe0c",
+  "runtime": "actual preserved Codex CLI/App Server with selected independently built native LocalThreadStore package",
+  "host_binaries_unchanged": true,
+  "checks": [
+    "GUI package built outside harness, source removed, installed without rebuilding host",
+    "normal completed turn",
+    "streamed partial response observed before completion",
+    "native shell approval accepted once, command output and assistant result",
+    "Stop cancels active external model, child /proc absent",
+    "page reload preserves conversation and continuation",
+    "single actual component manager Ctrl+C interrupts active turn and exits0; all tracked descendants absent",
+    "cold manager/gateway/App Server/storage restart lists and recovers history, tool output and interrupted turn",
+    "new turn completes after cold recovery",
+    "second actual component manager Ctrl+C exits0; all tracked descendants absent"
+  ],
+  "observations": {
+    "page_errors": [],
+    "observer_failures": [
+      {
+        "command": "await page.locator('#prompt').fill('Verify recovered normal response'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Working' && document.querySelector('#messages').textContent.includes('GUI fixture response: Ve')); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-streaming.png'}); return {status:await page.locator('#run-status').innerText(),text:await page.locator('#messages').innerText(),thread:await page.evaluate(()=>localStorage.getItem('codexSelectedThread'))};",
+        "error": "page.waitForFunction: Timeout 30000ms exceeded."
+      },
+      {
+        "command": "await gotoReadyFile('/tmp/codex-recovery-runtime-20260930/gui/launch-2.stdout'); await page.locator('#threads .thread[data-thread-id=\"01a0f345-b05e-7cb1-83f4-d4af28bdfe0c\"]').click(); await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('interrupted')); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-cold-recovered.png',fullPage:true}); return {status:await page.locator('#status').innerText(),body:await page.locator('body').innerText()};",
+        "error": "page.waitForFunction: Timeout 30000ms exceeded."
+      }
+    ],
+    "observer_failure_adjudication": "Two manual observation mistakes: first expected exact Working instead of Working on your task; second used nonexistent #status instead of #run-status. Corrected observations pass; original entries retained."
+  },
+  "evidence": [
+    "recovery-gui-browser.json",
+    "recovery-gui-binaries-before.json",
+    "recovery-gui-binaries-after.json",
+    "recovery-gui-setup-commands.json",
+    "recovery-gui-launch-1-processes.json",
+    "recovery-gui-launch-1-shutdown.json",
+    "recovery-gui-launch-2-processes.json",
+    "recovery-gui-launch-2-shutdown.json",
+    "recovery-gui-ui-stop-model.json",
+    "recovery-gui-launcher-stop-model.json",
+    "recovery-gui-recovery-approval.png",
+    "recovery-gui-recovery-cold-continued.png",
+    "recovery-gui-recovery-cold-recovered.png",
+    "recovery-gui-recovery-interrupted.png",
+    "recovery-gui-recovery-streaming.png",
+    "recovery-gui-recovery-tool.png"
+  ],
+  "preview": "No cloud forwarding/viewer capability is exposed; loopback URL is cloud-private and not a user-accessible local preview."
+}

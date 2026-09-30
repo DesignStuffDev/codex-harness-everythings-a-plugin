@@ -1,0 +1,122 @@
+{
+  "command": "source /workspace/toolchains/env.sh\nset -o pipefail\nCARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 just test -p codex-thread-store-local-plugin -p codex-thread-store-component --test-threads 2 --retries 0 2>&1 | tee ../verification/2026-09-30/storage-final-regressions.log",
+  "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+  "exit_code": 0,
+  "run_id": "8a7cc975-2870-480e-98f1-2bc81de18a2a",
+  "timestamp": "2026-09-30T12:24:38.470+00:00",
+  "tests": 17,
+  "passed": 17,
+  "skipped": 0,
+  "retries": 0,
+  "duration_seconds": 9.544,
+  "build_duration": "2m 14s",
+  "native_worker": {
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-thread-store-local-plugin",
+    "size_bytes": 340609304,
+    "sha256": "b42607a915392d684d283c4fb796de69c2d03f7434b2206c7703e4bcac39ac7a",
+    "rebuilt_by": "cargo nextest package build in this run"
+  },
+  "coverage": [
+    "Complete installed native LocalThreadStore process parity: histories, metadata, projects, sections, attachments, literal nullable updates, list/search/revert, lazy discard, fork cleanup/references, restart/recovery, optional SQLite capabilities, 5MiB roundtrip",
+    "Adapter startup validation errors await cleanup; cancellation preserves accepted open; failed cleanup preserves primary error and uncertainty",
+    "Generic ThreadStoreShutdownGuard closes process with retained Arc handles, including an unpolled explicit shutdown future",
+    "Delayed actual native create/resume replies: caller deadline preserved, all retained handles fenced, accepted operation is not replayed, native writer released for separate recovered process",
+    "Wrong acquisition reply fences selected store; confirmed native acquisition application errors leave it usable"
+  ],
+  "cases": [
+    {
+      "name": "adapter::tests::cancelled_connect_still_drains_accepted_open",
+      "class": "codex-thread-store-component",
+      "seconds": "0.052"
+    },
+    {
+      "name": "adapter::tests::invalid_open_waits_for_service_cleanup_before_returning",
+      "class": "codex-thread-store-component",
+      "seconds": "0.132"
+    },
+    {
+      "name": "adapter::tests::shutdown_owner_closes_process_with_retained_store_and_unpolled_future",
+      "class": "codex-thread-store-component",
+      "seconds": "0.080"
+    },
+    {
+      "name": "service::tests::release_before_native_prepare_completes_drops_late_reservation",
+      "class": "codex-thread-store-component",
+      "seconds": "0.058"
+    },
+    {
+      "name": "adapter::tests::initialization_cleanup_failure_preserves_both_errors",
+      "class": "codex-thread-store-component",
+      "seconds": "1.038"
+    },
+    {
+      "name": "acquisition::confirmed_native_acquisition_errors_leave_store_usable",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.272"
+    },
+    {
+      "name": "acquisition::mismatched_native_acquisition_reply_fences_store_and_releases_writer",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.344"
+    },
+    {
+      "name": "collections::installed_store_preserves_projects_sections_attachments_and_literal_clears",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.530"
+    },
+    {
+      "name": "collections::metadata_and_paginated_reads_preserve_native_results_and_revert",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.470"
+    },
+    {
+      "name": "lifecycle::failed_fork_calls_release_cleanup_capacity_and_keep_native_error_types",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.445"
+    },
+    {
+      "name": "lifecycle::failed_preparation_discard_does_not_materialize_a_thread",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.331"
+    },
+    {
+      "name": "lifecycle::fork_owner_cancellation_releases_source_while_delete_is_waiting",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.378"
+    },
+    {
+      "name": "lifecycle::fork_reference_survives_restart_and_preserves_delete_conflicts",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.315"
+    },
+    {
+      "name": "lifecycle::installed_storage_preserves_native_history_and_resume_across_process_restart",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.495"
+    },
+    {
+      "name": "acquisition::late_native_acquisition_times_out_fences_clones_and_releases_writer",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "4.725"
+    },
+    {
+      "name": "lifecycle::optional_sqlite_features_match_native_capabilities_and_errors",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "0.175"
+    },
+    {
+      "name": "lifecycle::large_native_rollout_roundtrips_beyond_transport_frame_size",
+      "class": "codex-thread-store-local-plugin::process_storage",
+      "seconds": "5.196"
+    }
+  ],
+  "artifacts": [
+    "storage-final-regressions-command.txt",
+    "storage-final-regressions.log",
+    "storage-final-regressions.junit.xml"
+  ],
+  "limitations": [
+    "This is the focused storage package gate; full-engine/CLI acceptance is tracked separately.",
+    "Python3 is used as a controlled transport proxy in tests. Bazel execution is not established by this Cargo run."
+  ]
+}

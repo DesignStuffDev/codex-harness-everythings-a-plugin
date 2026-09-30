@@ -20,7 +20,7 @@ pub struct Project {
     pub recency_at_ms: Option<i64>,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ProjectSortKey {
     Position,
     RecencyAt,

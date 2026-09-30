@@ -1,0 +1,62 @@
+{
+  "passed": true,
+  "verified_utc": "2026-09-30T17:04:39.382961+00:00",
+  "scope": "Existing independently built native inline attachment plugin, freshly installed through preserved v2 manager; no rebuild; not engine adapter test",
+  "original_execution_evidence": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/recovery-attachment-acceptance.json",
+  "original_evidence_sha256": "2735d82cb8f85064d2641e663a0d0e652f0ced6d2283a1305f446826f0c39934",
+  "reporter_correction": {
+    "original_status": "failed",
+    "cause": "Ad hoc verifier expected a different absent-component diagnostic phrase. Actual exit1 and diagnostic are the native host behavior; no implementation failure.",
+    "actual_error": "Error: requested component is not installed and enabled\n",
+    "source": "codex-rs/component-host/src/main.rs:148",
+    "runtime_repeated": false
+  },
+  "upload_result": {
+    "ok": {
+      "kind": "inline"
+    }
+  },
+  "resolve_result": {
+    "error": "not_found"
+  },
+  "post_remove_exit_status": 1,
+  "installed_after_removal": {
+    "enabled": [],
+    "installed": {},
+    "selections": {}
+  },
+  "host_before": {
+    "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+    "bytes": 7092568,
+    "mtime_ns": 1790778198616991936
+  },
+  "host_after": {
+    "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+    "bytes": 7092568,
+    "mtime_ns": 1790778198616991936
+  },
+  "blob_before": {
+    "sha256": "e218a59e70fe83c805d8b537b1625b9c3cc29f55396e71b2d4342b10dabed5a8",
+    "bytes": 5242898,
+    "mtime_ns": 1790787837413577135
+  },
+  "blob_after": {
+    "sha256": "e218a59e70fe83c805d8b537b1625b9c3cc29f55396e71b2d4342b10dabed5a8",
+    "bytes": 5242898,
+    "mtime_ns": 1790787837413577135
+  },
+  "host_unchanged": true,
+  "blob_unchanged": true,
+  "additional_command": {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+      "list"
+    ],
+    "exit_status": 0,
+    "elapsed_seconds": 0.01589089399931254,
+    "stdout": "{\n  \"enabled\": [],\n  \"installed\": {},\n  \"selections\": {}\n}\n",
+    "stderr": ""
+  }
+}

@@ -15,7 +15,6 @@ use tracing::warn;
 use crate::AppendThreadItemsParams;
 use crate::CreateThreadParams;
 use crate::LoadThreadHistoryParams;
-use crate::LocalThreadStore;
 use crate::PersistContext;
 use crate::ReadThreadParams;
 use crate::ResumeThreadParams;
@@ -187,16 +186,8 @@ impl LiveThread {
         let thread_id = params.thread_id;
         let should_load_history = params.history.is_none();
         let include_archived = params.include_archived;
-        let metadata = if history_mode == ThreadHistoryMode::Paginated
-            && let Some(local_store) = thread_store.as_any().downcast_ref::<LocalThreadStore>()
-            && let Some(state_db) = local_store.state_db().await
-        {
-            state_db
-                .get_thread(thread_id)
-                .await
-                .map_err(|err| ThreadStoreError::Internal {
-                    message: format!("failed to read thread metadata for {thread_id}: {err}"),
-                })?
+        let metadata = if history_mode == ThreadHistoryMode::Paginated {
+            thread_store.read_resume_metadata(thread_id).await?
         } else {
             None
         };
@@ -407,17 +398,7 @@ impl LiveThread {
     ///
     /// Remote stores do not expose rollout files, so they return `Ok(None)`.
     pub async fn local_rollout_path(&self) -> ThreadStoreResult<Option<PathBuf>> {
-        let Some(local_store) = self
-            .thread_store
-            .as_any()
-            .downcast_ref::<LocalThreadStore>()
-        else {
-            return Ok(None);
-        };
-        local_store
-            .live_rollout_path(self.thread_id)
-            .await
-            .map(Some)
+        self.thread_store.local_rollout_path(self.thread_id).await
     }
 
     async fn flush_pending_metadata_update(&self) -> ThreadStoreResult<()> {

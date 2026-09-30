@@ -1,0 +1,72 @@
+bazel mod deps --lockfile_mode=update
+INFO: Invocation ID: add3b281-04b6-49e3-9e1d-d004e6c11312
+ no actions running
+ no actions running
+DEBUG: /home/agent/.cache/bazel/_bazel_agent/c4385af51f8470d7e641792188e372c9/external/rules_rs+/rs/extensions.bzl:302:18: 
+WARNING: A well-known crate annotation exists for tikv-jemalloc-sys! Apply the following to your MODULE.bazel:
+
+```
+bazel_dep(name = "jemalloc", version = "5.3.0-bcr.alpha.4")
+
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+crate.annotation(
+    crate = "tikv-jemalloc-sys",
+    gen_build_script = "off",
+    deps = ["@jemalloc"],
+)
+```
+
+You can disable this warning by configuring your MODULE.bazel like so:
+
+```
+crate.annotation(
+    crate = "tikv-jemalloc-sys",
+    gen_build_script = "on",
+)
+```
+DEBUG: /home/agent/.cache/bazel/_bazel_agent/c4385af51f8470d7e641792188e372c9/external/rules_rs+/rs/extensions.bzl:302:18: 
+WARNING: A well-known crate annotation exists for libgit2-sys! Apply the following to your MODULE.bazel:
+
+```
+bazel_dep(name = "libgit2", version = "1.9.1")
+
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+crate.annotation(
+    crate = "libgit2-sys",
+    gen_build_script = "off",
+    deps = ["@libgit2"],
+)
+```
+
+You can disable this warning by configuring your MODULE.bazel like so:
+
+```
+crate.annotation(
+    crate = "libgit2-sys",
+    gen_build_script = "on",
+)
+```
+DEBUG: /home/agent/.cache/bazel/_bazel_agent/c4385af51f8470d7e641792188e372c9/external/rules_rs+/rs/extensions.bzl:302:18: 
+WARNING: A well-known crate annotation exists for libssh2-sys! Apply the following to your MODULE.bazel:
+
+```
+bazel_dep(name = "libssh2", version = "1.11.1.bcr.1")
+
+crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+crate.annotation(
+    crate = "libssh2-sys",
+    gen_build_script = "off",
+    deps = ["@libssh2"],
+)
+```
+
+You can disable this warning by configuring your MODULE.bazel like so:
+
+```
+crate.annotation(
+    crate = "libssh2-sys",
+    gen_build_script = "on",
+)
+```
+<root> (codex@_)
+

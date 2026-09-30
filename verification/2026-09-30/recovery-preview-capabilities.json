@@ -1,0 +1,36 @@
+{
+  "observed_environment": "original selected managed cloud environment",
+  "connected": true,
+  "observations_current": true,
+  "configured_capabilities": [],
+  "tool_inventory_result": "Environment status and local execution available; no supported preview, incoming port-forward, cloud-browser-control, file-export or desktop-viewer API exposed. open_in_codex can open a supplied browser URL but does not create cloud forwarding.",
+  "runtime_binding": "GUI plugin uses private authenticated 127.0.0.1 service; ready URLs retained only in private temporary runtime files",
+  "user_accessible_live_preview": "not available through exposed capabilities",
+  "fallback": "Actual Chromium/Playwright interaction and safe screenshot artifacts; no in-app Browser check claimed",
+  "screenshot": "recovery-gui-recovery-cold-continued.png",
+  "deployment_changes": "none; no public server, tunnel, firewall/account setting change or desktop infrastructure installed",
+  "live_connection_read_only_check": {
+    "policy": {
+      "mode": "restricted",
+      "state": "enforced",
+      "allowed_hosts": [],
+      "presets": [
+        "package_managers"
+      ]
+    },
+    "vpn": "Policy file explicitly reports vpn_configured:false.",
+    "raw_tcp": "Policy file explicitly has no granted TCP domains or IP ranges; reverse VNC path unavailable under current grants.",
+    "http_https_relay": "GitHub HTTPS reads observed working. Arbitrary HTTP/HTTPS relay destinations unverified.",
+    "incoming_bridge": "No exposed incoming/preview bridge.",
+    "changes": "None; read-only status check only.",
+    "policy_file_observation": {
+      "source": "/etc/codex/network-policy.json",
+      "vpn_configured": false,
+      "tcp_network_access": {
+        "domains": [],
+        "ip_ranges": []
+      },
+      "relay_destination_configured": false
+    }
+  }
+}

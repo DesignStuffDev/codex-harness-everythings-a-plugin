@@ -1,0 +1,14 @@
+{
+  "command": "source /workspace/toolchains/component-verification-env.sh; just test -p codex-thread-store-local-plugin --test process_storage installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+  "exit_status": 100,
+  "purpose": "Demonstrate native versus selected-process raw durable tool-evidence mismatch before trusted codec fix",
+  "result": "Expected regression failure reproduced",
+  "run_id": "2fb90970-5814-4bb0-bf1c-1ea1b7247409",
+  "tests_run": 1,
+  "passed": 0,
+  "failed": 1,
+  "skipped": 12,
+  "build_seconds": 221,
+  "test_seconds": 0.195,
+  "finding": "Actual installed storage process dropped cell_id, executed_tool_calls, and tool_calls_complete from raw durable native rollout payload; native LocalThreadStore preserved all three."
+}

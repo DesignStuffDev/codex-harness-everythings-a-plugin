@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "inference": "deterministic external process + loopback native fixture; no live model",
+  "verified": [
+    "independent builds",
+    "source removed",
+    "real CLI turn",
+    "external tool execution",
+    "context contribution",
+    "model event streaming",
+    "persisted session resume",
+    "zero native inference while replacement selected",
+    "native restoration with retained history",
+    "selected native storage process",
+    "cold storage process restart and resume",
+    "storage child termination after each CLI process",
+    "native storage restoration with retained history"
+  ],
+  "thread_id": "01a0f22f-5176-7362-ad04-8fa079246682",
+  "binaries_before": {
+    "host": {
+      "sha256": "0c120ccaf35502447c81927f6c4dccf697fbe6c349c6c0a831de4f7dffb8a7a3",
+      "mtime_ns": 1790765719159140003,
+      "bytes": 16175848
+    },
+    "codex": {
+      "sha256": "785d87c030c8c6cc1e1720a1edbe56f4cff2879b9caa0c946c26d3ad63819227",
+      "mtime_ns": 1790769494750760495,
+      "bytes": 1035960008
+    }
+  },
+  "binaries_after": {
+    "host": {
+      "sha256": "0c120ccaf35502447c81927f6c4dccf697fbe6c349c6c0a831de4f7dffb8a7a3",
+      "mtime_ns": 1790765719159140003,
+      "bytes": 16175848
+    },
+    "codex": {
+      "sha256": "785d87c030c8c6cc1e1720a1edbe56f4cff2879b9caa0c946c26d3ad63819227",
+      "mtime_ns": 1790769494750760495,
+      "bytes": 1035960008
+    }
+  },
+  "commands_file": "/workspace/acceptance/storage-engine-composition-runtime/commands.json",
+  "native_requests_file": "/workspace/acceptance/storage-engine-composition-runtime/native-requests.json",
+  "thread_store_plugin": "native.thread-store-local",
+  "storage_children": [
+    {
+      "pid": 201327,
+      "executable": "/workspace/acceptance/storage-engine-composition-runtime/codex-home/components/objects/native.thread-store-local-201298-18da1772766754e6-0/codex-thread-store-local-plugin",
+      "terminated": true
+    },
+    {
+      "pid": 201412,
+      "executable": "/workspace/acceptance/storage-engine-composition-runtime/codex-home/components/objects/native.thread-store-local-201298-18da1772766754e6-0/codex-thread-store-local-plugin",
+      "terminated": true
+    },
+    {
+      "pid": 201509,
+      "executable": "/workspace/acceptance/storage-engine-composition-runtime/codex-home/components/objects/native.thread-store-local-201298-18da1772766754e6-0/codex-thread-store-local-plugin",
+      "terminated": true
+    }
+  ],
+  "scope_note": "Actual CLI composition after first rebuilt native storage/lifecycle wave. Storage package assembled from repository build, so this is not the separate-source native build milestone. Subsequent acquisition-fence and graceful launcher changes are not covered by these hashes."
+}

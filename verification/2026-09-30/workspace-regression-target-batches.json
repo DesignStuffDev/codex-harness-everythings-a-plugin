@@ -1,0 +1,5187 @@
+{
+  "status": "proposed schedule only; no Cargo invoked by source owner",
+  "recorded_at_utc": "2026-09-30T15:20:43.488146+00:00",
+  "source_inventory": "active-workspace-test-inventory.json",
+  "environment": "/workspace/toolchains/component-verification-env.sh with CARGO_BUILD_JOBS=1",
+  "selection_invariant": "Every planned batch retains all164 workspace packages and codex-v8-poc/sandbox. Only Cargo target selectors vary; do not switch to -p package batches or --exclude. Target selection can still alter unused dev-target participation, so compare initial build diagnostics against existing fingerprint graph rather than claim zero recompilation.",
+  "coverage": {
+    "workspace_members": 164,
+    "normal_library_targets": 135,
+    "unique_integration_target_names": 121,
+    "integration_target_instances": 128,
+    "unique_binary_target_names": 34,
+    "binary_target_instances": 34,
+    "planned_target_batches": 61
+  },
+  "libraries": {
+    "command": [
+      "just",
+      "test",
+      "--workspace",
+      "--features",
+      "codex-v8-poc/sandbox",
+      "--lib",
+      "--test-threads",
+      "2",
+      "--retries",
+      "0",
+      "--status-level",
+      "fail",
+      "--final-status-level",
+      "fail"
+    ],
+    "normal_targets": 135,
+    "already_represented_package_count": 17,
+    "missing_package_count": 118,
+    "timing": "Run after the existing-cli and existing-exec-server batches have passed and their disposable test executables have been archived/verified/reclaimed. Keep runtime failure binaries.",
+    "disk_estimate": "Only17 of135 library package targets have a completed executable now. For the118 others, allow roughly3\u20135GiB output plus a large temporary link; this is a planning range, not a measured compile forecast. Current low single-digit GiB reserve is not proven sufficient. Existing libraries, production binaries, metadata symlinks and failed test executables must remain.",
+    "expected_reclaim_before_library_gate_bytes": 3439575040,
+    "condition": "Do not claim whole-workspace coverage from this lib gate; integrations and binary tests are separate ledger entries."
+  },
+  "batches": [
+    {
+      "id": "01-existing-cli-bin",
+      "phase": "existing-cli",
+      "kind": "bin",
+      "names": [
+        "codex",
+        "logs_client"
+      ],
+      "package_instances": [
+        {
+          "name": "codex",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "logs_client",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 310452224,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex",
+        "--bin",
+        "logs_client",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-01-existing-cli-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-01-existing-cli-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex",
+        "--bin",
+        "logs_client",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "02-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "features",
+        "cloud_config"
+      ],
+      "package_instances": [
+        {
+          "name": "features",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "cloud_config",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 233193472,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "features",
+        "--test",
+        "cloud_config",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-02-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-02-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "features",
+        "--test",
+        "cloud_config",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "03-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "sandbox_cloud_config",
+        "mcp_add_remove"
+      ],
+      "package_instances": [
+        {
+          "name": "sandbox_cloud_config",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "mcp_add_remove",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 218267648,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "sandbox_cloud_config",
+        "--test",
+        "mcp_add_remove",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-03-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-03-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "sandbox_cloud_config",
+        "--test",
+        "mcp_add_remove",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "04-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "mcp_login",
+        "mcp_list"
+      ],
+      "package_instances": [
+        {
+          "name": "mcp_login",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "mcp_list",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 204480512,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "mcp_login",
+        "--test",
+        "mcp_list",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-04-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-04-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "mcp_login",
+        "--test",
+        "mcp_list",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "05-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "doctor_path_safety",
+        "exec_server_websocket_auth"
+      ],
+      "package_instances": [
+        {
+          "name": "doctor_path_safety",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "exec_server_websocket_auth",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 184147968,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "doctor_path_safety",
+        "--test",
+        "exec_server_websocket_auth",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-05-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-05-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "doctor_path_safety",
+        "--test",
+        "exec_server_websocket_auth",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "06-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "worktree",
+        "plugin_cli"
+      ],
+      "package_instances": [
+        {
+          "name": "worktree",
+          "packages": [
+            "codex-cli",
+            "codex-worktree"
+          ]
+        },
+        {
+          "name": "plugin_cli",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 169459712,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "worktree",
+        "--test",
+        "plugin_cli",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-06-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-06-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "worktree",
+        "--test",
+        "plugin_cli",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "07-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "doctor_enterprise_network",
+        "login"
+      ],
+      "package_instances": [
+        {
+          "name": "doctor_enterprise_network",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "login",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 163901440,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "doctor_enterprise_network",
+        "--test",
+        "login",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-07-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-07-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "doctor_enterprise_network",
+        "--test",
+        "login",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "08-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "app_server",
+        "exec_server"
+      ],
+      "package_instances": [
+        {
+          "name": "app_server",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "exec_server",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 114425856,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "app_server",
+        "--test",
+        "exec_server",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-08-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-08-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "app_server",
+        "--test",
+        "exec_server",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "09-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "daemon_telemetry",
+        "queue"
+      ],
+      "package_instances": [
+        {
+          "name": "daemon_telemetry",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "queue",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 76939264,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "daemon_telemetry",
+        "--test",
+        "queue",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-09-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-09-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "daemon_telemetry",
+        "--test",
+        "queue",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "10-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "marketplace_remove",
+        "marketplace_add"
+      ],
+      "package_instances": [
+        {
+          "name": "marketplace_remove",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "marketplace_add",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 64671744,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "marketplace_remove",
+        "--test",
+        "marketplace_add",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-10-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-10-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "marketplace_remove",
+        "--test",
+        "marketplace_add",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "11-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "marketplace_upgrade",
+        "debug_clear_memories"
+      ],
+      "package_instances": [
+        {
+          "name": "marketplace_upgrade",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "debug_clear_memories",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 61308928,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "marketplace_upgrade",
+        "--test",
+        "debug_clear_memories",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-11-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-11-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "marketplace_upgrade",
+        "--test",
+        "debug_clear_memories",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "12-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "cloud_auth",
+        "daemon_startup"
+      ],
+      "package_instances": [
+        {
+          "name": "cloud_auth",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "daemon_startup",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 13742080,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "cloud_auth",
+        "--test",
+        "daemon_startup",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-12-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-12-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "cloud_auth",
+        "--test",
+        "daemon_startup",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "13-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "app_server_daemon",
+        "update"
+      ],
+      "package_instances": [
+        {
+          "name": "app_server_daemon",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "update",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 6238208,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "app_server_daemon",
+        "--test",
+        "update",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-13-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-13-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "app_server_daemon",
+        "--test",
+        "update",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "14-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "execpolicy",
+        "debug_models"
+      ],
+      "package_instances": [
+        {
+          "name": "execpolicy",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "debug_models",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 3731456,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "execpolicy",
+        "--test",
+        "debug_models",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-14-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-14-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "execpolicy",
+        "--test",
+        "debug_models",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "15-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "delete",
+        "sandbox_network_proxy"
+      ],
+      "package_instances": [
+        {
+          "name": "delete",
+          "packages": [
+            "codex-cli"
+          ]
+        },
+        {
+          "name": "sandbox_network_proxy",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 3108864,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "delete",
+        "--test",
+        "sandbox_network_proxy",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-15-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-15-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "delete",
+        "--test",
+        "sandbox_network_proxy",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "16-existing-cli-test",
+      "phase": "existing-cli",
+      "kind": "test",
+      "names": [
+        "sandbox_tty"
+      ],
+      "package_instances": [
+        {
+          "name": "sandbox_tty",
+          "packages": [
+            "codex-cli"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 839680,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "sandbox_tty",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-16-existing-cli-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-16-existing-cli-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "sandbox_tty",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "17-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "relay",
+        "accepted_websocket"
+      ],
+      "package_instances": [
+        {
+          "name": "relay",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "accepted_websocket",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 221560832,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "relay",
+        "--test",
+        "accepted_websocket",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-17-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-17-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "relay",
+        "--test",
+        "accepted_websocket",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "18-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "environment",
+        "exec_process"
+      ],
+      "package_instances": [
+        {
+          "name": "environment",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "exec_process",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 216072192,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "environment",
+        "--test",
+        "exec_process",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-18-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-18-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "environment",
+        "--test",
+        "exec_process",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "19-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "file_system_unix",
+        "environment_config"
+      ],
+      "package_instances": [
+        {
+          "name": "file_system_unix",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "environment_config",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 213696512,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "file_system_unix",
+        "--test",
+        "environment_config",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-19-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-19-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "file_system_unix",
+        "--test",
+        "environment_config",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "20-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "health",
+        "file_stream"
+      ],
+      "package_instances": [
+        {
+          "name": "health",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "file_stream",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 212656128,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "health",
+        "--test",
+        "file_stream",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-20-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-20-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "health",
+        "--test",
+        "file_stream",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "21-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "capability_discovery",
+        "process"
+      ],
+      "package_instances": [
+        {
+          "name": "capability_discovery",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "process",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 204255232,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "capability_discovery",
+        "--test",
+        "process",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-21-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-21-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "capability_discovery",
+        "--test",
+        "process",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "22-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "initialize",
+        "websocket"
+      ],
+      "package_instances": [
+        {
+          "name": "initialize",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "websocket",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 203145216,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "initialize",
+        "--test",
+        "websocket",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-22-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-22-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "initialize",
+        "--test",
+        "websocket",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "23-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "http_client",
+        "http_request_logging"
+      ],
+      "package_instances": [
+        {
+          "name": "http_client",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "http_request_logging",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 82169856,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "http_client",
+        "--test",
+        "http_request_logging",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-23-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-23-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "http_client",
+        "--test",
+        "http_request_logging",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "24-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "macos_fs_spawn",
+        "chatgpt_cloudflare_affinity"
+      ],
+      "package_instances": [
+        {
+          "name": "macos_fs_spawn",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "chatgpt_cloudflare_affinity",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 839680,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "macos_fs_spawn",
+        "--test",
+        "chatgpt_cloudflare_affinity",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-24-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-24-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "macos_fs_spawn",
+        "--test",
+        "chatgpt_cloudflare_affinity",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "25-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "deferred_environment",
+        "file_system_windows"
+      ],
+      "package_instances": [
+        {
+          "name": "deferred_environment",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "file_system_windows",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "deferred_environment",
+        "--test",
+        "file_system_windows",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-25-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-25-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "deferred_environment",
+        "--test",
+        "file_system_windows",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "26-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "forward",
+        "http_request"
+      ],
+      "package_instances": [
+        {
+          "name": "forward",
+          "packages": [
+            "codex-exec-server"
+          ]
+        },
+        {
+          "name": "http_request",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "forward",
+        "--test",
+        "http_request",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-26-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-26-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "forward",
+        "--test",
+        "http_request",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "27-existing-exec-server-test",
+      "phase": "existing-exec-server",
+      "kind": "test",
+      "names": [
+        "selected_capability_roots"
+      ],
+      "package_instances": [
+        {
+          "name": "selected_capability_roots",
+          "packages": [
+            "codex-exec-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "selected_capability_roots",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-27-existing-exec-server-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-27-existing-exec-server-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "selected_capability_roots",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "28-existing-core-test",
+      "phase": "existing-core",
+      "kind": "test",
+      "names": [
+        "responses_headers",
+        "mcp_trace_propagation"
+      ],
+      "package_instances": [
+        {
+          "name": "responses_headers",
+          "packages": [
+            "codex-core"
+          ]
+        },
+        {
+          "name": "mcp_trace_propagation",
+          "packages": [
+            "codex-core"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 361324544,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "responses_headers",
+        "--test",
+        "mcp_trace_propagation",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-28-existing-core-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-28-existing-core-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "responses_headers",
+        "--test",
+        "mcp_trace_propagation",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "29-existing-code-mode-test",
+      "phase": "existing-code-mode",
+      "kind": "test",
+      "names": [
+        "grpc",
+        "grpc_timing"
+      ],
+      "package_instances": [
+        {
+          "name": "grpc",
+          "packages": [
+            "codex-code-mode-host"
+          ]
+        },
+        {
+          "name": "grpc_timing",
+          "packages": [
+            "codex-code-mode-host"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 137199616,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "grpc",
+        "--test",
+        "grpc_timing",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-29-existing-code-mode-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-29-existing-code-mode-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "grpc",
+        "--test",
+        "grpc_timing",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "30-existing-code-mode-test",
+      "phase": "existing-code-mode",
+      "kind": "test",
+      "names": [
+        "grpc_notifications",
+        "grpc_tcp"
+      ],
+      "package_instances": [
+        {
+          "name": "grpc_notifications",
+          "packages": [
+            "codex-code-mode-host"
+          ]
+        },
+        {
+          "name": "grpc_tcp",
+          "packages": [
+            "codex-code-mode-host"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 73678848,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "grpc_notifications",
+        "--test",
+        "grpc_tcp",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-30-existing-code-mode-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-30-existing-code-mode-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "grpc_notifications",
+        "--test",
+        "grpc_tcp",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "31-existing-code-mode-test",
+      "phase": "existing-code-mode",
+      "kind": "test",
+      "names": [
+        "stdio"
+      ],
+      "package_instances": [
+        {
+          "name": "stdio",
+          "packages": [
+            "codex-code-mode-host"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 28676096,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "stdio",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-31-existing-code-mode-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-31-existing-code-mode-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "stdio",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "32-existing-code-mode-bin",
+      "phase": "existing-code-mode",
+      "kind": "bin",
+      "names": [
+        "codex-code-mode-host"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-code-mode-host",
+          "packages": [
+            "codex-code-mode-host"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 54456320,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-code-mode-host",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-32-existing-code-mode-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-32-existing-code-mode-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-code-mode-host",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "33-voice-bin",
+      "phase": "voice",
+      "kind": "bin",
+      "names": [
+        "codex-voice-host"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-voice-host",
+          "packages": [
+            "codex-voice-host"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 24526848,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-voice-host",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-33-voice-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-33-voice-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-voice-host",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "34-voice-test",
+      "phase": "voice",
+      "kind": "test",
+      "names": [
+        "packaged_runtime",
+        "lifecycle"
+      ],
+      "package_instances": [
+        {
+          "name": "packaged_runtime",
+          "packages": [
+            "codex-voice-host"
+          ]
+        },
+        {
+          "name": "lifecycle",
+          "packages": [
+            "codex-voice-host"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 7749632,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "packaged_runtime",
+        "--test",
+        "lifecycle",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-34-voice-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-34-voice-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "packaged_runtime",
+        "--test",
+        "lifecycle",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "35-shared-all-test",
+      "phase": "shared-all",
+      "kind": "test",
+      "names": [
+        "all"
+      ],
+      "package_instances": [
+        {
+          "name": "all",
+          "packages": [
+            "codex-app-server",
+            "codex-apply-patch",
+            "codex-core",
+            "codex-exec",
+            "codex-linux-sandbox",
+            "codex-login",
+            "codex-tui"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 574275584,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "all",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-35-shared-all-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-35-shared-all-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "all",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "Seven package instances share this name. Must execute and record every instance, including core/app-server/exec; nextest runtime filters would not reduce the build footprint.",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "36-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "process_storage",
+        "jit",
+        "array_sort",
+        "env_filter"
+      ],
+      "package_instances": [
+        {
+          "name": "process_storage",
+          "packages": [
+            "codex-thread-store-local-plugin"
+          ]
+        },
+        {
+          "name": "jit",
+          "packages": [
+            "codex-code-mode-runtime"
+          ]
+        },
+        {
+          "name": "array_sort",
+          "packages": [
+            "codex-code-mode-runtime"
+          ]
+        },
+        {
+          "name": "env_filter",
+          "packages": [
+            "codex-cloud-tasks"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 279478272,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "process_storage",
+        "--test",
+        "jit",
+        "--test",
+        "array_sort",
+        "--test",
+        "env_filter",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-36-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-36-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "process_storage",
+        "--test",
+        "jit",
+        "--test",
+        "array_sort",
+        "--test",
+        "env_filter",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "37-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "manager_dependency_regression",
+        "test_backend",
+        "accounting",
+        "agent_service"
+      ],
+      "package_instances": [
+        {
+          "name": "manager_dependency_regression",
+          "packages": [
+            "codex-tui"
+          ]
+        },
+        {
+          "name": "test_backend",
+          "packages": [
+            "codex-tui"
+          ]
+        },
+        {
+          "name": "accounting",
+          "packages": [
+            "codex-goal-extension"
+          ]
+        },
+        {
+          "name": "agent_service",
+          "packages": [
+            "codex-agent-extension"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 2043904,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "manager_dependency_regression",
+        "--test",
+        "test_backend",
+        "--test",
+        "accounting",
+        "--test",
+        "agent_service",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-37-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-37-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "manager_dependency_regression",
+        "--test",
+        "test_backend",
+        "--test",
+        "accounting",
+        "--test",
+        "agent_service",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "38-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "basic",
+        "ca_env",
+        "cache_prefix",
+        "capabilities"
+      ],
+      "package_instances": [
+        {
+          "name": "basic",
+          "packages": [
+            "codex-execpolicy"
+          ]
+        },
+        {
+          "name": "ca_env",
+          "packages": [
+            "codex-http-client"
+          ]
+        },
+        {
+          "name": "cache_prefix",
+          "packages": [
+            "codex-guardian-context"
+          ]
+        },
+        {
+          "name": "capabilities",
+          "packages": [
+            "codex-extension-api"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "basic",
+        "--test",
+        "ca_env",
+        "--test",
+        "cache_prefix",
+        "--test",
+        "capabilities",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-38-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-38-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "basic",
+        "--test",
+        "ca_env",
+        "--test",
+        "cache_prefix",
+        "--test",
+        "capabilities",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "39-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "clients",
+        "conpty_search_path",
+        "executor_file_system_authority",
+        "foreign_stdio_cwd"
+      ],
+      "package_instances": [
+        {
+          "name": "clients",
+          "packages": [
+            "codex-api"
+          ]
+        },
+        {
+          "name": "conpty_search_path",
+          "packages": [
+            "codex-utils-pty"
+          ]
+        },
+        {
+          "name": "executor_file_system_authority",
+          "packages": [
+            "codex-skills-extension"
+          ]
+        },
+        {
+          "name": "foreign_stdio_cwd",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "clients",
+        "--test",
+        "conpty_search_path",
+        "--test",
+        "executor_file_system_authority",
+        "--test",
+        "foreign_stdio_cwd",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-39-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-39-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "clients",
+        "--test",
+        "conpty_search_path",
+        "--test",
+        "executor_file_system_authority",
+        "--test",
+        "foreign_stdio_cwd",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "40-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "goal_extension_backend",
+        "history_notes_extension",
+        "hosted_apps_mcp",
+        "image_model_input"
+      ],
+      "package_instances": [
+        {
+          "name": "goal_extension_backend",
+          "packages": [
+            "codex-goal-extension"
+          ]
+        },
+        {
+          "name": "history_notes_extension",
+          "packages": [
+            "codex-history-notes-extension"
+          ]
+        },
+        {
+          "name": "hosted_apps_mcp",
+          "packages": [
+            "codex-mcp-extension"
+          ]
+        },
+        {
+          "name": "image_model_input",
+          "packages": [
+            "codex-history-notes-extension"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "goal_extension_backend",
+        "--test",
+        "history_notes_extension",
+        "--test",
+        "hosted_apps_mcp",
+        "--test",
+        "image_model_input",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-40-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-40-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "goal_extension_backend",
+        "--test",
+        "history_notes_extension",
+        "--test",
+        "hosted_apps_mcp",
+        "--test",
+        "image_model_input",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "41-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "json_schema_policy_fixtures",
+        "local_board",
+        "macos_pipe_spawn",
+        "mcp_2026_discovery"
+      ],
+      "package_instances": [
+        {
+          "name": "json_schema_policy_fixtures",
+          "packages": [
+            "codex-tools"
+          ]
+        },
+        {
+          "name": "local_board",
+          "packages": [
+            "codex-agent-message-board-extension"
+          ]
+        },
+        {
+          "name": "macos_pipe_spawn",
+          "packages": [
+            "codex-utils-pty"
+          ]
+        },
+        {
+          "name": "mcp_2026_discovery",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "json_schema_policy_fixtures",
+        "--test",
+        "local_board",
+        "--test",
+        "macos_pipe_spawn",
+        "--test",
+        "mcp_2026_discovery",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-41-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-41-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "json_schema_policy_fixtures",
+        "--test",
+        "local_board",
+        "--test",
+        "macos_pipe_spawn",
+        "--test",
+        "mcp_2026_discovery",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "42-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "mcp_2026_message_limits",
+        "mcp_2026_mrtr",
+        "mcp_2026_oauth_discovery",
+        "mcp_2026_sse_discovery"
+      ],
+      "package_instances": [
+        {
+          "name": "mcp_2026_message_limits",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "mcp_2026_mrtr",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "mcp_2026_oauth_discovery",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "mcp_2026_sse_discovery",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "mcp_2026_message_limits",
+        "--test",
+        "mcp_2026_mrtr",
+        "--test",
+        "mcp_2026_oauth_discovery",
+        "--test",
+        "mcp_2026_sse_discovery",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-42-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-42-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "mcp_2026_message_limits",
+        "--test",
+        "mcp_2026_mrtr",
+        "--test",
+        "mcp_2026_oauth_discovery",
+        "--test",
+        "mcp_2026_sse_discovery",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "43-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "mcp_2026_stdio",
+        "mcp_2026_stdio_discovery",
+        "mcp_events",
+        "models_integration"
+      ],
+      "package_instances": [
+        {
+          "name": "mcp_2026_stdio",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "mcp_2026_stdio_discovery",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "mcp_events",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "models_integration",
+          "packages": [
+            "codex-api"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "mcp_2026_stdio",
+        "--test",
+        "mcp_2026_stdio_discovery",
+        "--test",
+        "mcp_events",
+        "--test",
+        "models_integration",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-43-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-43-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "mcp_2026_stdio",
+        "--test",
+        "mcp_2026_stdio_discovery",
+        "--test",
+        "mcp_events",
+        "--test",
+        "models_integration",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "44-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "plugin_mcp",
+        "preinstalled",
+        "process_group_cleanup",
+        "provider"
+      ],
+      "package_instances": [
+        {
+          "name": "plugin_mcp",
+          "packages": [
+            "codex-mcp-extension"
+          ]
+        },
+        {
+          "name": "preinstalled",
+          "packages": [
+            "codex-utils-rustls-provider"
+          ]
+        },
+        {
+          "name": "process_group_cleanup",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "provider",
+          "packages": [
+            "codex-utils-rustls-provider"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "plugin_mcp",
+        "--test",
+        "preinstalled",
+        "--test",
+        "process_group_cleanup",
+        "--test",
+        "provider",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-44-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-44-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "plugin_mcp",
+        "--test",
+        "preinstalled",
+        "--test",
+        "process_group_cleanup",
+        "--test",
+        "provider",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "45-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "queue_service",
+        "realtime_websocket_e2e",
+        "realtime_websocket_tls",
+        "registry"
+      ],
+      "package_instances": [
+        {
+          "name": "queue_service",
+          "packages": [
+            "codex-queue-extension"
+          ]
+        },
+        {
+          "name": "realtime_websocket_e2e",
+          "packages": [
+            "codex-api"
+          ]
+        },
+        {
+          "name": "realtime_websocket_tls",
+          "packages": [
+            "codex-api"
+          ]
+        },
+        {
+          "name": "registry",
+          "packages": [
+            "codex-extension-api"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "queue_service",
+        "--test",
+        "realtime_websocket_e2e",
+        "--test",
+        "realtime_websocket_tls",
+        "--test",
+        "registry",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-45-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-45-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "queue_service",
+        "--test",
+        "realtime_websocket_e2e",
+        "--test",
+        "realtime_websocket_tls",
+        "--test",
+        "registry",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "46-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "remote_board",
+        "resources",
+        "session_actor",
+        "settings"
+      ],
+      "package_instances": [
+        {
+          "name": "remote_board",
+          "packages": [
+            "codex-agent-message-board-client"
+          ]
+        },
+        {
+          "name": "resources",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "session_actor",
+          "packages": [
+            "codex-realtime-webrtc"
+          ]
+        },
+        {
+          "name": "settings",
+          "packages": [
+            "codex-worktree"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "remote_board",
+        "--test",
+        "resources",
+        "--test",
+        "session_actor",
+        "--test",
+        "settings",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-46-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-46-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "remote_board",
+        "--test",
+        "resources",
+        "--test",
+        "session_actor",
+        "--test",
+        "settings",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "47-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "skills_extension",
+        "sse_end_to_end",
+        "state",
+        "stdio_descriptor_boundary"
+      ],
+      "package_instances": [
+        {
+          "name": "skills_extension",
+          "packages": [
+            "codex-skills-extension"
+          ]
+        },
+        {
+          "name": "sse_end_to_end",
+          "packages": [
+            "codex-api"
+          ]
+        },
+        {
+          "name": "state",
+          "packages": [
+            "codex-extension-api"
+          ]
+        },
+        {
+          "name": "stdio_descriptor_boundary",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "skills_extension",
+        "--test",
+        "sse_end_to_end",
+        "--test",
+        "state",
+        "--test",
+        "stdio_descriptor_boundary",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-47-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-47-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "skills_extension",
+        "--test",
+        "sse_end_to_end",
+        "--test",
+        "state",
+        "--test",
+        "stdio_descriptor_boundary",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "48-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "stdio_message_limits",
+        "stdio_stderr_cleanup",
+        "stdio_to_uds",
+        "steering"
+      ],
+      "package_instances": [
+        {
+          "name": "stdio_message_limits",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "stdio_stderr_cleanup",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "stdio_to_uds",
+          "packages": [
+            "codex-stdio-to-uds"
+          ]
+        },
+        {
+          "name": "steering",
+          "packages": [
+            "codex-goal-extension"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "stdio_message_limits",
+        "--test",
+        "stdio_stderr_cleanup",
+        "--test",
+        "stdio_to_uds",
+        "--test",
+        "steering",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-48-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-48-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "stdio_message_limits",
+        "--test",
+        "stdio_stderr_cleanup",
+        "--test",
+        "stdio_to_uds",
+        "--test",
+        "steering",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "49-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "streamable_http_oauth_startup",
+        "streamable_http_oauth_store_pinning",
+        "streamable_http_oauth_tool_call",
+        "streamable_http_recovery"
+      ],
+      "package_instances": [
+        {
+          "name": "streamable_http_oauth_startup",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "streamable_http_oauth_store_pinning",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "streamable_http_oauth_tool_call",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "streamable_http_recovery",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "streamable_http_oauth_startup",
+        "--test",
+        "streamable_http_oauth_store_pinning",
+        "--test",
+        "streamable_http_oauth_tool_call",
+        "--test",
+        "streamable_http_recovery",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-49-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-49-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "streamable_http_oauth_startup",
+        "--test",
+        "streamable_http_oauth_store_pinning",
+        "--test",
+        "streamable_http_oauth_tool_call",
+        "--test",
+        "streamable_http_recovery",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "50-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "streamable_http_remote",
+        "streamable_http_test_support",
+        "streamable_http_user_agent",
+        "tests"
+      ],
+      "package_instances": [
+        {
+          "name": "streamable_http_remote",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "streamable_http_test_support",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "streamable_http_user_agent",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "tests",
+          "packages": [
+            "codex-otel"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "streamable_http_remote",
+        "--test",
+        "streamable_http_test_support",
+        "--test",
+        "streamable_http_user_agent",
+        "--test",
+        "tests",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-50-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-50-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "streamable_http_remote",
+        "--test",
+        "streamable_http_test_support",
+        "--test",
+        "streamable_http_user_agent",
+        "--test",
+        "tests",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "51-remaining-integration-test",
+      "phase": "remaining-integration",
+      "kind": "test",
+      "names": [
+        "windows_stable_ingress"
+      ],
+      "package_instances": [
+        {
+          "name": "windows_stable_ingress",
+          "packages": [
+            "codex-network-proxy"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "windows_stable_ingress",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-51-remaining-integration-test.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-51-remaining-integration-test.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--test",
+        "windows_stable_ingress",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "52-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-thread-store-local-plugin",
+        "codex-app-server",
+        "codex-exec"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-thread-store-local-plugin",
+          "packages": [
+            "codex-thread-store-local-plugin"
+          ]
+        },
+        {
+          "name": "codex-app-server",
+          "packages": [
+            "codex-app-server"
+          ]
+        },
+        {
+          "name": "codex-exec",
+          "packages": [
+            "codex-exec"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 116404224,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-thread-store-local-plugin",
+        "--bin",
+        "codex-app-server",
+        "--bin",
+        "codex-exec",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-52-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-52-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-thread-store-local-plugin",
+        "--bin",
+        "codex-app-server",
+        "--bin",
+        "codex-exec",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "53-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-thread-manager-sample",
+        "codex-tui",
+        "exec-server"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-thread-manager-sample",
+          "packages": [
+            "codex-thread-manager-sample"
+          ]
+        },
+        {
+          "name": "codex-tui",
+          "packages": [
+            "codex-tui"
+          ]
+        },
+        {
+          "name": "exec-server",
+          "packages": [
+            "codex-app-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 73629696,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-thread-manager-sample",
+        "--bin",
+        "codex-tui",
+        "--bin",
+        "exec-server",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-53-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-53-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-thread-manager-sample",
+        "--bin",
+        "codex-tui",
+        "--bin",
+        "exec-server",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "54-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-component",
+        "codex-windows-sandbox-service",
+        "bwrap"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-component",
+          "packages": [
+            "codex-component-host"
+          ]
+        },
+        {
+          "name": "codex-windows-sandbox-service",
+          "packages": [
+            "codex-windows-sandbox-service"
+          ]
+        },
+        {
+          "name": "bwrap",
+          "packages": [
+            "codex-bwrap"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 6832128,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-component",
+        "--bin",
+        "codex-windows-sandbox-service",
+        "--bin",
+        "bwrap",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-54-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-54-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-component",
+        "--bin",
+        "codex-windows-sandbox-service",
+        "--bin",
+        "bwrap",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "55-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "md-events",
+        "apply_patch",
+        "codex-app-server-test-client"
+      ],
+      "package_instances": [
+        {
+          "name": "md-events",
+          "packages": [
+            "codex-tui"
+          ]
+        },
+        {
+          "name": "apply_patch",
+          "packages": [
+            "codex-apply-patch"
+          ]
+        },
+        {
+          "name": "codex-app-server-test-client",
+          "packages": [
+            "codex-app-server-test-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 839680,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "md-events",
+        "--bin",
+        "apply_patch",
+        "--bin",
+        "codex-app-server-test-client",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-55-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-55-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "md-events",
+        "--bin",
+        "apply_patch",
+        "--bin",
+        "codex-app-server-test-client",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "56-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-app-server-test-notify-capture",
+        "codex-attachment-inline-component",
+        "codex-execpolicy"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-app-server-test-notify-capture",
+          "packages": [
+            "codex-app-server"
+          ]
+        },
+        {
+          "name": "codex-attachment-inline-component",
+          "packages": [
+            "codex-attachment-store-component"
+          ]
+        },
+        {
+          "name": "codex-execpolicy",
+          "packages": [
+            "codex-execpolicy"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-app-server-test-notify-capture",
+        "--bin",
+        "codex-attachment-inline-component",
+        "--bin",
+        "codex-execpolicy",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-56-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-56-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-app-server-test-notify-capture",
+        "--bin",
+        "codex-attachment-inline-component",
+        "--bin",
+        "codex-execpolicy",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "57-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-execve-wrapper",
+        "codex-file-search",
+        "codex-linux-sandbox"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-execve-wrapper",
+          "packages": [
+            "codex-shell-escalation"
+          ]
+        },
+        {
+          "name": "codex-file-search",
+          "packages": [
+            "codex-file-search"
+          ]
+        },
+        {
+          "name": "codex-linux-sandbox",
+          "packages": [
+            "codex-linux-sandbox"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-execve-wrapper",
+        "--bin",
+        "codex-file-search",
+        "--bin",
+        "codex-linux-sandbox",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-57-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-57-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-execve-wrapper",
+        "--bin",
+        "codex-file-search",
+        "--bin",
+        "codex-linux-sandbox",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "58-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-network-proxy",
+        "codex-responses-api-proxy",
+        "codex-stdio-to-uds"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-network-proxy",
+          "packages": [
+            "codex-network-proxy"
+          ]
+        },
+        {
+          "name": "codex-responses-api-proxy",
+          "packages": [
+            "codex-responses-api-proxy"
+          ]
+        },
+        {
+          "name": "codex-stdio-to-uds",
+          "packages": [
+            "codex-stdio-to-uds"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-network-proxy",
+        "--bin",
+        "codex-responses-api-proxy",
+        "--bin",
+        "codex-stdio-to-uds",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-58-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-58-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-network-proxy",
+        "--bin",
+        "codex-responses-api-proxy",
+        "--bin",
+        "codex-stdio-to-uds",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "59-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "codex-write-config-schema",
+        "custom_ca_probe",
+        "rmcp_test_server"
+      ],
+      "package_instances": [
+        {
+          "name": "codex-write-config-schema",
+          "packages": [
+            "codex-config-schema"
+          ]
+        },
+        {
+          "name": "custom_ca_probe",
+          "packages": [
+            "codex-http-client"
+          ]
+        },
+        {
+          "name": "rmcp_test_server",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-write-config-schema",
+        "--bin",
+        "custom_ca_probe",
+        "--bin",
+        "rmcp_test_server",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-59-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-59-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "codex-write-config-schema",
+        "--bin",
+        "custom_ca_probe",
+        "--bin",
+        "rmcp_test_server",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "60-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "test_mcp_2026_discovery_stdio_server",
+        "test_mcp_2026_stdio_server",
+        "test_notify_capture"
+      ],
+      "package_instances": [
+        {
+          "name": "test_mcp_2026_discovery_stdio_server",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "test_mcp_2026_stdio_server",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "test_notify_capture",
+          "packages": [
+            "codex-app-server"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "test_mcp_2026_discovery_stdio_server",
+        "--bin",
+        "test_mcp_2026_stdio_server",
+        "--bin",
+        "test_notify_capture",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-60-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-60-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "test_mcp_2026_discovery_stdio_server",
+        "--bin",
+        "test_mcp_2026_stdio_server",
+        "--bin",
+        "test_notify_capture",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    },
+    {
+      "id": "61-remaining-binary-bin",
+      "phase": "remaining-binary",
+      "kind": "bin",
+      "names": [
+        "test_stdio_server",
+        "test_streamable_http_server",
+        "write_hooks_schema_fixtures"
+      ],
+      "package_instances": [
+        {
+          "name": "test_stdio_server",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "test_streamable_http_server",
+          "packages": [
+            "codex-rmcp-client"
+          ]
+        },
+        {
+          "name": "write_hooks_schema_fixtures",
+          "packages": [
+            "codex-hooks"
+          ]
+        }
+      ],
+      "current_existing_allocated_bytes": 0,
+      "list_command": [
+        "cargo",
+        "nextest",
+        "list",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "test_stdio_server",
+        "--bin",
+        "test_streamable_http_server",
+        "--bin",
+        "write_hooks_schema_fixtures",
+        "--message-format=json",
+        "--list-type=binaries-only"
+      ],
+      "save_list_stdout_to": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-61-remaining-binary-bin.binaries.json",
+      "run_with_official_metadata": [
+        "just",
+        "test",
+        "--binaries-metadata",
+        "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/workspace-batch-61-remaining-binary-bin.binaries.json",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "direct_just_test_alternative": [
+        "just",
+        "test",
+        "--workspace",
+        "--features",
+        "codex-v8-poc/sandbox",
+        "--bin",
+        "test_stdio_server",
+        "--bin",
+        "test_streamable_http_server",
+        "--bin",
+        "write_hooks_schema_fixtures",
+        "--test-threads",
+        "2",
+        "--retries",
+        "0",
+        "--status-level",
+        "fail",
+        "--final-status-level",
+        "fail",
+        "--no-tests",
+        "warn"
+      ],
+      "note": "",
+      "status": "planned; not executed"
+    }
+  ],
+  "artifact_lifecycle": [
+    "Produce binaries metadata only through actual cargo nextest list with the exact batch selectors; never fabricate or merge hand-authored metadata. A list command may compile this batch.",
+    "Run tests through just test, retaining exact stdout/stderr, JUnit, command, source revision/diff identity, environment, and official binary metadata. Each package/binary result must be recorded; no-tests warnings mean zero cases and must not be counted as a behavioral pass.",
+    "Only after a batch completes and its test executables are no longer running, select completed generated test executables by official binary metadata and Cargo test fingerprints; require nlink1 and no production/acceptance identity.",
+    "For passing generated tests, if space is needed, tar+zstd archive with modes/paths, verify decompressed bytes/SHA256/length, retain manifest and exact reproduction command, then unlink only these generated executable files. Preserve rlibs, shared libraries, production/helper binaries, .d files, fingerprints and all source/proof.",
+    "Keep failing test binaries available for diagnosis unless regenerated with a separately recorded debug build; do not archive away unresolved failure reproductions.",
+    "Do not delete selected executable outputs between list and run or during nextest execution; reuse metadata refers to their exact existing paths.",
+    "A later batch with different target names should not request already archived executables. Never rerun one all-workspace command that would rebuild every archived output simultaneously."
+  ],
+  "scope_limits": [
+    "Counts are source-derived target discovery pending Cargo metadata confirmation, not actual runtime test-case counts.",
+    "Doctests, ignored tests and other-platform tests are separate. voice-host installed_client is explicitly test=false and requires its explicit standalone gate.",
+    "Static symbols were stripped only from84 unaccepted attempt2/4 test binaries with documented first-file caveat; native symbolic backtrace detail is reduced. Runtime sections of83 were verified unchanged.",
+    "First all-name batch may be large because seven crates share that test target name; avoid package narrowing as a silent feature graph change.",
+    "Nextest filtersets/--partition reduce runtime selection only: source compute_binary_list constructs Cargo artifacts before build_test_list applies filters."
+  ]
+}

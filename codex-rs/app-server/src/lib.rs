@@ -130,6 +130,7 @@ mod models_refresh_worker;
 mod notification_media;
 mod otel_reloader;
 mod outgoing_message;
+mod persistence_lifecycle;
 mod plugin_config_reload;
 mod request_processors;
 mod request_serialization;
@@ -662,6 +663,15 @@ pub async fn run_main_with_transport_options(
         }
     };
     let state_db = state_db_init.state_db;
+    let installation_id = resolve_installation_id(&config.codex_home).await?;
+    let persistence = codex_core::persistence_from_config(&config, state_db.clone())
+        .await
+        .map_err(std::io::Error::other)?;
+    let store_lifecycle =
+        persistence_lifecycle::StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
+    // Every failure after selecting storage must observe its cleanup. The
+    // outer guard also fences admission if this startup/runtime future is cancelled.
+    let result = async {
     if let Some(recovery_notice) = state_db_init.recovery_notice {
         config_warnings.push(ConfigWarningNotification {
             summary: SQLITE_RECOVERY_CONFIG_WARNING_SUMMARY.to_string(),
@@ -774,7 +784,6 @@ pub async fn run_main_with_transport_options(
             "remote control is disabled by managed requirements",
         ));
     }
-    let installation_id = resolve_installation_id(&config.codex_home).await?;
     let transport_shutdown_token = CancellationToken::new();
     // Remote enrollment must cancel before RPC drain without shutting down telemetry.
     let remote_control_shutdown_token = transport_shutdown_token.child_token();
@@ -978,6 +987,7 @@ pub async fn run_main_with_transport_options(
             environment_manager,
             feedback: feedback.clone(),
             log_db,
+            persistence,
             state_db: state_db.clone(),
             config_warnings,
             session_source,
@@ -1348,7 +1358,11 @@ pub async fn run_main_with_transport_options(
 
     drop(transport_event_tx);
 
-    if matches!(processor_handle.await, Ok(AppServerExit::Forced)) {
+    let processor_exit = processor_handle.await;
+    // Ancillary routers can retain senders after request processing stops; do
+    // not postpone the storage fence until all transport tasks have exited.
+    store_lifecycle.begin_shutdown();
+    if matches!(processor_exit, Ok(AppServerExit::Forced)) {
         return Ok(AppServerExit::Forced);
     }
     let _ = outbound_handle.await;
@@ -1360,6 +1374,14 @@ pub async fn run_main_with_transport_options(
     }
 
     Ok(AppServerExit::Graceful)
+    }.await;
+    if matches!(&result, Ok(AppServerExit::Forced)) {
+        // Force shutdown remains responsive. Drop fences storage immediately;
+        // its supervisor/runtime teardown owns termination. Accepted write
+        // completion and durability are unknown on this path.
+        return result;
+    }
+    store_lifecycle.finish(result).await
 }
 
 struct SqliteRecoveryNotice {

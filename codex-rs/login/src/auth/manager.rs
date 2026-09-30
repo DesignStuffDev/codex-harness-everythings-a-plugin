@@ -178,9 +178,15 @@ impl PartialEq for CodexAuth {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct ApiKeyAuth {
     api_key: String,
+}
+
+impl Debug for ApiKeyAuth {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter.debug_struct("ApiKeyAuth").finish_non_exhaustive()
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -194,10 +200,18 @@ pub struct ChatgptAuthTokens {
     state: ChatgptAuthState,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 struct ChatgptAuthState {
     auth_dot_json: Arc<Mutex<Option<AuthDotJson>>>,
     client: HttpClient,
+}
+
+impl Debug for ChatgptAuthState {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        formatter
+            .debug_struct("ChatgptAuthState")
+            .finish_non_exhaustive()
+    }
 }
 
 const TOKEN_REFRESH_INTERVAL: i64 = 8;
@@ -2790,11 +2804,19 @@ impl AuthManager {
         Self::shared_from_auth_config(auth_config_from(config), enable_codex_api_key_env).await
     }
 
-    /// Activates workload identity against an auth config resolved before full runtime config.
+    /// Activates selected external credentials while preserving workload identity ownership.
     pub async fn shared_from_auth_config(
         auth_config: AuthConfig,
         enable_codex_api_key_env: bool,
     ) -> Result<Arc<Self>, AuthManagerInitializationError> {
+        let component_auth =
+            crate::component_auth::ComponentAuth::selected(&auth_config.codex_home)?;
+        if component_auth.is_some() && super::workload_identity::is_workload_identity_selected() {
+            return Err(permanent_external_auth_error(
+                "workload identity auth cannot be replaced by a component",
+            )
+            .into());
+        }
         let external_auth = WorkloadIdentityExternalAuth::from_process_config(&auth_config)?;
         let mut manager = Self::new_from_auth_config(auth_config, enable_codex_api_key_env).await;
         manager.workload_identity_selected = external_auth.is_some();
@@ -2803,6 +2825,8 @@ impl AuthManager {
             manager
                 .install_external_auth(Arc::new(external_auth))
                 .await?;
+        } else if let Some(component_auth) = component_auth {
+            manager.set_external_auth(Arc::new(component_auth)).await?;
         }
         Ok(manager)
     }

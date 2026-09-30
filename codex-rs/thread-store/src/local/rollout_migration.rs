@@ -258,11 +258,36 @@ impl RolloutMigrationRateLimiter {
     }
 }
 
+/// Stop only at transaction boundaries; dropping an in-flight path could detach
+/// blocking compression/fsync or interrupt its journal recovery protocol.
+#[derive(Clone, Copy)]
+enum MigrationControl<'a> {
+    Uninterrupted,
+    Cooperative(&'a tokio::sync::watch::Receiver<bool>),
+}
+
+impl MigrationControl<'_> {
+    fn is_stopped(self) -> bool {
+        match self {
+            Self::Uninterrupted => false,
+            Self::Cooperative(cancellation) => *cancellation.borrow(),
+        }
+    }
+}
+
 impl LocalThreadStore {
     /// Check whether startup needs to migrate legacy rollouts, then migrate in the background
     /// when it does.
     pub async fn migrate_rollouts_on_startup(&self) -> ThreadStoreResult<()> {
-        startup::migrate_rollouts_on_startup(self).await
+        startup::migrate_rollouts_on_startup(self, MigrationControl::Uninterrupted).await
+    }
+
+    pub(super) async fn migrate_rollouts_on_startup_cancellable(
+        &self,
+        cancellation: &mut tokio::sync::watch::Receiver<bool>,
+    ) -> ThreadStoreResult<()> {
+        startup::migrate_rollouts_on_startup(self, MigrationControl::Cooperative(cancellation))
+            .await
     }
 
     /// Inspect or migrate eligible legacy rollout files beneath active and archived sessions.
@@ -275,6 +300,7 @@ impl LocalThreadStore {
             |_| {},
             RolloutMigrationTrigger::Manual,
             RolloutMigrationPaths::Discover,
+            MigrationControl::Uninterrupted,
         )
         .await
     }
@@ -290,6 +316,7 @@ impl LocalThreadStore {
             on_progress,
             RolloutMigrationTrigger::Manual,
             RolloutMigrationPaths::Discover,
+            MigrationControl::Uninterrupted,
         )
         .await
     }
@@ -300,12 +327,13 @@ impl LocalThreadStore {
         mut on_progress: impl FnMut(RolloutMigrationProgress),
         trigger: RolloutMigrationTrigger,
         paths: RolloutMigrationPaths,
+        control: MigrationControl<'_>,
     ) -> ThreadStoreResult<RolloutMigrationReport> {
         let telemetry = RolloutMigrationTelemetry::new(trigger, &options);
         let result = self
-            .migrate_rollouts_with_progress_inner(options, &mut on_progress, paths)
+            .migrate_rollouts_with_progress_inner(options, &mut on_progress, paths, control)
             .await;
-        telemetry.finish(&result);
+        telemetry.finish(&result, control);
         result
     }
 
@@ -314,8 +342,12 @@ impl LocalThreadStore {
         options: RolloutMigrationOptions,
         on_progress: &mut impl FnMut(RolloutMigrationProgress),
         paths: RolloutMigrationPaths,
+        control: MigrationControl<'_>,
     ) -> ThreadStoreResult<RolloutMigrationReport> {
         let mut limiter = RolloutMigrationRateLimiter::new(options.max_mib_per_second)?;
+        if control.is_stopped() {
+            return Ok(RolloutMigrationReport::default());
+        }
         let _maintenance_guard = match options.mode {
             RolloutMigrationMode::DryRun => None,
             RolloutMigrationMode::Apply => Some(
@@ -356,6 +388,9 @@ impl LocalThreadStore {
         let mut report = RolloutMigrationReport::default();
 
         for (index, path) in paths.into_iter().enumerate() {
+            if control.is_stopped() {
+                break;
+            }
             let outcome = self
                 .migrate_rollout_path(path, &options, &legacy_names, &mut limiter)
                 .await?;

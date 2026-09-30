@@ -1,0 +1,28 @@
+{
+  "command": "CARGO_TARGET_DIR=/workspace/toolchains/component-target CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 just test -p codex-component-host --retries 0",
+  "working_directory": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+  "nextest_run_id": "b1d6a563-9663-4bfc-8c3e-17543ba7cba1",
+  "result": "passed",
+  "tests_passed": 45,
+  "tests_failed": 0,
+  "tests_skipped": 1,
+  "test_duration_seconds": 6.474,
+  "skipped_reason": "Ignored Linux parent-death helper runs separately through the passing nested-process regression.",
+  "new_regressions": [
+    "graceful_shutdown_preserves_partial_frame_and_waits_for_cleanup:128KiB partial JSON event survives shutdown; no duplicate shutdown; cleanup exits after700ms",
+    "graceful_deadline_runs_without_polling_and_cannot_be_extended:idle consumer does not suspend40ms deadline; repeated request does not extend it",
+    "graceful_request_can_extend_cleanup_after_the_plugin_result:requested grace supersedes ordinary500ms exit allowance even after result",
+    "launch_deadline_force_terminates_with_explicit_unknown_durability:real child receives shutdown, injected100ms deadline kills/reaps and returns accepted-write durability uncertainty",
+    "launch_interrupt_during_handshake_cleans_up_and_reports_uncertainty:signal listener active before ready; cancelled handshake child killed/reaped and error explicitly states before readiness and unknown durability"
+  ],
+  "validation_order": "tests then scoped just fix then owned-file rustfmt; no tests rerun solely after fix/format",
+  "limits": [
+    "Production launch budget210s is covered via injected short-deadline unit regression; no210s timeout wall-clock wait",
+    "Actual CLI signal acceptance is a separate following report",
+    "Broker source remains unlinked and untested"
+  ],
+  "manager_binary": "/workspace/toolchains/component-target/debug/codex-component",
+  "manager_sha256": "c364fb91d9e539f75422b9be10d0b47eca4cc95a14c1841b56cc0d40a0580a25",
+  "scoped_clippy": "just fix -p codex-component-host: passed without warnings",
+  "standalone_build": "cargo build -p codex-component-host --bin codex-component: passed"
+}

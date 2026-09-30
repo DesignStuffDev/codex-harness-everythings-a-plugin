@@ -1,10 +1,12 @@
 //! Typed parameters for attachment operations on stored threads.
 
 use codex_protocol::ThreadId;
+use serde::Deserialize;
+use serde::Serialize;
 use serde_json::Value;
 
 /// Parameters for attaching a thread-owned attachment.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct AddThreadAttachmentParams {
     /// Thread that owns the attachment.
     pub thread_id: ThreadId,
@@ -17,7 +19,7 @@ pub struct AddThreadAttachmentParams {
 }
 
 /// Parameters for listing attachments owned by one thread.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ListThreadAttachmentsParams {
     /// Thread whose attachments should be returned.
     pub thread_id: ThreadId,
@@ -28,7 +30,7 @@ pub struct ListThreadAttachmentsParams {
 }
 
 /// Parameters for removing a thread-owned attachment.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RemoveThreadAttachmentParams {
     /// Thread that owns the attachment.
     pub thread_id: ThreadId,

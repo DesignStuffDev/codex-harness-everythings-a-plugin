@@ -1,0 +1,74 @@
+{
+  "started_utc": "2026-09-30T17:02:19.878186+00:00",
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-core",
+    "--lib",
+    "--test-threads",
+    "2",
+    "--retries",
+    "0",
+    "--status-level",
+    "fail",
+    "--final-status-level",
+    "fail"
+  ],
+  "source": "primary frozen storage2/service-lifetime checkpoint, rust-source.tar.zst SHA0446c6698d4c11541a921701154b6aa5321ba45803d70266bb380e7088536eb0",
+  "environment": "/workspace/toolchains/component-verification-env.sh",
+  "cargo_build_jobs": 1,
+  "nextest_profile": "local",
+  "fail_fast": false,
+  "status": "runtime_failed",
+  "limits": "Only named package/targets; doctests and ignored tests excluded. Newly built test executables may have static symbol tables stripped; runtime ELF payloads verified unchanged (separate report).",
+  "exit_status": 100,
+  "elapsed_seconds": 252.5828936100006,
+  "finished_utc": "2026-09-30T17:06:32.461028+00:00",
+  "junit": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/recovery-core-lib-20260930.junit.xml",
+  "junit_totals": {
+    "name": "nextest-run",
+    "tests": "2694",
+    "skipped": "0",
+    "failures": "4",
+    "errors": "0",
+    "uuid": "d4916319-72eb-4df9-ad2b-a58c448af914",
+    "timestamp": "2026-09-30T17:02:22.396+00:00",
+    "time": "250.038"
+  },
+  "suites": [
+    {
+      "name": "codex-core",
+      "tests": "2694",
+      "skipped": "0",
+      "errors": "0",
+      "failures": "4"
+    }
+  ],
+  "failures": [
+    {
+      "suite": "codex-core",
+      "test": "exec::tests::kill_child_process_group_kills_grandchildren_on_timeout",
+      "type": "failure",
+      "message": "thread 'exec::tests::kill_child_process_group_kills_grandchildren_on_timeout' (315420) panicked at core/src/exec_tests.rs:1335:5"
+    },
+    {
+      "suite": "codex-core",
+      "test": "exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup",
+      "type": "failure",
+      "message": "thread 'exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup' (315459) panicked at core/src/exec_tests.rs:1489:5"
+    },
+    {
+      "suite": "codex-core",
+      "test": "session::tests::managed_network_proxy_decider_survives_full_access_start",
+      "type": "failure",
+      "message": "thread 'session::tests::managed_network_proxy_decider_survives_full_access_start' (320457) panicked at core/src/session/tests.rs:1310:5"
+    },
+    {
+      "suite": "codex-core",
+      "test": "session::tests::user_shell_commands_do_not_inherit_managed_network_proxy",
+      "type": "failure",
+      "message": "thread 'session::tests::user_shell_commands_do_not_inherit_managed_network_proxy' (322194) panicked at core/src/session/tests.rs:1712:13"
+    }
+  ]
+}

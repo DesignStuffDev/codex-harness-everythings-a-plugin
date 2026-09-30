@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "proves_gap": true,
+  "contract": "model_transport v1; preserved storage-v1-era CLI, current selected-model source retains same per-call 4MiB cap",
+  "inference": "local deterministic HTTP fixture only; no external model/credentials",
+  "frame_bytes": 4194304,
+  "binaries_before": {
+    "codex": {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "bytes": 1035548088,
+      "mtime_ns": 1790772328210984573
+    },
+    "manager": {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "bytes": 16462992,
+      "mtime_ns": 1790770859379633820
+    }
+  },
+  "binaries_after": {
+    "codex": {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "bytes": 1035548088,
+      "mtime_ns": 1790772328210984573
+    },
+    "manager": {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "bytes": 16462992,
+      "mtime_ns": 1790770859379633820
+    }
+  },
+  "sources_audited": {
+    "codex-rs/core/src/component_model.rs": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/core/src/component_model.rs",
+      "sha256": "a63cae661e7a647e356a6c6fdca6b23877e1609f9f2fd414a62e4fd3cb300c2b",
+      "bytes": 6539,
+      "mtime_ns": 1790762722388704001
+    },
+    "codex-rs/core/src/client.rs": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/core/src/client.rs",
+      "sha256": "cea470582f5bce78843f3bf88d1c3a33686f781b0928e8cd9692968ed4c916af",
+      "bytes": 121678,
+      "mtime_ns": 1790769120807936468
+    },
+    "codex-rs/component-host/src/process.rs": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host/src/process.rs",
+      "sha256": "53c82ca49c411a1794d4b467b46f86827b271da1f793f574265c128f0c896629",
+      "bytes": 17891,
+      "mtime_ns": 1790774935238635084
+    },
+    "codex-rs/component-api/src/lib.rs": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-api/src/lib.rs",
+      "sha256": "2be633c9a138b2ed3aea4aa5c5313555302f75ca1c9443b66172c8a49e7ae500",
+      "bytes": 2045,
+      "mtime_ns": 1790774485929010833
+    }
+  },
+  "cases": [
+    {
+      "case": "aggregate",
+      "thread_id": "01a0f289-1ca3-70a2-ba0f-f45e3c390f6d",
+      "native_status": 0,
+      "component_status": 1,
+      "native_request": {
+        "path": "/workspace/acceptance/model-wire-size-audit-20260930/native-request-1.json",
+        "bytes": 4552986,
+        "sha256": "876454bcf5d9d7bb635174756cb10bedd8020506063bbfee7e8e87a169bbe36e",
+        "input_items": 286,
+        "url_path": "/v1/responses"
+      },
+      "seeded_response_items": 280,
+      "seeded_rollout": "/workspace/acceptance/model-wire-size-audit-20260930/aggregate-base/sessions/2026/09/30/rollout-2026-09-30T13-37-47-01a0f289-1ca3-70a2-ba0f-f45e3c390f6d.jsonl",
+      "equivalent_histories_copied_before_native_resume": true,
+      "component_request_received": false,
+      "no_native_fallback": true,
+      "fixture_pid": 259869,
+      "fixture_reaped": true,
+      "component_stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f289-1ca3-70a2-ba0f-f45e3c390f6d\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"error\",\"message\":\"model transport component: plugin test.model-size method model.stream: encode component frame: component request exceeds 4194304 byte frame limit\"}\n{\"type\":\"turn.failed\",\"error\":{\"message\":\"model transport component: plugin test.model-size method model.stream: encode component frame: component request exceeds 4194304 byte frame limit\"}}\n",
+      "component_stderr": ""
+    },
+    {
+      "case": "image",
+      "thread_id": "01a0f289-27cd-77c0-b297-7b91c95ed405",
+      "native_status": 0,
+      "component_status": 1,
+      "native_request": {
+        "path": "/workspace/acceptance/model-wire-size-audit-20260930/native-request-3.json",
+        "bytes": 4844921,
+        "sha256": "ed5f89fe601803819574f899f3609f2dd9a0db123a4c49a2ced091b9fe1c7bfb",
+        "input_items": 7,
+        "url_path": "/v1/responses"
+      },
+      "seeded_response_items": 1,
+      "seeded_rollout": "/workspace/acceptance/model-wire-size-audit-20260930/image-base/sessions/2026/09/30/rollout-2026-09-30T13-37-50-01a0f289-27cd-77c0-b297-7b91c95ed405.jsonl",
+      "equivalent_histories_copied_before_native_resume": true,
+      "component_request_received": false,
+      "no_native_fallback": true,
+      "fixture_pid": 260197,
+      "fixture_reaped": true,
+      "component_stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f289-27cd-77c0-b297-7b91c95ed405\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"error\",\"message\":\"model transport component: plugin test.model-size method model.stream: encode component frame: component request exceeds 4194304 byte frame limit\"}\n{\"type\":\"turn.failed\",\"error\":{\"message\":\"model transport component: plugin test.model-size method model.stream: encode component frame: component request exceeds 4194304 byte frame limit\"}}\n",
+      "component_stderr": ""
+    }
+  ],
+  "limitations": [
+    "Histories are controlled fixtures seeded into native rollout files; this tests recovered model input and transport preservation, not provider acceptance/context-window limits.",
+    "Model context limits are raised only in isolated acceptance homes to prevent intentional compaction from changing the transport-size comparison."
+  ],
+  "reproduction_script": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/model-wire-size-reproduce.py",
+  "external_artifacts": "/workspace/acceptance/model-wire-size-audit-20260930",
+  "exact_commands": "/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/model-wire-size-audit-commands.json",
+  "active_source_confirmation": {
+    "request_adapter": "core/src/component_model.rs:33 serializes entire ModelRequest into one per-call request; lines34-37 call binding.stream.",
+    "physical_limit": "component-api/src/lib.rs MAX_FRAME_BYTES remains 4194304; process.rs:418-470 bounds per-call write/read frames.",
+    "historical_binary_qualification": "The running binaries are preserved storage-contract-v1 checkpoints. Current model request construction and the one-shot physical cap remain source-present; this is not a current storage-v2 binary validation."
+  }
+}

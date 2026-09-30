@@ -1,0 +1,4650 @@
+{
+  "recorded_at_utc": "2026-09-30T15:15:23.495296+00:00",
+  "scope": "Current active root workspace only; isolated next-component worktree excluded",
+  "method": "Read-only TOML and Cargo conventional source auto-discovery; no Cargo command; counts are target harnesses, not runtime test cases or cfg-resolved tests",
+  "members_count": 164,
+  "normal_test_targets_by_kind": {
+    "lib": 135,
+    "test": 128,
+    "bin": 34
+  },
+  "normal_test_target_total": 297,
+  "disabled_target_count": 26,
+  "members": [
+    {
+      "member": "aws-auth",
+      "package": "codex-aws-auth",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_aws_auth",
+          "source": "aws-auth/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "analytics",
+      "package": "codex-analytics",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_analytics",
+          "source": "analytics/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "agent-graph-store",
+      "package": "codex-agent-graph-store",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_agent_graph_store",
+          "source": "agent-graph-store/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "agent-message-board-client",
+      "package": "codex-agent-message-board-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_agent_message_board_client",
+          "source": "agent-message-board-client/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "remote_board",
+          "source": "agent-message-board-client/tests/remote_board.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "agent-identity",
+      "package": "codex-agent-identity",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_agent_identity",
+          "source": "agent-identity/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "agent-roles",
+      "package": "codex-agent-roles",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_agent_roles",
+          "source": "agent-roles/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "backend-client",
+      "package": "codex-backend-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_backend_client",
+          "source": "backend-client/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "bwrap",
+      "package": "codex-bwrap",
+      "targets": [
+        {
+          "kind": "bin",
+          "name": "bwrap",
+          "source": "bwrap/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "build-info",
+      "package": "codex-build-info",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_build_info",
+          "source": "build-info/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ansi-escape",
+      "package": "codex-ansi-escape",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_ansi_escape",
+          "source": "ansi-escape/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "attachment-store",
+      "package": "codex-attachment-store",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_attachment_store",
+          "source": "attachment-store/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "attachment-store-api",
+      "package": "codex-attachment-store-api",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_attachment_store_api",
+          "source": "attachment-store-api/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "attachment-store-inline",
+      "package": "codex-attachment-store-inline",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_attachment_store_inline",
+          "source": "attachment-store-inline/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "attachment-store-component",
+      "package": "codex-attachment-store-component",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_attachment_store_component",
+          "source": "attachment-store-component/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": false
+        },
+        {
+          "kind": "bin",
+          "name": "codex-attachment-inline-component",
+          "source": "attachment-store-component/src/bin/inline.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "async-utils",
+      "package": "codex-async-utils",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_async_utils",
+          "source": "async-utils/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "app-server",
+      "package": "codex-app-server",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server",
+          "source": "app-server/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-app-server",
+          "source": "app-server/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-app-server-test-notify-capture",
+          "source": "app-server/src/bin/notify_capture.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "exec-server",
+          "source": "app-server/src/bin/exec_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "test_notify_capture",
+          "source": "app-server/src/bin/test_notify_capture.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "app-server/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "app-server-transport",
+      "package": "codex-app-server-transport",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server_transport",
+          "source": "app-server-transport/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "app-server-daemon",
+      "package": "codex-app-server-daemon",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server_daemon",
+          "source": "app-server-daemon/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "app-server-client",
+      "package": "codex-app-server-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server_client",
+          "source": "app-server-client/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "app-server-protocol",
+      "package": "codex-app-server-protocol",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server_protocol",
+          "source": "app-server-protocol/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "app-server-protocol-noop-macros",
+      "package": "codex-app-server-protocol-noop-macros",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server_protocol_noop_macros",
+          "source": "app-server-protocol-noop-macros/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "app-server-test-client",
+      "package": "codex-app-server-test-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_app_server_test_client",
+          "source": "app-server-test-client/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-app-server-test-client",
+          "source": "app-server-test-client/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "apply-patch",
+      "package": "codex-apply-patch",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_apply_patch",
+          "source": "apply-patch/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "apply_patch",
+          "source": "apply-patch/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "apply-patch/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "arg0",
+      "package": "codex-arg0",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_arg0",
+          "source": "arg0/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "feedback",
+      "package": "codex-feedback",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_feedback",
+          "source": "feedback/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "features",
+      "package": "codex-features",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_features",
+          "source": "features/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "install-context",
+      "package": "codex-install-context",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_install_context",
+          "source": "install-context/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "codex-backend-openapi-models",
+      "package": "codex-backend-openapi-models",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_backend_openapi_models",
+          "source": "codex-backend-openapi-models/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "code-mode",
+      "package": "codex-code-mode",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_code_mode",
+          "source": "code-mode/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "code-mode-host",
+      "package": "codex-code-mode-host",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_code_mode_host",
+          "source": "code-mode-host/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-code-mode-host",
+          "source": "code-mode-host/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "grpc",
+          "source": "code-mode-host/tests/grpc.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "grpc_notifications",
+          "source": "code-mode-host/tests/grpc_notifications.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "grpc_tcp",
+          "source": "code-mode-host/tests/grpc_tcp.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "grpc_timing",
+          "source": "code-mode-host/tests/grpc_timing.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "stdio",
+          "source": "code-mode-host/tests/stdio.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "code-mode-protocol",
+      "package": "codex-code-mode-protocol",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_code_mode_protocol",
+          "source": "code-mode-protocol/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "code-mode-runtime",
+      "package": "codex-code-mode-runtime",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_code_mode_runtime",
+          "source": "code-mode-runtime/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "array_sort",
+          "source": "code-mode-runtime/tests/array_sort.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "jit",
+          "source": "code-mode-runtime/tests/jit.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "codex-home",
+      "package": "codex-home",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_home",
+          "source": "codex-home/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "cloud-config",
+      "package": "codex-cloud-config",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_cloud_config",
+          "source": "cloud-config/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "cloud-tasks",
+      "package": "codex-cloud-tasks",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_cloud_tasks",
+          "source": "cloud-tasks/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "env_filter",
+          "source": "cloud-tasks/tests/env_filter.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "cloud-tasks-client",
+      "package": "codex-cloud-tasks-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_cloud_tasks_client",
+          "source": "cloud-tasks-client/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "cloud-tasks-mock-client",
+      "package": "codex-cloud-tasks-mock-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_cloud_tasks_mock_client",
+          "source": "cloud-tasks-mock-client/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "cli",
+      "package": "codex-cli",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_cli",
+          "source": "cli/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex",
+          "source": "cli/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "logs_client",
+          "source": "cli/src/bin/logs_client.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "app_server",
+          "source": "cli/tests/app_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "app_server_daemon",
+          "source": "cli/tests/app_server_daemon.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "cloud_auth",
+          "source": "cli/tests/cloud_auth.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "cloud_config",
+          "source": "cli/tests/cloud_config.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "daemon_startup",
+          "source": "cli/tests/daemon_startup.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "daemon_telemetry",
+          "source": "cli/tests/daemon_telemetry.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "debug_clear_memories",
+          "source": "cli/tests/debug_clear_memories.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "debug_models",
+          "source": "cli/tests/debug_models.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "delete",
+          "source": "cli/tests/delete.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "doctor_enterprise_network",
+          "source": "cli/tests/doctor_enterprise_network.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "doctor_path_safety",
+          "source": "cli/tests/doctor_path_safety.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "exec_server",
+          "source": "cli/tests/exec_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "exec_server_websocket_auth",
+          "source": "cli/tests/exec_server_websocket_auth.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "execpolicy",
+          "source": "cli/tests/execpolicy.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "features",
+          "source": "cli/tests/features.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "login",
+          "source": "cli/tests/login.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "marketplace_add",
+          "source": "cli/tests/marketplace_add.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "marketplace_remove",
+          "source": "cli/tests/marketplace_remove.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "marketplace_upgrade",
+          "source": "cli/tests/marketplace_upgrade.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_add_remove",
+          "source": "cli/tests/mcp_add_remove.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_list",
+          "source": "cli/tests/mcp_list.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_login",
+          "source": "cli/tests/mcp_login.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "plugin_cli",
+          "source": "cli/tests/plugin_cli.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "queue",
+          "source": "cli/tests/queue.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "sandbox_cloud_config",
+          "source": "cli/tests/sandbox_cloud_config.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "sandbox_network_proxy",
+          "source": "cli/tests/sandbox_network_proxy.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "sandbox_tty",
+          "source": "cli/tests/sandbox_tty.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "update",
+          "source": "cli/tests/update.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "worktree",
+          "source": "cli/tests/worktree.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "collaboration-mode-templates",
+      "package": "codex-collaboration-mode-templates",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_collaboration_mode_templates",
+          "source": "collaboration-mode-templates/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "connectors",
+      "package": "codex-connectors",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_connectors",
+          "source": "connectors/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "config",
+      "package": "codex-config",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_config",
+          "source": "config/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "config-schema",
+      "package": "codex-config-schema",
+      "targets": [
+        {
+          "kind": "bin",
+          "name": "codex-write-config-schema",
+          "source": "config-schema/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "context-fragments",
+      "package": "codex-context-fragments",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_context_fragments",
+          "source": "context-fragments/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "component-api",
+      "package": "codex-component-api",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_component_api",
+          "source": "component-api/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "component-host",
+      "package": "codex-component-host",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_component_host",
+          "source": "component-host/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": false
+        },
+        {
+          "kind": "bin",
+          "name": "codex-component",
+          "source": "component-host/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "component-adapters",
+      "package": "codex-component-adapters",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_component_adapters",
+          "source": "component-adapters/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "component-state-codec",
+      "package": "codex-component-state-codec",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_component_state_codec",
+          "source": "component-state-codec/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "shell-command",
+      "package": "codex-shell-command",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_shell_command",
+          "source": "shell-command/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "shell-escalation",
+      "package": "codex-shell-escalation",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_shell_escalation",
+          "source": "shell-escalation/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-execve-wrapper",
+          "source": "shell-escalation/src/bin/main_execve_wrapper.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "skills",
+      "package": "codex-skills",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_skills",
+          "source": "skills/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "core",
+      "package": "codex-core",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_core",
+          "source": "core/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "core/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_trace_propagation",
+          "source": "core/tests/mcp_trace_propagation.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "responses_headers",
+          "source": "core/tests/responses_headers.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "core-api",
+      "package": "codex-core-api",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_core_api",
+          "source": "core-api/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "core-plugin-common",
+      "package": "codex-core-plugin-common",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_core_plugin_common",
+          "source": "core-plugin-common/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "core-plugins",
+      "package": "codex-core-plugins",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_core_plugins",
+          "source": "core-plugins/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "diagnostics",
+      "package": "codex-diagnostics",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_diagnostics",
+          "source": "diagnostics/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "guardian-context",
+      "package": "codex-guardian-context",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_guardian_context",
+          "source": "guardian-context/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "cache_prefix",
+          "source": "guardian-context/tests/cache_prefix.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "hooks",
+      "package": "codex-hooks",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_hooks",
+          "source": "hooks/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "write_hooks_schema_fixtures",
+          "source": "hooks/src/bin/write_hooks_schema_fixtures.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "history",
+      "package": "codex-history",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_history",
+          "source": "history/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "http-client",
+      "package": "codex-http-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_http_client",
+          "source": "http-client/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "custom_ca_probe",
+          "source": "http-client/src/bin/custom_ca_probe.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "ca_env",
+          "source": "http-client/tests/ca_env.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "secrets",
+      "package": "codex-secrets",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_secrets",
+          "source": "secrets/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "exec",
+      "package": "codex-exec",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_exec",
+          "source": "exec/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-exec",
+          "source": "exec/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "exec/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "file-system",
+      "package": "codex-file-system",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_file_system",
+          "source": "file-system/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "exec-server-protocol",
+      "package": "codex-exec-server-protocol",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_exec_server_protocol",
+          "source": "exec-server-protocol/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "exec-server",
+      "package": "codex-exec-server",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_exec_server",
+          "source": "exec-server/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "accepted_websocket",
+          "source": "exec-server/tests/accepted_websocket.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "capability_discovery",
+          "source": "exec-server/tests/capability_discovery.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "chatgpt_cloudflare_affinity",
+          "source": "exec-server/tests/chatgpt_cloudflare_affinity.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "deferred_environment",
+          "source": "exec-server/tests/deferred_environment.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "environment",
+          "source": "exec-server/tests/environment.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "environment_config",
+          "source": "exec-server/tests/environment_config.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "exec_process",
+          "source": "exec-server/tests/exec_process.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "file_stream",
+          "source": "exec-server/tests/file_stream.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "file_system_unix",
+          "source": "exec-server/tests/file_system_unix.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "file_system_windows",
+          "source": "exec-server/tests/file_system_windows.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "forward",
+          "source": "exec-server/tests/forward.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "health",
+          "source": "exec-server/tests/health.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "http_client",
+          "source": "exec-server/tests/http_client.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "http_request",
+          "source": "exec-server/tests/http_request.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "http_request_logging",
+          "source": "exec-server/tests/http_request_logging.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "initialize",
+          "source": "exec-server/tests/initialize.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "macos_fs_spawn",
+          "source": "exec-server/tests/macos_fs_spawn.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "process",
+          "source": "exec-server/tests/process.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "relay",
+          "source": "exec-server/tests/relay.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "selected_capability_roots",
+          "source": "exec-server/tests/selected_capability_roots.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "websocket",
+          "source": "exec-server/tests/websocket.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "exec-server/tests/support",
+      "package": "codex-exec-server-test-support",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_exec_server_test_support",
+          "source": "exec-server/tests/support/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "execpolicy",
+      "package": "codex-execpolicy",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_execpolicy",
+          "source": "execpolicy/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-execpolicy",
+          "source": "execpolicy/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "basic",
+          "source": "execpolicy/tests/basic.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/agent",
+      "package": "codex-agent-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_agent_extension",
+          "source": "ext/agent/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "agent_service",
+          "source": "ext/agent/tests/agent_service.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/agent-message-board",
+      "package": "codex-agent-message-board-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_agent_message_board_extension",
+          "source": "ext/agent-message-board/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "local_board",
+          "source": "ext/agent-message-board/tests/local_board.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/connectors",
+      "package": "codex-connectors-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_connectors_extension",
+          "source": "ext/connectors/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/extension-api",
+      "package": "codex-extension-api",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_extension_api",
+          "source": "ext/extension-api/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "capabilities",
+          "source": "ext/extension-api/tests/capabilities.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "registry",
+          "source": "ext/extension-api/tests/registry.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "state",
+          "source": "ext/extension-api/tests/state.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/goal",
+      "package": "codex-goal-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_goal_extension",
+          "source": "ext/goal/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "accounting",
+          "source": "ext/goal/tests/accounting.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "goal_extension_backend",
+          "source": "ext/goal/tests/goal_extension_backend.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "steering",
+          "source": "ext/goal/tests/steering.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/git-attribution",
+      "package": "codex-git-attribution",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_git_attribution",
+          "source": "ext/git-attribution/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/guardian-reviewer",
+      "package": "codex-guardian-reviewer",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_guardian_reviewer",
+          "source": "ext/guardian-reviewer/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/guardian-v2",
+      "package": "codex-guardian-v2",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_guardian_v2",
+          "source": "ext/guardian-v2/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/history-notes",
+      "package": "codex-history-notes-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_history_notes_extension",
+          "source": "ext/history-notes/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "history_notes_extension",
+          "source": "ext/history-notes/tests/history_notes_extension.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "image_model_input",
+          "source": "ext/history-notes/tests/image_model_input.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/image-generation",
+      "package": "codex-image-generation-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_image_generation_extension",
+          "source": "ext/image-generation/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/items",
+      "package": "codex-extension-items",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_extension_items",
+          "source": "ext/items/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/memories",
+      "package": "codex-memories-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_memories_extension",
+          "source": "ext/memories/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "ext/mcp",
+      "package": "codex-mcp-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_mcp_extension",
+          "source": "ext/mcp/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "hosted_apps_mcp",
+          "source": "ext/mcp/tests/hosted_apps_mcp.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "plugin_mcp",
+          "source": "ext/mcp/tests/plugin_mcp.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/queue",
+      "package": "codex-queue-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_queue_extension",
+          "source": "ext/queue/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "queue_service",
+          "source": "ext/queue/tests/queue_service.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/skills",
+      "package": "codex-skills-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_skills_extension",
+          "source": "ext/skills/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "executor_file_system_authority",
+          "source": "ext/skills/tests/executor_file_system_authority.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "skills_extension",
+          "source": "ext/skills/tests/skills_extension.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ext/web-search",
+      "package": "codex-web-search-extension",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_web_search_extension",
+          "source": "ext/web-search/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "external-agent-migration",
+      "package": "codex-external-agent-migration",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_external_agent_migration",
+          "source": "external-agent-migration/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "keyring-store",
+      "package": "codex-keyring-store",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_keyring_store",
+          "source": "keyring-store/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "file-search",
+      "package": "codex-file-search",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_file_search",
+          "source": "file-search/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-file-search",
+          "source": "file-search/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "file-watcher",
+      "package": "codex-file-watcher",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_file_watcher",
+          "source": "file-watcher/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "linux-sandbox",
+      "package": "codex-linux-sandbox",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_linux_sandbox",
+          "source": "linux-sandbox/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-linux-sandbox",
+          "source": "linux-sandbox/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "linux-sandbox/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "lmstudio",
+      "package": "codex-lmstudio",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_lmstudio",
+          "source": "lmstudio/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "login",
+      "package": "codex-login",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_login",
+          "source": "login/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "login/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "codex-mcp",
+      "package": "codex-mcp",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_mcp",
+          "source": "codex-mcp/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "memories/read",
+      "package": "codex-memories-read",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_memories_read",
+          "source": "memories/read/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "memories/write",
+      "package": "codex-memories-write",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_memories_write",
+          "source": "memories/write/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "mermaid",
+      "package": "codex-mermaid",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_mermaid",
+          "source": "mermaid/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "model-provider-info",
+      "package": "codex-model-provider-info",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_model_provider_info",
+          "source": "model-provider-info/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "mxc-sandbox",
+      "package": "codex-mxc-sandbox",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_mxc_sandbox",
+          "source": "mxc-sandbox/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "models-manager",
+      "package": "codex-models-manager",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_models_manager",
+          "source": "models-manager/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "network-proxy",
+      "package": "codex-network-proxy",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_network_proxy",
+          "source": "network-proxy/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-network-proxy",
+          "source": "network-proxy/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "windows_stable_ingress",
+          "source": "network-proxy/tests/windows_stable_ingress.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "ollama",
+      "package": "codex-ollama",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_ollama",
+          "source": "ollama/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "process-hardening",
+      "package": "codex-process-hardening",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_process_hardening",
+          "source": "process-hardening/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "realtime-webrtc",
+      "package": "codex-realtime-webrtc",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_realtime_webrtc",
+          "source": "realtime-webrtc/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "session_actor",
+          "source": "realtime-webrtc/tests/session_actor.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "voice-host",
+      "package": "codex-voice-host",
+      "targets": [
+        {
+          "kind": "bin",
+          "name": "codex-voice-host",
+          "source": "voice-host/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "installed_client",
+          "source": "voice-host/tests/installed_client.rs",
+          "normal_test_selection": false,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "lifecycle",
+          "source": "voice-host/tests/lifecycle.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "packaged_runtime",
+          "source": "voice-host/tests/packaged_runtime.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "protocol",
+      "package": "codex-protocol",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_protocol",
+          "source": "protocol/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "prompts",
+      "package": "codex-prompts",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_prompts",
+          "source": "prompts/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "rollout",
+      "package": "codex-rollout",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_rollout",
+          "source": "rollout/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "rollout-trace",
+      "package": "codex-rollout-trace",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_rollout_trace",
+          "source": "rollout-trace/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "rmcp-client",
+      "package": "codex-rmcp-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_rmcp_client",
+          "source": "rmcp-client/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "rmcp_test_server",
+          "source": "rmcp-client/src/bin/rmcp_test_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "bin",
+          "name": "test_mcp_2026_discovery_stdio_server",
+          "source": "rmcp-client/src/bin/test_mcp_2026_discovery_stdio_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "bin",
+          "name": "test_mcp_2026_stdio_server",
+          "source": "rmcp-client/src/bin/test_mcp_2026_stdio_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "bin",
+          "name": "test_stdio_server",
+          "source": "rmcp-client/src/bin/test_stdio_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "bin",
+          "name": "test_streamable_http_server",
+          "source": "rmcp-client/src/bin/test_streamable_http_server.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "foreign_stdio_cwd",
+          "source": "rmcp-client/tests/foreign_stdio_cwd.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_discovery",
+          "source": "rmcp-client/tests/mcp_2026_discovery.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_message_limits",
+          "source": "rmcp-client/tests/mcp_2026_message_limits.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_mrtr",
+          "source": "rmcp-client/tests/mcp_2026_mrtr.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_oauth_discovery",
+          "source": "rmcp-client/tests/mcp_2026_oauth_discovery.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_sse_discovery",
+          "source": "rmcp-client/tests/mcp_2026_sse_discovery.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_stdio",
+          "source": "rmcp-client/tests/mcp_2026_stdio.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_2026_stdio_discovery",
+          "source": "rmcp-client/tests/mcp_2026_stdio_discovery.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "mcp_events",
+          "source": "rmcp-client/tests/mcp_events.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "process_group_cleanup",
+          "source": "rmcp-client/tests/process_group_cleanup.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "resources",
+          "source": "rmcp-client/tests/resources.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "stdio_descriptor_boundary",
+          "source": "rmcp-client/tests/stdio_descriptor_boundary.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "stdio_message_limits",
+          "source": "rmcp-client/tests/stdio_message_limits.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "stdio_stderr_cleanup",
+          "source": "rmcp-client/tests/stdio_stderr_cleanup.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_oauth_startup",
+          "source": "rmcp-client/tests/streamable_http_oauth_startup.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_oauth_store_pinning",
+          "source": "rmcp-client/tests/streamable_http_oauth_store_pinning.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_oauth_tool_call",
+          "source": "rmcp-client/tests/streamable_http_oauth_tool_call.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_recovery",
+          "source": "rmcp-client/tests/streamable_http_recovery.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_remote",
+          "source": "rmcp-client/tests/streamable_http_remote.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_test_support",
+          "source": "rmcp-client/tests/streamable_http_test_support.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "streamable_http_user_agent",
+          "source": "rmcp-client/tests/streamable_http_user_agent.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "responses-api-proxy",
+      "package": "codex-responses-api-proxy",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_responses_api_proxy",
+          "source": "responses-api-proxy/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-responses-api-proxy",
+          "source": "responses-api-proxy/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "response-debug-context",
+      "package": "codex-response-debug-context",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_response_debug_context",
+          "source": "response-debug-context/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "sandboxing",
+      "package": "codex-sandboxing",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_sandboxing",
+          "source": "sandboxing/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "stdio-to-uds",
+      "package": "codex-stdio-to-uds",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_stdio_to_uds",
+          "source": "stdio-to-uds/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-stdio-to-uds",
+          "source": "stdio-to-uds/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "stdio_to_uds",
+          "source": "stdio-to-uds/tests/stdio_to_uds.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "otel",
+      "package": "codex-otel",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_otel",
+          "source": "otel/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "tests",
+          "source": "otel/tests/tests.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "otel-trace-websocket",
+      "package": "codex-otel-trace-websocket",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_otel_trace_websocket",
+          "source": "otel-trace-websocket/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "tcp-tunnel",
+      "package": "codex-tcp-tunnel",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_tcp_tunnel",
+          "source": "tcp-tunnel/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "tui",
+      "package": "codex-tui",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_tui",
+          "source": "tui/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-tui",
+          "source": "tui/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "md-events",
+          "source": "tui/src/bin/md-events.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "all",
+          "source": "tui/tests/all.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "manager_dependency_regression",
+          "source": "tui/tests/manager_dependency_regression.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "test_backend",
+          "source": "tui/tests/test_backend.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "user-verification",
+      "package": "codex-user-verification",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_user_verification",
+          "source": "user-verification/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "tools",
+      "package": "codex-tools",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_tools",
+          "source": "tools/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "json_schema_policy_fixtures",
+          "source": "tools/tests/json_schema_policy_fixtures.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "v8-poc",
+      "package": "codex-v8-poc",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_v8_poc",
+          "source": "v8-poc/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "websocket-auth",
+      "package": "codex-websocket-auth",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_websocket_auth",
+          "source": "websocket-auth/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "websocket-client",
+      "package": "codex-websocket-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_websocket_client",
+          "source": "websocket-client/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "windows-sandbox-rs/tests/support",
+      "package": "codex-windows-sandbox-test-support",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_windows_sandbox_test_support",
+          "source": "windows-sandbox-rs/tests/support/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "windows-sandbox-service",
+      "package": "codex-windows-sandbox-service",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_windows_sandbox_service",
+          "source": "windows-sandbox-service/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-windows-sandbox-service",
+          "source": "windows-sandbox-service/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "worktree",
+      "package": "codex-worktree",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_worktree",
+          "source": "worktree/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "settings",
+          "source": "worktree/tests/settings.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "worktree",
+          "source": "worktree/tests/worktree.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "workload-identity",
+      "package": "codex-workload-identity",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_workload_identity",
+          "source": "workload-identity/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/absolute-path",
+      "package": "codex-utils-absolute-path",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_absolute_path",
+          "source": "utils/absolute-path/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/audio",
+      "package": "codex-utils-audio",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_audio",
+          "source": "utils/audio/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/path-uri",
+      "package": "codex-utils-path-uri",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_path_uri",
+          "source": "utils/path-uri/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/cargo-bin",
+      "package": "codex-utils-cargo-bin",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_cargo_bin",
+          "source": "utils/cargo-bin/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "git-utils",
+      "package": "codex-git-utils",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_git_utils",
+          "source": "git-utils/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/cache",
+      "package": "codex-utils-cache",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_cache",
+          "source": "utils/cache/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/git-discovery",
+      "package": "codex-utils-git-discovery",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_git_discovery",
+          "source": "utils/git-discovery/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/image",
+      "package": "codex-utils-image",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_image",
+          "source": "utils/image/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/json-to-toml",
+      "package": "codex-utils-json-to-toml",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_json_to_toml",
+          "source": "utils/json-to-toml/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/home-dir",
+      "package": "codex-utils-home-dir",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_home_dir",
+          "source": "utils/home-dir/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/process",
+      "package": "codex-utils-process",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_process",
+          "source": "utils/process/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/pty",
+      "package": "codex-utils-pty",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_pty",
+          "source": "utils/pty/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "conpty_search_path",
+          "source": "utils/pty/tests/conpty_search_path.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "macos_pipe_spawn",
+          "source": "utils/pty/tests/macos_pipe_spawn.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "utils/readiness",
+      "package": "codex-utils-readiness",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_readiness",
+          "source": "utils/readiness/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/redacted-string",
+      "package": "codex-utils-redacted-string",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_redacted_string",
+          "source": "utils/redacted-string/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/rustls-provider",
+      "package": "codex-utils-rustls-provider",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_rustls_provider",
+          "source": "utils/rustls-provider/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "preinstalled",
+          "source": "utils/rustls-provider/tests/preinstalled.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "provider",
+          "source": "utils/rustls-provider/tests/provider.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "utils/string",
+      "package": "codex-utils-string",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_string",
+          "source": "utils/string/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/cli",
+      "package": "codex-utils-cli",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_cli",
+          "source": "utils/cli/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/elapsed",
+      "package": "codex-utils-elapsed",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_elapsed",
+          "source": "utils/elapsed/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/sandbox-summary",
+      "package": "codex-utils-sandbox-summary",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_sandbox_summary",
+          "source": "utils/sandbox-summary/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/sleep-inhibitor",
+      "package": "codex-utils-sleep-inhibitor",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_sleep_inhibitor",
+          "source": "utils/sleep-inhibitor/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/approval-presets",
+      "package": "codex-utils-approval-presets",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_approval_presets",
+          "source": "utils/approval-presets/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/oss",
+      "package": "codex-utils-oss",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_oss",
+          "source": "utils/oss/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/output-truncation",
+      "package": "codex-utils-output-truncation",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_output_truncation",
+          "source": "utils/output-truncation/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/path-utils",
+      "package": "codex-utils-path",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_path",
+          "source": "utils/path-utils/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/plugins",
+      "package": "codex-utils-plugins",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_plugins",
+          "source": "utils/plugins/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/fuzzy-match",
+      "package": "codex-utils-fuzzy-match",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_fuzzy_match",
+          "source": "utils/fuzzy-match/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/stream-parser",
+      "package": "codex-utils-stream-parser",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_stream_parser",
+          "source": "utils/stream-parser/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "utils/template",
+      "package": "codex-utils-template",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_utils_template",
+          "source": "utils/template/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "codex-client",
+      "package": "codex-client",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_client",
+          "source": "codex-client/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "codex-api",
+      "package": "codex-api",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_api",
+          "source": "codex-api/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "clients",
+          "source": "codex-api/tests/clients.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "models_integration",
+          "source": "codex-api/tests/models_integration.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "realtime_websocket_e2e",
+          "source": "codex-api/tests/realtime_websocket_e2e.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "realtime_websocket_tls",
+          "source": "codex-api/tests/realtime_websocket_tls.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        },
+        {
+          "kind": "test",
+          "name": "sse_end_to_end",
+          "source": "codex-api/tests/sse_end_to_end.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "state",
+      "package": "codex-state",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_state",
+          "source": "state/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "terminal-detection",
+      "package": "codex-terminal-detection",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_terminal_detection",
+          "source": "terminal-detection/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "test-binary-support",
+      "package": "codex-test-binary-support",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_test_binary_support",
+          "source": "test-binary-support/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "thread-manager-sample",
+      "package": "codex-thread-manager-sample",
+      "targets": [
+        {
+          "kind": "bin",
+          "name": "codex-thread-manager-sample",
+          "source": "thread-manager-sample/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "thread-store",
+      "package": "codex-thread-store",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_thread_store",
+          "source": "thread-store/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "thread-store-component",
+      "package": "codex-thread-store-component",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_thread_store_component",
+          "source": "thread-store-component/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "thread-store-local-plugin",
+      "package": "codex-thread-store-local-plugin",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_thread_store_local_plugin",
+          "source": "thread-store-local-plugin/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        },
+        {
+          "kind": "bin",
+          "name": "codex-thread-store-local-plugin",
+          "source": "thread-store-local-plugin/src/main.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": true
+        },
+        {
+          "kind": "test",
+          "name": "process_storage",
+          "source": "thread-store-local-plugin/tests/process_storage.rs",
+          "normal_test_selection": true,
+          "required_features": [],
+          "explicit": false
+        }
+      ]
+    },
+    {
+      "member": "uds",
+      "package": "codex-uds",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_uds",
+          "source": "uds/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "codex-experimental-api-macros",
+      "package": "codex-experimental-api-macros",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_experimental_api_macros",
+          "source": "codex-experimental-api-macros/src/lib.rs",
+          "normal_test_selection": false,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "plugin",
+      "package": "codex-plugin",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_plugin",
+          "source": "plugin/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    },
+    {
+      "member": "model-provider",
+      "package": "codex-model-provider",
+      "targets": [
+        {
+          "kind": "lib",
+          "name": "codex_model_provider",
+          "source": "model-provider/src/lib.rs",
+          "normal_test_selection": true,
+          "explicit": true
+        }
+      ]
+    }
+  ],
+  "disabled_targets": [
+    {
+      "package": "codex-agent-message-board-client",
+      "kind": "lib",
+      "name": "codex_agent_message_board_client",
+      "source": "agent-message-board-client/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-agent-roles",
+      "kind": "lib",
+      "name": "codex_agent_roles",
+      "source": "agent-roles/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-app-server-protocol-noop-macros",
+      "kind": "lib",
+      "name": "codex_app_server_protocol_noop_macros",
+      "source": "app-server-protocol-noop-macros/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-backend-openapi-models",
+      "kind": "lib",
+      "name": "codex_backend_openapi_models",
+      "source": "codex-backend-openapi-models/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-cloud-tasks-client",
+      "kind": "lib",
+      "name": "codex_cloud_tasks_client",
+      "source": "cloud-tasks-client/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-cloud-tasks-mock-client",
+      "kind": "lib",
+      "name": "codex_cloud_tasks_mock_client",
+      "source": "cloud-tasks-mock-client/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-collaboration-mode-templates",
+      "kind": "lib",
+      "name": "codex_collaboration_mode_templates",
+      "source": "collaboration-mode-templates/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-core-api",
+      "kind": "lib",
+      "name": "codex_core_api",
+      "source": "core-api/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-file-system",
+      "kind": "lib",
+      "name": "codex_file_system",
+      "source": "file-system/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-exec-server-test-support",
+      "kind": "lib",
+      "name": "codex_exec_server_test_support",
+      "source": "exec-server/tests/support/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-agent-extension",
+      "kind": "lib",
+      "name": "codex_agent_extension",
+      "source": "ext/agent/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-connectors-extension",
+      "kind": "lib",
+      "name": "codex_connectors_extension",
+      "source": "ext/connectors/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-extension-api",
+      "kind": "lib",
+      "name": "codex_extension_api",
+      "source": "ext/extension-api/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-goal-extension",
+      "kind": "lib",
+      "name": "codex_goal_extension",
+      "source": "ext/goal/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-queue-extension",
+      "kind": "lib",
+      "name": "codex_queue_extension",
+      "source": "ext/queue/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-voice-host",
+      "kind": "test",
+      "name": "installed_client",
+      "source": "voice-host/tests/installed_client.rs",
+      "normal_test_selection": false,
+      "required_features": [],
+      "explicit": true
+    },
+    {
+      "package": "codex-stdio-to-uds",
+      "kind": "lib",
+      "name": "codex_stdio_to_uds",
+      "source": "stdio-to-uds/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-otel-trace-websocket",
+      "kind": "lib",
+      "name": "codex_otel_trace_websocket",
+      "source": "otel-trace-websocket/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-windows-sandbox-test-support",
+      "kind": "lib",
+      "name": "codex_windows_sandbox_test_support",
+      "source": "windows-sandbox-rs/tests/support/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-utils-cargo-bin",
+      "kind": "lib",
+      "name": "codex_utils_cargo_bin",
+      "source": "utils/cargo-bin/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-utils-redacted-string",
+      "kind": "lib",
+      "name": "codex_utils_redacted_string",
+      "source": "utils/redacted-string/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-utils-rustls-provider",
+      "kind": "lib",
+      "name": "codex_utils_rustls_provider",
+      "source": "utils/rustls-provider/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-utils-approval-presets",
+      "kind": "lib",
+      "name": "codex_utils_approval_presets",
+      "source": "utils/approval-presets/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-client",
+      "kind": "lib",
+      "name": "codex_client",
+      "source": "codex-client/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-test-binary-support",
+      "kind": "lib",
+      "name": "codex_test_binary_support",
+      "source": "test-binary-support/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    },
+    {
+      "package": "codex-experimental-api-macros",
+      "kind": "lib",
+      "name": "codex_experimental_api_macros",
+      "source": "codex-experimental-api-macros/src/lib.rs",
+      "normal_test_selection": false,
+      "explicit": true
+    }
+  ],
+  "existing_test_executables_count": 101,
+  "existing_test_executables_allocated_bytes": 6928699392,
+  "existing_test_executables": [
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/cloud_auth-bac746a8b6b34e7a",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-bac746a8b6b34e7a/test-integration-test-cloud_auth.json",
+      "bytes": 8175456,
+      "allocated_bytes": 8175616,
+      "links": 1,
+      "mtime_ns": 1790779403084367036
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/login-76acbb08dfb1a0b1",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-76acbb08dfb1a0b1/test-integration-test-login.json",
+      "bytes": 81655080,
+      "allocated_bytes": 81661952,
+      "links": 1,
+      "mtime_ns": 1790779407404308262
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_local_plugin-2779d36a79135fe2",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-2779d36a79135fe2/test-bin-codex-thread-store-local-plugin.json",
+      "bytes": 43357080,
+      "allocated_bytes": 42872832,
+      "links": 1,
+      "mtime_ns": 1790776273635824957
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/exec_server-ba2f6fddddb11a70",
+      "package": "codex-app-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-app-server-ba2f6fddddb11a70/test-bin-exec-server.json",
+      "bytes": 21436864,
+      "allocated_bytes": 21438464,
+      "links": 1,
+      "mtime_ns": 1790779477031390215
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/test_backend-d1d611c06d068bdb",
+      "package": "codex-tui",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-tui-d1d611c06d068bdb/test-integration-test-test_backend.json",
+      "bytes": 838184,
+      "allocated_bytes": 839680,
+      "links": 1,
+      "mtime_ns": 1790779444683807140
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_cli-dae9e5883f6666c8",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-dae9e5883f6666c8/test-lib-codex_cli.json",
+      "bytes": 132976256,
+      "allocated_bytes": 132980736,
+      "links": 1,
+      "mtime_ns": 1790779444243812973
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_component_state_codec-9a76051a0688004b",
+      "package": "codex-component-state-codec",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-component-state-codec-9a76051a0688004b/test-lib-codex_component_state_codec.json",
+      "bytes": 54409496,
+      "allocated_bytes": 53862400,
+      "links": 1,
+      "mtime_ns": 1790774477609124987
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_manager_sample-732937f33588f7f3",
+      "package": "codex-thread-manager-sample",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-manager-sample-732937f33588f7f3/test-bin-codex-thread-manager-sample.json",
+      "bytes": 26091928,
+      "allocated_bytes": 26095616,
+      "links": 1,
+      "mtime_ns": 1790779339333226478
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/doctor_enterprise_network-bd596026afa25b31",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-bd596026afa25b31/test-integration-test-doctor_enterprise_network.json",
+      "bytes": 82238760,
+      "allocated_bytes": 82239488,
+      "links": 1,
+      "mtime_ns": 1790779415440198553
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_exec_server-826b1a6e1c6cb5ea",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-826b1a6e1c6cb5ea/test-lib-codex_exec_server.json",
+      "bytes": 123284944,
+      "allocated_bytes": 123289600,
+      "links": 1,
+      "mtime_ns": 1790780595260091997
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/marketplace_upgrade-c70d543e51bb46c7",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-c70d543e51bb46c7/test-integration-test-marketplace_upgrade.json",
+      "bytes": 31740520,
+      "allocated_bytes": 31744000,
+      "links": 1,
+      "mtime_ns": 1790779423992082950
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/logs_client-e4a4f3b885ac9723",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-e4a4f3b885ac9723/test-bin-logs_client.json",
+      "bytes": 104456136,
+      "allocated_bytes": 104460288,
+      "links": 1,
+      "mtime_ns": 1790779420192134314
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_local_plugin-29721f9f2552d55e",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-29721f9f2552d55e/test-bin-codex-thread-store-local-plugin.json",
+      "bytes": 43354792,
+      "allocated_bytes": 42962944,
+      "links": 1,
+      "mtime_ns": 1790776480777013894
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/array_sort-75728dd4cc2de3da",
+      "package": "codex-code-mode-runtime",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-runtime-75728dd4cc2de3da/test-integration-test-array_sort.json",
+      "bytes": 71360656,
+      "allocated_bytes": 71368704,
+      "links": 1,
+      "mtime_ns": 1790780542856786438
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/stdio-5511a799e7de725e",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-5511a799e7de725e/test-integration-test-stdio.json",
+      "bytes": 28674376,
+      "allocated_bytes": 28676096,
+      "links": 1,
+      "mtime_ns": 1790780527988977941
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/websocket-969529d78b2392a8",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-969529d78b2392a8/test-integration-test-websocket.json",
+      "bytes": 101507952,
+      "allocated_bytes": 101515264,
+      "links": 1,
+      "mtime_ns": 1790780622819713381
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/marketplace_add-a90ddc2cac61c11f",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-a90ddc2cac61c11f/test-integration-test-marketplace_add.json",
+      "bytes": 32281664,
+      "allocated_bytes": 32284672,
+      "links": 1,
+      "mtime_ns": 1790779431467982225
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/exec_server_websocket_auth-87f72801047f522e",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-87f72801047f522e/test-integration-test-exec_server_websocket_auth.json",
+      "bytes": 91145672,
+      "allocated_bytes": 91152384,
+      "links": 1,
+      "mtime_ns": 1790779415696195095
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/marketplace_remove-2d5947adaa7f0b17",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-2d5947adaa7f0b17/test-integration-test-marketplace_remove.json",
+      "bytes": 32384952,
+      "allocated_bytes": 32387072,
+      "links": 1,
+      "mtime_ns": 1790779441111854490
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/delete-e510589c81633ef3",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-e510589c81633ef3/test-integration-test-delete.json",
+      "bytes": 1673328,
+      "allocated_bytes": 1675264,
+      "links": 1,
+      "mtime_ns": 1790779386552589763
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/sandbox_network_proxy-4868a2cd4c260035",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-4868a2cd4c260035/test-integration-test-sandbox_network_proxy.json",
+      "bytes": 1430152,
+      "allocated_bytes": 1433600,
+      "links": 1,
+      "mtime_ns": 1790779438575888352
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/process-197af6591358968c",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-197af6591358968c/test-integration-test-process.json",
+      "bytes": 101863432,
+      "allocated_bytes": 101871616,
+      "links": 1,
+      "mtime_ns": 1790780616487799220
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store-23ba55341a150305",
+      "package": "codex-thread-store",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-23ba55341a150305/test-lib-codex_thread_store.json",
+      "bytes": 102637240,
+      "allocated_bytes": 101556224,
+      "links": 1,
+      "mtime_ns": 1790776281151715638
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/grpc_timing-d0829ac126016359",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-d0829ac126016359/test-integration-test-grpc_timing.json",
+      "bytes": 44470672,
+      "allocated_bytes": 44478464,
+      "links": 1,
+      "mtime_ns": 1790780529636957149
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/process_storage-528be8c5a819c159",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-528be8c5a819c159/test-integration-test-process_storage.json",
+      "bytes": 110192504,
+      "allocated_bytes": 108810240,
+      "links": 1,
+      "mtime_ns": 1790776486112943451
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/app_server-190fc79abe5b2e1e",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-190fc79abe5b2e1e/test-integration-test-app_server.json",
+      "bytes": 69708936,
+      "allocated_bytes": 69713920,
+      "links": 1,
+      "mtime_ns": 1790779386984583984
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/sandbox_cloud_config-d9549a21a4b3d4d8",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-d9549a21a4b3d4d8/test-integration-test-sandbox_cloud_config.json",
+      "bytes": 115609768,
+      "allocated_bytes": 115613696,
+      "links": 1,
+      "mtime_ns": 1790779401512388424
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/md_events-9d95af3da98b80f7",
+      "package": "codex-tui",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-tui-9d95af3da98b80f7/test-bin-md-events.json",
+      "bytes": 838184,
+      "allocated_bytes": 839680,
+      "links": 1,
+      "mtime_ns": 1790779444583808466
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/all-6ec12a937c202c59",
+      "package": "codex-exec",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-6ec12a937c202c59/test-integration-test-all.json",
+      "bytes": 140330408,
+      "allocated_bytes": 140337152,
+      "links": 1,
+      "mtime_ns": 1790779474203425855
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/cloud_config-21f36b06be3e82ba",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-21f36b06be3e82ba/test-integration-test-cloud_config.json",
+      "bytes": 115886248,
+      "allocated_bytes": 115892224,
+      "links": 1,
+      "mtime_ns": 1790779438291892173
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/process_storage-86af40364800a421",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-86af40364800a421/test-integration-test-process_storage.json",
+      "bytes": 100219368,
+      "allocated_bytes": 98959360,
+      "links": 1,
+      "mtime_ns": 1790774219288609055
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/manager_dependency_regression-4b12a68d1bf20331",
+      "package": "codex-tui",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-tui-4b12a68d1bf20331/test-integration-test-manager_dependency_regression.json",
+      "bytes": 1201056,
+      "allocated_bytes": 1204224,
+      "links": 1,
+      "mtime_ns": 1790779444507809473
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_app_server-016a3e89f9348733",
+      "package": "codex-app-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-app-server-016a3e89f9348733/test-bin-codex-app-server.json",
+      "bytes": 37238496,
+      "allocated_bytes": 37244928,
+      "links": 1,
+      "mtime_ns": 1790779474079427418
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_protocol-b65b7b75e7c01d37",
+      "package": "codex-protocol",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-protocol-b65b7b75e7c01d37/test-lib-codex_protocol.json",
+      "bytes": 68575672,
+      "allocated_bytes": 67944448,
+      "links": 1,
+      "mtime_ns": 1790774529048403156
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/debug_clear_memories-fd19c348709438a5",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-fd19c348709438a5/test-integration-test-debug_clear_memories.json",
+      "bytes": 29563304,
+      "allocated_bytes": 29564928,
+      "links": 1,
+      "mtime_ns": 1790779388752560340
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_local_plugin-329456f3217cc33c",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-329456f3217cc33c/test-lib-codex_thread_store_local_plugin.json",
+      "bytes": 51754288,
+      "allocated_bytes": 51281920,
+      "links": 1,
+      "mtime_ns": 1790776482912985660
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/process_storage-2f6f9ca165463627",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-2f6f9ca165463627/test-integration-test-process_storage.json",
+      "bytes": 109950168,
+      "allocated_bytes": 108572672,
+      "links": 1,
+      "mtime_ns": 1790776546116115403
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/mcp_list-d4358e693cabecae",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-d4358e693cabecae/test-integration-test-mcp_list.json",
+      "bytes": 101923616,
+      "allocated_bytes": 101928960,
+      "links": 1,
+      "mtime_ns": 1790779391360525467
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/daemon_startup-1276ed4abf165f74",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-1276ed4abf165f74/test-integration-test-daemon_startup.json",
+      "bytes": 5563952,
+      "allocated_bytes": 5566464,
+      "links": 1,
+      "mtime_ns": 1790779421004123336
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_config-d5e02dbaf7c11182",
+      "package": "codex-config",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-config-d5e02dbaf7c11182/test-lib-codex_config.json",
+      "bytes": 80772264,
+      "allocated_bytes": 80773120,
+      "links": 1,
+      "mtime_ns": 1790779381288660294
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/update-3d7f22ef0f47ee81",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-3d7f22ef0f47ee81/test-integration-test-update.json",
+      "bytes": 2535160,
+      "allocated_bytes": 2535424,
+      "links": 1,
+      "mtime_ns": 1790779421256119929
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/relay-9f8e7d2eeae88ba9",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-9f8e7d2eeae88ba9/test-integration-test-relay.json",
+      "bytes": 110862360,
+      "allocated_bytes": 110870528,
+      "links": 1,
+      "mtime_ns": 1790780605495952784
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_voice_host-69e9d9a7b8faf43d",
+      "package": "codex-voice-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-voice-host-69e9d9a7b8faf43d/test-bin-codex-voice-host.json",
+      "bytes": 24525896,
+      "allocated_bytes": 24526848,
+      "links": 1,
+      "mtime_ns": 1790779465839532828
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/http_client-f43e2859e80dde28",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-f43e2859e80dde28/test-integration-test-http_client.json",
+      "bytes": 41470960,
+      "allocated_bytes": 41476096,
+      "links": 1,
+      "mtime_ns": 1790780556872604679
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/worktree-98b48da08852c4e8",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-98b48da08852c4e8/test-integration-test-worktree.json",
+      "bytes": 85311752,
+      "allocated_bytes": 85319680,
+      "links": 1,
+      "mtime_ns": 1790779411456252938
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/mcp_add_remove-7cf7803c2c8416d8",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-7cf7803c2c8416d8/test-integration-test-mcp_add_remove.json",
+      "bytes": 102647168,
+      "allocated_bytes": 102653952,
+      "links": 1,
+      "mtime_ns": 1790779393264499837
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/grpc-e21877d66f6baed5",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-e21877d66f6baed5/test-integration-test-grpc.json",
+      "bytes": 92715248,
+      "allocated_bytes": 92721152,
+      "links": 1,
+      "mtime_ns": 1790780532956914196
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_tui-1c98cae50fe6ed42",
+      "package": "codex-tui",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-tui-1c98cae50fe6ed42/test-bin-codex-tui.json",
+      "bytes": 26091928,
+      "allocated_bytes": 26095616,
+      "links": 1,
+      "mtime_ns": 1790779453559691400
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_component-c7e1f44be214bde2",
+      "package": "codex-thread-store-component",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-component-c7e1f44be214bde2/test-lib-codex_thread_store_component.json",
+      "bytes": 74047424,
+      "allocated_bytes": 73347072,
+      "links": 1,
+      "mtime_ns": 1790776290191581204
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/daemon_telemetry-989b37275224f1c5",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-989b37275224f1c5/test-integration-test-daemon_telemetry.json",
+      "bytes": 38763784,
+      "allocated_bytes": 38764544,
+      "links": 1,
+      "mtime_ns": 1790779435355931669
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/all-1fdebdfd0134a75e",
+      "package": "codex-tui",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-tui-1fdebdfd0134a75e/test-integration-test-all.json",
+      "bytes": 82481048,
+      "allocated_bytes": 82481152,
+      "links": 1,
+      "mtime_ns": 1790779450615729697
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/debug_models-d1bf931c031d50c6",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-d1bf931c031d50c6/test-integration-test-debug_models.json",
+      "bytes": 1790896,
+      "allocated_bytes": 1794048,
+      "links": 1,
+      "mtime_ns": 1790779407680304507
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_local_plugin-dd0659ed44c058ae",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-dd0659ed44c058ae/test-bin-codex-thread-store-local-plugin.json",
+      "bytes": 26091976,
+      "allocated_bytes": 26095616,
+      "links": 1,
+      "mtime_ns": 1790779456031658450
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/features-2ca20d294505b986",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-2ca20d294505b986/test-integration-test-features.json",
+      "bytes": 117294248,
+      "allocated_bytes": 117301248,
+      "links": 1,
+      "mtime_ns": 1790779383084636169
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/exec_process-7cd016a1b1d0d485",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-7cd016a1b1d0d485/test-integration-test-exec_process.json",
+      "bytes": 107611984,
+      "allocated_bytes": 107618304,
+      "links": 1,
+      "mtime_ns": 1790780599220039724
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/grpc_notifications-82840adc6b22a0d7",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-82840adc6b22a0d7/test-integration-test-grpc_notifications.json",
+      "bytes": 42065120,
+      "allocated_bytes": 42070016,
+      "links": 1,
+      "mtime_ns": 1790780534640892354
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store-4f49da6a24821a79",
+      "package": "codex-thread-store",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-4f49da6a24821a79/test-lib-codex_thread_store.json",
+      "bytes": 102535136,
+      "allocated_bytes": 101445632,
+      "links": 1,
+      "mtime_ns": 1790777076760610486
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_exec-176c00af58ea6985",
+      "package": "codex-exec",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-176c00af58ea6985/test-bin-codex-exec.json",
+      "bytes": 36195896,
+      "allocated_bytes": 36196352,
+      "links": 1,
+      "mtime_ns": 1790779468599497493
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/process_storage-6e9cd4ac824002d9",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-6e9cd4ac824002d9/test-integration-test-process_storage.json",
+      "bytes": 73320240,
+      "allocated_bytes": 73322496,
+      "links": 1,
+      "mtime_ns": 1790779461427590593
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/file_system_unix-e9eff01cea851f3f",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-e9eff01cea851f3f/test-integration-test-file_system_unix.json",
+      "bytes": 107295760,
+      "allocated_bytes": 107302912,
+      "links": 1,
+      "mtime_ns": 1790780613875835842
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/initialize-96f3648e900fa0e1",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-96f3648e900fa0e1/test-integration-test-initialize.json",
+      "bytes": 101623128,
+      "allocated_bytes": 101629952,
+      "links": 1,
+      "mtime_ns": 1790780607883918351
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_code_mode_host-816d52ea2303c167",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-816d52ea2303c167/test-bin-codex-code-mode-host.json",
+      "bytes": 54452024,
+      "allocated_bytes": 54456320,
+      "links": 1,
+      "mtime_ns": 1790780525941003782
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/capability_discovery-11c6ec057b9d2e30",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-11c6ec057b9d2e30/test-integration-test-capability_discovery.json",
+      "bytes": 102380088,
+      "allocated_bytes": 102383616,
+      "links": 1,
+      "mtime_ns": 1790780559888565029
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_rollout-8cfa21d61f8d3df0",
+      "package": "codex-rollout",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-rollout-8cfa21d61f8d3df0/test-lib-codex_rollout.json",
+      "bytes": 80594472,
+      "allocated_bytes": 79814656,
+      "links": 1,
+      "mtime_ns": 1790776170333313488
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/mcp_login-2d4f4748841746a6",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-2d4f4748841746a6/test-integration-test-mcp_login.json",
+      "bytes": 102545056,
+      "allocated_bytes": 102551552,
+      "links": 1,
+      "mtime_ns": 1790779428828017794
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/http_request_logging-88968d27081c1d6d",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-88968d27081c1d6d/test-integration-test-http_request_logging.json",
+      "bytes": 40690520,
+      "allocated_bytes": 40693760,
+      "links": 1,
+      "mtime_ns": 1790780554136640650
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/environment-9426e33a67e40876",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-9426e33a67e40876/test-integration-test-environment.json",
+      "bytes": 108448568,
+      "allocated_bytes": 108453888,
+      "links": 1,
+      "mtime_ns": 1790780563636513059
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/responses_headers-8f7916e703da7600",
+      "package": "codex-core",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-core-8f7916e703da7600/test-integration-test-responses_headers.json",
+      "bytes": 269662216,
+      "allocated_bytes": 269668352,
+      "links": 1,
+      "mtime_ns": 1790780519453094906
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_cloud_tasks-481162de0e3587f7",
+      "package": "codex-cloud-tasks",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cloud-tasks-481162de0e3587f7/test-lib-codex_cloud_tasks.json",
+      "bytes": 53501992,
+      "allocated_bytes": 53510144,
+      "links": 1,
+      "mtime_ns": 1790779456611651315
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_code_mode_host-6779add48307f49f",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-6779add48307f49f/test-lib-codex_code_mode_host.json",
+      "bytes": 76366024,
+      "allocated_bytes": 76374016,
+      "links": 1,
+      "mtime_ns": 1790780541208807655
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_local_plugin-25fedb84de1c5bf4",
+      "package": "codex-thread-store-local-plugin",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-local-plugin-25fedb84de1c5bf4/test-lib-codex_thread_store_local_plugin.json",
+      "bytes": 51756432,
+      "allocated_bytes": 51265536,
+      "links": 1,
+      "mtime_ns": 1790776285471651812
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_utils_image-592ceb9d93945882",
+      "package": "codex-utils-image",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-utils-image-592ceb9d93945882/test-lib-codex_utils_image.json",
+      "bytes": 6630200,
+      "allocated_bytes": 6631424,
+      "links": 1,
+      "mtime_ns": 1790779340753207537
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/app_server_daemon-95d284ec60f6a397",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-95d284ec60f6a397/test-integration-test-app_server_daemon.json",
+      "bytes": 3702352,
+      "allocated_bytes": 3702784,
+      "links": 1,
+      "mtime_ns": 1790779424596074812
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_component-73d687e4234ec082",
+      "package": "codex-component-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-component-host-73d687e4234ec082/test-bin-codex-component.json",
+      "bytes": 5109536,
+      "allocated_bytes": 5058560,
+      "links": 1,
+      "mtime_ns": 1790778024331498737
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_thread_store_component-b500ae1fed0e754d",
+      "package": "codex-thread-store-component",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-thread-store-component-b500ae1fed0e754d/test-lib-codex_thread_store_component.json",
+      "bytes": 74103536,
+      "allocated_bytes": 73404416,
+      "links": 1,
+      "mtime_ns": 1790775095588326364
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/mcp_trace_propagation-acdd5abd11bb3ef4",
+      "package": "codex-core",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-core-acdd5abd11bb3ef4/test-integration-test-mcp_trace_propagation.json",
+      "bytes": 91650264,
+      "allocated_bytes": 91656192,
+      "links": 1,
+      "mtime_ns": 1790780257136526909
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/all-ee7bdd16e3cf91f9",
+      "package": "codex-core",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-core-ee7bdd16e3cf91f9/test-integration-test-all.json",
+      "bytes": 351449176,
+      "allocated_bytes": 351457280,
+      "links": 1,
+      "mtime_ns": 1790780358671185394
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/env_filter-440828a2a0ecd213",
+      "package": "codex-cloud-tasks",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cloud-tasks-440828a2a0ecd213/test-integration-test-env_filter.json",
+      "bytes": 27926520,
+      "allocated_bytes": 27926528,
+      "links": 1,
+      "mtime_ns": 1790779443059828668
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/macos_fs_spawn-01c7339476327502",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-01c7339476327502/test-integration-test-macos_fs_spawn.json",
+      "bytes": 838184,
+      "allocated_bytes": 839680,
+      "links": 1,
+      "mtime_ns": 1790780622943711706
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_windows_sandbox_service-4932ce24fd2d0a26",
+      "package": "codex-windows-sandbox-service",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-windows-sandbox-service-4932ce24fd2d0a26/test-bin-codex-windows-sandbox-service.json",
+      "bytes": 931736,
+      "allocated_bytes": 933888,
+      "links": 1,
+      "mtime_ns": 1790779334993284227
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_core-99e8dc17058839b4",
+      "package": "codex-core",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-core-99e8dc17058839b4/test-lib-codex_core.json",
+      "bytes": 350668296,
+      "allocated_bytes": 350674944,
+      "links": 1,
+      "mtime_ns": 1790780514297158339
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_component_host-eb308cd778675cb7",
+      "package": "codex-component-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-component-host-eb308cd778675cb7/test-lib-codex_component_host.json",
+      "bytes": 9967728,
+      "allocated_bytes": 9924608,
+      "links": 1,
+      "mtime_ns": 1790778025759478326
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/bwrap-c21ae6e86b787b4c",
+      "package": "codex-bwrap",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-bwrap-c21ae6e86b787b4c/test-bin-bwrap.json",
+      "bytes": 838216,
+      "allocated_bytes": 839680,
+      "links": 1,
+      "mtime_ns": 1790779339485224451
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/packaged_runtime-d9398f503d4ee6c9",
+      "package": "codex-voice-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-voice-host-d9398f503d4ee6c9/test-integration-test-packaged_runtime.json",
+      "bytes": 4370296,
+      "allocated_bytes": 4370432,
+      "links": 1,
+      "mtime_ns": 1790779465271540100
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/environment_config-2821619f156fce0e",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-2821619f156fce0e/test-integration-test-environment_config.json",
+      "bytes": 106392936,
+      "allocated_bytes": 106393600,
+      "links": 1,
+      "mtime_ns": 1790780610215887158
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/plugin_cli-4d4da7c66eb1b0b1",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-4d4da7c66eb1b0b1/test-integration-test-plugin_cli.json",
+      "bytes": 84137776,
+      "allocated_bytes": 84140032,
+      "links": 1,
+      "mtime_ns": 1790779386232594041
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_state-a0238f23e2b2d2b5",
+      "package": "codex-state",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-state-a0238f23e2b2d2b5/test-lib-codex_state.json",
+      "bytes": 57733712,
+      "allocated_bytes": 57114624,
+      "links": 1,
+      "mtime_ns": 1790776235952368203
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/sandbox_tty-457611d6d00c44c7",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-457611d6d00c44c7/test-integration-test-sandbox_tty.json",
+      "bytes": 838184,
+      "allocated_bytes": 839680,
+      "links": 1,
+      "mtime_ns": 1790779420376131826
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex-192f6800b1c43986",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-192f6800b1c43986/test-bin-codex.json",
+      "bytes": 205987728,
+      "allocated_bytes": 205991936,
+      "links": 1,
+      "mtime_ns": 1790779434407944422
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/jit-8c4eb3541fd74138",
+      "package": "codex-code-mode-runtime",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-runtime-8c4eb3541fd74138/test-integration-test-jit.json",
+      "bytes": 71364752,
+      "allocated_bytes": 71372800,
+      "links": 1,
+      "mtime_ns": 1790780544300767850
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/doctor_path_safety-ae01d1f1c8a81381",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-ae01d1f1c8a81381/test-integration-test-doctor_path_safety.json",
+      "bytes": 92993352,
+      "allocated_bytes": 92995584,
+      "links": 1,
+      "mtime_ns": 1790779397624441064
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/lifecycle-9e1553d01db37c6e",
+      "package": "codex-voice-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-voice-host-9e1553d01db37c6e/test-integration-test-lifecycle.json",
+      "bytes": 3376488,
+      "allocated_bytes": 3379200,
+      "links": 1,
+      "mtime_ns": 1790779459835611654
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_code_mode_runtime-6acaecbb2186621c",
+      "package": "codex-code-mode-runtime",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-runtime-6acaecbb2186621c/test-lib-codex_code_mode_runtime.json",
+      "bytes": 73871512,
+      "allocated_bytes": 73879552,
+      "links": 1,
+      "mtime_ns": 1790780549452701223
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/queue-5e479e541288df92",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-5e479e541288df92/test-integration-test-queue.json",
+      "bytes": 38166968,
+      "allocated_bytes": 38174720,
+      "links": 1,
+      "mtime_ns": 1790779439219879689
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/execpolicy-2a862c779dccd8bf",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-2a862c779dccd8bf/test-integration-test-execpolicy.json",
+      "bytes": 1935432,
+      "allocated_bytes": 1937408,
+      "links": 1,
+      "mtime_ns": 1790779439519875653
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/exec_server-f6df5372d13f806d",
+      "package": "codex-cli",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-cli-f6df5372d13f806d/test-integration-test-exec_server.json",
+      "bytes": 44708184,
+      "allocated_bytes": 44711936,
+      "links": 1,
+      "mtime_ns": 1790779410844261297
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_v8_poc-be818afc9dd909ef",
+      "package": "codex-v8-poc",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-v8-poc-be818afc9dd909ef/test-lib-codex_v8_poc.json",
+      "bytes": 35378480,
+      "allocated_bytes": 35381248,
+      "links": 1,
+      "mtime_ns": 1790780549972694485
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/file_stream-02524afa6cbea0cc",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-02524afa6cbea0cc/test-integration-test-file_stream.json",
+      "bytes": 106310792,
+      "allocated_bytes": 106315776,
+      "links": 1,
+      "mtime_ns": 1790780552276664625
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/grpc_tcp-4e4e1b1c160846d0",
+      "package": "codex-code-mode-host",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-code-mode-host-4e4e1b1c160846d0/test-integration-test-grpc_tcp.json",
+      "bytes": 31608480,
+      "allocated_bytes": 31608832,
+      "links": 1,
+      "mtime_ns": 1790780524677019728
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/health-cb4a747872f43437",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-cb4a747872f43437/test-integration-test-health.json",
+      "bytes": 106332568,
+      "allocated_bytes": 106340352,
+      "links": 1,
+      "mtime_ns": 1790780601792005774
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/accepted_websocket-7f84cff52f7dae2a",
+      "package": "codex-exec-server",
+      "fingerprint": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/.fingerprint/codex-exec-server-7f84cff52f7dae2a/test-integration-test-accepted_websocket.json",
+      "bytes": 110685120,
+      "allocated_bytes": 110690304,
+      "links": 1,
+      "mtime_ns": 1790780620635742880
+    }
+  ],
+  "existing_test_executables_by_package": {
+    "codex-cli": {
+      "count": 32,
+      "allocated_bytes": 1961889792
+    },
+    "codex-thread-store-local-plugin": {
+      "count": 9,
+      "allocated_bytes": 604143616
+    },
+    "codex-app-server": {
+      "count": 2,
+      "allocated_bytes": 58683392
+    },
+    "codex-tui": {
+      "count": 5,
+      "allocated_bytes": 111460352
+    },
+    "codex-component-state-codec": {
+      "count": 1,
+      "allocated_bytes": 53862400
+    },
+    "codex-thread-manager-sample": {
+      "count": 1,
+      "allocated_bytes": 26095616
+    },
+    "codex-exec-server": {
+      "count": 16,
+      "allocated_bytes": 1477685248
+    },
+    "codex-code-mode-runtime": {
+      "count": 3,
+      "allocated_bytes": 216621056
+    },
+    "codex-code-mode-host": {
+      "count": 7,
+      "allocated_bytes": 370384896
+    },
+    "codex-thread-store": {
+      "count": 2,
+      "allocated_bytes": 203001856
+    },
+    "codex-exec": {
+      "count": 2,
+      "allocated_bytes": 176533504
+    },
+    "codex-protocol": {
+      "count": 1,
+      "allocated_bytes": 67944448
+    },
+    "codex-config": {
+      "count": 1,
+      "allocated_bytes": 80773120
+    },
+    "codex-voice-host": {
+      "count": 3,
+      "allocated_bytes": 32276480
+    },
+    "codex-thread-store-component": {
+      "count": 2,
+      "allocated_bytes": 146751488
+    },
+    "codex-rollout": {
+      "count": 1,
+      "allocated_bytes": 79814656
+    },
+    "codex-core": {
+      "count": 4,
+      "allocated_bytes": 1063456768
+    },
+    "codex-cloud-tasks": {
+      "count": 2,
+      "allocated_bytes": 81436672
+    },
+    "codex-utils-image": {
+      "count": 1,
+      "allocated_bytes": 6631424
+    },
+    "codex-component-host": {
+      "count": 2,
+      "allocated_bytes": 14983168
+    },
+    "codex-windows-sandbox-service": {
+      "count": 1,
+      "allocated_bytes": 933888
+    },
+    "codex-bwrap": {
+      "count": 1,
+      "allocated_bytes": 839680
+    },
+    "codex-state": {
+      "count": 1,
+      "allocated_bytes": 57114624
+    },
+    "codex-v8-poc": {
+      "count": 1,
+      "allocated_bytes": 35381248
+    }
+  },
+  "limits": [
+    "Cargo normalized metadata/nextest list should confirm this source-derived count when next Cargo slot permits; required-features/platform cfg can exclude runtime cases.",
+    "Disabled installed_client voice-host integration requires explicit --test installed_client; doctests/ignored tests are outside current normal nextest selection.",
+    "Existing executables are build evidence only, not pass results; duplicate prior feature variants appear separately."
+  ]
+}

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="27" skipped="0" failures="1" errors="0" uuid="83e6434b-83bc-4b1d-b50b-c8e1055f8f91" timestamp="2026-09-30T13:31:46.418+00:00" time="9.675">
+    <testsuite name="codex-thread-store-component" tests="12" skipped="0" errors="0" failures="0">
+        <testcase name="adapter::tests::cancelled_connect_still_drains_accepted_open" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.419+00:00" time="0.052"/>
+        <testcase name="adapter::tests::invalid_open_waits_for_service_cleanup_before_returning" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.471+00:00" time="0.156"/>
+        <testcase name="adapter::tests::shutdown_owner_closes_process_with_retained_store_and_unpolled_future" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.627+00:00" time="0.087"/>
+        <testcase name="remote::timeline::tests::preserves_absent_and_explicit_null_mcp_metadata" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.714+00:00" time="0.007"/>
+        <testcase name="remote::timeline::tests::preserves_command_image_analytics_and_custom_effort" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.721+00:00" time="0.006"/>
+        <testcase name="remote::timeline::tests::preserves_non_utf8_input_and_saved_image_paths" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.727+00:00" time="0.006"/>
+        <testcase name="remote::timeline::tests::preserves_opaque_tool_and_search_json_with_large_numbers" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.733+00:00" time="0.006"/>
+        <testcase name="service::tests::release_before_native_prepare_completes_drops_late_reservation" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.739+00:00" time="0.058"/>
+        <testcase name="wire::tests::acquisition_and_append_preserve_typed_history_before_backend_policy" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.798+00:00" time="0.007"/>
+        <testcase name="wire::tests::load_and_fork_replies_preserve_backend_owned_context" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.804+00:00" time="0.006"/>
+        <testcase name="wire::tests::old_storage_wire_is_rejected_instead_of_reinterpreted" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.811+00:00" time="0.006"/>
+        <testcase name="adapter::tests::initialization_cleanup_failure_preserves_both_errors" classname="codex-thread-store-component" timestamp="2026-09-30T13:31:46.419+00:00" time="1.033"/>
+    </testsuite>
+    <testsuite name="codex-thread-store-local-plugin::process_storage" tests="15" skipped="0" errors="0" failures="1">
+        <testcase name="acquisition::confirmed_native_acquisition_errors_leave_store_usable" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:46.817+00:00" time="0.174"/>
+        <testcase name="acquisition::mismatched_native_acquisition_reply_fences_store_and_releases_writer" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:47.452+00:00" time="0.214"/>
+        <testcase name="collections::installed_store_preserves_projects_sections_attachments_and_literal_clears" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:47.667+00:00" time="0.375"/>
+        <testcase name="collections::metadata_and_paginated_reads_preserve_native_results_and_revert" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:48.042+00:00" time="0.312"/>
+        <testcase name="fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:48.354+00:00" time="0.138">
+            <failure message="thread &apos;fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary&apos; (255083) panicked at thread-store-local-plugin/tests/cases/fidelity.rs:109:14" type="test failure with exit code 101">thread &apos;fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary&apos; (255083) panicked at thread-store-local-plugin/tests/cases/fidelity.rs:109:14:
+called `Result::unwrap()` on an `Err` value: InvalidRequest { message: &quot;pending thread metadata cannot set rollout_path&quot; }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary ... FAILED
+
+failures:
+
+failures:
+    fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 14 filtered out; finished in 0.13s
+
+</system-out>
+            <system-err>
+thread &apos;fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary&apos; (255083) panicked at thread-store-local-plugin/tests/cases/fidelity.rs:109:14:
+called `Result::unwrap()` on an `Err` value: InvalidRequest { message: &quot;pending thread metadata cannot set rollout_path&quot; }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+        <testcase name="fidelity::pending_metadata_preserves_budget_custom_variants_and_field_presence" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:48.493+00:00" time="0.167"/>
+        <testcase name="lifecycle::failed_fork_calls_release_cleanup_capacity_and_keep_native_error_types" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:48.660+00:00" time="0.362"/>
+        <testcase name="lifecycle::failed_preparation_discard_does_not_materialize_a_thread" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:49.022+00:00" time="0.216"/>
+        <testcase name="lifecycle::fork_owner_cancellation_releases_source_while_delete_is_waiting" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:49.238+00:00" time="0.339"/>
+        <testcase name="lifecycle::fork_reference_survives_restart_and_preserves_delete_conflicts" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:49.577+00:00" time="0.292"/>
+        <testcase name="lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:49.870+00:00" time="0.221"/>
+        <testcase name="lifecycle::installed_storage_preserves_native_history_and_resume_across_process_restart" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:50.090+00:00" time="0.387"/>
+        <testcase name="acquisition::late_native_acquisition_times_out_fences_clones_and_releases_writer" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:46.991+00:00" time="4.494"/>
+        <testcase name="lifecycle::optional_sqlite_features_match_native_capabilities_and_errors" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:51.486+00:00" time="0.110"/>
+        <testcase name="lifecycle::large_native_rollout_roundtrips_beyond_transport_frame_size" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:31:50.478+00:00" time="5.615"/>
+    </testsuite>
+</testsuites>

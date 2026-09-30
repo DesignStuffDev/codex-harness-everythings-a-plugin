@@ -1,0 +1,121 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/workspace/harness-cli-acceptance/calculator-source",
+      "--output",
+      "/workspace/harness-cli-acceptance/calculator-package"
+    ],
+    "status": 0,
+    "stdout": "/workspace/harness-cli-acceptance/calculator-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/harness-cli-acceptance/codex-home",
+      "install",
+      "/workspace/harness-cli-acceptance/calculator-package"
+    ],
+    "status": 0,
+    "stdout": "example.calculator\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/workspace/harness-cli-acceptance/model-fixture-source",
+      "--output",
+      "/workspace/harness-cli-acceptance/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "/workspace/harness-cli-acceptance/model-fixture-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/harness-cli-acceptance/codex-home",
+      "install",
+      "/workspace/harness-cli-acceptance/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "example.model-fixture\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/harness-cli-acceptance/codex-home",
+      "select",
+      "model_transport",
+      "default",
+      "example.model-fixture"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "--skip-git-repo-check",
+      "--json",
+      "Use calculator for six times seven; confirm this acceptance turn."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f1ce-5873-7751-9929-f548f8229122\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"external-model acceptance complete\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":0,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":0,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "Reading additional input from stdin...\n"
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f1ce-5873-7751-9929-f548f8229122",
+      "Continue the persisted acceptance session."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f1ce-5873-7751-9929-f548f8229122\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"external-model resumed\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":0,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":0,\"reasoning_output_tokens\":0}}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/harness-cli-acceptance/codex-home",
+      "reset",
+      "model_transport",
+      "default"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f1ce-5873-7751-9929-f548f8229122",
+      "Continue using native transport."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f1ce-5873-7751-9929-f548f8229122\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"native transport restored\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":1,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":1,\"reasoning_output_tokens\":0}}\n",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,38 @@
+[package]
+name = "codex-context-engine"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "codex_context_engine"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[features]
+default = []
+snapshot-api = ["dep:codex-extension-api"]
+
+[dependencies]
+base64 = { workspace = true }
+codex-context-fragments = { workspace = true }
+codex-context-replay = { workspace = true }
+codex-extension-api = { workspace = true, optional = true }
+codex-guardian-context = { workspace = true }
+codex-history = { workspace = true }
+codex-prompts = { workspace = true }
+codex-protocol = { workspace = true }
+codex-utils-audio = { workspace = true }
+codex-utils-cache = { workspace = true }
+codex-utils-output-truncation = { workspace = true }
+image = { workspace = true, features = ["jpeg", "png", "webp"] }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true, features = ["serde", "v4", "v5", "v7"] }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

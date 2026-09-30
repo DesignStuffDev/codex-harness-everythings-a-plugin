@@ -1,0 +1,665 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling scopeguard v1.2.0
+   Compiling generic-array v0.14.7
+   Compiling typenum v1.20.0
+   Compiling mio v1.2.0
+   Compiling winnow v1.0.4
+   Compiling lock_api v0.4.14
+   Compiling parking_lot v0.12.5
+   Compiling toml_parser v1.1.3+spec-1.1.0
+   Compiling ring v0.17.14
+   Compiling tokio v1.52.3
+   Compiling toml_edit v0.23.10+spec-1.0.0
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling digest v0.10.7
+   Compiling sha1 v0.10.6
+   Compiling sha2 v0.10.9
+   Compiling proc-macro-crate v3.4.0
+   Compiling spin v0.9.8
+   Compiling rustls v0.23.45
+   Compiling getrandom v0.4.2
+   Compiling url v2.5.8
+   Compiling num-integer v0.1.46
+   Compiling num-bigint v0.4.6
+   Compiling prodash v31.0.0
+   Compiling gix-features v0.46.2
+   Compiling rama-macros v0.3.0-alpha.4
+   Compiling flume v0.12.0
+   Compiling tempfile v3.27.0
+   Compiling sha1-checked v0.10.0
+   Compiling tokio-util v0.7.18
+   Compiling tokio-graceful v0.2.2
+   Compiling h2 v0.4.19
+   Compiling rama-utils v0.3.0-alpha.4
+   Compiling rama-core v0.3.0-alpha.4
+   Compiling tokio-stream v0.1.18
+   Compiling tower v0.5.3
+   Compiling rustls-webpki v0.103.15
+   Compiling rama-http-types v0.3.0-alpha.4
+   Compiling gix-hash v0.23.0
+   Compiling tokio-native-tls v0.3.1
+   Compiling rand v0.10.1
+   Compiling hyper v1.8.1
+   Compiling moka v0.12.13
+   Compiling hyper-util v0.1.20
+   Compiling rama-net v0.3.0-alpha.4
+   Compiling lock_free_hashtable v0.1.4
+   Compiling heapless v0.7.17
+   Compiling cookie_store v0.22.1
+   Compiling tokio-rustls v0.26.4
+   Compiling hyper-rustls v0.27.7
+   Compiling hyper-tls v0.6.0
+   Compiling quickcheck v1.1.0
+   Compiling hickory-proto v0.25.2
+   Compiling gix-hashtable v0.13.0
+   Compiling tower-http v0.6.8
+   Compiling arrayvec v0.7.6
+   Compiling allocative v0.3.6
+   Compiling blake3 v1.8.2
+   Compiling dashmap v6.1.0
+   Compiling postcard v1.1.3
+   Compiling hickory-resolver v0.25.2
+   Compiling reqwest v0.12.28
+   Compiling gix-object v0.58.0
+   Compiling sorted_vector_map v0.2.1
+   Compiling static_interner v0.1.2
+   Compiling pagable v0.4.1
+   Compiling rama-dns v0.3.0-alpha.4
+   Compiling rama-http-headers v0.3.0-alpha.4
+   Compiling codex-utils-rustls-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/rustls-provider)
+   Compiling der-parser v10.0.0
+   Compiling starlark_map v0.14.2
+   Compiling x509-parser v0.18.1
+   Compiling tokio-test v0.4.5
+   Compiling starlark_syntax v0.14.2
+   Compiling rama-tcp v0.3.0-alpha.4
+   Compiling rama-http v0.3.0-alpha.4
+   Compiling rcgen v0.14.9
+   Compiling codex-http-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/http-client)
+   Compiling rama-udp v0.3.0-alpha.4
+   Compiling rama-unix v0.3.0-alpha.4
+   Compiling gix-fs v0.19.2
+   Compiling block-padding v0.3.3
+   Compiling starlark v0.14.2
+   Compiling codex-utils-path-uri v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/path-uri)
+   Compiling codex-utils-cache v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/cache)
+   Compiling inout v0.1.4
+   Compiling rama-socks5 v0.3.0-alpha.4
+   Compiling rama-tls-rustls v0.3.0-alpha.4
+   Compiling codex-utils-image v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/image)
+   Compiling cipher v0.4.4
+   Compiling gix-tempfile v21.0.2
+   Compiling codex-async-utils v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/async-utils)
+   Compiling gix-lock v21.0.2
+   Compiling gix-commitgraph v0.35.0
+   Compiling gix-revwalk v0.29.0
+   Compiling gix-ref v0.61.0
+   Compiling hmac v0.12.1
+   Compiling rust-embed-utils v8.11.0
+   Compiling rama-http-core v0.3.0-alpha.4
+   Compiling gix-glob v0.24.0
+   Compiling gix-pack v0.68.0
+   Compiling gix-transport v0.55.1
+   Compiling rust-embed-impl v8.11.0
+   Compiling rand v0.8.6
+   Compiling futures-intrusive v0.5.0
+   Compiling zvariant_derive v4.2.0
+   Compiling gix-revision v0.43.0
+   Compiling gix-shallow v0.10.0
+   Compiling sqlx-core v0.9.0
+   Compiling rama-http-backend v0.3.0-alpha.4
+   Compiling codex-network-proxy v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/network-proxy)
+   Compiling zvariant v4.2.0
+   Compiling codex-execpolicy v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/execpolicy)
+   Compiling gix-config v0.54.0
+   Compiling gix-protocol v0.59.0
+   Compiling headers v0.4.1
+   Compiling gix-refspec v0.39.0
+   Compiling gix-odb v0.78.0
+   Compiling gix-discover v0.49.0
+   Compiling hkdf v0.12.4
+   Compiling gix-traverse v0.55.0
+   Compiling gix-diff v0.61.0
+   Compiling hyper-timeout v0.5.2
+   Compiling sqlx-macros-core v0.9.0
+   Compiling tungstenite v0.27.0 (https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30)
+   Compiling sqlx-sqlite v0.9.0
+   Compiling tonic v0.14.3
+   Compiling codex-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/protocol)
+   Compiling gix v0.81.0
+   Compiling zbus_names v3.0.0
+   Compiling codex-utils-pty v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/pty)
+   Compiling zbus_macros v4.4.0
+   Compiling num-rational v0.4.2
+   Compiling num-iter v0.1.45
+   Compiling curve25519-dalek v4.1.3
+   Compiling universal-hash v0.5.1
+   Compiling poly1305 v0.8.0
+   Compiling zbus v4.4.0
+   Compiling num v0.4.3
+   Compiling tonic-prost v0.14.3
+   Compiling sqlx v0.9.0
+   Compiling tokio-tungstenite v0.28.0 (https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73)
+   Compiling sqlx-macros v0.9.0
+   Compiling rust-embed v8.11.0
+   Compiling cbc v0.1.2
+   Compiling aes v0.8.4
+   Compiling chacha20 v0.9.1
+   Compiling opentelemetry_sdk v0.31.0
+   Compiling aead v0.5.2
+   Compiling secret-service v4.0.0
+   Compiling opentelemetry-proto v0.31.0
+   Compiling chacha20poly1305 v0.10.1
+   Compiling codex-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-client)
+   Compiling i18n-embed v0.15.4
+   Compiling codex-websocket-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/websocket-client)
+   Compiling pbkdf2 v0.12.2
+   Compiling salsa20 v0.10.2
+   Compiling opentelemetry-http v0.31.0
+   Compiling age-core v0.11.0
+   Compiling opentelemetry-otlp v0.31.0
+   Compiling keyring v3.6.3
+   Compiling nucleo v0.5.0 (https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9f)
+   Compiling scrypt v0.11.0
+   Compiling i18n-embed-fl v0.9.4
+   Compiling x25519-dalek v2.0.1
+   Compiling rmcp v3.3.0 (https://github.com/modelcontextprotocol/rust-sdk?rev=3e636cab26c013eca5131103c03d20237f12c4df#3e636cab)
+   Compiling age v0.11.2
+   Compiling codex-file-search v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/file-search)
+   Compiling codex-keyring-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/keyring-store)
+   Compiling codex-utils-path v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/path-utils)
+   Compiling codex-file-system v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/file-system)
+   Compiling codex-history v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/history)
+   Compiling codex-git-utils v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/git-utils)
+   Compiling codex-state v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/state)
+   Compiling codex-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-api)
+   Compiling codex-otel v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/otel)
+   Compiling codex-secrets v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/secrets)
+   Compiling codex-shell-command v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/shell-command)
+   Compiling codex-rollout v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/rollout)
+   Compiling codex-app-server-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-protocol)
+   Compiling codex-thread-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 56s
+────────────
+ Nextest run ID 9535b0e9-abbb-4217-b1e8-676095420559 with nextest profile: local
+    Starting 477 tests across 2 binaries
+        PASS [   0.006s] (  1/477) codex-state extract::tests::diff_fields_detects_changes
+        PASS [   0.006s] (  2/477) codex-state extract::tests::completed_user_message_items_set_title_and_first_user_message
+        PASS [   0.006s] (  3/477) codex-state extract::tests::event_msg_audio_only_user_message_sets_audio_placeholder_preview
+        PASS [   0.006s] (  4/477) codex-state extract::tests::event_msg_blank_user_message_without_images_keeps_first_user_message_empty
+        PASS [   0.004s] (  5/477) codex-state extract::tests::event_msg_thread_goal_sets_preview_only_and_later_user_sets_message_title
+        PASS [   0.005s] (  6/477) codex-state extract::tests::event_msg_image_only_user_message_sets_image_placeholder_preview
+        PASS [   0.006s] (  7/477) codex-state extract::tests::guardian_projection_skips_prompts_and_preserves_custom_names
+        PASS [   0.007s] (  8/477) codex-state extract::tests::event_msg_user_messages_set_title_and_first_user_message
+        PASS [   0.005s] (  9/477) codex-state extract::tests::session_meta_does_not_set_model_or_reasoning_effort
+        PASS [   0.006s] ( 10/477) codex-state extract::tests::response_item_user_messages_do_not_set_title_or_first_user_message
+        PASS [   0.007s] ( 11/477) codex-state extract::tests::thread_settings_applied_updates_resume_metadata
+        PASS [   0.008s] ( 12/477) codex-state extract::tests::turn_context_does_not_override_session_cwd
+        PASS [   0.005s] ( 13/477) codex-state extract::tests::turn_context_sets_cwd_when_session_cwd_missing
+        PASS [   0.006s] ( 14/477) codex-state extract::tests::turn_context_sets_permission_profile_metadata
+        PASS [   0.016s] ( 15/477) codex-state extract::tests::turn_context_sets_model_and_reasoning_effort
+        PASS [   0.081s] ( 16/477) codex-state log_db::failure_tests::failed_batch_is_reported_once_and_later_writes_recover
+        PASS [   0.084s] ( 17/477) codex-state log_db::filter_tests::sqlite_sink_filters_noisy_targets_without_dropping_useful_diagnostics
+        PASS [   0.120s] ( 18/477) codex-state log_db::tests::configured_batch_size_flushes_without_explicit_flush
+        PASS [   0.112s] ( 19/477) codex-state log_db::tests::configured_flush_interval_persists_buffered_logs
+        PASS [   0.006s] ( 20/477) codex-state log_db::tests::event_queue_drops_new_entries_when_full
+        PASS [   0.017s] ( 21/477) codex-state log_db::tests::flush_waits_for_queue_capacity_and_receiver_processing
+        PASS [   0.097s] ( 22/477) codex-state log_db::tests::flush_persists_logs_for_query
+        PASS [   0.092s] ( 23/477) codex-state log_db::tests::sqlite_feedback_logs_match_feedback_formatter_shape
+        PASS [   0.054s] ( 24/477) codex-state migrations::tests::agent_job_tables_are_dropped_when_upgrading
+        PASS [   0.021s] ( 25/477) codex-state migrations::tests::realtime_items_preserve_older_thread_history_writers
+        PASS [   0.065s] ( 26/477) codex-state migrations::tests::guardian_metadata_cleanup_preserves_custom_names_and_titles
+        PASS [   0.073s] ( 27/477) codex-state migrations::tests::recency_migration_backfills_and_seeds_old_binary_inserts
+        PASS [   0.071s] ( 28/477) codex-state migrations::tests::repair_recency_migration_succeeds_while_another_connection_holds_writer_slot
+        PASS [   0.077s] ( 29/477) codex-state migrations::tests::repairs_recency_migration_that_was_applied_as_version_38
+        PASS [   0.084s] ( 30/477) codex-state migrations::tests::thread_attachment_migration_preserves_existing_data
+        PASS [   0.017s] ( 31/477) codex-state migrations::tests::thread_item_update_ordinals_allow_older_writers
+        PASS [   0.072s] ( 32/477) codex-state migrations::tests::thread_section_migration_preserves_legacy_pin_compatibility
+        PASS [   0.068s] ( 33/477) codex-state migrations::tests::thread_section_order_migration_backfills_stably
+        PASS [   0.006s] ( 34/477) codex-state model::thread_metadata::tests::paginated_rollout_git_info_keeps_rollout_values_until_sqlite_mode_is_paginated
+        PASS [   0.005s] ( 35/477) codex-state model::thread_metadata::tests::thread_row_parses_reasoning_effort
+        PASS [   0.006s] ( 36/477) codex-state model::thread_metadata::tests::thread_row_preserves_model_defined_reasoning_effort_values
+        PASS [   0.005s] ( 37/477) codex-state model::thread_metadata::tests::thread_row_rejects_unknown_history_mode
+        PASS [   0.030s] ( 38/477) codex-state migrations::tests::writable_pool_reads_do_not_wait_for_an_existing_writer
+        PASS [   0.095s] ( 39/477) codex-state runtime::backfill::tests::backfill_claim_is_singleton_until_stale_and_blocked_when_complete
+        PASS [   0.095s] ( 40/477) codex-state runtime::backfill::tests::backfill_state_persists_progress_and_completion
+        PASS [   0.071s] ( 41/477) codex-state runtime::backfill::tests::get_backfill_state_repairs_a_missing_singleton_row
+        PASS [   0.080s] ( 42/477) codex-state runtime::backfill::tests::get_backfill_state_succeeds_while_another_connection_holds_writer_slot
+        PASS [   0.080s] ( 43/477) codex-state runtime::external_agent_config_imports::tests::reads_all_history_records
+        PASS [   0.071s] ( 44/477) codex-state runtime::external_agent_config_imports::tests::records_completion_by_import_id
+        PASS [   0.099s] ( 45/477) codex-state runtime::goals::tests::active_status_only_usage_accounting_does_not_update_budget_limited_goals
+        PASS [   0.102s] ( 46/477) codex-state runtime::goals::tests::activating_goal_already_over_budget_keeps_it_budget_limited
+        PASS [   0.067s] ( 47/477) codex-state runtime::goals::tests::blocking_budget_limited_goal_preserves_terminal_status
+        PASS [   0.074s] ( 48/477) codex-state runtime::goals::tests::budget_updates_immediately_stop_active_goals_already_over_budget
+        PASS [   0.085s] ( 49/477) codex-state runtime::goals::tests::concurrent_partial_updates_preserve_independent_fields
+        PASS [   0.084s] ( 50/477) codex-state runtime::goals::tests::deleting_thread_deletes_goal
+        PASS [   0.074s] ( 51/477) codex-state runtime::goals::tests::insert_thread_goal_applies_budget_limit_immediately
+        PASS [   0.067s] ( 52/477) codex-state runtime::goals::tests::insert_thread_goal_does_not_replace_existing_goal
+        PASS [   0.066s] ( 53/477) codex-state runtime::goals::tests::pause_active_thread_goal_does_not_clobber_terminal_status
+        PASS [   0.080s] ( 54/477) codex-state runtime::goals::tests::pausing_budget_limited_goal_preserves_terminal_status
+        PASS [   0.069s] ( 55/477) codex-state runtime::goals::tests::replace_thread_goal_applies_budget_limit_immediately
+        PASS [   0.084s] ( 56/477) codex-state runtime::goals::tests::replace_update_and_get_thread_goal
+        PASS [   0.076s] ( 57/477) codex-state runtime::goals::tests::stopped_usage_accounting_promotes_paused_goal_over_budget
+        PASS [   0.075s] ( 58/477) codex-state runtime::goals::tests::update_thread_goal_ignores_replaced_goal_version
+        PASS [   0.083s] ( 59/477) codex-state runtime::goals::tests::update_thread_goal_objective_preserves_usage_and_created_at
+        PASS [   0.081s] ( 60/477) codex-state runtime::goals::tests::usage_accounting_adds_concurrent_token_deltas
+        PASS [   0.080s] ( 61/477) codex-state runtime::goals::tests::usage_accounting_can_finalize_completed_goal_for_completing_turn
+        PASS [   0.068s] ( 62/477) codex-state runtime::goals::tests::usage_accounting_can_finalize_stopped_goal_for_in_flight_turn
+        PASS [   0.073s] ( 63/477) codex-state runtime::goals::tests::usage_accounting_ignores_replaced_goal_version
+        PASS [   0.078s] ( 64/477) codex-state runtime::goals::tests::usage_accounting_updates_active_goals_and_accounts_budget_limited_in_flight_usage
+        PASS [   0.005s] ( 65/477) codex-state runtime::logs::tests::format_feedback_log_line_matches_feedback_formatter_shape
+        PASS [   0.007s] ( 66/477) codex-state runtime::logs::tests::format_feedback_log_line_preserves_existing_trailing_newline
+        PASS [   0.079s] ( 67/477) codex-state runtime::goals::tests::usage_limit_active_thread_goal_updates_active_or_budget_limited_goals
+        PASS [   0.079s] ( 68/477) codex-state runtime::logs::tests::init_configures_logs_db_with_incremental_auto_vacuum
+        PASS [   0.082s] ( 69/477) codex-state runtime::logs::tests::init_migrates_message_only_logs_db_to_feedback_log_body_schema
+        PASS [   0.116s] ( 70/477) codex-state runtime::logs::tests::insert_logs_prunes_old_rows_when_thread_exceeds_row_limit
+        PASS [   0.148s] ( 71/477) codex-state runtime::logs::tests::insert_logs_prunes_old_rows_when_thread_exceeds_size_limit
+        PASS [   0.124s] ( 72/477) codex-state runtime::logs::tests::insert_logs_prunes_old_threadless_null_process_rows_when_row_limit_exceeded
+        PASS [   0.105s] ( 73/477) codex-state runtime::logs::tests::insert_logs_prunes_old_threadless_rows_when_process_exceeds_row_limit
+        PASS [   0.111s] ( 74/477) codex-state runtime::logs::tests::insert_logs_prunes_single_thread_row_when_it_exceeds_size_limit
+        PASS [   0.121s] ( 75/477) codex-state runtime::logs::tests::insert_logs_prunes_single_threadless_null_process_row_when_it_exceeds_limit
+        PASS [   0.114s] ( 76/477) codex-state runtime::logs::tests::insert_logs_prunes_single_threadless_process_row_when_it_exceeds_size_limit
+        PASS [   0.128s] ( 77/477) codex-state runtime::logs::tests::insert_logs_prunes_threadless_rows_with_null_process_uuid
+        PASS [   0.180s] ( 78/477) codex-state runtime::logs::tests::insert_logs_prunes_threadless_rows_per_process_uuid_only
+        PASS [   0.085s] ( 79/477) codex-state runtime::logs::tests::insert_logs_use_dedicated_log_database
+        PASS [   0.129s] ( 80/477) codex-state runtime::logs::tests::query_feedback_logs_excludes_oversized_newest_row
+        PASS [   0.073s] ( 81/477) codex-state runtime::logs::tests::query_feedback_logs_excludes_threadless_rows_from_prior_processes
+        PASS [   0.070s] ( 82/477) codex-state runtime::logs::tests::query_feedback_logs_for_threads_merges_requested_threads_and_threadless_rows
+        PASS [   0.072s] ( 83/477) codex-state runtime::logs::tests::query_feedback_logs_for_threads_returns_empty_for_empty_thread_list
+        PASS [   0.081s] ( 84/477) codex-state runtime::logs::tests::query_feedback_logs_includes_threadless_rows_from_same_process
+        PASS [   0.064s] ( 85/477) codex-state runtime::logs::tests::query_feedback_logs_returns_newest_lines_within_limit_in_order
+        PASS [   0.074s] ( 86/477) codex-state runtime::logs::tests::query_logs_filters_level_set_without_rewriting_stored_level
+        PASS [   0.233s] ( 87/477) codex-state runtime::logs::tests::query_feedback_logs_keeps_newest_suffix_across_thread_and_threadless_logs
+        PASS [   0.016s] ( 88/477) codex-state runtime::logs_maintenance::tests::halves_again_when_first_halving_deletes_nothing
+        PASS [   0.013s] ( 89/477) codex-state runtime::logs_maintenance::tests::keeps_ten_day_boundary_when_under_budget
+        PASS [   0.069s] ( 90/477) codex-state runtime::logs::tests::query_logs_with_search_matches_rendered_body_substring
+        PASS [   0.069s] ( 91/477) codex-state runtime::logs_maintenance::tests::periodic_cleanup_prunes_without_new_log_writes_or_restart
+        PASS [   0.015s] ( 92/477) codex-state runtime::logs_maintenance::tests::stops_at_one_second_when_recent_rows_exceed_budget
+        PASS [   0.083s] ( 93/477) codex-state runtime::logs_maintenance::tests::startup_cleanup_runs_without_waiting_for_the_period
+        PASS [   0.067s] ( 94/477) codex-state runtime::memories::tests::claim_stage1_jobs_bounds_state_scan_before_memory_probes
+        PASS [   0.093s] ( 95/477) codex-state runtime::memories::tests::claim_stage1_jobs_filters_by_age_idle_and_current_thread
+        PASS [   0.206s] ( 96/477) codex-state runtime::memories::tests::claim_stage1_jobs_enforces_global_running_cap
+        PASS [   0.095s] ( 97/477) codex-state runtime::memories::tests::claim_stage1_jobs_skips_threads_without_enabled_memory
+        PASS [   0.094s] ( 98/477) codex-state runtime::memories::tests::clear_memory_data_clears_rows_and_preserves_thread_memory_modes
+        PASS [   0.272s] ( 99/477) codex-state runtime::memories::tests::claim_stage1_jobs_processes_two_full_batches_across_startup_passes
+        PASS [   0.073s] (100/477) codex-state runtime::memories::tests::delete_thread_removes_stage1_output_and_enqueues_phase2_when_selected
+        PASS [   0.073s] (101/477) codex-state runtime::memories::tests::enqueue_global_consolidation_keeps_phase2_input_watermark_monotonic
+        PASS [   0.083s] (102/477) codex-state runtime::memories::tests::get_phase2_input_selection_excludes_polluted_previous_selection
+        PASS [   0.101s] (103/477) codex-state runtime::memories::tests::get_phase2_input_selection_excludes_stale_used_memories_but_keeps_fresh_never_used
+        PASS [   0.102s] (104/477) codex-state runtime::memories::tests::get_phase2_input_selection_prefers_recent_thread_updates_over_recent_generation
+        PASS [   0.084s] (105/477) codex-state runtime::memories::tests::get_phase2_input_selection_prioritizes_usage_count_then_recent_usage
+        PASS [   0.086s] (106/477) codex-state runtime::memories::tests::get_phase2_input_selection_returns_current_selected_rows
+        PASS [   0.083s] (107/477) codex-state runtime::memories::tests::get_phase2_input_selection_returns_regenerated_selected_rows
+        PASS [   0.083s] (108/477) codex-state runtime::memories::tests::get_phase2_input_selection_uses_current_ranking_after_refreshes
+        PASS [   0.077s] (109/477) codex-state runtime::memories::tests::list_stage1_outputs_for_global_includes_paginated_and_skips_polluted_threads
+        PASS [   0.082s] (110/477) codex-state runtime::memories::tests::list_stage1_outputs_for_global_returns_latest_outputs
+        PASS [   0.076s] (111/477) codex-state runtime::memories::tests::list_stage1_outputs_for_global_skips_empty_payloads
+        PASS [   0.078s] (112/477) codex-state runtime::memories::tests::mark_global_phase2_job_succeeded_only_marks_exact_selected_snapshots
+        PASS [   0.082s] (113/477) codex-state runtime::memories::tests::mark_global_phase2_job_succeeded_updates_selected_snapshot_timestamp
+        PASS [   0.073s] (114/477) codex-state runtime::memories::tests::mark_stage1_job_succeeded_enqueues_global_consolidation
+        PASS [   0.083s] (115/477) codex-state runtime::memories::tests::mark_stage1_job_succeeded_no_output_enqueues_phase2_when_deleting_output
+        PASS [   0.072s] (116/477) codex-state runtime::memories::tests::mark_stage1_job_succeeded_no_output_skips_phase2_when_output_was_already_absent
+        PASS [   0.077s] (117/477) codex-state runtime::memories::tests::mark_thread_memory_mode_polluted_enqueues_phase2_for_selected_threads
+        PASS [   0.081s] (118/477) codex-state runtime::memories::tests::mark_thread_memory_mode_polluted_enqueues_phase2_when_already_polluted
+        PASS [   0.081s] (119/477) codex-state runtime::memories::tests::phase2_failure_fallback_updates_unowned_running_job
+        PASS [   0.080s] (120/477) codex-state runtime::memories::tests::phase2_global_lock_allows_only_one_fresh_runner
+        PASS [   0.084s] (121/477) codex-state runtime::memories::tests::phase2_global_lock_can_be_claimed_after_retry_budget_is_exhausted
+        PASS [   0.070s] (122/477) codex-state runtime::memories::tests::phase2_global_lock_creates_missing_job_row
+        PASS [   0.084s] (123/477) codex-state runtime::memories::tests::phase2_global_lock_respects_success_cooldown
+        PASS [   0.081s] (124/477) codex-state runtime::memories::tests::phase2_global_lock_stale_lease_allows_takeover
+        PASS [   0.090s] (125/477) codex-state runtime::memories::tests::prune_stage1_outputs_for_retention_prunes_stale_unselected_rows_only
+        PASS [   0.096s] (126/477) codex-state runtime::memories::tests::prune_stage1_outputs_for_retention_respects_batch_limit
+        PASS [   0.081s] (127/477) codex-state runtime::memories::tests::record_stage1_output_usage_updates_usage_metadata
+        PASS [   0.077s] (128/477) codex-state runtime::memories::tests::stage1_claim_skips_when_up_to_date
+        PASS [   0.082s] (129/477) codex-state runtime::memories::tests::stage1_concurrent_claim_for_same_thread_is_conflict_safe
+        PASS [   0.091s] (130/477) codex-state runtime::memories::tests::stage1_concurrent_claims_respect_running_cap
+        PASS [   0.085s] (131/477) codex-state runtime::memories::tests::stage1_retry_exhaustion_does_not_block_newer_watermark
+        PASS [   0.085s] (132/477) codex-state runtime::memories::tests::stage1_running_stale_can_be_stolen_but_fresh_running_is_skipped
+        PASS [   0.134s] (133/477) codex-state runtime::memory_versions::tests::versions_isolate_jobs_outputs_and_reset_without_losing_threads
+        PASS [   0.097s] (134/477) codex-state runtime::projects::tests::initial_project_assignment_is_inserted_with_thread_row
+        PASS [   0.082s] (135/477) codex-state runtime::projects::tests::project_idempotency_keys_replay_and_survive_deletion
+        PASS [   0.080s] (136/477) codex-state runtime::projects::tests::project_import_rejects_unknown_thread_without_partial_project
+        PASS [   0.081s] (137/477) codex-state runtime::projects::tests::project_list_cursor_round_trips_across_pages
+        PASS [   0.099s] (138/477) codex-state runtime::projects::tests::project_lifecycle_preserves_order_and_clears_assignments
+        PASS [   0.006s] (139/477) codex-state runtime::projects::tests::project_list_rejects_cursor_sort_mismatches
+        PASS [   0.085s] (140/477) codex-state runtime::projects::tests::project_list_rejects_malformed_cursors
+        PASS [   0.116s] (141/477) codex-state runtime::projects::tests::project_list_orders_and_pages_recency_with_roots_and_nulls
+        PASS [   0.086s] (142/477) codex-state runtime::projects::tests::project_move_reorders_projects_and_preserves_no_op_timestamp
+        PASS [   0.095s] (143/477) codex-state runtime::projects::tests::project_updates_preserve_omitted_fields_across_concurrent_writers
+        PASS [   0.093s] (144/477) codex-state runtime::queued_items::tests::competing_runtimes_preserve_fifo_queue_order
+        PASS [   0.119s] (145/477) codex-state runtime::queued_items::tests::concurrent_inserts_enforce_the_queue_limit
+        PASS [   0.088s] (146/477) codex-state runtime::queued_items::tests::deleting_a_thread_removes_its_queue
+        PASS [   0.096s] (147/477) codex-state runtime::queued_items::tests::fifo_dispatch_preserves_edits_reordering_and_pagination
+        PASS [   0.086s] (148/477) codex-state runtime::queued_items::tests::migrating_existing_queue_backfills_thread_revisions
+        PASS [   0.081s] (149/477) codex-state runtime::queued_items::tests::queue_operations_cannot_mutate_another_threads_messages
+        PASS [   0.074s] (150/477) codex-state runtime::queued_items::tests::queue_revisions_identify_changed_threads_after_updates_and_deletions
+        PASS [   0.007s] (151/477) codex-state runtime::recovery::tests::backup_moves_only_requested_runtime_db_files_to_backup_folder
+        PASS [   0.006s] (152/477) codex-state runtime::recovery::tests::backup_replaces_blocking_sqlite_home_file
+        PASS [   0.006s] (153/477) codex-state runtime::recovery::tests::runtime_db_path_for_corruption_error_ignores_corrupt_word_in_path
+        PASS [   0.007s] (154/477) codex-state runtime::recovery::tests::runtime_db_path_for_corruption_error_returns_failed_database_path
+        PASS [   0.006s] (155/477) codex-state runtime::recovery::tests::sqlite_error_detail_classifies_corruption_and_lock_errors
+        PASS [   0.062s] (156/477) codex-state runtime::remote_control::tests::delete_remote_control_enrollment_removes_only_matching_entry
+        PASS [   0.076s] (157/477) codex-state runtime::remote_control::tests::migration_preserves_legacy_remote_control_preference_as_null
+        PASS [   0.070s] (158/477) codex-state runtime::remote_control::tests::remote_control_enrollment_round_trips_by_target_and_account
+        PASS [   0.072s] (159/477) codex-state runtime::tests::init_records_successful_sqlite_init_phases_to_explicit_telemetry
+        PASS [   0.077s] (160/477) codex-state runtime::tests::init_restores_independent_thread_timestamp_maxima
+        PASS [   0.058s] (161/477) codex-state runtime::tests::open_state_sqlite_tolerates_newer_applied_migrations
+        PASS [   0.073s] (162/477) codex-state runtime::tests::sqlite_integrity_check_can_be_interrupted_and_retried
+        PASS [   0.569s] (163/477) codex-state runtime::reclamation::tests::interrupted_reclamation_releases_writer_and_resumes_without_data_loss
+        PASS [   0.091s] (164/477) codex-state runtime::thread_attachments::tests::attachment_attachments_are_idempotent_and_scoped_to_their_thread
+        PASS [   0.151s] (165/477) codex-state runtime::thread_attachments::tests::active_attachment_limit_is_freed_by_removal
+        PASS [   0.088s] (166/477) codex-state runtime::thread_attachments::tests::attachment_listing_scopes_pagination_to_one_thread
+        PASS [   0.070s] (167/477) codex-state runtime::thread_attachments::tests::attachment_removals_return_not_found_or_the_removed_record
+        PASS [   0.082s] (168/477) codex-state runtime::thread_attachments::tests::attachment_requests_reject_invalid_identity_payload_and_cursor
+        PASS [   0.097s] (169/477) codex-state runtime::thread_attachments::tests::attachments_survive_restart_and_archive_but_cascade_on_thread_deletion
+        PASS [   0.092s] (170/477) codex-state runtime::thread_attachments::tests::concurrent_attachment_attachments_preserve_one_deterministic_identity
+        PASS [   0.089s] (171/477) codex-state runtime::thread_attachments::tests::copying_attachments_is_atomic_and_independent
+        PASS [   0.079s] (172/477) codex-state runtime::thread_metadata::tests::get_threads_preserves_valid_metadata_across_batches
+        PASS [   0.083s] (173/477) codex-state runtime::thread_section_order::tests::concurrent_section_moves_preserve_unique_positions
+        PASS [   0.077s] (174/477) codex-state runtime::thread_section_order::tests::section_moves_preserve_entry_order_and_renumber_exhausted_ranks
+        PASS [   0.075s] (175/477) codex-state runtime::thread_section_order::tests::thread_section_moves_round_trip_and_survive_rollout_reconciliation
+        PASS [   0.078s] (176/477) codex-state runtime::thread_section_order::tests::thread_section_ordering_batches_persisted_positions_and_entry_times
+        PASS [   0.077s] (177/477) codex-state runtime::thread_section_order::tests::thread_sections_paginate_and_require_registered_identities
+        PASS [   0.076s] (178/477) codex-state runtime::thread_sections::tests::concurrent_section_deletion_and_membership_moves_preserve_thread_invariants
+        PASS [   0.086s] (179/477) codex-state runtime::thread_sections::tests::deleting_custom_section_preserves_threads_and_clears_section_ordering
+        PASS [   0.068s] (180/477) codex-state runtime::threads::tests::apply_rollout_items_preserves_existing_git_branch_and_fills_missing_git_fields
+        PASS [   0.080s] (181/477) codex-state runtime::threads::tests::apply_rollout_items_restores_memory_mode_from_session_meta
+        PASS [   0.076s] (182/477) codex-state runtime::threads::tests::apply_rollout_items_uses_override_updated_at_when_provided
+        PASS [   0.081s] (183/477) codex-state runtime::threads::tests::archived_thread_pages_use_ordered_indexes_without_sorting
+        PASS [   0.080s] (184/477) codex-state runtime::threads::tests::archived_threads_without_previews_remain_listed
+        PASS [   0.084s] (185/477) codex-state runtime::threads::tests::delete_thread_cleans_associated_state
+        PASS [   0.077s] (186/477) codex-state runtime::threads::tests::delete_thread_keeps_retry_graph_on_cleanup_failure
+        PASS [   0.071s] (187/477) codex-state runtime::threads::tests::insert_thread_if_absent_preserves_existing_metadata
+        PASS [   0.087s] (188/477) codex-state runtime::threads::tests::list_threads_by_relation_filters_spawn_graph_with_keyset_pagination
+        PASS [   0.087s] (189/477) codex-state runtime::threads::tests::list_threads_filters_by_cwd
+        PASS [   0.090s] (190/477) codex-state runtime::threads::tests::list_threads_filters_sections_before_recency_pagination_and_uses_index
+        PASS [   0.089s] (191/477) codex-state runtime::threads::tests::list_threads_orders_and_pages_by_recency_at
+        PASS [   0.087s] (192/477) codex-state runtime::threads::tests::list_threads_updated_after_returns_oldest_changes_first
+        PASS [   0.081s] (193/477) codex-state runtime::threads::tests::list_threads_uses_indexes_matching_cwd_filters
+        PASS [   0.078s] (194/477) codex-state runtime::threads::tests::section_position_listing_uses_stable_indexed_keyset_pagination
+        PASS [   0.075s] (195/477) codex-state runtime::threads::tests::set_thread_preview_if_empty_only_fills_blank_preview
+        PASS [   0.075s] (196/477) codex-state runtime::threads::tests::thread_metadata_history_mode_does_not_downgrade
+        PASS [   0.072s] (197/477) codex-state runtime::threads::tests::thread_spawn_children_without_status_filter_lists_all_statuses
+        PASS [   0.071s] (198/477) codex-state runtime::threads::tests::thread_spawn_edges_track_directional_status
+        PASS [   0.078s] (199/477) codex-state runtime::threads::tests::thread_updated_at_uses_unique_epoch_millis_and_reads_legacy_seconds
+        PASS [   0.081s] (200/477) codex-state runtime::threads::tests::touch_thread_recency_at_is_monotonic_and_survives_stale_upsert
+        PASS [   0.073s] (201/477) codex-state runtime::threads::tests::touch_thread_updated_at_updates_only_updated_at
+        PASS [   0.076s] (202/477) codex-state runtime::threads::tests::update_thread_git_info_can_clear_fields
+        PASS [   0.066s] (203/477) codex-state runtime::threads::tests::update_thread_git_info_preserves_newer_non_git_metadata
+        PASS [   0.075s] (204/477) codex-state runtime::threads::tests::upsert_thread_keeps_creation_memory_mode_for_existing_rows
+        PASS [   0.075s] (205/477) codex-state runtime::threads::tests::upsert_thread_preserves_existing_git_and_originator_atomically
+        PASS [   0.008s] (206/477) codex-state sqlite::tests::open_read_write_pool_initializes_fresh_database_settings
+        PASS [   0.009s] (207/477) codex-state sqlite::tests::open_read_write_pool_preserves_existing_settings_under_write_lock
+        PASS [   0.008s] (208/477) codex-state sqlite::tests::open_read_write_pool_preserves_wal_conversion_lock_error
+        PASS [   0.005s] (209/477) codex-state telemetry::log_write_telemetry_tests::records_failed_log_write_with_bounded_sqlite_error
+        PASS [   0.007s] (210/477) codex-state telemetry::log_write_telemetry_tests::records_queue_drop_reason
+        PASS [   0.005s] (211/477) codex-state telemetry::log_write_telemetry_tests::records_successful_log_write_duration_batch_size_and_largest_entry
+        PASS [   0.077s] (212/477) codex-state runtime::threads::tests::upsert_thread_preserves_existing_preview_when_incoming_preview_is_empty
+        PASS [   0.006s] (213/477) codex-state telemetry::tests::classifies_extended_sqlite_codes
+        PASS [   0.008s] (214/477) codex-thread-store in_memory::tests::default_turn_pagination_methods_return_unsupported
+        PASS [   0.007s] (215/477) codex-thread-store in_memory::tests::list_threads_filters_by_spawn_relationship
+        PASS [   0.006s] (216/477) codex-thread-store in_memory::tests::metadata_update_returns_the_materialized_thread
+        PASS [   0.006s] (217/477) codex-thread-store in_memory::tests::paginated_threads_allow_metadata_reads_and_resume_but_reject_legacy_history_paths
+        PASS [   0.084s] (218/477) codex-thread-store in_memory::tests::deletion_cleans_associated_sqlite_and_shared_memory
+        PASS [   0.011s] (219/477) codex-thread-store local::archive_thread::tests::archive_thread_moves_rollout_to_archived_collection
+        PASS [   0.008s] (220/477) codex-thread-store local::archive_thread::tests::archive_threads_rejects_owned_descendants_before_archiving_anything
+        PASS [   0.086s] (221/477) codex-thread-store local::archive_thread::tests::archive_thread_deduplicates_rollout_paths_and_updates_sqlite_metadata
+        PASS [   0.009s] (222/477) codex-thread-store local::archive_thread::tests::archive_waits_for_fork_reservation_without_holding_writer_lock
+        PASS [   0.016s] (223/477) codex-thread-store local::compression_writer_tests::idle_recorder_retains_stable_thread_ownership_after_store_drop
+        PASS [   0.008s] (224/477) codex-thread-store local::daybreak_metadata_tests::daybreak_preference_requires_sqlite
+        PASS [   0.112s] (225/477) codex-thread-store local::compression_writer_tests::metadata_updates_share_ownership_and_resume_compressed_rollouts
+        PASS [   0.007s] (226/477) codex-thread-store local::delete_thread::tests::delete_rollout_file_treats_vanished_path_as_already_deleted
+        PASS [   0.102s] (227/477) codex-thread-store local::daybreak_metadata_tests::daybreak_preference_survives_reconciliation_and_cold_reads
+        PASS [   0.007s] (228/477) codex-thread-store local::delete_thread::tests::delete_thread_ignores_unreadable_reference_metadata
+        PASS [   0.008s] (229/477) codex-thread-store local::delete_thread::tests::delete_thread_rejects_reference_to_reverted_rollout
+        PASS [   0.009s] (230/477) codex-thread-store local::delete_thread::tests::delete_thread_rejects_referenced_paginated_history
+        PASS [   0.055s] (231/477) codex-thread-store local::delete_thread::tests::delete_thread_removes_active_and_archived_rollouts
+        PASS [   0.008s] (232/477) codex-thread-store local::delete_thread::tests::delete_thread_reports_missing_thread
+        PASS [   0.023s] (233/477) codex-thread-store local::delete_thread::tests::delete_thread_without_state_db_preserves_materialized_thread_history
+        PASS [   0.009s] (234/477) codex-thread-store local::delete_thread::tests::delete_threads_allows_internal_history_references
+        PASS [   0.095s] (235/477) codex-thread-store local::delete_thread::tests::delete_thread_removes_materialized_thread_history
+        PASS [   0.009s] (236/477) codex-thread-store local::delete_thread::tests::delete_threads_rejects_owned_descendants_before_deleting_anything
+        PASS [   0.008s] (237/477) codex-thread-store local::delete_thread::tests::delete_threads_rejects_owned_thread_before_rollout_materializes
+        PASS [   0.007s] (238/477) codex-thread-store local::delete_thread::tests::delete_threads_removes_rollout_with_unreadable_metadata
+        PASS [   0.005s] (239/477) codex-thread-store local::helpers::tests::guardian_rollout_conversion_preserves_name_and_logical_path
+        PASS [   0.064s] (240/477) codex-thread-store local::list_threads::tests::list_paginated_threads_uses_sqlite_name_over_legacy_compatibility
+        PASS [   0.008s] (241/477) codex-thread-store local::list_threads::tests::list_threads_rejects_invalid_cursor
+        PASS [   0.009s] (242/477) codex-thread-store local::list_threads::tests::list_threads_returns_local_rollout_summary
+        PASS [   0.079s] (243/477) codex-thread-store local::list_threads::tests::list_threads_preserves_sqlite_title_search_results
+        PASS [   0.008s] (244/477) codex-thread-store local::list_threads::tests::list_threads_uses_default_provider_when_rollout_omits_provider
+        PASS [   0.012s] (245/477) codex-thread-store local::list_threads::tests::list_threads_selects_active_or_archived_collection
+        PASS [   0.009s] (246/477) codex-thread-store local::model_context::tests::fork_context_excludes_items_after_frozen_cutoff
+        PASS [   0.010s] (247/477) codex-thread-store local::model_context::tests::fork_version_respects_inherited_segment_cutoffs
+        PASS [   0.013s] (248/477) codex-thread-store local::model_context::tests::fork_version_stops_before_older_segments_once_resolved
+        PASS [   0.012s] (249/477) codex-thread-store local::model_context::tests::loads_recent_context_after_many_empty_wake_turns
+        PASS [   0.020s] (250/477) codex-thread-store local::model_context::tests::replays_nested_archived_lineage_from_frozen_prefix
+        PASS [   0.011s] (251/477) codex-thread-store local::model_context::tests::returns_scanned_full_history_at_bof_without_checkpoint
+        PASS [   0.084s] (252/477) codex-thread-store local::list_threads::tests::section_listing_uses_sqlite_metadata_without_reading_rollouts
+        PASS [   0.012s] (253/477) codex-thread-store local::model_context::tests::returns_scanned_full_history_for_unsupported_compaction
+        PASS [   0.009s] (254/477) codex-thread-store local::model_context::tests::stops_at_newest_usable_compaction_and_keeps_companions
+        PASS [   0.077s] (255/477) codex-thread-store local::pending_thread_metadata_tests::discarding_live_thread_clears_pending_metadata
+        PASS [   0.078s] (256/477) codex-thread-store local::pending_thread_metadata_tests::idle_shutdown_clears_pending_thread_metadata_without_materializing
+        PASS [   0.730s] (257/477) codex-thread-store local::pending_thread_metadata_tests::pending_rollout_compatible_metadata_is_written_with_observed_update
+        PASS [   0.739s] (258/477) codex-thread-store local::pending_thread_metadata_tests::pending_rollout_compatible_metadata_does_not_deadlock
+        PASS [   0.072s] (259/477) codex-thread-store local::pending_thread_metadata_tests::pending_thread_metadata_rejects_rollout_path
+        PASS [   0.082s] (260/477) codex-thread-store local::pending_thread_metadata_tests::pending_thread_metadata_is_consumed_by_first_metadata_update
+        PASS [   0.008s] (261/477) codex-thread-store local::pending_thread_metadata_tests::pending_thread_metadata_requires_state_db
+        PASS [   0.085s] (262/477) codex-thread-store local::read_thread::tests::read_paginated_thread_prefers_sqlite_display_metadata
+        PASS [   0.082s] (263/477) codex-thread-store local::read_thread::tests::read_thread_accepts_legacy_sandbox_policy_metadata
+        PASS [   0.074s] (264/477) codex-thread-store local::read_thread::tests::read_thread_by_rollout_path_preserves_legacy_name_and_sqlite_git_info
+        PASS [   0.007s] (265/477) codex-thread-store local::read_thread::tests::read_thread_fails_without_rollout
+        PASS [   0.091s] (266/477) codex-thread-store local::read_thread::tests::read_thread_applies_sqlite_thread_name
+        PASS [   0.097s] (267/477) codex-thread-store local::read_thread::tests::read_thread_falls_back_to_rollout_search_when_sqlite_path_is_stale
+        PASS [   0.069s] (268/477) codex-thread-store local::read_thread::tests::read_thread_falls_back_when_sqlite_path_points_to_another_thread
+        PASS [   0.009s] (269/477) codex-thread-store local::read_thread::tests::read_thread_prefers_active_rollout_over_archived
+        PASS [   0.071s] (270/477) codex-thread-store local::read_thread::tests::read_thread_preserves_sqlite_cwd_when_rollout_metadata_is_stale
+        PASS [   0.009s] (271/477) codex-thread-store local::read_thread::tests::read_thread_returns_active_rollout_summary
+        PASS [   0.008s] (272/477) codex-thread-store local::read_thread::tests::read_thread_returns_archived_rollout_when_requested
+        PASS [   0.008s] (273/477) codex-thread-store local::read_thread::tests::read_thread_returns_forked_from_id
+        PASS [   0.068s] (274/477) codex-thread-store local::read_thread::tests::read_thread_returns_permission_profile_from_sqlite_metadata
+        PASS [   0.008s] (275/477) codex-thread-store local::read_thread::tests::read_thread_returns_rollout_path_summary
+        PASS [   0.060s] (276/477) codex-thread-store local::read_thread::tests::read_thread_sqlite_fallback_loads_archived_history
+        PASS [   0.551s] (277/477) codex-thread-store local::read_thread::tests::read_thread_falls_back_to_sqlite_summary
+        PASS [   0.009s] (278/477) codex-thread-store local::read_thread::tests::read_thread_uses_legacy_thread_name_when_sqlite_title_is_missing
+        PASS [   0.007s] (279/477) codex-thread-store local::read_thread::tests::read_thread_uses_session_meta_for_rollout_without_user_preview_or_sqlite_metadata
+        PASS [   0.073s] (280/477) codex-thread-store local::read_thread::tests::read_thread_uses_sqlite_metadata_for_rollout_without_user_preview
+        PASS [   0.008s] (281/477) codex-thread-store local::read_thread_tests::empty_archived_reads_without_sqlite_preserve_source_and_file_time
+        PASS [   0.157s] (282/477) codex-thread-store local::revert_thread::tests::revert_keeps_thread_id_and_hides_suffix_across_repeated_reverts
+        PASS [   0.537s] (283/477) codex-thread-store local::read_thread::tests::read_thread_sqlite_fallback_respects_include_archived
+        PASS [   0.010s] (284/477) codex-thread-store local::rollout_lineage::tests::rejects_missing_cycles_and_out_of_bounds_offsets
+        PASS [   0.018s] (285/477) codex-thread-store local::rollout_lineage::tests::rejects_reference_lineage_escaping_symlinked_sessions_root
+        PASS [   0.008s] (286/477) codex-thread-store local::rollout_lineage::tests::resolves_archived_ancestors
+        PASS [   0.010s] (287/477) codex-thread-store local::rollout_lineage::tests::resolves_lineage_at_explicit_history_position
+        PASS [   0.177s] (288/477) codex-thread-store local::revert_thread::tests::revert_preserves_resolved_multi_agent_version_in_session_metadata
+        PASS [   0.007s] (289/477) codex-thread-store local::rollout_migration::line_parser::tests::normalizes_legacy_plain_command_cwd
+        PASS [   0.010s] (290/477) codex-thread-store local::rollout_lineage::tests::resolves_nested_lineage_with_empty_intermediate_segments
+        PASS [   0.007s] (291/477) codex-thread-store local::rollout_migration::line_parser::tests::normalizes_legacy_rate_limit_reset_timestamps
+        PASS [   0.007s] (292/477) codex-thread-store local::rollout_migration::line_parser::tests::normalizes_legacy_review_entry_prompt
+        PASS [   0.007s] (293/477) codex-thread-store local::rollout_migration::line_parser::tests::normalizes_legacy_turn_context_collaboration_mode
+        PASS [   0.007s] (294/477) codex-thread-store local::rollout_migration::line_parser::tests::normalizes_legacy_turn_context_sandbox_policy
+        PASS [   0.006s] (295/477) codex-thread-store local::rollout_migration::line_parser::tests::parses_legacy_numeric_event_payloads_through_value
+        PASS [   0.005s] (296/477) codex-thread-store local::rollout_migration::line_parser::tests::skips_legacy_ghost_snapshots
+        PASS [   0.006s] (297/477) codex-thread-store local::rollout_migration::line_parser::tests::skips_only_known_retired_events
+        PASS [   0.106s] (298/477) codex-thread-store local::rollout_migration::startup::tests::permanently_skips_failed_rollouts_without_blocking_the_cursor
+        PASS [   0.120s] (299/477) codex-thread-store local::rollout_migration::startup::tests::checks_rollouts_within_the_cursor_lookback
+        PASS [   0.116s] (300/477) codex-thread-store local::rollout_migration::startup::tests::records_and_advances_checked_thread
+        PASS [   0.126s] (301/477) codex-thread-store local::rollout_migration::startup::tests::recovers_pending_migrations_after_retrying_busy_rollouts
+        PASS [   0.119s] (302/477) codex-thread-store local::rollout_migration::startup::tests::retries_busy_rollouts_after_archive_and_compression_move
+        PASS [   0.116s] (303/477) codex-thread-store local::rollout_migration::startup::tests::treats_writer_owned_empty_rollouts_as_busy
+        PASS [   0.185s] (304/477) codex-thread-store local::rollout_migration::startup::tests::waits_for_a_live_writer_before_migrating
+        PASS [   0.008s] (305/477) codex-thread-store local::rollout_migration::tests::decompression_temporaries_are_owner_only
+        PASS [   0.010s] (306/477) codex-thread-store local::rollout_migration::tests::dry_run_reports_migration_order
+        PASS [   0.083s] (307/477) codex-thread-store local::rollout_migration::tests::migration_applies_cumulative_and_overflowing_rollbacks
+        PASS [   0.086s] (308/477) codex-thread-store local::rollout_migration::tests::migration_applies_historical_rollbacks_before_sqlite_projection
+        PASS [   0.007s] (309/477) codex-thread-store local::rollout_migration::tests::migration_apply_conflicts_with_rollout_maintenance
+        PASS [   0.084s] (310/477) codex-thread-store local::rollout_migration::tests::migration_coalesces_response_first_user_message_rollback_boundary
+        PASS [   0.096s] (311/477) codex-thread-store local::rollout_migration::tests::migration_compacts_subagent_prefix_and_does_not_project_it
+        PASS [   0.084s] (312/477) codex-thread-store local::rollout_migration::tests::migration_does_not_coalesce_distinct_adjacent_user_records
+        PASS [   0.078s] (313/477) codex-thread-store local::rollout_migration::tests::migration_drops_copied_user_fork_metadata_without_creating_a_history_base
+        PASS [   0.085s] (314/477) codex-thread-store local::rollout_migration::tests::migration_drops_trailing_context_when_rollback_arrives_before_next_turn
+        PASS [   0.090s] (315/477) codex-thread-store local::rollout_migration::tests::migration_hoists_delayed_session_meta_before_paginated_history
+        PASS [   0.085s] (316/477) codex-thread-store local::rollout_migration::tests::migration_keeps_delivery_before_newer_unsequenced_communication
+        PASS [   0.089s] (317/477) codex-thread-store local::rollout_migration::tests::migration_keeps_downgraded_delivery_before_later_same_turn_steer
+        PASS [   1.135s] (318/477) codex-thread-store local::rollout_migration::startup::tests::waits_for_rollout_maintenance_before_migrating
+        PASS [   0.102s] (319/477) codex-thread-store local::rollout_migration::tests::migration_keeps_empty_replay_anchor_from_rolled_back_turn
+        PASS [   0.121s] (320/477) codex-thread-store local::rollout_migration::tests::migration_keeps_late_completions_for_surviving_turns_across_rollback
+        PASS [   0.125s] (321/477) codex-thread-store local::rollout_migration::tests::migration_keeps_late_completions_in_their_original_turn
+        PASS [   0.099s] (322/477) codex-thread-store local::rollout_migration::tests::migration_keeps_small_uncompacted_subagent_replay_as_prefix
+        PASS [   0.103s] (323/477) codex-thread-store local::rollout_migration::tests::migration_migrates_archived_rollouts_without_unarchiving_them
+        PASS [   0.106s] (324/477) codex-thread-store local::rollout_migration::tests::migration_preserves_answers_before_a_rolled_back_steer
+        PASS [   0.113s] (325/477) codex-thread-store local::rollout_migration::tests::migration_preserves_compressed_rollouts_during_publish_and_recovery
+        PASS [   0.095s] (326/477) codex-thread-store local::rollout_migration::tests::migration_preserves_image_generation_failure_metadata
+        PASS [   0.129s] (327/477) codex-thread-store local::rollout_migration::tests::migration_preserves_legacy_displayed_thread_names
+        PASS [   0.098s] (328/477) codex-thread-store local::rollout_migration::tests::migration_preserves_reverse_replay_anchor_after_pre_compaction_rollback
+        PASS [   0.110s] (329/477) codex-thread-store local::rollout_migration::tests::migration_preserves_same_turn_evidence_across_rollback_checkpoints
+        PASS [   0.106s] (330/477) codex-thread-store local::rollout_migration::tests::migration_preserves_valid_final_record_without_newline
+        PASS [   0.120s] (331/477) codex-thread-store local::rollout_migration::tests::migration_projects_explicit_and_implicit_legacy_completed_items
+        PASS [   0.100s] (332/477) codex-thread-store local::rollout_migration::tests::migration_projects_memory_consolidation_as_ordinary_history
+        PASS [   0.096s] (333/477) codex-thread-store local::rollout_migration::tests::migration_publishes_canonical_projected_history_and_is_idempotent
+        PASS [   0.110s] (334/477) codex-thread-store local::rollout_migration::tests::migration_recovers_a_compressed_published_rollout
+        PASS [   0.103s] (335/477) codex-thread-store local::rollout_migration::tests::migration_recovers_a_published_rollout_with_missing_projection
+        PASS [   0.115s] (336/477) codex-thread-store local::rollout_migration::tests::migration_recovers_pending_rollouts_before_new_work
+        PASS [   0.119s] (337/477) codex-thread-store local::rollout_migration::tests::migration_removes_answers_accepted_after_a_queued_steer
+        PASS [   0.099s] (338/477) codex-thread-store local::rollout_migration::tests::migration_removes_delivery_with_only_legacy_unsequenced_instruction
+        PASS [   0.108s] (339/477) codex-thread-store local::rollout_migration::tests::migration_repairs_a_missing_paginated_name_when_rerun
+        PASS [   0.084s] (340/477) codex-thread-store local::rollout_migration::tests::migration_reports_invalid_session_metadata
+        PASS [   0.386s] (341/477) codex-thread-store local::rollout_migration::tests::migration_removes_delivery_from_rolled_back_communication_turn
+        PASS [   0.097s] (342/477) codex-thread-store local::rollout_migration::tests::migration_reports_missing_sqlite_metadata
+        PASS [   0.088s] (343/477) codex-thread-store local::rollout_migration::tests::migration_rolls_back_inter_agent_metadata_with_its_delivery
+        PASS [   0.276s] (344/477) codex-thread-store local::rollout_migration::tests::migration_retries_a_rollout_moved_after_path_discovery
+        PASS [   0.104s] (345/477) codex-thread-store local::rollout_migration::tests::migration_rolls_back_nested_deliveries_by_acceptance_order
+        PASS [   0.100s] (346/477) codex-thread-store local::rollout_migration::tests::migration_rolls_back_pre_compaction_turns_from_sqlite_history
+        PASS [   0.104s] (347/477) codex-thread-store local::rollout_migration::tests::migration_rolls_back_response_and_inter_agent_user_boundaries
+        PASS [   0.083s] (348/477) codex-thread-store local::rollout_migration::tests::migration_skips_empty_rollout_files
+        PASS [   0.101s] (349/477) codex-thread-store local::rollout_migration::tests::migration_skips_malformed_lines_and_trailing_partial_tail
+        PASS [   0.008s] (350/477) codex-thread-store local::rollout_migration::tests::migration_skips_threads_with_an_active_writer
+        PASS [   0.105s] (351/477) codex-thread-store local::rollout_migration::tests::migration_uses_turn_context_to_select_reverse_replay_anchor
+        PASS [   0.007s] (352/477) codex-thread-store local::search_threads::tests::recency_cursor_includes_thread_id_tie_breaker
+        PASS [   0.296s] (353/477) codex-thread-store local::rollout_migration::tests::migration_skips_oversized_jsonl_records
+        PASS [   0.013s] (354/477) codex-thread-store local::tests::acquisition_tests::cancelled_acquisition_waits_for_writer_handoff_before_discarding
+        PASS [   0.007s] (355/477) codex-thread-store local::tests::create_thread_rejects_duplicate_live_writer
+        PASS [   0.006s] (356/477) codex-thread-store local::tests::create_thread_rejects_missing_cwd
+        PASS [   0.008s] (357/477) codex-thread-store local::tests::discard_thread_drops_unmaterialized_live_writer
+        PASS [   0.198s] (358/477) codex-thread-store local::search_threads::tests::search_matches_selected_rollout_across_path_spellings_and_compression
+        PASS [   0.099s] (359/477) codex-thread-store local::tests::live_thread_does_not_derive_metadata_from_inherited_items
+        PASS [   0.085s] (360/477) codex-thread-store local::tests::live_thread_observes_appended_items_into_sqlite_metadata
+        PASS [   0.094s] (361/477) codex-thread-store local::tests::live_thread_output_advances_updated_at_but_not_recency_at
+        PASS [   0.080s] (362/477) codex-thread-store local::tests::live_thread_resume_loads_history_before_observing_metadata
+        PASS [   0.085s] (363/477) codex-thread-store local::tests::live_thread_resume_loads_history_from_explicit_external_rollout_path
+        PASS [   0.071s] (364/477) codex-thread-store local::tests::live_thread_shutdown_does_not_materialize_empty_thread_metadata
+        PASS [   0.086s] (365/477) codex-thread-store local::tests::live_thread_shutdown_with_buffered_items_materializes_before_metadata_read
+        PASS [   0.015s] (366/477) codex-thread-store local::tests::live_writer_lifecycle_writes_and_closes
+        PASS [   0.023s] (367/477) codex-thread-store local::tests::live_writers_reject_cross_process_create_and_resume
+        PASS [   0.011s] (368/477) codex-thread-store local::tests::load_history_uses_live_writer_rollout_path
+        PASS [   0.013s] (369/477) codex-thread-store local::tests::load_history_uses_live_writer_rollout_path_for_archived_source
+        PASS [   0.014s] (370/477) codex-thread-store local::tests::paginated_live_appends_use_paginated_history_mode
+        PASS [   0.071s] (371/477) codex-thread-store local::tests::paginated_resume_prefers_explicit_rollout_path_over_stale_sqlite_path
+        PASS [   0.014s] (372/477) codex-thread-store local::tests::paginated_threads_allow_metadata_reads_and_resume_but_reject_legacy_history_paths
+        PASS [   0.080s] (373/477) codex-thread-store local::tests::raw_append_items_does_not_update_sqlite_metadata
+        PASS [   0.014s] (374/477) codex-thread-store local::tests::read_thread_by_rollout_path_includes_history
+        PASS [   0.009s] (375/477) codex-thread-store local::tests::read_thread_uses_live_writer_rollout_path_for_external_resume
+        PASS [   0.006s] (376/477) codex-thread-store local::tests::resume_thread_rejects_duplicate_live_writer
+        PASS [   0.008s] (377/477) codex-thread-store local::tests::resume_thread_rejects_missing_cwd
+        PASS [   0.016s] (378/477) codex-thread-store local::tests::resume_thread_reopens_live_writer_and_appends
+        PASS [   0.137s] (379/477) codex-thread-store local::thread_attachments::tests::attachment_mutations_queued_behind_deletion_reject_deleted_threads
+        PASS [   0.073s] (380/477) codex-thread-store local::thread_attachments::tests::attachment_mutations_wait_for_exclusive_thread_lifecycle_operations
+        PASS [   1.184s] (381/477) codex-thread-store local::tests::live_thread_memory_mode_update_before_rollout_materializes_keeps_history_mode
+        PASS [   0.160s] (382/477) codex-thread-store local::thread_attachments::tests::attachment_owner_deletion_can_retry_after_state_cleanup_fails
+        PASS [   0.072s] (383/477) codex-thread-store local::thread_attachments::tests::attachment_state_errors_preserve_missing_thread_and_invalid_request_categories
+        PASS [   0.007s] (384/477) codex-thread-store local::thread_attachments::tests::thread_attachments_require_a_supported_sqlite_store
+        PASS [   0.098s] (385/477) codex-thread-store local::thread_attachments::tests::unloaded_thread_attachments_support_listing_and_removal
+        PASS [   0.110s] (386/477) codex-thread-store local::thread_history::read::tests::inherited_search_excludes_turns_created_after_the_fork
+        PASS [   0.103s] (387/477) codex-thread-store local::thread_history::read::tests::item_anchors_page_exclusively_while_the_turn_grows
+        PASS [   0.093s] (388/477) codex-thread-store local::thread_history::read::tests::item_anchors_reject_items_outside_the_requested_scope
+        PASS [   0.091s] (389/477) codex-thread-store local::thread_history::read::tests::item_anchors_require_creation_order_without_an_update_watermark
+        PASS [   0.097s] (390/477) codex-thread-store local::thread_history::read::tests::lineage_reads_nested_forks
+        PASS [   0.092s] (391/477) codex-thread-store local::thread_history::read::tests::list_history_keeps_legacy_threads_unsupported
+        PASS [   0.098s] (392/477) codex-thread-store local::thread_history::read::tests::list_items_filters_exclusive_update_ordinals_across_pages_and_turns
+        PASS [   0.205s] (393/477) codex-thread-store local::thread_history::read::tests::lineage_reads_page_across_parent_and_child_segments
+        PASS [   0.093s] (394/477) codex-thread-store local::thread_history::read::tests::list_items_rejects_update_ordinals_outside_sqlite_integer_range
+        PASS [   0.109s] (395/477) codex-thread-store local::thread_history::read::tests::list_items_pages_whole_thread_and_per_turn_rows
+        PASS [   0.077s] (396/477) codex-thread-store local::thread_history::read::tests::list_items_update_ordinals_use_selected_rollout_id
+        PASS [   0.094s] (397/477) codex-thread-store local::thread_history::read::tests::list_turns_pages_projected_rows_and_applies_item_views
+        PASS [   0.094s] (398/477) codex-thread-store local::thread_history::read::tests::timeline_interleaves_items_and_restores_page_boundary_session_state
+        PASS [   0.094s] (399/477) codex-thread-store local::thread_history::read::tests::timeline_page_state_excludes_realtime_events_after_fork_cutoff
+        PASS [   0.126s] (400/477) codex-thread-store local::thread_history::read::tests::timeline_turn_boundaries_page_through_shared_ordinals
+        PASS [   0.136s] (401/477) codex-thread-store local::thread_history_materialization::tests::active_turn_stores_only_its_start_position
+        PASS [   0.105s] (402/477) codex-thread-store local::thread_history_materialization::tests::blank_and_rejected_rollout_lines_advance_projection
+        PASS [   0.126s] (403/477) codex-thread-store local::thread_history_materialization::tests::cancelled_fork_keeps_source_reserved_until_lineage_resolution_finishes
+        PASS [   0.103s] (404/477) codex-thread-store local::thread_history_materialization::tests::catch_up_preserves_trailing_partial_line_boundaries
+        PASS [   0.248s] (405/477) codex-thread-store local::thread_history_materialization::tests::catch_up_rejects_missing_rollout_after_projection
+        PASS [   0.249s] (406/477) codex-thread-store local::thread_history_materialization::tests::catch_up_skips_invalid_complete_suffixes_and_projects_later_history
+        PASS [   0.089s] (407/477) codex-thread-store local::thread_history_materialization::tests::event_timestamps_allow_invalid_rollout_timestamps
+        PASS [   0.137s] (408/477) codex-thread-store local::thread_history_materialization::tests::delete_waits_for_in_flight_projection_before_removing_rows
+        PASS [   0.007s] (409/477) codex-thread-store local::thread_history_materialization::tests::jsonl_failure_does_not_create_projection_database
+        PASS [   0.090s] (410/477) codex-thread-store local::thread_history_materialization::tests::malformed_rollout_lines_skip_inferred_ordinal_gaps
+        PASS [   0.135s] (411/477) codex-thread-store local::thread_history_materialization::tests::named_fork_boundaries_reject_invisible_and_noncanonical_turns
+        PASS [   0.112s] (412/477) codex-thread-store local::thread_history_materialization::tests::next_write_catches_up_unprojected_durable_suffix
+        PASS [   0.093s] (413/477) codex-thread-store local::thread_history_materialization::tests::paginated_fork_persists_empty_source
+        PASS [   0.013s] (414/477) codex-thread-store local::thread_history_materialization::tests::paginated_history_without_state_db_does_not_initialize_sqlite
+        PASS [   0.105s] (415/477) codex-thread-store local::thread_history_materialization::tests::paginated_live_append_materializes_turn_items_and_state
+        PASS [   0.159s] (416/477) codex-thread-store local::thread_history_materialization::tests::paginated_fork_reads_compressed_shared_lineage_without_materializing
+        PASS [   0.108s] (417/477) codex-thread-store local::thread_history_materialization::tests::paginated_projection_accepts_float_rate_limits_and_later_final_answers
+        PASS [   0.101s] (418/477) codex-thread-store local::thread_history_materialization::tests::paginated_realtime_items_materialize_separately_in_rollout_order
+        PASS [   0.107s] (419/477) codex-thread-store local::thread_history_materialization::tests::projection_preserves_exact_lifecycle_timestamps
+        PASS [   0.122s] (420/477) codex-thread-store local::thread_history_materialization::tests::prepared_fork_reserves_source_until_child_reference_is_durable
+        PASS [   0.112s] (421/477) codex-thread-store local::thread_history_materialization::tests::shutdown_materializes_items_queued_without_a_flush
+        PASS [   0.183s] (422/477) codex-thread-store local::thread_history_materialization::tests::referenced_paginated_rollout_projects_inherited_ordinal_range
+        PASS [   0.121s] (423/477) codex-thread-store local::thread_history_materialization::tests::split_homes_support_backfill_listing_and_paginated_history
+        PASS [   0.102s] (424/477) codex-thread-store local::thread_history_materialization::tests::sqlite_failure_does_not_fail_durable_jsonl_write
+        PASS [   0.094s] (425/477) codex-thread-store local::thread_history_materialization::tests::subagent_prefix_advances_projection_without_materializing_history
+        PASS [   0.114s] (426/477) codex-thread-store local::thread_history_materialization::tests::summary_items_use_final_answers_and_ignore_commentary
+        PASS [   0.103s] (427/477) codex-thread-store local::thread_history_materialization::tests::synchronized_catch_up_does_not_replay_old_rows
+        PASS [   0.099s] (428/477) codex-thread-store local::thread_history_materialization::tests::terminal_turn_does_not_change_after_later_records
+        PASS [   0.102s] (429/477) codex-thread-store local::thread_history_materialization::tests::unexpected_duplicate_item_completion_does_not_poison_projection
+        PASS [   0.094s] (430/477) codex-thread-store local::thread_history_materialization::tests::unknown_rollout_lines_leave_ordinals_pending_for_valid_retries
+        PASS [   0.079s] (431/477) codex-thread-store local::thread_sections::tests::local_thread_sections_require_sqlite_and_preserve_section_identity
+        PASS [   0.100s] (432/477) codex-thread-store local::unarchive_thread::tests::unarchive_thread_deduplicates_rollout_paths_and_updates_sqlite_metadata
+        PASS [   0.010s] (433/477) codex-thread-store local::unarchive_thread::tests::unarchive_thread_rejects_a_cross_process_writer
+        PASS [   0.011s] (434/477) codex-thread-store local::unarchive_thread::tests::unarchive_thread_restores_rollout_and_returns_updated_thread
+        PASS [   0.191s] (435/477) codex-thread-store local::timestamp_metadata_tests::timestamp_updates_repair_missing_rows_then_touch_only_timestamp_columns
+        PASS [   0.081s] (436/477) codex-thread-store local::update_thread_metadata::tests::metadata_patch_applies_latest_preview_and_first_user_message
+        PASS [   0.012s] (437/477) codex-thread-store local::update_thread_metadata::tests::metadata_patch_completes_before_concurrent_shutdown
+        PASS [   0.106s] (438/477) codex-thread-store local::update_thread_metadata::tests::metadata_patch_applies_title_over_existing_name
+        PASS [   0.100s] (439/477) codex-thread-store local::update_thread_metadata::tests::observed_metadata_normalizes_cwd_for_list_filters
+        PASS [   0.083s] (440/477) codex-thread-store local::update_thread_metadata::tests::observed_metadata_rebuilds_history_mode_from_canonical_session_meta
+        PASS [   0.079s] (441/477) codex-thread-store local::update_thread_metadata::tests::observed_metadata_rejects_unknown_thread_without_rollout
+        PASS [   0.095s] (442/477) codex-thread-store local::update_thread_metadata::tests::paginated_name_updates_use_sqlite_without_rollout_writes
+        PASS [   0.007s] (443/477) codex-thread-store local::update_thread_metadata::tests::sqlite_failures_are_best_effort_for_legacy_rollout_compat_updates
+        PASS [   0.007s] (444/477) codex-thread-store local::update_thread_metadata::tests::sqlite_failures_are_best_effort_for_observed_metadata_updates
+        PASS [   0.008s] (445/477) codex-thread-store local::update_thread_metadata::tests::sqlite_failures_still_block_for_explicit_git_only_updates
+        PASS [   0.092s] (446/477) codex-thread-store local::update_thread_metadata::tests::section_moves_persist_in_sqlite_without_changing_the_rollout
+        PASS [   0.093s] (447/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_applies_combined_explicit_patch
+        PASS [   0.154s] (448/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_clears_git_info_fields
+        PASS [   0.095s] (449/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_keeps_archived_thread_archived_in_sqlite
+        PASS [   0.090s] (450/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_keeps_live_archived_thread_archived_in_sqlite
+        PASS [   0.089s] (451/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_partially_updates_git_info
+        PASS [   0.097s] (452/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_preserves_memory_mode_when_updating_git_info
+        PASS [   0.093s] (453/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_recreates_missing_archived_sqlite_row_as_archived
+        PASS [   0.010s] (454/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_rejects_mismatched_session_meta_id
+        PASS [   0.087s] (455/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_sets_memory_mode_on_active_rollout
+        PASS [   0.089s] (456/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_sets_git_info
+        PASS [   0.011s] (457/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_sets_name_on_active_rollout_and_indexes_name
+        PASS [   0.090s] (458/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_updates_paginated_git_info_in_sqlite_only
+        PASS [   0.012s] (459/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_uses_live_rollout_path_for_external_resume
+        PASS [   0.096s] (460/477) codex-thread-store local::update_thread_metadata::tests::update_thread_metadata_updates_permission_profile_and_reasoning_effort
+        PASS [   0.006s] (461/477) codex-thread-store thread_metadata_sync::tests::completed_user_message_items_emit_metadata_fields
+        PASS [   0.006s] (462/477) codex-thread-store thread_metadata_sync::tests::create_metadata_records_originator_without_project
+        PASS [   0.005s] (463/477) codex-thread-store thread_metadata_sync::tests::goal_update_sets_preview_without_overriding_existing_preview
+        PASS [   0.006s] (464/477) codex-thread-store thread_metadata_sync::tests::guardian_resume_without_session_meta_preserves_compact_metadata
+        PASS [   0.005s] (465/477) codex-thread-store thread_metadata_sync::tests::later_user_messages_do_not_emit_existing_preview_fields
+        PASS [   0.005s] (466/477) codex-thread-store thread_metadata_sync::tests::metadata_irrelevant_items_coalesce_updated_at_touches
+        PASS [   0.006s] (467/477) codex-thread-store thread_metadata_sync::tests::paginated_resume_history_does_not_reapply_initial_metadata
+        PASS [   0.006s] (468/477) codex-thread-store thread_metadata_sync::tests::resume_history_waits_for_append_before_flushing_metadata
+        PASS [   0.008s] (469/477) codex-thread-store thread_metadata_sync::tests::resume_history_keeps_derived_metadata_pending_until_applied
+        PASS [   0.007s] (470/477) codex-thread-store thread_metadata_sync::tests::resume_preserves_existing_display_metadata_and_initializes_missing_title
+        PASS [   0.007s] (471/477) codex-thread-store thread_metadata_sync::tests::thread_settings_applied_updates_live_metadata
+        PASS [   0.007s] (472/477) codex-thread-store thread_metadata_sync::tests::turn_start_advances_recency_at_without_changing_updated_at_behavior
+        PASS [   0.007s] (473/477) codex-thread-store types::tests::canonical_history_mode_uses_first_session_meta
+        PASS [   0.005s] (474/477) codex-thread-store types::tests::thread_metadata_patch_accepts_missing_fields
+        PASS [   0.006s] (475/477) codex-thread-store types::tests::git_info_patch_round_trips_optional_clears
+        PASS [   0.005s] (476/477) codex-thread-store types::tests::thread_metadata_patch_round_trips_optional_clears
+        PASS [   0.006s] (477/477) codex-thread-store types::tests::thread_metadata_patch_merge_uses_presence_semantics
+────────────
+     Summary [  19.124s] 477 tests run: 477 passed, 0 skipped

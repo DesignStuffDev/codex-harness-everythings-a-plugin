@@ -9,6 +9,7 @@ use crate::agent::control::AgentControlInit;
 use crate::agents_md_manager::SessionInstructions;
 use crate::attestation::AttestationProvider;
 use crate::codex_thread::CodexThread;
+use crate::component_persistence::PersistenceServices;
 use crate::config::Config;
 use crate::config::ThreadStoreConfig;
 use crate::current_time::TimeProvider;
@@ -34,6 +35,7 @@ use codex_app_server_protocol::ThreadHistoryBuilder;
 use codex_app_server_protocol::TurnStatus;
 use codex_attachment_store::AttachmentStore;
 use codex_attachment_store::InlineAttachmentStore;
+use codex_attachment_store_component::AttachmentStoreSelection;
 use codex_code_mode::CodeModeSessionProvider;
 use codex_code_mode::DisabledCodeModeSessionProvider;
 use codex_code_mode::ProcessOwnedCodeModeSessionProvider;
@@ -417,8 +419,9 @@ pub(crate) struct ThreadManagerState {
     code_mode_session_provider: Arc<dyn CodeModeSessionProvider>,
     extensions: Arc<ExtensionRegistry<Config>>,
     user_instructions_provider: Arc<dyn UserInstructionsProvider>,
-    image_store: Arc<dyn AttachmentStore>,
+    image_store: AttachmentStoreSelection,
     thread_store: Arc<dyn ThreadStore>,
+    host_state_db: Option<StateDbHandle>,
     agent_graph_store: Option<Arc<dyn AgentGraphStore>>,
     attestation_provider: Option<Arc<dyn AttestationProvider>>,
     external_time_provider: Option<Arc<dyn TimeProvider>>,
@@ -517,6 +520,9 @@ pub fn local_agent_graph_store_from_state_db(
 }
 
 impl ThreadManager {
+    /// Compatibility constructor for callers that provide a native store.
+    /// Hosts selecting external storage pass explicit dependencies to
+    /// [`Self::new_with_persistence`] instead.
     #[allow(clippy::too_many_arguments)]
     pub fn new(
         config: &Config,
@@ -535,6 +541,48 @@ impl ThreadManager {
         attestation_provider: Option<Arc<dyn AttestationProvider>>,
         external_time_provider: Option<Arc<dyn TimeProvider>>,
     ) -> Self {
+        Self::new_with_persistence(
+            config,
+            auth_manager,
+            models_manager,
+            codex_apps_tools_cache,
+            session_source,
+            environment_manager,
+            extensions,
+            user_instructions_provider,
+            analytics_events_client,
+            image_store,
+            PersistenceServices::from_legacy_native(thread_store),
+            agent_graph_store,
+            installation_id,
+            attestation_provider,
+            external_time_provider,
+        )
+    }
+
+    /// Construct the engine with storage and auxiliary state owned explicitly.
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_with_persistence(
+        config: &Config,
+        auth_manager: Arc<AuthManager>,
+        models_manager: SharedModelsManager,
+        codex_apps_tools_cache: CodexAppsToolsCache,
+        session_source: SessionSource,
+        environment_manager: Arc<EnvironmentManager>,
+        extensions: Arc<ExtensionRegistry<Config>>,
+        user_instructions_provider: Arc<dyn UserInstructionsProvider>,
+        analytics_events_client: Option<AnalyticsEventsClient>,
+        image_store: Arc<dyn AttachmentStore>,
+        persistence: PersistenceServices,
+        agent_graph_store: Option<Arc<dyn AgentGraphStore>>,
+        installation_id: String,
+        attestation_provider: Option<Arc<dyn AttestationProvider>>,
+        external_time_provider: Option<Arc<dyn TimeProvider>>,
+    ) -> Self {
+        let PersistenceServices {
+            thread_store,
+            host_state_db,
+        } = persistence;
         let codex_home = config.codex_home.clone();
         let restriction_product = session_source.restriction_product();
         let (thread_created_tx, _) = broadcast::channel(THREAD_CREATED_CHANNEL_CAPACITY);
@@ -579,8 +627,9 @@ impl ThreadManager {
                 code_mode_session_provider,
                 extensions,
                 user_instructions_provider,
-                image_store,
+                image_store: image_store.into(),
                 thread_store,
+                host_state_db,
                 agent_graph_store,
                 attestation_provider,
                 external_time_provider,
@@ -593,6 +642,17 @@ impl ThreadManager {
             }),
             _test_codex_home_guard: None,
         }
+    }
+
+    /// Opt the host's default attachment store into explicit component selections.
+    /// Ordinary constructors preserve their caller-injected store. Session startup
+    /// resolves this default against that session's isolation-filtered catalog.
+    pub fn with_default_attachment_store_components(mut self) -> Self {
+        let Some(state) = Arc::get_mut(&mut self.state) else {
+            unreachable!("attachment selection must be set before thread manager is shared");
+        };
+        state.image_store = AttachmentStoreSelection::Default;
+        self
     }
 
     /// Generate every new thread identifier with the caller-provided factory.
@@ -754,8 +814,9 @@ impl ThreadManager {
                 user_instructions_provider: Arc::new(
                     crate::test_support::EmptyUserInstructionsProvider,
                 ),
-                image_store: passthrough_image_store(),
+                image_store: passthrough_image_store().into(),
                 thread_store,
+                host_state_db: state_db,
                 agent_graph_store,
                 attestation_provider: None,
                 external_time_provider: None,
@@ -794,8 +855,10 @@ impl ThreadManager {
         self.state.environment_manager.clone()
     }
 
+    /// Return the injected store or native baseline. Component defaults resolve
+    /// per session and are not activated by this compatibility getter.
     pub fn image_store(&self) -> Arc<dyn AttachmentStore> {
-        Arc::clone(&self.state.image_store)
+        self.state.image_store.baseline()
     }
 
     /// Starts the local rollout migration path after a runtime feature enablement.
@@ -803,17 +866,15 @@ impl ThreadManager {
     /// Startup config handles the initial launch in [`thread_store_from_config`]. This covers
     /// clients that decide to enable background migration after constructing the app-server.
     pub fn start_background_rollout_migration(&self) {
-        let Some(store) = self
-            .state
-            .thread_store
-            .as_any()
-            .downcast_ref::<LocalThreadStore>()
-        else {
+        if !self.state.thread_store.supports_rollout_maintenance() {
             return;
-        };
-        let store = store.clone();
+        }
+        let store = Arc::clone(&self.state.thread_store);
         tokio::spawn(async move {
-            if let Err(err) = store.migrate_rollouts_on_startup().await {
+            if let Err(err) = store
+                .run_rollout_maintenance(codex_thread_store::RolloutMaintenance::MigrateOnStartup)
+                .await
+            {
                 warn!("failed to migrate legacy rollouts on startup: {err}");
             }
         });
@@ -2313,8 +2374,11 @@ impl ThreadManagerState {
             client_mcp_extensions,
             reserved_thread_id,
             analytics_events_client: self.analytics_events_client.clone(),
-            image_store: Arc::clone(&self.image_store),
-            thread_store: Arc::clone(&self.thread_store),
+            image_store: self.image_store.clone(),
+            persistence: PersistenceServices {
+                thread_store: Arc::clone(&self.thread_store),
+                host_state_db: self.host_state_db.clone(),
+            },
             attestation_provider: self.attestation_provider.clone(),
             external_time_provider: self.external_time_provider.clone(),
             inherited_multi_agent_version: multi_agent_version,

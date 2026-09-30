@@ -1288,10 +1288,10 @@ async fn managed_network_proxy_decider_survives_full_access_start() -> anyhow::R
         .expect("HTTP proxy URL")
         .parse::<std::net::SocketAddr>()?;
     let mut stream = tokio::net::TcpStream::connect(proxy_addr).await?;
+    // The decider denies this request before any upstream connection. A public IP
+    // literal keeps the test independent of ambient DNS failures or private answers.
     stream
-        .write_all(
-            b"GET http://example.com/ HTTP/1.1\r\nHost: example.com\r\nConnection: close\r\n\r\n",
-        )
+        .write_all(b"GET http://8.8.8.8/ HTTP/1.1\r\nHost: 8.8.8.8\r\nConnection: close\r\n\r\n")
         .await?;
     let mut buffer = [0_u8; 4096];
     let bytes_read = tokio::time::timeout(StdDuration::from_secs(2), stream.read(&mut buffer))
@@ -1668,6 +1668,9 @@ async fn disabled_managed_network_does_not_start_or_expose_proxy() -> anyhow::Re
 
 #[tokio::test]
 async fn user_shell_commands_do_not_inherit_managed_network_proxy() -> anyhow::Result<()> {
+    // Preserve an ambient proxy (for example, a cloud executor's egress proxy).
+    // This test rejects the session's managed proxy, not the inherited environment.
+    let inherited_http_proxy = std::env::var("HTTP_PROXY").unwrap_or_default();
     let permission_profile = PermissionProfile::workspace_write();
     let network_spec = crate::config::NetworkProxySpec::from_config_and_constraints(
         NetworkProxyConfig::default(),
@@ -1709,7 +1712,12 @@ async fn user_shell_commands_do_not_inherit_managed_network_proxy() -> anyhow::R
         let event = rx.recv().await.expect("channel open");
         if let EventMsg::ExecCommandEnd(event) = event.msg {
             assert_eq!(event.exit_code, 0);
-            assert_eq!(event.stdout.trim(), "not-set");
+            let expected_proxy = if inherited_http_proxy.is_empty() {
+                "not-set"
+            } else {
+                inherited_http_proxy.as_str()
+            };
+            assert_eq!(event.stdout.trim(), expected_proxy);
             break;
         }
     }
@@ -6558,10 +6566,12 @@ async fn session_new_fails_when_zsh_fork_enabled_without_packaged_zsh() {
         environment_manager,
         /*inherited_environments*/ None,
         /*analytics_events_client*/ None,
-        crate::passthrough_image_store(),
-        Arc::new(codex_thread_store::LocalThreadStore::new(
-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
-            /*state_db*/ None,
+        crate::passthrough_image_store().into(),
+        PersistenceServices::from_legacy_native(Arc::new(
+            codex_thread_store::LocalThreadStore::new(
+                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+                /*state_db*/ None,
+            ),
         )),
         codex_rollout_trace::ThreadTraceContext::disabled(),
         /*attestation_provider*/ None,
@@ -6849,6 +6859,7 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
         state_db: None,
         live_thread: None,
         image_store: crate::passthrough_image_store(),
+        image_store_selection: crate::passthrough_image_store().into(),
         thread_store: Arc::new(codex_thread_store::LocalThreadStore::new(
             codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
             /*state_db*/ None,
@@ -7108,10 +7119,12 @@ async fn make_session_with_config_and_rx(
         environment_manager,
         /*inherited_environments*/ None,
         /*analytics_events_client*/ None,
-        crate::passthrough_image_store(),
-        Arc::new(codex_thread_store::LocalThreadStore::new(
-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
-            /*state_db*/ None,
+        crate::passthrough_image_store().into(),
+        PersistenceServices::from_legacy_native(Arc::new(
+            codex_thread_store::LocalThreadStore::new(
+                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+                /*state_db*/ None,
+            ),
         )),
         codex_rollout_trace::ThreadTraceContext::disabled(),
         /*attestation_provider*/ None,
@@ -7240,16 +7253,18 @@ async fn make_session_with_history_source_and_agent_control_and_rx(
         environment_manager,
         /*inherited_environments*/ None,
         /*analytics_events_client*/ None,
-        crate::passthrough_image_store(),
-        Arc::new(codex_thread_store::LocalThreadStore::new(
-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
-            Some(
-                codex_state::StateRuntime::init(
-                    config.sqlite.clone(),
-                    config.model_provider_id.clone(),
-                )
-                .await
-                .expect("state db should initialize"),
+        crate::passthrough_image_store().into(),
+        PersistenceServices::from_legacy_native(Arc::new(
+            codex_thread_store::LocalThreadStore::new(
+                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+                Some(
+                    codex_state::StateRuntime::init(
+                        config.sqlite.clone(),
+                        config.model_provider_id.clone(),
+                    )
+                    .await
+                    .expect("state db should initialize"),
+                ),
             ),
         )),
         codex_rollout_trace::ThreadTraceContext::disabled(),
@@ -9125,6 +9140,7 @@ where
         state_db: state_db.clone(),
         live_thread: None,
         image_store: crate::passthrough_image_store(),
+        image_store_selection: crate::passthrough_image_store().into(),
         thread_store: Arc::new(codex_thread_store::LocalThreadStore::new(
             codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
             state_db,

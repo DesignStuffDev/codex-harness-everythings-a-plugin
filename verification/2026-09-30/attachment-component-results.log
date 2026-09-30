@@ -1,0 +1,21 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+   Compiling codex-attachment-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-component)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.78s
+────────────
+ Nextest run ID 3fe9dba1-202f-4547-a1de-311d4f897afb with nextest profile: local
+    Starting 12 tests across 5 binaries
+        PASS [   0.004s] ( 1/12) codex-attachment-store tests::attachment_debug_output_redacts_bytes
+        PASS [   0.004s] ( 2/12) codex-attachment-store tests::attachment_metadata_debug_output_redacts_file_url
+        PASS [   0.004s] ( 3/12) codex-attachment-store tests::inline_store_preserves_image_bytes
+        PASS [   0.004s] ( 4/12) codex-attachment-store tests::inline_store_cannot_resolve_file_references
+        PASS [   0.004s] ( 5/12) codex-attachment-store-component adapter::staging_tests::staging_cancellation_stops_between_writes
+        PASS [   0.011s] ( 6/12) codex-attachment-store-component tests::cancellation_while_staging_is_queued_never_creates_transfer_or_starts_plugin
+        PASS [   0.036s] ( 7/12) codex-attachment-store-component tests::inline_result_keeps_host_owned_bytes_even_if_plugin_changes_staging
+        PASS [   0.052s] ( 8/12) codex-attachment-store-component tests::cancellation_terminates_invocation_and_removes_staging
+        PASS [   0.088s] ( 9/12) codex-attachment-store-component tests::file_reference_and_typed_errors_cross_adapter_without_backend_details
+        PASS [   0.060s] (10/12) codex-attachment-store-component tests::metadata_only_resolve_omits_urls_and_rounds_up_ttl_requests
+        PASS [   0.173s] (11/12) codex-attachment-store-component tests::uploads_larger_than_frame_use_private_staging_and_preserve_exact_bytes
+        PASS [   0.434s] (12/12) codex-attachment-store-component tests::invalid_lifetimes_are_rejected_and_permanent_urls_are_explicit
+────────────
+     Summary [   0.450s] 12 tests run: 12 passed, 0 skipped

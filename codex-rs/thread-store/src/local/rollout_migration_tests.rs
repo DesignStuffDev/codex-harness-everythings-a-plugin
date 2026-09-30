@@ -2432,6 +2432,7 @@ async fn migration_retries_a_rollout_moved_after_path_discovery() {
             |_| {},
             RolloutMigrationTrigger::Startup,
             RolloutMigrationPaths::Known(vec![active_path]),
+            super::MigrationControl::Uninterrupted,
         )
         .await
         .expect("migrate moved rollout");
@@ -3057,3 +3058,6 @@ async fn migration_skips_malformed_lines_and_trailing_partial_tail() {
     assert_eq!(turns.turns.len(), 1);
     assert_eq!(turns.turns[0].items.len(), 2);
 }
+
+#[path = "rollout_migration_lifecycle_tests.rs"]
+mod lifecycle;

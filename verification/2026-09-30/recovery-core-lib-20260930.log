@@ -1,0 +1,108 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Finished `test` profile [unoptimized] target(s) in 1.24s
+────────────
+ Nextest run ID d4916319-72eb-4df9-ad2b-a58c448af914 with nextest profile: local
+    Starting 2694 tests across 1 binary (1 test skipped)
+        FAIL [   2.547s] (1053/2694) codex-core exec::tests::kill_child_process_group_kills_grandchildren_on_timeout
+  stdout ───
+
+    running 1 test
+    test exec::tests::kill_child_process_group_kills_grandchildren_on_timeout ... FAILED
+
+    failures:
+
+    failures:
+        exec::tests::kill_child_process_group_kills_grandchildren_on_timeout
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2694 filtered out; finished in 2.53s
+
+  stderr ───
+
+    thread 'exec::tests::kill_child_process_group_kills_grandchildren_on_timeout' (315420) panicked at core/src/exec_tests.rs:1335:5:
+    grandchild process with pid 315423 is still alive
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   2.067s] (1054/2694) codex-core exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup
+  stdout ───
+
+    running 1 test
+    test exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup ... FAILED
+
+    failures:
+
+    failures:
+        exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2694 filtered out; finished in 2.05s
+
+  stderr ───
+
+    thread 'exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup' (315459) panicked at core/src/exec_tests.rs:1489:5:
+    TERM-ignoring descendant process with pid 315461 is still alive
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.033s] (1756/2694) codex-core session::tests::managed_network_proxy_decider_survives_full_access_start
+  stdout ───
+
+    running 1 test
+    test session::tests::managed_network_proxy_decider_survives_full_access_start ... FAILED
+
+    failures:
+
+    failures:
+        session::tests::managed_network_proxy_decider_survives_full_access_start
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2694 filtered out; finished in 0.01s
+
+  stderr ───
+
+    thread 'session::tests::managed_network_proxy_decider_survives_full_access_start' (320457) panicked at core/src/session/tests.rs:1310:5:
+    assertion failed: `(left == right)`: unexpected proxy response: HTTP/1.1 403 Forbidden
+    content-type: application/json
+    x-proxy-error: blocked-by-allowlist
+    connection: close
+    content-length: 210
+    date: Wed, 30 Sep 2026 17:04:16 GMT
+
+    {"status":"blocked","host":"example.com","reason":"not_allowed_local","decision":"deny","source":"baseline_policy","protocol":"http","port":80,"message":"Sandbox policy blocks local/private network addresses."}
+
+    Diff < left / right > :
+    <0
+    >1
+
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+        FAIL [   0.182s] (1903/2694) codex-core session::tests::user_shell_commands_do_not_inherit_managed_network_proxy
+  stdout ───
+
+    running 1 test
+    test session::tests::user_shell_commands_do_not_inherit_managed_network_proxy ... FAILED
+
+    failures:
+
+    failures:
+        session::tests::user_shell_commands_do_not_inherit_managed_network_proxy
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 2694 filtered out; finished in 0.16s
+
+  stderr ───
+
+    thread 'session::tests::user_shell_commands_do_not_inherit_managed_network_proxy' (322194) panicked at core/src/session/tests.rs:1712:13:
+    assertion failed: `(left == right)`
+
+    Diff < left / right > :
+    <http://proxy:8080
+    >not-set
+
+
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [ 250.038s] 2694 tests run: 2690 passed (2 slow), 4 failed, 1 skipped
+        FAIL [   2.547s] (1053/2694) codex-core exec::tests::kill_child_process_group_kills_grandchildren_on_timeout
+        FAIL [   2.067s] (1054/2694) codex-core exec::tests::process_exec_tool_call_cancellation_allows_sigterm_cleanup
+        FAIL [   0.033s] (1756/2694) codex-core session::tests::managed_network_proxy_decider_survives_full_access_start
+        FAIL [   0.182s] (1903/2694) codex-core session::tests::user_shell_commands_do_not_inherit_managed_network_proxy
+error: test run failed
+error: recipe `test` failed on line 88 with exit code 100

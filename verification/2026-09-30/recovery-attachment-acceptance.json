@@ -1,0 +1,182 @@
+{
+  "passed": false,
+  "started_utc": "2026-09-30T17:03:57.424673+00:00",
+  "scope": "Existing independently built native inline attachment plugin, freshly installed through preserved v2 manager; no rebuild; not engine adapter test",
+  "work_dir": "/tmp/codex-recovery-runtime-20260930/attachment",
+  "host": "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+  "host_before": {
+    "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+    "bytes": 7092568,
+    "mtime_ns": 1790778198616991936
+  },
+  "package": "/workspace/acceptance/attachment-inline-acceptance/package",
+  "blob_before": {
+    "sha256": "e218a59e70fe83c805d8b537b1625b9c3cc29f55396e71b2d4342b10dabed5a8",
+    "bytes": 5242898,
+    "mtime_ns": 1790787837413577135
+  },
+  "package_fingerprints": {
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "bytes": 10926,
+      "mtime_ns": 1790765826158212967
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "bytes": 242,
+      "mtime_ns": 1790765826158316079
+    },
+    "README.md": {
+      "sha256": "2dfe03143fdd6c7486395cd3e60da78b6b5ec51db8e97979b99276b30bedeb44",
+      "bytes": 6225,
+      "mtime_ns": 1790765826158850176
+    },
+    "codex-attachment-inline-component": {
+      "sha256": "135d69f20c2014623ed2167bb8b82543794dbbf844ac2fa6a27da5bcfd1a756b",
+      "bytes": 14844952,
+      "mtime_ns": 1790765826085601283
+    },
+    "codex-component.json": {
+      "sha256": "808a814233698f43c38db5d6900eb098d1bea438f963946747234d55e751a9a8",
+      "bytes": 291,
+      "mtime_ns": 1790765826158079750
+    }
+  },
+  "upload_result": {
+    "ok": {
+      "kind": "inline"
+    }
+  },
+  "resolve_result": {
+    "error": "not_found"
+  },
+  "selected_before_removal": {
+    "enabled": [
+      "codex.attachment-inline"
+    ],
+    "installed": {
+      "codex.attachment-inline": "codex.attachment-inline-317622-18da280cd6ae80fb-0"
+    },
+    "selections": {
+      "attachment_store:default": "codex.attachment-inline"
+    }
+  },
+  "error": "Error: requested component is not installed and enabled\n",
+  "traceback": "Traceback (most recent call last):\n  File \"<stdin>\", line 26, in <module>\nAssertionError: Error: requested component is not installed and enabled\n\n",
+  "host_after": {
+    "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+    "bytes": 7092568,
+    "mtime_ns": 1790778198616991936
+  },
+  "blob_after": {
+    "sha256": "e218a59e70fe83c805d8b537b1625b9c3cc29f55396e71b2d4342b10dabed5a8",
+    "bytes": 5242898,
+    "mtime_ns": 1790787837413577135
+  },
+  "host_unchanged": true,
+  "blob_unchanged": true,
+  "commands": [
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "install",
+        "/workspace/acceptance/attachment-inline-acceptance/package"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.012177651999081718,
+      "stdout": "codex.attachment-inline\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "select",
+        "attachment_store",
+        "default",
+        "codex.attachment-inline"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.0032735899985709693,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "call",
+        "attachment_store",
+        "default",
+        "upload",
+        "{\"thread_id\": \"recovery-native-inline\", \"file_name\": \"five-megabytes.bin\", \"blob\": {\"path\": \"/tmp/codex-recovery-runtime-20260930/attachment/staging/five-megabytes.bin\", \"size_bytes\": 5242898}}"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.013167986999178538,
+      "stdout": "{\n  \"ok\": {\n    \"kind\": \"inline\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "call",
+        "attachment_store",
+        "default",
+        "resolve",
+        "{\"file_id\": \"native-inline-does-not-store-files\", \"download_url_ttl_ms\": 60000}"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.0049573920005059335,
+      "stdout": "{\n  \"error\": \"not_found\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "list"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.006479822997789597,
+      "stdout": "{\n  \"enabled\": [\n    \"codex.attachment-inline\"\n  ],\n  \"installed\": {\n    \"codex.attachment-inline\": \"codex.attachment-inline-317622-18da280cd6ae80fb-0\"\n  },\n  \"selections\": {\n    \"attachment_store:default\": \"codex.attachment-inline\"\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "remove",
+        "codex.attachment-inline"
+      ],
+      "exit_status": 0,
+      "elapsed_seconds": 0.0029495400012820028,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+        "--codex-home",
+        "/tmp/codex-recovery-runtime-20260930/attachment/codex-home",
+        "call",
+        "attachment_store",
+        "default",
+        "resolve",
+        "{\"file_id\": \"native-inline-does-not-store-files\", \"download_url_ttl_ms\": 60000}"
+      ],
+      "exit_status": 1,
+      "elapsed_seconds": 0.0028331790017546155,
+      "stdout": "",
+      "stderr": "Error: requested component is not installed and enabled\n"
+    }
+  ],
+  "finished_utc": "2026-09-30T17:03:57.493889+00:00"
+}

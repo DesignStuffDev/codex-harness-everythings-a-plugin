@@ -1,0 +1,27 @@
+[package]
+name = "codex-component-host"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "codex-component"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = { workspace = true }
+base64 = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+codex-component-api = { workspace = true }
+libc = { workspace = true }
+semver = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["process", "io-util", "io-std", "fs", "time", "sync", "rt-multi-thread", "macros", "signal"] }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }

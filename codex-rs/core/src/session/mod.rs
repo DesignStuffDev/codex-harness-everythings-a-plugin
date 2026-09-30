@@ -20,6 +20,7 @@ use crate::agents_md_manager::SessionInstructions;
 use crate::attestation::AttestationProvider;
 use crate::compact;
 use crate::compact::CompactedHistoryMetadata;
+use crate::component_persistence::PersistenceServices;
 use crate::config::ManagedFeatures;
 use crate::context::ContextualUserFragment;
 use crate::context::DeveloperInstructions;
@@ -62,7 +63,6 @@ use codex_analytics::ImagePreparationMetadata;
 use codex_analytics::SubAgentThreadStartedInput;
 use codex_analytics::TurnCodexErrorFact;
 use codex_async_utils::OrCancelExt;
-use codex_attachment_store::AttachmentStore;
 use codex_attachment_store::InlineAttachmentStore;
 use codex_connectors::connector_runtime_context_key;
 use codex_context_fragments::RenderedFragment;
@@ -171,7 +171,6 @@ use codex_terminal_detection::user_agent;
 use codex_thread_store::CreateThreadParams;
 use codex_thread_store::LiveThread;
 use codex_thread_store::LiveThreadInitGuard;
-use codex_thread_store::LocalThreadStore;
 use codex_thread_store::PersistContext;
 use codex_thread_store::ReadThreadParams;
 use codex_thread_store::ResumeThreadParams;
@@ -472,8 +471,8 @@ pub(crate) struct SessionSpawnArgs {
     pub(crate) client_mcp_extensions: ClientMcpExtensions,
     pub(crate) reserved_thread_id: Option<ThreadId>,
     pub(crate) analytics_events_client: Option<AnalyticsEventsClient>,
-    pub(crate) image_store: Arc<dyn AttachmentStore>,
-    pub(crate) thread_store: Arc<dyn ThreadStore>,
+    pub(crate) image_store: codex_attachment_store_component::AttachmentStoreSelection,
+    pub(crate) persistence: PersistenceServices,
     pub(crate) attestation_provider: Option<Arc<dyn AttestationProvider>>,
     pub(crate) external_time_provider: Option<Arc<dyn TimeProvider>>,
     pub(crate) inherited_multi_agent_version: Option<MultiAgentVersion>,
@@ -576,7 +575,7 @@ impl Session {
             reserved_thread_id,
             analytics_events_client,
             image_store,
-            thread_store,
+            persistence,
             attestation_provider,
             external_time_provider,
             inherited_multi_agent_version,
@@ -740,7 +739,8 @@ impl Session {
             resolve_multi_agent_version(&conversation_history, inherited_multi_agent_version)
         });
         let history_mode = conversation_history.get_history_mode(
-            requested_history_mode.unwrap_or_else(|| thread_store.default_history_mode()),
+            requested_history_mode
+                .unwrap_or_else(|| persistence.thread_store.default_history_mode()),
         );
         let base_instructions = config
             .base_instructions
@@ -904,7 +904,7 @@ impl Session {
             inherited_environments,
             analytics_events_client,
             image_store,
-            thread_store,
+            persistence,
             parent_rollout_thread_trace,
             attestation_provider,
             external_time_provider,

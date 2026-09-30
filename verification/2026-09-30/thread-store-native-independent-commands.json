@@ -1,0 +1,334 @@
+[
+  {
+    "command": [
+      "python3",
+      "component-sdk/rust_component_package.py",
+      "export",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--package",
+      "codex-thread-store-local-plugin",
+      "--output",
+      "/workspace/acceptance/thread-store-native-final-20260930/source"
+    ],
+    "cwd": "/workspace/codex-harness-everythings-a-plugin",
+    "status": 0
+  },
+  {
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+      "assemble",
+      "--repo",
+      "/workspace/acceptance/thread-store-native-final-20260930/source",
+      "--binary",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-thread-store-local-plugin",
+      "--output",
+      "/workspace/acceptance/thread-store-native-final-20260930/package",
+      "--id",
+      "native.thread-store-local",
+      "--kind",
+      "thread_store",
+      "--name",
+      "default"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930",
+    "started_utc": "2026-09-30T12:49:42.390061+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/assemble.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/assemble.stderr",
+    "status": 0,
+    "elapsed_seconds": 0.11003578200143238
+  },
+  {
+    "command": [
+      "env",
+      "CARGO_INCREMENTAL=0",
+      "CARGO_TARGET_DIR=/workspace/codex-harness-everythings-a-plugin/codex-rs/target",
+      "cargo",
+      "build",
+      "--offline",
+      "--locked",
+      "-j",
+      "1",
+      "-p",
+      "codex-thread-store-local-plugin",
+      "--bin",
+      "codex-thread-store-local-plugin",
+      "--message-format=json-render-diagnostics"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930/source/codex-rs",
+    "started_utc": "2026-09-30T12:48:04.633974+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/build.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/build.stderr",
+    "status": 0,
+    "elapsed_seconds": 65.69875264300026
+  },
+  {
+    "command": [
+      "ldd",
+      "/workspace/acceptance/thread-store-native-final-20260930/package/codex-thread-store-local-plugin"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930",
+    "started_utc": "2026-09-30T12:49:43.020827+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/ldd.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/ldd.stderr",
+    "status": 0,
+    "elapsed_seconds": 0.0059697570013668155
+  },
+  {
+    "command": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--filter-platform",
+      "x86_64-unknown-linux-gnu",
+      "--format-version",
+      "1"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930/source/codex-rs",
+    "started_utc": "2026-09-30T12:47:39.211154+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/metadata-linux.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/metadata-linux.stderr",
+    "status": 0,
+    "elapsed_seconds": 0.7915910989995609
+  },
+  {
+    "command": [
+      "cargo",
+      "metadata",
+      "--offline",
+      "--no-deps",
+      "--format-version",
+      "1"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930/source/codex-rs",
+    "started_utc": "2026-09-30T12:47:39.095500+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/metadata-local.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/metadata-local.stderr",
+    "status": 0,
+    "elapsed_seconds": 0.07444831900102145
+  },
+  {
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/harness_acceptance.py",
+      "--host",
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "--work-dir",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime",
+      "--thread-store-package",
+      "/workspace/acceptance/thread-store-native-final-20260930/package"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930",
+    "started_utc": "2026-09-30T12:50:22.603425+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/runtime.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/runtime.stderr",
+    "status": 0,
+    "elapsed_seconds": 4.8513272069994855
+  },
+  {
+    "command": [
+      "strip",
+      "--strip-debug",
+      "/workspace/acceptance/thread-store-native-final-20260930/package/codex-thread-store-local-plugin"
+    ],
+    "cwd": "/workspace/acceptance/thread-store-native-final-20260930",
+    "started_utc": "2026-09-30T12:49:42.532483+00:00",
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/strip.stdout",
+    "stderr": "/workspace/acceptance/thread-store-native-final-20260930/strip.stderr",
+    "status": 0,
+    "elapsed_seconds": 0.4545033249996777
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/calculator-source",
+      "--output",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/calculator-package"
+    ],
+    "status": 0,
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/runtime/calculator-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "install",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/calculator-package"
+    ],
+    "status": 0,
+    "stdout": "example.calculator\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/model-fixture-source",
+      "--output",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "/workspace/acceptance/thread-store-native-final-20260930/runtime/model-fixture-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "install",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "example.model-fixture\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "select",
+      "model_transport",
+      "default",
+      "example.model-fixture"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "install",
+      "/workspace/acceptance/thread-store-native-final-20260930/package"
+    ],
+    "status": 0,
+    "stdout": "native.thread-store-local\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "select",
+      "thread_store",
+      "default",
+      "native.thread-store-local"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "--skip-git-repo-check",
+      "--json",
+      "Use calculator for six times seven; confirm this acceptance turn."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f25d-b9fc-7862-afa6-2dc20e537a00\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"external-model acceptance complete\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":0,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":0,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "Reading additional input from stdin...\n",
+    "storage_children": [
+      {
+        "pid": 219420,
+        "executable": "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home/components/objects/native.thread-store-local-219392-18da1a369990013d-0/codex-thread-store-local-plugin"
+      }
+    ]
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f25d-b9fc-7862-afa6-2dc20e537a00",
+      "Continue the persisted acceptance session."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f25d-b9fc-7862-afa6-2dc20e537a00\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"external-model resumed\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":0,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":0,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "",
+    "storage_children": [
+      {
+        "pid": 219508,
+        "executable": "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home/components/objects/native.thread-store-local-219392-18da1a369990013d-0/codex-thread-store-local-plugin"
+      }
+    ]
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "reset",
+      "model_transport",
+      "default"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f25d-b9fc-7862-afa6-2dc20e537a00",
+      "Continue using native transport."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f25d-b9fc-7862-afa6-2dc20e537a00\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"native transport restored\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":1,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":1,\"reasoning_output_tokens\":0}}\n",
+    "stderr": "",
+    "storage_children": [
+      {
+        "pid": 219596,
+        "executable": "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home/components/objects/native.thread-store-local-219392-18da1a369990013d-0/codex-thread-store-local-plugin"
+      }
+    ]
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/thread-store-native-final-20260930/runtime/codex-home",
+      "reset",
+      "thread_store",
+      "default"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "exec",
+      "resume",
+      "--skip-git-repo-check",
+      "--json",
+      "01a0f25d-b9fc-7862-afa6-2dc20e537a00",
+      "Recover the externally stored history using native storage."
+    ],
+    "status": 0,
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a0f25d-b9fc-7862-afa6-2dc20e537a00\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model metadata for `gpt-5.1-codex` not found. Defaulting to fallback metadata; this can degrade performance and cause issues.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"native transport restored\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":2,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":2,\"reasoning_output_tokens\":0}}\n",
+    "stderr": ""
+  }
+]

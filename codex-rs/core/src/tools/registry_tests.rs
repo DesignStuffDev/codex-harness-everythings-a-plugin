@@ -39,6 +39,73 @@ impl ToolExecutor<ToolInvocation> for TestHandler {
 
 impl CoreToolRuntime for TestHandler {}
 
+struct SelectedReplacement(TestHandler);
+
+impl ToolExecutor<ToolInvocation> for SelectedReplacement {
+    fn tool_name(&self) -> codex_tools::ToolName {
+        self.0.tool_name()
+    }
+
+    fn spec(&self) -> codex_tools::ToolSpec {
+        self.0.spec()
+    }
+
+    fn replaces_existing_tool(&self) -> bool {
+        true
+    }
+
+    fn handle<'a>(&'a self, invocation: ToolInvocation) -> codex_tools::ToolExecutorFuture<'a>
+    where
+        ToolInvocation: 'a,
+    {
+        self.0.handle(invocation)
+    }
+}
+
+impl CoreToolRuntime for SelectedReplacement {}
+
+#[test]
+fn explicitly_selected_tool_replaces_existing_runtime() {
+    let name = codex_tools::ToolName::plain("lookup");
+    let original = Arc::new(TestHandler {
+        tool_name: name.clone(),
+    }) as Arc<dyn CoreToolRuntime>;
+    let replacement = Arc::new(SelectedReplacement(TestHandler {
+        tool_name: name.clone(),
+    })) as Arc<dyn CoreToolRuntime>;
+    let mut registry = ToolRegistry::default();
+    registry.register_trusted_with_exposure(original, ToolExposure::Deferred);
+    assert!(registry.register_external(Arc::clone(&replacement)));
+    assert!(
+        registry
+            .tool(&name)
+            .is_some_and(|runtime| Arc::ptr_eq(&runtime, &replacement))
+    );
+    assert_eq!(registry.first_collision(), None);
+    assert_eq!(registry.tool_exposure(&name), Some(ToolExposure::Deferred));
+}
+
+#[test]
+fn selected_replacement_preserves_tool_policy_and_reserved_execution_names() {
+    let mut registry = ToolRegistry::with_tool_policy(Arc::new(ToolPolicy {
+        allowed_tools: Some(Vec::new()),
+        ..Default::default()
+    }));
+    assert!(
+        !registry.register_external(Arc::new(SelectedReplacement(TestHandler {
+            tool_name: codex_tools::ToolName::plain("lookup"),
+        })))
+    );
+    let mut registry = ToolRegistry::default();
+    for name in ["exec_command", "shell_command"] {
+        assert!(
+            !registry.register_external(Arc::new(SelectedReplacement(TestHandler {
+                tool_name: codex_tools::ToolName::plain(name),
+            })))
+        );
+    }
+}
+
 struct ReadinessTestHandler {
     handler: TestHandler,
     readiness_waits: Arc<AtomicUsize>,

@@ -17,6 +17,7 @@ use std::time::Duration;
 use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
 
+use crate::component_persistence::PersistenceServices;
 use crate::config::Config;
 use crate::config::Constrained;
 use crate::environment_selection::TurnEnvironmentSnapshot;
@@ -130,8 +131,11 @@ pub(crate) async fn run_codex_thread_interactive(
         client_mcp_extensions: parent_session.services.client_mcp_extensions.clone(),
         reserved_thread_id: None,
         analytics_events_client: Some(parent_session.services.analytics_events_client.clone()),
-        image_store: Arc::clone(&parent_session.services.image_store),
-        thread_store: Arc::clone(&parent_session.services.thread_store),
+        image_store: parent_session.services.image_store_selection.clone(),
+        persistence: PersistenceServices {
+            thread_store: Arc::clone(&parent_session.services.thread_store),
+            host_state_db: parent_session.services.state_db.clone(),
+        },
         attestation_provider: parent_session.services.attestation_provider.clone(),
         external_time_provider: Some(Arc::clone(&parent_session.services.time_provider)),
         inherited_multi_agent_version: Some(MultiAgentVersion::Disabled),

@@ -1,0 +1,28 @@
+{
+  "api_version": 1,
+  "id": "example.calculator",
+  "version": "0.1.0",
+  "entrypoint": "plugin.pyz",
+  "args": [],
+  "dependencies": {},
+  "components": [
+    {
+      "kind": "tool",
+      "name": "calculator",
+      "contract_version": 1,
+      "metadata": {
+        "description": "Compute the sum or product of a bounded list of numbers.",
+        "input_schema": {
+          "type": "object",
+          "properties": {
+            "operation": {"type": "string", "enum": ["sum", "product"]},
+            "values": {"type": "array", "items": {"type": "number"}, "minItems": 1, "maxItems": 100}
+          },
+          "required": ["values"],
+          "additionalProperties": false
+        }
+      }
+    },
+    {"kind": "context", "name": "calculator_help", "contract_version": 1, "metadata": {}}
+  ]
+}

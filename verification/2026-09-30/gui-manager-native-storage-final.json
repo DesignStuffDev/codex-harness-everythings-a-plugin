@@ -1,0 +1,196 @@
+{
+  "purpose": "manual real-GUI regression with independently built selected native storage and actual manager Ctrl+C",
+  "browser": {
+    "thread": "01a0f25e-9b52-7340-8cb9-d2f5629c2f0c",
+    "checks": [
+      {
+        "check": "native_approval",
+        "body": "\u2318\nCodex\nCOMPONENTS\n\uff0b\nNew task\n\u2318 K\nYOUR WORK\n\u21bb\nC\nPersonal workspace\nDesktop component\nInstalled\nVerify normal response with streamed text and native storage. This task checks that a sepa\nConnected\nYOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 inProgress\n/bin/bash -lc 'printf gui-native-approval'\n\nCodex is working\u2026\nCodex needs your decision\nVerify local GUI approval flow\n/bin/bash -lc 'printf gui-native-approval'\ncommand\nAllow onceDeclineCancel turn\n\u25b1\n\u25a0 Stop\n\u2191\n\nCodex follows your configured model, workspace permissions, and approval settings.\n\n\u25cf Working on your task\nSeparate by design. Connected by Codex."
+      },
+      {
+        "check": "native_tool_completed",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval"
+      },
+      {
+        "check": "streaming",
+        "status": "Working on your task",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Ve"
+      },
+      {
+        "check": "normal_completed",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives."
+      },
+      {
+        "check": "blocked_before_stop",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nYOU\nExercise cancel\nCODEX\nWaiting for Stop: this model process is deliberately blocked."
+      },
+      {
+        "check": "stop_interrupted",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nYOU\nExercise cancel\nCODEX\nWaiting for Stop: this model process is deliberately blocked."
+      },
+      {
+        "check": "browser_reload_recovered",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nYOU\nExercise cancel",
+        "sidebar": "Verify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\nSep 30"
+      },
+      {
+        "check": "active_during_manager_shutdown",
+        "status": "Working on your task",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nYOU\nExercise cancel\nYOU\nExercise cancel during manager shutdown\nCODEX\nWaiting for Stop: this model process is deliberately blocked."
+      },
+      {
+        "check": "cold_restart_recovery",
+        "status": "Task interrupted",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nYOU\nExercise cancel\nYOU\nExercise cancel during manager shutdown"
+      },
+      {
+        "check": "fresh_turn_after_restart",
+        "text": "YOU\nVerify normal response with streamed text and native storage. This task checks that a separately installed presentation can accept input, render the model response as it arrives, preserve its task in the sidebar, and save the same conversation through the selected native storage component. We will next exercise a real approval, cancellation, and recovery after launcher shutdown.\ncommand Execution \u00b7 completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 4a9787\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nVerify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nCODEX\nGUI fixture response: Verify normal streamed response with native storage. The separately installed presentation should accept this input, render text progressively, preserve the current task in the sidebar, and save the conversation through its selected storage service. This longer message makes incremental delivery observable in the browser before the final response arrives.\nYOU\nExercise cancel\nYOU\nExercise cancel during manager shutdown\nYOU\nVerify recovered session responds after a fresh launcher start.\nCODEX\nGUI fixture response: Verify recovered session responds after a fresh launcher start."
+      }
+    ],
+    "errors": []
+  },
+  "work_dir": "/workspace/gui-native-storage-graceful",
+  "host_before": {
+    "host": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "mtime_ns": 1790770859379633820,
+      "bytes": 16462992
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "mtime_ns": 1790772328210984573,
+      "bytes": 1035548088
+    }
+  },
+  "gui_sources_removed": true,
+  "checks": [
+    {
+      "check": "ui_stop_model_reaped",
+      "pid": 220101,
+      "proc_absent": true
+    }
+  ],
+  "launches": [
+    {
+      "index": 1,
+      "children": [
+        {
+          "pid": 219764,
+          "ppid": 515,
+          "exe": "/workspace/toolchains/component-target/debug/codex-component",
+          "state": "S"
+        },
+        {
+          "pid": 219772,
+          "ppid": 219764,
+          "exe": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+          "state": "S"
+        },
+        {
+          "pid": 219773,
+          "ppid": 219772,
+          "exe": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+          "state": "S"
+        },
+        {
+          "pid": 219792,
+          "ppid": 219773,
+          "exe": "/workspace/gui-native-storage-graceful/codex-home/components/objects/native.thread-store-local-219755-18da1a384420aff6-0/codex-thread-store-local-plugin",
+          "state": "S"
+        }
+      ],
+      "blocked_model": {
+        "pid": 220134,
+        "invocation": "9f84dca3c80047dcaf98488f936954fa"
+      },
+      "signal_started_monotonic": 11743.387898645,
+      "shutdown": {
+        "mechanism": "one actual Ctrl+C through foreground component-manager PTY",
+        "manager_exit_status": 0,
+        "allowance_seconds": 210,
+        "tracked_pids_still_present": {
+          "219764": false,
+          "219772": false,
+          "219773": false,
+          "219792": false,
+          "220134": false
+        },
+        "all_reaped": true,
+        "tool_elapsed_seconds": 0.304744832
+      }
+    },
+    {
+      "index": 2,
+      "children": [
+        {
+          "pid": 220146,
+          "ppid": 515,
+          "exe": "/workspace/toolchains/component-target/debug/codex-component",
+          "state": "S"
+        },
+        {
+          "pid": 220154,
+          "ppid": 220146,
+          "exe": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+          "state": "S"
+        },
+        {
+          "pid": 220155,
+          "ppid": 220154,
+          "exe": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+          "state": "S"
+        },
+        {
+          "pid": 220172,
+          "ppid": 220155,
+          "exe": "/workspace/gui-native-storage-graceful/codex-home/components/objects/native.thread-store-local-219755-18da1a384420aff6-0/codex-thread-store-local-plugin",
+          "state": "S"
+        }
+      ],
+      "fresh_pids": true,
+      "shutdown": {
+        "mechanism": "one actual Ctrl+C through foreground component-manager PTY",
+        "manager_exit_status": 0,
+        "allowance_seconds": 210,
+        "tracked_pids_still_present": {
+          "220146": false,
+          "220154": false,
+          "220155": false,
+          "220172": false
+        },
+        "all_reaped": true
+      }
+    }
+  ],
+  "passed": true,
+  "host_after": {
+    "host": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "mtime_ns": 1790770859379633820,
+      "bytes": 16462992
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "mtime_ns": 1790772328210984573,
+      "bytes": 1035548088
+    }
+  },
+  "host_unchanged": true,
+  "storage_independent_report": "verification/2026-09-30/thread-store-native-independent.json",
+  "storage_source_removed": true,
+  "storage_executable_sha256": "290dcf1bbfa069ea7413e12893d61f267ed81a2f2caf39dbe2975b6efd94dc98",
+  "driver_note": "Initial normal-response wait timed out because its prompt included the fixture trigger word approval. The resulting real approval was accepted and verified; a neutral prompt then demonstrated streaming. No application source change was made during this run.",
+  "scope": "Real component manager, packaged GUI, native App Server, native tools/approvals/cancellation and independently compiled selected native storage. Model output is deterministic fixture data, not a paid remote model. Graceful startup/active-turn shutdown/cold recovery pass; forced uncertainty/reaping is verified separately in manager-shutdown-reaping-acceptance.json.",
+  "screenshots": [
+    "verification/2026-09-30/gui-manager-final-approval.png",
+    "verification/2026-09-30/gui-manager-final-interrupted.png",
+    "verification/2026-09-30/gui-manager-final-recovered.png",
+    "verification/2026-09-30/gui-manager-final-streaming.png",
+    "verification/2026-09-30/gui-manager-final-tool.png"
+  ]
+}

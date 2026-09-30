@@ -1,81 +1,61 @@
-<p align="center"><strong>Codex CLI</strong> is a coding agent from OpenAI that runs locally on your computer.
-<p align="center">
-  <img src="https://github.com/openai/codex/blob/main/.github/codex-cli-splash.png" alt="Codex CLI splash" width="80%" />
-</p>
-</br>
-If you want Codex in your code editor (VS Code, Cursor, Windsurf), <a href="https://developers.openai.com/codex/ide">install in your IDE.</a>
-</br>If you want the desktop app experience, run <code>codex app</code> or visit <a href="https://chatgpt.com/codex?app-landing-page=true">the Codex App page</a>.
-</br>If you are looking for the <em>cloud-based agent</em> from OpenAI, <strong>Codex Web</strong>, go to <a href="https://chatgpt.com/codex">chatgpt.com/codex</a>.</p>
+# Codex Harness Compartmentalized
 
----
+A work-in-progress fork of [OpenAI Codex](https://github.com/openai/codex), pinned
+at `d42056091aded7feb1d88ac7e83972108b2aa478`, with separately installable engine
+components and a separately packaged desktop-style web interface.
 
-## Quickstart
+**This is a partial implementation.** Native thread storage and inline attachment
+storage can run as independently built packages. Selected inference streaming and
+credential acquisition/refresh have replacement adapters. The complete engine,
+tool executor, context management, policy, and other subsystems are not yet all
+independently replaceable. The GUI is our own new client of the real App Server;
+it is not the official desktop application's source or an extracted native TUI.
 
-### Installing and running Codex CLI
+- [Component inventory and remaining boundaries](COMPONENTS.md)
+- [Validation evidence and limitations](VALIDATION.md)
+- [Recovery and publication checkpoint](RECOVERY.md)
+- [Plugin SDK, templates and packaging](component-sdk/README.md)
+- [GUI component and presentation contract](component-sdk/examples/desktop/README.md)
+- [Upstream provenance](UPSTREAM_PROVENANCE.md), [LICENSE](LICENSE), [NOTICE](NOTICE)
 
-Run the following on Mac or Linux to install Codex CLI:
+## Build the host and add the GUI
 
-```shell
-curl -fsSL https://chatgpt.com/codex/install.sh | sh
+Use the pinned Rust toolchain and upstream [build prerequisites](docs/install.md).
+This initial host build can be substantial. Linux is the validated platform for
+this checkpoint; broader platform validation remains open.
+
+```sh
+(cd codex-rs && cargo build -p codex-cli -p codex-component-host --bin codex --bin codex-component)
 ```
 
-Run the following on Windows to install Codex CLI:
+Choose a fresh external project/package directory and a Codex home. From the
+repository root, build the GUI separately with Python 3.10+:
 
-```shell
-powershell -ExecutionPolicy ByPass -c "irm https://chatgpt.com/codex/install.ps1 | iex"
+```sh
+export PYTHONPATH="$PWD/component-sdk"
+cp -R component-sdk/examples/desktop /tmp/my-codex-desktop
+python3 -m codex_component_sdk build /tmp/my-codex-desktop --output /tmp/my-codex-desktop-package
+mkdir -p /tmp/my-codex-home
+./codex-rs/target/debug/codex-component --codex-home /tmp/my-codex-home install /tmp/my-codex-desktop-package
+./codex-rs/target/debug/codex-component --codex-home /tmp/my-codex-home launch desktop --codex-bin "$PWD/codex-rs/target/debug/codex"
 ```
 
-The standalone installers download from `https://releases.openai.com/codex` by default and fall back to GitHub Releases if a metadata or asset download is unavailable. To force GitHub Releases, set `CODEX_INSTALLER_USE_RELEASES_OPENAI_COM` to `false` (`0` and `no` are also accepted):
+Configure model access in that Codex home using the CLI before ordinary inference.
+The verification fixtures provide deterministic model responses solely for tests.
+The launcher prints a private loopback URL. Open it on the machine running the
+host; keep its bearer token private. The first Ctrl+C allows graceful gateway,
+App Server and storage cleanup. A forced stop reports uncertain write durability.
 
-```shell
-curl -fsSL https://chatgpt.com/codex/install.sh | CODEX_INSTALLER_USE_RELEASES_OPENAI_COM=false sh
-```
+No supported cloud-to-local preview/port-forwarding route is exposed in this
+managed environment. The loopback URL is not a link that a browser on another
+computer can open. [Recovered GUI screenshot](verification/2026-09-30/recovery-gui-recovery-cold-continued.png)
+shows the independently installed interface after cold session recovery.
 
-```powershell
-$env:CODEX_INSTALLER_USE_RELEASES_OPENAI_COM='false'; irm https://chatgpt.com/codex/install.ps1 | iex
-```
+Custom component packages can be built and installed after the host's initial
+build without recompiling it. CLI/headless operation remains available when the
+GUI package is absent. See the SDK for native storage exports, explicit selection,
+removal, compatibility, state ownership and cancellation contracts.
 
-Codex CLI can also be installed via the following package managers:
-
-```shell
-# Install using npm
-npm install -g @openai/codex
-```
-
-```shell
-# Install using Homebrew
-brew install --cask codex
-```
-
-Then simply run `codex` to get started.
-
-<details>
-<summary>You can also go to the <a href="https://github.com/openai/codex/releases/latest">latest GitHub Release</a> and download the appropriate binary for your platform.</summary>
-
-Each GitHub Release contains many executables, but in practice, you likely want one of these:
-
-- macOS
-  - Apple Silicon/arm64: `codex-aarch64-apple-darwin.tar.gz`
-  - x86_64 (older Mac hardware): `codex-x86_64-apple-darwin.tar.gz`
-- Linux
-  - x86_64: `codex-x86_64-unknown-linux-musl.tar.gz`
-  - arm64: `codex-aarch64-unknown-linux-musl.tar.gz`
-
-Each archive contains a single entry with the platform baked into the name (e.g., `codex-x86_64-unknown-linux-musl`), so you likely want to rename it to `codex` after extracting it.
-
-</details>
-
-### Using Codex with your ChatGPT plan
-
-Run `codex` and select **Sign in with ChatGPT**. We recommend signing into your ChatGPT account to use Codex as part of your Plus, Pro, Business, Edu, or Enterprise plan. [Learn more about what's included in your ChatGPT plan](https://help.openai.com/en/articles/11369540-codex-in-chatgpt).
-
-You can also use Codex with an API key, but this requires [additional setup](https://developers.openai.com/codex/auth#sign-in-with-an-api-key).
-
-## Docs
-
-- [**Codex Documentation**](https://developers.openai.com/codex)
-- [**Contributing**](./docs/contributing.md)
-- [**Installing & building**](./docs/install.md)
-- [**Open source fund**](./docs/open-source-fund.md)
-
-This repository is licensed under the [Apache-2.0 License](LICENSE).
+The original upstream README is retained in [UPSTREAM_README.md](UPSTREAM_README.md).
+Its official installers install upstream Codex, not this fork. No DeepSeek or
+Cordis code is included.

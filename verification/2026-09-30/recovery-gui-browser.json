@@ -1,0 +1,129 @@
+{
+  "browser": "Chromium through Playwright; not in-app Browser",
+  "commands": [
+    {
+      "command": "await page.locator('#prompt').fill('Verify recovered normal response'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Working' && document.querySelector('#messages').textContent.includes('GUI fixture response: Ve')); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-streaming.png'}); return {status:await page.locator('#run-status').innerText(),text:await page.locator('#messages').innerText(),thread:await page.evaluate(()=>localStorage.getItem('codexSelectedThread'))};",
+      "started": "2026-09-30T17:03:45.653Z",
+      "passed": false,
+      "error": "page.waitForFunction: Timeout 30000ms exceeded."
+    },
+    {
+      "command": "return {status:await page.locator('#run-status').innerText(),messages:await page.locator('#messages').innerText(),thread:await page.evaluate(()=>localStorage.getItem('codexSelectedThread')),body:await page.locator('body').innerText()};",
+      "started": "2026-09-30T17:04:54.760Z",
+      "result": {
+        "status": "Task complete",
+        "messages": "YOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response",
+        "thread": "01a0f345-b05e-7cb1-83f4-d4af28bdfe0c",
+        "body": "⌘\nCodex\nCOMPONENTS\n＋\nNew task\n⌘ K\nYOUR WORK\n↻\nVerify recovered normal response\nSep 30\nC\nPersonal workspace\nDesktop component\nInstalled\nVerify recovered normal response\nConnected\nYOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response\n▱\n↑\n\nCodex follows your configured model, workspace permissions, and approval settings.\n\n● Task complete\nSeparate by design. Connected by Codex."
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#prompt').fill('Verify recovered streaming: ' + 'stream observation '.repeat(20)); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent.startsWith('Working') && document.querySelector('#messages').textContent.includes('GUI fixture response: Verify recovered streaming:')); const observed={status:await page.locator('#run-status').innerText(),text:await page.locator('#messages').innerText()}; await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-streaming.png'}); await page.waitForFunction(()=>document.querySelector('#run-status').textContent==='Task complete'); return {streaming:observed,completed:await page.locator('#run-status').innerText()};",
+      "started": "2026-09-30T17:05:19.039Z",
+      "result": {
+        "streaming": {
+          "status": "Working on your task",
+          "text": "YOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response\nYOU\nVerify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nCODEX\nGUI fixture response: Verify recovered streaming: stream obs"
+        },
+        "completed": "Task complete"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#prompt').fill('Exercise approval'); await page.locator('#send').click(); await page.getByRole('button',{name:'Allow once',exact:true}).waitFor(); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-approval.png'}); return {approval:await page.locator('body').innerText()};",
+      "started": "2026-09-30T17:06:24.257Z",
+      "result": {
+        "approval": "⌘\nCodex\nCOMPONENTS\n＋\nNew task\n⌘ K\nYOUR WORK\n↻\nVerify recovered normal response\nSep 30\nC\nPersonal workspace\nDesktop component\nInstalled\nExercise approval\nConnected\nYOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response\nYOU\nVerify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nCODEX\nGUI fixture response: Verify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nYOU\nExercise approval\ncommand Execution · inProgress\n/bin/bash -lc 'printf gui-native-approval'\n\nCodex is working…\nCodex needs your decision\nVerify local GUI approval flow\n/bin/bash -lc 'printf gui-native-approval'\ncommand\nAllow onceDeclineCancel turn\n▱\n■ Stop\n↑\n\nCodex follows your configured model, workspace permissions, and approval settings.\n\n● Working on your task\nSeparate by design. Connected by Codex."
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.getByRole('button',{name:'Allow once',exact:true}).click(); await page.waitForFunction(()=>document.querySelector('#run-status').textContent==='Task complete'); const text=await page.locator('#messages').innerText(); if(!text.includes('Native command approval result:')||!text.includes('gui-native-approval')) throw new Error('Missing native command result'); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-tool.png'}); return {status:await page.locator('#run-status').innerText(),nativeToolOutput:text.slice(-1400)};",
+      "started": "2026-09-30T17:06:35.457Z",
+      "result": {
+        "status": "Task complete",
+        "nativeToolOutput": "YOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response\nYOU\nVerify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nCODEX\nGUI fixture response: Verify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nYOU\nExercise approval\ncommand Execution · completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 94a4f7\nWall time: 0.0001 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#prompt').fill('Exercise cancel'); await page.locator('#send').click(); await page.waitForFunction(()=>document.querySelector('#messages').textContent.includes('Waiting for Stop:')); return {status:await page.locator('#run-status').innerText(),thread:await page.evaluate(()=>localStorage.getItem('codexSelectedThread'))};",
+      "started": "2026-09-30T17:06:46.831Z",
+      "result": {
+        "status": "Working on your task",
+        "thread": "01a0f345-b05e-7cb1-83f4-d4af28bdfe0c"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#stop').click(); await page.waitForFunction(()=>document.querySelector('#run-status').textContent==='Task interrupted'); if(await page.getByRole('button',{name:'Allow once',exact:true}).count()) throw new Error('Approval remains after Stop'); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-interrupted.png'}); await page.reload(); await page.waitForFunction(()=>document.querySelector('#run-status').textContent==='Task interrupted'); const text=await page.locator('#messages').innerText(); if(!text.includes('gui-native-approval')||!text.includes('Verify recovered normal response')) throw new Error('History missing after reload'); return {status:await page.locator('#run-status').innerText(),historyPreserved:true};",
+      "started": "2026-09-30T17:07:04.793Z",
+      "result": {
+        "status": "Task interrupted",
+        "historyPreserved": true
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#prompt').fill('Verify continuation after reload'); await page.locator('#send').click(); await page.waitForFunction(()=>document.querySelector('#run-status').textContent==='Task complete'); if(!(await page.locator('#messages').innerText()).includes('GUI fixture response: Verify continuation after reload')) throw new Error('Continuation failed'); await page.locator('#prompt').fill('Exercise cancel during launcher shutdown'); await page.locator('#send').click(); await page.waitForFunction(()=>document.querySelector('#run-status').textContent.startsWith('Working')); return {status:await page.locator('#run-status').innerText(),continuationCompleted:true};",
+      "started": "2026-09-30T17:07:24.508Z",
+      "result": {
+        "status": "Working on your task",
+        "continuationCompleted": true
+      },
+      "passed": true
+    },
+    {
+      "command": "await gotoReadyFile('/tmp/codex-recovery-runtime-20260930/gui/launch-2.stdout'); await page.locator('#threads .thread[data-thread-id=\"01a0f345-b05e-7cb1-83f4-d4af28bdfe0c\"]').click(); await page.waitForFunction(() => document.querySelector('#status')?.textContent.includes('interrupted')); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-cold-recovered.png',fullPage:true}); return {status:await page.locator('#status').innerText(),body:await page.locator('body').innerText()};",
+      "started": "2026-09-30T17:14:03.662Z",
+      "passed": false,
+      "error": "page.waitForFunction: Timeout 30000ms exceeded."
+    },
+    {
+      "command": "return {statusIds:await page.locator('[id]').evaluateAll(es=>es.map(e=>e.id)),body:await page.locator('body').innerText()};",
+      "started": "2026-09-30T17:14:47.267Z",
+      "result": {
+        "statusIds": [
+          "sidebar",
+          "new-task",
+          "refresh",
+          "threads",
+          "more-threads",
+          "menu",
+          "task-title",
+          "connection",
+          "error",
+          "welcome",
+          "conversation",
+          "older",
+          "messages",
+          "activity",
+          "approvals",
+          "composer",
+          "prompt",
+          "cwd",
+          "stop",
+          "send",
+          "run-status"
+        ],
+        "body": "⌘\nCodex\nCOMPONENTS\n＋\nNew task\n⌘ K\nYOUR WORK\n↻\nVerify recovered normal response\nSep 30\nC\nPersonal workspace\nDesktop component\nInstalled\nVerify recovered normal response\nConnected\nYOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response\nYOU\nVerify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nCODEX\nGUI fixture response: Verify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nYOU\nExercise approval\ncommand Execution · completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 94a4f7\nWall time: 0.0001 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nExercise cancel\nYOU\nVerify continuation after reload\nCODEX\nGUI fixture response: Verify continuation after reload\nYOU\nExercise cancel during launcher shutdown\nStopped. You can send another message.\n▱\n↑\n\nCodex follows your configured model, workspace permissions, and approval settings.\n\n● Task interrupted\nSeparate by design. Connected by Codex."
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.waitForFunction(() => document.querySelector('#run-status')?.textContent.includes('interrupted')); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-cold-recovered.png',fullPage:true}); await page.locator('#prompt').fill('Verify completion after cold recovery'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#run-status')?.textContent.includes('Task complete')); await page.screenshot({path:'/tmp/codex-recovery-runtime-20260930/gui/recovery-cold-continued.png',fullPage:true}); return {status:await page.locator('#run-status').innerText(),last:await page.locator('#messages').innerText()};",
+      "started": "2026-09-30T17:15:05.471Z",
+      "result": {
+        "status": "Task complete",
+        "last": "YOU\nVerify recovered normal response\nCODEX\nGUI fixture response: Verify recovered normal response\nYOU\nVerify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nCODEX\nGUI fixture response: Verify recovered streaming: stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation stream observation\nYOU\nExercise approval\ncommand Execution · completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 94a4f7\nWall time: 0.0001 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nExercise cancel\nYOU\nVerify continuation after reload\nCODEX\nGUI fixture response: Verify continuation after reload\nYOU\nExercise cancel during launcher shutdown\nYOU\nVerify completion after cold recovery\nCODEX\nGUI fixture response: Verify completion after cold recovery"
+      },
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "closed": true,
+  "initial": {
+    "title": "Codex · Components"
+  }
+}

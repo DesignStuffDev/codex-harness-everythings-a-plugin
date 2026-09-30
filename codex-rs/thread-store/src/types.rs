@@ -29,7 +29,7 @@ use serde::Deserializer;
 use serde::Serialize;
 use serde::Serializer;
 
-mod optional_option {
+pub(crate) mod optional_option {
     use super::*;
 
     pub fn serialize<T, S>(value: &Option<Option<T>>, serializer: S) -> Result<S::Ok, S::Error>
@@ -148,7 +148,7 @@ pub(crate) fn canonical_history_mode_from_rollout_items(
 }
 
 /// Parameters for appending rollout items to a live thread.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct AppendThreadItemsParams {
     /// Thread id to append to.
     pub thread_id: ThreadId,
@@ -191,7 +191,7 @@ pub struct StoredModelContext {
 }
 
 /// Requested boundary for inheriting a paginated thread's history.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ForkBoundary {
     /// Inherit the source thread's latest durable state.
     Latest,
@@ -202,7 +202,7 @@ pub enum ForkBoundary {
 }
 
 /// Parameters for freezing the source history used to initialize a fork.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct PrepareForkParams {
     /// Immediate source thread whose metadata and approval settings are inherited.
     pub thread_id: ThreadId,
@@ -211,7 +211,7 @@ pub struct PrepareForkParams {
 }
 
 /// Parameters for reverting a paginated thread's durable history.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct RevertThreadParams {
     /// Stable logical thread to revert.
     pub thread_id: ThreadId,
@@ -328,9 +328,19 @@ pub struct ListThreadsParams {
     pub cwd_filters: Option<Vec<PathBuf>>,
     /// Omit to include every section, set to `None` to match unsectioned
     /// threads, or provide a section ID to match that section.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        with = "optional_option"
+    )]
     pub section: Option<Option<String>>,
     /// Omit to include every project, set to None for unassigned threads,
     /// or provide a project ID to match that project.
+    #[serde(
+        default,
+        skip_serializing_if = "Option::is_none",
+        with = "optional_option"
+    )]
     pub project_id: ClearableField<String>,
     /// Whether archived threads should be listed instead of active threads.
     pub archived: bool,
@@ -540,7 +550,7 @@ pub struct ItemPage {
 }
 
 /// Parameters for reading a bounded mixed thread timeline.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ListTimelineParams {
     pub thread_id: ThreadId,
     pub cursor: Option<String>,
@@ -548,7 +558,7 @@ pub struct ListTimelineParams {
 }
 
 /// Ordinary items, realtime facts, and the session state preceding their page.
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct TimelinePage {
     pub items: Vec<ThreadTimelineEntry>,
     pub next_cursor: Option<String>,

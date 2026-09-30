@@ -1,0 +1,34 @@
+{
+  "started_utc": "2026-09-30T14:56:23.927206+00:00",
+  "command": [
+    "just",
+    "test",
+    "--workspace",
+    "--features",
+    "codex-v8-poc/sandbox",
+    "--test-threads",
+    "2",
+    "--retries",
+    "0",
+    "--no-fail-fast",
+    "--status-level",
+    "fail",
+    "--final-status-level",
+    "fail"
+  ],
+  "environment": "/workspace/toolchains/component-verification-env.sh",
+  "cargo_build_jobs": 1,
+  "scope": "All 164 current workspace members selected; doctests, explicitly ignored tests and platform-specific exclusions not included",
+  "status": "argument_rejected",
+  "source_checkpoint": "Storage contract 2 and service-lifetime host; frozen source archive storage-v2-checkpoint-archives.json",
+  "disk_recovery": [
+    "off-main-target-cache-cleanup.json",
+    "workspace-attempt2-cleanup-removal.json",
+    "paired-build-metadata-relocation.json"
+  ],
+  "exit_status": 2,
+  "elapsed_seconds": 0.07659667400002945,
+  "finished_utc": "2026-09-30T14:56:24.004002+00:00",
+  "runtime_result": "No fresh JUnit result; inspect compilation/test runner log.",
+  "failure": "Duplicate --no-fail-fast: just test already supplies it. No compilation or runtime test executed."
+}

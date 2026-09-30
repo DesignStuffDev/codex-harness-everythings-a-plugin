@@ -1,0 +1,79 @@
+{
+  "started_at_utc": "2026-09-30T17:14:19.572154+00:00",
+  "purpose": "Reversible preservation of three idle generated old test binaries to provide recovery regression compilation space; no source, current core executable, accepted runtime binary, or metadata symlink changed.",
+  "preservation_directory": "/tmp/codex-recovery-cache-preservation-20260930",
+  "scope": "Same cloud filesystem only; not external backup. /tmp is a separate tmpfs and is volatile.",
+  "before_space": {
+    "/workspace": {
+      "total": 33770192896,
+      "used": 31756967936,
+      "free": 278462464
+    },
+    "/tmp": {
+      "total": 9441349632,
+      "used": 3940384768,
+      "free": 5500964864
+    }
+  },
+  "files": [
+    {
+      "original": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_core-99e8dc17058839b4",
+      "preserved": "/tmp/codex-recovery-cache-preservation-20260930/codex_core-99e8dc17058839b4",
+      "size_bytes": 350668296,
+      "sha256": "00cb2b55dc68bce5892c7d796d336620143aa2d63fa5fcdd267ea2bf19b521ae",
+      "mode": "0o700",
+      "mtime_ns": 1790780514297158339,
+      "atime_ns_before_hashing": 1790781186287793053,
+      "nlink_before": 1,
+      "executing_pids": [],
+      "copy_sha256_size_mode_mtime_verified": true,
+      "original_removed": true,
+      "original_absent": true
+    },
+    {
+      "original": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/all-ee7bdd16e3cf91f9",
+      "preserved": "/tmp/codex-recovery-cache-preservation-20260930/all-ee7bdd16e3cf91f9",
+      "size_bytes": 351449176,
+      "sha256": "4cd946a2c34941c8c73ac530eaf0362110b13c52d90d41b22b8ca75a3dd01eae",
+      "mode": "0o700",
+      "mtime_ns": 1790780358671185394,
+      "atime_ns_before_hashing": 1790781183263836142,
+      "nlink_before": 1,
+      "executing_pids": [],
+      "copy_sha256_size_mode_mtime_verified": true,
+      "original_removed": true,
+      "original_absent": true
+    },
+    {
+      "original": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/responses_headers-8f7916e703da7600",
+      "preserved": "/tmp/codex-recovery-cache-preservation-20260930/responses_headers-8f7916e703da7600",
+      "size_bytes": 269662216,
+      "sha256": "572fe8ae27f6c89a758e917d72769b84dfea0ad4690a00905c557f90bfae3f9b",
+      "mode": "0o700",
+      "mtime_ns": 1790780519453094906,
+      "atime_ns_before_hashing": 1790781180523875079,
+      "nlink_before": 1,
+      "executing_pids": [],
+      "copy_sha256_size_mode_mtime_verified": true,
+      "original_removed": true,
+      "source_evidence": "Generated integration executable from core/tests/responses_headers.rs according to its .d file; not needed for core --lib rerun.",
+      "additional_selection_authorized_by_root": true,
+      "original_absent": true
+    }
+  ],
+  "live_rust": [],
+  "finished_at_utc": "2026-09-30T17:14:47.164340+00:00",
+  "after_space": {
+    "/workspace": {
+      "total": 33770192896,
+      "used": 30785171456,
+      "free": 1250258944
+    },
+    "/tmp": {
+      "total": 9441349632,
+      "used": 4912177152,
+      "free": 4529172480
+    }
+  },
+  "restoration_instructions": "When no Cargo/Rust commands are running, ensure each original path is absent (never overwrite a regenerated file). Verify the preserved SHA256, use shutil.copy2(preserved, original), then verify size, SHA256, mode, and mtime_ns against this report. Retain preserved copy until checks pass. The moved files are generated test caches and may instead be rebuilt."
+}

@@ -1,0 +1,54 @@
+{
+  "result": "All 27 distinct cases passed across initial run and corrected single-case rerun; no all-green combined rerun claimed",
+  "command": "source /workspace/toolchains/component-verification-env.sh; just test -p codex-thread-store-local-plugin -p codex-thread-store-component --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+  "initial_run": {
+    "id": "83e6434b-83bc-4b1d-b50b-c8e1055f8f91",
+    "build_seconds": 37.7,
+    "test_seconds": 9.675,
+    "passed": 26,
+    "failed": 1,
+    "skipped": 0,
+    "failure": "New test incorrectly set rollout_path in native pending metadata, which native deliberately rejects; removed that invalid setup field without changing production code"
+  },
+  "corrected_case": {
+    "id": "8a4a8a9d-fad0-4e16-bc03-e2427cadb4d7",
+    "command": "source /workspace/toolchains/component-verification-env.sh; just test -p codex-thread-store-local-plugin native_non_utf8_queries_and_pending_paths_survive_the_process_boundary --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+    "build_seconds": 5.09,
+    "test_seconds": 0.182,
+    "passed": 1,
+    "skipped": 14
+  },
+  "coverage": [
+    "Native versus installed process raw durable cell_id/executed_tool_calls/tool_calls_complete parity in Legacy and Paginated modes",
+    "Pending token budget including arbitrary precision JSON numbers, Custom reasoning/thread-source variant identity, clear/set/unchanged semantics",
+    "Unix non-UTF8 pending cwd, rollout-path request/reply and cwd filters compared with native LocalThreadStore",
+    "Append/resume input history and load/latest/fork output history retain full trusted state before backend policy",
+    "Timeline hidden analytics, native paths including file move destinations, arbitrary JSON numbers, absent versus explicit null metadata",
+    "Existing actual-process create/append/persist/flush/resume/fork/revert/archive/delete/recovery, lease cancellation, acquisition fence, initialization cleanup and retained-clone shutdown gates",
+    "Attachment payload arbitrary precision through actual native database process"
+  ],
+  "limits": [
+    "Native persistence/provider serde and trust projections remain intentionally unchanged",
+    "Generic component initialize state_dir still uses ordinary PathBuf; global non-UTF8 installation/home paths are not established",
+    "Background migration/compression owned shutdown gap identified separately; lifecycle correction pending",
+    "No full workspace runtime suite or rebuilt final CLI/GUI/independent package checkpoint for v2 claimed yet"
+  ],
+  "evidence": [
+    "storage-wire-fidelity-before.log",
+    "storage-wire-fidelity-before.junit.xml",
+    "storage-wire-v2-first.log",
+    "storage-wire-v2-regressions.log",
+    "storage-wire-v2-regressions.junit.xml",
+    "storage-wire-v2-paths.log",
+    "storage-wire-v2-paths.junit.xml"
+  ],
+  "clippy": {
+    "command": "source /workspace/toolchains/component-verification-env.sh; just fix -p codex-thread-store-component -p codex-thread-store-local-plugin",
+    "exit_status": 0,
+    "elapsed_seconds": 142,
+    "warnings": 0,
+    "automatic_fixes": 0,
+    "log": "storage-wire-v2-clippy.log",
+    "scope": "Storage wire v2 before subsequent maintenance lifecycle source changes"
+  }
+}

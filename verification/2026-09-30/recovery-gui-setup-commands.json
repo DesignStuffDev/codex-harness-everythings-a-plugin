@@ -1,0 +1,68 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/tmp/codex-recovery-runtime-20260930/gui/desktop-source",
+      "--output",
+      "/tmp/codex-recovery-runtime-20260930/gui/desktop-package"
+    ],
+    "status": 0,
+    "stdout": "/tmp/codex-recovery-runtime-20260930/gui/desktop-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/gui/codex-home",
+      "install",
+      "/tmp/codex-recovery-runtime-20260930/gui/desktop-package"
+    ],
+    "status": 0,
+    "stdout": "codex.desktop\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/tmp/codex-recovery-runtime-20260930/gui/model-fixture-source",
+      "--output",
+      "/tmp/codex-recovery-runtime-20260930/gui/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "/tmp/codex-recovery-runtime-20260930/gui/model-fixture-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/gui/codex-home",
+      "install",
+      "/tmp/codex-recovery-runtime-20260930/gui/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "test.gui-model\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/verified-component-checkpoint-v2-20260930/codex-component",
+      "--codex-home",
+      "/tmp/codex-recovery-runtime-20260930/gui/codex-home",
+      "select",
+      "model_transport",
+      "default",
+      "test.gui-model"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

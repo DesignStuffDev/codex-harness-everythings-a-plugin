@@ -1,0 +1,23 @@
+{
+  "fix_command": "just fix -p codex-core --lib",
+  "fix_exit_status": 0,
+  "fix_warnings": 0,
+  "fix_duration": "9m03s",
+  "format_command": "just fmt",
+  "format_exit_status": 0,
+  "diff_check_exit_status": 0,
+  "source_changes_since_test_manifest": [
+    {
+      "path": "codex-rs/core/src/session/tests.rs",
+      "before": "db5c1a9b7729b939168fa100a624232a1282adcff4fb7a2af1aa3c79949ebb52",
+      "after": "7c1f9e2cd73f2754b2a4fa4b2a5ad5dde747e7b84dab47d3f20d6c46a0f6b1f8"
+    },
+    {
+      "path": "component-sdk/tests/sdk_distribution_acceptance.py",
+      "before": "42cdf5d2573d1d8624d9a7ab3375810198c0ea4630c9226b44cd87b527ba6b31",
+      "after": "9e42753e508e6e77d060a069d918324696f1183711cdda35c14d6573d923473f"
+    }
+  ],
+  "scope": "Core scoped Clippy includes its tests; formatting follows repository instructions. No runtime rerun solely after lint/format.",
+  "formatting_review": "Session fixture write_all expression only rewrapped; SDK distribution helper formatting only, parsed Python AST equal. No production source changed."
+}
