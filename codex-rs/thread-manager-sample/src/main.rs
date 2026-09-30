@@ -53,6 +53,7 @@ use codex_core_api::StartThreadOptions;
 use codex_core_api::TerminalResizeReflowConfig;
 use codex_core_api::ThreadManager;
 use codex_core_api::ThreadStoreConfig;
+use codex_core_api::ThreadStoreShutdownGuard;
 use codex_core_api::ToolSuggestConfig;
 use codex_core_api::TuiKeymap;
 use codex_core_api::TuiNotificationSettings;
@@ -72,10 +73,10 @@ use codex_core_api::item_event_to_server_notification;
 use codex_core_api::load_config_toml_with_layer_stack;
 use codex_core_api::local_agent_graph_store_from_state_db;
 use codex_core_api::passthrough_image_store;
+use codex_core_api::persistence_from_config;
 use codex_core_api::resolve_bootstrap_respect_system_proxy;
 use codex_core_api::resolve_installation_id;
 use codex_core_api::set_default_originator;
-use codex_core_api::thread_store_from_config;
 
 #[derive(Debug, Parser)]
 #[command(
@@ -129,7 +130,6 @@ async fn run_main(arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
         config.codex_self_exe.clone(),
         config.codex_linux_sandbox_exe.clone(),
     )?;
-    let thread_store = thread_store_from_config(&config, state_db.clone());
     let environment_manager = Arc::new(
         EnvironmentManager::from_codex_home(
             config.codex_home.clone(),
@@ -146,7 +146,9 @@ async fn run_main(arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
     install_image_generation_extension(&mut extensions, auth_manager.clone(), |config: &Config| {
         Some(config.codex_home.clone())
     });
-    let thread_manager = ThreadManager::new(
+    let persistence = persistence_from_config(&config, state_db.clone()).await?;
+    let store_lifecycle = ThreadStoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
+    let thread_manager = ThreadManager::new_with_persistence(
         &config,
         Arc::clone(&auth_manager),
         build_models_manager(&config, auth_manager),
@@ -157,29 +159,43 @@ async fn run_main(arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
         user_instructions_provider,
         /*analytics_events_client*/ None,
         passthrough_image_store(),
-        Arc::clone(&thread_store),
+        persistence,
         local_agent_graph_store_from_state_db(state_db.as_ref()),
         installation_id,
         /*attestation_provider*/ None,
         /*external_time_provider*/ None,
-    );
+    )
+    .with_default_attachment_store_components();
 
-    let NewThread {
-        thread_id, thread, ..
-    } = thread_manager
-        .start_thread(StartThreadOptions::new(config))
+    let turn_result: anyhow::Result<()> = async {
+        let NewThread {
+            thread_id, thread, ..
+        } = thread_manager
+            .start_thread(StartThreadOptions::new(config))
+            .await
+            .context("start Codex thread")?;
+
+        let thread_id_string = thread_id.to_string();
+        let turn_output = run_turn(&thread, &thread_id_string, prompt).await;
+        let shutdown_result = thread.shutdown_and_wait().await;
+        let _ = thread_manager.remove_thread(&thread_id).await;
+
+        turn_output?;
+        shutdown_result.context("shut down Codex thread")?;
+        Ok(())
+    }
+    .await;
+    let store_shutdown = store_lifecycle
+        .shutdown()
         .await
-        .context("start Codex thread")?;
-
-    let thread_id_string = thread_id.to_string();
-    let turn_output = run_turn(&thread, &thread_id_string, prompt).await;
-    let shutdown_result = thread.shutdown_and_wait().await;
-    let _ = thread_manager.remove_thread(&thread_id).await;
-
-    turn_output?;
-    shutdown_result.context("shut down Codex thread")?;
-
-    Ok(())
+        .context("shut down thread store");
+    match (turn_result, store_shutdown) {
+        (Ok(()), Ok(())) => Ok(()),
+        (Err(error), Ok(())) | (Ok(()), Err(error)) => Err(error),
+        (Err(primary), Err(cleanup)) => {
+            Err(primary.context(format!("thread-store shutdown also failed: {cleanup:#}")))
+        }
+    }
 }
 
 async fn new_config(

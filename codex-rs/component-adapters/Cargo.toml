@@ -1,0 +1,31 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "codex-component-adapters"
+version.workspace = true
+
+[lib]
+name = "codex_component_adapters"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+codex-component-host = { workspace = true }
+codex-context-fragments = { workspace = true }
+codex-extension-api = { workspace = true }
+codex-protocol = { workspace = true }
+codex-tools = { workspace = true }
+codex-utils-output-truncation = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+tracing = { workspace = true }
+
+[dev-dependencies]
+codex-utils-cargo-bin = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "time"] }

@@ -23,7 +23,6 @@ use crate::shell_snapshot::SnapshotCredentialBrokerState;
 use crate::state::ActiveTurn;
 use crate::turn_metadata::ExecutionMetadata;
 use codex_analytics::ThreadProductUpdate;
-use codex_attachment_store::AttachmentStore;
 use codex_extension_api::ExtensionDataInit;
 use codex_http_client::ClientRouteClass;
 use codex_http_client::RouteAwareClientPool;
@@ -97,6 +96,7 @@ pub(crate) struct Session {
     pub(super) fork_persistence: ForkPersistence,
     pub(super) forked_from_ordinal_exclusive: Option<u64>,
     pub(super) next_internal_sub_id: AtomicU64,
+    pub(super) runtime_lifecycle: super::runtime_lifecycle::SessionRuntimeLifecycle,
 }
 
 #[derive(Clone)]
@@ -766,15 +766,37 @@ impl Session {
         environment_manager: Arc<EnvironmentManager>,
         inherited_environments: Option<TurnEnvironmentSnapshot>,
         analytics_events_client: Option<AnalyticsEventsClient>,
-        image_store: Arc<dyn AttachmentStore>,
-        thread_store: Arc<dyn ThreadStore>,
+        image_store: codex_attachment_store_component::AttachmentStoreSelection,
+        persistence: PersistenceServices,
         parent_rollout_thread_trace: ThreadTraceContext,
         attestation_provider: Option<Arc<dyn AttestationProvider>>,
         external_time_provider: Option<Arc<dyn TimeProvider>>,
         multi_agent_version: Option<MultiAgentVersion>,
         git_enrichment_policy: GitEnrichmentPolicy,
         windows_sandbox_proxy_settings_mode: codex_sandboxing::WindowsSandboxProxySettingsMode,
-    ) -> anyhow::Result<Arc<Self>> {
+    ) -> anyhow::Result<super::startup::InitializedSession> {
+        let startup = startup.unwrap_or_default();
+        let mut launch = super::startup::SessionLaunchGuard::new(Arc::clone(&startup));
+        let PersistenceServices {
+            thread_store,
+            host_state_db,
+        } = persistence;
+        let isolation = thread_extension_init
+            .get::<codex_extension_api::SessionIsolation>()
+            .map(|policy| *policy)
+            .unwrap_or_default();
+        // Isolated reviewer/internal sessions receive only the extensions their
+        // caller explicitly supplied. Global engine plugins cannot cross that boundary.
+        let component_catalog = if isolation == codex_extension_api::SessionIsolation::Isolated {
+            codex_component_host::ComponentCatalog::default()
+        } else {
+            codex_component_host::ComponentCatalog::load(&config.codex_home)?
+        };
+        let mut component_extensions = extensions.to_builder();
+        let image_store_selection = image_store;
+        let image_store = image_store_selection.resolve(&component_catalog)?;
+        codex_component_adapters::install(&mut component_extensions, &component_catalog)?;
+        let extensions = Arc::new(component_extensions.build());
         debug!(
             "Configuring session: model={}; provider={:?}",
             session_configuration
@@ -865,10 +887,6 @@ impl Session {
                 ));
             }
         };
-        let isolation = thread_extension_init
-            .get::<codex_extension_api::SessionIsolation>()
-            .map(|policy| *policy)
-            .unwrap_or_default();
         if !session_configuration.session_source.is_non_root_agent()
             && isolation != codex_extension_api::SessionIsolation::Isolated
         {
@@ -1006,14 +1024,10 @@ impl Session {
         let mcp_auth = persistence_auth.clone();
         let thread_persistence_fut = async {
             if config.ephemeral {
-                Ok::<_, anyhow::Error>((None, LiveThreadInitGuard::new(/*live_thread*/ None)))
+                Ok::<_, anyhow::Error>(None)
             } else {
-                let mut local_guard = LiveThreadInitGuard::default();
-                let mut managed_guard = match &startup {
-                    Some(startup) => Some(startup.persistence.lock().await),
-                    None => None,
-                };
-                let guard = managed_guard.as_deref_mut().unwrap_or(&mut local_guard);
+                let mut startup_guard = startup.persistence.lock().await;
+                let guard = &mut *startup_guard;
                 let live_thread = match &initial_history {
                     InitialHistory::New | InitialHistory::Cleared | InitialHistory::Forked(_) => {
                         let auth = persistence_auth.await;
@@ -1100,7 +1114,7 @@ impl Session {
                             .await?
                     }
                 };
-                Ok((Some(live_thread), local_guard))
+                Ok(Some(live_thread))
             }
         }
         .instrument(info_span!(
@@ -1111,12 +1125,8 @@ impl Session {
         let state_db_fut = async {
             if config.ephemeral {
                 None
-            } else if let Some(local_store) =
-                thread_store.as_any().downcast_ref::<LocalThreadStore>()
-            {
-                local_store.state_db().await
             } else {
-                None
+                host_state_db
             }
         }
         .instrument(info_span!(
@@ -1182,7 +1192,7 @@ impl Session {
         let (thread_persistence_result, state_db_ctx, (auth, mcp_projection)) =
             tokio::join!(thread_persistence_fut, state_db_fut, auth_and_mcp_fut);
 
-        let (live_thread, mut live_thread_init) = thread_persistence_result.map_err(|e| {
+        let live_thread = thread_persistence_result.map_err(|e| {
             error!("failed to initialize thread persistence: {e:#}");
             e
         })?;
@@ -1722,6 +1732,7 @@ impl Session {
                 state_db: state_db_ctx.clone(),
                 live_thread: live_thread.clone(),
                 image_store,
+                image_store_selection,
                 thread_store: Arc::clone(&thread_store),
                 attestation_provider: attestation_provider.clone(),
                 time_provider,
@@ -1750,6 +1761,7 @@ impl Session {
                     workspace_routing.as_ref().clone(),
                     extensions.model_request_contributors().to_vec(),
                 )
+                .with_component_catalog(&component_catalog)
                 .with_executed_tool_calls(executed_tool_calls.clone())
                 .with_restored_history(matches!(
                     &initial_history,
@@ -1809,10 +1821,9 @@ impl Session {
                 fork_persistence,
                 forked_from_ordinal_exclusive,
                 next_internal_sub_id: AtomicU64::new(0),
+                runtime_lifecycle: Default::default(),
             });
-            if let Some(startup) = &startup {
-                let _ = startup.session.set(Arc::clone(&sess));
-            }
+            launch.constructed(Arc::clone(&sess));
             if let Some(network_policy_decider_session) = network_policy_decider_session {
                 let mut guard = network_policy_decider_session.write().await;
                 *guard = Arc::downgrade(&sess);
@@ -1937,12 +1948,14 @@ impl Session {
         }
         .await;
         match session_result {
-            Ok(sess) => {
-                live_thread_init.commit();
-                Ok(sess)
-            }
+            Ok(sess) => Ok(super::startup::InitializedSession {
+                session: sess,
+                launch,
+            }),
             Err(err) => {
-                live_thread_init.discard().await;
+                if let Err(cleanup) = launch.cleanup().await {
+                    warn!(%cleanup, "failed to clean up rejected session initialization");
+                }
                 Err(err)
             }
         }

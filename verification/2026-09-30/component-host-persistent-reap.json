@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "scope": "Persistent component startup, failure and shutdown direct-child reaping; complete focused host regression gate",
+  "environment": "/workspace/toolchains/component-verification-env.sh",
+  "target_dir": "/workspace/toolchains/component-target",
+  "commands": [
+    "source /workspace/toolchains/component-verification-env.sh; CARGO_TARGET_DIR=/workspace/toolchains/component-target just test -p codex-component-host --retries 0",
+    "source /workspace/toolchains/component-verification-env.sh; CARGO_TARGET_DIR=/workspace/toolchains/component-target just fix -p codex-component-host -p codex-component-api",
+    "rustfmt --edition 2024 on the six owned Rust files listed in source_sha256"
+  ],
+  "test": {
+    "run_id": "90daff09-d81e-4078-a28d-b839f2871e04",
+    "passed": 52,
+    "failed": 0,
+    "skipped": 1,
+    "skipped_reason": "helper-only subprocess test",
+    "duration_seconds": 7.12,
+    "retries": 0
+  },
+  "fix": {
+    "exit_code": 0,
+    "duration_seconds": 9.08,
+    "automatic_fixes_reported": false
+  },
+  "process_assertions": [
+    "Returned startup rejection and handshake deadline errors leave no live or zombie direct child",
+    "Cancelled public connect signals an independent owner; direct child PID eventually disappears while runtime remains alive",
+    "Reader malformed JSON, writer broken pipe and peer crash errors publish terminal completion after reaping",
+    "Shutdown acknowledgement deadline, post-ack exit deadline, nonzero exit and normal close all return after direct child reaping",
+    "Completed inner worker error survives sibling cancellation/join"
+  ],
+  "limits": [
+    "New actual-process PID probes run on Unix; they do not establish Windows behavior",
+    "A cleanup exceeding two seconds or failed supervisor reports direct-child reaping or joins unconfirmed",
+    "An abandoned connect waiter receives no acknowledgement; runtime must remain alive for supervised cleanup",
+    "Reaping does not establish durability, arbitrary descendant cleanup, storage background-work ownership, or legacy codec blocking-worker ownership",
+    "Broker source remains unlinked; no broker tests or independent plugin acceptance were run in this gate",
+    "No manager or full CLI binary rebuilt in this gate"
+  ],
+  "artifacts": [
+    "component-host-persistent-reap-tests.log",
+    "component-host-persistent-reap-fix.log",
+    "component-host-persistent-reap-junit.xml",
+    "broker-persistent-reap-patch-application.json"
+  ],
+  "source_sha256": {
+    "codex-rs/component-host/src/session_supervisor.rs": "0927701006826f217d17b2f69dadfaaebbb95e69dbd00f68b7860c5366b9fcf6",
+    "codex-rs/component-host/src/process.rs": "53c82ca49c411a1794d4b467b46f86827b271da1f793f574265c128f0c896629",
+    "codex-rs/component-host/src/process_control.rs": "ee63604e35af9e5f9dd37d48d8697d1daf5dad3ca66dfa70276a3ace69911cab",
+    "codex-rs/component-host/src/session_tests.rs": "3b691b8e3844867b4ab512b69ec6abfa35487054fc573a8266fc6fc2dc8d792f",
+    "codex-rs/component-host/src/session_reaping_tests.rs": "cee7dcb57656e56d002dc2c91f86d2c0ce031fafae0c6d7667cf14942e50442d",
+    "codex-rs/component-host/src/session_supervisor_tests.rs": "0683c7abbd51cc234647e4b89e3b4c00990b4ba354f789fe229e8859ede4c00a"
+  }
+}

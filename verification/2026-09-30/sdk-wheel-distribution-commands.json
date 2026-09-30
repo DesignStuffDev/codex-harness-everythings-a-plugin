@@ -1,0 +1,206 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "pip",
+      "wheel",
+      "--no-index",
+      "--no-deps",
+      "--no-build-isolation",
+      "--wheel-dir",
+      "/workspace/acceptance/sdk-wheel-final-20260930/wheels",
+      "/workspace/acceptance/sdk-wheel-final-20260930/sdk-build-source"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "Processing ./sdk-build-source\n  Preparing metadata (pyproject.toml): started\n  Preparing metadata (pyproject.toml): finished with status 'done'\nBuilding wheels for collected packages: codex-component-sdk\n  Building wheel for codex-component-sdk (pyproject.toml): started\n  Building wheel for codex-component-sdk (pyproject.toml): finished with status 'done'\n  Created wheel for codex-component-sdk: filename=codex_component_sdk-0.1.0-py3-none-any.whl size=21901 sha256=41a13395059a4c315530e9533624e5b2cae1131988760a32acd0bc0614b3e97c\n  Stored in directory: /tmp/pip-ephem-wheel-cache-13q2d7ue/wheels/8c/ac/0a/b5d6dea47cfe9e36cc304510d8ea176dd261f56cd3018a3444\nSuccessfully built codex-component-sdk\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "venv",
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--no-deps",
+      "/workspace/acceptance/sdk-wheel-final-20260930/wheels/codex_component_sdk-0.1.0-py3-none-any.whl"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "Processing ./wheels/codex_component_sdk-0.1.0-py3-none-any.whl\nInstalling collected packages: codex-component-sdk\nSuccessfully installed codex-component-sdk-0.1.0\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/python",
+      "-I",
+      "-c",
+      "import importlib.metadata as m, json, codex_component_sdk as s; d=m.distribution('codex-component-sdk'); print(json.dumps({'module':s.__file__,'version':d.version,'scripts':{e.name:e.value for e in d.entry_points if e.group=='console_scripts'}}))"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "{\"module\": \"/workspace/acceptance/sdk-wheel-final-20260930/venv/lib/python3.12/site-packages/codex_component_sdk/__init__.py\", \"version\": \"0.1.0\", \"scripts\": {\"codex-component-sdk\": \"codex_component_sdk.__main__:main\"}}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/codex-component-sdk",
+      "init",
+      "/workspace/acceptance/sdk-wheel-final-20260930/custom-plugin-source",
+      "--id",
+      "acceptance.wheel-greeting"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "/workspace/acceptance/sdk-wheel-final-20260930/custom-plugin-source\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/codex-component-sdk",
+      "build",
+      "/workspace/acceptance/sdk-wheel-final-20260930/custom-plugin-source",
+      "--output",
+      "/workspace/acceptance/sdk-wheel-final-20260930/package"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "/workspace/acceptance/sdk-wheel-final-20260930/package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/python",
+      "-I",
+      "-m",
+      "codex_component_sdk",
+      "--help"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "usage: __main__.py [-h] {init,build} ...\n\nCreate and package independent Python component projects using only stdlib.\n\npositional arguments:\n  {init,build}\n    init        create a standalone plugin project\n    build       package plugin.py and local Python modules\n\noptions:\n  -h, --help    show this help message and exit\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/python",
+      "-m",
+      "pip",
+      "uninstall",
+      "--yes",
+      "codex-component-sdk"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "Found existing installation: codex-component-sdk 0.1.0\nUninstalling codex-component-sdk-0.1.0:\n  Successfully uninstalled codex-component-sdk-0.1.0\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/venv/bin/python",
+      "-I",
+      "-c",
+      "import importlib.util; assert importlib.util.find_spec('codex_component_sdk') is None"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/frozen-bin/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/sdk-wheel-final-20260930/codex-home",
+      "install",
+      "/workspace/acceptance/sdk-wheel-final-20260930/package"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "acceptance.wheel-greeting\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/frozen-bin/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/sdk-wheel-final-20260930/codex-home",
+      "list"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "{\n  \"enabled\": [\n    \"acceptance.wheel-greeting\"\n  ],\n  \"installed\": {\n    \"acceptance.wheel-greeting\": \"acceptance.wheel-greeting-291703-18da20d62fc24d69-0\"\n  },\n  \"selections\": {}\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/frozen-bin/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/sdk-wheel-final-20260930/codex-home",
+      "call",
+      "tool",
+      "greeting",
+      "invoke",
+      "{\"call_id\": \"wheel-acceptance\", \"name\": \"greeting\", \"arguments\": {\"name\": \"Ada Lovelace\"}}"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "{\n  \"text\": \"Wheel-built greeting: ADA LOVELACE (12 characters)\",\n  \"success\": true\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/frozen-bin/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/sdk-wheel-final-20260930/codex-home",
+      "remove",
+      "acceptance.wheel-greeting"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/frozen-bin/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/sdk-wheel-final-20260930/codex-home",
+      "list"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 0,
+    "stdout": "{\n  \"enabled\": [],\n  \"installed\": {},\n  \"selections\": {}\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/acceptance/sdk-wheel-final-20260930/frozen-bin/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/sdk-wheel-final-20260930/codex-home",
+      "call",
+      "tool",
+      "greeting",
+      "invoke",
+      "{\"call_id\": \"wheel-acceptance\", \"name\": \"greeting\", \"arguments\": {\"name\": \"Ada Lovelace\"}}"
+    ],
+    "cwd": "/workspace/acceptance/sdk-wheel-final-20260930",
+    "status": 1,
+    "stdout": "",
+    "stderr": "Error: requested component is not installed and enabled\n"
+  }
+]

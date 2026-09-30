@@ -4,10 +4,13 @@
 //! Implementations are responsible for resolving that id to local rollout files, RPC requests, or
 //! any other backing store.
 
+mod compatibility;
 mod error;
 mod in_memory;
+mod lifecycle;
 mod live_thread;
 mod local;
+mod migration_run;
 mod projects;
 mod queue_store;
 mod store;
@@ -24,10 +27,13 @@ pub use codex_state::QueuedUserSubmissionRecord;
 pub use codex_state::RemoveThreadAttachmentOutcome;
 pub use codex_state::ThreadAttachment;
 pub use codex_state::ThreadAttachmentPage;
+pub use compatibility::ResumeMetadata;
+pub use compatibility::RolloutMaintenance;
 pub use error::ThreadStoreError;
 pub use error::ThreadStoreResult;
 pub use in_memory::InMemoryThreadStore;
 pub use in_memory::InMemoryThreadStoreCalls;
+pub use lifecycle::ThreadStoreShutdownGuard;
 pub use live_thread::LiveThread;
 pub use live_thread::LiveThreadInitGuard;
 pub use local::LocalThreadStore;
@@ -39,6 +45,10 @@ pub use local::RolloutMigrationOutcome;
 pub use local::RolloutMigrationProgress;
 pub use local::RolloutMigrationReport;
 pub use local::RolloutMigrationStatus;
+pub use migration_run::RolloutMigrationCounts;
+pub use migration_run::RolloutMigrationPhase;
+pub use migration_run::RolloutMigrationRun;
+pub use migration_run::RolloutMigrationSnapshot;
 pub use projects::CreateProjectParams;
 pub use projects::CreatedProject;
 pub use projects::DeletedProject;

@@ -1,0 +1,82 @@
+Unapplied activation artifact: joined broker serialization primitives
+====================================================================
+
+Apply after broker-runtime-activation.patch, before the shared session codec
+extraction (Frame/MessageAssembler/Sending::next_frame/mark_sent visibility).
+No active source has been changed. Add mod broker_spool in the runtime activation
+module list. This patch alone does not link or compile the staged broker.
+
+Payload::from_parts accepts only private fully serialized spools whose worker was
+joined. Sending::from_payload performs header/control validation and opens its
+bounded reader without serializing or spawning a task. The existing ordinary
+Sending::new still validates headers before using its original serializer;
+broker_writer never calls it. Both constructors use the same header validator.
+The subsequent next_frame extraction must retain/await each bounded spool read;
+it must not race that read against cancellation or detach its Tokio file work.
+
+diff --git a/codex-rs/component-host/src/session_wire.rs b/codex-rs/component-host/src/session_wire.rs
+--- a/codex-rs/component-host/src/session_wire.rs
++++ b/codex-rs/component-host/src/session_wire.rs
+@@ -83,6 +83,11 @@
+         })
+         .await
+         .context("deserialize session payload task")?
++    }
++
++    /// Accept a private, fully serialized spool from an owner that joined its worker.
++    pub(super) fn from_parts(file: NamedTempFile, bytes: u64) -> Self {
++        Self { file, bytes }
+     }
+ }
+ 
+@@ -371,7 +376,7 @@
+ }
+ 
+ impl Sending {
+-    async fn new(mut outgoing: Outgoing, control: bool) -> Result<Self> {
++    fn validate_header(outgoing: &Outgoing, control: bool) -> Result<bool> {
+         if let Header::Request {
+             component, method, ..
+         } = &outgoing.header
+@@ -398,19 +403,31 @@
+                 "session error exceeds wire limit"
+             );
+         }
+-        let payload = if matches!(
+-            outgoing.header,
+-            Header::Request { .. } | Header::Result { .. }
+-        ) {
+-            let payload = Payload::from_value(std::mem::take(&mut outgoing.value)).await?;
+-            ensure!(
+-                !control || payload.bytes <= MAX_CONTROL_BYTES,
+-                "session control payload exceeds limit"
+-            );
+-            Some(payload)
++        Ok(control)
++    }
++
++    async fn new(mut outgoing: Outgoing, control: bool) -> Result<Self> {
++        // Preserve legacy header rejection before any serialization work starts.
++        let control = Self::validate_header(&outgoing, control)?;
++        let payload = if matches!(outgoing.header, Header::Request { .. } | Header::Result { .. }) {
++            Some(Payload::from_value(std::mem::take(&mut outgoing.value)).await?)
+         } else {
+             None
+         };
++        Self::from_payload(outgoing, payload, control)
++    }
++
++    /// Reuse framing with an already serialized body; this function spawns no work.
++    pub(super) fn from_payload(outgoing: Outgoing, payload: Option<Payload>, control: bool) -> Result<Self> {
++        let control = Self::validate_header(&outgoing, control)?;
++        ensure!(
++            payload.is_some() == matches!(outgoing.header, Header::Request { .. } | Header::Result { .. }),
++            "session message payload does not match header"
++        );
++        ensure!(
++            !control || payload.as_ref().is_none_or(|payload| payload.bytes <= MAX_CONTROL_BYTES),
++            "session control payload exceeds limit"
++        );
+         let reader = payload
+             .as_ref()
+             .map(|payload| payload.file.reopen().map(tokio::fs::File::from_std))

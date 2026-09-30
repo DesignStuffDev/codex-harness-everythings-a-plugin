@@ -1,0 +1,29 @@
+[package]
+name = "codex-model-transport-api"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+doctest = false
+
+[lints]
+workspace = true
+
+[features]
+default = []
+native = ["dep:codex-api", "dep:codex-http-client"]
+
+[dependencies]
+base64 = { workspace = true }
+codex-api = { workspace = true, optional = true }
+codex-http-client = { workspace = true, optional = true }
+codex-protocol = { workspace = true }
+http = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true, features = ["arbitrary_precision"] }
+url = { workspace = true }
+
+[dev-dependencies]
+pretty_assertions = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt", "time", "test-util"] }

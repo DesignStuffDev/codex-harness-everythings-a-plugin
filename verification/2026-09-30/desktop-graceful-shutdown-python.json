@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "component-sdk/tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "cwd": "/workspace/codex-harness-everythings-a-plugin",
+  "exit_code": 0,
+  "tests": 30,
+  "desktop_tests": 10,
+  "sdk_tests": 14,
+  "native_packaging_tests": 6,
+  "log": "desktop-graceful-shutdown-python.log",
+  "coverage": [
+    "packaged desktop protocol shutdown waits for real 3.25-second EOF cleanup",
+    "SIGTERM cleanup",
+    "killed app-server propagates error and nonzero plugin exit",
+    "bounded forced escalation and repeated cleanup retain unknown write error",
+    "opt-in active SDK handler receives terminal shutdown",
+    "new requests during shutdown rejected without private diagnostics",
+    "streaming, approvals, stop, saved history, package resources, SDK tool/model/template regressions"
+  ],
+  "limitations": [
+    "app-server fixture transport tests, not real Codex execution",
+    "manual browser and installed native-storage regression owned by root"
+  ]
+}

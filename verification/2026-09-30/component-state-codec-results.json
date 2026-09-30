@@ -1,0 +1,81 @@
+{
+  "platform": "Linux x86_64",
+  "environment_script": "/workspace/toolchains/component-verification-env.sh",
+  "profile": {
+    "dev_debug": 0,
+    "test_debug": 0,
+    "incremental": false,
+    "build_jobs": 2
+  },
+  "results": [
+    {
+      "command": "just test -p codex-component-state-codec",
+      "result": "passed",
+      "passed": 37,
+      "failed": 0,
+      "skipped": 0,
+      "nextest_run_id": "16c49ee3-967f-425e-a95c-44eb75f4525d"
+    },
+    {
+      "command": "just test -p codex-protocol trusted_component",
+      "result": "passed",
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0,
+      "nextest_run_id": "cd08bb4e-c162-4361-ae5b-94ce917908cc",
+      "filtered_out": 363
+    },
+    {
+      "command": "just fix -p codex-component-state-codec",
+      "result": "completed; remaining warnings resolved before final read-only clippy"
+    },
+    {
+      "command": "just clippy -p codex-component-state-codec -p codex-protocol",
+      "result": "passed without diagnostics"
+    }
+  ],
+  "formatting": "Targeted rustfmt completed on 28 codec/protocol activation files; no tests repeated solely after lint/format.",
+  "limits": [
+    "No replay worker, context engine, replay host lifecycle or differential test has run; those packages remain unlinked.",
+    "No Windows compilation or native Windows path test ran.",
+    "These tests preserve native state and verify ordinary provider decoding still strips provenance; they do not prove whole-storage runtime parity.",
+    "Storage process fidelity, standalone build/install acceptance and full repository verification are separate gates.",
+    "The optional_json public re-export was added after this lint/format run for storage reuse; its underlying private codec is covered by the passing captured-null tests. Its new export awaits the storage compile gate.",
+    "The initial codec compile failed only on test fixture ResponseItemId construction; corrected with native with_suffix constructors before this passing run."
+  ],
+  "browser_testing": "Inapplicable: serialization/runtime package with no web UI.",
+  "artifacts": {
+    "component-state-codec-commands.txt": {
+      "bytes": 830,
+      "sha256": "1975b1f08243514a7ca4a04eb6ef1158b134323a7d8ae3926711ca311eac5727"
+    },
+    "component-state-codec-tests.log": {
+      "bytes": 62213,
+      "sha256": "f0a8c0ebe9ec697402f4b40aa386c3ca6a04ed1dbe2ae58960e920b828b94406"
+    },
+    "component-state-codec.junit.xml": {
+      "bytes": 7692,
+      "sha256": "8c7391d0b82112e13eed6aa553dd20adf2e8c3a961653e6ab852fe0d3d18a099"
+    },
+    "component-state-codec-protocol-helper-tests.log": {
+      "bytes": 1026,
+      "sha256": "ee1d817961525a1260a3603f5ea6b4d8eb6fb1d8746c147eccc6baf58825d9f7"
+    },
+    "component-state-codec-protocol-helper.junit.xml": {
+      "bytes": 1028,
+      "sha256": "aa7f9a609a3ce83dba9c3c6a67eaaed7fa8e2185825f4f58fa9fb914a7611449"
+    },
+    "component-state-codec-clippy-fix.log": {
+      "bytes": 17795,
+      "sha256": "c7de9daaa312d3c0a4124f8ad4dfef292fba963a27411fc22fb1632ba92b972c"
+    },
+    "component-state-codec-protocol-clippy.log": {
+      "bytes": 1881,
+      "sha256": "ba0541f8f0de7c36f391d554541f8737ba0aedeae417f06387e7217867824f53"
+    },
+    "component-state-codec-format.log": {
+      "bytes": 2968,
+      "sha256": "6e3be6635260d948c338779918c6041efcfa113cacffdc9e178f799e5e34c6ee"
+    }
+  }
+}

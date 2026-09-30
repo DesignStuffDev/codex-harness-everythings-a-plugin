@@ -23,6 +23,7 @@ use codex_state::RolloutMigrationCursor;
 use codex_state::RolloutMigrationSkippedRollout;
 
 use super::LocalThreadStore;
+use super::MigrationControl;
 use super::RolloutMigrationMode;
 use super::RolloutMigrationOptions;
 use super::RolloutMigrationReport;
@@ -58,7 +59,13 @@ enum StartupInspection {
     Unresolved,
 }
 
-pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> ThreadStoreResult<()> {
+pub(super) async fn migrate_rollouts_on_startup(
+    store: &LocalThreadStore,
+    control: MigrationControl<'_>,
+) -> ThreadStoreResult<()> {
+    if control.is_stopped() {
+        return Ok(());
+    }
     let Some(state_db) = store.state_db.as_ref() else {
         return Ok(());
     };
@@ -67,7 +74,16 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
         .list_rollout_migration_skipped_rollouts(LEGACY_TO_PAGINATED_MIGRATION_ID)
         .await
         .map_err(migration_error)?;
-    retry_busy_rollouts(store, skipped_rollouts.as_slice(), paths.as_slice()).await?;
+    retry_busy_rollouts(
+        store,
+        skipped_rollouts.as_slice(),
+        paths.as_slice(),
+        control,
+    )
+    .await?;
+    if control.is_stopped() {
+        return Ok(());
+    }
     skipped_rollouts = state_db
         .list_rollout_migration_skipped_rollouts(LEGACY_TO_PAGINATED_MIGRATION_ID)
         .await
@@ -76,7 +92,7 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
         .await?
         .is_empty()
     {
-        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice()).await;
+        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice(), control).await;
     }
     let skipped_file_names = skipped_rollout_file_names(store, skipped_rollouts.as_slice());
     let state = state_db
@@ -85,7 +101,7 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
         .map_err(migration_error)?;
 
     if state.is_none() {
-        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice()).await;
+        return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice(), control).await;
     }
 
     let last_checked_thread = state.and_then(|state| state.last_checked_thread);
@@ -112,15 +128,19 @@ pub(super) async fn migrate_rollouts_on_startup(store: &LocalThreadStore) -> Thr
 
     let mut unresolved = false;
     for path in candidates {
+        if control.is_stopped() {
+            return Ok(());
+        }
         match inspect_rollout_path(store, path).await? {
             StartupInspection::Paginated | StartupInspection::Skipped => {}
             StartupInspection::Legacy | StartupInspection::NeedsMigration => {
-                return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice()).await;
+                return migrate_all_rollouts(store, paths, skipped_rollouts.as_slice(), control)
+                    .await;
             }
             StartupInspection::Unresolved => unresolved = true,
         }
     }
-    if unresolved {
+    if unresolved || control.is_stopped() {
         return Ok(());
     }
 
@@ -131,6 +151,7 @@ async fn migrate_all_rollouts(
     store: &LocalThreadStore,
     paths_before_migration: Vec<PathBuf>,
     existing_skips: &[RolloutMigrationSkippedRollout],
+    control: MigrationControl<'_>,
 ) -> ThreadStoreResult<()> {
     let skipped_file_names = skipped_rollout_file_names(store, existing_skips);
     let pending_thread_ids = pending_migration_thread_ids(&store.config.codex_home).await?;
@@ -144,11 +165,19 @@ async fn migrate_all_rollouts(
         })
         .cloned()
         .collect();
-    let report = run_startup_migration(store, paths_to_migrate).await?;
+    let report = run_startup_migration(store, paths_to_migrate, control).await?;
+    // A stopped pass may have completed only a prefix. Keep the old cursor and
+    // skip index so the next startup inspects every unprocessed path again.
+    if control.is_stopped() {
+        return Ok(());
+    }
     for outcome in &report.outcomes {
         update_skip_after_outcome(store, outcome).await?;
     }
     // Only mark the pre-migration snapshot; newer rollouts wait for the next startup check.
+    if control.is_stopped() {
+        return Ok(());
+    }
     advance_last_checked_thread(store, paths_before_migration.as_slice()).await
 }
 
@@ -156,6 +185,7 @@ async fn retry_busy_rollouts(
     store: &LocalThreadStore,
     skipped_rollouts: &[RolloutMigrationSkippedRollout],
     discovered_paths: &[PathBuf],
+    control: MigrationControl<'_>,
 ) -> ThreadStoreResult<()> {
     let mut paths = Vec::new();
     let mut moved_skip_paths = Vec::new();
@@ -189,7 +219,10 @@ async fn retry_busy_rollouts(
     if paths.is_empty() {
         return Ok(());
     }
-    let report = run_startup_migration(store, paths).await?;
+    let report = run_startup_migration(store, paths, control).await?;
+    if control.is_stopped() {
+        return Ok(());
+    }
     for moved_skip_path in moved_skip_paths {
         remove_skip(store, moved_skip_path).await?;
     }
@@ -202,13 +235,30 @@ async fn retry_busy_rollouts(
 async fn run_startup_migration(
     store: &LocalThreadStore,
     paths: Vec<PathBuf>,
+    control: MigrationControl<'_>,
 ) -> ThreadStoreResult<RolloutMigrationReport> {
     loop {
+        if control.is_stopped() {
+            return Ok(RolloutMigrationReport::default());
+        }
         let Some(maintenance_guard) =
             codex_rollout::try_acquire_rollout_maintenance_lock(&store.config.codex_home)
                 .map_err(migration_error)?
         else {
-            tokio::time::sleep(MAINTENANCE_RETRY_DELAY).await;
+            match control {
+                MigrationControl::Uninterrupted => {
+                    tokio::time::sleep(MAINTENANCE_RETRY_DELAY).await
+                }
+                MigrationControl::Cooperative(cancellation) => {
+                    let mut cancellation = cancellation.clone();
+                    tokio::select! {
+                        _ = tokio::time::sleep(MAINTENANCE_RETRY_DELAY) => {}
+                        _ = cancellation.wait_for(|stopped| *stopped) => {
+                            return Ok(RolloutMigrationReport::default());
+                        }
+                    }
+                }
+            }
             continue;
         };
         // Avoid counting expected compression contention as a failed migration run. The migration
@@ -224,6 +274,7 @@ async fn run_startup_migration(
                 |_| {},
                 RolloutMigrationTrigger::Startup,
                 super::RolloutMigrationPaths::Known(paths.clone()),
+                control,
             )
             .await
         {

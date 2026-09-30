@@ -1,0 +1,44 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+   Compiling codex-rollout v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/rollout)
+   Compiling codex-login v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/login)
+   Compiling codex-feedback v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/feedback)
+   Compiling codex-connectors v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/connectors)
+   Compiling codex-models-manager v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/models-manager)
+   Compiling codex-model-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider)
+   Compiling codex-app-server-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-protocol)
+   Compiling codex-mcp v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-mcp)
+   Compiling codex-tools v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/tools)
+   Compiling codex-extension-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/extension-api)
+   Compiling codex-agent-message-board-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent-message-board)
+   Compiling codex-thread-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store)
+   Compiling codex-thread-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component)
+   Compiling codex-thread-store-local-plugin v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-local-plugin)
+    Finished `test` profile [unoptimized] target(s) in 58.47s
+────────────
+ Nextest run ID 462386c7-b708-4527-a5d0-e6f4d54f948d with nextest profile: local
+    Starting 1 test across 3 binaries (15 tests skipped)
+        FAIL [   0.390s] (1/1) codex-thread-store-local-plugin::process_storage maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+  stdout ───
+
+    running 1 test
+    test maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown ... FAILED
+
+    failures:
+
+    failures:
+        maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.38s
+
+  stderr ───
+
+    thread 'maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown' (271171) panicked at thread-store-local-plugin/tests/cases/maintenance.rs:111:9:
+    background migration did not publish; native retry diagnostic: Ok(RolloutMigrationReport { outcomes: [RolloutMigrationOutcome { thread_id: Some(ThreadId { uuid: 01a0f298-aa12-71e2-8c7e-76b52ab87c2b }), rollout_path: "/tmp/.tmpfy9Jcx/home/sessions/2026/09/30/rollout-2026-09-30T13-54-46-01a0f298-aa12-71e2-8c7e-76b52ab87c2b.jsonl", status: Failed, failure_reason: Some(MissingSqliteMetadata), bytes_processed: 0, message: Some("thread-store internal error: rollout migration failed: thread-store internal error: rollout migration failed: thread 01a0f298-aa12-71e2-8c7e-76b52ab87c2b is missing its SQLite metadata; failed to clean up unpublished migration: thread-store internal error: rollout migration failed: No such file or directory (os error 2)") }] })
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+────────────
+     Summary [   0.391s] 1 test run: 0 passed, 1 failed, 15 skipped
+        FAIL [   0.390s] (1/1) codex-thread-store-local-plugin::process_storage maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+error: test run failed
+error: recipe `test` failed on line 88 with exit code 100

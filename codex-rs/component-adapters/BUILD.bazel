@@ -1,0 +1,17 @@
+load("@rules_rust//rust:defs.bzl", "rust_binary")
+load("//:defs.bzl", "codex_rust_crate")
+
+rust_binary(
+    name = "component-adapter-test-plugin",
+    testonly = True,
+    srcs = ["tests/fixtures/component_adapter_plugin.rs"],
+    crate_root = "tests/fixtures/component_adapter_plugin.rs",
+    edition = "2024",
+)
+
+codex_rust_crate(
+    name = "component-adapters",
+    compile_data = ["tests/fixtures/component_adapter_plugin.rs"],
+    crate_name = "codex_component_adapters",
+    extra_binaries = ["//codex-rs/component-adapters:component-adapter-test-plugin"],
+)

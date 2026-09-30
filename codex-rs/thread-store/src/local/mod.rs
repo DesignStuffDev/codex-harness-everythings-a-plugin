@@ -4,6 +4,7 @@ mod delete_thread;
 mod helpers;
 mod list_threads;
 mod live_writer;
+mod maintenance;
 mod model_context;
 mod move_thread_to_section;
 mod paginated_fork;
@@ -149,6 +150,7 @@ pub struct LocalThreadStore {
     state_db: Option<StateDbHandle>,
     thread_history_db: Arc<OnceCell<sqlx::SqlitePool>>,
     thread_data_cleanup: Option<Arc<ThreadDataCleanup>>,
+    maintenance: Arc<maintenance::MaintenanceSupervisor>,
 }
 
 type ThreadDataCleanup = dyn Fn(Vec<ThreadId>) -> ThreadStoreFuture<'static, ()> + Send + Sync;
@@ -267,6 +269,7 @@ impl LocalThreadStore {
             state_db,
             thread_history_db: Arc::new(OnceCell::new()),
             thread_data_cleanup: None,
+            maintenance: Arc::new(maintenance::MaintenanceSupervisor::default()),
         }
     }
 
@@ -284,6 +287,22 @@ impl LocalThreadStore {
     /// Return the state DB handle used by local rollout writers.
     pub async fn state_db(&self) -> Option<StateDbHandle> {
         self.state_db.clone()
+    }
+
+    /// Returns the local handle for legacy native host composition. External
+    /// stores receive auxiliary host state as a separate service dependency.
+    pub fn state_db_handle(&self) -> Option<StateDbHandle> {
+        self.state_db.clone()
+    }
+
+    /// Accept maintenance synchronously into this store's shutdown owner.
+    /// Native factories use this before returning the store, so shutdown cannot
+    /// race a detached task which has not registered its startup work yet.
+    pub fn schedule_rollout_maintenance(
+        &self,
+        request: crate::RolloutMaintenance,
+    ) -> ThreadStoreResult<()> {
+        maintenance::schedule(self, request)
     }
 
     async fn thread_history_db(&self) -> ThreadStoreResult<&sqlx::SqlitePool> {
@@ -474,6 +493,64 @@ impl LocalThreadStore {
 }
 
 impl ThreadStore for LocalThreadStore {
+    fn read_resume_metadata(
+        &self,
+        thread_id: ThreadId,
+    ) -> ThreadStoreFuture<'_, Option<crate::ResumeMetadata>> {
+        Box::pin(async move {
+            let Some(state_db) = &self.state_db else {
+                return Ok(None);
+            };
+            state_db
+                .get_thread(thread_id)
+                .await
+                .map(|metadata| metadata.as_ref().map(crate::ResumeMetadata::from))
+                .map_err(|err| ThreadStoreError::Internal {
+                    message: format!("failed to read thread metadata for {thread_id}: {err}"),
+                })
+        })
+    }
+
+    fn local_rollout_path(&self, thread_id: ThreadId) -> ThreadStoreFuture<'_, Option<PathBuf>> {
+        Box::pin(async move { self.live_rollout_path(thread_id).await.map(Some) })
+    }
+
+    fn supports_rollout_maintenance(&self) -> bool {
+        true
+    }
+
+    fn supports_manual_rollout_migration(&self) -> bool {
+        true
+    }
+
+    fn start_rollout_migration(
+        &self,
+        options: crate::RolloutMigrationOptions,
+    ) -> ThreadStoreFuture<'_, Box<dyn crate::RolloutMigrationRun>> {
+        Box::pin(async move { rollout_migration::manual::start(self, options) })
+    }
+
+    fn supports_rollout_path_reads(&self) -> bool {
+        true
+    }
+
+    fn run_rollout_maintenance(
+        &self,
+        request: crate::RolloutMaintenance,
+    ) -> ThreadStoreFuture<'_, ()> {
+        Box::pin(async move { self.schedule_rollout_maintenance(request) })
+    }
+
+    fn begin_shutdown_store(&self) {
+        self.maintenance.begin_shutdown();
+    }
+
+    fn shutdown_store(&self) -> ThreadStoreFuture<'_, ()> {
+        self.maintenance
+            .finish_store(Arc::clone(&self.thread_history_db));
+        Box::pin(self.maintenance.wait_closed())
+    }
+
     fn default_history_mode(&self) -> ThreadHistoryMode {
         ThreadHistoryMode::Paginated
     }

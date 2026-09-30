@@ -121,7 +121,7 @@ impl ReqwestTransport {
         let err = err.without_url();
         if let crate::HttpError::Policy(denied) = err {
             TransportError::Policy(denied)
-        } else if err.is_connect() {
+        } else if matches!(err, crate::HttpError::RemoteConnection(_)) || err.is_connect() {
             TransportError::Connection(err.without_url())
         } else if err.is_timeout() {
             TransportError::Timeout
@@ -134,6 +134,7 @@ impl ReqwestTransport {
         match error.without_url() {
             RouteAwareRequestError::Policy(denied) => TransportError::Policy(denied),
             RouteAwareRequestError::Request(error) => Self::map_error(error.into()),
+            error @ RouteAwareRequestError::RemoteConnection(_) => TransportError::Connection(error),
             RouteAwareRequestError::Timeout => TransportError::Timeout,
             RouteAwareRequestError::Route(error) => TransportError::Build(error.to_string()),
             RouteAwareRequestError::Build(error) => TransportError::Build(error),

@@ -90,13 +90,13 @@ impl ThreadManager {
             }
             startup.cleanup().await;
             if let Some(state) = state.upgrade()
-                && let Some(session) = startup.session.get()
+                && let Some(session) = startup.session.get().and_then(std::sync::Weak::upgrade)
             {
                 let mut threads = state.threads.write().await;
                 let thread_id = session.thread_id();
                 if threads
                     .get(&thread_id)
-                    .is_some_and(|thread| Arc::ptr_eq(&thread.session, session))
+                    .is_some_and(|thread| Arc::ptr_eq(&thread.session, &session))
                 {
                     threads.remove(&thread_id);
                 }

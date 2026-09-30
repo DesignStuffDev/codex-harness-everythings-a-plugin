@@ -1,0 +1,29 @@
+{
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "command": "just test -p codex-thread-store-local-plugin -p codex-thread-store-component --test-threads 2",
+  "nextest_run_id": "f0d0577b-fb0e-492c-b4a7-3028011a5fd8",
+  "profile": "local",
+  "exit_code": 0,
+  "passed": 10,
+  "failed": 0,
+  "skipped": 0,
+  "test_duration_seconds": 6.836,
+  "tests": [
+    "service::tests::release_before_native_prepare_completes_drops_late_reservation",
+    "collections::metadata_and_paginated_reads_preserve_native_results_and_revert",
+    "collections::installed_store_preserves_projects_sections_attachments_and_literal_clears",
+    "lifecycle::failed_preparation_discard_does_not_materialize_a_thread",
+    "lifecycle::failed_fork_calls_release_cleanup_capacity_and_keep_native_error_types",
+    "lifecycle::fork_reference_survives_restart_and_preserves_delete_conflicts",
+    "lifecycle::fork_owner_cancellation_releases_source_while_delete_is_waiting",
+    "lifecycle::installed_storage_preserves_native_history_and_resume_across_process_restart",
+    "lifecycle::optional_sqlite_features_match_native_capabilities_and_errors",
+    "lifecycle::large_native_rollout_roundtrips_beyond_transport_frame_size"
+  ],
+  "fixture": "Native storage executable copied into an external temporary package, installed through component-host, source package removed, selected as thread_store:default; real process methods exercised against native LocalThreadStore using the same durable files.",
+  "limits": [
+    "This suite tests install/run without rebuilding the host; separate standalone source-build acceptance is tracked independently.",
+    "Host auxiliary SQLite services remain explicitly shared; they are not claimed extracted by these tests.",
+    "Shared nextest junit.xml was subsequently overwritten by a separate component-host test run; this result record preserves the verified storage run output."
+  ]
+}

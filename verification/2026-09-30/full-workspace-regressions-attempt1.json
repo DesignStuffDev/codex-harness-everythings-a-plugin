@@ -1,0 +1,24 @@
+{
+  "status": "build_blocked",
+  "scope": "complete current Linux workspace normal unit/integration test selection; no package or test filters",
+  "command": "just test --workspace --features codex-v8-poc/sandbox --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+  "environment_script": "/workspace/toolchains/component-verification-env.sh",
+  "jobs": 2,
+  "incremental": false,
+  "dev_debug": 0,
+  "test_debug": 0,
+  "feature_reason": "code-mode-runtime already enables V8 sandbox; align v8-poc local marker with unified native V8 feature",
+  "cache_reason": "32GiB filesystem; preserved checkpoint binaries and removed inactive generated target before rebuilding with debug data disabled",
+  "limitations": [
+    "nextest excludes doctests and explicitly ignored tests",
+    "Linux only; remote-host and other-platform checks remain separate"
+  ],
+  "checkpoint_binaries": "verification/2026-09-30/checkpoint-preserved-binaries.json",
+  "build_failure": {
+    "crate": "glib-sys 0.22.8",
+    "reason": "system glib-2.0 pkg-config development metadata missing",
+    "exit_status": 101,
+    "tests_started": false,
+    "recovery": "official native dependency repair underway"
+  }
+}

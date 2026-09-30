@@ -1,0 +1,73 @@
+{
+  "status": "completed",
+  "recorded_at_utc": "2026-09-30T14:47:26.057459+00:00",
+  "authorization": "Root authorized only the two idle off-main generated target caches after full-workspace attempt2 exited naturally101",
+  "commands": {
+    "removal": "Python3 shutil.rmtree applied only to each exact removed_directories entry below, after confirming no process exe/cwd/fd reference; no root-wide delete",
+    "verification": "SHA256, byte length, mode and inode of each top-level evidence binary verified before and after cleanup"
+  },
+  "roots": [
+    {
+      "root": "/workspace/toolchains/component-target",
+      "binary_before": {
+        "path": "/workspace/toolchains/component-target/debug/codex-component",
+        "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+        "bytes": 16462992,
+        "mode": 448,
+        "inode": 834358,
+        "links": 2
+      },
+      "allocated_bytes_before": 692375552,
+      "removed_directories": [
+        "/workspace/toolchains/component-target/debug/.fingerprint",
+        "/workspace/toolchains/component-target/debug/build",
+        "/workspace/toolchains/component-target/debug/deps",
+        "/workspace/toolchains/component-target/debug/incremental",
+        "/workspace/toolchains/component-target/debug/examples"
+      ],
+      "binary_after": {
+        "path": "/workspace/toolchains/component-target/debug/codex-component",
+        "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+        "bytes": 16462992,
+        "mode": 448,
+        "inode": 834358,
+        "links": 1
+      },
+      "allocated_bytes_after": 16388096,
+      "allocated_bytes_recovered": 675987456
+    },
+    {
+      "root": "/workspace/acceptance/attachment-inline-target",
+      "binary_before": {
+        "path": "/workspace/acceptance/attachment-inline-target/debug/codex-attachment-inline-component",
+        "sha256": "135d69f20c2014623ed2167bb8b82543794dbbf844ac2fa6a27da5bcfd1a756b",
+        "bytes": 14844952,
+        "mode": 448,
+        "inode": 572054,
+        "links": 2
+      },
+      "allocated_bytes_before": 152236032,
+      "removed_directories": [
+        "/workspace/acceptance/attachment-inline-target/debug/.fingerprint",
+        "/workspace/acceptance/attachment-inline-target/debug/build",
+        "/workspace/acceptance/attachment-inline-target/debug/deps",
+        "/workspace/acceptance/attachment-inline-target/debug/incremental",
+        "/workspace/acceptance/attachment-inline-target/debug/examples"
+      ],
+      "binary_after": {
+        "path": "/workspace/acceptance/attachment-inline-target/debug/codex-attachment-inline-component",
+        "sha256": "135d69f20c2014623ed2167bb8b82543794dbbf844ac2fa6a27da5bcfd1a756b",
+        "bytes": 14844952,
+        "mode": 448,
+        "inode": 572054,
+        "links": 1
+      },
+      "allocated_bytes_after": 14831616,
+      "allocated_bytes_recovered": 137404416
+    }
+  ],
+  "net_allocated_bytes_recovered": 813391872,
+  "filesystem_free_bytes_before": 0,
+  "filesystem_free_bytes_after": 804225024,
+  "preserved": "Existing top-level evidence binaries at original paths; all source, verification logs/manifests, installed packages, Cargo registry/toolchain/native prerequisite inputs; entire current main target untouched"
+}

@@ -1,0 +1,57 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-attachment-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-component)
+   Compiling codex-core v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core)
+   Compiling codex-guardian-v2 v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/guardian-v2)
+   Compiling codex-web-search-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/web-search)
+   Compiling codex-image-generation-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/image-generation)
+   Compiling core_test_support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core/tests/common)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4m 16s
+────────────
+ Nextest run ID cf1b73fd-9b40-427a-bfc8-4bb05a709568 with nextest profile: local
+    Starting 1 test across 1 binary (2694 tests skipped)
+        PASS [   0.110s] (1/1) codex-core codex_delegate::tests::isolated_delegate_resets_default_attachments_but_keeps_explicit_store
+────────────
+     Summary [   0.128s] 1 test run: 1 passed, 2694 skipped
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.09s
+────────────
+ Nextest run ID 4e705ca3-86e1-4406-ab09-8410ac570158 with nextest profile: local
+    Starting 36 tests across 1 binary (2659 tests skipped)
+        PASS [   0.019s] ( 1/36) codex-core context::contextual_user_message::tests::detects_agents_instructions_fragment
+        PASS [   0.019s] ( 2/36) codex-core context::contextual_user_message::tests::contextual_user_fragment_is_dyn_compatible
+        PASS [   0.020s] ( 3/36) codex-core context::contextual_user_message::tests::component_context_is_not_user_authorization
+        PASS [   0.019s] ( 4/36) codex-core context::contextual_user_message::tests::detects_environment_context_fragment
+        PASS [   0.019s] ( 5/36) codex-core context::contextual_user_message::tests::detects_internal_model_context_fragment
+        PASS [   0.020s] ( 6/36) codex-core context::contextual_user_message::tests::detects_hook_prompt_fragment_and_roundtrips_escaping
+        PASS [   0.019s] ( 7/36) codex-core context::contextual_user_message::tests::detects_skill_instructions_fragment_case_insensitively
+        PASS [   0.019s] ( 8/36) codex-core context::contextual_user_message::tests::detects_legacy_goal_context_fragment
+        PASS [   0.019s] ( 9/36) codex-core context::contextual_user_message::tests::detects_recommended_plugins_fragment
+        PASS [   0.024s] (10/36) codex-core context::contextual_user_message::tests::ignores_regular_user_text
+        PASS [   0.025s] (11/36) codex-core context::contextual_user_message::tests::does_not_hide_arbitrary_context_tags
+        PASS [   0.025s] (12/36) codex-core context::contextual_user_message::tests::detects_subagent_notification_fragment_case_insensitively
+        PASS [   0.024s] (13/36) codex-core context::contextual_user_message::tests::renders_agents_instructions_without_directory_header
+        PASS [   0.025s] (14/36) codex-core context::contextual_user_message::tests::renders_agents_instructions_with_legacy_directory_header
+        PASS [   0.026s] (15/36) codex-core context::contextual_user_message::tests::rejects_invalid_internal_model_context_source
+        PASS [   0.027s] (16/36) codex-core tools::registry::tests::explicitly_selected_tool_replaces_existing_runtime
+        PASS [   0.070s] (17/36) codex-core tools::registry::tests::code_mode_wait_does_not_expose_default_hook_payloads
+        PASS [   0.074s] (18/36) codex-core tools::registry::tests::dispatch_uses_canonical_tool_names_for_lifecycle_contributors
+        PASS [   0.059s] (19/36) codex-core tools::registry::tests::function_hook_input_defaults_empty_arguments_to_object
+        PASS [   0.021s] (20/36) codex-core tools::registry::tests::handler_normalizes_only_the_default_namespace
+        PASS [   0.026s] (21/36) codex-core tools::registry::tests::post_tool_use_feedback_output_keeps_code_mode_result_typed
+        PASS [   0.023s] (22/36) codex-core tools::registry::tests::post_tool_use_feedback_output_preserves_fallback_token_limit_override::scale_bytes_before_converting_to_tokens
+        PASS [   0.059s] (23/36) codex-core tools::registry::tests::function_tools_expose_default_hook_payloads_and_rewrites
+        PASS [   0.018s] (24/36) codex-core tools::registry::tests::post_tool_use_feedback_output_preserves_fallback_token_limit_override::token_budget
+        PASS [   0.021s] (25/36) codex-core tools::registry::tests::post_tool_use_feedback_output_preserves_mcp_result_metadata::success
+        PASS [   0.024s] (26/36) codex-core tools::registry::tests::post_tool_use_feedback_output_preserves_mcp_result_metadata::tool_error
+        PASS [   0.019s] (27/36) codex-core tools::registry::tests::registry_allows_identical_names_in_different_namespaces
+        PASS [   0.018s] (28/36) codex-core tools::registry::tests::registry_preserves_external_winners_and_trusted_synthetic_order
+        PASS [   0.021s] (29/36) codex-core tools::registry::tests::registry_records_reserved_exec_command_when_a_matching_tool_exists
+        PASS [   0.297s] (30/36) codex-core codex_delegate::tests::isolated_delegate_resets_default_attachments_but_keeps_explicit_store
+        PASS [   0.062s] (31/36) codex-core tools::registry::tests::readiness_selects_exact_tool_with_registry_owned_exposure
+        PASS [   0.015s] (32/36) codex-core tools::registry::tests::reserved_command_tools_reject_external_runtimes_without_a_builtin
+        PASS [   0.024s] (33/36) codex-core tools::registry::tests::registry_rejects_default_namespace_alias_collisions
+        PASS [   0.021s] (34/36) codex-core tools::registry::tests::selected_replacement_preserves_tool_policy_and_reserved_execution_names
+        PASS [   0.053s] (35/36) codex-core tools::registry::tests::write_stdin_does_not_expose_default_pre_tool_use_payload
+        PASS [   0.062s] (36/36) codex-core tools::registry::tests::spawn_agent_function_tools_use_agent_matcher_alias
+────────────
+     Summary [   0.383s] 36 tests run: 36 passed, 2659 skipped

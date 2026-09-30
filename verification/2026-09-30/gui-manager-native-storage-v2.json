@@ -1,0 +1,209 @@
+{
+  "passed": true,
+  "upstream": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "purpose": "real GUI with separately built native storage contract2; actual manager Ctrl+C and cold recovery",
+  "work_dir": "/workspace/gui-native-storage-v2",
+  "thread_id": "01a0f2bb-5b66-7e93-ba17-3e2e6f3bf61f",
+  "inference": "deterministic external fixture; real engine, native exec approval, storage and recovery; no live model",
+  "browser": {
+    "evaluations_passed": 7,
+    "page_errors": [],
+    "driver_closed": true,
+    "report": "gui-native-storage-v2-browser.json",
+    "tool_availability": {
+      "checked_at": "2026-09-30",
+      "in_app_browser_control": false,
+      "context7": false,
+      "fallback": "local Chromium via Playwright",
+      "other_available_browser_tool": "Firecrawl remote browser; does not control the cloud loopback app"
+    }
+  },
+  "binaries_before": {
+    "host": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "mtime_ns": 1790778388342479825,
+      "bytes": 625072120
+    }
+  },
+  "binaries_after": {
+    "host": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "mtime_ns": 1790778388342479825,
+      "bytes": 625072120
+    }
+  },
+  "gui_and_model_sources_removed": true,
+  "storage_independent_proof": "thread-store-native-v2-independent.json",
+  "storage_package": {
+    "codex-thread-store-local-plugin": {
+      "path": "/workspace/acceptance/thread-store-native-v2-linux-20260930/package/codex-thread-store-local-plugin",
+      "sha256": "0b5c433e116cf9b542697dbc80475f557c152ae2a4e0a1c8a99666c5ed2cc723",
+      "mtime_ns": 1790778675138587483,
+      "bytes": 70824776
+    },
+    "NOTICE": {
+      "path": "/workspace/acceptance/thread-store-native-v2-linux-20260930/package/NOTICE",
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mtime_ns": 1790778674983069836,
+      "bytes": 242
+    },
+    "LICENSE": {
+      "path": "/workspace/acceptance/thread-store-native-v2-linux-20260930/package/LICENSE",
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mtime_ns": 1790778674982996388,
+      "bytes": 10926
+    },
+    "codex-component.json": {
+      "path": "/workspace/acceptance/thread-store-native-v2-linux-20260930/package/codex-component.json",
+      "sha256": "9df98a6ea35767a0e26585210b257ef5404cbe8c209432b3ec2dce793fc4ae94",
+      "mtime_ns": 1790778674983204304,
+      "bytes": 309
+    }
+  },
+  "installed_storage_executable": {
+    "path": "/workspace/gui-native-storage-v2/codex-home/components/objects/native.thread-store-local-284180-18da1fc041276af8-0/codex-thread-store-local-plugin",
+    "sha256": "0b5c433e116cf9b542697dbc80475f557c152ae2a4e0a1c8a99666c5ed2cc723",
+    "mtime_ns": 1790778712430061337,
+    "bytes": 70824776
+  },
+  "ui_stop_model": {
+    "pid": 284642,
+    "invocation": "2e16183f264049a5839cbe94fb7ef42a",
+    "proc_absent_after_stop": true
+  },
+  "launches": [
+    {
+      "index": 1,
+      "processes": [
+        {
+          "pid": 284189,
+          "ppid": 515,
+          "state": "S",
+          "start_ticks": "1763918",
+          "exe": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component"
+        },
+        {
+          "pid": 284197,
+          "ppid": 284189,
+          "state": "S",
+          "start_ticks": "1763920",
+          "exe": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12"
+        },
+        {
+          "pid": 284198,
+          "ppid": 284197,
+          "state": "S",
+          "start_ticks": "1763926",
+          "exe": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex"
+        },
+        {
+          "pid": 284216,
+          "ppid": 284198,
+          "state": "S",
+          "start_ticks": "1763939",
+          "exe": "/workspace/gui-native-storage-v2/codex-home/components/objects/native.thread-store-local-284180-18da1fc041276af8-0/codex-thread-store-local-plugin"
+        }
+      ],
+      "shutdown": {
+        "tracked_pids_present": {
+          "284189": false,
+          "284197": false,
+          "284198": false,
+          "284216": false,
+          "284681": false
+        },
+        "all_reaped": true,
+        "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\n",
+        "mechanism": "one actual Ctrl+C through foreground component manager PTY",
+        "manager_exit_status": 0,
+        "tool_elapsed_seconds": 0.43290173,
+        "allowance_seconds": 210
+      },
+      "blocked_model": {
+        "pid": 284681,
+        "invocation": "55edd1240edd415aa0d6182a2454727b"
+      }
+    },
+    {
+      "index": 2,
+      "processes": [
+        {
+          "pid": 284695,
+          "ppid": 515,
+          "state": "S",
+          "start_ticks": "1778885",
+          "exe": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component"
+        },
+        {
+          "pid": 284703,
+          "ppid": 284695,
+          "state": "S",
+          "start_ticks": "1778887",
+          "exe": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12"
+        },
+        {
+          "pid": 284704,
+          "ppid": 284703,
+          "state": "S",
+          "start_ticks": "1778894",
+          "exe": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex"
+        },
+        {
+          "pid": 284722,
+          "ppid": 284704,
+          "state": "S",
+          "start_ticks": "1778901",
+          "exe": "/workspace/gui-native-storage-v2/codex-home/components/objects/native.thread-store-local-284180-18da1fc041276af8-0/codex-thread-store-local-plugin"
+        }
+      ],
+      "shutdown": {
+        "tracked_pids_present": {
+          "284695": false,
+          "284703": false,
+          "284704": false,
+          "284722": false
+        },
+        "all_reaped": true,
+        "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\n",
+        "mechanism": "one actual Ctrl+C through foreground component manager PTY",
+        "manager_exit_status": 0,
+        "tool_elapsed_seconds": 0.360437821,
+        "allowance_seconds": 210
+      }
+    }
+  ],
+  "screenshots": [
+    "gui-v2-approval.png",
+    "gui-v2-completed-after-restart.png",
+    "gui-v2-interrupted.png",
+    "gui-v2-recovered.png",
+    "gui-v2-streaming.png",
+    "gui-v2-tool.png"
+  ],
+  "visually_inspected": [
+    "gui-v2-approval.png",
+    "gui-v2-recovered.png",
+    "gui-v2-completed-after-restart.png"
+  ],
+  "limitations": [
+    "Chromium/Playwright fallback; requested in-app Browser tool and Context7 unavailable.",
+    "Linux native-layout storage; not arbitrary backend/cross-platform conformance.",
+    "Graceful shutdown/recovered history observed; forced durability remains unknown and is checked separately with a blocked protocol fixture.",
+    "This GUI run does not deliberately block native storage maintenance; lock-contention/owned-cleanup coverage is in storage-maintenance-regressions.json.",
+    "Gateway buffered stdin close can block; manager independently bounds total cleanup at210seconds and reports unknown durability on forced termination."
+  ]
+}

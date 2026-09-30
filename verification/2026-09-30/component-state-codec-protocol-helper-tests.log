@@ -1,0 +1,11 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/protocol)
+    Finished `test` profile [unoptimized] target(s) in 20.75s
+────────────
+ Nextest run ID cd08bb4e-c162-4361-ae5b-94ce917908cc with nextest profile: local
+    Starting 3 tests across 1 binary (363 tests skipped)
+        PASS [   0.006s] (1/3) codex-protocol models::executed_tool_calls::trusted_component::tests::trusted_restore_rejects_invalid_source_evidence_without_truncating_it
+        PASS [   0.006s] (2/3) codex-protocol models::executed_tool_calls::trusted_component::tests::trusted_roundtrip_distinguishes_absent_and_captured_null_metadata
+        PASS [   0.008s] (3/3) codex-protocol models::executed_tool_calls::trusted_component::tests::trusted_roundtrip_preserves_private_truncation_and_result_provenance
+────────────
+     Summary [   0.012s] 3 tests run: 3 passed, 363 skipped

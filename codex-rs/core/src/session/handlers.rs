@@ -285,53 +285,11 @@ pub async fn set_thread_memory_mode(sess: &Arc<Session>, sub_id: String, mode: T
 }
 
 pub(super) async fn shutdown_session_runtime(sess: &Arc<Session>) {
-    let startup_prewarm = {
-        let mut state = sess.state.lock().await;
-        // Stop admission and take the current warmup together so resume cannot replace it.
-        state.shutting_down = true;
-        state.take_session_startup_prewarm()
-    };
-    if let Some(startup_prewarm) = startup_prewarm {
-        startup_prewarm.abort().await;
-    }
-    let _ = sess.conversation.shutdown().await;
-    sess.abort_all_tasks(TurnAbortReason::Interrupted).await;
-    let shell_snapshot_prewarm = sess.state.lock().await.shell_snapshot_prewarm.take();
-    if let Some(shell_snapshot_prewarm) = shell_snapshot_prewarm {
-        shell_snapshot_prewarm.abort();
-        let _ = shell_snapshot_prewarm.await;
-    }
-    sess.hooks().shutdown().await;
-    sess.async_hook_results.close();
-    while sess.async_hook_results.try_recv().is_ok() {}
-    sess.services
-        .unified_exec_manager
-        .terminate_all_processes()
-        .await;
-    if let Err(err) = sess.services.code_mode_service.shutdown().await {
-        warn!("failed to shutdown code mode session: {err}");
-    }
-    sess.stop_mcp_prewarm_worker().await;
+    if let Err(error) = super::runtime_lifecycle::shutdown_runtime(sess)
+        .wait()
+        .await
     {
-        let _refresh = sess.mcp_refresh.acquire().await;
-        sess.mcp_refresh.close();
-        sess.services.mcp_runtime.shutdown().await;
-    }
-
-    sess.drain_code_mode_messages().await;
-
-    crate::hook_runtime::run_session_end_hooks(sess).await;
-    emit_thread_stop_lifecycle(sess).await;
-}
-
-async fn emit_thread_stop_lifecycle(sess: &Session) {
-    for contributor in sess.services.extensions.thread_lifecycle_contributors() {
-        contributor
-            .on_thread_stop(codex_extension_api::ThreadStopInput {
-                session_store: &sess.services.session_extension_data,
-                thread_store: &sess.services.thread_extension_data,
-            })
-            .await;
+        warn!(%error, "session runtime cleanup was incomplete");
     }
 }
 
@@ -351,8 +309,9 @@ pub async fn shutdown(sess: &Arc<Session>, sub_id: String) -> bool {
 
     // Gracefully flush and shutdown thread persistence on session end so tests
     // that inspect durable state do not race with the background writer.
-    if let Some(live_thread) = sess.live_thread()
-        && let Err(e) = live_thread.shutdown().await
+    if let Err(e) = super::runtime_lifecycle::shutdown_persistence(sess)
+        .wait()
+        .await
     {
         warn!("failed to shutdown thread persistence: {e}");
         let event = Event {
@@ -650,8 +609,9 @@ pub(super) async fn submission_loop(
     // explicit shutdown op, still run session teardown.
     if !shutdown_received {
         shutdown_session_runtime(&sess).await;
-        if let Some(live_thread) = sess.live_thread()
-            && let Err(err) = live_thread.shutdown().await
+        if let Err(err) = super::runtime_lifecycle::shutdown_persistence(&sess)
+            .wait()
+            .await
         {
             warn!("failed to shutdown thread persistence after submission channel closed: {err}");
         }

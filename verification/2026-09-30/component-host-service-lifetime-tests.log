@@ -1,0 +1,79 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling syn v2.0.117
+   Compiling serde_core v1.0.228
+   Compiling serde v1.0.228
+   Compiling errno v0.3.14
+   Compiling serde_json v1.0.149
+   Compiling serde_derive v1.0.228
+   Compiling tokio-macros v2.7.0
+   Compiling clap_derive v4.5.55
+   Compiling signal-hook-registry v1.4.8
+   Compiling mio v1.2.0
+   Compiling once_cell v1.21.4
+   Compiling tempfile v3.27.0
+   Compiling codex-component-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-api)
+   Compiling tokio v1.52.3
+   Compiling clap v4.5.58
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+    Finished `test` profile [unoptimized] target(s) in 11.56s
+────────────
+ Nextest run ID ceff8efc-0a99-422f-9f84-31b34464000c with nextest profile: local
+    Starting 56 tests across 2 binaries (1 test skipped)
+        PASS [   0.006s] ( 1/56) codex-component-host catalog::tests::absent_settings_preserves_native_runtime
+        PASS [   0.006s] ( 2/56) codex-component-host catalog::tests::debug_output_omits_plugin_credentials_and_arguments
+        PASS [   0.010s] ( 3/56) codex-component-host catalog::tests::competing_install_requires_preserving_the_current_explicit_selection
+        PASS [   0.006s] ( 4/56) codex-component-host catalog::tests::incompatible_versions_cycles_and_conflicts_fail_before_activation
+        PASS [   0.012s] ( 5/56) codex-component-host catalog::tests::explicit_selection_can_be_reset_and_does_not_accept_unknown_provider
+        PASS [   0.004s] ( 6/56) codex-component-host catalog::tests::installation_rejects_symlinks_without_copying_outside_content
+        PASS [   0.005s] ( 7/56) codex-component-host catalog::tests::installed_objects_cannot_be_symlinks_to_external_packages
+        PASS [   0.005s] ( 8/56) codex-component-host catalog::tests::installed_object_names_cannot_escape_the_store
+        PASS [   0.012s] ( 9/56) codex-component-host catalog::tests::installation_rejects_a_store_nested_inside_its_source
+        PASS [   0.007s] (10/56) codex-component-host catalog::tests::installs_resolves_dependencies_and_preserves_state_on_removal
+        PASS [   0.006s] (11/56) codex-component-host catalog::tests::invalid_install_rolls_back_without_changing_registry
+        PASS [   0.007s] (12/56) codex-component-host catalog::tests::manifest_rejects_unsupported_contract_and_entrypoint_escape
+        PASS [   0.007s] (13/56) codex-component-host catalog::tests::storage_installation_rejects_lossy_contract_before_activation
+        PASS [   0.014s] (14/56) codex-component-host catalog::tests::removal_and_reinstallation_preserve_existing_bindings
+        PASS [   0.049s] (15/56) codex-component-host process::tests::cancellation_terminates_plugin_process_group
+        PASS [   0.053s] (16/56) codex-component-host process::tests::cancelling_initialization_kills_and_reaps_child
+        PASS [   0.109s] (17/56) codex-component-host process::tests::dropping_stream_and_cancelling_next_kill_and_reap_children
+        PASS [   0.088s] (18/56) codex-component-host process::tests::explicit_force_reaps_even_when_event_delivery_is_backpressured
+        PASS [   0.137s] (19/56) codex-component-host process::tests::graceful_deadline_runs_without_polling_and_cannot_be_extended
+        PASS [   0.040s] (20/56) codex-component-host process::tests::invocation_passes_explicit_contract_and_shutdown
+        PASS [   0.068s] (21/56) codex-component-host process::tests::linux_parent_death::killed_parent_terminates_blocked_components_in_separate_process_groups
+        PASS [   0.334s] (22/56) codex-component-host process::tests::deadline_remains_active_while_consumer_is_idle
+        PASS [   0.151s] (23/56) codex-component-host process::tests::oversized_requests_fail_without_waiting_for_a_response
+        PASS [   0.099s] (24/56) codex-component-host process::tests::sensitive_components_cannot_emit_inherited_stderr
+        PASS [   0.060s] (25/56) codex-component-host process::tests::separate_invocations_keep_durable_state
+        PASS [   0.039s] (26/56) codex-component-host process::tests::streaming_preserves_event_order_and_finishes_once
+        PASS [   0.099s] (27/56) codex-component-host session::tests::abandoned_waiters_still_occupy_bounded_admission_until_completed
+        PASS [   0.739s] (28/56) codex-component-host process::tests::graceful_request_can_extend_cleanup_after_the_plugin_result
+        PASS [   0.073s] (29/56) codex-component-host session::tests::cancelled_waiter_keeps_write_owned_and_close_drains_it
+        PASS [   0.771s] (30/56) codex-component-host process::tests::graceful_shutdown_preserves_partial_frame_and_waits_for_cleanup
+        PASS [   0.047s] (31/56) codex-component-host session::tests::invalid_methods_are_rejected_without_disrupting_accepted_calls
+        PASS [   0.070s] (32/56) codex-component-host session::tests::fork_cleanup_bypasses_blocked_deletion_and_covers_cancelled_prepare
+        PASS [   0.040s] (33/56) codex-component-host session::tests::old_single_invocation_plugins_cannot_opt_in_accidentally
+        PASS [   0.071s] (34/56) codex-component-host session::tests::peer_failure_is_terminal_without_automatic_restart
+        PASS [   0.055s] (35/56) codex-component-host session::tests::reaping::cancelled_startup_keeps_its_owner_until_the_child_is_reaped
+        PASS [   0.856s] (36/56) codex-component-host process::tests::malformed_frames_and_plugin_failures_are_reported
+        PASS [   0.191s] (37/56) codex-component-host session::tests::reaping::reader_writer_and_peer_failures_reap_before_terminal_completion
+        PASS [   0.061s] (38/56) codex-component-host session::tests::synchronous_close_fences_retained_clones_and_drains_without_a_close_waiter
+        PASS [   0.292s] (39/56) codex-component-host session::tests::timed_out_waiter_does_not_kill_healthy_service_or_replay_write
+        PASS [   0.017s] (40/56) codex-component-host session_server::tests::cancelling_next_during_reader_completion_preserves_shutdown
+        PASS [   0.005s] (41/56) codex-component-host session_supervisor::tests::completed_worker_error_is_preserved_while_the_sibling_is_cancelled_and_joined
+        PASS [   0.006s] (42/56) codex-component-host session_wire::tests::error_discards_partial_result_and_json_parsing_is_lazy
+        PASS [   1.042s] (43/56) codex-component-host session::tests::reaping::startup_rejection_and_deadline_reap_before_returning_error
+        PASS [   0.085s] (44/56) codex-component-host session_wire::tests::malformed_streams_fail_without_accepting_partial_values
+        PASS [   0.079s] (45/56) codex-component-host session_wire::tests::out_of_order_ids_are_bounded_and_completed_duplicates_rejected
+        PASS [   0.007s] (46/56) codex-component-host session_wire::tests::oversized_controls_and_never_sent_dependencies_fail
+        PASS [   0.075s] (47/56) codex-component-host session_wire::tests::urgent_controls_interleave_but_cleanup_waits_for_request_end
+        PASS [   0.144s] (48/56) codex-component-host::bin/codex-component launch::tests::launch_deadline_force_terminates_with_explicit_unknown_durability
+        PASS [   0.031s] (49/56) codex-component-host::bin/codex-component launch::tests::launch_interrupt_during_handshake_cleans_up_and_reports_uncertainty
+        PASS [   1.812s] (50/56) codex-component-host session::tests::persistent_process_multiplexes_calls_and_large_payloads
+        PASS [   2.178s] (51/56) codex-component-host session::tests::reaping::shutdown_deadline_failed_exit_and_success_all_return_after_reaping
+        PASS [   0.623s] (52/56) codex-component-host::bin/codex-component launch::tests::service::launch_failure_paths_without_interrupt_report_uncertainty_after_reaping
+        PASS [   0.804s] (53/56) codex-component-host::bin/codex-component launch::tests::service::interrupt_near_startup_limit_receives_its_full_cleanup_budget
+        PASS [   0.649s] (54/56) codex-component-host::bin/codex-component launch::tests::service::launch_survives_its_startup_timeout_after_readiness
+        PASS [   0.856s] (55/56) codex-component-host::bin/codex-component launch::tests::service::normal_result_allows_presentation_cleanup_beyond_half_a_second
+        PASS [   5.255s] (56/56) codex-component-host session_wire::tests::histories_larger_than_sixteen_megabytes_round_trip
+────────────
+     Summary [   6.834s] 56 tests run: 56 passed, 1 skipped

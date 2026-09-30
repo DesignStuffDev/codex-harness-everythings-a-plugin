@@ -1,0 +1,68 @@
+[
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/workspace/gui-native-storage-v2/desktop-source",
+      "--output",
+      "/workspace/gui-native-storage-v2/desktop-package"
+    ],
+    "status": 0,
+    "stdout": "/workspace/gui-native-storage-v2/desktop-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--codex-home",
+      "/workspace/gui-native-storage-v2/codex-home",
+      "install",
+      "/workspace/gui-native-storage-v2/desktop-package"
+    ],
+    "status": 0,
+    "stdout": "codex.desktop\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+      "-m",
+      "codex_component_sdk",
+      "build",
+      "/workspace/gui-native-storage-v2/model-fixture-source",
+      "--output",
+      "/workspace/gui-native-storage-v2/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "/workspace/gui-native-storage-v2/model-fixture-package\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--codex-home",
+      "/workspace/gui-native-storage-v2/codex-home",
+      "install",
+      "/workspace/gui-native-storage-v2/model-fixture-package"
+    ],
+    "status": 0,
+    "stdout": "test.gui-model\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--codex-home",
+      "/workspace/gui-native-storage-v2/codex-home",
+      "select",
+      "model_transport",
+      "default",
+      "test.gui-model"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

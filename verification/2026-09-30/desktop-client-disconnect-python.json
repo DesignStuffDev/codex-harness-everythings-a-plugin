@@ -1,0 +1,25 @@
+{
+  "command": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "component-sdk/tests",
+    "-p",
+    "test_desktop.py",
+    "-v"
+  ],
+  "cwd": "/workspace/codex-harness-everythings-a-plugin",
+  "exit_code": 0,
+  "tests": 12,
+  "log": "desktop-client-disconnect-python.log",
+  "coverage": [
+    "real TCP reset after accepted engine RPC sends no second HTTP response, logs no server traceback and never repeats the action",
+    "engine-side broken pipe still returns HTTP502 to connected browser",
+    "all prior desktop transport, graceful shutdown and crash regressions"
+  ],
+  "limitations": [
+    "app-server fixture; next real-engine manual browser cycle owned by root"
+  ]
+}

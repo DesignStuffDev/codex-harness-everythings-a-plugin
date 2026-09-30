@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="1" skipped="0" failures="1" errors="0" uuid="462386c7-b708-4527-a5d0-e6f4d54f948d" timestamp="2026-09-30T13:54:46.271+00:00" time="0.391">
+    <testsuite name="codex-thread-store-local-plugin::process_storage" tests="1" skipped="0" errors="0" failures="1">
+        <testcase name="maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown" classname="codex-thread-store-local-plugin::process_storage" timestamp="2026-09-30T13:54:46.271+00:00" time="0.390">
+            <failure message="thread &apos;maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown&apos; (271171) panicked at thread-store-local-plugin/tests/cases/maintenance.rs:111:9" type="test failure with exit code 101">thread &apos;maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown&apos; (271171) panicked at thread-store-local-plugin/tests/cases/maintenance.rs:111:9:
+background migration did not publish; native retry diagnostic: Ok(RolloutMigrationReport { outcomes: [RolloutMigrationOutcome { thread_id: Some(ThreadId { uuid: 01a0f298-aa12-71e2-8c7e-76b52ab87c2b }), rollout_path: &quot;/tmp/.tmpfy9Jcx/home/sessions/2026/09/30/rollout-2026-09-30T13-54-46-01a0f298-aa12-71e2-8c7e-76b52ab87c2b.jsonl&quot;, status: Failed, failure_reason: Some(MissingSqliteMetadata), bytes_processed: 0, message: Some(&quot;thread-store internal error: rollout migration failed: thread-store internal error: rollout migration failed: thread 01a0f298-aa12-71e2-8c7e-76b52ab87c2b is missing its SQLite metadata; failed to clean up unpublished migration: thread-store internal error: rollout migration failed: No such file or directory (os error 2)&quot;) }] })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace</failure>
+            <system-out>
+running 1 test
+test maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown ... FAILED
+
+failures:
+
+failures:
+    maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.38s
+
+</system-out>
+            <system-err>
+thread &apos;maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown&apos; (271171) panicked at thread-store-local-plugin/tests/cases/maintenance.rs:111:9:
+background migration did not publish; native retry diagnostic: Ok(RolloutMigrationReport { outcomes: [RolloutMigrationOutcome { thread_id: Some(ThreadId { uuid: 01a0f298-aa12-71e2-8c7e-76b52ab87c2b }), rollout_path: &quot;/tmp/.tmpfy9Jcx/home/sessions/2026/09/30/rollout-2026-09-30T13-54-46-01a0f298-aa12-71e2-8c7e-76b52ab87c2b.jsonl&quot;, status: Failed, failure_reason: Some(MissingSqliteMetadata), bytes_processed: 0, message: Some(&quot;thread-store internal error: rollout migration failed: thread-store internal error: rollout migration failed: thread 01a0f298-aa12-71e2-8c7e-76b52ab87c2b is missing its SQLite metadata; failed to clean up unpublished migration: thread-store internal error: rollout migration failed: No such file or directory (os error 2)&quot;) }] })
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+</system-err>
+        </testcase>
+    </testsuite>
+</testsuites>

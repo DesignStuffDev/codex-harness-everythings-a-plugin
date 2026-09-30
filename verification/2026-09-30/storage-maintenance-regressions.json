@@ -1,0 +1,106 @@
+{
+  "result": "All 653 distinct cases passed across main gate and corrected-case rerun; no all-green combined rerun claimed",
+  "command": "source /workspace/toolchains/component-verification-env.sh; just test -p codex-rollout -p codex-thread-store -p codex-thread-store-component -p codex-thread-store-local-plugin -p codex-state --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+  "main_run": {
+    "id": "8309963e-60b5-47cc-8370-1e5520c4fa39",
+    "build_seconds": 65,
+    "test_seconds": 33.125,
+    "passed": 652,
+    "failed": 1,
+    "skipped": 0,
+    "failure": "New actual-process test constructed native legacy file without the engine metadata-indexing step; native report confirmed MissingSqliteMetadata. Test setup corrected using native update_thread_metadata and explicit row-existence assertion; production unchanged."
+  },
+  "corrected_case": {
+    "id": "31d33d5a-4f0d-4d75-a81c-f6ed1c93dc20",
+    "command": "source /workspace/toolchains/component-verification-env.sh; just test -p codex-rollout -p codex-thread-store -p codex-thread-store-component -p codex-thread-store-local-plugin -p codex-state installed_store_close_waits_for_current_migration_before_acknowledging_shutdown --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+    "build_seconds": 5.2,
+    "test_seconds": 0.374,
+    "passed": 1,
+    "skipped": 652
+  },
+  "suites": [
+    {
+      "name": "codex-rollout",
+      "tests": 140,
+      "initial_failures": 0
+    },
+    {
+      "name": "codex-state",
+      "tests": 213,
+      "initial_failures": 0
+    },
+    {
+      "name": "codex-thread-store",
+      "tests": 272,
+      "initial_failures": 0
+    },
+    {
+      "name": "codex-thread-store-component",
+      "tests": 12,
+      "initial_failures": 0
+    },
+    {
+      "name": "codex-thread-store-local-plugin::process_storage",
+      "tests": 16,
+      "initial_failures": 1
+    }
+  ],
+  "actual_process_proof": [
+    "Installed actual native storage subsystem binary with thread_store contract2 and source package removed",
+    "Parent holds real thread-history BEGIN IMMEDIATE transaction; child source writer-lock creation proves migration owns a path",
+    "Graceful process close stays pending while parent retains database write lock",
+    "After release, successful close leaves paginated canonical JSONL and projected SQLite turn, no writer lock, pending journal or staged temp",
+    "Stopped startup pass does not advance migration discovery cursor"
+  ],
+  "production_changes": [
+    "LocalThreadStore shared maintenance admission fence, cooperative startup migration between paths/retry waits, owned task join retaining panic/join failures",
+    "Compression entrypoint observes stop and joins current blocking work; existing native compression algorithm unchanged",
+    "Native plugin owns ThreadStore shutdown guard before startup scheduling; every returned open/read/handler failure follows cleanup",
+    "Cleanup fences maintenance admission, releases fork leases, drains accepted RPC handlers, fences writers, joins maintenance and closes owned history pool before shutdown_complete",
+    "Plugin explicitly closes its independently constructed StateRuntime reclamation worker and pools; generic LocalThreadStore does not close host-owned auxiliary state"
+  ],
+  "limits": [
+    "Ordinary background operation errors preserve native warning-only policy; panic/join failures fail shutdown",
+    "Transport deadlines still report unknown completion if durable work cannot settle before bounded termination",
+    "Manual migrate-rollouts CLI remains a native-only separate maintenance boundary",
+    "This gate does not establish final rebuilt CLI/GUI/independent worker checkpoint for contract2 or full-workspace runtime suite"
+  ],
+  "evidence": [
+    "storage-maintenance-regressions.log",
+    "storage-maintenance-regressions.junit.xml",
+    "storage-maintenance-diagnostic.log",
+    "storage-maintenance-owned-close.log",
+    "storage-maintenance-owned-close.junit.xml",
+    "compression-worker-source-review.json",
+    "storage-maintenance-clippy.log",
+    "storage-maintenance-pool-close.log",
+    "storage-maintenance-pool-close.junit.xml",
+    "storage-maintenance-final-clippy.log"
+  ],
+  "initial_scoped_clippy": {
+    "command": "source /workspace/toolchains/component-verification-env.sh; just fix -p codex-rollout -p codex-thread-store -p codex-thread-store-component -p codex-thread-store-local-plugin -p codex-state",
+    "exit_code": 0,
+    "seconds": 119,
+    "warnings": [
+      "New maintenance test created SQLite pool directly rather than through codex-state shim; fixture corrected to real history pool and focused runtime rerun passed."
+    ],
+    "automatic_fixes": false,
+    "log": "storage-maintenance-clippy.log"
+  },
+  "sqlite_shim_fixture_rerun": {
+    "command": "source /workspace/toolchains/component-verification-env.sh; just test -p codex-thread-store local_store_pool_close_survives_an_unpolled_shutdown_waiter --test-threads 2 --retries 0 --status-level fail --final-status-level fail",
+    "id": "81cf859e-1d07-45c6-bef6-49aac277f2a5",
+    "build_seconds": 144,
+    "test_seconds": 0.047,
+    "passed": 1,
+    "skipped": 271,
+    "change": "Replace new test direct in-memory SqlitePool::connect with codex_state::open_thread_history_db; production unchanged."
+  },
+  "final_scoped_clippy": {
+    "command": "source /workspace/toolchains/component-verification-env.sh; just clippy -p codex-rollout -p codex-thread-store -p codex-thread-store-component -p codex-thread-store-local-plugin -p codex-state",
+    "exit_code": 0,
+    "seconds": 96,
+    "warnings": [],
+    "log": "storage-maintenance-final-clippy.log"
+  }
+}

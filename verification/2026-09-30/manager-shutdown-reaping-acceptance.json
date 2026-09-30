@@ -1,0 +1,196 @@
+{
+  "passed": true,
+  "tests": 3,
+  "host": "/workspace/toolchains/component-target/debug/codex-component",
+  "host_before": {
+    "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+    "bytes": 16462992,
+    "mtime_ns": 1790770859379633820
+  },
+  "host_after": {
+    "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+    "bytes": 16462992,
+    "mtime_ns": 1790770859379633820
+  },
+  "cases": [
+    {
+      "mode": "graceful",
+      "launch": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/home",
+        "launch",
+        "desktop",
+        "--codex-bin",
+        "/usr/bin/true"
+      ],
+      "manager_pid": 206507,
+      "fixture": {
+        "pid": 206515,
+        "parent_pid": 206507,
+        "entrypoint": "/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/home/components/objects/test.manager-shutdown-206502-18da18a7872669e0-0/presentation-fixture",
+        "state": "S",
+        "start_ticks": "982983"
+      },
+      "first_sigint_seconds": 0.13102980300027411,
+      "blocked_drain_survived_seconds": 1.0,
+      "exit_status": 0,
+      "stdout": "{\"entrypoint\":\"/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/home/components/objects/test.manager-shutdown-206502-18da18a7872669e0-0/presentation-fixture\",\"parent_pid\":206507,\"pid\":206515,\"type\":\"fixture/ready\"}\n{\"type\":\"fixture/draining\"}\n{\"drained\":true,\"fixture\":\"manager-shutdown\"}\n",
+      "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\n",
+      "fixture_after": null,
+      "fixture_reaped": true,
+      "passed": true
+    },
+    {
+      "mode": "forced",
+      "launch": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/acceptance/manager-shutdown-reaped-20260930/forced/home",
+        "launch",
+        "desktop",
+        "--codex-bin",
+        "/usr/bin/true"
+      ],
+      "manager_pid": 206521,
+      "fixture": {
+        "pid": 206529,
+        "parent_pid": 206521,
+        "entrypoint": "/workspace/acceptance/manager-shutdown-reaped-20260930/forced/home/components/objects/test.manager-shutdown-206516-18da18a7cc8e0779-0/presentation-fixture",
+        "state": "S",
+        "start_ticks": "983099"
+      },
+      "first_sigint_seconds": 0.13100993299849506,
+      "blocked_drain_survived_seconds": 1.0,
+      "second_sigint_seconds": 1.1417143309990934,
+      "exit_status": 1,
+      "stdout": "{\"entrypoint\":\"/workspace/acceptance/manager-shutdown-reaped-20260930/forced/home/components/objects/test.manager-shutdown-206516-18da18a7cc8e0779-0/presentation-fixture\",\"parent_pid\":206521,\"pid\":206529,\"type\":\"fixture/ready\"}\n{\"type\":\"fixture/draining\"}\n",
+      "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\nError: forced termination after a second interrupt; accepted writes may not have completed and durability is unknown\n",
+      "fixture_after": null,
+      "fixture_reaped": true,
+      "passed": true
+    },
+    {
+      "mode": "startup",
+      "launch": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/acceptance/manager-shutdown-reaped-20260930/startup/home",
+        "launch",
+        "desktop",
+        "--codex-bin",
+        "/usr/bin/true"
+      ],
+      "manager_pid": 206540,
+      "fixture": {
+        "pid": 206548,
+        "parent_pid": 206540,
+        "entrypoint": "/workspace/acceptance/manager-shutdown-reaped-20260930/startup/home/components/objects/test.manager-shutdown-206535-18da18a81124729b-0/presentation-fixture",
+        "state": "R",
+        "start_ticks": "983214"
+      },
+      "first_sigint_seconds": 0.1307900880001398,
+      "exit_status": 1,
+      "stdout": "",
+      "stderr": "Error: forced termination during presentation startup before readiness; accepted writes may not have completed and durability is unknown\n",
+      "fixture_after": null,
+      "fixture_reaped": true,
+      "passed": true
+    }
+  ],
+  "scope": "actual manager and installed protocol fixture; no desktop UI or real storage engine",
+  "commands_by_case": {
+    "graceful": [
+      {
+        "command": [
+          "/workspace/toolchains/component-target/debug/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/home",
+          "install",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/package"
+        ],
+        "status": 0,
+        "stdout": "test.manager-shutdown\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/workspace/toolchains/component-target/debug/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/home",
+          "launch",
+          "desktop",
+          "--codex-bin",
+          "/usr/bin/true"
+        ],
+        "status": 0,
+        "stdout": "{\"entrypoint\":\"/workspace/acceptance/manager-shutdown-reaped-20260930/graceful/home/components/objects/test.manager-shutdown-206502-18da18a7872669e0-0/presentation-fixture\",\"parent_pid\":206507,\"pid\":206515,\"type\":\"fixture/ready\"}\n{\"type\":\"fixture/draining\"}\n{\"drained\":true,\"fixture\":\"manager-shutdown\"}\n",
+        "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\n"
+      }
+    ],
+    "forced": [
+      {
+        "command": [
+          "/workspace/toolchains/component-target/debug/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/forced/home",
+          "install",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/forced/package"
+        ],
+        "status": 0,
+        "stdout": "test.manager-shutdown\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/workspace/toolchains/component-target/debug/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/forced/home",
+          "launch",
+          "desktop",
+          "--codex-bin",
+          "/usr/bin/true"
+        ],
+        "status": 1,
+        "stdout": "{\"entrypoint\":\"/workspace/acceptance/manager-shutdown-reaped-20260930/forced/home/components/objects/test.manager-shutdown-206516-18da18a7cc8e0779-0/presentation-fixture\",\"parent_pid\":206521,\"pid\":206529,\"type\":\"fixture/ready\"}\n{\"type\":\"fixture/draining\"}\n",
+        "stderr": "Stopping presentation; allowing up to 210s for accepted writes and storage cleanup. Press Ctrl+C again to force termination.\nError: forced termination after a second interrupt; accepted writes may not have completed and durability is unknown\n"
+      }
+    ],
+    "startup": [
+      {
+        "command": [
+          "/workspace/toolchains/component-target/debug/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/startup/home",
+          "install",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/startup/package"
+        ],
+        "status": 0,
+        "stdout": "test.manager-shutdown\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/workspace/toolchains/component-target/debug/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/manager-shutdown-reaped-20260930/startup/home",
+          "launch",
+          "desktop",
+          "--codex-bin",
+          "/usr/bin/true"
+        ],
+        "status": 1,
+        "stdout": "",
+        "stderr": "Error: forced termination during presentation startup before readiness; accepted writes may not have completed and durability is unknown\n"
+      }
+    ]
+  },
+  "forced_reaping_verified": true,
+  "artifact_directory": "/workspace/acceptance/manager-shutdown-reaped-20260930",
+  "test_source_sha256": "26685959b653e8e0d950689ec3e913e2cb5ec8cbc0fcb16b14a9b8564e0f1c94",
+  "previous_report": "verification/2026-09-30/manager-shutdown-acceptance.json",
+  "limitations": [
+    "Linux direct-child reaping acceptance. The installed presentation fixture implements the protocol directly and uses /usr/bin/true only as a validated existing executable; this does not exercise desktop UI or native storage.",
+    "Graceful completion confirms only the fixture file fsync and result. Forced and pre-ready interruption intentionally report accepted-write durability unknown."
+  ]
+}

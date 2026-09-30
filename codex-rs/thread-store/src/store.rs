@@ -1,5 +1,7 @@
 use codex_protocol::ThreadId;
 use codex_protocol::protocol::ThreadHistoryMode;
+use serde::Deserialize;
+use serde::Serialize;
 use std::any::Any;
 use std::future::Future;
 use std::pin::Pin;
@@ -62,7 +64,7 @@ use crate::UpdatedProject;
 pub type ThreadStoreFuture<'a, T> = Pin<Box<dyn Future<Output = ThreadStoreResult<T>> + Send + 'a>>;
 
 /// Why thread persistence is being requested.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub enum PersistContext {
     /// Thread initialization or context injection is complete without starting a turn.
     ThreadPreparation,
@@ -94,12 +96,86 @@ pub trait ThreadStore: Any + Send + Sync {
     /// Return this store as [`Any`] for implementation-owned escape hatches.
     fn as_any(&self) -> &dyn Any;
 
+    /// Initiates terminal shutdown without waiting, even if other users retain
+    /// this store. Hosts call this from an outer lifecycle guard when their
+    /// async cleanup is cancelled. Owned transports must stop admission and
+    /// start a bounded drain; this signal does not promise durable completion.
+    /// Call [`Self::shutdown_store`] to observe the final outcome.
+    fn begin_shutdown_store(&self) {}
+
+    /// Ends the process-scoped store after the host has stopped accepting thread
+    /// work and joined background users. Implementations with owned transports
+    /// drain accepted operations and fence live writers before returning.
+    fn shutdown_store(&self) -> ThreadStoreFuture<'_, ()> {
+        Box::pin(async { Ok(()) })
+    }
+
     /// Returns the history mode to use when history does not carry a persisted mode.
     ///
     /// The default is legacy so existing stores stay compatible. Stores whose durable contract is
     /// already paginated should override this instead of relying on core to infer storage behavior.
     fn default_history_mode(&self) -> ThreadHistoryMode {
         ThreadHistoryMode::Legacy
+    }
+
+    /// Reads the persisted facts used by metadata observation during resume.
+    /// Stores without this projection may rely on replay history instead.
+    fn read_resume_metadata(
+        &self,
+        _thread_id: ThreadId,
+    ) -> ThreadStoreFuture<'_, Option<crate::ResumeMetadata>> {
+        Box::pin(async { Ok(None) })
+    }
+
+    /// Returns a local rollout path only when the implementation explicitly
+    /// supports legacy path-addressed callers in the host's filesystem.
+    fn local_rollout_path(
+        &self,
+        _thread_id: ThreadId,
+    ) -> ThreadStoreFuture<'_, Option<std::path::PathBuf>> {
+        Box::pin(async { Ok(None) })
+    }
+
+    /// Whether legacy hosts may accept user-supplied rollout paths for this
+    /// implementation. This is distinct from supporting synthetic internal paths.
+    fn supports_rollout_path_reads(&self) -> bool {
+        false
+    }
+
+    /// Whether this backend implements local rollout maintenance scheduling.
+    fn supports_rollout_maintenance(&self) -> bool {
+        false
+    }
+
+    /// Whether manual migration supports observed progress, reports and joined cancellation.
+    fn supports_manual_rollout_migration(&self) -> bool {
+        false
+    }
+
+    /// Accept a manual migration owned by the store, independently of its observer.
+    /// Unsupported implementations must not cause a host to open another backend.
+    fn start_rollout_migration(
+        &self,
+        _options: crate::RolloutMigrationOptions,
+    ) -> ThreadStoreFuture<'_, Box<dyn crate::RolloutMigrationRun>> {
+        Box::pin(async {
+            Err(ThreadStoreError::Unsupported {
+                operation: "manual_rollout_migration",
+            })
+        })
+    }
+
+    /// Schedules implementation-owned rollout maintenance, returning after
+    /// acceptance rather than after a potentially long background pass.
+    fn run_rollout_maintenance(
+        &self,
+        _request: crate::RolloutMaintenance,
+    ) -> ThreadStoreFuture<'_, ()> {
+        Box::pin(async {
+            Err(ThreadStoreError::Unsupported {
+                operation: "rollout_maintenance",
+            })
+        })
     }
 
     /// Creates a new live thread.

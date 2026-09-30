@@ -8,6 +8,8 @@ use ts_rs::TS;
 use super::InternalChatMessageMetadataPassthrough;
 use super::ResponseItem;
 
+pub mod trusted_component;
+
 const MAX_EXECUTED_TOOL_CALL_ARGUMENT_BYTES: usize = 8 * 1024;
 /// Maximum distinct result sources retained for one tool invocation.
 const MAX_TOOL_RESULT_SOURCES: usize = 32;

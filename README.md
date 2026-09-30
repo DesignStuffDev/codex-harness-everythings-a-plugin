@@ -1,3 +1,11 @@
+> **Preserved WIP — unbuilt and unverified.** This branch contains newer model
+> transport, session-lifecycle and migration implementation. Copied validation
+> reports describe the older checkpoint, not these changes. Use
+> [main](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/tree/main)
+> for the recovered baseline and read [WIP_STATUS.md](WIP_STATUS.md) for scope and
+> remaining gates. Whole-harness extraction is incomplete. The upstream README
+> retained below, including its official installers, describes upstream Codex.
+
 <p align="center"><strong>Codex CLI</strong> is a coding agent from OpenAI that runs locally on your computer.
 <p align="center">
   <img src="https://github.com/openai/codex/blob/main/.github/codex-cli-splash.png" alt="Codex CLI splash" width="80%" />

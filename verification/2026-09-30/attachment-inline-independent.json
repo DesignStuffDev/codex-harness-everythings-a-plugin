@@ -1,0 +1,96 @@
+{
+  "passed": true,
+  "date": "2026-09-30",
+  "implementation": "actual extracted native InlineAttachmentStore",
+  "independent_source_directory": "/workspace/acceptance/attachment-inline-source",
+  "exported_source_paths_self_contained": true,
+  "source_removed_before_install_and_execution": true,
+  "build_profile": "dev (standard, no release/LTO)",
+  "build_target_directory": "/workspace/acceptance/attachment-inline-target",
+  "plugin_binary": {
+    "path": "/workspace/acceptance/attachment-inline-acceptance/package/codex-attachment-inline-component",
+    "sha256": "135d69f20c2014623ed2167bb8b82543794dbbf844ac2fa6a27da5bcfd1a756b",
+    "bytes": 14844952,
+    "mtime_ns": 1790765826085601283
+  },
+  "package_directory": "/workspace/acceptance/attachment-inline-acceptance/package",
+  "package_tree": [
+    {
+      "path": "LICENSE",
+      "bytes": 10926,
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+    },
+    {
+      "path": "NOTICE",
+      "bytes": 242,
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6225,
+      "sha256": "2dfe03143fdd6c7486395cd3e60da78b6b5ec51db8e97979b99276b30bedeb44"
+    },
+    {
+      "path": "codex-attachment-inline-component",
+      "bytes": 14844952,
+      "sha256": "135d69f20c2014623ed2167bb8b82543794dbbf844ac2fa6a27da5bcfd1a756b"
+    },
+    {
+      "path": "codex-component.json",
+      "bytes": 291,
+      "sha256": "808a814233698f43c38db5d6900eb098d1bea438f963946747234d55e751a9a8"
+    }
+  ],
+  "codex_home": "/workspace/acceptance/attachment-inline-acceptance/codex-home",
+  "binaries_before": {
+    "manager": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "0c120ccaf35502447c81927f6c4dccf697fbe6c349c6c0a831de4f7dffb8a7a3",
+      "bytes": 16175848,
+      "mtime_ns": 1790765719159140003
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "df41ac1c2ffed751d2bacb4602d11c92673e03cc3e4c557055edc7cbc592b549",
+      "bytes": 1034217768,
+      "mtime_ns": 1790763179454581540
+    }
+  },
+  "binaries_after": {
+    "manager": {
+      "path": "/workspace/toolchains/component-target/debug/codex-component",
+      "sha256": "0c120ccaf35502447c81927f6c4dccf697fbe6c349c6c0a831de4f7dffb8a7a3",
+      "bytes": 16175848,
+      "mtime_ns": 1790765719159140003
+    },
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "df41ac1c2ffed751d2bacb4602d11c92673e03cc3e4c557055edc7cbc592b549",
+      "bytes": 1034217768,
+      "mtime_ns": 1790763179454581540
+    }
+  },
+  "upload_blob": {
+    "path": "/workspace/acceptance/attachment-inline-acceptance/staging/five-megabytes.bin",
+    "sha256": "b88d7138e7c427b70f89612ca626d010c149b7992395f9c5bc396cb30f8caf6a",
+    "bytes": 5242898,
+    "mtime_ns": 1790765826198441216
+  },
+  "upload_blob_unchanged": true,
+  "upload_params_json_bytes": 199,
+  "upload_result": {
+    "ok": {
+      "kind": "inline"
+    }
+  },
+  "resolve_result": {
+    "error": "not_found"
+  },
+  "commands_file": "/workspace/acceptance/attachment-inline-acceptance/commands.json",
+  "source_hash_inventory": "/workspace/acceptance/attachment-inline-acceptance/exported-source-tree.json",
+  "limits": [
+    "This calls the installed native component through the real manager; native engine/attachment adapter integration is tested separately.",
+    "The inline wire result acknowledges original caller bytes; it does not return or replace blob bytes. The staged input hash remained unchanged.",
+    "Linux only; no host binary was rebuilt during plugin build/install/invocation."
+  ]
+}

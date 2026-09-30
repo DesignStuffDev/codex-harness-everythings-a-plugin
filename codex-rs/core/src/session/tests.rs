@@ -6558,10 +6558,12 @@ async fn session_new_fails_when_zsh_fork_enabled_without_packaged_zsh() {
         environment_manager,
         /*inherited_environments*/ None,
         /*analytics_events_client*/ None,
-        crate::passthrough_image_store(),
-        Arc::new(codex_thread_store::LocalThreadStore::new(
-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
-            /*state_db*/ None,
+        crate::passthrough_image_store().into(),
+        PersistenceServices::from_legacy_native(Arc::new(
+            codex_thread_store::LocalThreadStore::new(
+                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+                /*state_db*/ None,
+            ),
         )),
         codex_rollout_trace::ThreadTraceContext::disabled(),
         /*attestation_provider*/ None,
@@ -6849,6 +6851,7 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
         state_db: None,
         live_thread: None,
         image_store: crate::passthrough_image_store(),
+        image_store_selection: crate::passthrough_image_store().into(),
         thread_store: Arc::new(codex_thread_store::LocalThreadStore::new(
             codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
             /*state_db*/ None,
@@ -6921,6 +6924,7 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
         fork_persistence: ForkPersistence::Copied,
         forked_from_ordinal_exclusive: None,
         next_internal_sub_id: AtomicU64::new(0),
+        runtime_lifecycle: Default::default(),
     };
     let per_turn_config = session.build_per_turn_config(
         &session_configuration,
@@ -6978,9 +6982,22 @@ pub(crate) async fn make_session_and_context() -> (Session, TurnContext) {
     (session, turn_context)
 }
 
+struct OwnedTestSession {
+    session: Arc<Session>,
+    _owner: super::runtime_lifecycle::SessionRuntimeOwner,
+}
+
+impl std::ops::Deref for OwnedTestSession {
+    type Target = Arc<Session>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.session
+    }
+}
+
 async fn make_session_with_config(
     mutator: impl FnOnce(&mut Config),
-) -> anyhow::Result<Arc<Session>> {
+) -> anyhow::Result<OwnedTestSession> {
     let (session, _rx_event) = make_session_with_config_and_rx(mutator).await?;
     Ok(session)
 }
@@ -6997,7 +7014,7 @@ async fn load_latest_config_for_session(session: &Session) -> Config {
 
 async fn make_session_with_config_and_rx(
     mutator: impl FnOnce(&mut Config),
-) -> anyhow::Result<(Arc<Session>, async_channel::Receiver<Event>)> {
+) -> anyhow::Result<(OwnedTestSession, async_channel::Receiver<Event>)> {
     let codex_home = tempfile::tempdir().expect("create temp dir");
     let mut config = build_test_config(codex_home.path()).await;
     mutator(&mut config);
@@ -7108,10 +7125,12 @@ async fn make_session_with_config_and_rx(
         environment_manager,
         /*inherited_environments*/ None,
         /*analytics_events_client*/ None,
-        crate::passthrough_image_store(),
-        Arc::new(codex_thread_store::LocalThreadStore::new(
-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
-            /*state_db*/ None,
+        crate::passthrough_image_store().into(),
+        PersistenceServices::from_legacy_native(Arc::new(
+            codex_thread_store::LocalThreadStore::new(
+                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+                /*state_db*/ None,
+            ),
         )),
         codex_rollout_trace::ThreadTraceContext::disabled(),
         /*attestation_provider*/ None,
@@ -7122,14 +7141,21 @@ async fn make_session_with_config_and_rx(
     )
     .await?;
 
-    Ok((session, rx_event))
+    let owner = session.launch.into_runtime_owner().await;
+    Ok((
+        OwnedTestSession {
+            session: session.session,
+            _owner: owner,
+        },
+        rx_event,
+    ))
 }
 
 async fn make_session_with_history_source_and_agent_control_and_rx(
     initial_history: InitialHistory,
     session_source: SessionSource,
     agent_control: LocalAgentControl,
-) -> anyhow::Result<(Arc<Session>, async_channel::Receiver<Event>)> {
+) -> anyhow::Result<(OwnedTestSession, async_channel::Receiver<Event>)> {
     let codex_home = tempfile::tempdir().expect("create temp dir");
     let mut config = build_test_config(codex_home.path()).await;
     config.ephemeral = true;
@@ -7240,16 +7266,18 @@ async fn make_session_with_history_source_and_agent_control_and_rx(
         environment_manager,
         /*inherited_environments*/ None,
         /*analytics_events_client*/ None,
-        crate::passthrough_image_store(),
-        Arc::new(codex_thread_store::LocalThreadStore::new(
-            codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
-            Some(
-                codex_state::StateRuntime::init(
-                    config.sqlite.clone(),
-                    config.model_provider_id.clone(),
-                )
-                .await
-                .expect("state db should initialize"),
+        crate::passthrough_image_store().into(),
+        PersistenceServices::from_legacy_native(Arc::new(
+            codex_thread_store::LocalThreadStore::new(
+                codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
+                Some(
+                    codex_state::StateRuntime::init(
+                        config.sqlite.clone(),
+                        config.model_provider_id.clone(),
+                    )
+                    .await
+                    .expect("state db should initialize"),
+                ),
             ),
         )),
         codex_rollout_trace::ThreadTraceContext::disabled(),
@@ -7261,7 +7289,14 @@ async fn make_session_with_history_source_and_agent_control_and_rx(
     )
     .await?;
 
-    Ok((session, rx_event))
+    let owner = session.launch.into_runtime_owner().await;
+    Ok((
+        OwnedTestSession {
+            session: session.session,
+            _owner: owner,
+        },
+        rx_event,
+    ))
 }
 
 #[tokio::test]
@@ -9125,6 +9160,7 @@ where
         state_db: state_db.clone(),
         live_thread: None,
         image_store: crate::passthrough_image_store(),
+        image_store_selection: crate::passthrough_image_store().into(),
         thread_store: Arc::new(codex_thread_store::LocalThreadStore::new(
             codex_thread_store::LocalThreadStoreConfig::from_config(config.as_ref()),
             state_db,
@@ -9197,6 +9233,7 @@ where
         fork_persistence: ForkPersistence::Copied,
         forked_from_ordinal_exclusive: None,
         next_internal_sub_id: AtomicU64::new(0),
+        runtime_lifecycle: Default::default(),
     });
     let per_turn_config = session.build_per_turn_config(
         &session_configuration,

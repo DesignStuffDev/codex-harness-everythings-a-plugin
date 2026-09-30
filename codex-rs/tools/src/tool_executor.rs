@@ -109,6 +109,13 @@ pub trait ToolExecutor<Invocation>: Send + Sync {
 
     fn spec(&self) -> ToolSpec;
 
+    /// Whether trusted host configuration explicitly selected this implementation to replace an
+    /// existing tool with the same name. Discovery alone must never enable replacement. The
+    /// registry still enforces tool policy and reserved execution-tool names.
+    fn replaces_existing_tool(&self) -> bool {
+        false
+    }
+
     /// The preferred exposure before the host applies step-specific policy.
     fn exposure(&self) -> ToolExposure {
         ToolExposure::Direct

@@ -1,0 +1,155 @@
+{
+  "status": "archive verified; only four generated checkpoint binary copies removed",
+  "recorded_at_utc": "2026-09-30T14:19:24.621650+00:00",
+  "scope": "Only four generated preserved v1 executables plus their binary manifest; no source, evidence, installed package, active target, or toolchain input deletion",
+  "archive": "/workspace/verified-component-checkpoint-20260930/v1-checkpoint.tar.zst",
+  "manifest": "/workspace/verified-component-checkpoint-20260930/binaries.json",
+  "script": "/workspace/toolchains/archive-v1-checkpoint.py",
+  "commands": {
+    "archive_tar": [
+      "/usr/bin/tar",
+      "-C",
+      "/workspace/verified-component-checkpoint-20260930",
+      "-cf",
+      "-",
+      "binaries.json",
+      "codex",
+      "codex-component",
+      "codex-thread-manager-sample",
+      "codex-thread-store-local-plugin"
+    ],
+    "archive_compressor": [
+      "/usr/bin/zstd",
+      "-T1",
+      "-3",
+      "-q",
+      "-o",
+      "/workspace/verified-component-checkpoint-20260930/v1-checkpoint.tar.zst.partial"
+    ],
+    "stream_verifier": [
+      "/usr/bin/zstd",
+      "-q",
+      "-d",
+      "-c",
+      "/workspace/verified-component-checkpoint-20260930/v1-checkpoint.tar.zst.partial"
+    ]
+  },
+  "originals": [
+    {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex",
+      "name": "codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "bytes": 1035548088,
+      "allocated_bytes": 1035554816,
+      "mode": 448,
+      "inode": 573201,
+      "device": 27,
+      "links": 1,
+      "mtime_ns": 1790772328210984573
+    },
+    {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex-thread-manager-sample",
+      "name": "codex-thread-manager-sample",
+      "sha256": "66d342696a4e922e9a8cad331fea0489977e7464dad9065dd6eb2b960f6439aa",
+      "bytes": 674610864,
+      "allocated_bytes": 674615296,
+      "mode": 448,
+      "inode": 573200,
+      "device": 27,
+      "links": 1,
+      "mtime_ns": 1790772260415792850
+    },
+    {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex-thread-store-local-plugin",
+      "name": "codex-thread-store-local-plugin",
+      "sha256": "bada74395646aa5cdb4ee9e4c7f6384b4a928dd5858ff8c4827f498a1d8c9431",
+      "bytes": 340614384,
+      "allocated_bytes": 340619264,
+      "mode": 448,
+      "inode": 573199,
+      "device": 27,
+      "links": 1,
+      "mtime_ns": 1790772550111984142
+    },
+    {
+      "path": "/workspace/verified-component-checkpoint-20260930/codex-component",
+      "name": "codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "bytes": 16462992,
+      "allocated_bytes": 16465920,
+      "mode": 448,
+      "inode": 573198,
+      "device": 27,
+      "links": 1,
+      "mtime_ns": 1790770859379633820
+    }
+  ],
+  "original_total_bytes": 2067236328,
+  "original_allocated_bytes": 2067255296,
+  "manifest_sha256": "a063974c2c3b669faa25911b992ef80def0a603916ccf41089a1e2beba5a7d1b",
+  "manifest_bytes": 1228,
+  "threads": 1,
+  "compression_level": 3,
+  "restoration_recipe": [
+    "mkdir -p /workspace/restored-component-checkpoint-20260930",
+    "zstd -d -c /workspace/verified-component-checkpoint-20260930/v1-checkpoint.tar.zst | tar --no-same-owner -xpf - -C /workspace/restored-component-checkpoint-20260930",
+    "Verify each restored basename using its sha256 and bytes recorded in the extracted binaries.json before running it."
+  ],
+  "archive_sha256": "43742a47539830ed42286e7621cff4c69cf778301ffce3de04e55585a8d2332c",
+  "archive_bytes": 401319823,
+  "archive_allocated_bytes": 401321984,
+  "members_verified": [
+    {
+      "name": "binaries.json",
+      "sha256": "a063974c2c3b669faa25911b992ef80def0a603916ccf41089a1e2beba5a7d1b",
+      "bytes": 1228,
+      "mode": 384
+    },
+    {
+      "name": "codex",
+      "sha256": "3ff68d59d27a0434af9f0342b15749f9a2138c1fc074e0a79b5b3d39910de02a",
+      "bytes": 1035548088,
+      "mode": 448
+    },
+    {
+      "name": "codex-component",
+      "sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+      "bytes": 16462992,
+      "mode": 448
+    },
+    {
+      "name": "codex-thread-manager-sample",
+      "sha256": "66d342696a4e922e9a8cad331fea0489977e7464dad9065dd6eb2b960f6439aa",
+      "bytes": 674610864,
+      "mode": 448
+    },
+    {
+      "name": "codex-thread-store-local-plugin",
+      "sha256": "bada74395646aa5cdb4ee9e4c7f6384b4a928dd5858ff8c4827f498a1d8c9431",
+      "bytes": 340614384,
+      "mode": 448
+    }
+  ],
+  "verification": "All binary bytes, SHA256, lengths, and modes matched existing manifest/originals through decompression; exactly the four binaries and preserved manifest were present; zstd decoder exited successfully.",
+  "completed_at_utc": "2026-09-30T14:20:42.272357+00:00",
+  "finalization_command": [
+    "python3",
+    "/workspace/toolchains/finalize-v1-checkpoint-archive.py"
+  ],
+  "removed_paths": [
+    "/workspace/verified-component-checkpoint-20260930/codex",
+    "/workspace/verified-component-checkpoint-20260930/codex-thread-manager-sample",
+    "/workspace/verified-component-checkpoint-20260930/codex-thread-store-local-plugin",
+    "/workspace/verified-component-checkpoint-20260930/codex-component"
+  ],
+  "retained_manifest": "/workspace/verified-component-checkpoint-20260930/binaries.json",
+  "checkpoint_binary_bytes_after": 0,
+  "generated_binary_bytes_removed": 2067236328,
+  "generated_binary_allocated_bytes_removed": 2067255296,
+  "net_bytes_saved": 1665916505,
+  "net_allocated_bytes_saved": 1665933312,
+  "filesystem_free_bytes_before_finalization": 6130556928,
+  "filesystem_free_bytes_after_finalization": 8197812224,
+  "active_external_links_modified": false,
+  "checkpoint_executables_in_use_at_removal": false
+}

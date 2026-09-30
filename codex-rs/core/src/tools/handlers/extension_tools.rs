@@ -50,6 +50,10 @@ impl ToolExecutor<ToolInvocation> for ExtensionToolAdapter {
         self.0.spec()
     }
 
+    fn replaces_existing_tool(&self) -> bool {
+        self.0.replaces_existing_tool()
+    }
+
     fn exposure(&self) -> crate::tools::registry::ToolExposure {
         self.0.exposure()
     }

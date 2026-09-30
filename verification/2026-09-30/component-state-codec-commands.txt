@@ -1,0 +1,16 @@
+cd /workspace/codex-harness-everythings-a-plugin/codex-rs
+source /workspace/toolchains/component-verification-env.sh
+just test -p codex-component-state-codec
+# Protocol helper tests follow after codec compilation is fixed and passes.
+
+# Initial codec compilation fixed ResponseItemId fixture construction.
+# Second codec invocation: 37 passed; JUnit saved as codec-junit.xml.
+just test -p codex-protocol trusted_component
+
+# Protocol helper3 passed; JUnit saved.
+just fix -p codex-component-state-codec
+# Fixed lint recommendations and exposed already-existing timeline field adapters.
+just clippy -p codex-component-state-codec -p codex-protocol
+
+# Final scoped clippy clean; targeted rustfmt completed, 28 files (skip_children=true).
+# No tests repeated after lint/format. Whole-repository fmt and Bazel lock remain root-owned.

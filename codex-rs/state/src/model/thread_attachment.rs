@@ -1,10 +1,12 @@
 //! Thread attachment records and outcomes; membership changes independently of resource contents.
 
 use codex_protocol::ThreadId;
+use serde::Deserialize;
+use serde::Serialize;
 use serde_json::Value;
 
 /// A bounded attachment durably associated with one thread.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ThreadAttachment {
     /// Stable, server-assigned UUIDv7 attachment identity.
     pub id: String,
@@ -21,7 +23,7 @@ pub struct ThreadAttachment {
 }
 
 /// Result of attaching one uniquely identified thread attachment.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum AddThreadAttachmentOutcome {
     /// A new durable attachment was created.
     Created(ThreadAttachment),
@@ -30,7 +32,7 @@ pub enum AddThreadAttachmentOutcome {
 }
 
 /// Result of removing a thread attachment.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum RemoveThreadAttachmentOutcome {
     /// An attached attachment was removed.
     Removed(ThreadAttachment),
@@ -39,7 +41,7 @@ pub enum RemoveThreadAttachmentOutcome {
 }
 
 /// One deterministically ordered page of attachments across selected threads.
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ThreadAttachmentPage {
     /// Attachments ordered by thread identity, creation time, and attachment identity.
     pub attachments: Vec<ThreadAttachment>,

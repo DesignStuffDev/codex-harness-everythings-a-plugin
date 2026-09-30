@@ -1,0 +1,29 @@
+{
+  "command": "CARGO_TARGET_DIR=/workspace/toolchains/component-target CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 just test -p codex-component-host --retries 0",
+  "working_directory": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+  "nextest_run_id": "5d48e579-2655-4790-a57d-e773c9fd1cca",
+  "result": "passed",
+  "tests_passed": 46,
+  "tests_failed": 0,
+  "tests_skipped": 1,
+  "test_duration_seconds": 6.143,
+  "skipped_reason": "Ignored Linux parent-death helper executes separately through the passing nested-process regression.",
+  "verification": [
+    "Launch deadline and interrupted-handshake tests now require the child PID absent immediately on return, with no polling allowance",
+    "New explicit_force_reaps_even_when_event_delivery_is_backpressured verifies actual child.wait acknowledgement when output is blocked and repeated force calls remain idempotent",
+    "Existing graceful partial-frame, deadline, cleanup, parent-death and persistent-session regressions still pass"
+  ],
+  "validation_order": "tests then scoped just fix then owned-file rustfmt; no tests rerun solely after fix/format",
+  "scoped_clippy": "just fix -p codex-component-host passed without warnings after replacing a unit copy map with copied()",
+  "limits": [
+    "Acknowledgement covers the directly owned child, not arbitrary orphaned descendants",
+    "Explicit force has a two-second reap bound; failure explicitly leaves reaping and durability unconfirmed",
+    "Accidental future Drop retains immediate force fallback; its detached reap requires a live runtime",
+    "Linux parent-death creator-thread constraints and Windows descendant-tree limitations remain documented",
+    "Actual manager signal acceptance with PID-absence assertions is a separate following report",
+    "Broker source remains unlinked and untested"
+  ],
+  "manager_binary": "/workspace/toolchains/component-target/debug/codex-component",
+  "manager_sha256": "4dd8ba7e78102f76349acc21ca1eb0772e9106dd1a80f9c757222bcd55742a76",
+  "standalone_build": "cargo build -p codex-component-host --bin codex-component: passed"
+}

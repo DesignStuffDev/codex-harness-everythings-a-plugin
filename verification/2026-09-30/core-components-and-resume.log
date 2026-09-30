@@ -1,0 +1,81 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+   Compiling codex-attachment-store-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-api)
+   Compiling codex-thread-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store)
+   Compiling codex-attachment-store-inline v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-inline)
+   Compiling codex-attachment-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store)
+   Compiling codex-login v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/login)
+   Compiling codex-attachment-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-component)
+   Compiling codex-models-manager v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/models-manager)
+   Compiling codex-feedback v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/feedback)
+   Compiling codex-model-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider)
+   Compiling codex-connectors v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/connectors)
+   Compiling codex-thread-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component)
+   Compiling codex-mcp v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-mcp)
+   Compiling codex-tools v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/tools)
+   Compiling codex-analytics v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/analytics)
+   Compiling codex-extension-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/extension-api)
+   Compiling codex-core-plugins v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugins)
+   Compiling codex-agent-message-board-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent-message-board)
+   Compiling codex-skills-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/skills)
+   Compiling codex-agent-message-board-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/agent-message-board-client)
+   Compiling codex-component-adapters v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-adapters)
+   Compiling codex-guardian-reviewer v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/guardian-reviewer)
+   Compiling codex-home v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-home)
+   Compiling codex-core v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core)
+error[E0432]: unresolved import `crate::features`
+  --> core/src/component_persistence.rs:22:12
+   |
+22 | use crate::features::Feature;
+   |            ^^^^^^^^ could not find `features` in the crate root
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `codex-core` (lib) due to 1 previous error
+error: command `/workspace/toolchains/rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo '--color=auto' test --no-run --message-format json-render-diagnostics --package codex-core --test all` exited with code 101
+error: recipe `test` failed on line 88 with exit code 101
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-attachment-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-component)
+   Compiling codex-core v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core)
+   Compiling codex-guardian-v2 v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/guardian-v2)
+   Compiling codex-image-generation-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/image-generation)
+   Compiling codex-web-search-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/web-search)
+   Compiling core_test_support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core/tests/common)
+warning: unused import: `wiremock::matchers::body_json`
+  --> core/tests/suite/openai_file_mcp.rs:47:5
+   |
+47 | use wiremock::matchers::body_json;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `codex_protocol::openai_models::ReasoningEffort`
+  --> core/tests/suite/scenarios.rs:42:5
+   |
+42 | use codex_protocol::openai_models::ReasoningEffort;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `codex-core` (test "all") generated 2 warnings (run `cargo fix --test "all" -p codex-core` to apply 2 suggestions)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3m 28s
+────────────
+ Nextest run ID a2dbb1f0-541f-40f7-b8b6-3f1042ecdbc7 with nextest profile: local
+    Starting 18 tests across 1 binary (2212 tests skipped)
+        PASS [   0.416s] ( 1/18) codex-core::all suite::component_attachments::component_upload_failure_retains_native_inline_fallback
+        PASS [   0.427s] ( 2/18) codex-core::all suite::component_attachments::explicit_store_beats_component_selection
+        PASS [   0.464s] ( 3/18) codex-core::all suite::component_attachments::isolated_default_session_excludes_installed_attachment_component
+        PASS [   1.095s] ( 4/18) codex-core::all suite::compact_resume_fork::compact_resume_and_fork_preserve_model_history_view
+        PASS [   0.684s] ( 5/18) codex-core::all suite::component_attachments::selected_store_uploads_live_image_and_resume_does_not_reupload
+        PASS [   0.401s] ( 6/18) codex-core::all suite::component_model::component_failure_does_not_fall_back_and_next_turn_runs
+        PASS [   0.426s] ( 7/18) codex-core::all suite::component_model::interruption_cancels_component_and_allows_next_turn
+        PASS [   1.566s] ( 8/18) codex-core::all suite::compact_resume_fork::compact_resume_after_second_compaction_preserves_history
+        PASS [   0.568s] ( 9/18) codex-core::all suite::component_model::isolated_session_excludes_installed_model_but_keeps_explicit_extensions
+        PASS [   0.932s] (10/18) codex-core::all suite::component_model::installed_model_streams_executes_tools_and_resumes
+        PASS [   0.565s] (11/18) codex-core::all suite::resume::local_thread_history_mode_survives_restart::explicit_legacy
+        PASS [   0.756s] (12/18) codex-core::all suite::resume::local_thread_history_mode_survives_restart::explicit_paginated
+        PASS [   0.611s] (13/18) codex-core::all suite::resume::local_thread_history_mode_survives_restart::store_default
+        PASS [   0.468s] (14/18) codex-core::all suite::resume::resume_includes_initial_messages_from_reasoning_events
+        PASS [   0.450s] (15/18) codex-core::all suite::resume::resume_includes_initial_messages_from_rollout_events
+        PASS [   0.295s] (16/18) codex-core::all suite::resume::resume_restores_windows_sandbox_override
+        PASS [   0.594s] (17/18) codex-core::all suite::resume::resume_model_switch_is_not_duplicated_after_pre_turn_override
+        PASS [   0.590s] (18/18) codex-core::all suite::resume::resume_switches_models_preserves_base_instructions
+────────────
+     Summary [   3.100s] 18 tests run: 18 passed, 2212 skipped

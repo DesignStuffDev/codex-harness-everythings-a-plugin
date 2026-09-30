@@ -7,6 +7,21 @@ use std::time::Duration;
 use tracing_subscriber::Layer;
 use tracing_subscriber::layer::SubscriberExt;
 
+#[test]
+fn remote_connection_identity_survives_transport_mapping() {
+    let captured = crate::RemoteConnectionFailure::capture(&RouteAwareRequestError::Timeout);
+    // A remote connection remains a connection even when native timeout/connect flags differ.
+    for error in [
+        ReqwestTransport::map_error(captured.into()),
+        ReqwestTransport::map_route_aware_error(captured.into()),
+    ] {
+        let TransportError::Connection(error) = error else {
+            panic!("remote connection changed transport classification");
+        };
+        pretty_assertions::assert_eq!(crate::RemoteConnectionFailure::capture(&error), captured);
+    }
+}
+
 #[tokio::test]
 async fn enabled_request_logging_emits_transport_url_and_body() {
     let logs = capture_transport_logs(HttpClient::new(test_reqwest_client())).await;

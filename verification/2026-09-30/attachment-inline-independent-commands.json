@@ -1,0 +1,96 @@
+[
+  {
+    "command": [
+      "cargo",
+      "build",
+      "--offline",
+      "--manifest-path",
+      "/workspace/acceptance/attachment-inline-source/Cargo.toml",
+      "--bin",
+      "codex-attachment-inline-component"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": "   Compiling proc-macro2 v1.0.106\n   Compiling unicode-ident v1.0.22\n   Compiling quote v1.0.45\n   Compiling serde_core v1.0.228\n   Compiling serde v1.0.228\n   Compiling zmij v1.0.19\n   Compiling pin-project-lite v0.2.16\n   Compiling serde_json v1.0.149\n   Compiling once_cell v1.21.4\n   Compiling tracing-core v0.1.36\n   Compiling syn v2.0.117\n   Compiling itoa v1.0.17\n   Compiling anyhow v1.0.103\n   Compiling memchr v2.8.1\n   Compiling bytes v1.12.1\n   Compiling serde_derive v1.0.228\n   Compiling tracing-attributes v0.1.31\n   Compiling tokio-macros v2.7.0\n   Compiling tokio v1.52.3\n   Compiling tracing v0.1.44\n   Compiling codex-attachment-store-api v0.1.0 (/workspace/acceptance/attachment-inline-source/attachment-store-api)\n   Compiling codex-component-api v0.1.0 (/workspace/acceptance/attachment-inline-source/component-api)\n   Compiling codex-attachment-store-inline v0.1.0 (/workspace/acceptance/attachment-inline-source/attachment-store-inline)\n   Compiling codex-attachment-store-component v0.1.0 (/workspace/acceptance/attachment-inline-source)\n    Finished `dev` profile [unoptimized + debuginfo] target(s) in 7.63s\n"
+  },
+  {
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-component/package/build.py",
+      "assemble",
+      "/workspace/acceptance/attachment-inline-target/debug/codex-attachment-inline-component",
+      "--output",
+      "/workspace/acceptance/attachment-inline-acceptance/package"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/attachment-inline-acceptance/codex-home",
+      "install",
+      "/workspace/acceptance/attachment-inline-acceptance/package"
+    ],
+    "status": 0,
+    "stdout": "codex.attachment-inline\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/attachment-inline-acceptance/codex-home",
+      "select",
+      "attachment_store",
+      "default",
+      "codex.attachment-inline"
+    ],
+    "status": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/attachment-inline-acceptance/codex-home",
+      "call",
+      "attachment_store",
+      "default",
+      "upload",
+      "{\"thread_id\": \"independent-native-inline\", \"file_name\": \"five-megabytes.bin\", \"blob\": {\"path\": \"/workspace/acceptance/attachment-inline-acceptance/staging/five-megabytes.bin\", \"size_bytes\": 5242898}}"
+    ],
+    "status": 0,
+    "stdout": "{\n  \"ok\": {\n    \"kind\": \"inline\"\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/attachment-inline-acceptance/codex-home",
+      "call",
+      "attachment_store",
+      "default",
+      "resolve",
+      "{\"file_id\": \"native-inline-does-not-store-files\", \"download_url_ttl_ms\": 60000}"
+    ],
+    "status": 0,
+    "stdout": "{\n  \"error\": \"not_found\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "command": [
+      "/workspace/toolchains/component-target/debug/codex-component",
+      "--codex-home",
+      "/workspace/acceptance/attachment-inline-acceptance/codex-home",
+      "list"
+    ],
+    "status": 0,
+    "stdout": "{\n  \"enabled\": [\n    \"codex.attachment-inline\"\n  ],\n  \"installed\": {\n    \"codex.attachment-inline\": \"codex.attachment-inline-157423-18da1407f1b0cd31-0\"\n  },\n  \"selections\": {\n    \"attachment_store:default\": \"codex.attachment-inline\"\n  }\n}\n",
+    "stderr": ""
+  }
+]

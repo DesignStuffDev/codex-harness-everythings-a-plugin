@@ -1,0 +1,226 @@
+{
+  "passed": true,
+  "started_utc": "2026-09-30T14:29:22.015762+00:00",
+  "contract_version": 2,
+  "commands": [
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+        "export",
+        "--repo",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "--package",
+        "codex-thread-store-local-plugin",
+        "--output",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/source"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin",
+      "status": 0,
+      "elapsed_seconds": 2.2550255170026503,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/export.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/export.stderr"
+    },
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "cwd": "/workspace/acceptance/thread-store-native-v2-linux-20260930/source/codex-rs",
+      "status": 0,
+      "elapsed_seconds": 0.02772004800135619,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/compiler.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/compiler.stderr"
+    },
+    {
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--filter-platform",
+        "x86_64-unknown-linux-gnu",
+        "--format-version",
+        "1"
+      ],
+      "cwd": "/workspace/acceptance/thread-store-native-v2-linux-20260930/source/codex-rs",
+      "status": 0,
+      "elapsed_seconds": 0.6312411159997282,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/metadata.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/metadata.stderr"
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "-j",
+        "1",
+        "-p",
+        "codex-thread-store-local-plugin",
+        "--bin",
+        "codex-thread-store-local-plugin",
+        "--message-format=json-render-diagnostics"
+      ],
+      "cwd": "/workspace/acceptance/thread-store-native-v2-linux-20260930/source/codex-rs",
+      "status": 0,
+      "elapsed_seconds": 109.28600995800298,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/build.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/build.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+        "assemble",
+        "--repo",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/source",
+        "--binary",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-thread-store-local-plugin",
+        "--output",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/package",
+        "--id",
+        "native.thread-store-local",
+        "--kind",
+        "thread_store",
+        "--name",
+        "default",
+        "--contract-version",
+        "2"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin",
+      "status": 0,
+      "elapsed_seconds": 0.0651747020019684,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/assemble.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/assemble.stderr"
+    },
+    {
+      "argv": [
+        "strip",
+        "--strip-unneeded",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/package/codex-thread-store-local-plugin"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin",
+      "status": 0,
+      "elapsed_seconds": 0.16008483900077408,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/strip.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/strip.stderr"
+    },
+    {
+      "argv": [
+        "ldd",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/package/codex-thread-store-local-plugin"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin",
+      "status": 0,
+      "elapsed_seconds": 0.006455585000367137,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/libraries.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/libraries.stderr"
+    },
+    {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/harness_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--codex",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+        "--work-dir",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime",
+        "--thread-store-package",
+        "/workspace/acceptance/thread-store-native-v2-linux-20260930/package"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin",
+      "status": 0,
+      "elapsed_seconds": 4.01470804100245,
+      "stdout": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime.stdout",
+      "stderr": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime.stderr"
+    }
+  ],
+  "binaries_before": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "mtime_ns": 1790778388342479825,
+      "bytes": 625072120
+    }
+  },
+  "artifact_directory": "/workspace/acceptance/thread-store-native-v2-linux-20260930",
+  "build_target": "x86_64-unknown-linux-gnu",
+  "source_export": {
+    "local_crates": 81,
+    "resolved_packages": 917,
+    "all_local_paths_inside_export": true,
+    "lock_identities_before": 1482,
+    "lock_identities_after": 1071,
+    "lock_new_identities": 0,
+    "excluded_engines": [
+      "codex-app-server",
+      "codex-cli",
+      "codex-core",
+      "codex-tui",
+      "core_test_support"
+    ],
+    "inventory": {
+      "sha256": "233cf8c8977e16fb32abcd5bf999ebac18d6c09f0e3e901c8ad4744d8d152713",
+      "mtime_ns": 1790778564727932417,
+      "bytes": 911922
+    },
+    "warnings": [
+      "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+    ]
+  },
+  "build_artifact": {
+    "package_id": "path+file:///workspace/acceptance/thread-store-native-v2-linux-20260930/source/codex-rs/thread-store-local-plugin#codex-thread-store-local-plugin@0.0.0",
+    "target_source": "/workspace/acceptance/thread-store-native-v2-linux-20260930/source/codex-rs/thread-store-local-plugin/src/main.rs",
+    "fresh": false,
+    "fingerprint": {
+      "sha256": "4f231eaa69a2b36bd0382902a5c3399fa5fbc1db199406e63317219d3f83a9a2",
+      "mtime_ns": 1790778674690593679,
+      "bytes": 109485824
+    },
+    "shared_target": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target",
+    "third_party_cache_reused": true
+  },
+  "runtime_libraries": "\tlinux-vdso.so.1 (0x00007fb7455e3000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007fb7411fa000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007fb74110a000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fb740f16000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007fb7455e5000)\n",
+  "package_files": {
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mtime_ns": 1790778674982996388,
+      "bytes": 10926
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mtime_ns": 1790778674983069836,
+      "bytes": 242
+    },
+    "codex-component.json": {
+      "sha256": "9df98a6ea35767a0e26585210b257ef5404cbe8c209432b3ec2dce793fc4ae94",
+      "mtime_ns": 1790778674983204304,
+      "bytes": 309
+    },
+    "codex-thread-store-local-plugin": {
+      "sha256": "0b5c433e116cf9b542697dbc80475f557c152ae2a4e0a1c8a99666c5ed2cc723",
+      "mtime_ns": 1790778675138587483,
+      "bytes": 70824776
+    }
+  },
+  "source_removed_before_install": true,
+  "runtime_report": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime/acceptance.json",
+  "binaries_after": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "mtime_ns": 1790778388342479825,
+      "bytes": 625072120
+    }
+  }
+}

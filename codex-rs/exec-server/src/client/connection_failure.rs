@@ -50,6 +50,7 @@ impl ExecServerError {
             | Self::EnvironmentRegistryAuth(_)
             | Self::EnvironmentRegistryRequest(
                 RouteAwareRequestError::Request(_)
+                | RouteAwareRequestError::RemoteConnection(_)
                 | RouteAwareRequestError::Route(_)
                 | RouteAwareRequestError::Build(_)
                 | RouteAwareRequestError::UnsupportedRedirectScheme(_)

@@ -17,15 +17,16 @@ use codex_analytics::AnalyticsEventsClient;
 use codex_attachment_store::AttachmentStore;
 use codex_config::CloudConfigBundleLoader;
 use codex_core::CodexThread;
+use codex_core::PersistenceServices;
 pub use codex_core::StartThreadOptions;
 use codex_core::ThreadManager;
 use codex_core::TimeProvider;
 pub use codex_core::TurnInputRequest;
 use codex_core::config::Config;
+use codex_core::persistence_from_config;
 use codex_core::resolve_installation_id;
 use codex_core::shell::Shell;
 use codex_core::shell::get_shell_by_model_provided_path;
-use codex_core::thread_store_from_config;
 use codex_core::windows_sandbox::WindowsSandboxLevelExt;
 use codex_exec_server::CreateDirectoryOptions;
 use codex_exec_server::ExecutorFileSystem;
@@ -782,10 +783,11 @@ impl TestCodexBuilder {
         environment_manager: Arc<codex_exec_server::EnvironmentManager>,
     ) -> anyhow::Result<TestCodex> {
         let state_db = codex_core::init_state_db(&config).await;
-        let thread_store = self
-            .thread_store
-            .clone()
-            .unwrap_or_else(|| thread_store_from_config(&config, state_db.clone()));
+        let persistence = match self.thread_store.clone() {
+            Some(store) => PersistenceServices::from_legacy_native(store),
+            None => persistence_from_config(&config, state_db.clone()).await?,
+        };
+        let thread_store = Arc::clone(&persistence.thread_store);
         let installation_id = resolve_installation_id(&config.codex_home).await?;
         let user_instructions_provider =
             self.user_instructions_provider.clone().unwrap_or_else(|| {
@@ -810,7 +812,7 @@ impl TestCodexBuilder {
             } else {
                 codex_guardian_v2::install_reviewer(&mut extensions, manager.clone());
             }
-            let thread_manager = ThreadManager::new(
+            let thread_manager = ThreadManager::new_with_persistence(
                 &config,
                 auth_manager.clone(),
                 models_manager,
@@ -821,7 +823,7 @@ impl TestCodexBuilder {
                 user_instructions_provider,
                 self.analytics_events_client.clone(),
                 Arc::clone(&self.image_store),
-                Arc::clone(&thread_store),
+                persistence.clone(),
                 codex_core::local_agent_graph_store_from_state_db(state_db.as_ref()),
                 installation_id,
                 /*attestation_provider*/ None,

@@ -1,0 +1,71 @@
+{
+  "status": "passed",
+  "environment": "/workspace/toolchains/component-verification-env.sh",
+  "target_dir": "codex-rs/target",
+  "behavior": "Presentation uses bounded initialization/request delivery, no execution lifetime deadline after readiness, and full bounded exit grace. Ordinary invocation deadlines remain active.",
+  "tests": {
+    "command": "just test -p codex-component-host --retries 0",
+    "run_id": "ceff8efc-0a99-422f-9f84-31b34464000c",
+    "passed": 56,
+    "failed": 0,
+    "skipped": 1,
+    "skipped_reason": "helper-only subprocess test",
+    "duration_seconds": 6.834
+  },
+  "lint": {
+    "command": "just fix -p codex-component-host -p codex-component-api",
+    "exit_code": 0,
+    "duration_seconds": 7.49,
+    "automatic_fixes_reported": false
+  },
+  "format": "Owned Rust files formatted after tests/lint; whole-workspace just fmt passed after the matching build; no tests repeated solely after formatting.",
+  "source_sha256": {
+    "codex-rs/component-host/src/process.rs": "2417783ccff48083969d1a247367488759148e95c30cf96704de84b983aeaa3a",
+    "codex-rs/component-host/src/process_control.rs": "b317299306af71287e46afc984c9fee37f8ea60ae746508a4b07eea2027b7e0b",
+    "codex-rs/component-host/src/launch.rs": "794be4a844fb2d2040c61cfd5d0954d6f17eb04c9ddaefe6e5e188ce389b940e",
+    "codex-rs/component-host/src/main.rs": "b9b8bb922be4798359fc8a9325f69d9c3198ab8cea8b71fa586ca6282f250bf3",
+    "codex-rs/component-host/src/launch_tests.rs": "e1a2ac05a082e24823786a32d975ab79bd7a2674ce1bdb84a5e68855989827ed",
+    "codex-rs/component-host/src/launch_service_tests.rs": "6c01265f9d8d6c265944db88340d01424ba9b8b4f012b9141479189332924cec"
+  },
+  "artifacts": [
+    "component-host-service-lifetime-tests.log",
+    "component-host-service-lifetime-junit.xml",
+    "component-host-service-lifetime-fix.log",
+    "component-service-lifetime-build.log",
+    "component-service-lifetime-binaries.json",
+    "manager-service-lifetime-acceptance.json",
+    "manager-service-lifetime-acceptance.log"
+  ],
+  "limitations": [
+    "Unconfirmed cleanup remains explicit after the 2-second force/reap bound.",
+    "No assurance of arbitrary descendant reaping or durability after forced termination.",
+    "No live browser acceptance claimed in this runtime gate; root runs rebuilt GUI checkpoint."
+  ],
+  "build": {
+    "command": "cargo build -p codex-cli -p codex-component-host --bin codex --bin codex-component",
+    "exit_code": 0,
+    "duration_seconds": 230,
+    "log": "component-service-lifetime-build.log"
+  },
+  "binaries": {
+    "codex": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "bytes": 625072120,
+      "mtime_ns": 1790778388342479825
+    },
+    "codex-component": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "bytes": 7092568,
+      "mtime_ns": 1790778198616991936
+    }
+  },
+  "actual_manager_acceptance": {
+    "passed": true,
+    "tests": 3,
+    "report": "manager-service-lifetime-acceptance.json",
+    "manager_unchanged": true,
+    "direct_child_reaped_all_cases": true
+  }
+}

@@ -65,6 +65,7 @@ pub(crate) use base_instructions::BaseInstructionsFragment;
 pub(crate) use codex_context_fragments::AdditionalContextDeveloperFragment;
 pub(crate) use codex_context_fragments::AdditionalContextUserFragment;
 pub use codex_context_fragments::AnsweredQuestion;
+pub use codex_context_fragments::ComponentContextFragment;
 pub use codex_context_fragments::ContextualUserFragment;
 pub(crate) use codex_guardian_context::PermissionContext as GuardianPermissionContext;
 pub(crate) use codex_prompts::MultiAgentRoleInstructions;

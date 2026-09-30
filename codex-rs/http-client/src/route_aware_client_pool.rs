@@ -21,6 +21,7 @@ use crate::HttpClientFactory;
 use crate::NetworkPolicyDenied;
 use crate::OutboundProxyPolicy;
 use crate::OutboundProxyRoute;
+use crate::RemoteConnectionFailure;
 use crate::RequestBuilder;
 use crate::RouteFailureClass;
 use crate::client::HttpClientBackend;
@@ -90,6 +91,8 @@ pub enum RouteAwareRequestError {
     #[error(transparent)]
     Request(#[from] reqwest::Error),
     #[error(transparent)]
+    RemoteConnection(#[from] RemoteConnectionFailure),
+    #[error(transparent)]
     Route(#[from] RouteAwareClientPoolError),
     #[error("failed to build route-aware request: {0}")]
     Build(String),
@@ -104,6 +107,9 @@ pub enum RouteAwareRequestError {
 impl RouteAwareRequestError {
     /// Classifies transport, proxy, and certificate failures without exposing request details.
     pub fn failure_class(&self) -> Option<RouteFailureClass> {
+        if let Self::RemoteConnection(failure) = self {
+            return failure.failure_class;
+        }
         if self.is_timeout() {
             return Some(RouteFailureClass::ConnectTimeout);
         }
@@ -143,6 +149,7 @@ impl RouteAwareRequestError {
             }
             Self::Route(RouteAwareClientPoolError::BuildTask(_))
             | Self::Request(_)
+            | Self::RemoteConnection(_)
             | Self::Policy(_)
             | Self::Build(_)
             | Self::UnsupportedRedirectScheme(_)
@@ -154,6 +161,7 @@ impl RouteAwareRequestError {
     pub fn status(&self) -> Option<StatusCode> {
         match self {
             Self::Request(error) => error.status(),
+            Self::RemoteConnection(failure) => failure.status,
             Self::Route(_)
             | Self::Policy(_)
             | Self::Build(_)
@@ -164,23 +172,29 @@ impl RouteAwareRequestError {
     }
 
     pub fn is_timeout(&self) -> bool {
-        matches!(self, Self::Timeout) || matches!(self, Self::Request(error) if error.is_timeout())
+        matches!(self, Self::Timeout)
+            || matches!(self, Self::Request(error) if error.is_timeout())
+            || matches!(self, Self::RemoteConnection(failure) if failure.is_timeout)
     }
 
     pub fn is_connect(&self) -> bool {
         matches!(self, Self::Request(error) if error.is_connect())
+            || matches!(self, Self::RemoteConnection(failure) if failure.is_connect)
     }
 
     pub fn is_builder(&self) -> bool {
         matches!(self, Self::Request(error) if error.is_builder())
+            || matches!(self, Self::RemoteConnection(failure) if failure.is_builder)
     }
 
     pub fn is_body(&self) -> bool {
         matches!(self, Self::Request(error) if error.is_body())
+            || matches!(self, Self::RemoteConnection(failure) if failure.is_body)
     }
 
     pub fn is_request(&self) -> bool {
         matches!(self, Self::Request(error) if error.is_request())
+            || matches!(self, Self::RemoteConnection(failure) if failure.is_request)
     }
 
     pub fn url_mut(&mut self) -> Option<&mut reqwest::Url> {

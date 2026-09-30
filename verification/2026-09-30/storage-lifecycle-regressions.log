@@ -1,0 +1,34 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+   Compiling codex-thread-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store)
+   Compiling codex-login v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/login)
+   Compiling codex-connectors v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/connectors)
+   Compiling codex-models-manager v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/models-manager)
+   Compiling codex-feedback v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/feedback)
+   Compiling codex-tools v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/tools)
+   Compiling codex-thread-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component)
+   Compiling codex-model-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider)
+   Compiling codex-mcp v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-mcp)
+   Compiling codex-extension-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/extension-api)
+   Compiling codex-agent-message-board-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent-message-board)
+   Compiling codex-thread-store-local-plugin v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-local-plugin)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 33.53s
+────────────
+ Nextest run ID 768ed842-cbff-4715-b807-6cfb30354af6 with nextest profile: local
+    Starting 14 tests across 4 binaries
+        PASS [   0.046s] ( 1/14) codex-thread-store-component adapter::tests::cancelled_connect_still_drains_accepted_open
+        PASS [   0.138s] ( 2/14) codex-thread-store-component adapter::tests::invalid_open_waits_for_service_cleanup_before_returning
+        PASS [   0.045s] ( 3/14) codex-thread-store-component adapter::tests::shutdown_signal_closes_process_despite_retained_store_clone
+        PASS [   0.058s] ( 4/14) codex-thread-store-component service::tests::release_before_native_prepare_completes_drops_late_reservation
+        PASS [   0.479s] ( 5/14) codex-thread-store-local-plugin::process_storage collections::installed_store_preserves_projects_sections_attachments_and_literal_clears
+        PASS [   1.033s] ( 6/14) codex-thread-store-component adapter::tests::initialization_cleanup_failure_preserves_both_errors
+        PASS [   0.787s] ( 7/14) codex-thread-store-local-plugin::process_storage collections::metadata_and_paginated_reads_preserve_native_results_and_revert
+        PASS [   1.132s] ( 8/14) codex-thread-store-local-plugin::process_storage lifecycle::failed_fork_calls_release_cleanup_capacity_and_keep_native_error_types
+        PASS [   0.835s] ( 9/14) codex-thread-store-local-plugin::process_storage lifecycle::failed_preparation_discard_does_not_materialize_a_thread
+        PASS [   0.462s] (10/14) codex-thread-store-local-plugin::process_storage lifecycle::fork_owner_cancellation_releases_source_while_delete_is_waiting
+        PASS [   0.542s] (11/14) codex-thread-store-local-plugin::process_storage lifecycle::fork_reference_survives_restart_and_preserves_delete_conflicts
+        PASS [   0.927s] (12/14) codex-thread-store-local-plugin::process_storage lifecycle::installed_storage_preserves_native_history_and_resume_across_process_restart
+        PASS [   0.270s] (13/14) codex-thread-store-local-plugin::process_storage lifecycle::optional_sqlite_features_match_native_capabilities_and_errors
+        PASS [   5.696s] (14/14) codex-thread-store-local-plugin::process_storage lifecycle::large_native_rollout_roundtrips_beyond_transport_frame_size
+────────────
+     Summary [   8.630s] 14 tests run: 14 passed, 0 skipped

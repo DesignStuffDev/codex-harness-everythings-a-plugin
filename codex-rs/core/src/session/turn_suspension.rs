@@ -1,4 +1,3 @@
-use super::handlers;
 use super::session::Session;
 use crate::state::TaskKind;
 use codex_protocol::error::CodexErr;
@@ -100,13 +99,21 @@ pub(super) async fn suspend_turn_and_shutdown(
     // Stop all producers before flushing their final history and closing its writer.
     // If either persistence step fails, do not report success: the current worker
     // retains ownership until worker-failure recovery can take responsibility.
-    handlers::shutdown_session_runtime(session).await;
+    super::runtime_lifecycle::shutdown_runtime(session)
+        .wait()
+        .await
+        .map_err(|error| {
+            CodexErr::Fatal(format!("close suspended root turn runtime failed: {error}"))
+        })?;
     live_thread.flush().await.map_err(|error| {
         CodexErr::Fatal(format!("flush after root turn suspension failed: {error}"))
     })?;
-    live_thread.shutdown().await.map_err(|error| {
-        CodexErr::Fatal(format!("close suspended root turn writer failed: {error}"))
-    })?;
+    super::runtime_lifecycle::shutdown_persistence(session)
+        .wait()
+        .await
+        .map_err(|error| {
+            CodexErr::Fatal(format!("close suspended root turn writer failed: {error}"))
+        })?;
     // Announce completion only after extension cleanup and writer closure so a
     // replacement worker cannot write the same thread concurrently.
     session

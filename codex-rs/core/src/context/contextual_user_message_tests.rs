@@ -10,6 +10,14 @@ use codex_protocol::models::ResponseItem;
 use pretty_assertions::assert_eq;
 
 #[test]
+fn component_context_is_not_user_authorization() {
+    let fragment = ComponentContextFragment::new("calendar", "today", "external context");
+    let message = ResponseItem::from(fragment.render_fragment());
+    assert!(is_guardian_context_message(&message));
+    assert!(!is_user_authorization_message(&message));
+}
+
+#[test]
 fn detects_environment_context_fragment() {
     assert!(is_contextual_user_fragment(&ContentItem::InputText {
         text: "<environment_context>\n<cwd>/tmp</cwd>\n</environment_context>".to_string(),

@@ -1,0 +1,835 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling smallvec v1.15.1
+   Compiling zeroize_derive v1.4.3
+   Compiling scopeguard v1.2.0
+   Compiling lock_api v0.4.14
+   Compiling zeroize v1.8.2
+   Compiling parking_lot_core v0.9.12
+   Compiling subtle v2.6.1
+   Compiling generic-array v0.14.7
+   Compiling parking_lot v0.12.5
+   Compiling typenum v1.20.0
+   Compiling const-oid v0.9.6
+   Compiling mio v1.2.0
+   Compiling tokio v1.52.3
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling digest v0.10.7
+   Compiling serde_json v1.0.149
+   Compiling syn v3.0.3
+   Compiling futures-io v0.3.34
+   Compiling getrandom v0.3.4
+   Compiling rustix v1.1.4
+   Compiling futures-macro v0.3.34
+   Compiling linux-raw-sys v0.12.1
+   Compiling futures-util v0.3.34
+   Compiling tinystr v0.8.3
+   Compiling num_threads v0.1.7
+   Compiling time v0.3.47
+   Compiling writeable v0.6.2
+   Compiling potential_utf v0.1.4
+   Compiling ring v0.17.14
+   Compiling icu_locale_core v2.2.0
+   Compiling sha2 v0.10.9
+   Compiling zerotrie v0.2.4
+   Compiling num-integer v0.1.46
+   Compiling getrandom v0.4.2
+   Compiling icu_provider v2.2.0
+   Compiling icu_collections v2.2.0
+   Compiling rustls-pki-types v1.14.0
+   Compiling aws-lc-rs v1.18.1
+   Compiling either v1.15.0
+   Compiling tokio-util v0.7.18
+   Compiling icu_normalizer v2.2.0
+   Compiling icu_properties v2.2.0
+   Compiling serde_core v1.0.228
+   Compiling idna_adapter v1.2.1
+   Compiling idna v1.1.0
+   Compiling url v2.5.8
+   Compiling sha1_smol v1.0.1
+   Compiling uuid v1.20.0
+   Compiling rustls v0.23.45
+   Compiling rustls-webpki v0.103.15
+   Compiling num-bigint v0.4.6
+   Compiling futures-executor v0.3.34
+   Compiling bstr v1.12.1
+   Compiling sha1 v0.10.6
+   Compiling serde v1.0.228
+   Compiling tempfile v3.27.0
+   Compiling rand_core v0.9.5
+   Compiling rand_chacha v0.9.0
+   Compiling rand v0.9.3
+   Compiling futures v0.3.34
+   Compiling h2 v0.4.19
+   Compiling rustls-native-certs v0.8.3
+   Compiling tokio-rustls v0.26.4
+   Compiling cpufeatures v0.3.0
+   Compiling webpki-roots v1.0.5
+   Compiling itertools v0.14.0
+   Compiling hyper v1.8.1
+   Compiling asn1-rs v0.7.1
+   Compiling hyper-util v0.1.20
+   Compiling schemars v0.8.22
+   Compiling ts-rs v11.1.0
+   Compiling tower v0.5.3
+   Compiling oid-registry v0.8.1
+   Compiling der-parser v10.0.0
+   Compiling codex-utils-absolute-path v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/absolute-path)
+   Compiling x509-parser v0.18.1
+   Compiling chacha20 v0.10.2
+   Compiling terminal_size v0.4.3
+   Compiling yasna v0.6.0
+   Compiling clap_builder v4.5.58
+   Compiling rcgen v0.14.9
+   Compiling rand v0.10.1
+   Compiling clap v4.5.58
+   Compiling spin v0.9.8
+   Compiling hyper-rustls v0.27.7
+   Compiling gix-validate v0.11.0
+   Compiling gix-path v0.11.2
+   Compiling tracing-serde v0.2.0
+   Compiling tracing-subscriber v0.3.22
+   Compiling nibble_vec v0.1.0
+   Compiling cookie v0.18.1
+   Compiling tokio-native-tls v0.3.1
+   Compiling tower-http v0.6.8
+   Compiling publicsuffix v2.3.0
+   Compiling aho-corasick v1.1.4
+   Compiling cookie_store v0.22.1
+   Compiling hyper-tls v0.6.0
+   Compiling ahash v0.8.12
+   Compiling regex-automata v0.4.13
+   Compiling tokio-stream v0.1.18
+   Compiling reqwest v0.12.28
+   Compiling regex v1.12.3
+   Compiling codex-utils-rustls-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/rustls-provider)
+   Compiling rama-utils v0.3.0-alpha.4
+   Compiling flume v0.12.0
+   Compiling tokio-graceful v0.2.2
+   Compiling rama-core v0.3.0-alpha.4
+   Compiling radix_trie v0.3.0
+   Compiling codex-utils-home-dir v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/home-dir)
+   Compiling convert_case v0.10.0
+   Compiling derive_more-impl v2.1.1
+   Compiling rama-http-types v0.3.0-alpha.4
+   Compiling derive_more v2.1.1
+   Compiling arrayvec v0.7.6
+   Compiling env_logger v0.11.9
+   Compiling tracing-opentelemetry v0.32.1
+   Compiling lock_free_hashtable v0.1.4
+   Compiling moka v0.12.13
+   Compiling rama-net v0.3.0-alpha.4
+   Compiling hickory-proto v0.25.2
+   Compiling heapless v0.7.17
+   Compiling codex-http-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/http-client)
+   Compiling quickcheck v1.1.0
+   Compiling hickory-resolver v0.25.2
+   Compiling dashmap v6.1.0
+   Compiling blake3 v1.8.2
+   Compiling allocative v0.3.6
+   Compiling postcard v1.1.3
+   Compiling sorted_vector_map v0.2.1
+   Compiling static_interner v0.1.2
+   Compiling Inflector v0.11.4
+   Compiling schemafy_core v0.5.2
+   Compiling globset v0.4.18
+   Compiling pagable v0.4.1
+   Compiling enumflags2 v0.7.12
+   Compiling schemafy_lib v0.5.2
+   Compiling rama-dns v0.3.0-alpha.4
+   Compiling rama-http-headers v0.3.0-alpha.4
+   Compiling radix_trie v0.2.1
+   Compiling rama-http v0.3.0-alpha.4
+   Compiling rama-tcp v0.3.0-alpha.4
+   Compiling schemafy v0.5.2
+   Compiling starlark_map v0.14.2
+   Compiling lsp-types v0.97.0
+   Compiling tokio-test v0.4.5
+   Compiling fd-lock v4.0.4
+   Compiling rustyline v14.0.0
+   Compiling rama-http-core v0.3.0-alpha.4
+   Compiling starlark_syntax v0.14.2
+   Compiling icu_locale v2.2.0
+   Compiling debugserver-types v0.5.0
+   Compiling display_container v0.9.0
+   Compiling rama-unix v0.3.0-alpha.4
+   Compiling rama-udp v0.3.0-alpha.4
+   Compiling rama-socks5 v0.3.0-alpha.4
+   Compiling starlark v0.14.2
+   Compiling rama-http-backend v0.3.0-alpha.4
+   Compiling rama-tls-rustls v0.3.0-alpha.4
+   Compiling codex-utils-path-uri v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/path-uri)
+   Compiling rand_regex v0.18.1
+   Compiling codex-network-proxy v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/network-proxy)
+   Compiling codex-execpolicy v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/execpolicy)
+   Compiling gix-url v0.35.2
+   Compiling codex-utils-cache v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/cache)
+   Compiling fixed_decimal v0.7.2
+   Compiling strum_macros v0.27.2
+   Compiling strum v0.27.2
+   Compiling icu_decimal v2.2.0
+   Compiling codex-utils-image v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/image)
+   Compiling landlock v0.4.4
+   Compiling codex-utils-string v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/string)
+   Compiling codex-extension-items v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/items)
+   Compiling codex-utils-redacted-string v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/redacted-string)
+   Compiling codex-async-utils v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/async-utils)
+   Compiling codex-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/protocol)
+   Compiling concurrent-queue v2.5.0
+   Compiling event-listener v5.4.1
+   Compiling headers v0.4.1
+   Compiling same-file v1.0.6
+   Compiling tungstenite v0.27.0 (https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30)
+   Compiling walkdir v2.5.0
+   Compiling tokio-tungstenite v0.28.0 (https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73)
+   Compiling prost-derive v0.14.3
+   Compiling event-listener-strategy v0.5.4
+   Compiling async-channel v2.5.0
+   Compiling prost v0.14.3
+   Compiling axum-core v0.5.6
+   Compiling matchit v0.8.4
+   Compiling axum v0.8.8
+   Compiling codex-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-client)
+   Compiling hyper-timeout v0.5.2
+   Compiling unicode-normalization v0.1.25
+   Compiling tonic v0.14.3
+   Compiling tonic-prost v0.14.3
+   Compiling gix-utils v0.3.1
+   Compiling codex-utils-pty v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/pty)
+   Compiling prodash v31.0.0
+   Compiling winnow v0.7.14
+   Compiling zlib-rs v0.6.3
+   Compiling gix-features v0.46.2
+   Compiling block-padding v0.3.3
+   Compiling heapless v0.8.0
+   Compiling inout v0.1.4
+   Compiling hash32 v0.3.1
+   Compiling cipher v0.4.4
+   Compiling gix-error v0.2.1
+   Compiling faster-hex v0.10.0
+   Compiling codex-websocket-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/websocket-client)
+   Compiling gethostname v1.1.0
+   Compiling rustversion v1.0.22
+   Compiling codex-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-api)
+   Compiling sha1-checked v0.10.0
+   Compiling gix-hash v0.23.0
+   Compiling opentelemetry_sdk v0.31.0
+   Compiling jiff v0.2.23
+   Compiling gix-hashtable v0.13.0
+   Compiling yansi v1.0.1
+   Compiling diff v0.1.13
+   Compiling pretty_assertions v1.4.1
+   Compiling memmap2 v0.9.10
+   Compiling opentelemetry-proto v0.31.0
+   Compiling gix-date v0.15.1
+   Compiling gix-actor v0.40.0
+   Compiling gix-object v0.58.0
+   Compiling opentelemetry-http v0.31.0
+   Compiling universal-hash v0.5.1
+   Compiling opaque-debug v0.3.1
+   Compiling opentelemetry-otlp v0.31.0
+   Compiling opentelemetry-appender-tracing v0.31.1
+   Compiling gix-fs v0.19.2
+   Compiling aead v0.5.2
+   Compiling codex-otel v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/otel)
+   Compiling gix-chunk v0.7.0
+   Compiling nonempty v0.12.0
+   Compiling gix-tempfile v21.0.2
+   Compiling rand v0.8.6
+   Compiling gix-lock v21.0.2
+   Compiling arc-swap v1.9.0
+   Compiling aes v0.8.4
+   Compiling gix-commitgraph v0.35.0
+   Compiling gix-quote v0.7.0
+   Compiling gix-sec v0.13.2
+   Compiling gix-revwalk v0.29.0
+   Compiling gix-ref v0.61.0
+   Compiling gix-command v0.8.0
+   Compiling gix-packetline v0.21.2
+   Compiling gix-glob v0.24.0
+   Compiling clru v0.6.3
+   Compiling similar v2.7.0
+   Compiling gix-pack v0.68.0
+   Compiling gix-transport v0.55.1
+   Compiling gix-revision v0.43.0
+   Compiling gix-shallow v0.10.0
+   Compiling codex-file-system v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/file-system)
+   Compiling gix-config-value v0.17.1
+   Compiling maybe-async v0.2.10
+   Compiling unicode-bom v2.0.3
+   Compiling gix-protocol v0.59.0
+   Compiling gix-config v0.54.0
+   Compiling gix-refspec v0.39.0
+   Compiling gix-odb v0.78.0
+   Compiling gix-discover v0.49.0
+   Compiling gix-traverse v0.55.0
+   Compiling gix-diff v0.61.0
+   Compiling gix v0.81.0
+   Compiling curve25519-dalek v4.1.3
+   Compiling curve25519-dalek-derive v0.1.1
+   Compiling x25519-dalek v2.0.1
+   Compiling hmac v0.12.1
+   Compiling codex-install-context v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/install-context)
+   Compiling codex-git-utils v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/git-utils)
+   Compiling toml_datetime v0.7.5+spec-1.1.0
+   Compiling toml_writer v1.0.6+spec-1.1.0
+   Compiling codex-utils-path v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/path-utils)
+   Compiling serde_spanned v1.0.4
+   Compiling toml v0.9.11+spec-1.1.0
+   Compiling log v0.4.34
+   Compiling tree-sitter-language v0.1.7
+   Compiling polyval v0.6.2
+   Compiling ctr v0.9.2
+   Compiling rustc-hash v2.1.1
+   Compiling ghash v0.5.1
+   Compiling aes-gcm v0.10.3
+   Compiling which v8.0.0
+   Compiling codex-features v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/features)
+   Compiling toml_edit v0.24.0+spec-1.1.0
+   Compiling codex-model-provider-info v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider-info)
+   Compiling dns-lookup v3.0.1
+   Compiling tree-sitter v0.25.10
+   Compiling tree-sitter-bash v0.25.1
+   Compiling tree-sitter-powershell v0.26.4
+   Compiling codex-config v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/config)
+   Compiling hkdf v0.12.4
+   Compiling simple_asn1 v0.6.4
+   Compiling zerofrom v0.1.6
+   Compiling streaming-iterator v0.1.9
+   Compiling stable_deref_trait v1.2.1
+   Compiling yoke v0.8.2
+   Compiling jsonwebtoken v9.3.1
+   Compiling tracing-appender v0.2.4
+   Compiling codex-shell-command v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/shell-command)
+   Compiling zerovec v0.11.6
+   Compiling codex-windows-sandbox v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/windows-sandbox-rs)
+   Compiling codex-build-info v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/build-info)
+   Compiling codex-uds v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/uds)
+   Compiling mxc_config_contract v0.8.0 (https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f)
+   Compiling wxc_common v0.8.0 (https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f)
+   Compiling codex-mxc-sandbox v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/mxc-sandbox)
+   Compiling inotify-sys v0.1.5
+   Compiling inotify v0.11.0
+   Compiling notify-types v2.1.0
+   Compiling include_dir_macros v0.7.4
+   Compiling keccak v0.1.6
+   Compiling codex-skills v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/skills)
+   Compiling unsafe-libyaml v0.2.11
+   Compiling serde_yaml v0.9.34+deprecated
+   Compiling sha3 v0.10.9
+   Compiling include_dir v0.7.4
+   Compiling notify v8.2.0
+   Compiling codex-sandboxing v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/sandboxing)
+   Compiling thiserror-impl-no-std v2.0.2
+   Compiling hybrid-array v0.2.3
+   Compiling kem v0.3.0-pre.0
+   Compiling ml-kem v0.2.3
+   Compiling thiserror-no-std v2.0.2
+   Compiling clatter v2.2.0
+   Compiling codex-file-watcher v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/file-watcher)
+   Compiling codex-exec-server-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/exec-server-protocol)
+   Compiling codex-websocket-auth v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/websocket-auth)
+   Compiling codex-core-plugin-common v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugin-common)
+   Compiling codex-exec-server v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/exec-server)
+   Compiling num-complex v0.4.6
+   Compiling poly1305 v0.8.0
+   Compiling num-rational v0.4.2
+   Compiling unic-langid-impl v0.9.6
+   Compiling unic-langid v0.9.6
+   Compiling cbc v0.1.2
+   Compiling type-map v0.5.1
+   Compiling chacha20 v0.9.1
+   Compiling async-broadcast v0.7.2
+   Compiling chacha20poly1305 v0.10.1
+   Compiling futures-lite v2.6.1
+   Compiling zvariant_utils v2.1.0
+   Compiling self_cell v1.2.2
+   Compiling self_cell v0.10.3
+   Compiling fluent-syntax v0.11.1
+   Compiling nix v0.31.3
+   Compiling rustc-hash v1.1.0
+   Compiling async-task v4.7.1
+   Compiling zvariant_derive v4.2.0
+   Compiling rust-embed-utils v8.11.0
+   Compiling nix v0.29.0
+   Compiling piper v0.2.4
+   Compiling async-io v2.6.0
+   Compiling endi v1.1.1
+   Compiling zvariant v4.2.0
+   Compiling blocking v1.6.2
+   Compiling rust-embed-impl v8.11.0
+   Compiling salsa20 v0.10.2
+   Compiling async-lock v3.4.2
+   Compiling toml v0.5.11
+   Compiling basic-toml v0.1.10
+   Compiling polling v3.11.0
+   Compiling i18n-config v0.4.8
+   Compiling find-crate v0.6.3
+   Compiling async-fs v2.2.0
+   Compiling zbus_names v3.0.0
+   Compiling async-executor v1.13.3
+   Compiling zbus_macros v4.4.0
+   Compiling intl-memoizer v0.5.3
+   Compiling fluent-langneg v0.13.1
+   Compiling intl_pluralrules v7.0.2
+   Compiling num-iter v0.1.45
+   Compiling ordered-stream v0.2.0
+   Compiling xdg-home v1.3.0
+   Compiling zbus v4.4.0
+   Compiling num v0.4.3
+   Compiling fluent-bundle v0.15.3
+   Compiling i18n-embed-impl v0.8.4
+   Compiling fluent v0.16.1
+   Compiling rust-embed v8.11.0
+   Compiling pbkdf2 v0.12.2
+   Compiling linux-keyutils v0.2.4
+   Compiling proc-macro-error-attr2 v2.0.0
+   Compiling proc-macro-error2 v2.0.1
+   Compiling i18n-embed v0.15.4
+   Compiling cookie-factory v0.3.3
+   Compiling secrecy v0.10.3
+   Compiling secret-service v4.0.0
+   Compiling keyring v3.6.3
+   Compiling io_tee v0.1.1
+   Compiling base64 v0.21.7
+   Compiling age-core v0.11.0
+   Compiling i18n-embed-fl v0.9.4
+   Compiling scrypt v0.11.0
+   Compiling bech32 v0.9.1
+   Compiling age v0.11.2
+   Compiling codex-keyring-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/keyring-store)
+   Compiling base64ct v1.8.3
+   Compiling pem-rfc7468 v0.7.0
+   Compiling codex-secrets v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/secrets)
+   Compiling der v0.7.10
+   Compiling once_cell v1.21.4
+   Compiling ascii v1.1.0
+   Compiling chunked_transfer v1.5.0
+   Compiling spki v0.7.3
+   Compiling tiny_http v0.12.0
+   Compiling pkcs8 v0.10.2
+   Compiling pastey v0.2.1
+   Compiling webbrowser v1.2.4
+   Compiling signature v2.2.0
+   Compiling dotenvy v0.15.7
+   Compiling darling_core v0.24.0
+   Compiling schemars_derive v1.2.1
+   Compiling rmcp v3.3.0 (https://github.com/modelcontextprotocol/rust-sdk?rev=3e636cab26c013eca5131103c03d20237f12c4df#3e636cab)
+   Compiling schemars v1.2.1
+   Compiling darling_macro v0.24.0
+   Compiling process-wrap v10.0.0
+   Compiling darling v0.24.0
+   Compiling rmcp-macros v3.3.0 (https://github.com/modelcontextprotocol/rust-sdk?rev=3e636cab26c013eca5131103c03d20237f12c4df#3e636cab)
+   Compiling oauth2 v5.0.0
+   Compiling reqwest v0.13.4
+   Compiling sse-stream v0.2.5
+   Compiling base64 v0.23.0
+   Compiling ff v0.13.1
+   Compiling base16ct v0.2.0
+   Compiling sec1 v0.7.3
+   Compiling group v0.13.0
+   Compiling crypto-bigint v0.5.5
+   Compiling elliptic-curve v0.13.8
+   Compiling rfc6979 v0.4.0
+   Compiling foldhash v0.1.5
+   Compiling ecdsa v0.16.9
+   Compiling primeorder v0.13.6
+   Compiling p256 v0.13.2
+   Compiling litemap v0.8.1
+   Compiling fixedbitset v0.5.7
+   Compiling prettyplease v0.2.37
+   Compiling crossbeam-utils v0.8.21
+   Compiling codex-history v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/history)
+   Compiling crossbeam-queue v0.3.12
+   Compiling hashlink v0.11.0
+   Compiling codex-component-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-api)
+   Compiling http v0.2.12
+   Compiling codex-rmcp-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/rmcp-client)
+   Compiling outref v0.5.2
+   Compiling vsimd v0.8.0
+   Compiling thiserror v2.0.18
+   Compiling futures-core v0.3.34
+   Compiling base64-simd v0.8.0
+   Compiling http-body v0.4.6
+   Compiling tracing-core v0.1.36
+   Compiling libsqlite3-sys v0.37.0
+   Compiling bytes-utils v0.1.4
+   Compiling form_urlencoded v1.2.2
+   Compiling futures-sink v0.3.34
+   Compiling slab v0.4.12
+   Compiling aws-smithy-types v1.4.7
+   Compiling tracing v0.1.44
+   Compiling futures-intrusive v0.5.0
+   Compiling codex-component-host v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host)
+   Compiling base64 v0.22.1
+   Compiling sqlx-core v0.9.0
+   Compiling atoi v2.0.0
+   Compiling sqlx-sqlite v0.9.0
+   Compiling sqlx-macros-core v0.9.0
+   Compiling hashbrown v0.15.5
+   Compiling aws-smithy-async v1.2.14
+   Compiling aws-smithy-runtime-api-macros v1.0.0
+   Compiling fastrand v2.3.0
+   Compiling aws-smithy-runtime-api v1.12.0
+   Compiling prost-types v0.14.3
+   Compiling sqlx v0.9.0
+   Compiling petgraph v0.8.3
+   Compiling sqlx-macros v0.9.0
+   Compiling multimap v0.10.1
+   Compiling tonic-build v0.14.3
+   Compiling rayon v1.11.0
+   Compiling prost-build v0.14.3
+   Compiling nucleo-matcher v0.3.1 (https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9f)
+   Compiling protoc-bin-vendored-linux-x86_64 v3.2.0
+   Compiling protoc-bin-vendored-linux-x86_32 v3.2.0
+   Compiling protoc-bin-vendored-linux-aarch_64 v3.2.0
+   Compiling protoc-bin-vendored-win32 v3.2.0
+   Compiling protoc-bin-vendored-linux-ppcle_64 v3.2.0
+   Compiling protoc-bin-vendored-macos-x86_64 v3.2.0
+   Compiling protoc-bin-vendored-macos-aarch_64 v3.2.0
+   Compiling protoc-bin-vendored-linux-s390_64 v3.2.0
+   Compiling protoc-bin-vendored v3.2.0
+   Compiling nucleo v0.5.0 (https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9f)
+   Compiling tonic-prost-build v0.14.3
+   Compiling codex-state v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/state)
+   Compiling ed25519 v2.2.3
+   Compiling crypto_secretbox v0.1.1
+   Compiling ignore v0.4.25
+   Compiling blake2 v0.10.6
+   Compiling crypto_box v0.9.1
+   Compiling ed25519-dalek v2.2.0
+   Compiling codex-code-mode-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/code-mode-protocol)
+   Compiling codex-utils-template v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/template)
+   Compiling codex-file-search v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/file-search)
+   Compiling codex-agent-identity v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/agent-identity)
+   Compiling aws-smithy-http v0.62.6
+   Compiling aws-credential-types v1.2.11
+   Compiling codex-workload-identity v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/workload-identity)
+   Compiling aws-types v1.3.11
+   Compiling codex-terminal-detection v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/terminal-detection)
+   Compiling codex-login v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/login)
+   Compiling aws-smithy-observability v0.1.5
+   Compiling aws-smithy-http-client v1.1.12
+   Compiling aws-smithy-runtime v1.9.5
+   Compiling aws-sigv4 v1.3.7
+   Compiling codex-rollout v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/rollout)
+   Compiling codex-utils-output-truncation v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/output-truncation)
+   Compiling aws-runtime v1.5.17
+   Compiling aws-smithy-json v0.61.9
+   Compiling codex-context-fragments v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/context-fragments)
+   Compiling codex-guardian-context v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/guardian-context)
+   Compiling debugid v0.8.0
+   Compiling xmlparser v0.13.6
+   Compiling aws-smithy-xml v0.60.13
+   Compiling sentry-types v0.46.1
+   Compiling aws-smithy-query v0.60.9
+   Compiling codex-collaboration-mode-templates v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/collaboration-mode-templates)
+   Compiling aws-sdk-sts v1.95.0
+   Compiling sentry-core v0.46.1
+   Compiling aws-sdk-ssooidc v1.93.0
+   Compiling aws-sdk-signin v1.2.0
+   Compiling aws-sdk-sso v1.91.0
+   Compiling codex-utils-plugins v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/plugins)
+   Compiling aws-config v1.8.12
+   Compiling sentry v0.46.1
+   Compiling codex-prompts v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/prompts)
+   Compiling codex-plugin v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/plugin)
+   Compiling codex-code-mode v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/code-mode)
+   Compiling codex-aws-auth v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/aws-auth)
+   Compiling codex-models-manager v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/models-manager)
+   Compiling codex-feedback v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/feedback)
+   Compiling codex-response-debug-context v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/response-debug-context)
+   Compiling codex-connectors v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/connectors)
+   Compiling codex-model-provider v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/model-provider)
+   Compiling jsonptr v0.7.1
+   Compiling codex-diagnostics v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/diagnostics)
+   Compiling codex-tools v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/tools)
+   Compiling codex-mcp v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-mcp)
+   Compiling codex-apply-patch v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/apply-patch)
+   Compiling predicates-core v1.0.9
+   Compiling codex-shell-escalation v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/shell-escalation)
+   Compiling float-cmp v0.10.0
+   Compiling difflib v0.4.0
+   Compiling assert_cmd v2.1.2
+   Compiling normalize-line-endings v0.3.0
+   Compiling termtree v0.5.1
+   Compiling predicates-tree v1.0.12
+   Compiling predicates v3.1.3
+   Compiling wait-timeout v0.2.1
+   Compiling runfiles v0.1.0 (https://github.com/dzbarsky/rules_rust?rev=b56cbaa8465e74127f1ea216f813cd377295ad81#b56cbaa8)
+   Compiling codex-utils-cargo-bin v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/cargo-bin)
+   Compiling codex-extension-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/extension-api)
+   Compiling codex-experimental-api-macros v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-experimental-api-macros)
+   Compiling codex-app-server-protocol-noop-macros v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-protocol-noop-macros)
+   Compiling codex-app-server-protocol v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-protocol)
+   Compiling num_cpus v1.17.0
+   Compiling deadpool-runtime v0.1.4
+   Compiling deadpool v0.12.3
+   Compiling assert-json-diff v2.0.2
+   Compiling wiremock v0.6.5
+   Compiling pulldown-cmark v0.10.3
+   Compiling symphonia-core v0.6.0
+   Compiling caseless v0.2.2
+   Compiling codex-attachment-store-api v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-api)
+   Compiling pulldown-cmark-escape v0.10.1
+   Compiling codex-agent-message-board-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent-message-board)
+   Compiling symphonia-metadata v0.6.0
+   Compiling codex-attachment-store-inline v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-inline)
+   Compiling lzma-sys v0.1.20
+   Compiling bzip2-sys v0.1.13+1.0.8
+   Compiling symphonia-common v0.6.0
+   Compiling darling_core v0.20.11
+   Compiling codex-analytics v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/analytics)
+   Compiling codex-thread-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store)
+   Compiling zip v2.4.2
+   Compiling darling_macro v0.20.11
+   Compiling bzip2 v0.5.2
+   Compiling xz2 v0.1.7
+   Compiling codex-hooks v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/hooks)
+   Compiling codex-thread-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component)
+   Compiling zopfli v0.8.3
+   Compiling lzma-rs v0.3.0
+   Compiling filetime v0.2.27
+   Compiling deflate64 v0.1.10
+   Compiling extended v0.1.0
+   Compiling symphonia-format-riff v0.6.0
+   Compiling tar v0.4.45
+   Compiling darling v0.20.11
+   Compiling symphonia-format-mkv v0.6.0
+   Compiling symphonia-format-isomp4 v0.6.0
+   Compiling symphonia-format-ogg v0.6.0
+   Compiling symphonia-bundle-mp3 v0.6.0
+   Compiling stop-words v0.9.0
+   Compiling cached_proc_macro v0.25.0
+   Compiling symphonia v0.6.0
+   Compiling codex-skills-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/skills)
+   Compiling codex-attachment-store-component v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store-component)
+   Compiling cached_proc_macro_types v0.1.1
+   Compiling web-time v1.1.0
+   Compiling cached v0.56.0
+   Compiling codex-core-plugins v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugins)
+   Compiling codex-agent-message-board-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/agent-message-board-client)
+   Compiling rust-stemmers v1.2.0
+   Compiling deunicode v1.6.2
+   Compiling bm25 v2.3.2
+   Compiling codex-utils-audio v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/audio)
+   Compiling codex-guardian-reviewer v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/guardian-reviewer)
+   Compiling codex-attachment-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/attachment-store)
+   Compiling codex-component-adapters v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-adapters)
+   Compiling codex-rollout-trace v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/rollout-trace)
+   Compiling codex-agent-graph-store v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/agent-graph-store)
+   Compiling codex-agent-roles v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/agent-roles)
+   Compiling codex-memories-read v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/memories/read)
+   Compiling codex-utils-git-discovery v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/git-discovery)
+   Compiling whoami v1.6.1
+   Compiling codex-core v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core)
+   Compiling codex-linux-sandbox v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/linux-sandbox)
+   Compiling codex-arg0 v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/arg0)
+   Compiling dtor-proc-macro v0.0.6
+   Compiling dtor v0.1.1
+   Compiling ctor-proc-macro v0.0.7
+   Compiling ctor v0.6.3
+   Compiling codex-home v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-home)
+   Compiling codex-backend-openapi-models v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/codex-backend-openapi-models)
+   Compiling codex-backend-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/backend-client)
+   Compiling signal-hook v0.3.18
+   Compiling is_ci v1.2.0
+   Compiling is-terminal v0.4.17
+   Compiling owo-colors v4.3.0
+   Compiling supports-color v2.1.0
+   Compiling supports-color v3.0.2
+   Compiling codex-utils-cli v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/cli)
+   Compiling sdd v3.0.10
+   Compiling scc v2.4.0
+   Compiling codex-connectors-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/connectors)
+   Compiling serial_test_derive v3.3.1
+   Compiling serial_test v3.3.1
+   Compiling codex-cloud-config v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/cloud-config)
+   Compiling codex-git-attribution v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/git-attribution)
+   Compiling codex-user-verification v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/user-verification)
+   Compiling codex-utils-json-to-toml v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/json-to-toml)
+   Compiling unicode-width v0.2.1
+   Compiling simdutf8 v0.1.5
+   Compiling assert_matches v1.5.0
+   Compiling async-stream-impl v0.3.6
+   Compiling async-stream v0.3.6
+   Compiling castaway v0.2.4
+   Compiling darling_core v0.23.0
+   Compiling quick-xml v0.39.4
+   Compiling darling_macro v0.23.0
+   Compiling compact_str v0.9.1
+   Compiling unicode-truncate v2.0.1
+   Compiling strum v0.28.0
+   Compiling kasuari v0.4.12
+   Compiling wayland-sys v0.31.8
+   Compiling instability v0.3.11
+   Compiling ratatui-core v0.1.2
+   Compiling darling v0.23.0
+   Compiling codex-worktree v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/worktree)
+   Compiling wayland-backend v0.3.12
+   Compiling indoc v2.0.7
+   Compiling wayland-client v0.31.12
+   Compiling wayland-scanner v0.31.10
+   Compiling signal-hook-mio v0.2.5
+   Compiling codex-realtime-webrtc v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/realtime-webrtc)
+   Compiling codex-utils-sandbox-summary v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/sandbox-summary)
+   Compiling onig_sys v69.9.1
+   Compiling line-clipping v0.3.7
+   Compiling console v0.15.11
+   Compiling insta v1.46.3
+   Compiling ratatui-widgets v0.3.2
+   Compiling crossterm v0.29.0 (https://github.com/openai-oss-forks/crossterm?rev=efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4#efa17785)
+   Compiling object v0.37.3
+   Compiling wayland-protocols v0.32.10
+   Compiling ratatui-crossterm v0.1.2
+   Compiling color-spantrace v0.3.0
+   Compiling eyre v0.6.12
+   Compiling gimli v0.32.3
+   Compiling addr2line v0.25.1
+   Compiling onig v6.5.1
+   Compiling ratatui v0.30.2
+   Compiling wayland-protocols-wlr v0.3.10
+   Compiling tree_magic_mini v3.2.2
+   Compiling ansi-to-tui v8.0.1
+   Compiling plist v1.9.0
+   Compiling tracing-error v0.2.1
+   Compiling bincode v1.3.3
+   Compiling os_pipe v1.2.3
+   Compiling x11rb-protocol v0.13.2
+   Compiling rustc-demangle v0.1.27
+   Compiling backtrace v0.3.76
+   Compiling x11rb v0.13.2
+   Compiling wl-clipboard-rs v0.9.3
+   Compiling syntect v5.3.0
+   Compiling codex-mermaid v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/mermaid)
+   Compiling diffy v0.4.2
+   Compiling smawk v0.3.2
+   Compiling unicode-linebreak v0.1.5
+   Compiling textwrap v0.16.2
+   Compiling color-eyre v0.6.5
+   Compiling two-face v0.5.1
+   Compiling arboard v3.6.1
+   Compiling codex-ansi-escape v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ansi-escape)
+   Compiling ratatui-macros v0.7.2
+   Compiling codex-message-history v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/message-history)
+   Compiling codex-utils-approval-presets v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/approval-presets)
+   Compiling codex-utils-sleep-inhibitor v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/sleep-inhibitor)
+   Compiling pathdiff v0.2.3
+   Compiling codex-utils-fuzzy-match v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/fuzzy-match)
+   Compiling codex-utils-elapsed v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/elapsed)
+   Compiling quinn-udp v0.5.14
+   Compiling quinn v0.11.9
+   Compiling lru-slab v0.1.2
+   Compiling quinn-proto v0.11.15
+   Compiling codex-cloud-tasks-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/cloud-tasks-client)
+   Compiling vte v0.15.0
+   Compiling test-case-core v3.3.1
+   Compiling test-case-macros v3.3.1
+   Compiling vt100 v0.16.2
+   Compiling codex-cloud-tasks-mock-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/cloud-tasks-mock-client)
+   Compiling codex-stdio-to-uds v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/stdio-to-uds)
+   Compiling h3 v0.0.8 (https://github.com/hyperium/h3?rev=e07e69412876f7e26f026bd75a48b2704d8c8283#e07e6941)
+   Compiling h3-quinn v0.0.10 (https://github.com/hyperium/h3?rev=e07e69412876f7e26f026bd75a48b2704d8c8283#e07e6941)
+   Compiling test-case v3.3.1
+   Compiling codex-responses-api-proxy v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/responses-api-proxy)
+   Compiling codex-cli v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/cli)
+   Compiling codex-tcp-tunnel v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/tcp-tunnel)
+   Compiling clap_complete v4.5.65
+   Compiling tracing-test-macro v0.2.5
+   Compiling target-lexicon v0.13.5
+   Compiling tracing-test v0.2.5
+   Compiling codex-exec-server-test-support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/exec-server/tests/support)
+   Compiling toml_datetime v1.1.1+spec-1.1.0
+   Compiling codex-windows-sandbox-test-support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/windows-sandbox-rs/tests/support)
+   Compiling toml v1.0.6+spec-1.1.0
+   Compiling cfg-expr v0.20.9
+   Compiling version-compare v0.2.1
+   Compiling system-deps v7.0.8
+   Compiling codex-test-binary-support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/test-binary-support)
+   Compiling libm v0.2.16
+   Compiling libloading v0.8.9
+   Compiling substring v1.4.5
+   Compiling core_maths v0.1.1
+   Compiling clang-sys v1.8.1
+   Compiling calendrical_calculations v0.2.4
+   Compiling rustix v0.38.44
+   Compiling icu_calendar_data v2.2.0
+   Compiling rtc-shared v0.20.3
+   Compiling nom v7.1.3
+   Compiling resb v0.1.2
+   Compiling bindgen v0.72.1
+   Compiling linux-raw-sys v0.4.15
+   Compiling zoneinfo64 v0.3.0
+   Compiling cexpr v0.6.0
+   Compiling itertools v0.13.0
+   Compiling strck v1.0.0
+   Compiling diplomat_core v0.15.0
+   Compiling codex-guardian-v2 v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/guardian-v2)
+   Compiling codex-image-generation-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/image-generation)
+   Compiling codex-web-search-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/web-search)
+   Compiling codex-goal-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/goal)
+   Compiling codex-mcp-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/mcp)
+   Compiling codex-history-notes-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/history-notes)
+   Compiling codex-memories-write v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/memories/write)
+   Compiling codex-app-server-transport v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-transport)
+   Compiling core_test_support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/core/tests/common)
+   Compiling codex-chatgpt v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/chatgpt)
+   Compiling codex-queue-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/queue)
+   Compiling codex-agent-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/agent)
+   Compiling codex-external-agent-migration v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/external-agent-migration)
+   Compiling codex-memories-extension v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ext/memories)
+   Compiling codex-app-server v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server)
+   Compiling codex-ollama v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/ollama)
+   Compiling codex-lmstudio v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/lmstudio)
+   Compiling codex-utils-oss v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/oss)
+   Compiling codex-app-server-daemon v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-daemon)
+   Compiling app_test_support v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server/tests/common)
+   Compiling codex-app-server-test-client v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-test-client)
+   Compiling icu_calendar v2.2.1
+   Compiling timezone_provider v0.2.3
+   Compiling which v6.0.3
+   Compiling glib-sys v0.22.8
+   Compiling miniz_oxide v0.8.9
+   Compiling gzip-header v1.0.0
+   Compiling fslock v0.2.1
+   Compiling ixdtf v0.6.4
+   Compiling temporal_rs v0.2.3
+   Compiling v8 v150.4.0
+warning: glib-sys@0.22.8: 
+error: failed to run custom build command for `glib-sys v0.22.8`
+
+Caused by:
+  process didn't exit successfully: `/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/build/glib-sys-d892cb2e121b4f3d/build-script-build` (exit status: 1)
+  --- stdout
+  cargo:rerun-if-changed=/workspace/toolchains/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/glib-sys-0.22.8/Cargo.toml
+  cargo:rerun-if-env-changed=GLIB_2.0_NO_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_PATH
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_LIBDIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64-unknown-linux-gnu
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_x86_64_unknown_linux_gnu
+  cargo:rerun-if-env-changed=HOST_PKG_CONFIG_SYSROOT_DIR
+  cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR
+  cargo:warning=
+  pkg-config exited with status code 1
+  > PKG_CONFIG_PATH=/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --libs --cflags glib-2.0 'glib-2.0 >= 2.56'
+
+  The system library `glib-2.0` required by crate `glib-sys` was not found.
+  The file `glib-2.0.pc` needs to be installed and the PKG_CONFIG_PATH environment variable must contain its parent directory.
+  PKG_CONFIG_PATH contains the following:
+      - /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig
+
+  HINT: you may need to install a package such as glib-2.0, glib-2.0-dev or glib-2.0-devel.
+
+warning: build failed, waiting for other jobs to finish...
+error: command `/workspace/toolchains/rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo '--color=auto' test --no-run --message-format json-render-diagnostics --workspace --features codex-v8-poc/sandbox` exited with code 101
+error: recipe `test` failed on line 88 with exit code 101

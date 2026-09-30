@@ -117,6 +117,7 @@ impl From<codex_http_client::HttpError> for RequestError {
         match error {
             codex_http_client::HttpError::Policy(denied) => Self::Policy(denied),
             error @ (codex_http_client::HttpError::Request(_)
+            | codex_http_client::HttpError::RemoteConnection(_)
             | codex_http_client::HttpError::Route(_)
             | codex_http_client::HttpError::Build(_)
             | codex_http_client::HttpError::UnsupportedRedirectScheme(_)

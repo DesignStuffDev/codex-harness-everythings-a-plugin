@@ -11,6 +11,9 @@ members = [
     "build-info",
     "ansi-escape",
     "attachment-store",
+    "attachment-store-api",
+    "attachment-store-inline",
+    "attachment-store-component",
     "async-utils",
     "app-server",
     "app-server-transport",
@@ -40,6 +43,14 @@ members = [
     "config",
     "config-schema",
     "context-fragments",
+    "context-engine",
+    "context-replay",
+    "context-replay-component",
+    "context-replay-native-plugin",
+    "component-api",
+    "component-host",
+    "component-adapters",
+    "component-state-codec",
     "shell-command",
     "shell-escalation",
     "skills",
@@ -87,6 +98,7 @@ members = [
     "memories/write",
     "mermaid",
     "model-provider-info",
+    "model-transport-api",
     "mxc-sandbox",
     "models-manager",
     "network-proxy",
@@ -151,6 +163,8 @@ members = [
     "test-binary-support",
     "thread-manager-sample",
     "thread-store",
+    "thread-store-component",
+    "thread-store-local-plugin",
     "uds",
     "codex-experimental-api-macros",
     "plugin",
@@ -178,6 +192,9 @@ codex-agent-roles = { path = "agent-roles" }
 codex-ansi-escape = { path = "ansi-escape" }
 codex-api = { path = "codex-api" }
 codex-attachment-store = { path = "attachment-store" }
+codex-attachment-store-api = { path = "attachment-store-api" }
+codex-attachment-store-inline = { path = "attachment-store-inline" }
+codex-attachment-store-component = { path = "attachment-store-component" }
 codex-aws-auth = { path = "aws-auth" }
 codex-app-server = { path = "app-server" }
 codex-app-server-transport = { path = "app-server-transport" }
@@ -211,6 +228,13 @@ codex-agent-message-board-client = { path = "agent-message-board-client" }
 codex-agent-message-board-extension = { path = "ext/agent-message-board" }
 codex-connectors-extension = { path = "ext/connectors" }
 codex-context-fragments = { path = "context-fragments" }
+codex-context-engine = { path = "context-engine" }
+codex-context-replay = { path = "context-replay" }
+codex-context-replay-component = { path = "context-replay-component" }
+codex-component-api = { path = "component-api" }
+codex-component-host = { path = "component-host" }
+codex-component-adapters = { path = "component-adapters" }
+codex-component-state-codec = { path = "component-state-codec" }
 codex-core = { path = "core" }
 codex-core-api = { path = "core-api" }
 codex-core-plugin-common = { path = "core-plugin-common" }
@@ -254,6 +278,7 @@ codex-memories-write = { path = "memories/write" }
 codex-mcp = { path = "codex-mcp" }
 codex-mcp-extension = { path = "ext/mcp" }
 codex-model-provider-info = { path = "model-provider-info" }
+codex-model-transport-api = { path = "model-transport-api" }
 codex-models-manager = { path = "models-manager" }
 codex-mxc-sandbox = { path = "mxc-sandbox" }
 codex-network-proxy = { path = "network-proxy" }
@@ -282,6 +307,7 @@ codex-stdio-to-uds = { path = "stdio-to-uds" }
 codex-terminal-detection = { path = "terminal-detection" }
 codex-test-binary-support = { path = "test-binary-support" }
 codex-thread-store = { path = "thread-store" }
+codex-thread-store-component = { path = "thread-store-component" }
 codex-tools = { path = "tools" }
 codex-tcp-tunnel = { path = "tcp-tunnel" }
 codex-tui = { path = "tui" }

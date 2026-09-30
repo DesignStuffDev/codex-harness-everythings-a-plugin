@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "inference": "deterministic external process + loopback native fixture; no live model",
+  "verified": [
+    "independent builds",
+    "source removed",
+    "real CLI turn",
+    "external tool execution",
+    "context contribution",
+    "model event streaming",
+    "persisted session resume",
+    "zero native inference while replacement selected",
+    "native restoration with retained history",
+    "selected native storage process",
+    "cold storage process restart and resume",
+    "storage child termination after each CLI process",
+    "native storage restoration with retained history"
+  ],
+  "thread_id": "01a0f2ba-133e-79e0-837f-b041f93543bd",
+  "binaries_before": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "mtime_ns": 1790778388342479825,
+      "bytes": 625072120
+    }
+  },
+  "binaries_after": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "b7a39b3534c51a6115135083ee9ffcf7c1eced81e51eef246e80c7b706a64371",
+      "mtime_ns": 1790778388342479825,
+      "bytes": 625072120
+    }
+  },
+  "commands_file": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime/commands.json",
+  "native_requests_file": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime/native-requests.json",
+  "thread_store_plugin": "native.thread-store-local",
+  "storage_children": [
+    {
+      "pid": 283862,
+      "executable": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime/codex-home/components/objects/native.thread-store-local-283833-18da1fb7bc74971a-0/codex-thread-store-local-plugin",
+      "terminated": true
+    },
+    {
+      "pid": 283943,
+      "executable": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime/codex-home/components/objects/native.thread-store-local-283833-18da1fb7bc74971a-0/codex-thread-store-local-plugin",
+      "terminated": true
+    },
+    {
+      "pid": 284037,
+      "executable": "/workspace/acceptance/thread-store-native-v2-linux-20260930/runtime/codex-home/components/objects/native.thread-store-local-283833-18da1fb7bc74971a-0/codex-thread-store-local-plugin",
+      "terminated": true
+    }
+  ]
+}

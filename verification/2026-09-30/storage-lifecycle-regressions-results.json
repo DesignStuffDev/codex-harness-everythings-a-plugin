@@ -1,0 +1,37 @@
+{
+  "command": "just test -p codex-thread-store-component -p codex-thread-store-local-plugin --test-threads 2",
+  "run_id": "768ed842-cbff-4715-b807-6cfb30354af6",
+  "exit_code": 0,
+  "tests": 14,
+  "passed": 14,
+  "skipped": 0,
+  "test_duration_seconds": 8.63,
+  "build_duration_seconds": 33.53,
+  "junit_attributes": {
+    "name": "nextest-run",
+    "tests": "14",
+    "skipped": "0",
+    "failures": "0",
+    "errors": "0",
+    "uuid": "768ed842-cbff-4715-b807-6cfb30354af6",
+    "timestamp": "2026-09-30T11:27:49.637+00:00",
+    "time": "8.630"
+  },
+  "coverage": [
+    "Actual installed LocalThreadStore process: lifecycle, history, paginated reads, metadata, projects, sections, attachments, nullable patches, restart/recovery, fork references, cancellation cleanup, 64 failed fork calls, SQLite-disabled parity, 5MiB payload roundtrip",
+    "Delayed native prepare cleanup before reservation creation",
+    "Initialization open/decode/contract/path failures await graceful process cleanup",
+    "Canceled adapter connection drains accepted open",
+    "Initialization cleanup timeout preserves original error and unknown completion",
+    "Synchronous shutdown signal closes process despite retained store clone"
+  ],
+  "notes": [
+    "Rebuild validates current native plugin library plus thin executable layout.",
+    "Full-engine selected storage acceptance remains separately pending.",
+    "Python 3 process fixtures follow persistent transport test practice; Bazel execution not validated by this Cargo run."
+  ],
+  "artifacts": [
+    "storage-lifecycle-regressions.log",
+    "storage-lifecycle-regressions.junit.xml"
+  ]
+}

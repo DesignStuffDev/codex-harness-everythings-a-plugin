@@ -271,6 +271,7 @@ pub struct ModelClient {
     http_client_factory: HttpClientFactory,
     restored_history: bool,
     request_contributors: Vec<Arc<dyn codex_extension_api::ModelRequestContributor>>,
+    component_transport: Option<codex_component_host::ComponentBinding>,
     executed_tool_calls: Option<ExecutedToolCalls>,
     // Resolved once when the session is created, like other session feature flags.
     api_key_cyber_access_programs: cyber_access_program::ApiKeyCyberAccessPrograms,
@@ -542,6 +543,7 @@ impl ModelClient {
             http_client_factory,
             restored_history: false,
             request_contributors,
+            component_transport: None,
             executed_tool_calls: None,
             api_key_cyber_access_programs:
                 cyber_access_program::ApiKeyCyberAccessPrograms::UnsupportedProvider,
@@ -550,6 +552,14 @@ impl ModelClient {
 
     pub(crate) fn with_executed_tool_calls(mut self, recorder: ExecutedToolCalls) -> Self {
         self.executed_tool_calls = Some(recorder);
+        self
+    }
+
+    pub(crate) fn with_component_catalog(
+        mut self,
+        catalog: &codex_component_host::ComponentCatalog,
+    ) -> Self {
+        self.component_transport = catalog.selected("model_transport", "default");
         self
     }
 
@@ -1028,7 +1038,8 @@ impl ModelClient {
     ///
     /// WebSocket use is controlled by provider capability and session-scoped fallback state.
     pub fn responses_websocket_enabled(&self) -> bool {
-        if !self.state.provider.info().supports_websockets
+        if self.component_transport.is_some()
+            || !self.state.provider.info().supports_websockets
             || self.state.disable_websockets.load(Ordering::Relaxed)
         {
             return false;
@@ -1204,6 +1215,9 @@ impl ModelClient {
     }
 
     pub(crate) async fn prewarm_auth(&self) -> Result<()> {
+        if self.component_transport.is_some() {
+            return Ok(());
+        }
         self.current_client_setup(ClientRouting::Workspace)
             .await
             .map(|_| ())
@@ -2234,6 +2248,50 @@ impl ModelClientSession {
         responses_metadata: &CodexResponsesMetadata,
         inference_trace: &InferenceTraceContext,
     ) -> Result<ResponseStream> {
+        if let Some(binding) = &self.client.component_transport {
+            let mut request = self.client.build_responses_request(
+                prompt,
+                model_info,
+                effort,
+                summary,
+                service_tier,
+                responses_metadata,
+                /*include_internal*/ false,
+            )?;
+            self.client
+                .prepare_response_items_for_request(&mut request.input);
+            let interceptors = crate::model_request::prepare(
+                &self.client.request_contributors,
+                &self.client.state.thread_id.to_string(),
+                &model_info.slug,
+                codex_extension_api::ModelRequestKind::Generation,
+                &mut request.client_metadata,
+            );
+            let request_session_telemetry =
+                session_telemetry_for_request(session_telemetry, &request);
+            let attempt = inference_trace.start_attempt();
+            attempt.record_started(&request);
+            let stream =
+                crate::component_model::stream(binding, self.client.state.thread_id, request)
+                    .await
+                    .map_err(|error| {
+                        let error = self.client.state.provider.map_api_error(error);
+                        attempt.record_failed(
+                            &error,
+                            /*upstream_request_id*/ None,
+                            /*output_items*/ &[],
+                        );
+                        error
+                    })?;
+            let (stream, _) = map_response_events(
+                /*upstream_request_id*/ None,
+                crate::model_request::intercept_stream(stream, interceptors),
+                request_session_telemetry,
+                attempt,
+                Arc::clone(&self.client.state.provider),
+            );
+            return Ok(stream);
+        }
         let wire_api = self.client.state.provider.info().wire_api;
         match wire_api {
             WireApi::Responses => {

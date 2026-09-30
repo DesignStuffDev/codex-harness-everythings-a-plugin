@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Codex · Components</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<aside id="sidebar">
+  <a class="brand" href="/" aria-label="Codex Components home"><span class="brand-mark">⌘</span> Codex <small>COMPONENTS</small></a>
+  <button id="new-task" class="new-task">＋ <span>New task</span><kbd>⌘ K</kbd></button>
+  <div class="section-label">YOUR WORK <button id="refresh" aria-label="Refresh tasks">↻</button></div>
+  <nav id="threads" aria-label="Saved tasks"></nav><button id="more-threads" class="quiet" hidden>Load more tasks</button>
+  <div class="sidebar-bottom"><span class="avatar">C</span><div>Personal workspace<small>Desktop component</small></div><span class="installed">Installed</span></div>
+</aside>
+<main>
+  <header><button id="menu" class="icon-button" aria-label="Toggle sidebar">☰</button><div id="task-title">New task</div><div id="connection" role="status"><i></i><span>Connecting</span></div></header>
+  <div id="error" class="error" role="alert" hidden></div>
+  <section id="welcome"><div class="eyebrow">YOUR IDEAS. IN MOTION.</div><h1>What are we building?</h1><p>A place to think, make, and move your work forward.</p><div class="suggestions"><button data-prompt="Explore this project and explain its architecture.">⌕ <b>Explore a project</b><span>Get to know the code</span></button><button data-prompt="Help me investigate a bug in this project.">◇ <b>Work through a bug</b><span>Find a path to the fix</span></button><button data-prompt="Help me plan and build a new feature.">✧ <b>Build something new</b><span>Turn an idea into a first step</span></button></div></section>
+  <section id="conversation" aria-label="Conversation" hidden><button id="older" class="quiet" hidden>Load earlier messages</button><div id="messages"></div><div id="activity" role="status"></div></section>
+  <section id="approvals" aria-label="Decisions requiring your attention"></section>
+  <div class="composer-wrap"><form id="composer"><textarea id="prompt" rows="2" placeholder="Describe a task, ask a question, or explore an idea…" aria-label="Message Codex" required></textarea><div class="composer-toolbar"><label class="directory">▱ <input id="cwd" placeholder="Working directory (default)" aria-label="Working directory"></label><span class="spacer"></span><button id="stop" type="button" class="quiet" hidden>■ Stop</button><button id="send" type="submit" aria-label="Send message">↑</button></div></form><p class="composer-note">Codex follows your configured model, workspace permissions, and approval settings.</p></div>
+  <footer><span>● <span id="run-status">Ready when you are</span></span><span>Separate by design. Connected by Codex.</span></footer>
+</main>
+</body></html>

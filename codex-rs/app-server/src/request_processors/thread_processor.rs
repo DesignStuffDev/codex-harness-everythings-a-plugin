@@ -1291,6 +1291,13 @@ impl ThreadRequestProcessor {
         for thread_id in report.timed_out {
             warn!("timed out waiting for thread {thread_id} to shut down");
         }
+        match tokio::time::timeout(Duration::from_secs(10), self.thread_store.shutdown_store())
+            .await
+        {
+            Ok(Ok(())) => {}
+            Ok(Err(error)) => warn!("failed to close thread-store service: {error}"),
+            Err(_) => warn!("timed out draining thread-store service; completion is unknown"),
+        }
     }
 
     async fn request_trace_context(
@@ -5427,22 +5434,17 @@ impl ThreadRequestProcessor {
                 .await
                 .map_err(|err| conversation_summary_thread_id_read_error(conversation_id, err)),
             GetConversationSummaryParams::RolloutPath { rollout_path } => {
-                let Some(local_thread_store) = self
-                    .thread_store
-                    .as_any()
-                    .downcast_ref::<LocalThreadStore>()
-                else {
+                if !self.thread_store.supports_rollout_path_reads() {
                     return Err(invalid_request(
                         "rollout path queries are only supported with the local thread store",
                     ));
-                };
-
-                local_thread_store
-                    .read_thread_by_rollout_path(
-                        rollout_path.clone(),
-                        /*include_archived*/ true,
-                        /*include_history*/ false,
-                    )
+                }
+                self.thread_store
+                    .read_thread_by_rollout_path(StoreReadThreadByRolloutPathParams {
+                        rollout_path: rollout_path.clone(),
+                        include_archived: true,
+                        include_history: false,
+                    })
                     .await
                     .map_err(|err| conversation_summary_rollout_path_read_error(&rollout_path, err))
             }

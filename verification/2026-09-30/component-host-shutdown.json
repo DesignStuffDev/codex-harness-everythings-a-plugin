@@ -1,0 +1,19 @@
+{
+  "command": "CARGO_TARGET_DIR=/workspace/toolchains/component-target CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 just test -p codex-component-host",
+  "working_directory": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+  "nextest_run_id": "cc489da3-a5a7-42bf-886b-d1dd18cd12da",
+  "result": "passed",
+  "tests_passed": 39,
+  "tests_failed": 0,
+  "tests_skipped": 0,
+  "test_duration_seconds": 6.040,
+  "new_regression": "session::tests::synchronous_close_fences_retained_clones_and_drains_without_a_close_waiter",
+  "verified_behavior": [
+    "begin_close synchronously denies new calls through retained session clones",
+    "repeated begin_close is safe",
+    "an accepted write remains supervised after its waiter is cancelled",
+    "the write commits and the child gracefully shuts down before any close waiter is created",
+    "all previous process transport, persistent session, framing, install/remove and redaction tests pass"
+  ],
+  "scope": "Current linked runtime only. New broker modules are unlinked and were not compiled or exercised in this run."
+}

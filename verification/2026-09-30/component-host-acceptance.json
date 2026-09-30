@@ -1,0 +1,109 @@
+{
+  "passed": true,
+  "host": "/workspace/toolchains/component-target/debug/codex-component",
+  "host_before": {
+    "sha256": "25a6862b6f14de4a7bbfefe66013e8cde305bf094eba57dcd2136858abff902a",
+    "mtime_ns": 1790762606846368457,
+    "bytes": 15384800
+  },
+  "host_after": {
+    "sha256": "25a6862b6f14de4a7bbfefe66013e8cde305bf094eba57dcd2136858abff902a",
+    "mtime_ns": 1790762606846368457,
+    "bytes": 15384800
+  },
+  "built_outside_harness": true,
+  "source_removed_before_invocation": true,
+  "scope": "component management and tool/context process contracts; full Codex engine separately verified",
+  "commands": [
+    {
+      "command": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-m",
+        "codex_component_sdk",
+        "build",
+        "/workspace/component-acceptance-20260930-immutable/external-plugin-source",
+        "--output",
+        "/workspace/component-acceptance-20260930-immutable/package"
+      ],
+      "status": 0,
+      "stdout": "/workspace/component-acceptance-20260930-immutable/package\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/component-acceptance-20260930-immutable/isolated-codex-home",
+        "install",
+        "/workspace/component-acceptance-20260930-immutable/package"
+      ],
+      "status": 0,
+      "stdout": "example.calculator\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/component-acceptance-20260930-immutable/isolated-codex-home",
+        "call",
+        "tool",
+        "calculator",
+        "invoke",
+        "{\"call_id\": \"acceptance-call\", \"name\": \"calculator\", \"arguments\": {\"operation\": \"product\", \"values\": [6, 7]}}"
+      ],
+      "status": 0,
+      "stdout": "{\n  \"success\": true,\n  \"text\": \"42\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/component-acceptance-20260930-immutable/isolated-codex-home",
+        "call",
+        "context",
+        "calculator_help",
+        "contribute",
+        "{\"session_id\": \"acceptance-session\", \"thread_id\": \"acceptance-thread\", \"turn_id\": \"acceptance-turn\"}"
+      ],
+      "status": 0,
+      "stdout": "{\n  \"text\": \"The calculator tool computes sums and products of up to 100 finite numbers.\"\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/component-acceptance-20260930-immutable/isolated-codex-home",
+        "list"
+      ],
+      "status": 0,
+      "stdout": "{\n  \"installed\": {\n    \"example.calculator\": \"example.calculator-77309-18da1175dbc4d00e-0\"\n  },\n  \"enabled\": [\n    \"example.calculator\"\n  ],\n  \"config\": {},\n  \"selections\": {}\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/component-acceptance-20260930-immutable/isolated-codex-home",
+        "remove",
+        "example.calculator"
+      ],
+      "status": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/workspace/toolchains/component-target/debug/codex-component",
+        "--codex-home",
+        "/workspace/component-acceptance-20260930-immutable/isolated-codex-home",
+        "list"
+      ],
+      "status": 0,
+      "stdout": "{\n  \"installed\": {},\n  \"enabled\": [],\n  \"config\": {},\n  \"selections\": {}\n}\n",
+      "stderr": ""
+    }
+  ]
+}

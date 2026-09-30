@@ -1,0 +1,22 @@
+[package]
+edition.workspace = true
+license.workspace = true
+name = "codex-model-catalog-native-plugin"
+version.workspace = true
+
+[lib]
+name = "codex_model_catalog_native_plugin"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+anyhow = { workspace = true }
+codex-component-host = { workspace = true }
+codex-model-catalog-api = { path = "../model-catalog-api" }
+codex-models-manager = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+

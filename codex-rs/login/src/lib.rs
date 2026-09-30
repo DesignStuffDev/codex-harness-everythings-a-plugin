@@ -8,6 +8,7 @@ pub use auth::WorkspaceRoutingResolver;
 pub use auth::WorkspaceRoutingSession;
 
 mod callback_params;
+mod component_auth;
 mod device_code_auth;
 mod gateway_auth;
 mod oauth;

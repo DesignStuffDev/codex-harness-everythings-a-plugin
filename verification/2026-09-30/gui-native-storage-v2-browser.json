@@ -1,0 +1,82 @@
+{
+  "browser": "Chromium through Playwright; not in-app Browser",
+  "commands": [
+    {
+      "command": "await page.locator('#prompt').fill('Verify a normal streamed response saved by the separately installed storage service. The presentation should show this text progressively while the task is running, then preserve the completed conversation for later recovery. This longer message makes the intermediate response visible before it finishes.'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('.message.assistant pre')?.textContent.length > 12); const text = await page.locator('.message.assistant pre').last().innerText(); const status = await page.locator('#run-status').innerText(); if (status !== 'Working on your task' || text.length > 200) throw new Error('Expected partial running response'); await page.screenshot({path:'/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/gui-v2-streaming.png'}); return {check:'streaming', status, partial:text};",
+      "started": "2026-09-30T14:32:39.949Z",
+      "result": {
+        "check": "streaming",
+        "status": "Working on your task",
+        "partial": "GUI fixture response: Ve"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task complete'); const thread=await page.evaluate(() => localStorage.getItem('codexSelectedThread')); const text=await page.locator('.message.assistant pre').last().innerText(); if (!text.endsWith('before it finishes.')) throw new Error('Incomplete answer'); fs.writeFileSync('/workspace/gui-native-storage-v2/thread.json',JSON.stringify({thread})); await page.locator('#prompt').fill('Exercise approval'); await page.locator('#send').click(); await page.getByRole('button',{name:'Allow once',exact:true}).waitFor(); const decision=await page.locator('#approvals').innerText(); if (!decision.includes('printf gui-native-approval')) throw new Error('Wrong approval'); await page.screenshot({path:'/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/gui-v2-approval.png'}); return {check:'normal_complete_and_native_approval',thread,answer:text,decision};",
+      "started": "2026-09-30T14:33:01.135Z",
+      "result": {
+        "check": "normal_complete_and_native_approval",
+        "thread": "01a0f2bb-5b66-7e93-ba17-3e2e6f3bf61f",
+        "answer": "GUI fixture response: Verify a normal streamed response saved by the separately installed storage service. The presentation should show this text progressively while the task is running, then preserve the completed conversation for later recovery. This longer message makes the intermediate response visible before it finishes.",
+        "decision": "Codex needs your decision\nVerify local GUI approval flow\n/bin/bash -lc 'printf gui-native-approval'\ncommand\nAllow onceDeclineCancel turn"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.getByRole('button',{name:'Allow once',exact:true}).click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task complete'); const text=await page.locator('#messages').innerText(); if (!text.includes('Native command approval result:') || !text.includes('gui-native-approval')) throw new Error('Native tool output missing'); await page.screenshot({path:'/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/gui-v2-tool.png'}); await page.locator('#prompt').fill('Exercise cancel'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#messages').textContent.includes('Waiting for Stop:')); return {check:'native_tool_completed_and_blocked_turn',toolResult:text.slice(-350),status:await page.locator('#run-status').innerText()};",
+      "started": "2026-09-30T14:33:12.268Z",
+      "result": {
+        "check": "native_tool_completed_and_blocked_turn",
+        "toolResult": " longer message makes the intermediate response visible before it finishes.\nYOU\nExercise approval\ncommand Execution · completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 3ebabf\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval",
+        "status": "Working on your task"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#stop').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task interrupted'); if ((await page.locator('#approvals').innerText()).trim()) throw new Error('Pending approval survived Stop'); const stopped=await page.locator('#messages').innerText(); if (!stopped.includes('Native command approval result:')) throw new Error('Earlier history lost'); await page.screenshot({path:'/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/gui-v2-interrupted.png'}); await page.reload(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task interrupted'); const recovered=await page.locator('#messages').innerText(); if (!recovered.includes('Native command approval result:') || !recovered.includes('GUI fixture response: Verify a normal streamed')) throw new Error('Reload lost completed history'); return {check:'stop_and_reload',status:await page.locator('#run-status').innerText(),history:recovered};",
+      "started": "2026-09-30T14:33:30.301Z",
+      "result": {
+        "check": "stop_and_reload",
+        "status": "Task interrupted",
+        "history": "YOU\nVerify a normal streamed response saved by the separately installed storage service. The presentation should show this text progressively while the task is running, then preserve the completed conversation for later recovery. This longer message makes the intermediate response visible before it finishes.\nCODEX\nGUI fixture response: Verify a normal streamed response saved by the separately installed storage service. The presentation should show this text progressively while the task is running, then preserve the completed conversation for later recovery. This longer message makes the intermediate response visible before it finishes.\nYOU\nExercise approval\ncommand Execution · completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 3ebabf\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nExercise cancel"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#prompt').fill('Verify the recovered page can complete another ordinary turn.'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task complete'); const answer=await page.locator('.message.assistant pre').last().innerText(); if (!answer.includes('Verify the recovered page')) throw new Error('Fresh reply missing'); await page.locator('#prompt').fill('Exercise cancel during manager shutdown'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#messages').textContent.includes('Waiting for Stop:')); return {check:'fresh_turn_after_reload_then_manager_pending',answer,status:await page.locator('#run-status').innerText()};",
+      "started": "2026-09-30T14:33:48.612Z",
+      "result": {
+        "check": "fresh_turn_after_reload_then_manager_pending",
+        "answer": "GUI fixture response: Verify the recovered page can complete another ordinary turn.",
+        "status": "Working on your task"
+      },
+      "passed": true
+    },
+    {
+      "command": "await gotoReadyFile('/workspace/gui-native-storage-v2/launch-2.stdout'); const {thread}=JSON.parse(fs.readFileSync('/workspace/gui-native-storage-v2/thread.json','utf8')); await page.locator('#threads .thread[data-thread-id=\"'+thread+'\"]').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task interrupted'); const history=await page.locator('#messages').innerText(); for (const expected of ['Native command approval result:','GUI fixture response: Verify a normal streamed','GUI fixture response: Verify the recovered page','Exercise cancel during manager shutdown']) { if (!history.includes(expected)) throw new Error('Cold history missing '+expected); } await page.screenshot({path:'/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/gui-v2-recovered.png'}); return {check:'cold_recovery_after_manager_ctrl_c',thread,status:await page.locator('#run-status').innerText(),history};",
+      "started": "2026-09-30T14:34:29.854Z",
+      "result": {
+        "check": "cold_recovery_after_manager_ctrl_c",
+        "thread": "01a0f2bb-5b66-7e93-ba17-3e2e6f3bf61f",
+        "status": "Task interrupted",
+        "history": "YOU\nVerify a normal streamed response saved by the separately installed storage service. The presentation should show this text progressively while the task is running, then preserve the completed conversation for later recovery. This longer message makes the intermediate response visible before it finishes.\nCODEX\nGUI fixture response: Verify a normal streamed response saved by the separately installed storage service. The presentation should show this text progressively while the task is running, then preserve the completed conversation for later recovery. This longer message makes the intermediate response visible before it finishes.\nYOU\nExercise approval\ncommand Execution · completed\n/bin/bash -lc 'printf gui-native-approval'\ngui-native-approval\nCODEX\nNative command approval result: Chunk ID: 3ebabf\nWall time: 0.0002 seconds\nProcess exited with code 0\nOriginal token count: 5\nOutput:\ngui-native-approval\nYOU\nExercise cancel\nYOU\nVerify the recovered page can complete another ordinary turn.\nCODEX\nGUI fixture response: Verify the recovered page can complete another ordinary turn.\nYOU\nExercise cancel during manager shutdown"
+      },
+      "passed": true
+    },
+    {
+      "command": "await page.locator('#prompt').fill('Verify a fresh task response after the complete launcher restart.'); await page.locator('#send').click(); await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task complete'); const answer=await page.locator('.message.assistant pre').last().innerText(); if (answer!=='GUI fixture response: Verify a fresh task response after the complete launcher restart.') throw new Error('Incorrect recovered reply'); if (await page.locator('#stop').isVisible()) throw new Error('Stop remained visible after completion'); await page.screenshot({path:'/workspace/codex-harness-everythings-a-plugin/verification/2026-09-30/gui-v2-completed-after-restart.png'}); return {check:'fresh_turn_after_cold_restart',answer,status:await page.locator('#run-status').innerText()};",
+      "started": "2026-09-30T14:34:52.972Z",
+      "result": {
+        "check": "fresh_turn_after_cold_restart",
+        "answer": "GUI fixture response: Verify a fresh task response after the complete launcher restart.",
+        "status": "Task complete"
+      },
+      "passed": true
+    }
+  ],
+  "pageErrors": [],
+  "closed": true,
+  "initial": {
+    "title": "Codex · Components"
+  }
+}

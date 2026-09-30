@@ -1,0 +1,181 @@
+--- a/codex-rs/models-manager/src/manager.rs
++++ b/codex-rs/models-manager/src/manager.rs
+@@ -40,6 +40,18 @@
+ /// manager owns refresh policy, cache behavior, and catalog merging; it calls
+ /// this endpoint only when it decides a remote refresh should happen.
+ pub trait ModelsEndpointClient: fmt::Debug + Send + Sync {
++    /// Validate ownership after asynchronous cache work. Native endpoints can
++    /// compare immediately; process dependencies must consult live host authority.
++    fn validate_identity<'a>(&'a self, identity: Option<&'a str>) -> ModelsEndpointFuture<'a, bool> {
++        Box::pin(std::future::ready(self.identity().as_deref() == identity))
++    }
++
++    /// Process adapters supply credential-free auth policy. None keeps native auth.
++    fn catalog_auth_mode(&self) -> Option<Option<AuthMode>> { None }
++
++    /// Process adapters supply the native picker/backend policy without credentials.
++    fn catalog_uses_codex_backend(&self) -> Option<bool> { None }
++
+     /// Opaque identity of the current provider and credentials, without resolving auth.
+     ///
+     /// Must change when account, email, plan, provider, or API credentials change.
+@@ -114,6 +126,17 @@
+ 
+ /// Coordinates model discovery plus cached metadata on disk.
+ pub trait ModelsManager: fmt::Debug + Send + Sync {
++    /// Selected process managers fail explicitly before inference after a broken
++    /// transport, invalid snapshot or stale owner. Native managers remain healthy.
++    fn check_health(&self) -> ModelsManagerFuture<'_, CoreResult<()>> {
++        Box::pin(std::future::ready(Ok(())))
++    }
++
++    /// Read-only picker policy, separately replaceable from credential storage.
++    fn catalog_uses_codex_backend(&self) -> bool {
++        self.auth_manager().is_some_and(AuthManager::current_auth_uses_codex_backend)
++    }
++
+     /// Supply startup API-key discovery policy; live changes require a new session.
+     /// Static catalogs ignore this setting.
+     fn set_api_key_model_discovery_enabled(&self, _enabled: bool) {}
+@@ -172,9 +195,7 @@
+         remote_models.sort_by_key(|model| model.priority);
+ 
+         let mut presets: Vec<ModelPreset> = remote_models.into_iter().map(Into::into).collect();
+-        let uses_codex_backend = self
+-            .auth_manager()
+-            .is_some_and(AuthManager::current_auth_uses_codex_backend);
++        let uses_codex_backend = self.catalog_uses_codex_backend();
+         presets = ModelPreset::filter_by_auth(presets, uses_codex_backend);
+ 
+         ModelPreset::mark_default_by_picker_visibility(&mut presets);
+@@ -291,6 +312,7 @@
+     catalog_source: CatalogSource,
+     api_key_model_discovery_enabled: AtomicBool,
+     auth_manager: Option<Arc<AuthManager>>,
++    client_version: String,
+ }
+ 
+ /// Static model manager backed by an authoritative in-process catalog.
+@@ -356,6 +378,7 @@
+             endpoint_client,
+             catalog_source: CatalogSource::Default,
+             auth_manager,
++            client_version: crate::client_version_to_whole(),
+         }
+     }
+ 
+@@ -379,6 +402,11 @@
+ }
+ 
+ impl ModelsManager for OpenAiModelsManager {
++    fn catalog_uses_codex_backend(&self) -> bool {
++        self.endpoint_client.catalog_uses_codex_backend().unwrap_or_else(||
++            self.auth_manager.as_ref().is_some_and(|auth| auth.current_auth_uses_codex_backend()))
++    }
++
+     fn set_api_key_model_discovery_enabled(&self, enabled: bool) {
+         self.api_key_model_discovery_enabled
+             .store(enabled, Ordering::SeqCst);
+@@ -516,10 +544,11 @@
+         if let Some(identity) = identity
+             && Some(&identity) == self.endpoint_client.identity().as_ref()
+             && current_etag.as_deref() == Some(etag.as_str())
++            && self.endpoint_client.validate_identity(Some(&identity)).await
+         {
+             if let Some(cache) = self.cache.as_ref()
+                 && let Err(err) = cache
+-                    .refresh_ttl(&crate::client_version_to_whole(), &identity, &etag)
++                    .refresh_ttl(&self.client_version, &identity, &etag)
+                     .await
+             {
+                 error!("failed to renew cache TTL: {err}");
+@@ -580,7 +609,7 @@
+         &self,
+         http_client_factory: &HttpClientFactory,
+     ) -> CoreResult<()> {
+-        let client_version = crate::client_version_to_whole();
++        let client_version = self.client_version.clone();
+         let request_identity = self.endpoint_client.identity();
+         let ModelsEndpointResponse {
+             models,
+@@ -594,6 +623,9 @@
+             Ok(response) => response,
+             Err(error) => {
+                 if matches!(&self.catalog_source, CatalogSource::ExplicitProvider(_)) {
++                    if !self.endpoint_client.validate_identity(request_identity.as_deref()).await {
++                        return Err(error);
++                    }
+                     {
+                         let mut current = self.remote_models.write().await;
+                         if request_identity != self.endpoint_client.identity() {
+@@ -629,7 +661,9 @@
+                 return Err(error);
+             }
+         };
+-        if Some(&identity) != self.endpoint_client.identity().as_ref() {
++        if Some(&identity) != self.endpoint_client.identity().as_ref()
++            || !self.endpoint_client.validate_identity(Some(&identity)).await
++        {
+             return Ok(());
+         }
+         let entry = ModelsCacheEntry {
+@@ -654,12 +688,14 @@
+             && self.uses_api_key_auth()
+     }
+ 
++    fn current_catalog_auth_mode(&self) -> Option<AuthMode> {
++        self.endpoint_client.catalog_auth_mode().unwrap_or_else(||
++            self.auth_manager.as_ref().and_then(|auth| auth.auth_mode()))
++    }
++
+     fn uses_api_key_auth(&self) -> bool {
+         self.endpoint_client.has_provider_api_key()
+-            || self
+-                .auth_manager
+-                .as_ref()
+-                .is_some_and(|auth_manager| auth_manager.auth_mode() == Some(AuthMode::ApiKey))
++            || self.current_catalog_auth_mode() == Some(AuthMode::ApiKey)
+     }
+ 
+     async fn should_refresh_models(&self) -> bool {
+@@ -670,6 +706,9 @@
+ 
+     /// Publish only while the request identity still matches, including after async storage.
+     async fn apply_remote_models(&self, mut entry: ModelsCacheEntry) -> bool {
++        if !self.endpoint_client.validate_identity(entry.identity.as_deref()).await {
++            return false;
++        }
+         let mut current = self.remote_models.write().await;
+         if entry.identity != self.endpoint_client.identity() {
+             return false;
+@@ -679,11 +718,7 @@
+             .iter()
+             .any(|model| model.visibility == ModelVisibility::List)
+             && (self.supports_api_key_discovery()
+-                || self.auth_manager.as_ref().is_some_and(|auth_manager| {
+-                    auth_manager
+-                        .auth_mode()
+-                        .is_some_and(AuthMode::has_chatgpt_account)
+-                }));
++                || self.current_catalog_auth_mode().is_some_and(AuthMode::has_chatgpt_account));
+         if !remote_only && let Some(mut models) = self.catalog_source.fallback_models() {
+             for model in entry.models {
+                 if let Some(index) = models
+@@ -708,7 +743,7 @@
+         };
+         let _timer =
+             codex_otel::start_global_timer("codex.remote_models.load_cache.duration_ms", &[]);
+-        let client_version = crate::client_version_to_whole();
++        let client_version = self.client_version.clone();
+         info!(client_version, "models cache: evaluating cache eligibility");
+         let Some(identity) = self.endpoint_client.identity() else {
+             return false;
+@@ -921,3 +956,8 @@
+ #[cfg(test)]
+ #[path = "manager_tests.rs"]
+ mod tests;
++
++// Installed catalog adapters share the native implementation rather than copying its policies.
++mod component_endpoint;
++pub mod component_service;
++pub mod component;

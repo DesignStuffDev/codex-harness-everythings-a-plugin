@@ -1,4 +1,13 @@
+load("@rules_rust//rust:defs.bzl", "rust_binary")
 load("//:defs.bzl", "codex_rust_crate")
+
+rust_binary(
+    name = "component-auth-test-plugin",
+    testonly = True,
+    srcs = ["tests/fixtures/component_auth_plugin.rs"],
+    crate_root = "tests/fixtures/component_auth_plugin.rs",
+    edition = "2024",
+)
 
 codex_rust_crate(
     name = "login",
@@ -6,8 +15,10 @@ codex_rust_crate(
         "src/assets/error.html",
         "src/assets/success.html",
         "src/assets/success_legacy.html",
+        "tests/fixtures/component_auth_plugin.rs",
     ],
     crate_name = "codex_login",
+    extra_binaries = ["//codex-rs/login:component-auth-test-plugin"],
     test_shard_counts = {
         # Gateway credential tests exercise real encryption and run serially on Windows.
         "login-unit-tests": 4,

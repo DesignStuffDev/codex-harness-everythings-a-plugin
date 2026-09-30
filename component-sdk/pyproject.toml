@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77", "wheel>=0.45"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codex-component-sdk"
+version = "0.1.0"
+description = "Build independently installed process components for the compartmentalized Codex fork"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["codex_component_sdk/LICENSE", "codex_component_sdk/NOTICE"]
+dependencies = []
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+]
+
+[project.scripts]
+codex-component-sdk = "codex_component_sdk.__main__:main"
+
+[tool.setuptools]
+packages = ["codex_component_sdk"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+codex_component_sdk = ["LICENSE", "NOTICE"]

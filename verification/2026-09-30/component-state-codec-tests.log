@@ -1,0 +1,1178 @@
+RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast "$@"
+   Compiling codex-component-state-codec v0.0.0 (/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec)
+warning: type alias `Native` is never used
+  --> component-state-codec/src/wire/mod.rs:17:18
+   |
+17 |             type Native = $native;
+   |                  ^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:27:20
+   |
+27 |             pub fn serialize<S: serde::Serializer>(
+   |                    ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:34:20
+   |
+34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                    ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:42:24
+   |
+42 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:48:24
+   |
+48 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:58:24
+   |
+58 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:64:24
+   |
+64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:77:24
+   |
+77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:81:24
+   |
+81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:83:24
+   |
+83 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:89:24
+   |
+89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_file_changes.rs:19:1
+   |
+19 | remote_adapter!(file_change, FileChange, FileChangeWire, "FileChangeWire");
+   | -------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+   --> component-state-codec/src/wire/mod.rs:17:18
+    |
+ 17 |             type Native = $native;
+    |                  ^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:27:20
+    |
+ 27 |             pub fn serialize<S: serde::Serializer>(
+    |                    ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:34:20
+    |
+ 34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                    ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:58:24
+    |
+ 58 |                 pub fn serialize<S: serde::Serializer>(
+    |                        ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:64:24
+    |
+ 64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+   --> component-state-codec/src/wire/mod.rs:77:24
+    |
+ 77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+   --> component-state-codec/src/wire/mod.rs:81:24
+    |
+ 81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+    |                        ^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:83:24
+    |
+ 83 |                 pub fn serialize<S: serde::Serializer>(
+    |                        ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:89:24
+    |
+ 89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:104:1
+    |
+104 | remote_adapter!(response_usage, codex_protocol::ResponseUsageMetadata, ResponseUsageMetadataWire, "ResponseUsageMetadataWire");
+    | ------------------------------------------------------------------------------------------------------------------------------ in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+   --> component-state-codec/src/wire/mod.rs:17:18
+    |
+ 17 |             type Native = $native;
+    |                  ^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:27:20
+    |
+ 27 |             pub fn serialize<S: serde::Serializer>(
+    |                    ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:34:20
+    |
+ 34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                    ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:58:24
+    |
+ 58 |                 pub fn serialize<S: serde::Serializer>(
+    |                        ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:64:24
+    |
+ 64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+   --> component-state-codec/src/wire/mod.rs:77:24
+    |
+ 77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+   --> component-state-codec/src/wire/mod.rs:81:24
+    |
+ 81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+    |                        ^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:83:24
+    |
+ 83 |                 pub fn serialize<S: serde::Serializer>(
+    |                        ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:89:24
+    |
+ 89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/events_json.rs:105:1
+    |
+105 | remote_adapter!(tool_result, codex_protocol::mcp::CallToolResult, CallToolResultWire, "CallToolResultWire");
+    | ----------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+  --> component-state-codec/src/wire/mod.rs:17:18
+   |
+17 |             type Native = $native;
+   |                  ^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:27:20
+   |
+27 |             pub fn serialize<S: serde::Serializer>(
+   |                    ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:34:20
+   |
+34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                    ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:58:24
+   |
+58 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:64:24
+   |
+64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:77:24
+   |
+77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:81:24
+   |
+81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:83:24
+   |
+83 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:89:24
+   |
+89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_nested.rs:37:1
+   |
+37 | remote_adapter!(errors, codex_protocol::protocol::ErrorEvent, ErrorEventWire, "ErrorEventWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+  --> component-state-codec/src/wire/mod.rs:17:18
+   |
+17 |             type Native = $native;
+   |                  ^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:27:20
+   |
+27 |             pub fn serialize<S: serde::Serializer>(
+   |                    ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:34:20
+   |
+34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                    ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:42:24
+   |
+42 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:48:24
+   |
+48 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:77:24
+   |
+77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:81:24
+   |
+81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:83:24
+   |
+83 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:89:24
+   |
+89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/events_paths.rs:23:1
+   |
+23 | remote_adapter!(parsed_command, codex_protocol::parse_command::ParsedCommand, ParsedCommandWire, "ParsedCommandWire");
+   | --------------------------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+  --> component-state-codec/src/wire/mod.rs:17:18
+   |
+17 |             type Native = $native;
+   |                  ^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:27:20
+   |
+27 |             pub fn serialize<S: serde::Serializer>(
+   |                    ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:34:20
+   |
+34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                    ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:58:24
+   |
+58 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:64:24
+   |
+64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:77:24
+   |
+77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:81:24
+   |
+81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:83:24
+   |
+83 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:89:24
+   |
+89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/metadata.rs:20:1
+   |
+20 | remote_adapter!(metadata, InternalChatMessageMetadataPassthrough, MetadataWire, "MetadataWire");
+   | ----------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+   --> component-state-codec/src/wire/mod.rs:17:18
+    |
+ 17 |             type Native = $native;
+    |                  ^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:27:20
+    |
+ 27 |             pub fn serialize<S: serde::Serializer>(
+    |                    ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:34:20
+    |
+ 34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                    ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:42:24
+    |
+ 42 |                 pub fn serialize<S: serde::Serializer>(
+    |                        ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:48:24
+    |
+ 48 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+   --> component-state-codec/src/wire/mod.rs:77:24
+    |
+ 77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+   --> component-state-codec/src/wire/mod.rs:81:24
+    |
+ 81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+    |                        ^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+   --> component-state-codec/src/wire/mod.rs:83:24
+    |
+ 83 |                 pub fn serialize<S: serde::Serializer>(
+    |                        ^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+   --> component-state-codec/src/wire/mod.rs:89:24
+    |
+ 89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+    |                        ^^^^^^^^^^^
+    |
+   ::: component-state-codec/src/wire/session.rs:140:1
+    |
+140 | remote_adapter!(namespace_tool, DynamicToolNamespaceTool, DynamicNamespaceToolWire, "DynamicNamespaceToolWire");
+    | --------------------------------------------------------------------------------------------------------------- in this macro invocation
+    |
+    = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+  --> component-state-codec/src/wire/mod.rs:17:18
+   |
+17 |             type Native = $native;
+   |                  ^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `Borrowed` is never constructed
+  --> component-state-codec/src/wire/mod.rs:21:24
+   |
+21 |             pub struct Borrowed<'a>(#[serde(with = $wire)] pub &'a $native);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `Owned` is never constructed
+  --> component-state-codec/src/wire/mod.rs:25:24
+   |
+25 |             pub struct Owned(#[serde(with = $wire)] pub $native);
+   |                        ^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:27:20
+   |
+27 |             pub fn serialize<S: serde::Serializer>(
+   |                    ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:34:20
+   |
+34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                    ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:42:24
+   |
+42 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:48:24
+   |
+48 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:58:24
+   |
+58 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:64:24
+   |
+64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:77:24
+   |
+77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:81:24
+   |
+81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:83:24
+   |
+83 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:89:24
+   |
+89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:48:1
+   |
+48 | remote_adapter!(token_usage_info, TokenUsageInfo, TokenUsageInfoWire, "TokenUsageInfoWire");
+   | ------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: type alias `Native` is never used
+  --> component-state-codec/src/wire/mod.rs:17:18
+   |
+17 |             type Native = $native;
+   |                  ^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:27:20
+   |
+27 |             pub fn serialize<S: serde::Serializer>(
+   |                    ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:34:20
+   |
+34 |             pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                    ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:58:24
+   |
+58 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:64:24
+   |
+64 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `BorrowedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:77:24
+   |
+77 |                 struct BorrowedVec<'a>(#[serde(with = "super::vec")] &'a Vec<Native>);
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: struct `OwnedVec` is never constructed
+  --> component-state-codec/src/wire/mod.rs:81:24
+   |
+81 |                 struct OwnedVec(#[serde(with = "super::vec")] Vec<Native>);
+   |                        ^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `serialize` is never used
+  --> component-state-codec/src/wire/mod.rs:83:24
+   |
+83 |                 pub fn serialize<S: serde::Serializer>(
+   |                        ^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: function `deserialize` is never used
+  --> component-state-codec/src/wire/mod.rs:89:24
+   |
+89 |                 pub fn deserialize<'de, D: serde::Deserializer<'de>>(
+   |                        ^^^^^^^^^^^
+   |
+  ::: component-state-codec/src/wire/usage.rs:49:1
+   |
+49 | remote_adapter!(token_usage_record, TokenUsageRecord, TokenUsageRecordWire, "TokenUsageRecordWire");
+   | --------------------------------------------------------------------------------------------------- in this macro invocation
+   |
+   = note: this warning originates in the macro `remote_adapter` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+warning: `codex-component-state-codec` (lib test) generated 87 warnings
+    Finished `test` profile [unoptimized] target(s) in 9.97s
+────────────
+ Nextest run ID 16c49ee3-967f-425e-a95c-44eb75f4525d with nextest profile: local
+    Starting 37 tests across 1 binary
+        PASS [   0.005s] ( 1/37) codex-component-state-codec wire::events_paths_tests::approval_patch_map_and_grant_root_roundtrip_together
+        PASS [   0.005s] ( 2/37) codex-component-state-codec wire::events_paths_tests::nested_command_paths_preserve_native_bytes_and_foreign_uri_cwd
+        PASS [   0.006s] ( 3/37) codex-component-state-codec wire::events_paths_tests::duplicate_file_change_keys_are_rejected_instead_of_overwriting_evidence
+        PASS [   0.006s] ( 4/37) codex-component-state-codec wire::events_paths_tests::image_generation_item_preserves_absolute_non_unicode_saved_path
+        PASS [   0.006s] ( 5/37) codex-component-state-codec wire::events_paths_tests::preserves_all_local_user_input_path_variants_inside_turn_items
+        PASS [   0.005s] ( 6/37) codex-component-state-codec wire::events_paths_tests::preserves_local_media_vectors_inside_legacy_user_events
+        PASS [   0.006s] ( 7/37) codex-component-state-codec wire::events_paths_tests::review_finding_preserves_absolute_native_path
+        PASS [   0.009s] ( 8/37) codex-component-state-codec wire::events_paths_tests::preserves_distinct_non_unicode_file_keys_and_move_targets
+        PASS [   0.006s] ( 9/37) codex-component-state-codec wire::events_tests::preserves_all_custom_effort_collisions_and_empty_value
+        PASS [   0.006s] (10/37) codex-component-state-codec wire::events_tests::preserves_absent_and_captured_null_in_optional_json
+        PASS [   0.006s] (11/37) codex-component-state-codec wire::events_tests::preserves_all_feature_source_collisions
+        PASS [   0.006s] (12/37) codex-component-state-codec wire::events_tests::preserves_arbitrary_precision_elicitation_payloads
+        PASS [   0.007s] (13/37) codex-component-state-codec wire::events_tests::preserves_builtin_hook_marker
+        PASS [   0.006s] (14/37) codex-component-state-codec wire::events_tests::preserves_captured_json_null_in_mcp_results
+        PASS [   0.006s] (15/37) codex-component-state-codec wire::events_tests::preserves_command_analytics_in_turn_items
+        PASS [   0.008s] (16/37) codex-component-state-codec wire::events_tests::preserves_extension_image_request_and_generation_ids
+        PASS [   0.008s] (17/37) codex-component-state-codec wire::events_tests::preserves_nonfinite_float_bits
+        PASS [   0.007s] (18/37) codex-component-state-codec wire::events_tests::preserves_recursive_events_and_custom_scalar_variants
+        PASS [   0.008s] (19/37) codex-component-state-codec wire::events_tests::preserves_permission_entry_order_and_missing_path_behavior
+        PASS [   0.006s] (20/37) codex-component-state-codec wire::events_tests::preserves_sensitive_error_details_only_on_trusted_transport
+        PASS [   0.006s] (21/37) codex-component-state-codec wire::paths::tests::trusted_absolute_path_rejects_relative_and_empty_input
+        PASS [   0.007s] (22/37) codex-component-state-codec wire::paths::tests::native_path_uri_serde_already_preserves_non_unicode_paths
+        PASS [   0.007s] (23/37) codex-component-state-codec wire::paths::tests::trusted_absolute_path_preserves_non_unicode_os_string
+        PASS [   0.006s] (24/37) codex-component-state-codec wire::paths::tests::trusted_absolute_path_rejects_representation_changes
+        PASS [   0.006s] (25/37) codex-component-state-codec wire::paths::tests::trusted_native_path_preserves_non_unicode_os_string
+        PASS [   0.007s] (26/37) codex-component-state-codec wire::paths::tests::trusted_native_path_does_not_normalize_relative_or_empty_paths
+        PASS [   0.008s] (27/37) codex-component-state-codec wire::paths::tests::trusted_path_containers_preserve_values_and_presence
+        PASS [   0.006s] (28/37) codex-component-state-codec wire::paths::tests::trusted_paths_reject_foreign_platform
+        PASS [   0.005s] (29/37) codex-component-state-codec wire::paths::tests::trusted_sandbox_policy_preserves_non_unicode_roots_and_flags
+        PASS [   0.006s] (30/37) codex-component-state-codec wire::tests::absent_metadata_stays_absent_instead_of_becoming_an_empty_annotation
+        PASS [   0.005s] (31/37) codex-component-state-codec wire::tests::direct_usage_and_retained_delivery_keep_native_fields_without_rollout_reencoding
+        PASS [   0.006s] (32/37) codex-component-state-codec wire::tests::inter_agent_metadata_survives_the_same_trusted_codec
+        PASS [   0.007s] (33/37) codex-component-state-codec wire::tests::nested_compaction_keeps_review_history_usage_and_per_item_metadata_presence
+        PASS [   0.006s] (34/37) codex-component-state-codec wire::tests::security_scores_preserve_float_bits_and_a_captured_json_null
+        PASS [   0.006s] (35/37) codex-component-state-codec wire::tests::reasoning_variants_and_host_only_metadata_survive_trusted_response_roundtrip
+        PASS [   0.005s] (36/37) codex-component-state-codec wire::tests::session_metadata_does_not_collapse_custom_source_or_dynamic_tool_schema
+        PASS [   0.006s] (37/37) codex-component-state-codec wire::tests::trusted_payload_preserves_success_and_provider_deserialization_still_omits_it
+────────────
+     Summary [   0.064s] 37 tests run: 37 passed, 0 skipped

@@ -1,6 +1,7 @@
 use std::time::Duration;
 use std::time::Instant;
 
+use crate::ResumeMetadata;
 use chrono::DateTime;
 use chrono::NaiveDateTime;
 use chrono::Utc;
@@ -10,14 +11,12 @@ use codex_protocol::ThreadId;
 use codex_protocol::items::TurnItem;
 use codex_protocol::protocol::EventMsg;
 use codex_protocol::protocol::GitInfo;
-use codex_protocol::protocol::SessionSource;
 use codex_protocol::protocol::ThreadHistoryMode;
 use codex_protocol::protocol::ThreadMemoryMode;
 use codex_protocol::protocol::UserMessageEvent;
 use codex_protocol::protocol::strip_user_message_prefix;
 use codex_protocol::protocol::user_message_preview;
 use codex_rollout::RolloutItem;
-use codex_state::ThreadMetadata;
 
 use crate::CreateThreadParams;
 use crate::GitInfoPatch;
@@ -102,13 +101,9 @@ impl ThreadMetadataSync {
 
     pub(crate) fn for_resume(
         params: &ResumeThreadParams,
-        metadata: Option<&ThreadMetadata>,
+        metadata: Option<&ResumeMetadata>,
     ) -> Self {
-        let guardian_review = metadata.is_some_and(|metadata| {
-            serde_json::from_str::<SessionSource>(&metadata.source)
-                .as_ref()
-                .is_ok_and(codex_state::is_guardian_review_source)
-        });
+        let guardian_review = metadata.is_some_and(|metadata| metadata.guardian_review);
         let mut sync = Self {
             thread_id: params.thread_id,
             cwd_seen: params
@@ -116,14 +111,10 @@ impl ThreadMetadataSync {
                 .cwd
                 .as_ref()
                 .is_some_and(|cwd| !cwd.as_os_str().is_empty()),
-            preview_seen: guardian_review
-                || metadata
-                    .and_then(|metadata| metadata.preview.as_deref())
-                    .is_some_and(|preview| !preview.is_empty()),
+            preview_seen: guardian_review || metadata.is_some_and(|metadata| metadata.preview_seen),
             first_user_message_seen: guardian_review
-                || metadata.is_some_and(|metadata| metadata.first_user_message.is_some()),
-            title_seen: guardian_review
-                || metadata.is_some_and(|metadata| !metadata.title.is_empty()),
+                || metadata.is_some_and(|metadata| metadata.first_user_message_seen),
+            title_seen: guardian_review || metadata.is_some_and(|metadata| metadata.title_seen),
             pending_update: None,
             pending_update_generation: 0,
             last_touch_persisted_at: None,
@@ -537,7 +528,7 @@ mod tests {
                     },
                 ))],
             ),
-            Some(&metadata),
+            Some(&crate::ResumeMetadata::from(&metadata)),
         );
 
         let update = sync.take_pending_update().expect("pending metadata update");
@@ -855,7 +846,8 @@ mod tests {
             )))],
         );
 
-        let sync = ThreadMetadataSync::for_resume(&params, Some(&metadata));
+        let sync =
+            ThreadMetadataSync::for_resume(&params, Some(&crate::ResumeMetadata::from(&metadata)));
         let update = sync.take_pending_update().expect("pending metadata update");
 
         assert_eq!(update.patch.preview, None);

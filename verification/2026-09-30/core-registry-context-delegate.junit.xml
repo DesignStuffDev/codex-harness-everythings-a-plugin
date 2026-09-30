@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="nextest-run" tests="36" skipped="0" failures="0" errors="0" uuid="4e705ca3-86e1-4406-ab09-8410ac570158" timestamp="2026-09-30T11:14:08.584+00:00" time="0.383">
+    <testsuite name="codex-core" tests="36" skipped="0" errors="0" failures="0">
+        <testcase name="context::contextual_user_message::tests::detects_agents_instructions_fragment" classname="codex-core" timestamp="2026-09-30T11:14:08.603+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::contextual_user_fragment_is_dyn_compatible" classname="codex-core" timestamp="2026-09-30T11:14:08.603+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::component_context_is_not_user_authorization" classname="codex-core" timestamp="2026-09-30T11:14:08.603+00:00" time="0.020"/>
+        <testcase name="context::contextual_user_message::tests::detects_environment_context_fragment" classname="codex-core" timestamp="2026-09-30T11:14:08.623+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::detects_internal_model_context_fragment" classname="codex-core" timestamp="2026-09-30T11:14:08.623+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::detects_hook_prompt_fragment_and_roundtrips_escaping" classname="codex-core" timestamp="2026-09-30T11:14:08.623+00:00" time="0.020"/>
+        <testcase name="context::contextual_user_message::tests::detects_skill_instructions_fragment_case_insensitively" classname="codex-core" timestamp="2026-09-30T11:14:08.642+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::detects_legacy_goal_context_fragment" classname="codex-core" timestamp="2026-09-30T11:14:08.642+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::detects_recommended_plugins_fragment" classname="codex-core" timestamp="2026-09-30T11:14:08.642+00:00" time="0.019"/>
+        <testcase name="context::contextual_user_message::tests::ignores_regular_user_text" classname="codex-core" timestamp="2026-09-30T11:14:08.662+00:00" time="0.024"/>
+        <testcase name="context::contextual_user_message::tests::does_not_hide_arbitrary_context_tags" classname="codex-core" timestamp="2026-09-30T11:14:08.661+00:00" time="0.025"/>
+        <testcase name="context::contextual_user_message::tests::detects_subagent_notification_fragment_case_insensitively" classname="codex-core" timestamp="2026-09-30T11:14:08.661+00:00" time="0.025"/>
+        <testcase name="context::contextual_user_message::tests::renders_agents_instructions_without_directory_header" classname="codex-core" timestamp="2026-09-30T11:14:08.687+00:00" time="0.024"/>
+        <testcase name="context::contextual_user_message::tests::renders_agents_instructions_with_legacy_directory_header" classname="codex-core" timestamp="2026-09-30T11:14:08.686+00:00" time="0.025"/>
+        <testcase name="context::contextual_user_message::tests::rejects_invalid_internal_model_context_source" classname="codex-core" timestamp="2026-09-30T11:14:08.686+00:00" time="0.026"/>
+        <testcase name="tools::registry::tests::explicitly_selected_tool_replaces_existing_runtime" classname="codex-core" timestamp="2026-09-30T11:14:08.711+00:00" time="0.027"/>
+        <testcase name="tools::registry::tests::code_mode_wait_does_not_expose_default_hook_payloads" classname="codex-core" timestamp="2026-09-30T11:14:08.711+00:00" time="0.070"/>
+        <testcase name="tools::registry::tests::dispatch_uses_canonical_tool_names_for_lifecycle_contributors" classname="codex-core" timestamp="2026-09-30T11:14:08.712+00:00" time="0.074"/>
+        <testcase name="tools::registry::tests::function_hook_input_defaults_empty_arguments_to_object" classname="codex-core" timestamp="2026-09-30T11:14:08.739+00:00" time="0.059"/>
+        <testcase name="tools::registry::tests::handler_normalizes_only_the_default_namespace" classname="codex-core" timestamp="2026-09-30T11:14:08.786+00:00" time="0.021"/>
+        <testcase name="tools::registry::tests::post_tool_use_feedback_output_keeps_code_mode_result_typed" classname="codex-core" timestamp="2026-09-30T11:14:08.798+00:00" time="0.026"/>
+        <testcase name="tools::registry::tests::post_tool_use_feedback_output_preserves_fallback_token_limit_override::scale_bytes_before_converting_to_tokens" classname="codex-core" timestamp="2026-09-30T11:14:08.807+00:00" time="0.023"/>
+        <testcase name="tools::registry::tests::function_tools_expose_default_hook_payloads_and_rewrites" classname="codex-core" timestamp="2026-09-30T11:14:08.781+00:00" time="0.059"/>
+        <testcase name="tools::registry::tests::post_tool_use_feedback_output_preserves_fallback_token_limit_override::token_budget" classname="codex-core" timestamp="2026-09-30T11:14:08.825+00:00" time="0.018"/>
+        <testcase name="tools::registry::tests::post_tool_use_feedback_output_preserves_mcp_result_metadata::success" classname="codex-core" timestamp="2026-09-30T11:14:08.830+00:00" time="0.021"/>
+        <testcase name="tools::registry::tests::post_tool_use_feedback_output_preserves_mcp_result_metadata::tool_error" classname="codex-core" timestamp="2026-09-30T11:14:08.840+00:00" time="0.024"/>
+        <testcase name="tools::registry::tests::registry_allows_identical_names_in_different_namespaces" classname="codex-core" timestamp="2026-09-30T11:14:08.851+00:00" time="0.019"/>
+        <testcase name="tools::registry::tests::registry_preserves_external_winners_and_trusted_synthetic_order" classname="codex-core" timestamp="2026-09-30T11:14:08.864+00:00" time="0.018"/>
+        <testcase name="tools::registry::tests::registry_records_reserved_exec_command_when_a_matching_tool_exists" classname="codex-core" timestamp="2026-09-30T11:14:08.870+00:00" time="0.021"/>
+        <testcase name="codex_delegate::tests::isolated_delegate_resets_default_attachments_but_keeps_explicit_store" classname="codex-core" timestamp="2026-09-30T11:14:08.603+00:00" time="0.297"/>
+        <testcase name="tools::registry::tests::readiness_selects_exact_tool_with_registry_owned_exposure" classname="codex-core" timestamp="2026-09-30T11:14:08.843+00:00" time="0.062"/>
+        <testcase name="tools::registry::tests::reserved_command_tools_reject_external_runtimes_without_a_builtin" classname="codex-core" timestamp="2026-09-30T11:14:08.891+00:00" time="0.015"/>
+        <testcase name="tools::registry::tests::registry_rejects_default_namespace_alias_collisions" classname="codex-core" timestamp="2026-09-30T11:14:08.883+00:00" time="0.024"/>
+        <testcase name="tools::registry::tests::selected_replacement_preserves_tool_policy_and_reserved_execution_names" classname="codex-core" timestamp="2026-09-30T11:14:08.900+00:00" time="0.021"/>
+        <testcase name="tools::registry::tests::write_stdin_does_not_expose_default_pre_tool_use_payload" classname="codex-core" timestamp="2026-09-30T11:14:08.907+00:00" time="0.053"/>
+        <testcase name="tools::registry::tests::spawn_agent_function_tools_use_agent_matcher_alias" classname="codex-core" timestamp="2026-09-30T11:14:08.906+00:00" time="0.062"/>
+    </testsuite>
+</testsuites>

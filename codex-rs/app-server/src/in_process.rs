@@ -63,6 +63,7 @@ use crate::outgoing_message::OutgoingEnvelope;
 use crate::outgoing_message::OutgoingMessage;
 use crate::outgoing_message::OutgoingMessageSender;
 use crate::outgoing_message::QueuedOutgoingMessage;
+use crate::persistence_lifecycle::StoreShutdownGuard;
 use crate::plugin_config_reload::PluginStartupConfig;
 use crate::transport::CHANNEL_CAPACITY;
 use crate::transport::OutboundConnectionState;
@@ -104,8 +105,11 @@ mod bootstrap;
 
 const IN_PROCESS_CONNECTION_ID: ConnectionId = ConnectionId(0);
 const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
-// Covers both bounded runtime drains plus the analytics client's 25-second best-effort flush.
-const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(35);
+// Connection, background work and thread shutdown each have their own drain.
+const PROCESSOR_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(45);
+// Covers processor (45s), store (120s), outbound (5s), and analytics (25s),
+// including a small margin. All client-side shutdown waits share this deadline.
+const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(200);
 /// Default bounded channel capacity for in-process runtime queues.
 pub const DEFAULT_IN_PROCESS_CHANNEL_CAPACITY: usize = CHANNEL_CAPACITY;
 
@@ -285,7 +289,10 @@ impl InProcessClientSender {
 pub struct InProcessClientHandle {
     client: InProcessClientSender,
     event_rx: mpsc::Receiver<InProcessServerEvent>,
-    runtime_handle: tokio::task::JoinHandle<()>,
+    runtime_handle: tokio::task::JoinHandle<IoResult<()>>,
+    // Separate ownership ensures dropping a handle or cancelling shutdown also
+    // fences storage while the runtime or detached requests retain their Arcs.
+    _store_lifecycle: Option<StoreShutdownGuard>,
     #[cfg(test)]
     _test_codex_home: Option<tempfile::TempDir>,
 }
@@ -342,26 +349,48 @@ impl InProcessClientHandle {
     /// Requests runtime shutdown and waits for worker termination.
     ///
     /// Shutdown is bounded by internal timeouts and may abort background tasks
-    /// if graceful drain does not complete in time.
+    /// if graceful drain does not complete in time. Selected storage cleanup may
+    /// take up to 120 seconds within the overall 200-second budget; incomplete
+    /// cleanup returns an error, including uncertainty about accepted writes.
     pub async fn shutdown(self) -> IoResult<()> {
         let mut runtime_handle = self.runtime_handle;
+        // This method consumes the only event receiver. Release it before
+        // waiting so a required notification cannot block the runtime's drain.
+        drop(self.event_rx);
         let (done_tx, done_rx) = oneshot::channel();
-
-        if self
-            .client
-            .client_tx
-            .send(InProcessClientMessage::Shutdown { done_tx })
-            .await
-            .is_ok()
+        let deadline = tokio::time::Instant::now() + SHUTDOWN_ACK_TIMEOUT;
+        let request = tokio::time::timeout_at(
+            deadline,
+            self.client
+                .client_tx
+                .send(InProcessClientMessage::Shutdown { done_tx }),
+        )
+        .await;
+        if request.is_err()
+            || (matches!(request, Ok(Ok(())))
+                && tokio::time::timeout_at(deadline, done_rx).await.is_err())
         {
-            let _ = timeout(SHUTDOWN_ACK_TIMEOUT, done_rx).await;
-        }
-
-        if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut runtime_handle).await {
             runtime_handle.abort();
             let _ = runtime_handle.await;
+            return Err(IoError::new(
+                ErrorKind::TimedOut,
+                "in-process shutdown timed out; accepted write outcomes may be unknown",
+            ));
         }
-        Ok(())
+        match tokio::time::timeout_at(deadline, &mut runtime_handle).await {
+            Ok(Ok(result)) => result,
+            Ok(Err(_)) => Err(IoError::other(
+                "in-process runtime failed; accepted write outcomes may be unknown",
+            )),
+            Err(_) => {
+                runtime_handle.abort();
+                let _ = runtime_handle.await;
+                Err(IoError::new(
+                    ErrorKind::TimedOut,
+                    "in-process shutdown timed out; accepted write outcomes may be unknown",
+                ))
+            }
+        }
     }
 
     pub fn sender(&self) -> InProcessClientSender {
@@ -387,20 +416,31 @@ pub async fn start(mut args: InProcessStartArgs) -> IoResult<InProcessClientHand
     let initialize = args.initialize.clone();
     let client = Box::pin(start_uninitialized(args)).await?;
 
-    let initialize_response = client
-        .request(ClientRequest::Initialize {
-            request_id: RequestId::Integer(0),
-            params: initialize,
-        })
-        .await?;
-    if let Err(error) = initialize_response {
-        let _ = client.shutdown().await;
-        return Err(IoError::new(
-            ErrorKind::InvalidData,
-            format!("in-process initialize failed: {}", error.message),
-        ));
+    let initialized = async {
+        let initialize_response = client
+            .request(ClientRequest::Initialize {
+                request_id: RequestId::Integer(0),
+                params: initialize,
+            })
+            .await?;
+        if let Err(error) = initialize_response {
+            return Err(IoError::new(
+                ErrorKind::InvalidData,
+                format!("in-process initialize failed: {}", error.message),
+            ));
+        }
+        client.notify(ClientNotification::Initialized)
     }
-    client.notify(ClientNotification::Initialized)?;
+    .await;
+    if let Err(primary) = initialized {
+        return match client.shutdown().await {
+            Ok(()) => Err(primary),
+            Err(cleanup) => Err(IoError::new(
+                primary.kind(),
+                format!("{primary}; {cleanup}"),
+            )),
+        };
+    }
 
     Ok(client)
 }
@@ -441,8 +481,13 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         args.enable_codex_api_key_env,
     )
     .await?;
-    let channel_capacity = args.channel_capacity.max(1);
     let installation_id = resolve_installation_id(&args.config.codex_home).await?;
+    let persistence = codex_core::persistence_from_config(&args.config, args.state_db.clone())
+        .await
+        .map_err(IoError::other)?;
+    let channel_capacity = args.channel_capacity.max(1);
+    let runtime_store_lifecycle = StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
+    let handle_store_lifecycle = StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
     let (client_tx, mut client_rx) = mpsc::channel::<InProcessClientMessage>(channel_capacity);
     let (event_tx, event_rx) = mpsc::channel::<InProcessServerEvent>(channel_capacity);
 
@@ -503,6 +548,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                 environment_manager: args.environment_manager,
                 feedback: args.feedback,
                 log_db: args.log_db,
+                persistence,
                 state_db: args.state_db,
                 config_warnings: args.config_warnings,
                 session_source: args.session_source,
@@ -790,10 +836,8 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             )));
         }
 
-        if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut processor_handle).await {
-            processor_handle.abort();
-            let _ = processor_handle.await;
-        }
+        let shutdown_result =
+            finish_processor_and_store(&mut processor_handle, &runtime_store_lifecycle).await;
         let _ = outbound_shutdown_tx.send(());
         if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut outbound_handle).await {
             outbound_handle.abort();
@@ -805,16 +849,43 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         if let Some(done_tx) = shutdown_ack {
             let _ = done_tx.send(());
         }
+        shutdown_result
     });
 
     Ok(InProcessClientHandle {
         client: InProcessClientSender { client_tx },
         event_rx,
         runtime_handle,
+        _store_lifecycle: Some(handle_store_lifecycle),
         #[cfg(test)]
         _test_codex_home: None,
     })
 }
+
+async fn finish_processor_and_store(
+    processor: &mut tokio::task::JoinHandle<()>,
+    store: &StoreShutdownGuard,
+) -> IoResult<()> {
+    let processor_result = match timeout(PROCESSOR_SHUTDOWN_TIMEOUT, &mut *processor).await {
+        Ok(Ok(())) => Ok(()),
+        Ok(Err(_)) => Err(IoError::other(
+            "in-process request processor failed during shutdown",
+        )),
+        Err(_) => {
+            processor.abort();
+            let _ = processor.await;
+            Err(IoError::new(
+                ErrorKind::TimedOut,
+                "in-process request processor shutdown timed out",
+            ))
+        }
+    };
+    store.finish(processor_result).await
+}
+
+#[cfg(test)]
+#[path = "in_process_lifecycle_tests.rs"]
+mod lifecycle_tests;
 
 #[cfg(test)]
 mod tests {
@@ -1011,11 +1082,13 @@ mod tests {
             tokio::time::sleep(SHUTDOWN_TIMEOUT + SHUTDOWN_TIMEOUT + Duration::from_secs(24)).await;
             runtime_completed.store(true, Ordering::Release);
             let _ = done_tx.send(());
+            Ok(())
         });
         let client = InProcessClientHandle {
             client: InProcessClientSender { client_tx },
             event_rx,
             runtime_handle,
+            _store_lifecycle: None,
             _test_codex_home: None,
         };
 

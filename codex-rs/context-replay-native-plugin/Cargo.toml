@@ -1,0 +1,29 @@
+[package]
+name = "codex-context-replay-native-plugin"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+name = "codex_context_replay_native_plugin"
+path = "src/lib.rs"
+doctest = false
+
+[lints]
+workspace = true
+
+[dependencies]
+codex-component-host = { workspace = true }
+codex-context-engine = { workspace = true }
+codex-context-replay = { workspace = true }
+serde_json = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread"] }
+
+[dev-dependencies]
+anyhow = { workspace = true }
+codex-context-replay-component = { workspace = true }
+codex-history = { workspace = true }
+codex-protocol = { workspace = true }
+codex-utils-cargo-bin = { workspace = true }
+pretty_assertions = { workspace = true }
+tempfile = { workspace = true }

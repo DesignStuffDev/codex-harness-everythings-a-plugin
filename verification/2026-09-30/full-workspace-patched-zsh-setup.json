@@ -1,0 +1,36 @@
+{
+  "purpose": "Prefetch the exact pinned patched-zsh fixture used by native tests and verify their execution-wrapper capability guard",
+  "timestamp_utc": "2026-09-30T12:58:33.684339+00:00",
+  "fixture": "/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server/tests/suite/zsh",
+  "fixture_sha256": "6f94e90693a7c6dcdc57bd8044786a7cdd0ccaa32f1815d5a1e47c3ce8a49d81",
+  "fetch_command": [
+    "dotslash",
+    "--",
+    "fetch",
+    "/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server/tests/suite/zsh"
+  ],
+  "fetch_exit_status": 0,
+  "cache_fetch_exit_status": 0,
+  "cache_environment": null,
+  "resolved_executable": "/home/agent/.cache/dotslash/d6/3dc793604e3ff05ef5e1bc69512a022915cc49/package/vendor/x86_64-unknown-linux-musl/zsh/ubuntu-24.04/zsh",
+  "executable_bytes": 898480,
+  "executable_sha256": "52fc20199c35aac8a9ce1aad7de127a3cac47886a9ff0bf2f80bac3ebac2283f",
+  "artifact_verification": "DotSlash fetch verified the fixture-pinned archive size and blake3 digest before cache extraction.",
+  "pinned_archive": {
+    "url": "https://github.com/openai/codex/releases/download/rust-v0.104.0/codex-shell-tool-mcp-npm-0.104.0.tgz",
+    "bytes": 53771483,
+    "blake3": "ff664f63f5e1fa62762c9aff0aafa66cf196faf9b157f98ec98f59c152fc7bd3"
+  },
+  "capability_probe": {
+    "command": [
+      "/home/agent/.cache/dotslash/d6/3dc793604e3ff05ef5e1bc69512a022915cc49/package/vendor/x86_64-unknown-linux-musl/zsh/ubuntu-24.04/zsh",
+      "-fc",
+      "/usr/bin/true"
+    ],
+    "without_exec_wrapper_exit_status": 0,
+    "with_exec_wrapper_usr_bin_false_exit_status": 1,
+    "matches_test_guard": "codex-rs/core/tests/common/zsh_fork.rs::supports_exec_wrapper_intercept"
+  },
+  "passed": true,
+  "scope": "Fixture preparation and capability checks only. The full workspace test run supplies scenario results. codex-execve-wrapper is built separately by the root test command."
+}

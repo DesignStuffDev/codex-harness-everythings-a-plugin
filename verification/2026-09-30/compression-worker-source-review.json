@@ -1,0 +1,77 @@
+{
+  "status": "rollout runtime gate passed; combined storage maintenance gate retains one unrelated failure",
+  "source_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "source_file": "codex-rs/rollout/src/compression.rs",
+  "lifted_file": "codex-rs/rollout/src/compression/worker/file.rs",
+  "native_algorithm_comparison": {
+    "normalization": "Remove former inline-module indentation and new pub(super) visibility from entry function only",
+    "equal": true,
+    "sha256": "d5ab940800513e6202eb7658a65fc88f0a98467d7d5a92e072c10b1d6929b41e",
+    "scope": "compress_rollout_if_cold_blocking, FileState, cold_file_state, same_file_state, encode_zstd_to_writer, verify_zstd, set_file_metadata"
+  },
+  "new_boundary": "run_rollout_compression_worker(PathBuf, RolloutCompressionTrigger, watch::Receiver<bool>) -> Result<(), RolloutCompressionWorkerError>",
+  "behavior": [
+    "True cancellation or sender closure stops further scan/admission; accepted blocking operations are drained and joined without abort.",
+    "Cancellation and blocking-job admission are serialized by a synchronous watch read guard with no await.",
+    "Cancelled passes do not persist the completed-run marker; final marker publication is fenced against cancellation send.",
+    "TaskJoin failure is returned only after remaining jobs are joined; ordinary filesystem errors retain Operation classification.",
+    "Existing fire-and-forget spawn and worker::run wrappers retain a never-cancel sender and native compression behavior."
+  ],
+  "new_test_sources": [
+    "cancellation_stops_admission_and_waits_for_both_native_file_jobs",
+    "failed_blocking_job_is_reported_only_after_the_other_job_finishes",
+    "already_cancelled_or_closed_owner_never_claims_a_run_marker",
+    "native_filesystem_failure_remains_an_operation_error"
+  ],
+  "validation_limits": [
+    "No separate rollout Rust command was run by this source owner; audit_services ran the combined rollout/thread-store/component/plugin/state gate (execution session 28270 after fixing first-run test imports).",
+    "Awaited API ownership requires callers to signal cancellation and continue awaiting; aborting or dropping that future is explicitly outside its contract.",
+    "Running file compression is not interrupted; storage supervisor must await it or process-level forced shutdown must report uncertain completion."
+  ],
+  "runtime_validation": {
+    "command_owner": "audit_services",
+    "execution_session": 28270,
+    "log": "storage-maintenance-regressions.log",
+    "junit": "storage-maintenance-regressions.junit.xml",
+    "run": {
+      "name": "nextest-run",
+      "tests": "653",
+      "skipped": "0",
+      "failures": "1",
+      "errors": "0",
+      "uuid": "8309963e-60b5-47cc-8370-1e5520c4fa39",
+      "timestamp": "2026-09-30T13:51:30.411+00:00",
+      "time": "33.125"
+    },
+    "rollout_suite": {
+      "name": "codex-rollout",
+      "tests": "140",
+      "skipped": "0",
+      "errors": "0",
+      "failures": "0"
+    },
+    "new_tests": [
+      {
+        "name": "compression::worker::tests::already_cancelled_or_closed_owner_never_claims_a_run_marker",
+        "outcome": "passed",
+        "duration_seconds": 0.009
+      },
+      {
+        "name": "compression::worker::tests::failed_blocking_job_is_reported_only_after_the_other_job_finishes",
+        "outcome": "passed",
+        "duration_seconds": 0.066
+      },
+      {
+        "name": "compression::worker::tests::cancellation_stops_admission_and_waits_for_both_native_file_jobs",
+        "outcome": "passed",
+        "duration_seconds": 0.068
+      },
+      {
+        "name": "compression::worker::tests::native_filesystem_failure_remains_an_operation_error",
+        "outcome": "passed",
+        "duration_seconds": 0.01
+      }
+    ],
+    "combined_result": "652 of 653 tests passed; remaining native migration maintenance test is under investigation by audit_services. No rollout/compression failures."
+  }
+}

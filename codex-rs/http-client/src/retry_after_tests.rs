@@ -43,3 +43,79 @@ async fn http_dates_and_invalid_advice() {
         assert_eq!(RetryAfter::from_header(value), None, "{value}");
     }
 }
+
+#[tokio::test(start_paused = true)]
+async fn absolute_deadline_retains_elapsed_time_and_nanoseconds() {
+    let started = Instant::now();
+    let wall_started = SystemTime::UNIX_EPOCH + Duration::from_secs(1_000);
+    let delay = Duration::new(10, 123_456_789);
+    let advice = RetryAfter::from_delay(delay).expect("valid advice");
+    tokio::time::advance(Duration::from_secs(4)).await;
+
+    let encoded = advice
+        .to_system_time_at(Instant::now(), wall_started + Duration::from_secs(4))
+        .expect("representable wall time");
+    assert_eq!(encoded, wall_started + delay);
+
+    // Two seconds in transit must consume the original advice, not start it again.
+    tokio::time::advance(Duration::from_secs(2)).await;
+    let decoded = RetryAfter::from_system_time_at(
+        encoded,
+        wall_started + Duration::from_secs(6),
+        Instant::now(),
+    );
+    assert_eq!(decoded, Some(advice));
+    assert_eq!(decoded.unwrap().deadline(), started + delay);
+    assert_eq!(
+        decoded.unwrap().remaining_delay(),
+        Duration::new(4, 123_456_789)
+    );
+}
+
+#[tokio::test(start_paused = true)]
+async fn expired_absolute_advice_remains_present() {
+    let wall_started = SystemTime::UNIX_EPOCH + Duration::from_secs(1_000);
+    let advice = RetryAfter::from_delay(Duration::from_secs(2)).expect("valid advice");
+    tokio::time::advance(Duration::from_secs(3)).await;
+    let encoded = advice
+        .to_system_time_at(Instant::now(), wall_started + Duration::from_secs(3))
+        .expect("representable wall time");
+    assert_eq!(encoded, wall_started + Duration::from_secs(2));
+    let captured = RetryAfter::from_system_time_at(
+        encoded,
+        wall_started + Duration::from_secs(3),
+        Instant::now(),
+    );
+    assert_eq!(captured.map(RetryAfter::remaining_delay), Some(Duration::ZERO));
+    assert_eq!(
+        RetryAfter::from_system_time(SystemTime::UNIX_EPOCH).map(RetryAfter::remaining_delay),
+        Some(Duration::ZERO)
+    );
+}
+
+#[test]
+fn public_absolute_deadline_conversion_uses_conservative_sample_order() {
+    let deadline = SystemTime::now() + Duration::new(60, 123_456_789);
+    let advice = RetryAfter::from_system_time(deadline).expect("valid advice");
+    let exported = advice.to_system_time().expect("representable wall time");
+    // Both conversions can add sampling latency but do not round away nanoseconds or
+    // shorten the deadline under an unchanged system clock.
+    assert!(exported >= deadline);
+}
+
+#[cfg(target_os = "linux")]
+#[test]
+fn absolute_deadline_conversion_checks_platform_overflow() {
+    // Linux SystemTime can represent this value, but adding its remaining duration
+    // to a positive monotonic instant cannot fit in the native timespec.
+    let largest_seconds = SystemTime::UNIX_EPOCH
+        .checked_add(Duration::from_secs(i64::MAX as u64))
+        .expect("Linux SystemTime supports signed 64-bit seconds");
+    let now = Instant::now();
+    assert_eq!(
+        RetryAfter::from_system_time_at(largest_seconds, SystemTime::UNIX_EPOCH, now),
+        None
+    );
+    let advice = RetryAfter::from_delay(Duration::from_secs(1)).expect("valid advice");
+    assert_eq!(advice.to_system_time_at(now, largest_seconds), None);
+}

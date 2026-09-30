@@ -92,6 +92,8 @@ pub(crate) struct SessionServices {
     pub(crate) state_db: Option<StateDbHandle>,
     pub(crate) live_thread: Option<LiveThread>,
     pub(crate) image_store: Arc<dyn AttachmentStore>,
+    /// Preserve default versus explicit provenance when creating isolated delegates.
+    pub(crate) image_store_selection: codex_attachment_store_component::AttachmentStoreSelection,
     pub(crate) thread_store: Arc<dyn ThreadStore>,
     pub(crate) attestation_provider: Option<Arc<dyn AttestationProvider>>,
     pub(crate) time_provider: Arc<dyn TimeProvider>,

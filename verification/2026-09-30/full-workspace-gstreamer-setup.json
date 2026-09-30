@@ -1,0 +1,290 @@
+{
+  "status": "ready_for_workspace_build_and_runtime_retry",
+  "recorded_at_utc": "2026-09-30T13:22:28.340889+00:00",
+  "requirements": {
+    "workspace_manifest": "codex-rs/voice-host/Cargo.toml",
+    "features": [
+      "gstreamer/v1_28",
+      "gstreamer-app/v1_28",
+      "gstreamer-audio/v1_28"
+    ],
+    "native_versions": {
+      "gstreamer-1.0": ">=1.28",
+      "gstreamer-base-1.0": ">=1.28",
+      "gstreamer-app-1.0": ">=1.28",
+      "gstreamer-audio-1.0": ">=1.28"
+    },
+    "pinned_sys_manifests": [
+      "/workspace/toolchains/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gstreamer-sys-0.25.2/Cargo.toml",
+      "/workspace/toolchains/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gstreamer-base-sys-0.25.3/Cargo.toml",
+      "/workspace/toolchains/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gstreamer-audio-sys-0.25.3/Cargo.toml",
+      "/workspace/toolchains/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/gstreamer-app-sys-0.25.0/Cargo.toml"
+    ]
+  },
+  "selection": {
+    "reason": "Debian13 stable has1.26.2; trixie-backports has no newer GStreamer. Official Debian sid1.28.7 binaries require libc>=2.38 and GLib>=2.81.1, satisfied by installed libc2.41 and GLib2.84.4. No system packages/libc upgraded.",
+    "repository": "https://deb.debian.org/debian sid main",
+    "orc_repository": "https://deb.debian.org/debian trixie main",
+    "signature_keyring": "/usr/share/keyrings/debian-archive-keyring.gpg",
+    "verified_signatures_and_package_sha256": true
+  },
+  "commands": [
+    "APT_CONFIG=/workspace/toolchains/glib-setup/apt.conf /usr/bin/apt-get update",
+    "APT_CONFIG=/workspace/toolchains/glib-setup/apt.conf /usr/bin/apt-get download libgstreamer1.0-dev=1.28.7-1 libgstreamer1.0-0=1.28.7-1 libgstreamer-plugins-base1.0-dev=1.28.7-1 libgstreamer-plugins-base1.0-0=1.28.7-1 liborc-0.4-dev/trixie liborc-0.4-0t64/trixie gstreamer1.0-tools=1.28.7-1 gstreamer1.0-plugins-base=1.28.7-1 gstreamer1.0-plugins-good=1.28.7-1+b1",
+    "dpkg-deb --extract <verified-package.deb> /workspace/toolchains/sysroot",
+    "Relocate only new pkgconfig files; preserve all prior GLib/cap/ALSA hashes",
+    "source /workspace/toolchains/component-verification-env.sh"
+  ],
+  "environment": {
+    "verification_env": "/workspace/toolchains/component-verification-env.sh",
+    "appended_source": "/workspace/toolchains/gstreamer-setup/env.sh",
+    "runtime_library_path": "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu",
+    "preferred_plugin_directory": "/workspace/toolchains/gstreamer-setup/plugins",
+    "system_plugin_fallback": "/usr/lib/x86_64-linux-gnu/gstreamer-1.0",
+    "notes": "Prefer eight matching audio/RTP/core plugin binaries via symlinks; preserve existing system plugins as fallback. Unrelated sid video plugins requiring new codec SONAMEs are not added to discovery. No GTK/Pango or system package install."
+  },
+  "packages": [
+    {
+      "Package": "gstreamer1.0-plugins-base",
+      "Version": "1.28.7-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/gstreamer1.0-plugins-base_1.28.7-1_amd64.deb",
+      "sha256": "a70152fd1c2243d8581f3f4eebd367e6f546e8f05795207bd7d3c476a1ad6c0e",
+      "archive_path": "pool/main/g/gst-plugins-base1.0/gstreamer1.0-plugins-base_1.28.7-1_amd64.deb",
+      "dependencies": "libc6 (>= 2.33), libcdparanoia0 (>= 3.10.2+debian), libglib2.0-0t64 (>= 2.81.1), libgstreamer-plugins-base1.0-0 (>= 1.28.0), libgstreamer1.0-0 (>= 1.28.3), libogg0 (>= 1.0rc3), libopus0 (>= 1.1), liborc-0.4-0t64 (>= 1:0.4.34), libtheoradec2 (>= 1.2), libtheoraenc2 (>= 1.2), libvisual-0.4-0 (>= 0.4.0), libvorbis0a (>= 1.3.1), libvorbisenc2 (>= 1.3.1)"
+    },
+    {
+      "Package": "gstreamer1.0-plugins-good",
+      "Version": "1.28.7-1+b1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/gstreamer1.0-plugins-good_1.28.7-1+b1_amd64.deb",
+      "sha256": "d4ba1d9b36ee7bc4a1993ba73b14056a60ae9c92509c4fd207cf0ccb1f275638",
+      "archive_path": "pool/main/g/gst-plugins-good1.0/gstreamer1.0-plugins-good_1.28.7-1+b1_amd64.deb",
+      "dependencies": "libaa1 (>= 1.4p5), libbz2-1.0, libc6 (>= 2.34), libcaca0 (>= 0.99.beta20), libcairo-gobject2 (>= 1.10.0), libcairo2 (>= 1.10.0), libdv4t64 (>= 1.0.0), libflac14 (>= 1.5.0), libgcc-s1 (>= 3.0), libgdk-pixbuf-2.0-0 (>= 2.22.0), libglib2.0-0t64 (>= 2.81.1), libgstreamer-plugins-base1.0-0 (>= 1.28.0), libgstreamer1.0-0 (>= 1.28.0), libgudev-1.0-0 (>= 147), libjpeg62-turbo (>= 1.3.1), libmp3lame0 (>= 3.100), libmpg123-0t64 (>= 1.32.3), libopencore-amrnb0 (>= 0.1.6), libopencore-amrwb0 (>= 0.1.6), liborc-0.4-0t64 (>= 1:0.4.34), libpng16-16t64 (>= 1.6.46), libpulse0 (>= 12.99.2), libshout3 (>= 2.4.6), libspeex1 (>= 1.2~), libssl3t64 (>= 3.0.0), libstdc++6 (>= 5), libtag2 (>= 2.0), libtwolame0 (>= 0.3.10), libv4l-0t64 (>= 0.5.0), libvpx12 (>= 1.16.0), libwavpack1 (>= 4.60), libx11-6, libxdamage1 (>= 1:1.1), libxext6, libxfixes3, libxml2-16 (>= 2.14.1), libxtst6 (>= 2:1.2.5), zlib1g (>= 1:1.1.4), gstreamer1.0-plugins-base (>= 1.28.0), libsoup-3.0-0"
+    },
+    {
+      "Package": "gstreamer1.0-tools",
+      "Version": "1.28.7-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/gstreamer1.0-tools_1.28.7-1_amd64.deb",
+      "sha256": "7cdb3a99b59a756bf50e21f3707e2e9abb27b048c38dd151ab9137401494e64a",
+      "archive_path": "pool/main/g/gstreamer1.0/gstreamer1.0-tools_1.28.7-1_amd64.deb",
+      "dependencies": "libc6 (>= 2.34), libglib2.0-0t64 (>= 2.81.1), libgstreamer1.0-0 (>= 1.27.90)"
+    },
+    {
+      "Package": "libgstreamer-plugins-base1.0-0",
+      "Version": "1.28.7-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/libgstreamer-plugins-base1.0-0_1.28.7-1_amd64.deb",
+      "sha256": "6bcdfdbd8d614003e32fcf4f937d9565dcadf0e5d2ab667799e1ce6b004942ca",
+      "archive_path": "pool/main/g/gst-plugins-base1.0/libgstreamer-plugins-base1.0-0_1.28.7-1_amd64.deb",
+      "dependencies": "libc6 (>= 2.33), libdrm2 (>= 2.4.74), libglib2.0-0t64 (>= 2.81.1), libgstreamer1.0-0 (>= 1.28.3), liborc-0.4-0t64 (>= 1:0.4.34), zlib1g (>= 1:1.1.4), iso-codes"
+    },
+    {
+      "Package": "libgstreamer-plugins-base1.0-dev",
+      "Version": "1.28.7-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/libgstreamer-plugins-base1.0-dev_1.28.7-1_amd64.deb",
+      "sha256": "1fb4825028a0247c26ab3a8630b84de0c19a9aa66b8db4b02bc98af23d7e5545",
+      "archive_path": "pool/main/g/gst-plugins-base1.0/libgstreamer-plugins-base1.0-dev_1.28.7-1_amd64.deb",
+      "dependencies": "gir1.2-gio-2.0-dev, gir1.2-glib-2.0 (>= 1.78.1-3~), gir1.2-glib-2.0-dev, gir1.2-gmodule-2.0-dev, gir1.2-gobject-2.0-dev, gir1.2-gst-1.0-dev, gir1.2-gst-plugins-base-1.0 (= 1.28.7-1), gir1.2-gstbase-1.0-dev, libgstreamer-plugins-base1.0-0 (= 1.28.7-1), libgstreamer-gl1.0-0 (= 1.28.7-1), libc6-dev | libc-dev, pkgconf, libgstreamer1.0-dev (>= 1.16.2), libglib2.0-dev, liborc-0.4-dev (>= 1:0.4.24), libgl-dev, libegl-dev, libgles-dev, libx11-xcb-dev, libwayland-dev (>= 1.11), libdrm-dev (>= 2.4.55), libgbm-dev, libgudev-1.0-dev (>= 147)"
+    },
+    {
+      "Package": "libgstreamer1.0-0",
+      "Version": "1.28.7-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/libgstreamer1.0-0_1.28.7-1_amd64.deb",
+      "sha256": "eb644c9c41e2839bd0baf3cd1fd9e5df177567e981ef084f6dd467efa2b2d6f1",
+      "archive_path": "pool/main/g/gstreamer1.0/libgstreamer1.0-0_1.28.7-1_amd64.deb",
+      "dependencies": "libc6 (>= 2.38), libcap2 (>= 1:2.10), libgcc-s1 (>= 4.2), libglib2.0-0t64 (>= 2.81.1), libcap2-bin"
+    },
+    {
+      "Package": "libgstreamer1.0-dev",
+      "Version": "1.28.7-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/libgstreamer1.0-dev_1.28.7-1_amd64.deb",
+      "sha256": "a267f52b270eeb80e285333234e7eb3e2dc574c360e7b29caac61dd0636894bc",
+      "archive_path": "pool/main/g/gstreamer1.0/libgstreamer1.0-dev_1.28.7-1_amd64.deb",
+      "dependencies": "libgstreamer1.0-0 (= 1.28.7-1), libc6-dev | libc-dev, pkgconf, libglib2.0-dev, gir1.2-gstreamer-1.0 (= 1.28.7-1), gir1.2-gio-2.0-dev, gir1.2-glib-2.0 (>= 1.78.1-3~), gir1.2-glib-2.0-dev, gir1.2-gmodule-2.0-dev, gir1.2-gobject-2.0-dev, libc6 (>= 2.34), libglib2.0-0t64 (>= 2.12.0)"
+    },
+    {
+      "Package": "liborc-0.4-0t64",
+      "Version": "1:0.4.41-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/liborc-0.4-0t64_1%3a0.4.41-1_amd64.deb",
+      "sha256": "5b9afe78be0dd71399c0d4d7e5f26beb6ddf207279997942d8280be1b20bd58c",
+      "archive_path": "pool/main/o/orc/liborc-0.4-0t64_0.4.41-1_amd64.deb",
+      "dependencies": "libc6 (>= 2.38)"
+    },
+    {
+      "Package": "liborc-0.4-dev",
+      "Version": "1:0.4.41-1",
+      "Architecture": "amd64",
+      "file": "/workspace/toolchains/gstreamer-setup/packages/liborc-0.4-dev_1%3a0.4.41-1_amd64.deb",
+      "sha256": "0d7197bebf5e84b4ddfcf85c9c0ea27e16c0a8ed6fa91ee24c008717cf993227",
+      "archive_path": "pool/main/o/orc/liborc-0.4-dev_0.4.41-1_amd64.deb",
+      "dependencies": "liborc-0.4-0t64 (= 1:0.4.41-1), liborc-0.4-dev-bin:any (= 1:0.4.41-1)"
+    }
+  ],
+  "preserved_pc_hashes": {
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/alsa.pc": "826a8a9400be598454e4e9a3f5b513883c4a7e3365a03279394acd85b3ccb679",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gmodule-2.0.pc": "e47671057a15a331cc8cce8589fd9163d2c234929fdf11bf0077a455605ea58e",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/blkid.pc": "6852d48617790781de7f9b63cdacd285a1c9e01e2ffc61d92d575ac68b06b56a",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/mount.pc": "e9c13adfdfbee40d48d180fa1d9366e4d0dbb47de6591de663985e620a2799b7",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/libpsx.pc": "ec46a4295eacf26bdb9d3537df6bb2c4120f9ed0cde0289a99d5c96f13ae2f0c",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/libsepol.pc": "19c5de55219730244ef9401252e2e6766749716d9dd603c7884b9134c940c328",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gmodule-no-export-2.0.pc": "536b76f0f2db5f8187b9d0b52e52cbe0bdd2fae50360e821867b7f593644febd",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/sysprof-capture-4.pc": "87a982ff8659fee1e482b8700a5782499f4c35a55c16c106d31ac38621535d2c",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gmodule-export-2.0.pc": "e47671057a15a331cc8cce8589fd9163d2c234929fdf11bf0077a455605ea58e",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gobject-2.0.pc": "8dd07917861025ac35d3c252b45f50a7ea6f01b6399ff0d97101effe14739d9d",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/libcap.pc": "d1accdba84c62f1a266e23c27c8d82fbd5153b50730f189c4e7357f3d6d0ec43",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/libffi.pc": "ac8fe763cf4196ea32aa64b40d4ff58b7b29e74ed1d71a27ae0c0f5ebe05b696",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gio-2.0.pc": "fe52ef302056feaedc5a77fa82c911dc9972f1deef59c31c9ded4e128c1f1f46",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/libselinux.pc": "912dc499c6ea8e73b38ceb6d2add8150f9ae095763d1a9b4e76da3e06ed5ca78",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/glib-2.0.pc": "be6fe313bd7339fe08817ca95330209d89c360690eac12009dfdf0853b40dd72",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gthread-2.0.pc": "d12db42d7fed2900ead57bcbb078eb82f16e99f82eb8905907bea37924871f3d",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gio-unix-2.0.pc": "55859d05469dcb4a2e0d5e6c38824c721627d069f62e69672333fc89dd38c530"
+  },
+  "relocated_pc_files": [
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-fft-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-check-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-audio-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-pbutils-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-rtp-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-video-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-controller-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-gl-wayland-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-gl-x11-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-net-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-riff-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/orc-0.4.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/orc-test-0.4.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-allocators-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-gl-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-base-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-gl-egl-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-sdp-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-tag-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-plugins-base-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-app-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-rtsp-1.0.pc",
+    "/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/pkgconfig/gstreamer-gl-prototypes-1.0.pc"
+  ],
+  "checks": [
+    {
+      "argv": [
+        "pkg-config",
+        "--modversion",
+        "gstreamer-1.0",
+        "gstreamer-base-1.0",
+        "gstreamer-app-1.0",
+        "gstreamer-audio-1.0"
+      ],
+      "exit_code": 0,
+      "stdout": "1.28.7\n1.28.7\n1.28.7\n1.28.7\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "pkg-config",
+        "--libs",
+        "--cflags",
+        "gstreamer-1.0 >= 1.28",
+        "gstreamer-base-1.0 >= 1.28",
+        "gstreamer-app-1.0 >= 1.28",
+        "gstreamer-audio-1.0 >= 1.28"
+      ],
+      "exit_code": 0,
+      "stdout": "-I/workspace/toolchains/sysroot/usr/include/gstreamer-1.0 -I/workspace/toolchains/sysroot/usr/include/glib-2.0 -I/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/workspace/toolchains/sysroot/usr/include/sysprof-6 -pthread -I/workspace/toolchains/sysroot/usr/include/orc-0.4 -lgstapp-1.0 -lgstaudio-1.0 -lgstbase-1.0 -lgstreamer-1.0 -lgobject-2.0 -lglib-2.0 \n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "cc",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "/workspace/toolchains/gstreamer-setup/gstreamer-probe.c",
+        "-o",
+        "/workspace/toolchains/gstreamer-setup/gstreamer-probe",
+        "-I/workspace/toolchains/sysroot/usr/include/gstreamer-1.0",
+        "-I/workspace/toolchains/sysroot/usr/include/glib-2.0",
+        "-I/workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/glib-2.0/include",
+        "-I/workspace/toolchains/sysroot/usr/include/sysprof-6",
+        "-pthread",
+        "-I/workspace/toolchains/sysroot/usr/include/orc-0.4",
+        "-lgstapp-1.0",
+        "-lgstaudio-1.0",
+        "-lgstbase-1.0",
+        "-lgstreamer-1.0",
+        "-lgobject-2.0",
+        "-lglib-2.0"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/workspace/toolchains/gstreamer-setup/gstreamer-probe"
+      ],
+      "exit_code": 0,
+      "stdout": "headers=1.28.7 runtime=1.28.7\nappsrc plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstapp.so version=1.28.7\nappsink plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstapp.so version=1.28.7\naudioconvert plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstaudioconvert.so version=1.28.7\naudioresample plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstaudioresample.so version=1.28.7\ncapsfilter plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstcoreelements.so version=1.28.7\nrtpjitterbuffer plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstrtpmanager.so version=1.28.7\nrtpopusdepay plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstrtp.so version=1.28.7\nopusdec plugin=/workspace/toolchains/gstreamer-setup/plugins/libgstopus.so version=1.28.7\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "ldd",
+        "-r",
+        "/workspace/toolchains/gstreamer-setup/gstreamer-probe"
+      ],
+      "exit_code": 0,
+      "stdout": "\tlinux-vdso.so.1 (0x00007f7eca718000)\n\tlibgstapp-1.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgstapp-1.0.so.0 (0x00007f7eca6f0000)\n\tlibgstaudio-1.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgstaudio-1.0.so.0 (0x00007f7eca65e000)\n\tlibgstbase-1.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgstbase-1.0.so.0 (0x00007f7eca5d1000)\n\tlibgstreamer-1.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgstreamer-1.0.so.0 (0x00007f7eca44c000)\n\tlibgobject-2.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgobject-2.0.so.0 (0x00007f7eca3e7000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f7eca1d0000)\n\tlibglib-2.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0 (0x00007f7eca077000)\n\tlibgsttag-1.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgsttag-1.0.so.0 (0x00007f7eca032000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f7ec9f42000)\n\tliborc-0.4.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/liborc-0.4.so.0 (0x00007f7ec9e89000)\n\tlibgmodule-2.0.so.0 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libgmodule-2.0.so.0 (0x00007f7ec9e82000)\n\tlibffi.so.8 => /workspace/toolchains/sysroot/usr/lib/x86_64-linux-gnu/libffi.so.8 (0x00007f7ec9e75000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f7eca71a000)\n\tlibatomic.so.1 => /lib/x86_64-linux-gnu/libatomic.so.1 (0x00007f7ec9e6b000)\n\tlibpcre2-8.so.0 => /lib/x86_64-linux-gnu/libpcre2-8.so.0 (0x00007f7ec9dbc000)\n\tlibz.so.1 => /lib/x86_64-linux-gnu/libz.so.1 (0x00007f7ec9d9a000)\n",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/workspace/toolchains/sysroot/usr/bin/gst-launch-1.0",
+        "-q",
+        "audiotestsrc",
+        "num-buffers=3",
+        "!",
+        "audioconvert",
+        "!",
+        "audioresample",
+        "!",
+        "opusenc",
+        "!",
+        "rtpopuspay",
+        "!",
+        "rtpjitterbuffer",
+        "latency=10",
+        "!",
+        "rtpopusdepay",
+        "!",
+        "opusdec",
+        "!",
+        "fakesink"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "pkg-config",
+        "--modversion",
+        "glib-2.0",
+        "gobject-2.0",
+        "gio-2.0",
+        "libcap",
+        "alsa"
+      ],
+      "exit_code": 0,
+      "stdout": "2.84.4\n2.84.4\n2.84.4\n2.75\n1.2.14\n",
+      "stderr": ""
+    }
+  ],
+  "no_cargo_or_repository_source_changes": true
+}
