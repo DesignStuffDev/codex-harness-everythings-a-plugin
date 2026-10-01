@@ -1,0 +1,1381 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_transport_development_branch_candidate",
+  "finalized": true,
+  "original_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "base_source_commit": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3",
+  "published_base_checkpoint": "43a758138c457569a33ccd14f01446d715eb54e0",
+  "native_inventory_status": "Native marketplace synchronization and lifecycle remain coupled; Stage A is a P03 prerequisite, not an installed replacement boundary.",
+  "inputs": {
+    "frozen_candidate_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-proposal/MANIFEST.json",
+      "sha256": "ad4e063abc4169dd8d46e15cded48c388770c6cfbacaf0cacd3da04d75603714",
+      "bytes": 6417
+    },
+    "frozen_candidate_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-unadopted-stage.tar.gz",
+      "sha256": "dd00735c3bf3e2209ed2919701f2969d7f26ce51395a2499416597d8109c09aa",
+      "bytes": 441680
+    },
+    "frozen_candidate_archive_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-stage-preservation.json",
+      "sha256": "c59401c93798219b3279e080c59f50f4d64fe7a5da8e8705a3bf0286ba3fc38f",
+      "bytes": 4561
+    },
+    "archive_members_verified": 35,
+    "strengthening_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-test-strengthening/MANIFEST.json",
+      "sha256": "d4ca5e29707c0157526574de9525cca14a9747765afea69ef2ce6b66f52e3630",
+      "bytes": 3132
+    },
+    "strengthening_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-strengthening-preserved.tar.gz",
+      "sha256": "27731d813e0b6f835dec6df2116d3f88fe6cb1a5acd1d2924b4d60de2ad0d0fa",
+      "bytes": 6572
+    },
+    "tests_only_adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-tests-only-adoption.json",
+      "sha256": "c0bd15f77bb298058dd9931df31cee005af83884bb33b2ac21b4dc411dd4a000",
+      "bytes": 744
+    },
+    "diagnosis_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-sync-lifecycle-audit/MANIFEST.json",
+      "sha256": "9dff962a916c13691ca8f6f03a673976e7ccae266db1e51d9a878b70b60e091c",
+      "bytes": 276
+    },
+    "bc_design_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-sync-bc-design/MANIFEST.json",
+      "sha256": "2bb253514981158041e2a7305a0a116299906ab00f023860073c63de647981b0",
+      "bytes": 866
+    }
+  },
+  "source_layers": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "upstream": {
+        "sha256": "da78572c11e5262c3bab4409e6305517e9f5034c025e91a3579a444b1a20952f",
+        "bytes": 407057,
+        "computed_git_blob": "ea897239537da5b7bbc3106eb5c1a8593f34895c",
+        "anchors": []
+      },
+      "preimage": {
+        "sha256": "4784270f81d7c388c8686e6c85ec3c7d99e73643f179dabde16082f12b34730e",
+        "bytes": 410935,
+        "computed_git_blob": "322aa9fc9a097b20897ad52a39e63320d97a815e",
+        "anchors": []
+      },
+      "frozen_proposal": {
+        "sha256": "8a2cf8ead589b68b4053a55dfc2e9e0191114010e8d930d67953c0a43193f42e",
+        "bytes": 410955,
+        "computed_git_blob": "21af1e864350b1491ef9b455e1b71cc1a7b05d70",
+        "anchors": []
+      },
+      "strengthening_overlay": null,
+      "effective_candidate": {
+        "sha256": "8a2cf8ead589b68b4053a55dfc2e9e0191114010e8d930d67953c0a43193f42e",
+        "bytes": 410955,
+        "computed_git_blob": "21af1e864350b1491ef9b455e1b71cc1a7b05d70",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-proposal/proposed/codex-rs/Cargo.lock",
+        "anchors": []
+      },
+      "checkout_at_evidence_snapshot": {
+        "sha256": "4784270f81d7c388c8686e6c85ec3c7d99e73643f179dabde16082f12b34730e",
+        "bytes": 410935,
+        "computed_git_blob": "322aa9fc9a097b20897ad52a39e63320d97a815e",
+        "anchors": []
+      },
+      "checkout_identical_to_upstream_at_snapshot": false
+    },
+    {
+      "path": "codex-rs/core-plugins/Cargo.toml",
+      "upstream": {
+        "sha256": "3bd9ba726c1bc9312dfbad028f3e1134b4bb322b3dd5f1ab4f80df863b319d9e",
+        "bytes": 2174,
+        "computed_git_blob": "df9ec2752a273f84269fbb2021ca1cdd5e5a5758",
+        "anchors": []
+      },
+      "preimage": {
+        "sha256": "3bd9ba726c1bc9312dfbad028f3e1134b4bb322b3dd5f1ab4f80df863b319d9e",
+        "bytes": 2174,
+        "computed_git_blob": "df9ec2752a273f84269fbb2021ca1cdd5e5a5758",
+        "anchors": []
+      },
+      "frozen_proposal": {
+        "sha256": "b1f83e8aa5746692775b5d408626406a3d63332d84afc63b8c957dec4946c7c4",
+        "bytes": 2213,
+        "computed_git_blob": "707be0d6e010ed58726d6bc2ae9494bb2099a57c",
+        "anchors": []
+      },
+      "strengthening_overlay": null,
+      "effective_candidate": {
+        "sha256": "b1f83e8aa5746692775b5d408626406a3d63332d84afc63b8c957dec4946c7c4",
+        "bytes": 2213,
+        "computed_git_blob": "707be0d6e010ed58726d6bc2ae9494bb2099a57c",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-proposal/proposed/codex-rs/core-plugins/Cargo.toml",
+        "anchors": []
+      },
+      "checkout_at_evidence_snapshot": {
+        "sha256": "3bd9ba726c1bc9312dfbad028f3e1134b4bb322b3dd5f1ab4f80df863b319d9e",
+        "bytes": 2174,
+        "computed_git_blob": "df9ec2752a273f84269fbb2021ca1cdd5e5a5758",
+        "anchors": []
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "upstream": {
+        "sha256": "78fe0eaf8813eab2fa3d4a5398a06cf01152deca69f12c931821d5ca35c5e93d",
+        "bytes": 39271,
+        "computed_git_blob": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+        "anchors": [
+          {
+            "literal": "fn git_head_sha(",
+            "lines": [
+              640
+            ]
+          },
+          {
+            "literal": "fn run_git_command_with_timeout(",
+            "lines": [
+              683
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo(",
+            "lines": [
+              77
+            ]
+          }
+        ]
+      },
+      "preimage": {
+        "sha256": "78fe0eaf8813eab2fa3d4a5398a06cf01152deca69f12c931821d5ca35c5e93d",
+        "bytes": 39271,
+        "computed_git_blob": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+        "anchors": [
+          {
+            "literal": "fn git_head_sha(",
+            "lines": [
+              640
+            ]
+          },
+          {
+            "literal": "fn run_git_command_with_timeout(",
+            "lines": [
+              683
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo(",
+            "lines": [
+              77
+            ]
+          }
+        ]
+      },
+      "frozen_proposal": {
+        "sha256": "06fa54f70913802b681b4460a1de376b0cfd668bfe8d8b3404dc0912b6e88f00",
+        "bytes": 39725,
+        "computed_git_blob": "3d817cdb9d45f08fb63ff518e67fc4e7806cd0eb",
+        "anchors": [
+          {
+            "literal": "fn git_head_sha(",
+            "lines": [
+              641
+            ]
+          },
+          {
+            "literal": "fn run_git_command_with_timeout(",
+            "lines": [
+              680,
+              694
+            ]
+          },
+          {
+            "literal": "codex_utils_pty::run_bounded_background_command(",
+            "lines": [
+              685
+            ]
+          },
+          {
+            "literal": "AtomicBool::new(false)",
+            "lines": [
+              689
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo(",
+            "lines": [
+              78
+            ]
+          }
+        ]
+      },
+      "strengthening_overlay": null,
+      "effective_candidate": {
+        "sha256": "06fa54f70913802b681b4460a1de376b0cfd668bfe8d8b3404dc0912b6e88f00",
+        "bytes": 39725,
+        "computed_git_blob": "3d817cdb9d45f08fb63ff518e67fc4e7806cd0eb",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-proposal/proposed/codex-rs/core-plugins/src/startup_sync.rs",
+        "anchors": [
+          {
+            "literal": "fn git_head_sha(",
+            "lines": [
+              641
+            ]
+          },
+          {
+            "literal": "fn run_git_command_with_timeout(",
+            "lines": [
+              680,
+              694
+            ]
+          },
+          {
+            "literal": "codex_utils_pty::run_bounded_background_command(",
+            "lines": [
+              685
+            ]
+          },
+          {
+            "literal": "AtomicBool::new(false)",
+            "lines": [
+              689
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo(",
+            "lines": [
+              78
+            ]
+          }
+        ]
+      },
+      "checkout_at_evidence_snapshot": {
+        "sha256": "84077614345660e7c3d6048a3c5e917c5ca268e57a00f2788fe52bf0cfad9ffc",
+        "bytes": 39384,
+        "computed_git_blob": "9173394aeed7948741b8ab905079d7eb0057ab85",
+        "anchors": [
+          {
+            "literal": "fn git_head_sha(",
+            "lines": [
+              640
+            ]
+          },
+          {
+            "literal": "fn run_git_command_with_timeout(",
+            "lines": [
+              683
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo(",
+            "lines": [
+              77
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": false
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+      "upstream": null,
+      "preimage": null,
+      "frozen_proposal": {
+        "sha256": "b3e8e502a6f05044cb8a53c2d45df275ce04e23a584e04ee05a41dff9cc473fd",
+        "bytes": 3464,
+        "computed_git_blob": "a9de00d7e26a0413d5fcbcf9ce3f471826b7157b",
+        "anchors": []
+      },
+      "strengthening_overlay": {
+        "sha256": "edf8a17b4f6ad8b824061e27ba69c85cef7466e88a23bcc7f3141b5bc65c382a",
+        "bytes": 3542,
+        "computed_git_blob": "ef0daac0b14fc4256325983970564503be11712a",
+        "anchors": []
+      },
+      "effective_candidate": {
+        "sha256": "edf8a17b4f6ad8b824061e27ba69c85cef7466e88a23bcc7f3141b5bc65c382a",
+        "bytes": 3542,
+        "computed_git_blob": "ef0daac0b14fc4256325983970564503be11712a",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-test-strengthening/proposed/codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+        "anchors": []
+      },
+      "checkout_at_evidence_snapshot": {
+        "sha256": "edf8a17b4f6ad8b824061e27ba69c85cef7466e88a23bcc7f3141b5bc65c382a",
+        "bytes": 3542,
+        "computed_git_blob": "ef0daac0b14fc4256325983970564503be11712a",
+        "anchors": []
+      },
+      "checkout_identical_to_upstream_at_snapshot": false
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "upstream": null,
+      "preimage": null,
+      "frozen_proposal": {
+        "sha256": "d8b3a06d30aa6c862ef14b95b8ec8e6a97bab1dcbb797451e12455735e1efbc9",
+        "bytes": 8972,
+        "computed_git_blob": "053217f75faef49addd1ae8c6d3f1aec29ed0638",
+        "anchors": [
+          {
+            "literal": "struct OwnedGroup {",
+            "lines": [
+              20
+            ]
+          },
+          {
+            "literal": "impl Drop for OwnedGroup {",
+            "lines": [
+              36
+            ]
+          },
+          {
+            "literal": "fn exited_without_reaping(",
+            "lines": [
+              55
+            ]
+          },
+          {
+            "literal": "fn read_available(",
+            "lines": [
+              74
+            ]
+          },
+          {
+            "literal": "pub fn run_bounded_background_command(",
+            "lines": [
+              103
+            ]
+          },
+          {
+            "literal": "let status = match group.child().wait()",
+            "lines": [
+              187
+            ]
+          }
+        ]
+      },
+      "strengthening_overlay": null,
+      "effective_candidate": {
+        "sha256": "d8b3a06d30aa6c862ef14b95b8ec8e6a97bab1dcbb797451e12455735e1efbc9",
+        "bytes": 8972,
+        "computed_git_blob": "053217f75faef49addd1ae8c6d3f1aec29ed0638",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-proposal/proposed/codex-rs/utils/pty/src/bounded_command.rs",
+        "anchors": [
+          {
+            "literal": "struct OwnedGroup {",
+            "lines": [
+              20
+            ]
+          },
+          {
+            "literal": "impl Drop for OwnedGroup {",
+            "lines": [
+              36
+            ]
+          },
+          {
+            "literal": "fn exited_without_reaping(",
+            "lines": [
+              55
+            ]
+          },
+          {
+            "literal": "fn read_available(",
+            "lines": [
+              74
+            ]
+          },
+          {
+            "literal": "pub fn run_bounded_background_command(",
+            "lines": [
+              103
+            ]
+          },
+          {
+            "literal": "let status = match group.child().wait()",
+            "lines": [
+              187
+            ]
+          }
+        ]
+      },
+      "checkout_at_evidence_snapshot": null,
+      "checkout_identical_to_upstream_at_snapshot": false
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "upstream": null,
+      "preimage": null,
+      "frozen_proposal": {
+        "sha256": "6fff9b6aec5d5f47e986c2d200da1956f4d780925a8b24900d4e267e2dfa544b",
+        "bytes": 2979,
+        "computed_git_blob": "29852e2d28363f3a3263f8660b5977558e70df67",
+        "anchors": []
+      },
+      "strengthening_overlay": {
+        "sha256": "17e5567f4431344c629129e9e276fdde82c71a6a5f1fa0838bef68063ed2aaeb",
+        "bytes": 3339,
+        "computed_git_blob": "424964879192f8d4ead90da52575eb3dc9b16faf",
+        "anchors": []
+      },
+      "effective_candidate": {
+        "sha256": "17e5567f4431344c629129e9e276fdde82c71a6a5f1fa0838bef68063ed2aaeb",
+        "bytes": 3339,
+        "computed_git_blob": "424964879192f8d4ead90da52575eb3dc9b16faf",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-test-strengthening/proposed/codex-rs/utils/pty/src/bounded_command_tests.rs",
+        "anchors": []
+      },
+      "checkout_at_evidence_snapshot": null,
+      "checkout_identical_to_upstream_at_snapshot": false
+    },
+    {
+      "path": "codex-rs/utils/pty/src/lib.rs",
+      "upstream": {
+        "sha256": "5479ac5337702f15345e0c74c9a8712e65cfbe8849505da0312937f7246b6eb6",
+        "bytes": 2446,
+        "computed_git_blob": "c2a0629156831c134a55044512f6a59ea64e4136",
+        "anchors": [
+          {
+            "literal": "mod process_group;",
+            "lines": [
+              13
+            ]
+          }
+        ]
+      },
+      "preimage": {
+        "sha256": "5479ac5337702f15345e0c74c9a8712e65cfbe8849505da0312937f7246b6eb6",
+        "bytes": 2446,
+        "computed_git_blob": "c2a0629156831c134a55044512f6a59ea64e4136",
+        "anchors": [
+          {
+            "literal": "mod process_group;",
+            "lines": [
+              13
+            ]
+          }
+        ]
+      },
+      "frozen_proposal": {
+        "sha256": "155ff194f6ebbcf1d3473c00988d8fba1d7a411470520db696cf214314800dff",
+        "bytes": 2580,
+        "computed_git_blob": "ddd81521f023583a01d9ecee6addd9672cc94a22",
+        "anchors": [
+          {
+            "literal": "mod process_group;",
+            "lines": [
+              17
+            ]
+          },
+          {
+            "literal": "mod bounded_command;",
+            "lines": [
+              2
+            ]
+          },
+          {
+            "literal": "pub use bounded_command::",
+            "lines": [
+              4
+            ]
+          }
+        ]
+      },
+      "strengthening_overlay": null,
+      "effective_candidate": {
+        "sha256": "155ff194f6ebbcf1d3473c00988d8fba1d7a411470520db696cf214314800dff",
+        "bytes": 2580,
+        "computed_git_blob": "ddd81521f023583a01d9ecee6addd9672cc94a22",
+        "source": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-transport-proposal/proposed/codex-rs/utils/pty/src/lib.rs",
+        "anchors": [
+          {
+            "literal": "mod process_group;",
+            "lines": [
+              17
+            ]
+          },
+          {
+            "literal": "mod bounded_command;",
+            "lines": [
+              2
+            ]
+          },
+          {
+            "literal": "pub use bounded_command::",
+            "lines": [
+              4
+            ]
+          }
+        ]
+      },
+      "checkout_at_evidence_snapshot": {
+        "sha256": "5479ac5337702f15345e0c74c9a8712e65cfbe8849505da0312937f7246b6eb6",
+        "bytes": 2446,
+        "computed_git_blob": "c2a0629156831c134a55044512f6a59ea64e4136",
+        "anchors": [
+          {
+            "literal": "mod process_group;",
+            "lines": [
+              13
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "upstream": {
+        "sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153",
+        "bytes": 148748,
+        "computed_git_blob": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+        "anchors": [
+          {
+            "literal": "fn start_curated_repo_sync(",
+            "lines": [
+              3287
+            ]
+          },
+          {
+            "literal": "CURATED_REPO_SYNC_STARTED",
+            "lines": [
+              148,
+              3292,
+              3330,
+              3336,
+              3342
+            ]
+          },
+          {
+            "literal": "std::thread::Builder::new()",
+            "lines": [
+              2840,
+              3269,
+              3310
+            ]
+          }
+        ]
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153",
+        "bytes": 148748,
+        "computed_git_blob": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+        "anchors": [
+          {
+            "literal": "fn start_curated_repo_sync(",
+            "lines": [
+              3287
+            ]
+          },
+          {
+            "literal": "CURATED_REPO_SYNC_STARTED",
+            "lines": [
+              148,
+              3292,
+              3330,
+              3336,
+              3342
+            ]
+          },
+          {
+            "literal": "std::thread::Builder::new()",
+            "lines": [
+              2840,
+              3269,
+              3310
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/core-plugins/src/git_policy.rs",
+      "upstream": {
+        "sha256": "94075f53dd84a88282e06add40f767b603e18d4103e5fd064ef557333855b289",
+        "bytes": 3526,
+        "computed_git_blob": "35feafd0bd29082f40d112726174a3b029e47a1b",
+        "anchors": []
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "94075f53dd84a88282e06add40f767b603e18d4103e5fd064ef557333855b289",
+        "bytes": 3526,
+        "computed_git_blob": "35feafd0bd29082f40d112726174a3b029e47a1b",
+        "anchors": []
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/utils/process/src/lib.rs",
+      "upstream": {
+        "sha256": "0427f409c2514143bde2e69313f4672dac8343f79e2f2c4f350a6bf460e0111d",
+        "bytes": 965,
+        "computed_git_blob": "b3c4491821953b239f5fb9013041cf31d804b219",
+        "anchors": []
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "0427f409c2514143bde2e69313f4672dac8343f79e2f2c4f350a6bf460e0111d",
+        "bytes": 965,
+        "computed_git_blob": "b3c4491821953b239f5fb9013041cf31d804b219",
+        "anchors": []
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/utils/pty/src/child.rs",
+      "upstream": {
+        "sha256": "2f4a8c11061a544527b15b6c9af9aa71f280502f7682cbed939f78b02c9725bb",
+        "bytes": 4683,
+        "computed_git_blob": "dfb6ff2bf42176dea04ea2fb0bd7b92bad163590",
+        "anchors": [
+          {
+            "literal": "pub async fn wait_with_output(",
+            "lines": [
+              73
+            ]
+          },
+          {
+            "literal": "pub async fn kill(",
+            "lines": [
+              105
+            ]
+          }
+        ]
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "2f4a8c11061a544527b15b6c9af9aa71f280502f7682cbed939f78b02c9725bb",
+        "bytes": 4683,
+        "computed_git_blob": "dfb6ff2bf42176dea04ea2fb0bd7b92bad163590",
+        "anchors": [
+          {
+            "literal": "pub async fn wait_with_output(",
+            "lines": [
+              73
+            ]
+          },
+          {
+            "literal": "pub async fn kill(",
+            "lines": [
+              105
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/utils/pty/src/child_reaper.rs",
+      "upstream": {
+        "sha256": "60cd52bdec3b94d6874a21ca736df63a674324e7ddfc97c16a894a806357fc05",
+        "bytes": 2953,
+        "computed_git_blob": "46f25ade9ab967a95cf17b85cc0b7488d47b26d6",
+        "anchors": [
+          {
+            "literal": "pub(crate) fn sender(",
+            "lines": [
+              26
+            ]
+          },
+          {
+            "literal": "pub(crate) enum ChildToReap",
+            "lines": [
+              16
+            ]
+          }
+        ]
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "60cd52bdec3b94d6874a21ca736df63a674324e7ddfc97c16a894a806357fc05",
+        "bytes": 2953,
+        "computed_git_blob": "46f25ade9ab967a95cf17b85cc0b7488d47b26d6",
+        "anchors": [
+          {
+            "literal": "pub(crate) fn sender(",
+            "lines": [
+              26
+            ]
+          },
+          {
+            "literal": "pub(crate) enum ChildToReap",
+            "lines": [
+              16
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/utils/pty/src/process_group.rs",
+      "upstream": {
+        "sha256": "26668450452dd42b4a9a5a61b873e336a2cfe72be33410b9352d72f31e5bcf22",
+        "bytes": 9658,
+        "computed_git_blob": "f403b7e647dbf697b88d14e8f5468dc277da648e",
+        "anchors": [
+          {
+            "literal": "pub fn kill_process_group(",
+            "lines": [
+              269,
+              275,
+              287
+            ]
+          }
+        ]
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "26668450452dd42b4a9a5a61b873e336a2cfe72be33410b9352d72f31e5bcf22",
+        "bytes": 9658,
+        "computed_git_blob": "f403b7e647dbf697b88d14e8f5468dc277da648e",
+        "anchors": [
+          {
+            "literal": "pub fn kill_process_group(",
+            "lines": [
+              269,
+              275,
+              287
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "codex-rs/utils/pty/src/win/job.rs",
+      "upstream": {
+        "sha256": "df54d9d966509871403c5237412a3c7ff17cbdb9766b9690438f27c3b683bdcf",
+        "bytes": 9846,
+        "computed_git_blob": "f963c6f55fd5786e0249340ac147e69c577ae4b1",
+        "anchors": [
+          {
+            "literal": "pub fn spawn_background(",
+            "lines": [
+              176
+            ]
+          },
+          {
+            "literal": "pub fn spawn_contained(",
+            "lines": [
+              197
+            ]
+          },
+          {
+            "literal": "fn preserve_descendants(",
+            "lines": [
+              221
+            ]
+          }
+        ]
+      },
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "df54d9d966509871403c5237412a3c7ff17cbdb9766b9690438f27c3b683bdcf",
+        "bytes": 9846,
+        "computed_git_blob": "f963c6f55fd5786e0249340ac147e69c577ae4b1",
+        "anchors": [
+          {
+            "literal": "pub fn spawn_background(",
+            "lines": [
+              176
+            ]
+          },
+          {
+            "literal": "pub fn spawn_contained(",
+            "lines": [
+              197
+            ]
+          },
+          {
+            "literal": "fn preserve_descendants(",
+            "lines": [
+              221
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": true
+    },
+    {
+      "path": "component-sdk/tests/subreaper_runner.py",
+      "upstream": null,
+      "preimage": null,
+      "frozen_proposal": null,
+      "strengthening_overlay": null,
+      "effective_candidate": null,
+      "checkout_at_evidence_snapshot": {
+        "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "bytes": 4645,
+        "computed_git_blob": "753ac1d79fd46e20b408d0088bb8eaa2909b0a68",
+        "anchors": [
+          {
+            "literal": "PR_SET_CHILD_SUBREAPER",
+            "lines": [
+              32,
+              44
+            ]
+          },
+          {
+            "literal": "def main(",
+            "lines": [
+              24
+            ]
+          },
+          {
+            "literal": "descendants remain after the command exited",
+            "lines": [
+              89
+            ]
+          }
+        ]
+      },
+      "checkout_identical_to_upstream_at_snapshot": false
+    }
+  ],
+  "native_boundaries": [
+    {
+      "source_path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "symbols": [
+        "run_git_command_with_timeout",
+        "git_head_sha"
+      ],
+      "classification": "adapt_inherited_native_functionality",
+      "destination": "codex-rs/utils/pty/src/bounded_command.rs::run_bounded_background_command",
+      "change": "Actual curated command caller uses the new bounded helper only on Linux; git_head_sha is rerouted through run_git_command_with_timeout on every platform. NonLinux keeps the original helper and gains its existing HEAD timeout path; no nonLinux verification claimed."
+    },
+    {
+      "source_path": "codex-rs/utils/pty/src/child_reaper.rs",
+      "classification": "unchanged_upstream_primitive_reused",
+      "change": "New helper reserves sender before spawn and transfers only its owned direct child on Drop; native reaper itself remains unchanged."
+    },
+    {
+      "source_path": "codex-rs/utils/pty/src/process_group.rs",
+      "classification": "unchanged_upstream_primitive_reused",
+      "change": "New helper invokes existing Linux group signalling; successful killpg does not establish group emptiness."
+    },
+    {
+      "source_path": "codex-rs/utils/pty/src/child.rs",
+      "classification": "unchanged_upstream_review_reference",
+      "change": "Not the new helper implementation; its wait/kill/output behavior is not newly extracted."
+    },
+    {
+      "source_path": "codex-rs/utils/pty/src/win/job.rs",
+      "classification": "unchanged_upstream_review_reference_not_stage_a_dependency",
+      "change": "Future strict Windows containment reference only; Stage A is Linux-only."
+    }
+  ],
+  "project_custom_support": [
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "classification": "new_project_authored_linux_transport"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+      "classification": "new_project_authored_baseline_compatible_tests_with_frozen_strengthening"
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "classification": "new_project_authored_new_api_tests_with_frozen_strengthening"
+    },
+    {
+      "path": "component-sdk/tests/subreaper_runner.py",
+      "classification": "preexisting_project_authored_strict_acceptance_harness_unchanged",
+      "distinction": "Linux PR_SET_CHILD_SUBREAPER adoption and bounded drain test runner; separate from inherited production PTY child_reaper."
+    }
+  ],
+  "contracts": {
+    "scope": "Linux native curated Git transport prerequisite; not an installable replacement package and not a complete worker/host lifecycle repair.",
+    "command_policy": "Preserve caller-configured executable, arguments, environment and working directory; trusted system-Git and scrubbed environment policy remain unchanged.",
+    "process_ownership": "Create a private Linux group; retain exclusive wait ownership of unreaped leader; observe WNOWAIT, signal owned group, then reap direct child. ECHILD disarms numeric-ID cleanup after known ownership loss.",
+    "output": "Fair concurrent nonblocking reads; retain at most1MiB per pipe and continue discarding overflow while initiating failure cleanup.",
+    "deadlines": "Existing call-site timeout remains; post-kill direct-child/pipe cleanup is capped at2s. Actual manager does not supply host cancellation in Stage A.",
+    "drop": "Kill while child identity is still owned, then transfer direct PID to pre-reserved upstream runtime-independent reaper. Deferred reaping is not proof of successful normal cleanup.",
+    "normal_return": "Confirms direct child reaped and both pipes closed, after signalling the group. Does not prove every group member gone/reaped.",
+    "nonlinux": "Legacy helper retained on nonLinux; HEAD lookup is rerouted through that existing timeout helper on all platforms. New process-group and bounded-pipe cleanup are Linux-only. NonLinux behavior remains untested."
+  },
+  "scope_limits": [
+    "Final source is a development-branch candidate. Repaired source passed541 tests and clean lint; formatting was reviewed separately. Branch publication is not yet observed; main promotion, activation and fresh full-host closure are not claimed.",
+    "First link-failed attempt retained separately; unchanged-source retry reproduced all three new lifecycle defects.",
+    "The real call site passes a fresh false AtomicBool; host cancellation, fallback suppression, lock/HTTP/body/activation cancellation and callback admission are unresolved.",
+    "Detached curated worker/global one-shot gate, actual App Server/CLI shutdown ownership and error propagation remain subsequent stages.",
+    "Direct-child wait plus pipe EOF is not process-group emptiness or all-descendant reaping. Exclusive waiter ownership is required; WNOWAIT is not a lock against arbitrary external waiters.",
+    "Existing two default-feature full-host storage attempts remain failed125 despite13 behavioral operations passing; no larger drain or disabled feature is accepted as repair.",
+    "Unit helper state Z means terminated, not reaped. Unchanged outer strict runner is required; it is not weakened.",
+    "No new independently installable subsystem boundary is claimed for this native prerequisite.",
+    "In-workspace archives are recovery checkpoints, not proven externally durable backups.",
+    "Stage A cleanup uncertainty is still a String error: existing pipeline fallback and lock/staging release can occur before all cleanup is confirmed. Typed cause plus a retained cleanup receipt and owned worker are required before complete lifecycle claims.",
+    "Development branch only: private Git process groups can survive abrupt parent/host death and escape an outer parent-PGID guard. Scoped A tests do not establish safe activation; actual owned launcher/worker closure and full-host gates block main promotion."
+  ],
+  "source_publication": {
+    "source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073",
+    "source_tree": "1f650c46fdca056ec7cfd333a65c4defc4f9d066",
+    "parent": "43a758138c457569a33ccd14f01446d715eb54e0",
+    "branch": "work/p03-curated-sync-lifecycle",
+    "status": "created_source_commit_readback_verified_branch_publication_pending",
+    "promoted_to_main": false,
+    "published_branch": false,
+    "created_commit_receipt": {
+      "original": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-created-source-commit.json",
+        "sha256": "5c5a5d7120d95e725b84bcd859d0da3a68ffb9183834b86dfb9d3e28dcf9da6a",
+        "bytes": 2283
+      },
+      "preserved": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-final-evidence-stage/observations/source/p03-curated-git-created-source-commit.json",
+        "sha256": "5c5a5d7120d95e725b84bcd859d0da3a68ffb9183834b86dfb9d3e28dcf9da6a",
+        "bytes": 2283
+      }
+    },
+    "preparation_manifest": {
+      "original": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-source-publication-manifest.json",
+        "sha256": "ceb537a52eb9ed0aeeb1533f6aae7393c2e8e8853e3e8f5aaf40effc4d340a72",
+        "bytes": 2457
+      },
+      "preserved": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-final-evidence-stage/observations/source/p03-curated-git-source-publication-manifest.json",
+        "sha256": "ceb537a52eb9ed0aeeb1533f6aae7393c2e8e8853e3e8f5aaf40effc4d340a72",
+        "bytes": 2457
+      }
+    },
+    "remote_readback_receipt": {
+      "original": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-source-readback.json",
+        "sha256": "9c25b8f2b3818345406ed203c4f935605b736360ec056fe452ae0bcc19748375",
+        "bytes": 1115
+      },
+      "preserved": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-final-evidence-stage/observations/source/p03-curated-git-source-readback.json",
+        "sha256": "9c25b8f2b3818345406ed203c4f935605b736360ec056fe452ae0bcc19748375",
+        "bytes": 1115
+      }
+    },
+    "remote_readback_basis": "Parent verified commit SHA and all seven changed file blob SHAs. fetch_commit does not expose tree; tree binding comes from create_tree exact result and create_commit request, plus this worker independently verified the local immutable source tree.",
+    "local_commit_object_available": false,
+    "local_tree_independently_verified": true,
+    "complete_scoped_source_entries_matching_tree": 8892,
+    "changed_source_files": 7
+  },
+  "evidence": "verification/2026-10-01/p03-curated-git-transport-results.json",
+  "verification_method": "Read existing immutable upstream blobs via git cat-file with optional locks and lazy fetching disabled; compute byte hashes and literal declaration anchors. No fetch, checkout, Rust/cache or Git mutation. Anchors map provenance, not semantic equivalence.",
+  "red_report": {
+    "path": "verification/2026-10-01/p03-curated-git-transport-results.json",
+    "attempt": "p03-curated-git-red-02",
+    "tests_run": 6,
+    "passed": 3,
+    "failed": 3
+  },
+  "production_adoption": {
+    "original": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-production-adoption.json",
+      "sha256": "9cabed59bcdb252b26dfd92a2541a4c4eea70198b13ba4d9fbc37f26b8bbeb5b",
+      "bytes": 1375
+    },
+    "preserved": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/production-adoption/p03-curated-git-production-adoption.json",
+      "sha256": "9cabed59bcdb252b26dfd92a2541a4c4eea70198b13ba4d9fbc37f26b8bbeb5b",
+      "bytes": 1375
+    }
+  },
+  "scoped_tests_passed": true,
+  "green_report": {
+    "path": "verification/2026-10-01/p03-curated-git-transport-results.json",
+    "attempt": "p03-curated-git-tests-02",
+    "tests_run": 541,
+    "passed": 541,
+    "failed": 0,
+    "strict_exit_status": 0
+  },
+  "next_step_ownership_review": {
+    "status": "static_design_review_no_implementation_or_runtime_proof",
+    "manifest": {
+      "original": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1-ownership-review/MANIFEST.json",
+        "sha256": "5d85ec559ff5e5c929dae34096bbcb8a241be909cca1a3c6cd1f9e36260201ad",
+        "bytes": 640
+      },
+      "preserved": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/b1-review/MANIFEST.json",
+        "sha256": "5d85ec559ff5e5c929dae34096bbcb8a241be909cca1a3c6cd1f9e36260201ad",
+        "bytes": 640
+      }
+    },
+    "documents": [
+      {
+        "original": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1-ownership-review/proposed/verification/2026-10-01/P03_CURATED_B1_OWNERSHIP_REVIEW.md",
+          "sha256": "4266eae6ab49aa57ef6dc079b7a66efc2255c9c5894f9da483b0864fcebaaf53",
+          "bytes": 9040
+        },
+        "preserved": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/b1-review/P03_CURATED_B1_OWNERSHIP_REVIEW.md",
+          "sha256": "4266eae6ab49aa57ef6dc079b7a66efc2255c9c5894f9da483b0864fcebaaf53",
+          "bytes": 9040
+        }
+      },
+      {
+        "original": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1-ownership-review/proposed/verification/2026-10-01/p03-curated-b1-ownership-review.json",
+          "sha256": "de617c27bebc96ccfa769856dc31477c68ff877ef3290e28812e60f993cfaf14",
+          "bytes": 4603
+        },
+        "preserved": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/b1-review/p03-curated-b1-ownership-review.json",
+          "sha256": "de617c27bebc96ccfa769856dc31477c68ff877ef3290e28812e60f993cfaf14",
+          "bytes": 4603
+        }
+      }
+    ],
+    "intended_repository_reference": "verification/2026-10-01/P03_CURATED_B1_OWNERSHIP_REVIEW.md",
+    "ordering": "B1a must integrate typed transport outcome with retained cleanup/resource/admission ownership in real pipeline and manager; move necessary C1a/C1b ownership ahead of B1b cancellable lock/Git propagation. No measured fit within500lines has been established.",
+    "hazards": [
+      "Shared Native(pid) reaper transfer carries no acknowledgment, pipes, lock or staging bundle.",
+      "Uncertain cleanup can drop stable lock and temporary repositories; Git fetch can also mutate the existing repository, so disposal of staging alone is insufficient.",
+      "Local HEAD error is swallowed as optional SHA fallback; stop/unknown must preserve typed cause.",
+      "Repository activation precedes plugins.sha publication; backup disposal and subsequent fallback can follow partial or uncertain publication.",
+      "Manager resets its process-global gate on every String error; unknown cleanup must retain its exact admission generation."
+    ],
+    "acceptance": "Actual retained ownership transfer must keep stable lock/staging through dropped observer and uncertain result, block concurrent admission/fallback, and release only on an acknowledgment sufficient for protected mutators; preserve lost-identity uncertainty and security policy."
+  },
+  "manual_lint_repair": {
+    "status": "manual_repair_verified_in_second_scoped_regression",
+    "source_paths": [
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+        "post_first_lint": {
+          "original": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-pre-manual-lint-repair/codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+            "sha256": "edf8a17b4f6ad8b824061e27ba69c85cef7466e88a23bcc7f3141b5bc65c382a",
+            "bytes": 3542
+          },
+          "preserved": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/pre-manual-lint/codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+            "sha256": "edf8a17b4f6ad8b824061e27ba69c85cef7466e88a23bcc7f3141b5bc65c382a",
+            "bytes": 3542
+          }
+        },
+        "manual_repair": {
+          "original": {
+            "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+            "sha256": "576819da9e826bd940f60ee29c2f65bdea98281e1b0b1efd4f5dcd8b46c55637",
+            "bytes": 3554
+          },
+          "preserved": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/manual-lint-repair/codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+            "sha256": "576819da9e826bd940f60ee29c2f65bdea98281e1b0b1efd4f5dcd8b46c55637",
+            "bytes": 3554
+          }
+        }
+      },
+      {
+        "path": "codex-rs/utils/pty/src/bounded_command.rs",
+        "post_first_lint": {
+          "original": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-pre-manual-lint-repair/codex-rs/utils/pty/src/bounded_command.rs",
+            "sha256": "d8b3a06d30aa6c862ef14b95b8ec8e6a97bab1dcbb797451e12455735e1efbc9",
+            "bytes": 8972
+          },
+          "preserved": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/pre-manual-lint/codex-rs/utils/pty/src/bounded_command.rs",
+            "sha256": "d8b3a06d30aa6c862ef14b95b8ec8e6a97bab1dcbb797451e12455735e1efbc9",
+            "bytes": 8972
+          }
+        },
+        "manual_repair": {
+          "original": {
+            "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/pty/src/bounded_command.rs",
+            "sha256": "a77dd641d37fc134ae5555a1bb6a0969d4eb9b4ec8401166b17f6bb69c8c479f",
+            "bytes": 8889
+          },
+          "preserved": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/manual-lint-repair/codex-rs/utils/pty/src/bounded_command.rs",
+            "sha256": "a77dd641d37fc134ae5555a1bb6a0969d4eb9b4ec8401166b17f6bb69c8c479f",
+            "bytes": 8889
+          }
+        }
+      },
+      {
+        "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+        "post_first_lint": {
+          "original": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-pre-manual-lint-repair/codex-rs/utils/pty/src/bounded_command_tests.rs",
+            "sha256": "62c5f477212294bc20367d48d6343856167bec6813198fb1474c4ed3497e8545",
+            "bytes": 3321
+          },
+          "preserved": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/pre-manual-lint/codex-rs/utils/pty/src/bounded_command_tests.rs",
+            "sha256": "62c5f477212294bc20367d48d6343856167bec6813198fb1474c4ed3497e8545",
+            "bytes": 3321
+          }
+        },
+        "manual_repair": {
+          "original": {
+            "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/pty/src/bounded_command_tests.rs",
+            "sha256": "62c5f477212294bc20367d48d6343856167bec6813198fb1474c4ed3497e8545",
+            "bytes": 3321
+          },
+          "preserved": {
+            "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/manual-lint-repair/codex-rs/utils/pty/src/bounded_command_tests.rs",
+            "sha256": "62c5f477212294bc20367d48d6343856167bec6813198fb1474c4ed3497e8545",
+            "bytes": 3321
+          }
+        }
+      }
+    ],
+    "production_review": "Read-only diff inspected: explicit Child plus owns_child preserves armed Drop on non-ECHILD errors and disarms on both known ECHILD paths and successful wait; missing pipes return cleanup-unknown errors instead of panicking.",
+    "independent_review": {
+      "agent": "/root/cache_runtime_evidence",
+      "receipt": "Parent message; separate static ACK only, not runtime evidence.",
+      "conclusion": "Both ECHILD paths and successful wait disarm; other exits retain Drop transfer; std Child Drop does not second-reap; missing pipes retain armed ownership. Assertions retained and De Morgan equivalent."
+    },
+    "test_identity_limit": "Core test helper now propagates read/parse errors to unwrap at test caller; helper readiness/action/deadline assertions and fixture commands remain. File bytes differ from red and original green. Do not claim unchanged files for repaired retry.",
+    "retest_reason": "Manual production behavior/error-path change, not a repeat solely for automatic formatting.",
+    "reviewed_transition_patch": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-evidence-stage/observations/manual-lint-repair/reviewed-transition.patch",
+      "sha256": "4d56f0d5c3a10053768263030da196e5ed0512e464c8d6135319d6fcb670ec83",
+      "bytes": 6990
+    },
+    "retry_input_hashes_match": true
+  },
+  "publication_intent": {
+    "branch": "work/p03-curated-sync-lifecycle",
+    "status": "created_source_commit_not_branch_published",
+    "promoted_to_main": false,
+    "safe_activation_claimed": false,
+    "main_comparison": {
+      "native_auth_source": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3",
+      "published_checkpoint": "43a758138c457569a33ccd14f01446d715eb54e0"
+    },
+    "reason": "Private Git groups are not covered by outer parent-PGID termination; abrupt host/worker exit can outlive containment. Stage B/C owned worker/launcher integration and unchanged full-host gates are required before promotion."
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "sha256": "8a2cf8ead589b68b4053a55dfc2e9e0191114010e8d930d67953c0a43193f42e",
+      "bytes": 410955,
+      "computed_git_blob": "21af1e864350b1491ef9b455e1b71cc1a7b05d70",
+      "literal_anchors": [],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    },
+    {
+      "path": "codex-rs/core-plugins/Cargo.toml",
+      "sha256": "b1f83e8aa5746692775b5d408626406a3d63332d84afc63b8c957dec4946c7c4",
+      "bytes": 2213,
+      "computed_git_blob": "707be0d6e010ed58726d6bc2ae9494bb2099a57c",
+      "literal_anchors": [],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "sha256": "06fa54f70913802b681b4460a1de376b0cfd668bfe8d8b3404dc0912b6e88f00",
+      "bytes": 39725,
+      "computed_git_blob": "3d817cdb9d45f08fb63ff518e67fc4e7806cd0eb",
+      "literal_anchors": [
+        {
+          "literal": "fn git_head_sha(",
+          "lines": [
+            641
+          ]
+        },
+        {
+          "literal": "fn run_git_command_with_timeout(",
+          "lines": [
+            680,
+            694
+          ]
+        },
+        {
+          "literal": "codex_utils_pty::run_bounded_background_command(",
+          "lines": [
+            685
+          ]
+        },
+        {
+          "literal": "AtomicBool::new(false)",
+          "lines": [
+            689
+          ]
+        }
+      ],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+      "sha256": "6e775ccb008bc6cdd0ebafeceb8af8fd484a0f66cee5a404b7d880c7b7192df7",
+      "bytes": 3801,
+      "computed_git_blob": "b8948889d233871b62e1d472dc63e0c7ab6b6dbc",
+      "literal_anchors": [],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "sha256": "685ec608b97fad7d2118b21384f7e1d72bc3b3e34b9c48fbe0239c25a1004f3a",
+      "bytes": 9533,
+      "computed_git_blob": "92891d9ede773402d02f504c4dc3b35ab222faa8",
+      "literal_anchors": [
+        {
+          "literal": "struct OwnedGroup {",
+          "lines": [
+            27
+          ]
+        },
+        {
+          "literal": "impl Drop for OwnedGroup {",
+          "lines": [
+            33
+          ]
+        },
+        {
+          "literal": "fn exited_without_reaping(",
+          "lines": [
+            58
+          ]
+        },
+        {
+          "literal": "fn read_available(",
+          "lines": [
+            77
+          ]
+        },
+        {
+          "literal": "pub fn run_bounded_background_command(",
+          "lines": [
+            109
+          ]
+        },
+        {
+          "literal": "let status = match group.child.wait()",
+          "lines": [
+            216
+          ]
+        }
+      ],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "sha256": "f399d4574d3ffab3f9082c90593f2d7003fbea5941df606fc6cedeb88ed2c72d",
+      "bytes": 3665,
+      "computed_git_blob": "cf8198eaa1ceb4a3c715b66482d8e42792ec4590",
+      "literal_anchors": [],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    },
+    {
+      "path": "codex-rs/utils/pty/src/lib.rs",
+      "sha256": "155ff194f6ebbcf1d3473c00988d8fba1d7a411470520db696cf214314800dff",
+      "bytes": 2580,
+      "computed_git_blob": "ddd81521f023583a01d9ecee6addd9672cc94a22",
+      "literal_anchors": [
+        {
+          "literal": "mod bounded_command;",
+          "lines": [
+            2
+          ]
+        },
+        {
+          "literal": "pub use bounded_command::",
+          "lines": [
+            4
+          ]
+        }
+      ],
+      "final_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073"
+    }
+  ],
+  "format_review": {
+    "status": "manual_read_only_diff_review_complete",
+    "finding": "Only layout, import splitting and optional trailing commas in exactly three files; no logic, assertion, fixture command or threshold changes found.",
+    "diff": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-final-evidence-stage/observations/format/final-format-review.patch",
+      "sha256": "c3c54d4edaf39ce0741714940e3770c50ce0bafbb5f63ca6f05bca631cc898d7",
+      "bytes": 14267
+    },
+    "files": [
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+        "exact_tested_preformat": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-pre-format/codex-rs/core-plugins/src/startup_sync_git_lifecycle_tests.rs",
+          "sha256": "576819da9e826bd940f60ee29c2f65bdea98281e1b0b1efd4f5dcd8b46c55637",
+          "bytes": 3554
+        },
+        "final": {
+          "sha256": "6e775ccb008bc6cdd0ebafeceb8af8fd484a0f66cee5a404b7d880c7b7192df7",
+          "bytes": 3801,
+          "git_blob": "b8948889d233871b62e1d472dc63e0c7ab6b6dbc"
+        }
+      },
+      {
+        "path": "codex-rs/utils/pty/src/bounded_command.rs",
+        "exact_tested_preformat": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-pre-format/codex-rs/utils/pty/src/bounded_command.rs",
+          "sha256": "a77dd641d37fc134ae5555a1bb6a0969d4eb9b4ec8401166b17f6bb69c8c479f",
+          "bytes": 8889
+        },
+        "final": {
+          "sha256": "685ec608b97fad7d2118b21384f7e1d72bc3b3e34b9c48fbe0239c25a1004f3a",
+          "bytes": 9533,
+          "git_blob": "92891d9ede773402d02f504c4dc3b35ab222faa8"
+        }
+      },
+      {
+        "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+        "exact_tested_preformat": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-pre-format/codex-rs/utils/pty/src/bounded_command_tests.rs",
+          "sha256": "62c5f477212294bc20367d48d6343856167bec6813198fb1474c4ed3497e8545",
+          "bytes": 3321
+        },
+        "final": {
+          "sha256": "f399d4574d3ffab3f9082c90593f2d7003fbea5941df606fc6cedeb88ed2c72d",
+          "bytes": 3665,
+          "git_blob": "cf8198eaa1ceb4a3c715b66482d8e42792ec4590"
+        }
+      }
+    ]
+  },
+  "full_host_acceptance_passed": false,
+  "promoted_to_main": false,
+  "safe_activation_claimed": false,
+  "source_archive": {
+    "artifact": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-git-verified-native-source.tar.gz",
+      "sha256": "e7212fe787c0ab1a83d37b069278a83e9926991e9a990fa376abefee99cee4f4",
+      "bytes": 106371
+    },
+    "scope": "Exactly seven changed source files; not a whole-worktree backup.",
+    "members_verified_independently": 7,
+    "all_members_match_local_tree": true,
+    "external_backup_established": false
+  },
+  "relation_to_upstream": "Adapts inherited actual curated Git command and HEAD path using a new compiled Linux bounded helper; unchanged native PTY primitives are reused. No independently installed component boundary is claimed."
+}

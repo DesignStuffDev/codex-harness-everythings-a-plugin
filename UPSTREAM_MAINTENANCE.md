@@ -567,3 +567,25 @@ installation/clear and the project's private source/cache policy owner. Its
 tests, 400 scoped passes and mechanical formatting. It adds no installed component
 or later upstream revision. The curated-sync failure shows why successful builds
 and merges cannot replace P18U's lifecycle/security/runtime gates.
+
+## Curated Git transport candidate and ownership gate
+
+Source `7ab5dd77b87c2e6bf7040824e67bf6f22af6a073` lives on the separate
+`work/p03-curated-sync-lifecycle` development branch; it is **not promoted to main**.
+Main source remains the native installer checkpoint655 while documentation records this
+candidate's progress. [Evidence](verification/2026-10-01/P03_CURATED_GIT_TRANSPORT_EVIDENCE.md)
+preserves a failed link, three real baseline lifecycle failures and two541-pass scoped
+runs, including the final explicit child-ownership repair, clean lint and separate
+mechanical formatting. [Lineage](upstream/p03-curated-git-transport-lineage.json) binds
+upstream primitives, native adaptations and new support without claiming an installed component.
+
+Linux private groups/pipe bounds/direct-child reap are scoped native improvements. HEAD
+lookup also enters the existing timeout path on non-Linux, which is untested. Private
+groups escape the parent's process-group guard on abrupt host death. The current String
+pipeline can still fall back/release protected state on uncertain cleanup, and manager
+admission can reopen. Therefore B1a must couple typed outcomes with actual retained
+cleanup resources, worker/admission ownership and manager integration **before** B1b
+cancellable locks/Git. [Required next contract](verification/2026-10-01/P03_CURATED_B1_OWNERSHIP_REVIEW.md)
+supersedes any queue that separates this ownership transition into unsafe intermediate
+production changes. All full-host/UI gates and remaining extraction remain open.
+P18U remains required and unimplemented; no polling/live update has started.
