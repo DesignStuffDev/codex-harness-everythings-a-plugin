@@ -6,6 +6,8 @@ use crate::WorkSignal;
 use crate::matcher_worker;
 use crate::native_index::NativeAllocation;
 use crate::native_index::NativeIndex;
+use crate::native_session::NativeStartup;
+use crate::native_session::cancelled_start;
 use crate::walker_worker;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchErrorKind;
@@ -27,7 +29,14 @@ pub(super) fn start(
     work_rx: Receiver<()>,
     overrides: Option<ignore::overrides::Override>,
     allocation: NativeAllocation,
+    startup: NativeStartup,
 ) -> Result<FileSearchSession, SearchStartError> {
+    if startup.shutdown.load(Ordering::Acquire) {
+        return Err(SearchStartError {
+            operation: cancelled_start(),
+            cleanup: StartCleanup::NotAdmitted,
+        });
+    }
     let (ready_tx, ready_rx) = bounded(1);
     let (finished_tx, finished) = bounded(1);
     let worker_inner = inner.clone();
@@ -41,6 +50,7 @@ pub(super) fn start(
                     overrides,
                     ready_tx,
                     allocation,
+                    startup,
                 )
             }))
             .unwrap_or_else(|_| Err(anyhow::anyhow!("file-search supervisor panicked")));
@@ -63,12 +73,20 @@ pub(super) fn start(
             let _ = finished_tx.send(());
             result
         })
-        .map_err(|error| SearchStartError {
-            operation: SearchError::new(
+        .map_err(|error| {
+            let operation = SearchError::new(
                 SearchErrorKind::SearchFailed,
                 format!("failed to start file-search supervisor: {error}"),
-            ),
-            cleanup: StartCleanup::NotAdmitted,
+            );
+            inner
+                .failure
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner)
+                .get_or_insert_with(|| operation.clone());
+            SearchStartError {
+                operation,
+                cleanup: StartCleanup::NotAdmitted,
+            }
         })?;
     let session = FileSearchSession {
         inner,
@@ -76,9 +94,13 @@ pub(super) fn start(
         finished,
     };
     if ready_rx.recv().is_err() {
+        let cancelled = session.inner.shutdown.load(Ordering::Acquire);
         let outcome = session.close_outcome();
         return Err(SearchStartError {
             operation: outcome.operation.err().unwrap_or_else(|| {
+                if cancelled {
+                    return cancelled_start();
+                }
                 SearchError::new(
                     SearchErrorKind::SearchFailed,
                     "file-search supervisor exited before becoming ready",
@@ -96,7 +118,11 @@ fn supervise(
     overrides: Option<ignore::overrides::Override>,
     ready: crossbeam_channel::Sender<()>,
     allocation: NativeAllocation,
+    startup: NativeStartup,
 ) -> anyhow::Result<()> {
+    if startup.shutdown.load(Ordering::Acquire) {
+        return Ok(());
+    }
     let mut pool_threads = PoolThreads::default();
     let pool_panicked = Arc::new(AtomicBool::new(false));
     let panic_flag = pool_panicked.clone();
@@ -115,6 +141,22 @@ fn supervise(
         },
         spawn_pool_thread,
     )?;
+    #[cfg(test)]
+    if let Some(after_pool) = &startup.after_pool {
+        after_pool();
+    }
+    if startup.shutdown.load(Ordering::Acquire) {
+        // Drain explicitly so a pool thread failure cannot become clean cancel.
+        drop(pool);
+        let failures = pool_threads.join();
+        if let Some(error) = inner.first_failure() {
+            return Err(anyhow::Error::new(error));
+        }
+        if failures.is_empty() {
+            return Ok(());
+        }
+        anyhow::bail!(failures.join("; "));
+    }
     let notify_inner = inner.clone();
     let notify = Arc::new(move || {
         if !notify_inner.shutdown.load(Ordering::Acquire) {
@@ -122,59 +164,56 @@ fn supervise(
         }
     });
     let mut nucleo = NativeIndex::create(pool, notify, allocation)?;
-    let injector = nucleo.injector();
-    let walker_inner = inner.clone();
-    let walker = thread::Builder::new()
-        .name("file-search walker".into())
-        .spawn(move || {
-            let result = catch_unwind(AssertUnwindSafe(|| {
-                walker_worker(walker_inner.clone(), overrides, injector);
-            }));
-            if result.is_err() {
-                walker_inner.fail(SearchError::new(
-                    SearchErrorKind::SearchFailed,
-                    "file-search walker panicked",
-                ));
-            }
-            result.map_err(|_| anyhow::anyhow!("file-search walker panicked"))
-        });
     let mut failures = Vec::new();
-    match walker {
-        Ok(walker) => {
-            let mut walker = WalkerThread {
-                handle: Some(walker),
-                inner: inner.clone(),
-            };
-            if ready.send(()).is_err() {
-                inner.shutdown.store(true, Ordering::Release);
-            }
-            match catch_unwind(AssertUnwindSafe(|| {
-                matcher_worker(inner.clone(), work_rx, nucleo.matcher())
-            })) {
-                Ok(Ok(())) => {}
-                Ok(Err(error)) => {
-                    inner.fail(
-                        error
-                            .downcast_ref::<SearchError>()
-                            .cloned()
-                            .unwrap_or_else(|| {
-                                SearchError::new(SearchErrorKind::SearchFailed, error.to_string())
-                            }),
-                    );
+    if !startup.shutdown.load(Ordering::Acquire) {
+        let injector = nucleo.injector();
+        let walker_inner = inner.clone();
+        let walker = thread::Builder::new()
+            .name("file-search walker".into())
+            .spawn(move || {
+                let result = catch_unwind(AssertUnwindSafe(|| {
+                    walker_worker(walker_inner.clone(), overrides, injector);
+                }));
+                if result.is_err() {
+                    walker_inner.fail(SearchError::new(
+                        SearchErrorKind::SearchFailed,
+                        "file-search walker panicked",
+                    ));
                 }
-                Err(_) => inner.fail(SearchError::new(
-                    SearchErrorKind::SearchFailed,
-                    "file-search matcher or reporter panicked",
-                )),
+                result.map_err(|_| anyhow::anyhow!("file-search walker panicked"))
+            });
+        match walker {
+            Ok(walker) => {
+                let mut walker = WalkerThread {
+                    handle: Some(walker),
+                    inner: inner.clone(),
+                };
+                if ready.send(()).is_err() {
+                    inner.shutdown.store(true, Ordering::Release);
+                }
+                match catch_unwind(AssertUnwindSafe(|| {
+                    matcher_worker(inner.clone(), work_rx, nucleo.matcher())
+                })) {
+                    Ok(Ok(())) => {}
+                    Ok(Err(error)) => {
+                        inner.fail(error.downcast_ref::<SearchError>().cloned().unwrap_or_else(
+                            || SearchError::new(SearchErrorKind::SearchFailed, error.to_string()),
+                        ));
+                    }
+                    Err(_) => inner.fail(SearchError::new(
+                        SearchErrorKind::SearchFailed,
+                        "file-search matcher or reporter panicked",
+                    )),
+                }
+                inner.shutdown.store(true, Ordering::Release);
+                // ignore::WalkParallel joins its scoped children before returning.
+                // Stop every injector before draining and destroying the matcher.
+                if let Err(error) = walker.join() {
+                    failures.push(error.to_string());
+                }
             }
-            inner.shutdown.store(true, Ordering::Release);
-            // ignore::WalkParallel joins its scoped children before returning.
-            // Stop every injector before draining and destroying the matcher.
-            if let Err(error) = walker.join() {
-                failures.push(error.to_string());
-            }
+            Err(error) => failures.push(format!("failed to start file-search walker: {error}")),
         }
-        Err(error) => failures.push(format!("failed to start file-search walker: {error}")),
     }
     inner.shutdown.store(true, Ordering::Release);
     if catch_unwind(AssertUnwindSafe(|| nucleo.shutdown())).is_err() {

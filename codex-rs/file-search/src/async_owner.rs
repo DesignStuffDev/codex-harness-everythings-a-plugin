@@ -10,6 +10,7 @@ use codex_file_search_api::SearchBudget;
 use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchErrorKind;
+use codex_file_search_api::SearchStartCancellationOutcome;
 use codex_file_search_api::SearchStartError;
 use codex_file_search_api::StartCleanup;
 use std::collections::HashMap;
@@ -24,6 +25,11 @@ use tokio::runtime::Handle;
 use tokio::sync::Notify;
 use tokio_util::task::TaskTracker;
 use tokio_util::task::task_tracker::TaskTrackerToken;
+
+#[path = "async_owner_start.rs"]
+mod startup;
+use startup::ResultOwnerGuard;
+use startup::ResultStage;
 
 const MAX_FAILURES: usize = 16;
 
@@ -82,6 +88,8 @@ struct OwnerInner {
     tasks: TaskTracker,
     capacity: usize,
     owners: AtomicUsize,
+    #[cfg(test)]
+    after_pool: Mutex<Option<crate::native_session::AfterPool>>,
 }
 
 #[derive(Default)]
@@ -100,6 +108,8 @@ struct Entry {
     runtime: Handle,
     ready: Arc<Completion<Result<(), ReadyFailure>>>,
     closed: Arc<Completion<SearchCloseOutcome>>,
+    cancelled: Arc<Completion<SearchStartCancellationOutcome>>,
+    shutdown: Arc<AtomicBool>,
 }
 
 enum Phase {
@@ -186,6 +196,8 @@ impl FileSearchOwner {
                 tasks: TaskTracker::new(),
                 capacity: max_sessions.get(),
                 owners: AtomicUsize::new(1),
+                #[cfg(test)]
+                after_pool: Mutex::new(None),
             }),
         }
     }
@@ -250,17 +262,9 @@ impl FileSearchOwner {
         output: crate::native_output::NativeOutputLimits,
         reporter: Arc<dyn SessionReporter>,
     ) -> Result<ManagedFileSearchSession, SearchStartError> {
-        self.create_inner(
-            roots,
-            options,
-            reporter,
-            /*cancel_flag*/ None,
-            NativePolicy::Backend { budget, output },
-        )
-        .await
-        .map_err(|error| match error {
-            CreateFailure::Rejected(error) | CreateFailure::Accepted { error, .. } => error,
-        })
+        self.begin_create_backend(roots, options, budget, output, reporter)?
+            .finish()
+            .await
     }
 
     async fn create_inner(
@@ -271,89 +275,9 @@ impl FileSearchOwner {
         cancel_flag: Option<Arc<AtomicBool>>,
         policy: NativePolicy,
     ) -> Result<ManagedFileSearchSession, CreateFailure> {
-        let runtime = Handle::try_current().map_err(|error| {
-            CreateFailure::rejected(SearchErrorKind::SearchFailed, error.to_string())
-        })?;
-        let (id, ready, closed, token) = {
-            let mut state = self
-                .inner
-                .state
-                .lock()
-                .unwrap_or_else(std::sync::PoisonError::into_inner);
-            if state.stopping {
-                return Err(CreateFailure::rejected(
-                    SearchErrorKind::ClosedLease,
-                    "file-search owner is shutting down",
-                ));
-            }
-            if state.entries.len() >= self.inner.capacity {
-                return Err(CreateFailure::rejected(
-                    SearchErrorKind::ResourceExhausted,
-                    "file-search owner session capacity reached",
-                ));
-            }
-            let id = state.next_id.checked_add(1).ok_or_else(|| {
-                CreateFailure::rejected(
-                    SearchErrorKind::ResourceExhausted,
-                    "file-search session identities exhausted",
-                )
-            })?;
-            state.next_id = id;
-            let ready = Arc::new(Completion::default());
-            let closed = Arc::new(Completion::default());
-            // Register under the admission lock, before shutdown can observe
-            // an empty tracker and before any work is spawned or awaited.
-            let token = self.inner.tasks.token();
-            state.entries.insert(
-                id,
-                Entry {
-                    phase: Phase::Preparing { released: false },
-                    runtime: runtime.clone(),
-                    ready: ready.clone(),
-                    closed: closed.clone(),
-                },
-            );
-            (id, ready, closed, token)
-        };
-        let session = ManagedFileSearchSession {
-            lease: Arc::new(Lease {
-                owner: self.inner.clone(),
-                id,
-                closed,
-            }),
-        };
-        let startup = runtime.spawn_blocking(move || {
-            create_session_with_receipt(roots, options, reporter, cancel_flag, policy)
-        });
-        let owner = self.inner.clone();
-        runtime.spawn(async move {
-            let _token = token;
-            let result = startup.await.unwrap_or_else(|error| {
-                let operation = task_failure("startup", error);
-                Err(SearchStartError {
-                    cleanup: StartCleanup::Unconfirmed(operation.clone()),
-                    operation,
-                })
-            });
-            owner.started(id, result);
-        });
-        if let Err(failure) = ready.wait().await {
-            // Observing rejection also waits for the retained cleanup receipt.
-            // Abandoning this wait leaves cleanup and capacity with the owner.
-            let outcome = session.close_outcome().await;
-            let error = match failure {
-                ReadyFailure::Construction(error) => error,
-                ReadyFailure::Released(operation) => SearchStartError {
-                    operation,
-                    cleanup: outcome.cleanup.clone().into(),
-                },
-            };
-            return Err(CreateFailure::Accepted {
-                error,
-                legacy_cleanup: legacy_close_error(&outcome),
-            });
-        }
-        Ok(session)
+        self.begin_create_inner(roots, options, reporter, cancel_flag, policy)?
+            .finish()
+            .await
     }
 
     /// Atomically fence new sessions and request closure of every accepted one.
@@ -547,6 +471,9 @@ impl OwnerInner {
             return;
         };
         let ready = entry.ready.clone();
+        let cancelled = entry.cancelled.clone();
+        let quarantined = matches!(entry.phase, Phase::Quarantined);
+        let explicitly_released = matches!(entry.phase, Phase::Preparing { released: true });
         match result {
             Ok(native) => {
                 if matches!(entry.phase, Phase::Preparing { released: false }) {
@@ -554,7 +481,9 @@ impl OwnerInner {
                     ready.finish(Ok(()));
                 } else {
                     native.request_close();
-                    entry.phase = Phase::Closing;
+                    if !quarantined {
+                        entry.phase = Phase::Closing;
+                    }
                     let job = CloseJob {
                         id,
                         native,
@@ -575,11 +504,20 @@ impl OwnerInner {
                     StartCleanup::NotAdmitted | StartCleanup::Confirmed => CloseCleanup::Joined,
                     StartCleanup::Unconfirmed(error) => CloseCleanup::Unconfirmed(error.clone()),
                 };
-                let outcome = SearchCloseOutcome {
-                    operation: Err(error.operation.clone()),
-                    cleanup,
+                let operation = if explicitly_released
+                    && error.operation.kind() == SearchErrorKind::ClosedLease
+                    && cleanup == CloseCleanup::Joined
+                {
+                    Ok(())
+                } else {
+                    Err(error.operation.clone())
                 };
-                if outcome.cleanup == CloseCleanup::Joined {
+                let outcome = SearchCloseOutcome { operation, cleanup };
+                let cancellation = SearchStartCancellationOutcome {
+                    operation: outcome.operation.clone(),
+                    cleanup: error.cleanup.clone(),
+                };
+                if outcome.cleanup == CloseCleanup::Joined && !quarantined {
                     state.entries.remove(&id);
                 } else {
                     entry.phase = Phase::Quarantined;
@@ -587,6 +525,7 @@ impl OwnerInner {
                 record_outcome(&mut state, &outcome);
                 drop(state);
                 ready.finish(Err(ReadyFailure::Construction(error)));
+                cancelled.finish(cancellation);
                 closed.finish(outcome);
             }
         }
@@ -611,6 +550,7 @@ impl OwnerInner {
     fn prepare_close(&self, id: u64, entry: &mut Entry) -> Option<CloseJob> {
         match std::mem::replace(&mut entry.phase, Phase::Closing) {
             Phase::Preparing { .. } => {
+                entry.shutdown.store(true, Ordering::Release);
                 entry.phase = Phase::Preparing { released: true };
                 None
             }
@@ -661,10 +601,16 @@ impl OwnerInner {
         // Keep only the error cell: retaining the whole SessionInner would
         // defer reporter destruction beyond the joined close boundary.
         let native_failure = native.inner.failure.clone();
+        let guard = ResultOwnerGuard::new(
+            self.clone(),
+            id,
+            ResultStage::Close(native_failure.clone()),
+            token,
+        );
         let close = runtime.spawn_blocking(move || native.close_outcome());
         let owner = self.clone();
         runtime.spawn(async move {
-            let _token = token;
+            let mut guard = guard;
             let outcome = close.await.unwrap_or_else(|error| {
                 let cleanup = task_failure("close", error);
                 let operation = native_failure
@@ -683,15 +629,22 @@ impl OwnerInner {
                 .unwrap_or_else(std::sync::PoisonError::into_inner);
             if let Some(entry) = state.entries.get_mut(&id) {
                 let closed = entry.closed.clone();
-                if outcome.cleanup == CloseCleanup::Joined {
+                let cancelled = entry.cancelled.clone();
+                let quarantined = matches!(entry.phase, Phase::Quarantined);
+                if outcome.cleanup == CloseCleanup::Joined && !quarantined {
                     state.entries.remove(&id);
                 } else {
                     entry.phase = Phase::Quarantined;
                 }
                 record_outcome(&mut state, &outcome);
                 drop(state);
+                cancelled.finish(SearchStartCancellationOutcome {
+                    operation: outcome.operation.clone(),
+                    cleanup: outcome.cleanup.clone().into(),
+                });
                 closed.finish(outcome);
             }
+            guard.disarm();
         });
     }
 }
