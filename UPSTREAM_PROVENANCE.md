@@ -43,3 +43,14 @@ and update-acceptance obligations recorded explicitly. The separate
 `wip/recovered-next-components-20260930` branch preserves newer unverified source;
 its README and WIP_STATUS explain that copied older evidence is not proof of its
 newer implementation. Neither branch claims complete harness compartmentalization.
+
+## Native reload and acquisition adaptation
+
+The [reload/acquisition lineage](upstream/p03-native-reload-policy-lineage.json)
+records adaptations of pinned upstream `codex-rs/login/src/auth/manager.rs` methods and
+separately identifies project-private `auth_reload.rs` and `auth_acquisition.rs`
+support and tests. [Scoped evidence](verification/2026-10-01/P03_NATIVE_RELOAD_POLICY_EVIDENCE.md)
+retains exact adopted/tested source hashes, the uncovered initial regression and
+the corrected 271-test pass; final scoped lint passed unchanged and formatting was mechanically reviewed. Literal original
+path/blob/symbol proof is not full semantic equivalence or independent auth/catalog
+extraction. The upstream pin and historical publication records above are unchanged.

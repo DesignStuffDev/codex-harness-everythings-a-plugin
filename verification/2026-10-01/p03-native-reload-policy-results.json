@@ -1,0 +1,1327 @@
+{
+  "schema_version": 1,
+  "finalized_utc": "2026-10-01T17:50:59.365302+00:00",
+  "status": "passed_scoped_native_reload_and_current_acquisition",
+  "finalized": true,
+  "passed": true,
+  "source_binding": {
+    "repository": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin",
+    "source_base": "f507f8099554504a316dc2fe16c4636c3d97be98",
+    "source_base_tree": "72bd3b50ef55818183465848835796f5778be15c",
+    "source_commit": "e289b6b5a2f6608779059963aef73c8cc66148eb",
+    "source_tree": "04ca864b074159df73d6914c851da59ba3444424",
+    "actual_source_commit_parent": "f507f8099554504a316dc2fe16c4636c3d97be98",
+    "immutable_source_object_created": true,
+    "main_advanced_at_receipt": false,
+    "created_commit_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-created-commit.json",
+      "sha256": "c3247ccf88603ac44c45d4ecd5e1d9d3367bb9d05611ecf1180148e31db113cf",
+      "bytes": 1456
+    },
+    "publication_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-publication-manifest.json",
+      "sha256": "26517c41a150513309676b48c0acba3a9644cb4f0fb2eebca8f184019c058aa9",
+      "bytes": 2488
+    },
+    "remote_blob_verification": "Root receipt records all seven matching remote blobs and exact tree. Evidence author independently computed matching Git blob IDs and SHA-256 from current files, without a new network check.",
+    "publication_context": "This record binds the immutable source-only commit. main advancement and any following evidence/docs commit belong to the later root publication receipt; this record does not claim main has advanced.",
+    "paths": [
+      {
+        "path": "codex-rs/login/src/auth/manager.rs",
+        "classification": "adapted_upstream_native_manager",
+        "partition": "production",
+        "source_base_sha256": "881c0f4766045aadecc2e34d174f2c20f667bb203b1632ab023e26e21f5abb01",
+        "source_base_blob_computed_from_bytes": "5788883c13a443a20a10fb507a3d824402cb33d2",
+        "tested_sha256": "21b2123a1af8a09aeb3144edc45619361fe0f07d878815bd3048420a317bd61e",
+        "final_sha256": "ea5f2cff15667f77eeaffb91e09b754fd6262f59454374aa507daa7499ab792f",
+        "final_git_blob": "8c8cf90bc65d95110bebaf4bf495444d5b284380",
+        "final_bytes": 122649,
+        "additions_from_source_base": 116,
+        "removals_from_source_base": 89,
+        "literal_anchors": [
+          {
+            "literal": "pub async fn auth(",
+            "lines": [
+              2425
+            ]
+          },
+          {
+            "literal": "pub async fn auth_with_http_client_factory(",
+            "lines": [
+              2442
+            ]
+          },
+          {
+            "literal": "pub async fn reload(",
+            "lines": [
+              2512
+            ]
+          },
+          {
+            "literal": "async fn reload_if_account_id_matches(",
+            "lines": [
+              2521
+            ]
+          },
+          {
+            "literal": "async fn load_auth(&self)",
+            "lines": [
+              2611
+            ]
+          },
+          {
+            "literal": "fn set_cached_auth(",
+            "lines": [
+              2699
+            ]
+          },
+          {
+            "literal": "fn ensure_auth_workspace_allowed(",
+            "lines": [
+              1133
+            ]
+          },
+          {
+            "literal": "fn record_permanent_refresh_failure_if_unchanged(",
+            "lines": [
+              2594
+            ]
+          },
+          {
+            "literal": "async fn resolve_external_auth(",
+            "lines": [
+              2905
+            ]
+          },
+          {
+            "literal": "fn validate_external_auth(",
+            "lines": [
+              3149
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy.rs",
+        "classification": "adapted_preceding_project_policy_support",
+        "partition": "production",
+        "source_base_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+        "source_base_blob_computed_from_bytes": "e5359a6c07b3074bf51592afe9d50104a96fd08b",
+        "tested_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "final_sha256": "b0fd23019ae782164c83d69e9a1040c6f1625ca74d56e8da7d0e24daf2ae4d89",
+        "final_git_blob": "25b398939b0a5155f9013d733588671f16d1f9e3",
+        "final_bytes": 6379,
+        "additions_from_source_base": 34,
+        "removals_from_source_base": 9,
+        "literal_anchors": [
+          {
+            "literal": "pub(super) struct PolicyCommitGuard",
+            "lines": [
+              75
+            ]
+          },
+          {
+            "literal": "fn lock_available(",
+            "lines": [
+              102
+            ]
+          },
+          {
+            "literal": "pub(super) fn lock_current(",
+            "lines": [
+              121
+            ]
+          },
+          {
+            "literal": "pub(super) fn set(",
+            "lines": [
+              146
+            ]
+          },
+          {
+            "literal": "pub(super) fn validate(",
+            "lines": [
+              186
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy_tests.rs",
+        "classification": "adapted_preceding_project_policy_support",
+        "partition": "tests",
+        "source_base_sha256": "5407ff9393e1f030765d9dd3bf6383b1b7d618bd76d868c270d4c094e425a7f2",
+        "source_base_blob_computed_from_bytes": "cc96a3cbb0e4223b6644d7fb10315af21d478334",
+        "tested_sha256": "11f3ad4ef4b6ba3469a98e8bed499d937a00647e4e665c17643b82b30d24fae6",
+        "final_sha256": "dc462f3d3b6afa8281562d21df2ebc6a1b298f964e00380f18b01ff5a45c36d4",
+        "final_git_blob": "ed5fd517677dc718ee101c27e65e4979413f3643",
+        "final_bytes": 13436,
+        "additions_from_source_base": 40,
+        "removals_from_source_base": 4,
+        "literal_anchors": [],
+        "new_test_declarations": [
+          {
+            "literal": "async fn unavailable_policy_denies_actual_cached_acquisition_without_clearing(",
+            "lines": [
+              333
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "classification": "original_project_private_support",
+        "partition": "production",
+        "source_base_sha256": null,
+        "source_base_blob_computed_from_bytes": null,
+        "tested_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "final_sha256": "95ed91b13b6d95ee8bcbe2e5adfc54f4df1c8deb0a64fdc53aec76e66851a2d9",
+        "final_git_blob": "79d71b8784209b71eed4d926b7592f36c6c53521",
+        "final_bytes": 5501,
+        "additions_from_source_base": 160,
+        "removals_from_source_base": 0,
+        "literal_anchors": [
+          {
+            "literal": "pub(super) enum AuthLoadError",
+            "lines": [
+              11
+            ]
+          },
+          {
+            "literal": "pub(super) struct LoadedAuth",
+            "lines": [
+              21
+            ]
+          },
+          {
+            "literal": "pub(super) enum AuthLoadUpdate",
+            "lines": [
+              27
+            ]
+          },
+          {
+            "literal": "pub(super) struct NativePolicyRejection",
+            "lines": [
+              45
+            ]
+          },
+          {
+            "literal": "pub(super) enum ExternalLoadOrigin",
+            "lines": [
+              47
+            ]
+          },
+          {
+            "literal": "pub(super) fn commit_auth_load(",
+            "lines": [
+              61
+            ]
+          },
+          {
+            "literal": "pub(super) fn replace_auth_cache(",
+            "lines": [
+              68
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload_tests.rs",
+        "classification": "original_project_test_support",
+        "partition": "tests",
+        "source_base_sha256": null,
+        "source_base_blob_computed_from_bytes": null,
+        "tested_sha256": "18f414d2193c11a67b0778f36042ab3bb6e89622de52246de770d59acb4d9aba",
+        "final_sha256": "11ffcb5bd5f76515ef047f11a0ed79a60f950e12235ac814e7a6649273445555",
+        "final_git_blob": "fa10bd631dc658d96ed64f3886d0816fab1277b2",
+        "final_bytes": 16761,
+        "additions_from_source_base": 461,
+        "removals_from_source_base": 0,
+        "literal_anchors": [],
+        "new_test_declarations": [
+          {
+            "literal": "async fn both_reload_paths_reject_policy_aba_during_actual_external_resolution(",
+            "lines": [
+              93
+            ]
+          },
+          {
+            "literal": "async fn successful_reload_preserves_credential_and_owner_notification_semantics(",
+            "lines": [
+              151
+            ]
+          },
+          {
+            "literal": "async fn native_load_error_preserves_cache_but_successful_absence_clears_it(",
+            "lines": [
+              189
+            ]
+          },
+          {
+            "literal": "async fn actual_native_loaded_candidate_is_rechecked_at_commit_after_aba(",
+            "lines": [
+              218
+            ]
+          },
+          {
+            "literal": "async fn permanent_failure_metadata_waits_for_current_policy_and_preserves_fast_path(",
+            "lines": [
+              256
+            ]
+          },
+          {
+            "literal": "async fn preserved_external_failure_does_not_restore_or_poison_a_newer_cache(",
+            "lines": [
+              295
+            ]
+          },
+          {
+            "literal": "async fn transient_external_error_is_not_a_successful_absent_credential(",
+            "lines": [
+              316
+            ]
+          },
+          {
+            "literal": "async fn valid_native_workspace_filter_still_clears_cached_auth(",
+            "lines": [
+              337
+            ]
+          },
+          {
+            "literal": "async fn external_workspace_rejection_still_clears_through_reload_and_auth(",
+            "lines": [
+              363
+            ]
+          },
+          {
+            "literal": "async fn actual_native_agent_identity_policy_rejection_is_not_a_storage_error(",
+            "lines": [
+              394
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_acquisition.rs",
+        "classification": "original_project_private_support",
+        "partition": "production",
+        "source_base_sha256": null,
+        "source_base_blob_computed_from_bytes": null,
+        "tested_sha256": "7d1dc4a3a629ed60bfaade82e945627d67e5f290f98950a5a754fdbee3bdb337",
+        "final_sha256": "7d1dc4a3a629ed60bfaade82e945627d67e5f290f98950a5a754fdbee3bdb337",
+        "final_git_blob": "e4ddcd808a9aa63f73ec8a8d12300df33f5f412e",
+        "final_bytes": 1389,
+        "additions_from_source_base": 39,
+        "removals_from_source_base": 0,
+        "literal_anchors": [
+          {
+            "literal": "pub(super) fn checked_cached_auth<T>(",
+            "lines": [
+              10
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_acquisition_tests.rs",
+        "classification": "original_project_test_support",
+        "partition": "tests",
+        "source_base_sha256": null,
+        "source_base_blob_computed_from_bytes": null,
+        "tested_sha256": "a6263e8ff669cadd242c01ea42d793c971000be0e14c704e7c15ff96692dbd80",
+        "final_sha256": "92081c7f4b491e34c4c5330cda5a18775c690a2bd6aecbef1895e1dd2993b8e1",
+        "final_git_blob": "93233fe82b7267e8953fd8c2856ddb2883e9f38e",
+        "final_bytes": 7051,
+        "additions_from_source_base": 177,
+        "removals_from_source_base": 0,
+        "literal_anchors": [],
+        "new_test_declarations": [
+          {
+            "literal": "async fn held_source_failures_cannot_return_policy_rejected_cached_credentials(",
+            "lines": [
+              44
+            ]
+          },
+          {
+            "literal": "async fn held_source_failures_preserve_valid_current_credentials(",
+            "lines": [
+              89
+            ]
+          },
+          {
+            "literal": "async fn held_failure_acquires_newer_allowed_cache_and_its_current_factory(",
+            "lines": [
+              121
+            ]
+          },
+          {
+            "literal": "async fn native_cached_acquisition_denies_restrictions_without_mutating_cache(",
+            "lines": [
+              167
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "new_test_functions": 15,
+  "new_test_names": [
+    "both_reload_paths_reject_policy_aba_during_actual_external_resolution",
+    "successful_reload_preserves_credential_and_owner_notification_semantics",
+    "native_load_error_preserves_cache_but_successful_absence_clears_it",
+    "actual_native_loaded_candidate_is_rechecked_at_commit_after_aba",
+    "permanent_failure_metadata_waits_for_current_policy_and_preserves_fast_path",
+    "preserved_external_failure_does_not_restore_or_poison_a_newer_cache",
+    "transient_external_error_is_not_a_successful_absent_credential",
+    "valid_native_workspace_filter_still_clears_cached_auth",
+    "external_workspace_rejection_still_clears_through_reload_and_auth",
+    "actual_native_agent_identity_policy_rejection_is_not_a_storage_error",
+    "held_source_failures_cannot_return_policy_rejected_cached_credentials",
+    "held_source_failures_preserve_valid_current_credentials",
+    "held_failure_acquires_newer_allowed_cache_and_its_current_factory",
+    "native_cached_acquisition_denies_restrictions_without_mutating_cache",
+    "unavailable_policy_denies_actual_cached_acquisition_without_clearing"
+  ],
+  "corrected_scoped_tests_passed": 271,
+  "corrected_tests_skipped": 0,
+  "in_run_retries": 0,
+  "gates": [
+    {
+      "name": "initial_reload_login",
+      "status": "passed",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-native-reload-login-tests.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login"
+      ],
+      "returncode": 0,
+      "tests_run": 266,
+      "tests_passed": 266,
+      "tests_skipped": 0,
+      "in_run_retries": 0,
+      "test_seconds": 142.622,
+      "strict": {
+        "command": [
+          "env",
+          "-u",
+          "NO_COLOR",
+          "CARGO_BUILD_JOBS=1",
+          "just",
+          "test",
+          "--locked",
+          "--retries",
+          "0",
+          "--test-threads",
+          "2",
+          "-p",
+          "codex-login"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 781786,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 781786,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 316.12657138599025
+      },
+      "source_before_entries": 8882,
+      "source_after_entries": 8882,
+      "source_maps_identical": true,
+      "canonical_source_map_sha256": "69524d8a9f8ff7ea13f212ee8dae79f53e0e8865031ce2f50c29587ca375cced",
+      "canonicalization": "UTF-8 JSON sorted keys and comma/colon separators",
+      "all_five_adopted_sources_equal_tested_sources": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-reload-login-tests.source.json",
+        "sha256": "a5ebc6c60bd18272500c554289a04c9471e2a1f0061b515817c608fad4db36f4",
+        "bytes": 2453620
+      },
+      "strict_report": {
+        "path": "/workspace/acceptance/p03-native-reload-login-tests.subreaper.json",
+        "sha256": "9faa7e7845437f840470990a273544f2bbd70fb8c127b4b1d84c0a29b19c5364",
+        "bytes": 495
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-reload-login-tests.log",
+        "sha256": "8a44f374bd3b95170baa61b6457fa97213969337f569ca99d80603e286406aba",
+        "bytes": 36266
+      },
+      "interpretation": "Passed initial266-test slice; subsequent targeted regression exposed missing acquisition coverage."
+    },
+    {
+      "name": "initial_reload_lint",
+      "status": "passed_before_fallback_correction",
+      "returncode": 0,
+      "source_entries_before": 8917,
+      "source_entries_after": 8917,
+      "changed_paths": [
+        "codex-rs/login/src/auth/manager.rs"
+      ],
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-reload-fix.source.json",
+        "sha256": "d6b849748697944bfedc447fcf51a404fb2d22065822435a80233507c6382cf7",
+        "bytes": 2461542
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-reload-fix.log",
+        "sha256": "8f019782c3cbdc5a805a207a33912368c7aa9ec52fc058356edcbc60a4a52061",
+        "bytes": 9681
+      },
+      "transition": {
+        "before_sha256": "dd0a5387d459c2b4c354ebdc4f322b9edcda9df430302df2eee796de6d1f267e",
+        "after_sha256": "c8c3d1c3b9800c6ed6f14a91dd10abaeeab257112d6ef5e5d4e34a3610fa60d3",
+        "description": "One exact closure-to-fully-qualified-method-reference replacement in NativePolicyRejection downcast; independently compared. Predicates and intended behavior unchanged; original fallback regression remains.",
+        "patch": {
+          "path": "/tmp/p03-native-reload-policy-evidence-stage/snapshots/root-clippy-mechanical.diff",
+          "sha256": "565f01bf23e068c4ed456ac59005689001cfd7b696a20ccd5b10d21e73ae5e94",
+          "bytes": 634
+        }
+      },
+      "all_login_test_source_entries_equal_lint_input": true
+    },
+    {
+      "name": "fallback_regression_pre_fix",
+      "status": "intentional_failure_proved",
+      "returncode": 100,
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-native-acquisition-red.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login",
+        "-E",
+        "test(acquisition_tests) | test(unavailable_policy_denies_actual_cached_acquisition)"
+      ],
+      "tests_run": 5,
+      "tests_passed": 2,
+      "tests_failed": 3,
+      "tests_filtered_out": 266,
+      "in_run_retries": 0,
+      "test_seconds": 0.049,
+      "strict": {
+        "command": [
+          "env",
+          "-u",
+          "NO_COLOR",
+          "CARGO_BUILD_JOBS=1",
+          "just",
+          "test",
+          "--locked",
+          "--retries",
+          "0",
+          "--test-threads",
+          "2",
+          "-p",
+          "codex-login",
+          "-E",
+          "test(acquisition_tests) | test(unavailable_policy_denies_actual_cached_acquisition)"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 784482,
+            "wait_status": 25600,
+            "returncode": 100
+          }
+        ],
+        "command_pid": 784482,
+        "command_wait_status": 25600,
+        "command_returncode": 100,
+        "runner_error": null,
+        "exit_status": 100,
+        "elapsed_seconds": 175.73394370100868
+      },
+      "source_entries_before": 8883,
+      "source_entries_after": 8883,
+      "source_maps_identical": true,
+      "canonical_source_map_sha256": "7eaa7675c992d566a089ef436a605e7eb33f10700feafaadd75eb38d409c0653",
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-red.source.json",
+        "sha256": "8dcf226915dbc491b83b384fa53532ec6a8fd346c40b2e9d0ae048583d98924b",
+        "bytes": 2453970
+      },
+      "strict_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-red.subreaper.json",
+        "sha256": "fb9612ee1825a7b60d8b7b15414a9634c6b9f492ad9aab1b4d834f155e4d7b1e",
+        "bytes": 610
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-acquisition-red.log",
+        "sha256": "4c8099d750085179f81c020083122dad8dd2ae45465741477b156e614cb8a38b",
+        "bytes": 6545
+      },
+      "failing_tests": [
+        "held_source_failures_cannot_return_policy_rejected_cached_credentials",
+        "native_cached_acquisition_denies_restrictions_without_mutating_cache",
+        "unavailable_policy_denies_actual_cached_acquisition_without_clearing"
+      ],
+      "coverage_limit": "Each failed test stops at its first failing assertion. The held resolver failure observed with_factory=false/revoke_while_held=false/permanent=false; no claim every matrix combination failed.",
+      "test_only_change_verified": true,
+      "production_helper_absent_in_red_source_map": true
+    },
+    {
+      "name": "fallback_correction_and_post_fix_tests",
+      "status": "passed",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-native-acquisition-login-tests.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login"
+      ],
+      "tests_run": 271,
+      "tests_passed": 271,
+      "tests_skipped": 0,
+      "in_run_retries": 0,
+      "test_seconds": 150.064,
+      "strict": {
+        "command": [
+          "env",
+          "-u",
+          "NO_COLOR",
+          "CARGO_BUILD_JOBS=1",
+          "just",
+          "test",
+          "--locked",
+          "--retries",
+          "0",
+          "--test-threads",
+          "2",
+          "-p",
+          "codex-login"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 785292,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 785292,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 320.9448007530009
+      },
+      "source_entries_before": 8884,
+      "source_entries_after": 8884,
+      "source_maps_identical": true,
+      "canonical_source_map_sha256": "276a6dfedce43b804c49369dbe24d0a18b7e3fa659a8465ab5cdb4c364205c26",
+      "all_seven_corrected_sources_equal_tested_sources": true,
+      "new_test_functions_individually_passed": [
+        "both_reload_paths_reject_policy_aba_during_actual_external_resolution",
+        "successful_reload_preserves_credential_and_owner_notification_semantics",
+        "native_load_error_preserves_cache_but_successful_absence_clears_it",
+        "actual_native_loaded_candidate_is_rechecked_at_commit_after_aba",
+        "permanent_failure_metadata_waits_for_current_policy_and_preserves_fast_path",
+        "preserved_external_failure_does_not_restore_or_poison_a_newer_cache",
+        "transient_external_error_is_not_a_successful_absent_credential",
+        "valid_native_workspace_filter_still_clears_cached_auth",
+        "external_workspace_rejection_still_clears_through_reload_and_auth",
+        "actual_native_agent_identity_policy_rejection_is_not_a_storage_error",
+        "held_source_failures_cannot_return_policy_rejected_cached_credentials",
+        "held_source_failures_preserve_valid_current_credentials",
+        "held_failure_acquires_newer_allowed_cache_and_its_current_factory",
+        "native_cached_acquisition_denies_restrictions_without_mutating_cache",
+        "unavailable_policy_denies_actual_cached_acquisition_without_clearing"
+      ],
+      "red_to_green_test_sources_unchanged": true,
+      "red_to_green_changed_paths": [
+        "codex-rs/login/src/auth/auth_acquisition.rs",
+        "codex-rs/login/src/auth/manager.rs"
+      ],
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-login-tests.source.json",
+        "sha256": "f3bf7da64d08d1028086c2bad1c50f1ec9ed111ee253df87711ea7c9f1700547",
+        "bytes": 2454113
+      },
+      "strict_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-login-tests.subreaper.json",
+        "sha256": "c4cd0c74eee08864c7a75c22981de6d2d0553231fa876288a43543d4704d4eba",
+        "bytes": 494
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-acquisition-login-tests.log",
+        "sha256": "48ca5cb7d2d7449ff36badb0607e6fde3815520d907663d026f24af5dd5969d3",
+        "bytes": 37087
+      }
+    },
+    {
+      "name": "corrected_lint",
+      "status": "passed",
+      "returncode": 0,
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "just",
+        "fix",
+        "-p",
+        "codex-login"
+      ],
+      "source_before_entries": 8919,
+      "source_after_entries": 8919,
+      "source_unchanged": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-fix.source.json",
+        "sha256": "1f3a447a5deaee0ae5d026137e4c806a73a34ff78bfb6a20151a245626b38077",
+        "bytes": 2462003
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-acquisition-fix.log",
+        "sha256": "db9e5504fc21d4e39c0c4030c5b9cfd8dc392d6b84b06027af510a4e6a5bd4cb",
+        "bytes": 2200
+      }
+    },
+    {
+      "name": "final_global_format",
+      "status": "passed",
+      "returncode": 0,
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "just",
+        "fmt"
+      ],
+      "source_before_entries": 10331,
+      "source_after_entries": 10331,
+      "source_unchanged": false,
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-fmt.source.json",
+        "sha256": "a0665287d6e315ea4b359ef0d86ee107240f6d6695d555231e26a1cde5c6bf6a",
+        "bytes": 2865461
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-acquisition-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  ],
+  "source_chain": {
+    "status": "independently_reviewed_mechanical_formatting",
+    "source_chain": {
+      "corrected_login_maps": 8884,
+      "lint_maps": 8919,
+      "global_format_maps": 10331,
+      "full_git_visible_maps": 9760,
+      "all_login_sources_equal_lint_input": true,
+      "lint_source_unchanged": true,
+      "all_lint_sources_equal_formatter_input": true,
+      "both_formatter_maps_same_exact_six_changed_paths": true,
+      "added_or_removed_git_visible_paths": 0
+    },
+    "diff": {
+      "path": "/tmp/p03-native-reload-policy-evidence-stage/snapshots/final-formatting.diff",
+      "sha256": "13791615df57ad02e708f1e5824febd900e98303b8af8846168e949773571302",
+      "bytes": 50839
+    },
+    "changed_sources": [
+      {
+        "path": "codex-rs/login/src/auth/auth_acquisition_tests.rs",
+        "tested_sha256": "a6263e8ff669cadd242c01ea42d793c971000be0e14c704e7c15ff96692dbd80",
+        "final_sha256": "92081c7f4b491e34c4c5330cda5a18775c690a2bd6aecbef1895e1dd2993b8e1",
+        "final_bytes": 7051
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "tested_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "final_sha256": "95ed91b13b6d95ee8bcbe2e5adfc54f4df1c8deb0a64fdc53aec76e66851a2d9",
+        "final_bytes": 5501
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload_tests.rs",
+        "tested_sha256": "18f414d2193c11a67b0778f36042ab3bb6e89622de52246de770d59acb4d9aba",
+        "final_sha256": "11ffcb5bd5f76515ef047f11a0ed79a60f950e12235ac814e7a6649273445555",
+        "final_bytes": 16761
+      },
+      {
+        "path": "codex-rs/login/src/auth/manager.rs",
+        "tested_sha256": "21b2123a1af8a09aeb3144edc45619361fe0f07d878815bd3048420a317bd61e",
+        "final_sha256": "ea5f2cff15667f77eeaffb91e09b754fd6262f59454374aa507daa7499ab792f",
+        "final_bytes": 122649
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy.rs",
+        "tested_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "final_sha256": "b0fd23019ae782164c83d69e9a1040c6f1625ca74d56e8da7d0e24daf2ae4d89",
+        "final_bytes": 6379
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy_tests.rs",
+        "tested_sha256": "11f3ad4ef4b6ba3469a98e8bed499d937a00647e4e665c17643b82b30d24fae6",
+        "final_sha256": "dc462f3d3b6afa8281562d21df2ebc6a1b298f964e00380f18b01ff5a45c36d4",
+        "final_bytes": 13436
+      }
+    ],
+    "unchanged_acquisition_helper_sha256": "7d1dc4a3a629ed60bfaade82e945627d67e5f290f98950a5a754fdbee3bdb337",
+    "review": "All six full diffs inspected: import grouping/order, whitespace/wrapping, trailing commas, equivalent closure/match-arm blocks and return semicolon placement only. Same predicates, literals, assertions, lock/drop/notification ordering. This is source review, not Rust AST equivalence or a post-format test execution.",
+    "post_format_tests_run": false
+  },
+  "historical_initial_source_binding": {
+    "repository": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin",
+    "source_base": "f507f8099554504a316dc2fe16c4636c3d97be98",
+    "source_base_tree": "72bd3b50ef55818183465848835796f5778be15c",
+    "source_base_publication_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-publication.json",
+      "sha256": "20487e6612e0249be77d859c3394b73f25c02e04acd4f38118ffe567bc10a353",
+      "bytes": 8538
+    },
+    "source_base_remote_verification": "Root receipt records verified main and 19 remote file blobs; no network check by this evidence author.",
+    "stage_manifest": {
+      "path": "/tmp/p03-native-reload-policy-rebased-stage/FINAL_MANIFEST.json",
+      "sha256": "743cf509b4f7df8674b97ce6638aa3b6df42511aad9cd197d92b4b5db4796aac",
+      "bytes": 4116
+    },
+    "adoption_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-reload-policy-adoption.json",
+      "sha256": "d68e23b3fa53c982054a792e0f496d2e4546fc76d1db4f81374c2b87a969a52e",
+      "bytes": 5400
+    },
+    "source_paths": [
+      {
+        "path": "codex-rs/login/src/auth/manager.rs",
+        "base_sha256": "881c0f4766045aadecc2e34d174f2c20f667bb203b1632ab023e26e21f5abb01",
+        "proposed_sha256": "dd0a5387d459c2b4c354ebdc4f322b9edcda9df430302df2eee796de6d1f267e",
+        "bytes": 121510,
+        "additions": 58,
+        "removals": 86,
+        "classification": "existing_native_customization",
+        "partition": "production",
+        "tested_sha256": "dd0a5387d459c2b4c354ebdc4f322b9edcda9df430302df2eee796de6d1f267e",
+        "tested_blob_computed_from_bytes": "ed93d61ee3f27a681b1bb3e44f5059812740f804",
+        "base_blob_computed_from_bytes": "5788883c13a443a20a10fb507a3d824402cb33d2",
+        "observed_checkout_sha256": "c8c3d1c3b9800c6ed6f14a91dd10abaeeab257112d6ef5e5d4e34a3610fa60d3",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending."
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy.rs",
+        "base_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+        "proposed_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "bytes": 6265,
+        "additions": 27,
+        "removals": 14,
+        "classification": "existing_native_customization",
+        "partition": "production",
+        "tested_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "tested_blob_computed_from_bytes": "6253963fe9b6bb4beb1cccc2648ef4b5c6d2c113",
+        "base_blob_computed_from_bytes": "e5359a6c07b3074bf51592afe9d50104a96fd08b",
+        "observed_checkout_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending."
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "base_sha256": null,
+        "proposed_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "bytes": 4754,
+        "additions": 103,
+        "removals": 0,
+        "classification": "new_private_native_support",
+        "partition": "production",
+        "tested_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "tested_blob_computed_from_bytes": "58f941ddee0704cff1a15c7d76989e5084213dc7",
+        "base_blob_computed_from_bytes": null,
+        "observed_checkout_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending."
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy_tests.rs",
+        "base_sha256": "5407ff9393e1f030765d9dd3bf6383b1b7d618bd76d868c270d4c094e425a7f2",
+        "proposed_sha256": "b1d07ad77ab6d9f387f312a4d19f93297e54e758364e4cdf4fb296679ffed307",
+        "bytes": 12486,
+        "additions": 4,
+        "removals": 4,
+        "classification": "existing_native_customization",
+        "partition": "tests",
+        "tested_sha256": "b1d07ad77ab6d9f387f312a4d19f93297e54e758364e4cdf4fb296679ffed307",
+        "tested_blob_computed_from_bytes": "73fc603ce7c27b8380b52408b33ee9a89afc9cdd",
+        "base_blob_computed_from_bytes": "cc96a3cbb0e4223b6644d7fb10315af21d478334",
+        "observed_checkout_sha256": "b1d07ad77ab6d9f387f312a4d19f93297e54e758364e4cdf4fb296679ffed307",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending."
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload_tests.rs",
+        "base_sha256": null,
+        "proposed_sha256": "74e579f1232c13e02781bf20cce080b78f573f8142296cc078d72228ceb94fbe",
+        "bytes": 14580,
+        "additions": 254,
+        "removals": 0,
+        "classification": "new_private_native_support",
+        "partition": "tests",
+        "tested_sha256": "74e579f1232c13e02781bf20cce080b78f573f8142296cc078d72228ceb94fbe",
+        "tested_blob_computed_from_bytes": "180ed764c2749e8096daed0fc792e5e43917543b",
+        "base_blob_computed_from_bytes": null,
+        "observed_checkout_sha256": "74e579f1232c13e02781bf20cce080b78f573f8142296cc078d72228ceb94fbe",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending."
+      }
+    ],
+    "actual_reload_publication_commit": null,
+    "actual_reload_publication_parent": null,
+    "publication_context": "Source base is the adopted preimage checkpoint, not a promise about a later immediate publication parent."
+  },
+  "historical_acquisition_correction": {
+    "status": "historical_adopted_preformat_corrected_test_binding",
+    "test_adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-test-adoption.json",
+      "sha256": "38960258c204eee29cf49c4e0fd952243b5f58e6b6deea076d44d34229dfbdaf",
+      "bytes": 1448
+    },
+    "production_adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-production-adoption.json",
+      "sha256": "b7400fd7e215f61218f57d0e2d4c0cb4e0a5d9effffde1e4a9a9e7ddfee3f6f1",
+      "bytes": 801
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-auth-acquisition-staged-source.tar.gz",
+      "sha256": "f250af7055641ff8b64ee51fc2704e651fe72350ea12d7cd48b186870759f969",
+      "bytes": 91484
+    },
+    "archive_regular_members": 22,
+    "archive_manifest_and_all_five_proposed_sources_verified": true,
+    "reviewed_tests_manifest": {
+      "path": "/tmp/p03-native-auth-acquisition-stage/TESTS_MANIFEST.json",
+      "sha256": "e012b1f08271a24626299bd47b9c22c3762133cb08c1fc06c963f9394fe952aa",
+      "bytes": 1578
+    },
+    "reviewed_production_manifest": {
+      "path": "/tmp/p03-native-auth-acquisition-stage/PRODUCTION_MANIFEST.json",
+      "sha256": "6a25ef2c0c4977b1e1d8f437a8c6502b3721697748db5fdd11f006a899990f7d",
+      "bytes": 1228
+    },
+    "source_paths": [
+      {
+        "path": "codex-rs/login/src/auth/auth_acquisition.rs",
+        "base_sha256": null,
+        "base_blob_computed_from_bytes": null,
+        "classification": "original_project_private_support",
+        "partition": "production",
+        "corrected_preformat_sha256": "7d1dc4a3a629ed60bfaade82e945627d67e5f290f98950a5a754fdbee3bdb337",
+        "corrected_preformat_bytes": 1389
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_acquisition_tests.rs",
+        "base_sha256": null,
+        "base_blob_computed_from_bytes": null,
+        "classification": "original_project_private_support",
+        "partition": "tests",
+        "corrected_preformat_sha256": "a6263e8ff669cadd242c01ea42d793c971000be0e14c704e7c15ff96692dbd80",
+        "corrected_preformat_bytes": 6225
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "base_sha256": null,
+        "proposed_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "bytes": 4754,
+        "additions": 103,
+        "removals": 0,
+        "classification": "new_private_native_support",
+        "partition": "production",
+        "tested_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "tested_blob_computed_from_bytes": "58f941ddee0704cff1a15c7d76989e5084213dc7",
+        "base_blob_computed_from_bytes": null,
+        "observed_checkout_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending.",
+        "corrected_preformat_sha256": "683a296a7354129eedef47627cd326bc532220051ceba11230b1918b6630a053",
+        "corrected_preformat_bytes": 4754
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_reload_tests.rs",
+        "base_sha256": null,
+        "proposed_sha256": "74e579f1232c13e02781bf20cce080b78f573f8142296cc078d72228ceb94fbe",
+        "bytes": 14580,
+        "additions": 254,
+        "removals": 0,
+        "classification": "new_private_native_support",
+        "partition": "tests",
+        "tested_sha256": "74e579f1232c13e02781bf20cce080b78f573f8142296cc078d72228ceb94fbe",
+        "tested_blob_computed_from_bytes": "180ed764c2749e8096daed0fc792e5e43917543b",
+        "base_blob_computed_from_bytes": null,
+        "observed_checkout_sha256": "74e579f1232c13e02781bf20cce080b78f573f8142296cc078d72228ceb94fbe",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending.",
+        "corrected_preformat_sha256": "18f414d2193c11a67b0778f36042ab3bb6e89622de52246de770d59acb4d9aba",
+        "corrected_preformat_bytes": 14642
+      },
+      {
+        "path": "codex-rs/login/src/auth/manager.rs",
+        "base_sha256": "881c0f4766045aadecc2e34d174f2c20f667bb203b1632ab023e26e21f5abb01",
+        "proposed_sha256": "dd0a5387d459c2b4c354ebdc4f322b9edcda9df430302df2eee796de6d1f267e",
+        "bytes": 121510,
+        "additions": 58,
+        "removals": 86,
+        "classification": "existing_native_customization",
+        "partition": "production",
+        "tested_sha256": "dd0a5387d459c2b4c354ebdc4f322b9edcda9df430302df2eee796de6d1f267e",
+        "tested_blob_computed_from_bytes": "ed93d61ee3f27a681b1bb3e44f5059812740f804",
+        "base_blob_computed_from_bytes": "5788883c13a443a20a10fb507a3d824402cb33d2",
+        "observed_checkout_sha256": "c8c3d1c3b9800c6ed6f14a91dd10abaeeab257112d6ef5e5d4e34a3610fa60d3",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending.",
+        "corrected_preformat_sha256": "21b2123a1af8a09aeb3144edc45619361fe0f07d878815bd3048420a317bd61e",
+        "corrected_preformat_bytes": 121632
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy.rs",
+        "base_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+        "proposed_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "bytes": 6265,
+        "additions": 27,
+        "removals": 14,
+        "classification": "existing_native_customization",
+        "partition": "production",
+        "tested_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "tested_blob_computed_from_bytes": "6253963fe9b6bb4beb1cccc2648ef4b5c6d2c113",
+        "base_blob_computed_from_bytes": "e5359a6c07b3074bf51592afe9d50104a96fd08b",
+        "observed_checkout_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending.",
+        "corrected_preformat_sha256": "db0b123d1d0e6db7d9cc7b43728ebda525179145faef542c528fa7065749e391",
+        "corrected_preformat_bytes": 6265
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy_tests.rs",
+        "base_sha256": "5407ff9393e1f030765d9dd3bf6383b1b7d618bd76d868c270d4c094e425a7f2",
+        "proposed_sha256": "b1d07ad77ab6d9f387f312a4d19f93297e54e758364e4cdf4fb296679ffed307",
+        "bytes": 12486,
+        "additions": 4,
+        "removals": 4,
+        "classification": "existing_native_customization",
+        "partition": "tests",
+        "tested_sha256": "b1d07ad77ab6d9f387f312a4d19f93297e54e758364e4cdf4fb296679ffed307",
+        "tested_blob_computed_from_bytes": "73fc603ce7c27b8380b52408b33ee9a89afc9cdd",
+        "base_blob_computed_from_bytes": "cc96a3cbb0e4223b6644d7fb10315af21d478334",
+        "observed_checkout_sha256": "b1d07ad77ab6d9f387f312a4d19f93297e54e758364e4cdf4fb296679ffed307",
+        "checkout_observation_note": "Concurrent root lint may change formatting or mechanical expressions; final transition remains pending.",
+        "corrected_preformat_sha256": "11f3ad4ef4b6ba3469a98e8bed499d937a00647e4e665c17643b82b30d24fae6",
+        "corrected_preformat_bytes": 13304
+      }
+    ],
+    "scope": "Private point-in-time CURRENT cached acquisition at actual auth() and final auth_with_http_client_factory consumer. Direct native policy validation while credentials read lock held; prepare only fixed native clone/factory closures before exact policy guard; return/drop prepared values after guards. Preserves valid raw cache and never clears a concurrently newer cache. No future request/dispatch permit.",
+    "corrected_gate": {
+      "name": "fallback_correction_and_post_fix_tests",
+      "status": "passed",
+      "returncode": 0,
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-native-acquisition-login-tests.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login"
+      ],
+      "tests_run": 271,
+      "tests_passed": 271,
+      "tests_skipped": 0,
+      "in_run_retries": 0,
+      "test_seconds": 150.064,
+      "strict": {
+        "command": [
+          "env",
+          "-u",
+          "NO_COLOR",
+          "CARGO_BUILD_JOBS=1",
+          "just",
+          "test",
+          "--locked",
+          "--retries",
+          "0",
+          "--test-threads",
+          "2",
+          "-p",
+          "codex-login"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 785292,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 785292,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 320.9448007530009
+      },
+      "source_entries_before": 8884,
+      "source_entries_after": 8884,
+      "source_maps_identical": true,
+      "canonical_source_map_sha256": "276a6dfedce43b804c49369dbe24d0a18b7e3fa659a8465ab5cdb4c364205c26",
+      "all_seven_corrected_sources_equal_tested_sources": true,
+      "new_test_functions_individually_passed": [
+        "both_reload_paths_reject_policy_aba_during_actual_external_resolution",
+        "successful_reload_preserves_credential_and_owner_notification_semantics",
+        "native_load_error_preserves_cache_but_successful_absence_clears_it",
+        "actual_native_loaded_candidate_is_rechecked_at_commit_after_aba",
+        "permanent_failure_metadata_waits_for_current_policy_and_preserves_fast_path",
+        "preserved_external_failure_does_not_restore_or_poison_a_newer_cache",
+        "transient_external_error_is_not_a_successful_absent_credential",
+        "valid_native_workspace_filter_still_clears_cached_auth",
+        "external_workspace_rejection_still_clears_through_reload_and_auth",
+        "actual_native_agent_identity_policy_rejection_is_not_a_storage_error",
+        "held_source_failures_cannot_return_policy_rejected_cached_credentials",
+        "held_source_failures_preserve_valid_current_credentials",
+        "held_failure_acquires_newer_allowed_cache_and_its_current_factory",
+        "native_cached_acquisition_denies_restrictions_without_mutating_cache",
+        "unavailable_policy_denies_actual_cached_acquisition_without_clearing"
+      ],
+      "red_to_green_test_sources_unchanged": true,
+      "red_to_green_changed_paths": [
+        "codex-rs/login/src/auth/auth_acquisition.rs",
+        "codex-rs/login/src/auth/manager.rs"
+      ],
+      "source_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-login-tests.source.json",
+        "sha256": "f3bf7da64d08d1028086c2bad1c50f1ec9ed111ee253df87711ea7c9f1700547",
+        "bytes": 2454113
+      },
+      "strict_report": {
+        "path": "/workspace/acceptance/p03-native-acquisition-login-tests.subreaper.json",
+        "sha256": "c4cd0c74eee08864c7a75c22981de6d2d0553231fa876288a43543d4704d4eba",
+        "bytes": 494
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-native-acquisition-login-tests.log",
+        "sha256": "48ca5cb7d2d7449ff36badb0607e6fde3815520d907663d026f24af5dd5969d3",
+        "bytes": 37087
+      }
+    },
+    "note": "Final lint/format and source commit are recorded in top-level source_binding/source_chain."
+  },
+  "contracts": [
+    {
+      "name": "loaded result",
+      "description": "LoadedAuth carries policy stamp and Replace(Some/None) versus Preserve(attempted/failure). AuthLoadError distinguishes Policy, Source and CacheUnavailable. Actual reload and guarded reload consume it through commit_auth_load."
+    },
+    {
+      "name": "commit",
+      "description": "Credentials write lock precedes exact policy guard. Prepare comparisons outside policy lock; only owned swaps inside it. Assignment is the policy linearization point. Drop policy guard before native network/watch notifications, retain credentials lock through notifications, and drop retired auth/failure values and trace after locks."
+    },
+    {
+      "name": "origin",
+      "description": "Native source/parsing and actual external resolver Transient errors preserve cache. Successful absence/native filtering and private NativePolicyRejection are authoritative None. External Restriction Transient clears; Permanent/Policy preserve existing classifier-specific disposition. Unknown permission errors stay Source."
+    },
+    {
+      "name": "failure metadata",
+      "description": "Install permanent failure metadata only for matching current credentials under a current policy guard. Preserve never restores attempted old auth over a newer cache."
+    },
+    {
+      "name": "actual acquisition and legacy projections",
+      "description": "Public reload bool retains coarse auth equality; guarded reload retains credential-change projection. Raw auth_cached stays unchecked. Every actual auth() return, including proactive-refresh error fallback, and the final auth_with_http_client_factory capture validate the CURRENT cache directly against native restrictions. Credential read lock prevents a concurrent cached replacement during validation/preparation; exact policy guard provides the acquisition linearization check. Only two fixed native preparation closures run before policy lock; prepared values are returned/dropped after guards. Unavailable/stale/rejected policy returns None without clearing newer cached credentials."
+    }
+  ],
+  "scope_limits": [
+    "Compiled native policy-stamped in-memory reload publication and point-in-time current cached acquisition only; not independent auth/catalog extraction or broker activation.",
+    "No credential/source-owner lifetime fence. Same-policy intervening credential transitions/ABA, equal-byte external source replacement and internal auth-state changes are outside this slice.",
+    "No persistence, resolver side-effect, proactive-refresh write, gateway retained-work settlement, HTTP dispatch/retry/body/decode or catalog-cache publication fence. A returned auth/factory pair is not a future dispatch permit.",
+    "Raw auth_cached remains a legacy unchecked getter; actual auth() and auth_with_http_client_factory now use checked current cached acquisition.",
+    "No fresh complete-host/App Server/GUI/installed-plugin/runtime claim. Earlier d04 full-host evidence and earlier256-login/one-targeted-App-Server policy evidence remain separately scoped historical records.",
+    "Tests ran on pre-format bytes. Final lint passed unchanged; all six formatter diffs were independently reviewed as mechanical. No post-format retest is claimed.",
+    "Original path/blob/literal anchors and bounded native adaptation mappings are not a full symbol/call graph or semantic-equivalence closure; no P00M validator recognition of this schema is claimed.",
+    "Immutable source commit exists; main publication remains pending at the bound created-commit receipt. Local archives are not externally restored backups."
+  ],
+  "source_change_size": {
+    "pre_format_changed_lines": 762,
+    "formatted_additions": 1027,
+    "formatted_removals": 102,
+    "formatted_changed_lines": 1129,
+    "coherent_commit_reason": "Root selected one atomic production+15-test-function source commit: publishing new source-error cache preservation without the acquisition correction would expose the reproduced regression. Independent review found formatter expansion mechanical; evidence/docs are separate. No test topology was changed to satisfy line guidance."
+  },
+  "preservation": [
+    {
+      "receipt": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-reload-policy-adoption.json",
+        "sha256": "d68e23b3fa53c982054a792e0f496d2e4546fc76d1db4f81374c2b87a969a52e",
+        "bytes": 5400
+      },
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-reload-policy-rebased-source.tar.gz",
+        "sha256": "698b8b47669f9cdac250176beeb80aa4dc4357f975792457a2ef2a8be07ab46a",
+        "bytes": 142269
+      },
+      "external_backup_or_restore_proven": false,
+      "all_regular_members_read_and_sha256_matched_receipt": true,
+      "regular_member_count": 24
+    },
+    {
+      "receipt": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-test-adoption.json",
+        "sha256": "38960258c204eee29cf49c4e0fd952243b5f58e6b6deea076d44d34229dfbdaf",
+        "bytes": 1448
+      },
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-auth-acquisition-staged-source.tar.gz",
+        "sha256": "f250af7055641ff8b64ee51fc2704e651fe72350ea12d7cd48b186870759f969",
+        "bytes": 91484
+      },
+      "external_backup_or_restore_proven": false
+    },
+    {
+      "receipt": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-login-executable-preservation.json",
+        "sha256": "62a3169051d263047b20e004cc9672506952c7d212fab67d62fa4a8cffcb6214",
+        "bytes": 4054
+      },
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-login-test-executables.tar.gz",
+        "sha256": "915cf2c654d23c142fd7db479046c8a706b3598303a65175c10568710c6f28f4",
+        "bytes": 82734596
+      },
+      "external_backup_or_restore_proven": false,
+      "all_regular_members_read_and_sha256_matched_receipt": true,
+      "regular_member_count": 4,
+      "binary_binding_limit": "Executable hashes observed after the completed run; runner did not contemporaneously record binary hashes. This is preservation proof, not a stronger execution attestation."
+    },
+    {
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-verified-source.tar.gz",
+        "sha256": "d7aafff4207b11bba69e3e296367a007f9e5c87715236b39d55a76411ea1798a",
+        "bytes": 32101
+      },
+      "publication_manifest": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-publication-manifest.json",
+        "sha256": "26517c41a150513309676b48c0acba3a9644cb4f0fb2eebca8f184019c058aa9",
+        "bytes": 2488
+      },
+      "external_backup_or_restore_proven": false
+    }
+  ],
+  "references": [
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-reload-policy-adoption.json",
+      "sha256": "d68e23b3fa53c982054a792e0f496d2e4546fc76d1db4f81374c2b87a969a52e",
+      "bytes": 5400
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-test-adoption.json",
+      "sha256": "38960258c204eee29cf49c4e0fd952243b5f58e6b6deea076d44d34229dfbdaf",
+      "bytes": 1448
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-production-adoption.json",
+      "sha256": "b7400fd7e215f61218f57d0e2d4c0cb4e0a5d9effffde1e4a9a9e7ddfee3f6f1",
+      "bytes": 801
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-publication.json",
+      "sha256": "20487e6612e0249be77d859c3394b73f25c02e04acd4f38118ffe567bc10a353",
+      "bytes": 8538
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-publication-manifest.json",
+      "sha256": "26517c41a150513309676b48c0acba3a9644cb4f0fb2eebca8f184019c058aa9",
+      "bytes": 2488
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-acquisition-created-commit.json",
+      "sha256": "c3247ccf88603ac44c45d4ecd5e1d9d3367bb9d05611ecf1180148e31db113cf",
+      "bytes": 1456
+    },
+    {
+      "path": "/tmp/p03-native-reload-policy-rebased-stage/FINAL_MANIFEST.json",
+      "sha256": "743cf509b4f7df8674b97ce6638aa3b6df42511aad9cd197d92b4b5db4796aac",
+      "bytes": 4116
+    },
+    {
+      "path": "/tmp/p03-native-auth-acquisition-stage/TESTS_MANIFEST.json",
+      "sha256": "e012b1f08271a24626299bd47b9c22c3762133cb08c1fc06c963f9394fe952aa",
+      "bytes": 1578
+    },
+    {
+      "path": "/tmp/p03-native-auth-acquisition-stage/PRODUCTION_MANIFEST.json",
+      "sha256": "6a25ef2c0c4977b1e1d8f437a8c6502b3721697748db5fdd11f006a899990f7d",
+      "bytes": 1228
+    },
+    {
+      "path": "/tmp/p03-native-reload-policy-evidence-stage/FORMAT_REVIEW.json",
+      "sha256": "c8facf3c91fd659a499f6a46ddac41c7358491a59994362ee1874773875db0a9",
+      "bytes": 2855
+    },
+    {
+      "path": "/tmp/p03-native-reload-policy-evidence-stage/snapshots/final-original-upstream-anchors.json",
+      "sha256": "bb399840949da568bae7e6bc66fabe8f70c907d3725c7548ca15b4be01efc962",
+      "bytes": 1509
+    },
+    {
+      "path": "/workspace/acceptance/p03-native-acquisition-fmt-repository.transition.json",
+      "sha256": "5efcea2adb8bc14a376b295c80931dcc9cd6ff0d43dd59fac22eaa31f19ae5ab",
+      "bytes": 1970
+    },
+    {
+      "path": "/workspace/acceptance/p03-native-acquisition-fmt-repository.before.json",
+      "sha256": "8942bf586c523a38b2243d1f2e638f83b710dac1db9d6aada9d29e8a08412420",
+      "bytes": 1312473
+    },
+    {
+      "path": "/workspace/acceptance/p03-native-acquisition-fmt-repository.after.json",
+      "sha256": "aa125a3a725a31cbde447e5f10b670476dd80276405624b5dc7b8eaf8c9a9549",
+      "bytes": 1312473
+    }
+  ],
+  "tests_executed_by_evidence_author": 0,
+  "post_format_tests_executed": false,
+  "fresh_full_host_or_gui_proof": false,
+  "main_publication_claimed": false
+}

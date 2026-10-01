@@ -197,6 +197,16 @@ three argument comments, unchanged lint and mechanical formatting. It remains a
 compiled native prerequisite; the earlier d04 full-host proof does not cover it.
 The frozen d04 ownership index is not silently advanced by adding this map.
 
+The subsequent [reload/acquisition map](upstream/p03-native-reload-policy-lineage.json)
+binds seven Rust paths to the same pinned upstream manager declarations and
+project-private reload/acquisition helpers. Its [scoped evidence](verification/2026-10-01/P03_NATIVE_RELOAD_POLICY_EVIDENCE.md)
+separates the initial 266 passes, intentional pre-fix 2-pass/3-fail run, and corrected
+271 passes with unchanged regression tests. Final scoped lint passed unchanged and formatting was mechanically reviewed.
+This advances native policy-checked publication and point-in-time acquisition;
+it does not establish independent auth/catalog extraction, later dispatch or
+persistence fencing, full-host proof, complete semantic provenance closure or an
+upstream revision advance. Historical maps and the frozen d04 index remain unchanged.
+
 The remaining current-provenance work is concrete:
 
 1. Complete semantic ownership/impact coverage in the existing checkpoint-scoped

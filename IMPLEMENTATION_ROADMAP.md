@@ -357,6 +357,16 @@ exhaustion or detected poison. This is compiled native policy support, not insta
 auth extraction. Asynchronous credential publication, owner changes, persistence,
 request dispatch and cache publication still need their actual production fences.
 
+The later [reload/acquisition checkpoint](verification/2026-10-01/P03_NATIVE_RELOAD_POLICY_EVIDENCE.md)
+passes 271 login tests, including 15 new test functions. Private `auth_reload.rs`
+fences loaded credential publication against the captured workspace policy;
+`auth_acquisition.rs` checks current cached credentials in actual `auth()` and
+factory acquisition without clearing a newer cache. Initial 266-pass evidence and
+three intentional pre-fix failures remain separate. Final scoped lint passed unchanged and formatting was mechanically reviewed. This is native prerequisite work: independent credential/source-owner
+changes, persistence, gateway settlement, dispatch/retries and catalog-cache
+publication still need connected fences; no new full-host, GUI or installed-auth
+proof is claimed.
+
 ### P04 — Configuration, credentials and native authentication
 
 **Prerequisites:** P03 capability/owner semantics.
