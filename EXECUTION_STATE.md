@@ -10,13 +10,14 @@ Read [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md),
 - Original cloud checkout: `/workspace/codex-harness-everythings-a-plugin`.
   Preserve `/workspace/codex-harness-next-components` and both worktrees' changes.
 - Origin: `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
-- Last completed remote verification before this checkpoint:
-  `b3530790258a74c0c61bfd00e4d13141b763269b`, tree
-  `31c9f6584d9e0c519a37c55148d5bf293b5cc05f`. All nine runtime/evidence/doc blobs
+- Last completed remote verification before this evidence supplement:
+  `7ad8b08c32530efcb7f57f9db6682e55a4808528`, tree
+  `5eff6f1953ce75c7c7c3f40bbaf87bcca72123c2`. All 12 source/evidence/doc blobs
   and main were verified after a fresh-parent, nonforce update. Receipt
-  `p03-cache-revision-runtime-publication.json`, SHA256
-  `55fe41190c087f48d36ea845930cc02aca1c54c27459559315c14f68f3d4a4bc`.
-  That full-host proof binds source `18140083`, not the newer owner change below.
+  `p03-source-owner-publication.json`, SHA256
+  `580f8212c018689645b62ae02042804c11d2c1fcca488c222bd0bc8919a18555`.
+  Native source is `99e6802f`; its scoped tests pass but overall runtime acceptance
+  is blocked as detailed below. Last fully passing older runtime remains `b3530790`.
 - Official upstream remains `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`; retain LICENSE/NOTICE.
 - Local HEAD/index remain at the original upstream pin; local main is stale.
@@ -71,21 +72,33 @@ Other subsystems remain coupled, adapters or compiled prerequisites.
    0/null with an additional SIGKILL (-9) child reap whose attribution/cause is unknown.
    The source archive SHA256 is
    `28c110b6b7f526c2c11e4b98ba259ba0fc73f9716f4518d8113b9642d4074786`.
-2. Complete a fresh full CLI build and unchanged installed storage/migration/GUI
-   acceptance for that newer owner source. Prior full-host proof uses CLI
-   `876c826f76d574d9fee62011166b1ae3f4b15f69103f361aedb4e44cef08de71`
-   and source `18140083` only. Preserve both earlier GUI setup failures, measured
-   nonzero child statuses and the successful fresh workspace GUI run. Use fresh
-   workspace runtime directories and workspace TMPDIR, since `/tmp` is nearly full.
-   Archive exact generated test executables before retirement when reclaiming space.
-   Root alone owns checkout/Rust/cache/Git mutations; no mutation during active Rust.
-3. Review/rebase staged installer ordering onto the final formatted owner source:
-   `recovery-backups/20260930T165936Z/p03-install-order-stage`, manifest SHA256
-   `7c0b113d1a0b03e86cd8350a06899ec807f5621e7e43857eb4d9132f19515f31`.
-   Its nine held-future tests and +154/-26 production patch are uncompiled and
-   unadopted. Latest-admitted intent, exact source/cache/policy capture, equal-byte
-   source identity, and clear(None) invalidation follow the frozen native plan.
-   Preserve corrected owner-stage preimages; do not apply stale patches blindly.
+2. Repair inherited curated-plugin startup synchronization ownership before accepting
+   full-host regression. Fresh CLI build **passed (4m38s)**, exact SHA256
+   `c7111d534c600c35812b714c4a1a536348254e7e1d3aea10dd77a411b48ff021`.
+   [Runtime evidence](verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md):
+   both storage attempts passed 13 behavioral commands but strict descendant drain
+   failed exit125; tracing observed live Git descendants. Migration passed 10 commands;
+   two cold GUI cycles passed, including real manager active-turn first SIGINT exit0
+   in 0.265s/0.267s with tracked processes absent and no forced cleanup.
+   Overall full-host acceptance **failed**, and no test assertion/drain was weakened.
+   All five build/runtime attempts retained the same 8,888 source maps. Preserve
+   failures and sampled trace; [repair contract](verification/2026-10-01/P03_CURATED_SYNC_LIFECYCLE_DIAGNOSIS.md).
+   The four investigated native lifecycle files match
+   the upstream pin; no production lifecycle fix has been applied.
+   Use fresh workspace fixture directories/TMPDIR. `/tmp` is nearly full and overlay
+   headroom is too small for the next Rust gate until audited recovery of generated
+   artifacts. No active Rust process; never kill Rust or remove source to make space.
+3. After lifecycle/resource gates, adopt the reviewed installer-ordering stage based
+   on final source `99e6802f`: recovery root `p03-install-order-finalbase-stage`,
+   manifest SHA256 `63ed01b3beba1933dea700b05e24628720a68f4460a4c59f18c134cc97e93fb9`.
+   Nine held-future tests, production +151/-21, zero-fuzz replay verified. It is
+   **uncompiled and unadopted**. Its complete 37-file stage is preserved in
+   `p03-install-order-finalbase-unadopted-stage.tar.gz`, SHA256
+   `2fce7459d7386b9b59e318defcfd6e1bc970dc6cb4f9b96abdacdab959f3f6f5`
+   (cloud-local only). First run tests-only red, then production plus full
+   login/provider tests, scoped lint and formatting. Its latest-admitted intent,
+   source/cache/policy checks and clear(None) invalidation do not close subsequent
+   load/refresh authority or shared persistence. Preserve all original stages.
 4. Carry authority through actual load/refresh success and failure, shared persistence,
    gateway retained work, HTTP retries/body/decode and native model-cache publication.
    Preserve legitimate account-bound factory revocation. Keep catalog activation
@@ -134,7 +147,7 @@ completed test executables were archived before retirement. Some inactive storag
 copies share inodes: copy before write/chmod/utime. No cache mutation during Rust.
 
 Environment ID: `ccarenv_b64_Y2NhcmVudl8wYzAyOTNkMzVhZTg4MTkxYjc4YjQyZmVhNWYwMDllYQ`.
-Latest observation kept the original config identity, running/connected, revision 1457,
+Latest observation kept the original config identity, running/connected, revision 1458,
 restricted package_managers, policy enforced, allowed_hosts empty and no exposed preview.
 The earlier policy metadata reported VPN unconfigured; no networking settings changed.
 Root did not reset or replace it. Revalidate. In-app Browser/Context7 remain unavailable;
@@ -182,3 +195,16 @@ started separately as `p03-source-owner-full-cli-build`; inspect its terminal re
 The unadopted installer draft is separately archived as
 `p03-install-order-unadopted-stage.tar.gz`, SHA256
 `45d7ae8cecda7a015b1bab6da1e56c8bfa3756d72f2685e138b621c6131a0dc6`.
+
+## Current exact binary recovery
+
+Owner CLI archive `p03-source-owner-cli-archive-preserved.tar.zst` is verified
+member-by-member with zstd checksum and metadata, SHA256
+`68102a992d8d7ebe3105933d5377c9ec215ed5d51c8f814891555f81fb098222`
+(138,823,583B). Receipt SHA256
+`2e3fe79f270d4645be9c7d5545bf683be2fdd238aba0622445b23051a6565ff1`.
+Both Cargo hardlinks and eight historical GUI aliases were unchanged. Current CLI
+is still a mutable build path; no Rust/source writers ran during acceptance, and
+binary SHA was checked before/after. This is VM-local recovery, not an external
+binary backup. The GUI screenshots are public evidence; private runtime reports
+and authentication state must not be published.

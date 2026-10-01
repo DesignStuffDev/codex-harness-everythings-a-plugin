@@ -552,7 +552,9 @@ upstream methods separately from private owned-update and persistence helpers.
 
 This is a compiled native ownership prerequisite, not installed authentication or
 catalog extraction. Installer ordering, source ABA, load/refresh ownership and
-shared persistence remain open; the previous full-host GUI proof covers source
-`18140083` only. This checkpoint needs its own full-host/GUI acceptance. Extraction
-counts and the upstream pin do not change. P18U's integration/recovery gates remain
+shared persistence remain open. Its fresh full-host build, migration and GUI checks
+now pass, but two storage lifecycle checks fail on surviving Git descendants; see
+[the runtime supplement](verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md).
+This source has no overall full-host acceptance. Extraction counts and the upstream
+pin do not change. P18U's integration/recovery gates remain
 required, with no active polling or live update.

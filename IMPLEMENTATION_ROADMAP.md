@@ -830,7 +830,29 @@ upstream methods separately from private owned-update and persistence helpers.
 
 This is a compiled native ownership prerequisite, not installed authentication or
 catalog extraction. Installer ordering, source ABA, load/refresh ownership and
-shared persistence remain open; the previous full-host GUI proof covers source
-`18140083` only. This checkpoint needs its own full-host/GUI acceptance. Extraction
-counts and the upstream pin do not change. P18U's integration/recovery gates remain
+shared persistence remain open. Its fresh full-host build, migration and GUI checks
+now pass, but two storage lifecycle checks fail on surviving Git descendants; see
+[the runtime supplement](verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md).
+This source has no overall full-host acceptance. Extraction counts and the upstream
+pin do not change. P18U's integration/recovery gates remain
 required, with no active polling or live update.
+
+## Immediate lifecycle gate before advancing P03
+
+The source-owner CLI was rebuilt from `99e6802f` (8,888 unchanged scoped entries).
+Migration and two normal GUI cycles passed. Both unchanged storage attempts
+passed their 13 behavioral commands but failed the strict five-second descendant
+drain (exit 125). This remains a failed full-host checkpoint, even though GUI
+manager SIGINT shutdown passed. Preserve both attempts and the sampled process
+trace; never turn later zombie observations into a passing lifecycle assertion.
+
+Investigate/fix curated marketplace startup synchronization ownership before
+accepting the next full-host checkpoint: retain cancellation and join ownership,
+stop new work on shutdown, terminate and reap Git process trees, and bound pipe
+and HTTP cleanup. Cover real CLI and both App Server shutdown routes. Keep trusted
+Git selection, credential restrictions, proxy/TLS and normal plugin behavior.
+Adjacent detached marketplace refresh paths need their own audit. The native
+source/installer work remains staged independently; disabling the feature or
+extending the test drain would not repair the default lifecycle. Record exact
+upstream/customization lineage and test this failure with a controlled held child,
+then rerun default-feature installed storage and GUI acceptance.

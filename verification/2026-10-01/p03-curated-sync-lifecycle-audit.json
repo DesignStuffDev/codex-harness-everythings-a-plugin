@@ -1,0 +1,65 @@
+{
+  "scope": "Read-only diagnosis; no implementation, test changes, timeout changes, feature disabling, Git bypass, environment/policy mutation or runtime rerun performed. Only this recovery staging directory was written.",
+  "upstream": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "source_checkpoint": "99e6802fd478e55686559aefdd6ae79177a45397",
+  "provenance": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153",
+      "pinned_upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "whole_file_byte_identical_to_upstream": true
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "sha256": "78fe0eaf8813eab2fa3d4a5398a06cf01152deca69f12c931821d5ca35c5e93d",
+      "pinned_upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "whole_file_byte_identical_to_upstream": true
+    },
+    {
+      "path": "codex-rs/core-plugins/src/git_policy.rs",
+      "sha256": "94075f53dd84a88282e06add40f767b603e18d4103e5fd064ef557333855b289",
+      "pinned_upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "whole_file_byte_identical_to_upstream": true
+    },
+    {
+      "path": "codex-rs/utils/process/src/lib.rs",
+      "sha256": "0427f409c2514143bde2e69313f4672dac8343f79e2f2c4f350a6bf460e0111d",
+      "pinned_upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "whole_file_byte_identical_to_upstream": true
+    }
+  ],
+  "evidence_inputs": [
+    {
+      "path": "/workspace/acceptance/p03-source-owner-newhost-storage.subreaper.json",
+      "sha256": "bc2fcc8a4a39c5ecaed61949b5f31019f4713307b6c1fa841b56835c993cde0c",
+      "exit_status": 125
+    },
+    {
+      "path": "/workspace/acceptance/p03-source-owner-newhost-storage-02.subreaper.json",
+      "sha256": "f061f47ea1491f04c485a459bf364013e5030d4ecdf82e143c7cb65ad81d7201",
+      "exit_status": 125
+    },
+    {
+      "path": "/workspace/acceptance/p03-source-owner-storage-process-observations.json",
+      "sha256": "41c166480dc2b4a78f09cdc7b7313a07da71d34891ab6be0bae2f16ec01f4341",
+      "exit_status": 125
+    }
+  ],
+  "git_alias_identity": [
+    {
+      "path": "/usr/local/bin/git",
+      "dev": 27,
+      "inode": 9223372036855360174,
+      "bytes": 19295504,
+      "nlink": 147
+    },
+    {
+      "path": "/usr/local/libexec/git-core/git",
+      "dev": 27,
+      "inode": 9223372036855360174,
+      "bytes": 19295504,
+      "nlink": 147
+    }
+  ],
+  "direct_argv_attribution": "Not available in failed-run sampler; no raw argument or environment capture. Curated sync attribution is a strong source/artifact/process-shape match, not an observed exact argv."
+}
