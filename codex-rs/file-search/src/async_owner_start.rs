@@ -349,3 +349,7 @@ impl Drop for ResultOwnerGuard {
         closed.finish(outcome);
     }
 }
+
+#[cfg(test)]
+#[path = "async_owner_start_tests.rs"]
+mod tests;
