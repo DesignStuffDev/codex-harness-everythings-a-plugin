@@ -17,7 +17,7 @@ use crate::fuzzy_file_search::PendingSearchObserver;
 use crate::fuzzy_file_search::PublisherFailures;
 use crate::fuzzy_file_search::SearchCloseControl;
 
-const MAX_SEARCHES_PER_CONNECTION: usize = 16;
+pub(super) const MAX_SEARCHES_PER_CONNECTION: usize = 16;
 
 pub(crate) struct SearchConnectionState {
     pub(super) scope: OnceLock<FileSearchScope>,
@@ -56,6 +56,7 @@ pub(super) struct State {
     pub(super) pending: HashMap<String, u64>,
     pub(super) one_shots: HashMap<u64, Arc<PendingSearchObserver>>,
     pub(super) tokens: HashMap<String, u64>,
+    pub(super) incoming_starts: Vec<std::sync::Weak<super::ingress::SearchStartIntent>>,
 }
 
 impl State {

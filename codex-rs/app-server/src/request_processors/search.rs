@@ -10,6 +10,7 @@ use crate::file_search_services::SearchContext;
 use crate::fuzzy_file_search::PendingSearchObserver;
 use crate::fuzzy_file_search::PendingSearchSession;
 use crate::fuzzy_file_search::PublisherFailures;
+use crate::fuzzy_file_search::SearchStartCause;
 use crate::fuzzy_file_search::run_fuzzy_file_search;
 use crate::outgoing_message::ConnectionId;
 use crate::outgoing_message::OutgoingMessageSender;
@@ -27,11 +28,14 @@ use tokio::sync::oneshot;
 use tokio::sync::watch;
 
 mod connection;
+mod ingress;
 use connection::OneShotGuard;
 use connection::OneShotWaiter;
 pub(crate) use connection::SearchConnectionState;
 use connection::SessionEntry;
 use connection::StartWaiter;
+use ingress::QueuedSearchStart;
+pub(crate) use ingress::SearchAdmission;
 
 #[derive(Clone)]
 pub(crate) struct SearchRequestProcessor {
@@ -272,11 +276,23 @@ impl SearchRequestProcessor {
         Ok(FuzzyFileSearchResponse { files })
     }
 
+    #[cfg(test)]
     pub(crate) async fn fuzzy_file_search_session_start_response(
         &self,
         connection_id: ConnectionId,
         connection: Arc<SearchConnectionState>,
         params: FuzzyFileSearchSessionStartParams,
+    ) -> Result<FuzzyFileSearchSessionStartResponse, JSONRPCErrorError> {
+        self.start_search(connection_id, connection, params, None)
+            .await
+    }
+
+    async fn start_search(
+        &self,
+        connection_id: ConnectionId,
+        connection: Arc<SearchConnectionState>,
+        params: FuzzyFileSearchSessionStartParams,
+        mut ingress: Option<QueuedSearchStart>,
     ) -> Result<FuzzyFileSearchSessionStartResponse, JSONRPCErrorError> {
         validate_id(&params.session_id, "sessionId")?;
         self.register(connection_id, &connection)?;
@@ -305,12 +321,19 @@ impl SearchRequestProcessor {
             }
             // Reserve the replacement identity before releasing the fence. The
             // predecessor stays owned by this single retained task through join.
+            if let Some(ticket) = &mut ingress {
+                ticket.accepted();
+            }
             let previous = state.sessions.remove(&session_id);
             let id = match state.admit() {
                 Ok(id) => id,
                 Err(error) => {
                     if let Some(previous) = previous {
                         state.sessions.insert(session_id, previous);
+                    }
+                    if let Some(ticket) = &mut ingress {
+                        ticket.record_failure(&error);
+                        ticket.restored_without_work();
                     }
                     return Err(search_error(error));
                 }
@@ -339,11 +362,19 @@ impl SearchRequestProcessor {
             // Register while holding admission. Shutdown cannot miss a task
             // whose selected backend constructor has not been polled yet.
             connection.startups.spawn(async move {
+                // The ticket was armed before this task existed. Bind outside
+                // the connection lock before any predecessor or constructor wait.
+                if let Some(ticket) = &ingress {
+                    ticket.bind(pending.observer());
+                }
                 let mut cleanup = Ok(());
                 let operation = async {
                     if let Some(previous) = previous
                         && let Err(error) = previous.close().await
                     {
+                        if let Some(ticket) = &ingress {
+                            ticket.record_failure(&error);
+                        }
                         cleanup = Err(format!("{error:#}"));
                         if let Err(publisher) = pending.close().await {
                             cleanup = Err(format!(
@@ -352,7 +383,11 @@ impl SearchRequestProcessor {
                         }
                         return Err(error);
                     }
-                    let session = match pending.start(&scope, &context, roots).await {
+                    let cause = ingress
+                        .as_ref()
+                        .map(QueuedSearchStart::cause)
+                        .unwrap_or_else(|| Arc::new(SearchStartCause::default()));
+                    let session = match pending.start(&scope, &context, roots, &cause).await {
                         Ok(session) => session,
                         Err(failure) => {
                             cleanup = failure
@@ -389,6 +424,9 @@ impl SearchRequestProcessor {
                     };
                     if let Some(session) = session {
                         if let Err(error) = session.close().await {
+                            if let Some(ticket) = &ingress {
+                                ticket.record_failure(&error);
+                            }
                             cleanup = Err(format!("{error:#}"));
                             return Err(error);
                         }
@@ -428,6 +466,9 @@ impl SearchRequestProcessor {
                 }
                 // Release the pending reservation before acknowledging stop or
                 // start, so a joined restart never races stale bookkeeping.
+                if let Some(ticket) = &mut ingress {
+                    ticket.complete(cleanup.clone());
+                }
                 finished.send_replace(Some(cleanup));
                 let _ = reply.send(result);
             });

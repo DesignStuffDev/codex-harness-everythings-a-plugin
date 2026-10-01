@@ -169,6 +169,28 @@ pub(crate) struct PendingSearchSession {
     owners: TaskTracker,
 }
 
+/// Shared with queued admission so a known original failure survives owner loss
+/// during the subsequent publisher cleanup wait. Clean retirement records none.
+#[derive(Default)]
+pub(crate) struct SearchStartCause(std::sync::Mutex<Option<String>>);
+
+impl SearchStartCause {
+    pub(crate) fn record(&self, error: &anyhow::Error) {
+        self.0
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .get_or_insert_with(|| format!("{error:#}"));
+    }
+
+    pub(crate) fn operation(&self) -> Result<(), String> {
+        self.0
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .clone()
+            .map_or(Ok(()), Err)
+    }
+}
+
 pub(crate) struct SearchStartFailure {
     pub(crate) operation: anyhow::Error,
     pub(crate) cleanup: anyhow::Result<()>,
@@ -209,6 +231,7 @@ impl PendingSearchSession {
         scope: &FileSearchScope,
         context: &SearchContext,
         roots: Vec<String>,
+        cause: &SearchStartCause,
     ) -> Result<FuzzyFileSearchSession, SearchStartFailure> {
         let observer = self.observer();
         if observer.cancellation_requested() {
@@ -242,11 +265,10 @@ impl PendingSearchSession {
                         "file search startup cleanup unconfirmed: {error}"
                     )),
                 };
+                let operation = failure.into();
+                cause.record(&operation);
                 let cleanup = combine(runtime_cleanup, self.publisher.close().await);
-                Err(SearchStartFailure {
-                    operation: failure.into(),
-                    cleanup,
-                })
+                Err(SearchStartFailure { operation, cleanup })
             }
         }
     }
