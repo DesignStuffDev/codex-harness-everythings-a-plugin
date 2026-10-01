@@ -1,0 +1,202 @@
+{
+  "schema_version": 1,
+  "classification": "focused_process_adapter_Preparing_cancellation_WIP",
+  "status": "42_component_tests_passed; clean_corrected_lint; formatted_seven_file_source_published_on_WIP_branch",
+  "prepared_utc": "2026-10-01T09:28:01.623717+00:00",
+  "publication": {
+    "commit": "e189a695fafd29273fcbcfadd675cc83d1784606",
+    "tree": "6d4bddb3c0e3b3f592a9f04922bc3e85ab331072",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "remote_verified": true,
+    "classification": "focused_tested_process_adapter_wip; full_installed_host_integration_pending",
+    "repository": "DesignStuffDev/codex-harness-everythings-a-plugin",
+    "parent_commit": "4ce3e7057cf5afbe43491a4293b6368b0da98379",
+    "parent_tree": "baf97240c536d3bfedf78aeb4d1174cd90a181fa",
+    "source_paths": 7,
+    "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/e189a695fafd29273fcbcfadd675cc83d1784606",
+    "verification_basis": "owning root publication report; this evidence worker performed no Git or GitHub mutation",
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-process-publication.json",
+      "sha256": "0a08c8cf05125af1425ee75e0829e219ce503f7ca8f81db8b546899dfcd820f3",
+      "bytes": 2748
+    }
+  },
+  "scope": {
+    "crate": "codex-file-search-component",
+    "implementation": "inherent ProcessSearchBackend::begin_open; existing SearchBackend::open delegates to retained pending owner",
+    "new_subsystem_extraction_claim": false,
+    "trait_required_method_changed": false,
+    "service_or_native_constructor_changed": false,
+    "wire_schema_or_plugin_package_version_changed": false
+  },
+  "behavior_verified_with_actual_stdio_peer": [
+    "synchronous per-start cancellation before first poll and during admission wait; no OPEN admitted and NotAdmitted receipt",
+    "one Preparing lease cancels while sibling queries and provider replacement admission remain usable",
+    "queued-ready and post-handoff cancellation target the same lease",
+    "ticket, finish and cancellation-observer abandonment retain one RELEASE owner and allocation until proof",
+    "original operation error remains separate from joined/unconfirmed cleanup; remote NotAdmitted cannot mask unconfirmed paired cleanup",
+    "independent remote ClosedLease remains the first cause over later cancellation/release failure",
+    "dropping an actually unpolled runtime-owned task publishes uncertainty and retains reservation",
+    "repeated cancellation observations share immutable receipt; strict peer PID absence after graceful shutdown"
+  ],
+  "review_corrections": [
+    "explicit FailureOrigin replaces error-kind guessing for synthetic cancellation",
+    "sibling gate waits for first actual OPEN before scheduling sibling",
+    "released epoch metadata is written before release_started marker",
+    "peer stores full OPEN identity, validates subsequent lease RPCs and rejects new work on stopped leases while accepted operations drain"
+  ],
+  "gates": {
+    "tests": {
+      "command": [
+        "python",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-preparing-process-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:17:57Z",
+      "finished_utc": "2026-10-01T09:18:13Z",
+      "exit_status": 0,
+      "source_unchanged_during_gate": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-process-tests.source.json",
+        "sha256": "6e0136dbc47f300597529c91a4a170ecdee1737784ecc9510c5601a15693cf68",
+        "bytes": 2816630
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-process-tests.log",
+        "sha256": "e42df84cbcca8e8486cd4783d0d70eebf63f2b92ff2aaa1bbeb802e246ceba3c",
+        "bytes": 6988
+      },
+      "executed": 42,
+      "passed": 42,
+      "failed": 0,
+      "skipped": 0,
+      "new_process_pending_tests": 11,
+      "existing_component_regressions": 31,
+      "automatic_retries": 0,
+      "summary": "Summary [   0.472s] 42 tests run: 42 passed, 0 skipped",
+      "new_test_names": [
+        "process::tests::pending::cancellation_before_first_poll_admits_no_wire_work_and_refunds",
+        "process::tests::pending::cancellation_while_waiting_for_admission_does_not_consume_an_epoch",
+        "process::tests::pending::cancellation_after_ready_reply_but_before_handoff_rejects_ready",
+        "process::tests::pending::dropped_unpolled_owner_publishes_uncertainty_and_keeps_reservation",
+        "process::tests::pending::cancelling_one_preparing_start_keeps_sibling_and_provider_usable",
+        "process::tests::pending::pre_wire_admission_failure_survives_later_cancellation_observation",
+        "process::tests::pending::remote_closed_start_keeps_its_cause_over_later_release_and_cancel",
+        "process::tests::pending::abandoned_observers_keep_one_release_owner_and_charged_lease",
+        "process::tests::pending::per_start_cancel_preserves_release_failure_and_cleanup_independently",
+        "process::tests::pending::surviving_control_closes_only_its_already_handed_off_session",
+        "process::tests::pending::remote_not_admitted_requires_paired_route_cleanup_proof"
+      ],
+      "subreaper": {
+        "report": {
+          "path": "/workspace/acceptance/p02b-preparing-process-tests.subreaper.json",
+          "sha256": "3d6edc2f7cc8463607bf75717e99e6c2e915fe4d1319cb02759834007baad505",
+          "bytes": 401
+        },
+        "exit_status": 0,
+        "runner_error": null,
+        "command_returncode": 0,
+        "reaped_returncodes": [
+          0
+        ]
+      }
+    },
+    "fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:18:33Z",
+      "finished_utc": "2026-10-01T09:18:41Z",
+      "exit_status": 0,
+      "source_unchanged_during_gate": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-process-fix.source.json",
+        "sha256": "ffe25d2d44651771c2fc913d279ef3a13fb4b790c43b1178f4df70552ed98151",
+        "bytes": 2816440
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-process-fix.log",
+        "sha256": "f55e8ddb785e96064cb241e48e45fa29104bc1fab991fdae4e6328fc509b8763",
+        "bytes": 1051
+      },
+      "warning_count": 1,
+      "warning": "clippy::await_holding_invalid_type on the intentional admission-lock test; not a clean lint result"
+    },
+    "fix-02": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:19:38Z",
+      "finished_utc": "2026-10-01T09:19:42Z",
+      "exit_status": 0,
+      "source_unchanged_during_gate": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-process-fix-02.source.json",
+        "sha256": "771977c7ed12fe36d4b408b1d04d94d02daf5d80af6b7e181b60cc5b377dc842",
+        "bytes": 2816440
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-process-fix-02.log",
+        "sha256": "fe7df9e237e0b93ece664b3b4135bb2f81c3e88eba32b5dac496d74586e68731",
+        "bytes": 235
+      },
+      "warning_count": 0,
+      "change_before_gate": "one narrow test-local expect annotation; exact insertion reconstructed in lineage"
+    },
+    "format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:20:32Z",
+      "finished_utc": "2026-10-01T09:20:52Z",
+      "exit_status": 0,
+      "source_unchanged_during_gate": false,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-process-format.source.json",
+        "sha256": "dbeedd4e9a557650e27d054a338ac6470fae0bb510fd8188cbbdf54bb8cee434",
+        "bytes": 2816396
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-process-format.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "changed_paths": [
+        "codex-rs/file-search-component/src/process.rs",
+        "codex-rs/file-search-component/src/process_open.rs",
+        "codex-rs/file-search-component/src/process_pending_tests.rs",
+        "codex-rs/file-search-component/src/process_tests.rs"
+      ],
+      "classification": "mechanical formatting/private module ordering; no semantic edit identified by inspection"
+    }
+  },
+  "lineage_path": "upstream/p02b-preparing-process-lineage.json",
+  "lineage_sha256": "3bf77e5971b1e596bec7d02b5a7af0d9d3274474fe009f7c4551b5b86a59330a",
+  "limitations": [
+    "Actual transport is exercised against a Python protocol peer, not an installed native worker constructor.",
+    "Native constructor cancellation, worker-service pending-control forwarding, required trait/facade/AS/TUI adoption and newly built independent package proof remain pending.",
+    "No new full-host, GUI, Browser, manager Launch, model or storage runtime gate is claimed by this change.",
+    "The 42-test gate predates one test-local lint annotation and mechanical formatting. The corrected lint compiles/checks the annotation; no post-format test rerun is claimed.",
+    "This is a WIP source milestone, not completion of P02 or whole-harness compartmentalization.",
+    "Raw logs, author snapshots and checkpoint archives are cloud-local; distinguish them from externally published included source."
+  ]
+}

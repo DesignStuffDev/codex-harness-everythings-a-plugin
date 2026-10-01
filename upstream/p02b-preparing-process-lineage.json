@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "classification": "focused_tested_process_adapter_WIP",
+  "publication": {
+    "commit": "e189a695fafd29273fcbcfadd675cc83d1784606",
+    "tree": "6d4bddb3c0e3b3f592a9f04922bc3e85ab331072",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "remote_verified": true,
+    "classification": "focused_tested_process_adapter_wip; full_installed_host_integration_pending",
+    "repository": "DesignStuffDev/codex-harness-everythings-a-plugin",
+    "parent_commit": "4ce3e7057cf5afbe43491a4293b6368b0da98379",
+    "parent_tree": "baf97240c536d3bfedf78aeb4d1174cd90a181fa",
+    "source_paths": 7,
+    "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/e189a695fafd29273fcbcfadd675cc83d1784606",
+    "verification_basis": "owning root publication report; this evidence worker performed no Git or GitHub mutation",
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-process-publication.json",
+      "sha256": "0a08c8cf05125af1425ee75e0829e219ce503f7ca8f81db8b546899dfcd820f3",
+      "bytes": 2748
+    }
+  },
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "provenance_file": "UPSTREAM_PROVENANCE.md",
+    "change_origin": "custom process-component adapter and adversarial stdio peer; no new upstream native subsystem extracted in this slice"
+  },
+  "changed_files": [
+    {
+      "path": "codex-rs/file-search-component/src/process.rs",
+      "parent_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+      "author_reviewed_sha256": "ac9614bd9f971e68b259c0f18fca1eb8eac8be98510b84208adf1b37dbf45b5d",
+      "tested_sha256": "ac9614bd9f971e68b259c0f18fca1eb8eac8be98510b84208adf1b37dbf45b5d",
+      "first_lint_sha256": "ac9614bd9f971e68b259c0f18fca1eb8eac8be98510b84208adf1b37dbf45b5d",
+      "annotated_lint_sha256": "ac9614bd9f971e68b259c0f18fca1eb8eac8be98510b84208adf1b37dbf45b5d",
+      "published_sha256": "cff5439b90c49bd7a7ee1cbc9de305a93ba5fc6948af32f5b2b3122e770d403f",
+      "published_git_blob": "477183aa86292edaa98a24b72abff17aa48d3c38"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_open.rs",
+      "parent_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+      "author_reviewed_sha256": "d2bd4bd271c152b6cf98c00e1822c5525765c47da32d5714c99eb048e833efee",
+      "tested_sha256": "d2bd4bd271c152b6cf98c00e1822c5525765c47da32d5714c99eb048e833efee",
+      "first_lint_sha256": "d2bd4bd271c152b6cf98c00e1822c5525765c47da32d5714c99eb048e833efee",
+      "annotated_lint_sha256": "d2bd4bd271c152b6cf98c00e1822c5525765c47da32d5714c99eb048e833efee",
+      "published_sha256": "09d91102872d6152415e1fba2d6ec6e269d370447163ee537f1e43b3e53c276a",
+      "published_git_blob": "24428c1b59bf7d49975e23c79db93079f87ba931"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_pending_tests.rs",
+      "parent_sha256": null,
+      "author_reviewed_sha256": "e3fab4e0fde95e8602d2ba038410159a668e9784bee657612117c67d9b6dec33",
+      "tested_sha256": "e3fab4e0fde95e8602d2ba038410159a668e9784bee657612117c67d9b6dec33",
+      "first_lint_sha256": "e3fab4e0fde95e8602d2ba038410159a668e9784bee657612117c67d9b6dec33",
+      "annotated_lint_sha256": "da4978e08fcf603bc9b143aa3da5d3587d5a6bc92113c0150e869536303d92aa",
+      "published_sha256": "1be87d12ca4efa6d2274a764ee99be9736dc45a5dcdad16d91cdd05f0f245c44",
+      "published_git_blob": "f3d45ea55d8804d66003c40c6ac143bbd2d7a5a9"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_start.rs",
+      "parent_sha256": null,
+      "author_reviewed_sha256": "343625faccee720e53cbfde7b834ae9802d35e572a3e6fbaf2509c0d6762d9b9",
+      "tested_sha256": "343625faccee720e53cbfde7b834ae9802d35e572a3e6fbaf2509c0d6762d9b9",
+      "first_lint_sha256": "343625faccee720e53cbfde7b834ae9802d35e572a3e6fbaf2509c0d6762d9b9",
+      "annotated_lint_sha256": "343625faccee720e53cbfde7b834ae9802d35e572a3e6fbaf2509c0d6762d9b9",
+      "published_sha256": "343625faccee720e53cbfde7b834ae9802d35e572a3e6fbaf2509c0d6762d9b9",
+      "published_git_blob": "65d9dbf5229cd70c4558055b7ace2f0502885dc8"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_state.rs",
+      "parent_sha256": "d3dee280d00aa2effeb529b298db8f755ecce842562cec7d092ae71dee696f25",
+      "author_reviewed_sha256": "ceb39d935328c91123867c85aafe2e3a03df9c99a253d70e24abfa35200d5c2f",
+      "tested_sha256": "ceb39d935328c91123867c85aafe2e3a03df9c99a253d70e24abfa35200d5c2f",
+      "first_lint_sha256": "ceb39d935328c91123867c85aafe2e3a03df9c99a253d70e24abfa35200d5c2f",
+      "annotated_lint_sha256": "ceb39d935328c91123867c85aafe2e3a03df9c99a253d70e24abfa35200d5c2f",
+      "published_sha256": "ceb39d935328c91123867c85aafe2e3a03df9c99a253d70e24abfa35200d5c2f",
+      "published_git_blob": "e8add0c43396a5201e362c6d8c4b65d8b94877a4"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+      "parent_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+      "author_reviewed_sha256": "5f2e08ce11c19bc5077f303aa9b18a812edf2d5006ffbdf617f75406cd9994f6",
+      "tested_sha256": "5f2e08ce11c19bc5077f303aa9b18a812edf2d5006ffbdf617f75406cd9994f6",
+      "first_lint_sha256": "5f2e08ce11c19bc5077f303aa9b18a812edf2d5006ffbdf617f75406cd9994f6",
+      "annotated_lint_sha256": "5f2e08ce11c19bc5077f303aa9b18a812edf2d5006ffbdf617f75406cd9994f6",
+      "published_sha256": "5f2e08ce11c19bc5077f303aa9b18a812edf2d5006ffbdf617f75406cd9994f6",
+      "published_git_blob": "5a1997c97e8df0de1bf5e3ff3cd53e9902f7be97"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_tests.rs",
+      "parent_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+      "author_reviewed_sha256": "adc6bdc9bf36ed30d14a8a0c769da610f498db47f05603f16d01a6b443ca6925",
+      "tested_sha256": "adc6bdc9bf36ed30d14a8a0c769da610f498db47f05603f16d01a6b443ca6925",
+      "first_lint_sha256": "adc6bdc9bf36ed30d14a8a0c769da610f498db47f05603f16d01a6b443ca6925",
+      "annotated_lint_sha256": "adc6bdc9bf36ed30d14a8a0c769da610f498db47f05603f16d01a6b443ca6925",
+      "published_sha256": "022e1d8309eec4f8e849e21ee9c796910e1a151c6fc66a108a21979ccada5bc8",
+      "published_git_blob": "50fd2a8b6aa354863e113eab55be2545c569f6b8"
+    }
+  ],
+  "test_source_scope": {
+    "entries": 10125,
+    "map_digest_encoding": "SHA256 of UTF-8 JSON object sorted by key with compact comma/colon separators",
+    "before_map_sha256": "448efc92e414eacbbb40fd0e6346f6d1191bdd9bf4a2c8812b88934f00a8a492",
+    "after_map_sha256": "448efc92e414eacbbb40fd0e6346f6d1191bdd9bf4a2c8812b88934f00a8a492",
+    "unchanged": true,
+    "raw_source_report": {
+      "path": "/workspace/acceptance/p02b-preparing-process-tests.source.json",
+      "sha256": "6e0136dbc47f300597529c91a4a170ecdee1737784ecc9510c5601a15693cf68",
+      "bytes": 2816630
+    }
+  },
+  "manual_change_after_tests": {
+    "path": "codex-rs/file-search-component/src/process_pending_tests.rs",
+    "before_sha256": "e3fab4e0fde95e8602d2ba038410159a668e9784bee657612117c67d9b6dec33",
+    "after_sha256": "da4978e08fcf603bc9b143aa3da5d3587d5a6bc92113c0150e869536303d92aa",
+    "exact_annotation": "#[expect(\n    clippy::await_holding_invalid_type,\n    reason = \"hold the admission gate to prove cancellation of an actually blocked start does not send wire work\"\n)]\n",
+    "reconstruction_hash_verified": true,
+    "reason": "single test deliberately holds the real admission gate across awaits to verify cancellation while blocked; no assertion or production behavior changed"
+  },
+  "formatting_after_clean_lint": [
+    {
+      "path": "codex-rs/file-search-component/src/process.rs",
+      "before_sha256": "ac9614bd9f971e68b259c0f18fca1eb8eac8be98510b84208adf1b37dbf45b5d",
+      "after_sha256": "cff5439b90c49bd7a7ee1cbc9de305a93ba5fc6948af32f5b2b3122e770d403f",
+      "inspected_classification": "private module declaration ordering only",
+      "diff_sha256": "610702e8fc71570d0ca987e1070a3d601f8645562686a028274c8ec9615e9f14"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_open.rs",
+      "before_sha256": "d2bd4bd271c152b6cf98c00e1822c5525765c47da32d5714c99eb048e833efee",
+      "after_sha256": "09d91102872d6152415e1fba2d6ec6e269d370447163ee537f1e43b3e53c276a",
+      "inspected_classification": "mechanical wrapping, indentation and trailing commas only",
+      "diff_sha256": "8d908e87a0dceef235eebbd26d96af728b419d5d6fe1fa5c310d87eb062ae82d"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_pending_tests.rs",
+      "before_sha256": "da4978e08fcf603bc9b143aa3da5d3587d5a6bc92113c0150e869536303d92aa",
+      "after_sha256": "1be87d12ca4efa6d2274a764ee99be9736dc45a5dcdad16d91cdd05f0f245c44",
+      "inspected_classification": "mechanical wrapping, indentation and trailing commas only",
+      "diff_sha256": "9d5e2457193c9a5b66ec40b00cc5ee35a19fe05dc2332d1b5c770d339f31bca2"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_tests.rs",
+      "before_sha256": "adc6bdc9bf36ed30d14a8a0c769da610f498db47f05603f16d01a6b443ca6925",
+      "after_sha256": "022e1d8309eec4f8e849e21ee9c796910e1a151c6fc66a108a21979ccada5bc8",
+      "inspected_classification": "private module declaration ordering only",
+      "diff_sha256": "7900ce542793d019d3bcdf8780a2ccd368fe5dbd894e18230cc201bb1459b4ab"
+    }
+  ],
+  "post_annotation_or_format_test_rerun": false,
+  "historical_runner_label": {
+    "label": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "meaning": "not the tested tree or publication parent; actual scoped fingerprints and seven-path lineage above identify the change"
+  },
+  "preservation": {
+    "author_snapshots": {
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-process-preparing-proposed.tar.gz",
+        "sha256": "103ef6879ea9f8f4b2af3b191b6269ce1cfb5b9a1395ad0bb49d2199e7e18d72",
+        "bytes": 77498
+      },
+      "integrity_checked": true,
+      "included_roots": [
+        "original-unverified-stage",
+        "stage"
+      ],
+      "classification": "original uncompiled proposal and corrected author snapshot preserved; author tests_run=0 remains historical, distinct from root-adopted42-test gate",
+      "manifest_observations": {
+        "original-unverified-stage": {
+          "manifest_sha256": "507d662ec8342a9aa56ed6085ce7ddeb9b727dee20faa36de4211c9d838134fd",
+          "tests_authored": 10,
+          "tests_run_at_author_snapshot": 0,
+          "rust_run_at_author_snapshot": false
+        },
+        "stage": {
+          "manifest_sha256": "08626cb70f563db310a7c2ccea661f2e746e6de2b8a187b3a3744b9dc1765c87",
+          "tests_authored": 11,
+          "tests_run_at_author_snapshot": 0,
+          "rust_run_at_author_snapshot": false
+        }
+      }
+    },
+    "published_source_checkpoint": {
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-process-checkpoint.tar.gz",
+        "sha256": "0f906f15d51ab2d9646d68c5c8b6404732ca02fc1ae49ffe90a0bdb046090bf3",
+        "bytes": 16126
+      },
+      "integrity_checked": true,
+      "all_seven_archived_hashes_match_publication": true
+    },
+    "durability": "archives and raw reports are cloud-local recovery checkpoints; remote-verified WIP commit provides external durability only for its included source"
+  },
+  "independent_review": {
+    "path": "/tmp/p02b-process-preparing-independent-review.md",
+    "sha256": "f1c1c415932fd4091c96ee78b9460c3089a181808b1865cb9afcdb01f8ec505c",
+    "bytes": 7340
+  }
+}

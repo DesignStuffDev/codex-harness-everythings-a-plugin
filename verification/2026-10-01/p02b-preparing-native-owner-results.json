@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "scope": "P02B native retained Preparing owner, private constructor signal and result-owner loss receipts",
+  "classification": "real native in-process owner checks; broader plugin/runtime integration pending",
+  "publication": {
+    "repository": "DesignStuffDev/codex-harness-everythings-a-plugin",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "commit": "a79072a3d592e20e08a8f882a4dabc716013f375",
+    "tree": "ffc1806f2fa7d2b37b5536af30ac5bde8b52b02a",
+    "parent": "e189a695fafd29273fcbcfadd675cc83d1784606",
+    "production_commit": "ed000f05f9ab8a6fad6b201769f7cae0b639ed6c",
+    "production_tree": "2d765a460d8fec75529e3802171fcdae35cbf085",
+    "verified_remote_head": "a79072a3d592e20e08a8f882a4dabc716013f375",
+    "verification_basis": "Owning root publication report; this evidence reviewer made no Git/GitHub calls. Final five source hashes independently match format report and checksum-verified archive.",
+    "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/a79072a3d592e20e08a8f882a4dabc716013f375",
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-native-publication.json",
+      "sha256": "fc4bcecb882aa29929b473e7d08aee8c3bfd789d44fa39fc8efd760da570d3d5",
+      "bytes": 3627
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-native-checkpoint.tar.gz",
+      "sha256": "d68420b078d600d06b9c64e9c95890ef40ef7c7fa7d1c02ef1f83b0343a25673",
+      "bytes": 16326,
+      "all_five_source_members_hash_verified": true,
+      "durability": "cloud-local recovery checkpoint, not established external backup"
+    },
+    "external_durability": "Published WIP source only; local logs, binaries and archives are not thereby externally backed up."
+  },
+  "source_bindings": [
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "parent_sha256": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+      "tested_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+      "first_lint_after_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+      "second_lint_input_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+      "formatted_published_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100",
+      "git_blob": "dae28a2c9c61e58c2531d5533ab57dcdc3f43a71",
+      "bytes": 23031,
+      "mode": "100644"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_start.rs",
+      "parent_sha256": null,
+      "tested_sha256": "672037feabfe6c954b98e6b02c9986e1ed7e2c611f6bf973a4060888ef1ede2b",
+      "first_lint_after_sha256": "ca1ac4e413cdc9059d6e0f58089deacb7594059c9fb8a7c26963dfa0b0886adb",
+      "second_lint_input_sha256": "ca1ac4e413cdc9059d6e0f58089deacb7594059c9fb8a7c26963dfa0b0886adb",
+      "formatted_published_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da",
+      "git_blob": "2e400d871b5dc73a924c7785e97612e63ca7790a",
+      "bytes": 12607,
+      "mode": "100644"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_start_tests.rs",
+      "parent_sha256": null,
+      "tested_sha256": "d6cf1c00ed4415ad838b22c7b05f562c5556d8af6c83c6ae1700e73cfb25183e",
+      "first_lint_after_sha256": "d6cf1c00ed4415ad838b22c7b05f562c5556d8af6c83c6ae1700e73cfb25183e",
+      "second_lint_input_sha256": "f83fa99c536816effa262659e0f8ed89dba735c4356d1f43a6b4a666b797d0a8",
+      "formatted_published_sha256": "cadf7fc2ab719da5dc01c0f8fde2e35efdc065f1975bcf1de1a77f13d7b36cd9",
+      "git_blob": "744b1c771cc089deb76adf211ae7c0fb62288ce7",
+      "bytes": 21140,
+      "mode": "100644"
+    },
+    {
+      "path": "codex-rs/file-search/src/lifecycle.rs",
+      "parent_sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+      "tested_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+      "first_lint_after_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+      "second_lint_input_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+      "formatted_published_sha256": "ee95796f3ec4d9234a4a140859dc9e3ba0755d4f39e0cb6fd0c8780dca4bfc97",
+      "git_blob": "5c910cc3ca5dbf3c7afb6db579c9e72282914c87",
+      "bytes": 12107,
+      "mode": "100644"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_session.rs",
+      "parent_sha256": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+      "tested_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+      "first_lint_after_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+      "second_lint_input_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+      "formatted_published_sha256": "c93b03ef72f95f20a7fe99bd885230f2dc5d59ac45e708019f80d7d88ce1fd5a",
+      "git_blob": "d0835cd8d073436f7698e1515f3ea9d664ed9f29",
+      "bytes": 11077,
+      "mode": "100644"
+    }
+  ],
+  "runs": [
+    {
+      "id": "p02b-preparing-native-tests",
+      "report": {
+        "path": "/workspace/acceptance/p02b-preparing-native-tests.source.json",
+        "sha256": "d0854a4835f4ad301aba69fbc19b83c149ead7c600c0538fafa3972dbd17d50e",
+        "bytes": 2817115
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-native-tests.log",
+        "sha256": "e41c07d13acd5bf72da2ad0199ccea7e353ed05b89dec046c689254bbc1376e7",
+        "bytes": 12723
+      },
+      "command": [
+        "python",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-preparing-native-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:22:07Z",
+      "finished_utc": "2026-10-01T09:22:19Z",
+      "exit_code": 0,
+      "status": "finished",
+      "source_count": 10127,
+      "scoped_source_unchanged": true,
+      "source_before_map_sha256": "aafa5744644d2acef754976b36b29fa2f71ce0e177d7a3008eabb3e4d9964ef0",
+      "source_after_map_sha256": "aafa5744644d2acef754976b36b29fa2f71ce0e177d7a3008eabb3e4d9964ef0",
+      "changed_paths": []
+    },
+    {
+      "id": "p02b-preparing-native-fix",
+      "report": {
+        "path": "/workspace/acceptance/p02b-preparing-native-fix.source.json",
+        "sha256": "8461a1b882d70a653f499fad78e95917a7fa1077fb7908c50b65505c62e56426",
+        "bytes": 2816927
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-native-fix.log",
+        "sha256": "4a434d001026426f833ad8ce5444ab03d264588bbd488f8936a68b176f3719a4",
+        "bytes": 1272
+      },
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:23:07Z",
+      "finished_utc": "2026-10-01T09:23:13Z",
+      "exit_code": 0,
+      "status": "finished",
+      "source_count": 10127,
+      "scoped_source_unchanged": false,
+      "source_before_map_sha256": "aafa5744644d2acef754976b36b29fa2f71ce0e177d7a3008eabb3e4d9964ef0",
+      "source_after_map_sha256": "fbb7470959cbfa1b4b02eedbcb78ca3cf9a25a1361d18d405d23cc0643375162",
+      "changed_paths": [
+        {
+          "path": "codex-rs/file-search/src/async_owner_start.rs",
+          "before_sha256": "672037feabfe6c954b98e6b02c9986e1ed7e2c611f6bf973a4060888ef1ede2b",
+          "after_sha256": "ca1ac4e413cdc9059d6e0f58089deacb7594059c9fb8a7c26963dfa0b0886adb"
+        }
+      ]
+    },
+    {
+      "id": "p02b-preparing-native-fix-02",
+      "report": {
+        "path": "/workspace/acceptance/p02b-preparing-native-fix-02.source.json",
+        "sha256": "bcfa36177755002303d054d49adb4723d35f4c1950c0af476c4c2af06dc95a9f",
+        "bytes": 2816926
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-native-fix-02.log",
+        "sha256": "bca3398e05251b62cdedbf3e59c9ebe3dd2515fecd80dffb54467e5a74e448e9",
+        "bytes": 215
+      },
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:25:50Z",
+      "finished_utc": "2026-10-01T09:25:54Z",
+      "exit_code": 0,
+      "status": "finished",
+      "source_count": 10127,
+      "scoped_source_unchanged": true,
+      "source_before_map_sha256": "87c1413d37cfe3831ebed2509ff821b47cb49e5e6f758f280fddefcd4aff60cc",
+      "source_after_map_sha256": "87c1413d37cfe3831ebed2509ff821b47cb49e5e6f758f280fddefcd4aff60cc",
+      "changed_paths": []
+    },
+    {
+      "id": "p02b-preparing-native-format",
+      "report": {
+        "path": "/workspace/acceptance/p02b-preparing-native-format.source.json",
+        "sha256": "4e90218746fd86f89508bd0fd875add3891940f2a14ed24213309bb59e5fcf1c",
+        "bytes": 2816892
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-native-format.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:30:48Z",
+      "finished_utc": "2026-10-01T09:31:09Z",
+      "exit_code": 0,
+      "status": "finished",
+      "source_count": 10127,
+      "scoped_source_unchanged": false,
+      "source_before_map_sha256": "87c1413d37cfe3831ebed2509ff821b47cb49e5e6f758f280fddefcd4aff60cc",
+      "source_after_map_sha256": "85f930d1f8b72dba7f26399a8a14021e07d288369b424bbd662537b536bdf287",
+      "changed_paths": [
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "before_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+          "after_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner_start.rs",
+          "before_sha256": "ca1ac4e413cdc9059d6e0f58089deacb7594059c9fb8a7c26963dfa0b0886adb",
+          "after_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner_start_tests.rs",
+          "before_sha256": "f83fa99c536816effa262659e0f8ed89dba735c4356d1f43a6b4a666b797d0a8",
+          "after_sha256": "cadf7fc2ab719da5dc01c0f8fde2e35efdc065f1975bcf1de1a77f13d7b36cd9"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "before_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+          "after_sha256": "ee95796f3ec4d9234a4a140859dc9e3ba0755d4f39e0cb6fd0c8780dca4bfc97"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "before_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+          "after_sha256": "c93b03ef72f95f20a7fe99bd885230f2dc5d59ac45e708019f80d7d88ce1fd5a"
+        }
+      ]
+    }
+  ],
+  "tests": {
+    "executed": 88,
+    "passed": 88,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "new_owner_cases": [
+      "async_owner::startup::tests::destroyed_runtime_publishes_unconfirmed_for_unpolled_start_owner_without_refunding_capacity",
+      "async_owner::startup::tests::destroyed_runtime_publishes_unconfirmed_for_unpolled_close_owner",
+      "async_owner::startup::tests::owner_closure_never_sets_a_shared_external_cancel_flag",
+      "async_owner::startup::tests::cancellation_reaches_real_pool_construction_and_leaves_sibling_queries_usable",
+      "async_owner::startup::tests::dropped_unpolled_finish_observer_keeps_owner_until_no_admission_is_observed",
+      "async_owner::startup::tests::real_constructor_budget_error_survives_cancellation_during_reporter_teardown",
+      "async_owner::startup::tests::dropped_unpolled_ticket_keeps_owner_until_no_admission_is_observed",
+      "async_owner::startup::tests::released_ready_native_result_retains_real_failure_in_start_error",
+      "async_owner::startup::tests::real_constructor_budget_error_survives_teardown_panic_and_quarantines_capacity"
+    ],
+    "existing_cases": 79,
+    "full_source_unchanged_during_test": true,
+    "subreaper_report": {
+      "path": "/workspace/acceptance/p02b-preparing-native-tests.subreaper.json",
+      "sha256": "228ea0b1378a129fd8645a2ca6ce7bf49ffdd859ba31d319de262b022670f97f",
+      "bytes": 391
+    },
+    "subreaper": {
+      "command": [
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 593970,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 593970,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 11.281548118990031
+    }
+  },
+  "source_transition_notes": {
+    "test_to_first_lint_input_equal": true,
+    "first_lint": "One Clippy mechanical conversion of PendingNativeSearchStart::finish from fn returning async move to async fn. Exit 0 with await_holding_lock warning in a test.",
+    "manual_between_lints": [
+      {
+        "path": "codex-rs/file-search/src/async_owner_start_tests.rs",
+        "before_sha256": "d6cf1c00ed4415ad838b22c7b05f562c5556d8af6c83c6ae1700e73cfb25183e",
+        "after_sha256": "f83fa99c536816effa262659e0f8ed89dba735c4356d1f43a6b4a666b797d0a8"
+      }
+    ],
+    "manual_change": "Replaced explicit drop(state) with an enclosing lexical block around test assertions before shutdown await. Assertions unchanged.",
+    "second_lint": "Exit 0, no warnings, no source changes.",
+    "format": "Exit 0, all five scoped native paths formatted mechanically; no tests rerun solely for lint/format. Tested hashes are retained separately from published hashes.",
+    "runner_baseline_field": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "runner_baseline_interpretation": "Historical local runner annotation, not the actual tested source commit. Actual inputs are the 10,127 source_before/source_after fingerprints and their hashed report; publication binding is the five explicit final hashes."
+  },
+  "review": {
+    "report": {
+      "path": "/tmp/p02b-native-preparing-independent-review.md",
+      "sha256": "d90335a37cad84df4e8363abcb8787f61c908b30d5890344eb2bab7926ae5b35",
+      "bytes": 6410
+    },
+    "staged_manifest": {
+      "path": "/tmp/p02b-native-preparing-stage/FINAL_MANIFEST.json",
+      "sha256": "c2ed0e2bf432f6262d60bec9982d0716fe9f05fb45c800f8f457e97b7e53f807",
+      "bytes": 2295
+    },
+    "corrections_before_execution": [
+      "Renamed test reporter binding that shadowed helper.",
+      "Preserved actual bounded native close failure in Released startup result while retaining legacy error split.",
+      "Strengthened ticket/finish Drop tests to assert cancellation before explicit control calls."
+    ],
+    "runtime_history": "No failed test execution is reported for this owner gate; pre-execution review corrections are not fabricated failed runs."
+  },
+  "limits": [
+    "This is a retained native-owner and cooperative constructor slice, not a new independent plugin installation proof.",
+    "NativeSearchBackend begin_open bridge is separately staged/unverified at this checkpoint; worker/service, runtime, full-host and UI Preparing-cancellation gates remain pending.",
+    "No new package build, unchanged-host replacement, UI/browser, live provider, storage migration or updater acceptance is claimed. Prior published consumer/storage/UI evidence remains historical and separate.",
+    "Cancellation is cooperative: in-flight filesystem/native allocation and user callbacks must return. Owner loss or panic cannot establish cleanup and retains quarantine.",
+    "Legacy create/error behavior remains distinct; no mutation of sibling shared cancellation flags. No hot swap is introduced."
+  ]
+}

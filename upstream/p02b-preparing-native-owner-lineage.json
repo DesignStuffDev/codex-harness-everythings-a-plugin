@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "scope": "P02B native retained Preparing owner, private constructor signal and result-owner loss receipts",
+  "upstream_repository": "https://github.com/openai/codex",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "publication": {
+    "repository": "DesignStuffDev/codex-harness-everythings-a-plugin",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "commit": "a79072a3d592e20e08a8f882a4dabc716013f375",
+    "tree": "ffc1806f2fa7d2b37b5536af30ac5bde8b52b02a",
+    "parent": "e189a695fafd29273fcbcfadd675cc83d1784606",
+    "production_commit": "ed000f05f9ab8a6fad6b201769f7cae0b639ed6c",
+    "production_tree": "2d765a460d8fec75529e3802171fcdae35cbf085",
+    "verified_remote_head": "a79072a3d592e20e08a8f882a4dabc716013f375",
+    "verification_basis": "Owning root publication report; this evidence reviewer made no Git/GitHub calls. Final five source hashes independently match format report and checksum-verified archive.",
+    "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/a79072a3d592e20e08a8f882a4dabc716013f375",
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-native-publication.json",
+      "sha256": "fc4bcecb882aa29929b473e7d08aee8c3bfd789d44fa39fc8efd760da570d3d5",
+      "bytes": 3627
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-native-checkpoint.tar.gz",
+      "sha256": "d68420b078d600d06b9c64e9c95890ef40ef7c7fa7d1c02ef1f83b0343a25673",
+      "bytes": 16326,
+      "all_five_source_members_hash_verified": true,
+      "durability": "cloud-local recovery checkpoint, not established external backup"
+    },
+    "external_durability": "Published WIP source only; local logs, binaries and archives are not thereby externally backed up."
+  },
+  "inventory_component": "C18 file search",
+  "inherited_upstream_anchors": [
+    {
+      "path": "codex-rs/file-search/src/lib.rs",
+      "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+      "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+      "symbols": [
+        {
+          "symbol": "create_session",
+          "anchor": "pub fn create_session(",
+          "line": 164
+        },
+        {
+          "symbol": "FileSearchSession",
+          "anchor": "pub struct FileSearchSession",
+          "line": 143
+        },
+        {
+          "symbol": "walker_worker",
+          "anchor": "fn walker_worker(",
+          "line": 417
+        },
+        {
+          "symbol": "matcher_worker",
+          "anchor": "fn matcher_worker(",
+          "line": 499
+        }
+      ]
+    }
+  ],
+  "upstream_anchor_basis": {
+    "report": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/upstream/p02b-native-backend-lineage.json",
+      "sha256": "23335cdccb0050dbc93a2ecf6545df06df27698a3bacf42f12e6b32530f6364a",
+      "bytes": 35259
+    },
+    "qualification": "Previously audited source mapping reused; this read-only evidence step did not refetch upstream or perform Git inspection."
+  },
+  "intentional_custom_boundaries": [
+    "Per-start private constructor signal, independent of legacy external sibling flag.",
+    "Async owner admission, retained cancellation receipts and distinct operation/cleanup outcomes.",
+    "Pre-spawn startup and close result guards retaining uncertain capacity after executor loss.",
+    "Cooperative constructor checkpoints; actual pool and supervisor joins before Confirmed.",
+    "Legacy operation/cleanup wrapper compatibility and real cause retention for bounded/backend starts."
+  ],
+  "current_files": [
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "parent_sha256": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+      "tested_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+      "first_lint_after_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+      "second_lint_input_sha256": "0b471d7c464be6095b6a50bcb041b6bdb8841c8278cc7771c227f36215067562",
+      "formatted_published_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100",
+      "git_blob": "dae28a2c9c61e58c2531d5533ab57dcdc3f43a71",
+      "bytes": 23031,
+      "mode": "100644",
+      "classification": "custom extraction lifecycle implementation/test; semantic origin mapped separately",
+      "anchors": [
+        {
+          "anchor": "struct Entry {",
+          "line": 106
+        },
+        {
+          "anchor": "fn started(",
+          "line": 463
+        },
+        {
+          "anchor": "fn prepare_close(",
+          "line": 550
+        },
+        {
+          "anchor": "fn launch_close(",
+          "line": 594
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_start.rs",
+      "parent_sha256": null,
+      "tested_sha256": "672037feabfe6c954b98e6b02c9986e1ed7e2c611f6bf973a4060888ef1ede2b",
+      "first_lint_after_sha256": "ca1ac4e413cdc9059d6e0f58089deacb7594059c9fb8a7c26963dfa0b0886adb",
+      "second_lint_input_sha256": "ca1ac4e413cdc9059d6e0f58089deacb7594059c9fb8a7c26963dfa0b0886adb",
+      "formatted_published_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da",
+      "git_blob": "2e400d871b5dc73a924c7785e97612e63ca7790a",
+      "bytes": 12607,
+      "mode": "100644",
+      "classification": "custom extraction lifecycle implementation/test; semantic origin mapped separately",
+      "anchors": [
+        {
+          "anchor": "pub(crate) struct PendingNativeSearchStart",
+          "line": 14
+        },
+        {
+          "anchor": "impl SearchStartControl for OwnerStartControl",
+          "line": 47
+        },
+        {
+          "anchor": "pub(super) fn begin_create_inner(",
+          "line": 82
+        },
+        {
+          "anchor": "pub(super) struct ResultOwnerGuard",
+          "line": 271
+        },
+        {
+          "anchor": "impl Drop for ResultOwnerGuard",
+          "line": 300
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_start_tests.rs",
+      "parent_sha256": null,
+      "tested_sha256": "d6cf1c00ed4415ad838b22c7b05f562c5556d8af6c83c6ae1700e73cfb25183e",
+      "first_lint_after_sha256": "d6cf1c00ed4415ad838b22c7b05f562c5556d8af6c83c6ae1700e73cfb25183e",
+      "second_lint_input_sha256": "f83fa99c536816effa262659e0f8ed89dba735c4356d1f43a6b4a666b797d0a8",
+      "formatted_published_sha256": "cadf7fc2ab719da5dc01c0f8fde2e35efdc065f1975bcf1de1a77f13d7b36cd9",
+      "git_blob": "744b1c771cc089deb76adf211ae7c0fb62288ce7",
+      "bytes": 21140,
+      "mode": "100644",
+      "classification": "custom extraction lifecycle implementation/test; semantic origin mapped separately",
+      "anchors": [
+        {
+          "anchor": "fn dropped_unpolled_ticket_keeps_owner",
+          "line": 185
+        },
+        {
+          "anchor": "fn dropped_unpolled_finish_observer_keeps_owner",
+          "line": 190
+        },
+        {
+          "anchor": "async fn cancellation_reaches_real_pool",
+          "line": 195
+        },
+        {
+          "anchor": "async fn real_constructor_budget_error_survives_teardown_panic",
+          "line": 408
+        },
+        {
+          "anchor": "fn released_ready_native_result_retains_real_failure",
+          "line": 413
+        },
+        {
+          "anchor": "fn destroyed_runtime_publishes_unconfirmed_for_unpolled_start_owner",
+          "line": 496
+        },
+        {
+          "anchor": "fn destroyed_runtime_publishes_unconfirmed_for_unpolled_close_owner",
+          "line": 571
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/file-search/src/lifecycle.rs",
+      "parent_sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+      "tested_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+      "first_lint_after_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+      "second_lint_input_sha256": "67a6066dbb2ab163b381265e6ef56e35309227c2abfa0425bb167e2ed84ee2b5",
+      "formatted_published_sha256": "ee95796f3ec4d9234a4a140859dc9e3ba0755d4f39e0cb6fd0c8780dca4bfc97",
+      "git_blob": "5c910cc3ca5dbf3c7afb6db579c9e72282914c87",
+      "bytes": 12107,
+      "mode": "100644",
+      "classification": "custom extraction lifecycle implementation/test; semantic origin mapped separately",
+      "anchors": [
+        {
+          "anchor": "pub(super) fn start(",
+          "line": 27
+        },
+        {
+          "anchor": "fn supervise(",
+          "line": 115
+        },
+        {
+          "anchor": "struct PoolThreads",
+          "line": 262
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/file-search/src/native_session.rs",
+      "parent_sha256": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+      "tested_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+      "first_lint_after_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+      "second_lint_input_sha256": "cceeccdc677646ea222097c702de8273564240c97af37a8169ff8d2de87822db",
+      "formatted_published_sha256": "c93b03ef72f95f20a7fe99bd885230f2dc5d59ac45e708019f80d7d88ce1fd5a",
+      "git_blob": "d0835cd8d073436f7698e1515f3ea9d664ed9f29",
+      "bytes": 11077,
+      "mode": "100644",
+      "classification": "custom extraction lifecycle implementation/test; semantic origin mapped separately",
+      "anchors": [
+        {
+          "anchor": "pub(super) struct NativeStartup",
+          "line": 38
+        },
+        {
+          "anchor": "pub(crate) fn create_session_with_private_shutdown(",
+          "line": 245
+        },
+        {
+          "anchor": "pub(super) fn cancelled_start(",
+          "line": 317
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "results_file": "p02b-preparing-native-owner-results.json",
+    "results_sha256": "5b7538c72bb4d08d9d42a62e1ea647239af10f8a0b54f2b2254df2badd3d43bb",
+    "passed": 88,
+    "new_tests": 9,
+    "post_test_changes": "Recorded lint, lexical test-guard scope and mechanical formatting transitions; final published bytes were not separately retested."
+  },
+  "pending": [
+    "Native backend start-ticket adapter",
+    "Process service/worker/runtime cancellation ownership",
+    "Real installed host and UI Preparing cancellation",
+    "Upstream updater end-to-end integration/rollback"
+  ]
+}

@@ -6,6 +6,13 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
 
 ## Published checkpoint
 
+- Main evidence/SDK checkpoint `4ce3e7057cf5afbe43491a4293b6368b0da98379` precedes this documentation update.
+  Latest separately preserved cancellation WIP is `6547a8bdbc2caae68a63c0cc98dfe52cd3cc264f`, tree
+  `595d5d5c27b809d6ffa595e0a2d3c2e9ac8fe408`, on `wip/p02b-preparing-cancellation-20261001`.
+  It includes process ticket control (`e189a695`), native owner (`a79072a3`) and native backend bridging.
+  Their focused gates passed; worker/runtime/consumer integration and installed Preparing proof remain pending.
+  Main runtime is still the previously accepted a469cf4 source, plus additive SDK support.
+
 - Latest additive SDK source `d22cea88aa23e35a619d996fc731122450e51313`, tree
   `fbf28305751239cd376cefaec0ea970048096e08`, follows reviewed evidence/roadmap `789be2e7`.
   It adds pending-start control/ticket/receipt primitives only; no new backend or installed-runtime claim.
@@ -26,6 +33,14 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
   GUI presentation is additive; model/auth remain adapters. Loop/context/tools/policy are still coupled.
 
 ## Latest verification — separate scopes, no invented total
+
+- [Process pending control](verification/2026-10-01/P02B_PREPARING_PROCESS_EVIDENCE.md): 42/42,
+  11 new cases with real stdio peer, unchanged source, unchanged subreaper0/null. This is not the native worker.
+- [Native owner](verification/2026-10-01/P02B_PREPARING_NATIVE_OWNER_EVIDENCE.md): 88/88 including9new.
+  [Native backend](verification/2026-10-01/P02B_PREPARING_NATIVE_BACKEND_EVIDENCE.md): 96/96 including8new;
+  it includes the prior88, so do not sum them. Actual constructor/sibling/runtime-destruction checks passed.
+  Both clean second lint runs and formatting passed; tested versus post-lint/format hashes remain distinct.
+  Native-backend lint follow-up removed an unused private14-line wrapper, with no new behavior claim.
 
 - [Startup SDK support](verification/2026-10-01/P02B_STARTUP_SDK_EVIDENCE.md): 19/19 API tests
   (11 existing +8 new), unchanged scope, no retries/skips, subreaper 0/null. Scoped fix passed
@@ -71,12 +86,15 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
    repository/worktrees, remote refs, preserved index/source, active processes, memory and disk.
 2. This documentation checkpoint records reviewed evidence/lineage/state for source a469cf4.
    Verify the latest remote ref/publication receipt before new work; do not repeat publication blindly.
-3. Integrate the native owner/constructor and process-adapter startup changes against the tested SDK.
-   Stages `/tmp/p02b-native-preparing-stage` and `/tmp/p02b-process-preparing-stage` are unverified
-   until root adoption/tests. Then require begin_open on SearchBackend, adapt worker service/runtime
-   and consumers, separately build the updated package and exercise real installed startup cancellation.
-   Follow the canonical Preparing plan and its durable native/process audit annexes; retain first cause,
-   NotAdmitted distinction, pre-spawn startup/close guards, quarantine and same-lease handoff fences.
+3. Require begin_open on SearchBackend and migrate both production implementers plus nine fixture
+   implementers together. Neutral API change is staged at `/tmp/p02b-required-start-api-stage`;
+   worker `/tmp/p02b-service-preparing-stage`, runtime `/tmp/p02b-runtime-preparing-stage`, consumer
+   `/tmp/p02b-consumer-fixtures-preparing-stage` and runtime-fixture stages remain uncompiled work.
+   Preserve these drafts and inspect their latest manifests before adoption; do not label them accepted.
+   Native owner/backend and process source are already tested/preserved on the WIP branch above.
+   Then wire production AS/TUI startup cancellation, separately build updated0.2 worker, freeze host,
+   run old0.1 compatibility plus installed cancellation with sibling, UI/manager shutdown and regression.
+   Preserve first cause, NotAdmitted, pre-spawn result guards, actual join and same-lease handoff fences.
 4. Complete supported replacement/upgrade/rejection/removal and remaining consumer gates; retain
    remote reconnect/daemon and private rollout lookup as explicit gaps. Move shared ownership into P03.
 5. Follow P03 broker/transport/dependency ownership, then model/provider/auth, turn/agent orchestration,
@@ -100,7 +118,7 @@ Original work branch remains at upstream import. Root audited all 8,834 staged e
 Current index metadata SHA `0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59`;
 older 2cc2/2e0 images remain preserved. Never reset/clean/bulk-stage either worktree.
 Git shell authentication fails; connector publication succeeds. Local main/WIP refs intentionally lag
-remote b68/a469 and 30c267; revalidate remotes and use exact parent/tree objects. Do not invent a
+remote main/WIP publication receipts; revalidate remotes and use exact parent/tree objects. Do not invent a
 same-tree local commit or reset original work to hide ref drift. Publication reports are authoritative.
 
 Recovery directory `/workspace/recovery-backups/20260930T165936Z/`:

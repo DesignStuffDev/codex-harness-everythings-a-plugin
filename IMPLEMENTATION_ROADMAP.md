@@ -221,6 +221,11 @@ implementation direction and ordered queue. The additive SDK primitives are now
 implemented at `d22cea88aa23e35a619d996fc731122450e51313`; their
 [19 passing API tests](verification/2026-10-01/P02B_STARTUP_SDK_EVIDENCE.md) cover
 carrier ownership and handoff, not active native/process Preparing cancellation.
+The [process control gate](verification/2026-10-01/P02B_PREPARING_PROCESS_EVIDENCE.md) passed42,
+the [native owner gate](verification/2026-10-01/P02B_PREPARING_NATIVE_OWNER_EVIDENCE.md) passed88,
+and [native backend gate](verification/2026-10-01/P02B_PREPARING_NATIVE_BACKEND_EVIDENCE.md) passed96
+(overlapping scopes, not a sum). Source is externally preserved on cancellation WIP `6547a8bd`.
+Required trait, worker/runtime and consumer adoption plus new installed-host/UI gates remain pending.
 The native/process audit annexes refine guard, receipt and handoff requirements. Preserve
 old package compatibility and separately build the updated worker before claiming
 its stronger cancellation behavior.

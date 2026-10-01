@@ -1,0 +1,202 @@
+{
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "commit": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "checkpoint": "6547a8bdbc2caae68a63c0cc98dfe52cd3cc264f",
+  "parent": "a79072a3d592e20e08a8f882a4dabc716013f375",
+  "tree": "595d5d5c27b809d6ffa595e0a2d3c2e9ac8fe408",
+  "files": [
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6a40bf09c68c0feeb43d8e9b1264775bb0982e9",
+      "bytes": 22513,
+      "sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa3535ff41bc0d56a6b50a51de6057a05477f732",
+      "bytes": 12898,
+      "sha256": "b57b4f97a5f6d6b39c5c56769278dbb262bbff1503e6b9f30217c23f5f3a8774"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf9e6ad5641ac1648d90b05ee70b37822af8ae41",
+      "bytes": 13691,
+      "sha256": "4d4c444dbda7121d55ebdb29658cb2e5e5f5ae3f82963aeeabfee01eb69f01c5"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25235aceb3be2413092c56a8258f0661c70242ff",
+      "bytes": 4955,
+      "sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e0477dd84b93bcdeba0af6e2bfab145447a5d4f",
+      "bytes": 14709,
+      "sha256": "8b4bca172f3362b5ccb31835cb52da8281984c5764fc41315b908647a5da7da2"
+    }
+  ],
+  "mapping": [
+    {
+      "original_path": "codex-rs/file-search/src/lib.rs",
+      "original_symbols": [
+        "create_session",
+        "FileSearchSession",
+        "SessionReporter"
+      ],
+      "current_paths": [
+        "codex-rs/file-search/src/async_owner.rs",
+        "codex-rs/file-search/src/native_backend.rs",
+        "codex-rs/file-search/src/native_backend_session.rs",
+        "codex-rs/file-search/src/native_backend_start.rs",
+        "codex-rs/file-search/src/native_backend_start_tests.rs"
+      ],
+      "current_symbols": [
+        "NativeSearchBackend::begin_open",
+        "NativeSession::preparing",
+        "NativeStartControl",
+        "run_session",
+        "SessionTaskGuard"
+      ],
+      "customization": "Retained backend admission/control/ready-handoff adapter around preserved native search, with exact-lease cancellation and cleanup receipts. New backend paths are fork additions, not alleged upstream symbols."
+    }
+  ],
+  "source_result": "p02b-preparing-native-backend-results.json",
+  "test_transitions": [
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100",
+      "after_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008",
+      "after_sha256": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100",
+      "after_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008",
+      "after_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd",
+      "after_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6",
+      "after_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd",
+      "after_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6",
+      "after_sha256": "b57b4f97a5f6d6b39c5c56769278dbb262bbff1503e6b9f30217c23f5f3a8774"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "4d4c444dbda7121d55ebdb29658cb2e5e5f5ae3f82963aeeabfee01eb69f01c5"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "8b4bca172f3362b5ccb31835cb52da8281984c5764fc41315b908647a5da7da2"
+    }
+  ],
+  "wire_schema_changed": false,
+  "independent_package_rebuilt": false,
+  "upstream_integration_performed": false
+}

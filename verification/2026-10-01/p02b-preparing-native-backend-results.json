@@ -1,0 +1,306 @@
+{
+  "scope": "native backend pending controls; not installed-worker/full-host/UI acceptance",
+  "source_commit": "6547a8bdbc2caae68a63c0cc98dfe52cd3cc264f",
+  "tree": "595d5d5c27b809d6ffa595e0a2d3c2e9ac8fe408",
+  "production_commit": "8250ff4be2b5017dc0e80314c94b42c84d0b23e3",
+  "tests": {
+    "run": 96,
+    "passed": 96,
+    "failed": 0,
+    "skipped": 0,
+    "new_backend_cases": 8,
+    "no_retries": true
+  },
+  "subreaper": {
+    "command": [
+      "just",
+      "test",
+      "--retries",
+      "0",
+      "-p",
+      "codex-file-search"
+    ],
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 595778,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ],
+    "command_pid": 595778,
+    "command_wait_status": 0,
+    "command_returncode": 0,
+    "runner_error": null,
+    "exit_status": 0,
+    "elapsed_seconds": 6.179834973998368
+  },
+  "gates": [
+    {
+      "name": "tests",
+      "command": [
+        "python",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-preparing-native-backend-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search"
+      ],
+      "returncode": 0,
+      "source_unchanged": true,
+      "report": "/workspace/acceptance/p02b-preparing-native-backend-tests.source.json",
+      "report_sha256": "bfda21af18f9e60e57fb30709369ff80b880533b444964feeb7f52e9ea6b1198",
+      "log_sha256": "422efc755bb8a547ba0698df57d7e658102dc03937b1d21b0dd78d1487b01767",
+      "changes": []
+    },
+    {
+      "name": "fix",
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search"
+      ],
+      "returncode": 0,
+      "source_unchanged": false,
+      "report": "/workspace/acceptance/p02b-preparing-native-backend-fix.source.json",
+      "report_sha256": "b54811015fe42aee02908adf8d94797aa20d99355192bee637cc1a0b2dc4e718",
+      "log_sha256": "517045deff95186c32235c63f43b83bcd65bba02407adcefe02fde697b322f2a",
+      "changes": [
+        {
+          "path": "codex-rs/file-search/src/native_backend.rs",
+          "before": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008",
+          "after": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6"
+        }
+      ]
+    },
+    {
+      "name": "fix-02",
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search"
+      ],
+      "returncode": 0,
+      "source_unchanged": true,
+      "report": "/workspace/acceptance/p02b-preparing-native-backend-fix-02.source.json",
+      "report_sha256": "1e7d1b6a233b3b2bd791ea35944f399d0aa7e332d0ed6f377c97990c9b61526f",
+      "log_sha256": "d4cdaa379a0bbae83ce697ee574943cbe5099bcc3c4419b9b784dd999d3f4d82",
+      "changes": []
+    },
+    {
+      "name": "format",
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "returncode": 0,
+      "source_unchanged": false,
+      "report": "/workspace/acceptance/p02b-preparing-native-backend-format.source.json",
+      "report_sha256": "157fe776d06b3c4b2c36a25ef231b81d9efb16189a70f9478a463507ea4d088b",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "changes": [
+        {
+          "path": "codex-rs/file-search/src/native_backend.rs",
+          "before": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6",
+          "after": "b57b4f97a5f6d6b39c5c56769278dbb262bbff1503e6b9f30217c23f5f3a8774"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_session.rs",
+          "before": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+          "after": "4d4c444dbda7121d55ebdb29658cb2e5e5f5ae3f82963aeeabfee01eb69f01c5"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_start.rs",
+          "before": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+          "after": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+          "before": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+          "after": "8b4bca172f3362b5ccb31835cb52da8281984c5764fc41315b908647a5da7da2"
+        }
+      ]
+    }
+  ],
+  "published_files": [
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c6a40bf09c68c0feeb43d8e9b1264775bb0982e9",
+      "bytes": 22513,
+      "sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fa3535ff41bc0d56a6b50a51de6057a05477f732",
+      "bytes": 12898,
+      "sha256": "b57b4f97a5f6d6b39c5c56769278dbb262bbff1503e6b9f30217c23f5f3a8774"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cf9e6ad5641ac1648d90b05ee70b37822af8ae41",
+      "bytes": 13691,
+      "sha256": "4d4c444dbda7121d55ebdb29658cb2e5e5f5ae3f82963aeeabfee01eb69f01c5"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "25235aceb3be2413092c56a8258f0661c70242ff",
+      "bytes": 4955,
+      "sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1e0477dd84b93bcdeba0af6e2bfab145447a5d4f",
+      "bytes": 14709,
+      "sha256": "8b4bca172f3362b5ccb31835cb52da8281984c5764fc41315b908647a5da7da2"
+    }
+  ],
+  "source_transitions": [
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100",
+      "after_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008",
+      "after_sha256": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1"
+    },
+    {
+      "gate": "tests",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100",
+      "after_sha256": "348821e950726f7fce6a8e0388cdc07ecf89d9d937d0abd154eba5a3ed9f1100"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "22702685aab71452295d8b1e2d30c3443459474de39b4d4693c0dbfc93357008",
+      "after_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1"
+    },
+    {
+      "gate": "fix",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd",
+      "after_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6",
+      "after_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1"
+    },
+    {
+      "gate": "fix-02",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "before_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd",
+      "after_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "before_sha256": "61c962e8fd17fff8562ede484e32030a6fb7b18eef7ad74e2e96b4168cdee8a6",
+      "after_sha256": "b57b4f97a5f6d6b39c5c56769278dbb262bbff1503e6b9f30217c23f5f3a8774"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "before_sha256": "5b544c6582d400a09820c88d365a0f40a5d3c7e3174f55b4c331d88e755cecf3",
+      "after_sha256": "4d4c444dbda7121d55ebdb29658cb2e5e5f5ae3f82963aeeabfee01eb69f01c5"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "before_sha256": "7f1946b035b08452c6f76201e62f7999c30bef3113df15abe93bf1775c2975b1",
+      "after_sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+    },
+    {
+      "gate": "format",
+      "path": "codex-rs/file-search/src/native_backend_start_tests.rs",
+      "before_sha256": "63b1c10b4227a8dec4d19b6506f576030998f42d78fd45c28e6f023a2a11f115",
+      "after_sha256": "8b4bca172f3362b5ccb31835cb52da8281984c5764fc41315b908647a5da7da2"
+    }
+  ],
+  "manual_transition": "Between fix and fix-02, removed only unused private FileSearchOwner::create_backend wrapper (14 lines) after sole production caller migrated to begin_create_backend. No new test claimed after lint/format. First lint also changed native_backend.rs mechanically; second lint clean.",
+  "archive": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-native-backend-checkpoint.tar.gz",
+  "archive_sha256": "03ef1cdf365d1c52fe302b1ebf6a89f7c41997b627a0d11eca15db256957875f",
+  "limits": [
+    "No new independent native worker package",
+    "No worker-service or facade Preparing acceptance",
+    "No full-host/UI Preparing gate",
+    "No new extraction scope claimed",
+    "No upstream update implemented"
+  ]
+}

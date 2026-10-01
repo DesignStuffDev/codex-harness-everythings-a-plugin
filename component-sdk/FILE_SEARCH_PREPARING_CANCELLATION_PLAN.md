@@ -1,6 +1,11 @@
 # P02 narrow follow-on: owned cancellation during Preparing
 
-Status: source-grounded execution queue, not an implementation or API freeze.
+Status: source-grounded execution queue with partial implementation, not an API freeze.
+Main SDK primitives passed19. Separate cancellation WIP6547a8bd contains tested process42,
+native owner88 and native backend96 gates (native scopes overlap). See EXECUTION_STATE.md
+and linked evidence for exact revisions. Required trait/service/runtime/consumer adoption,
+new independent worker and real-host/UI Preparing acceptance are still pending.
+The original audit below remains historical context; completed source must not be reimplemented.
 Prepared after parent reported TUI focused23 and full5620 passes (4 ignored),
 unchanged source and subreaper0; those are parent-owned results, not new tests run
 by this audit. The current run is finishing full-CLI/installed TUI and GUI checkpoint first.
