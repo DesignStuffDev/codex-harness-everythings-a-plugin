@@ -135,3 +135,7 @@ async fn observe_cancel(
         }
     }
 }
+
+#[cfg(test)]
+#[path = "native_backend_start_tests.rs"]
+mod tests;
