@@ -5,7 +5,6 @@ use std::num::NonZeroU64;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
-use std::sync::atomic::Ordering;
 use std::time::Duration;
 
 use codex_app_server_protocol::FuzzyFileSearchMatchType;
@@ -22,6 +21,7 @@ use crate::outgoing_message::OutgoingMessageSender;
 
 mod lifecycle;
 mod publisher;
+mod startup;
 pub(crate) use lifecycle::PendingSearchUpdate;
 pub(crate) use publisher::PublisherFailures;
 use publisher::SearchObserver;
@@ -48,7 +48,7 @@ pub(crate) async fn run_fuzzy_file_search(
     context: &SearchContext,
     query: String,
     roots: Vec<String>,
-    cancellation_flag: Arc<AtomicBool>,
+    observer: Arc<SearchObserver>,
 ) -> anyhow::Result<Vec<FuzzyFileSearchResult>> {
     if roots.is_empty() || query.is_empty() {
         return Ok(Vec::new());
@@ -57,17 +57,12 @@ pub(crate) async fn run_fuzzy_file_search(
         query.len() <= context.max_query_bytes.get(),
         "file search query exceeds the UTF-8 byte limit"
     );
-    let observer = Arc::new(SearchObserver::new(
-        Arc::clone(&cancellation_flag),
-        context.shutdown_requested.clone(),
-    ));
     let query_id = observer.set_query(query.clone(), context.max_query_bytes)?;
-    // This retained request owner observes startup before releasing its slot.
-    // The facade has no standalone pending-open cancellation receipt; connection
-    // shutdown fences the scope, while token cancellation closes after startup.
-    let session = scope
-        .open(search_open(context, roots), observer.clone())
-        .await?;
+    let (session, _startup) =
+        match startup::open(scope, search_open(context, roots), observer.clone()).await? {
+            startup::Started::Ready(session, startup) => (session, startup),
+            startup::Started::Cancelled => return Ok(observer.files()),
+        };
     let mut changes = observer.subscribe();
     let result = async {
         let update = session.update_query(file_search::SearchQuery {
@@ -77,7 +72,7 @@ pub(crate) async fn run_fuzzy_file_search(
         });
         tokio::pin!(update);
         loop {
-            if cancellation_flag.load(Ordering::Acquire) {
+            if observer.cancellation_requested() {
                 return Ok(observer.files());
             }
             tokio::select! {
@@ -89,7 +84,7 @@ pub(crate) async fn run_fuzzy_file_search(
             if let Some(error) = observer.error() {
                 return Err(error.into());
             }
-            if observer.is_complete() || cancellation_flag.load(Ordering::Acquire) {
+            if observer.is_complete() || observer.cancellation_requested() {
                 return Ok(observer.files());
             }
             tokio::select! {
@@ -110,13 +105,39 @@ pub(crate) async fn run_fuzzy_file_search(
 
 pub(crate) struct FuzzyFileSearchSession {
     session: FileSearchSession,
+    _startup: startup::Binding,
     publisher: SearchPublisher,
     tasks: TaskTracker,
     owners: TaskTracker,
     updating: Arc<AtomicBool>,
 }
 
+pub(crate) struct SearchCloseControl {
+    observer: Arc<SearchObserver>,
+    session: Option<FileSearchSession>,
+}
+impl SearchCloseControl {
+    pub(crate) fn starting(observer: Arc<SearchObserver>) -> Self {
+        Self {
+            observer,
+            session: None,
+        }
+    }
+    pub(crate) fn request_close(&self) {
+        self.observer.request_close();
+        if let Some(session) = &self.session {
+            session.request_close();
+        }
+    }
+}
+
 impl FuzzyFileSearchSession {
+    pub(crate) fn close_control(&self) -> SearchCloseControl {
+        SearchCloseControl {
+            observer: self.publisher.observer().clone(),
+            session: Some(self.session.clone()),
+        }
+    }
     /// Bounded admission under the connection fence; returned observation is
     /// awaited outside that fence. The retained task owns the actual update.
     pub(crate) fn prepare_update(
@@ -196,21 +217,23 @@ impl PendingSearchSession {
                 cleanup: self.close().await,
             });
         }
-        match scope
-            .open(search_open(context, roots), observer.clone())
-            .await
-        {
-            Ok(session) => {
+        match startup::open(scope, search_open(context, roots), observer.clone()).await {
+            Ok(startup::Started::Ready(session, startup)) => {
                 let tasks = TaskTracker::new();
                 lifecycle::watch_session(&tasks, &self.owners, session.clone(), observer);
                 Ok(FuzzyFileSearchSession {
                     session,
+                    _startup: startup,
                     publisher: self.publisher,
                     tasks,
                     owners: self.owners,
                     updating: Arc::new(AtomicBool::new(false)),
                 })
             }
+            Ok(startup::Started::Cancelled) => Err(SearchStartFailure {
+                operation: anyhow::anyhow!("file search start was released before acknowledgement"),
+                cleanup: self.publisher.close().await,
+            }),
             Err(failure) => {
                 let runtime_cleanup = match &failure.cleanup {
                     file_search::StartCleanup::NotAdmitted
