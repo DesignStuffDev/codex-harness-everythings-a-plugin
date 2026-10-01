@@ -9,6 +9,7 @@
 mod backend;
 mod budget;
 mod error;
+mod startup;
 mod values;
 
 pub use backend::QueryAccepted;
@@ -31,6 +32,10 @@ pub use error::SearchError;
 pub use error::SearchErrorKind;
 pub use error::SearchStartError;
 pub use error::StartCleanup;
+pub use startup::PendingSearchStart;
+pub use startup::SearchStartCancellationFuture;
+pub use startup::SearchStartCancellationOutcome;
+pub use startup::SearchStartControl;
 pub use values::FileMatch;
 pub use values::FileSearchOptions;
 pub use values::FileSearchResults;
