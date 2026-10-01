@@ -135,7 +135,9 @@ The later Preparing maps separately retain the [native owner](upstream/p02b-prep
 [App Server consumer](upstream/p02b-preparing-app-server-lineage.json) changes.
 These are versioned customizations on the same upstream pin, preserved on the
 cancellation WIP branch with their actual tested/formatted source transitions.
-They do not establish a new accepted full-host checkpoint. The
+Those individual focused gates alone did not establish a full-host checkpoint.
+The later aggregate was accepted and promoted to main
+`c28a1c33a856a987316f4b97b4c488d68055fffc`, with exact runtime/UI limits below. The
 [worker04 build map](upstream/p02b-search-worker04-lineage.json) and
 [old-host compatibility map](upstream/p02b-worker04-old-host-compat-lineage.json)
 distinguish source API revision 2 from unchanged wire contract 1 and package
@@ -334,6 +336,7 @@ customizations. Full host, installed runtime and UI acceptance remain separate g
 The [new fullCLI/installed evidence](verification/2026-10-01/P02B_PREPARING_NEWHOST_EVIDENCE.md)
 binds all18 public Stop/TUI paths to the formatted CLI artifact and four actual installed-host gates.
 WIP source checkpoint3b8a889 extends the prior9bd3bc30 tree without changing the upstream pin.
+The final aggregate is promoted to main `c28a1c33a856a987316f4b97b4c488d68055fffc`.
 Successful plugin interoperability and cancellation here do not constitute later-upstream integration;
 P18U's real upstream candidate and failed-update recovery acceptance remain required.
 
@@ -345,3 +348,15 @@ source/binary tuple. Exact test-only runner sources are preserved in the reviewe
 [member hashes](verification/2026-10-01/p02b-preparing-source-fixtures.json). Historical stage
 headers and path-bound checks remain unchanged. This supplies reviewable customization evidence
 for future upstream integration; it does not implement or pass the required updater acceptance.
+
+The [P03 shared-wire map](upstream/p03-wire-slice1-lineage.json) records a private
+refactor of our custom transport, whose paths are absent at the original upstream
+pin. It maps the former symbols to their new modules and preserves tested source
+hashes separately from the reviewed formatting transition. This is component
+support infrastructure, not another extracted native subsystem or an upstream
+revision integration. New executable and installed-package gates remain distinct
+from the previous full-host and GUI evidence. The new standalone CLI subsequently
+passed [24 installed-package commands](verification/2026-10-01/P03_WIRE_SLICE1_RUNTIME_EVIDENCE.md)
+against the preserved worker04 package. Exact executed test-helper sources are
+preserved in a [reviewed fixture archive](verification/2026-10-01/p03-wire-cli-source-fixtures.json).
+This remains same-upstream compatibility evidence, not P18U acceptance.

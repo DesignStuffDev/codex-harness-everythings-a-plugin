@@ -1,0 +1,123 @@
+{
+  "schema": "codex-component-lint-format-followup-v1",
+  "slice": "P03 wire slice1",
+  "created_utc": "2026-10-01T13:14:09.083321+00:00",
+  "status": "Scoped lint and formatting passed; original tested maps preserved",
+  "tests": {
+    "report": {
+      "path": "/workspace/acceptance/p03-wire-slice1-tests.source.json",
+      "sha256": "123778032f821923bf28d36a9db73e4f464939cf7199262c915168041e1a8cc0",
+      "bytes": 2824102
+    },
+    "passed": 87,
+    "skipped": 1,
+    "scope": "81 host-library +6 manager tests; API compiled, no executed API pass entries",
+    "direct_tested_bytes": "Preformat source map; no postformat repeat test claimed."
+  },
+  "lint": {
+    "report": {
+      "path": "/workspace/acceptance/p03-wire-slice1-fix.source.json",
+      "sha256": "bf20954238f746af46cae429ad5234f4861dc07029c303c081bad1c604a94b9e",
+      "bytes": 2823771
+    },
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-component-host"
+    ],
+    "returncode": 0,
+    "log_sha256": "efd6a898c3ee636feb7a3be99330b006f169b30b2de6f40bd047c0cc8fa77ee0",
+    "scoped_source_unchanged": true
+  },
+  "format": {
+    "report": {
+      "path": "/workspace/acceptance/p03-wire-slice1-fmt.source.json",
+      "sha256": "9776ae39a5b757a56a2f3fe2b9a56934e8b600c24b308d2d938fa157c7614c0e",
+      "bytes": 2823734
+    },
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "returncode": 0,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scoped_source_unchanged": false,
+    "changed_paths": [
+      {
+        "path": "codex-rs/component-host/src/session_wire/codec.rs",
+        "tested_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+        "formatted_sha256": "791349fa4a52a6183c94e3f50ceb5d6dfeadfba44b19327d060a87619ea9966a",
+        "tested_bytes": 2271,
+        "formatted_bytes": 2224,
+        "diff": "--- tested/codex-rs/component-host/src/session_wire/codec.rs\n+++ formatted/codex-rs/component-host/src/session_wire/codec.rs\n@@ -50,10 +50,7 @@\n     loop {\n         let buffer = reader.fill_buf().await?;\n         if buffer.is_empty() {\n-            ensure!(\n-                line.is_empty(),\n-                \"truncated session message\"\n-            );\n+            ensure!(line.is_empty(), \"truncated session message\");\n             return Ok(None);\n         }\n         let length = buffer\n@@ -84,4 +81,3 @@\n     writer.write_all(b\"\\n\").await?;\n     Ok(())\n }\n-\n",
+        "review": "Whitespace only: collapse existing ensure! call and/or remove trailing empty line; no literal, assertion, policy or evaluation-order changes."
+      },
+      {
+        "path": "codex-rs/component-host/src/session_wire/payload.rs",
+        "tested_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+        "formatted_sha256": "b0a6ca23eedb08afdaee84d25dc2eef3c1cd5db564d76ced5ec92e2a565022b9",
+        "tested_bytes": 1047,
+        "formatted_bytes": 1046,
+        "diff": "--- tested/codex-rs/component-host/src/session_wire/payload.rs\n+++ formatted/codex-rs/component-host/src/session_wire/payload.rs\n@@ -30,4 +30,3 @@\n         .context(\"deserialize session payload task\")?\n     }\n }\n-\n",
+        "review": "Whitespace only: collapse existing ensure! call and/or remove trailing empty line; no literal, assertion, policy or evaluation-order changes."
+      },
+      {
+        "path": "codex-rs/component-host/src/session_wire/sending.rs",
+        "tested_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+        "formatted_sha256": "63f880dde9d4a46fe070c2336b1864f0b85d05eda765068d9e528c84ced83d79",
+        "tested_bytes": 6240,
+        "formatted_bytes": 6239,
+        "diff": "--- tested/codex-rs/component-host/src/session_wire/sending.rs\n+++ formatted/codex-rs/component-host/src/session_wire/sending.rs\n@@ -180,4 +180,3 @@\n         Ok(complete)\n     }\n }\n-\n",
+        "review": "Whitespace only: collapse existing ensure! call and/or remove trailing empty line; no literal, assertion, policy or evaluation-order changes."
+      }
+    ],
+    "new_or_deleted_paths": []
+  },
+  "source_chain": {
+    "entries_before": 10153,
+    "entries_after": 10153,
+    "entire_maps_equal_tests_before_after_lint_before_after_format_before": true,
+    "tested_map_sha256": "643e6e280c6d32955e23b959586c244feef4376b58ff75b28458db11fb888fed",
+    "formatted_map_sha256": "182dfa515961cc72e56c6b91605d0bfad5e27ed7ed5a447bbfae45424ad16e7d",
+    "canonical_map_serialization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True), UTF-8",
+    "preformat_source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-wire-slice1-adoption.tar.gz",
+      "sha256": "14cdf3c5ee358412a994ef5ab051dac903393408f9b797bcf391300cbc027ece",
+      "bytes": 11822
+    },
+    "exact_preformat_archive_members_checked": [
+      "codex-rs/component-host/src/session_wire/codec.rs",
+      "codex-rs/component-host/src/session_wire/payload.rs",
+      "codex-rs/component-host/src/session_wire/sending.rs"
+    ]
+  },
+  "review": {
+    "all_hunks_read": true,
+    "only_whitespace_changes": true,
+    "existing_and_new_test_files_byte_unchanged": true,
+    "ordinary_wire_and_policy_changes": false,
+    "prior_frozen_evidence_unchanged": [
+      {
+        "path": "/tmp/p03-wire-slice1-evidence-stage/upstream/p03-wire-slice1-lineage.json",
+        "sha256": "2c521014857427f287111fbf054394052ea1e17bb38f8d519be6faea29c1f66c",
+        "bytes": 17237
+      },
+      {
+        "path": "/tmp/p03-wire-slice1-evidence-stage/verification/2026-10-01/P03_WIRE_SLICE1_EVIDENCE.md",
+        "sha256": "8e98997dca2839a8ec256299bcd1bded15e8c860e0fd3af5a18eab3a2a680eaf",
+        "bytes": 3965
+      },
+      {
+        "path": "/tmp/p03-wire-slice1-evidence-stage/verification/2026-10-01/p03-wire-slice1-results.json",
+        "sha256": "3a54899f127620da1616476d2ecfa0c6c9d6008a185c9fd0779855d6ec96e22b",
+        "bytes": 30907
+      }
+    ]
+  },
+  "limits": [
+    "Formatting evidence links tested bytes to formatted source statically; it is not another test execution.",
+    "A newly built codec-linked executable and real installed-worker acceptance are still separate work; P02 binaries do not prove this source.",
+    "No broker activation, independently installable component, native subsystem extraction, dependency, schema or version change is introduced."
+  ]
+}

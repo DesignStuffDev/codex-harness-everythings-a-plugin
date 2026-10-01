@@ -15,8 +15,13 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   `wip/p02b-preparing-cancellation-20261001`. Six final review slices extend `9bd3bc30`;
   their intermediate commits were not individually compiled. This checkpoint promotes the
   verified final source while retaining current main documentation and original failed evidence.
-- Main parent before promotion: `a0be45bd10694695ad80f731507892ccbc7ce4c6`, tree
-  `aef9a928069aa0fc7936160b65d53d2722a37ecc`. Recheck current remote refs/receipts before publication.
+- Main verified checkpoint: `c28a1c33a856a987316f4b97b4c488d68055fffc`, tree
+  `b40fa4d6f635dea2de7ca1856aaf96d5af58f37b`, remotely verified after nonforce publication.
+  Parents are `a0be45bd` and `3b8a889`. It promotes73 source paths plus22 documentation/evidence/
+  fixture/image paths. Among8978 published scoped entries, implementation hashes match the build;
+  one historical-plan status header was updated afterward. Bubblewrap LICENSE remains the same
+  `COPYING` symlink, outside the regular-file hash map. Receipt:
+  `/workspace/recovery-backups/20260930T165936Z/p02b-preparing-promoted-publication.json`.
   Previous accepted runtime `a469cf4` and additive SDK `d22cea88` remain historical.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
@@ -66,18 +71,33 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
 
 ## Ordered next actions
 
-1. Verify the promotion's actual remote ref and exact source tree; preserve receipt and a fresh
-   local source checkpoint. No active test/build is expected at this recorded checkpoint.
-2. Adopt the reviewed P03 private wire-codec slice from `/tmp/p03-session-wire-slice1-stage`.
+1. P02 promotion is verified above. P03 shared transport has passed focused tests, lint and
+   the newly linked standalone CLI's 24-command installed-package gate. Publish this coherent
+   support checkpoint first; the locally verified declaration slice has its own subsequent gate.
+   No root Rust command is currently active; recheck before editing or building.
+2. The reviewed P03 private wire-codec slice is ADOPTED from `/tmp/p03-session-wire-slice1-stage`.
    Manifest SHA `fed07229d88d06db099834c21633e769427e559b6a97ae07ea086436bc17ffe0`.
-   Seven preimages are current. Add the explicit `#[path = "session_wire/raw_tests.rs"]`
-   required by AGENTS; record this delta without changing the frozen stage. This is shared
+   Seven preimages matched; explicit `#[path = "session_wire/raw_tests.rs"]` was added per
+   AGENTS. Adoption report `/workspace/acceptance/p03-wire-slice1-adoption.json` binds all7 files.
+   Before/proposed archive SHA14cdf3c5ee358412a994ef5ab051dac903393408f9b797bcf391300cbc027ece.
+   The frozen stage is unchanged. This is shared
    support, not native extraction or broker activation.
-3. Run unchanged strict subreaper + `env -u NO_COLOR` + one-job `just test --locked --retries 0
-   --test-threads 2 -p codex-component-host -p codex-component-api`. Run scoped host `just fix`
-   and `just fmt`; preserve distinct tested/formatted hashes. Do not repeat tests solely for format.
-   Build/freeze executables that actually link the changed codec before claiming real-host proof.
-   Current1b72 CLI predates P03 and cannot prove it. Plan disk before another large fullCLI build.
+3. P03 focused gate passed **87 tests, one skipped**: 81 host library and six manager launch
+   cases; API compiled but contributed no executed tests. Strict subreaper exited 0 without
+   runner error; three raw child exits -9 and one 0 remain recorded, without inferred causes.
+   Scoped `just fix` passed unchanged; `just fmt` changed three files mechanically, independently
+   reviewed. Preserve [tested hashes](verification/2026-10-01/P03_WIRE_SLICE1_EVIDENCE.md) and
+   [format transition](verification/2026-10-01/P03_WIRE_SLICE1_LINT_FORMAT_EVIDENCE.md).
+   Build passed with 8,861 scoped fingerprints unchanged. New frozen search CLI:
+   `/workspace/component-checkpoint-candidate-p03-wire-cli-20261001/codex-file-search`, SHA
+   `a52a960f424101e34d0027555d8ee7f223c7a685721d57477c2a4dcf1cb7dfa1`.
+   Artifact receipt: `/workspace/acceptance/p03-wire-slice1-cli-artifact.json`.
+   The unchanged worker04 and original manager passed the explicit reused-package gate: exact
+   native/external/restored parity, CLI-only Ctrl+C exit130, selected failure exit1 without
+   fallback, removal and observed PID absence. All 24 commands met their expected outcomes;
+   strict subreaper exited0/null. [Runtime evidence](verification/2026-10-01/P03_WIRE_SLICE1_RUNTIME_EVIDENCE.md)
+   preserves original independent-build proof and actual historical source bindings. Current
+   fullCLI1b72/GUI evidence predates P03; new-codec full-host/GUI acceptance remains unclaimed.
 4. Agree the bounded, opt-in leaf-broker contract before parallel implementation, then rebase stale
    unlinked drafts. Use retained active startup/decode/reply/flush ownership, exact negotiated
    grant equality, explicit aggregate budgets and guarded typed lifecycle calls. See

@@ -1,0 +1,347 @@
+{
+  "schema": "codex-component-source-lineage-v1",
+  "slice": "P03 wire slice 1",
+  "classification": "Private refactor of existing custom shared transport; no pre-existing native subsystem extraction and no newly independently installable capability",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "component_host_and_component_api_paths_absent": true,
+    "verified_with": "Read-only ls-tree at pinned original upstream commit in preserved upstream objects; both paths absent.",
+    "license": "Retained project Apache-2.0 LICENSE/NOTICE; no new third-party code introduced by this slice."
+  },
+  "custom_base": {
+    "published_commit": "c28a1c33a856a987316f4b97b4c488d68055fffc",
+    "tree": "b40fa4d6f635dea2de7ca1856aaf96d5af58f37b",
+    "local_tree_verified": true,
+    "main_publication_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-promoted-publication.json",
+      "sha256": "b898ac48b5c9a4e9d3d9ec138dee4e766bc34aaeb3f8a2aa265ac6e230f173d6",
+      "bytes": 6130
+    }
+  },
+  "stage": {
+    "manifest": {
+      "path": "/tmp/p03-session-wire-slice1-stage/FINAL_MANIFEST.json",
+      "sha256": "fed07229d88d06db099834c21633e769427e559b6a97ae07ea086436bc17ffe0",
+      "bytes": 3889
+    },
+    "historical_symbol_map": {
+      "path": "/tmp/p03-session-wire-slice1-stage/SYMBOL_MAP.json",
+      "sha256": "bde0a8d3bc6a45b53249d71c049cdc2d47c3bdf075373fbf467c518218dca1fe",
+      "bytes": 6454
+    },
+    "adoption": {
+      "path": "/workspace/acceptance/p03-wire-slice1-adoption.json",
+      "sha256": "8e666ab1bbc38a53fb983b8acf945c35359f6fb98bf2ef32190a8a2e5ccad608",
+      "bytes": 2963
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-wire-slice1-adoption.tar.gz",
+      "sha256": "14cdf3c5ee358412a994ef5ab051dac903393408f9b797bcf391300cbc027ece",
+      "bytes": 11822
+    },
+    "adoption_delta": "Only explicit #[path=\"session_wire/raw_tests.rs\"] on raw_tests, required by repository AGENTS; no implementation/assertion change.",
+    "stage_and_archive_preserved": true
+  },
+  "files": [
+    {
+      "path": "codex-rs/component-host/src/session_wire.rs",
+      "base_mode": "100644",
+      "base_blob": "44de72b807574a004ce60802cfe50420fee64e3f",
+      "base_sha256": "90e5f8943dd355179d6fcc699bdeea6f566d0bad2b368a8d6614dba5de3ca6e0",
+      "stage_proposed_sha256": "c5eca18ab99c5ef14469f98521a79b0054c1264823fb4b8a788b58c8394a11f7",
+      "archive_proposed_member_sha256": "c5eca18ab99c5ef14469f98521a79b0054c1264823fb4b8a788b58c8394a11f7",
+      "adopted_tested_sha256": "d86453e22238de4ac0c8aa756e76420eedfabfc0d81c71d0bcc90676be8aaeeb",
+      "publication_mode": "100644",
+      "tested_lines": 186,
+      "tested_bytes": 5528
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/assembly.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "archive_proposed_member_sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "adopted_tested_sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "publication_mode": "100644",
+      "tested_lines": 223,
+      "tested_bytes": 7433
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/codec.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+      "archive_proposed_member_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+      "adopted_tested_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+      "publication_mode": "100644",
+      "tested_lines": 87,
+      "tested_bytes": 2271
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/payload.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+      "archive_proposed_member_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+      "adopted_tested_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+      "publication_mode": "100644",
+      "tested_lines": 33,
+      "tested_bytes": 1047
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/raw_tests.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "archive_proposed_member_sha256": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "adopted_tested_sha256": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "publication_mode": "100644",
+      "tested_lines": 25,
+      "tested_bytes": 1123
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/sending.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+      "archive_proposed_member_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+      "adopted_tested_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+      "publication_mode": "100644",
+      "tested_lines": 183,
+      "tested_bytes": 6240
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire_tests.rs",
+      "base_mode": "100644",
+      "base_blob": "26aafdfcc6efb040c0ab0e7bd16a4ae0bb1f5adb",
+      "base_sha256": "18f069aa9359031e1ebf7d1dd82587168a0860d9dd34b62194fef3556faac7ce",
+      "stage_proposed_sha256": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f",
+      "archive_proposed_member_sha256": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f",
+      "adopted_tested_sha256": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f",
+      "publication_mode": "100644",
+      "tested_lines": 234,
+      "tested_bytes": 8041
+    }
+  ],
+  "symbol_map": [
+    {
+      "symbol": "Payload::{from_value,into_value}",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 66,
+      "new_path": "codex-rs/component-host/src/session_wire/payload.rs",
+      "new_tested_line": 8,
+      "relation": "Private temporary spool and spawn_blocking serialization/parsing moved; crate visibility adapted for child modules, no owner-lifecycle change."
+    },
+    {
+      "symbol": "Frame",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 101,
+      "new_path": "codex-rs/component-host/src/session_wire/codec.rs",
+      "new_tested_line": 16,
+      "relation": "Same derived snake_case tagged schema and deny_unknown_fields; visibility permits parent assembly."
+    },
+    {
+      "symbol": "read_frame_bytes",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 237,
+      "new_path": "codex-rs/component-host/src/session_wire/codec.rs",
+      "new_tested_line": 45,
+      "relation": "Bounded physical newline reader factored from MessageReader::next; returns raw bytes directly for Frame deserialization."
+    },
+    {
+      "symbol": "write_frame",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 379,
+      "new_path": "codex-rs/component-host/src/session_wire/codec.rs",
+      "new_tested_line": 77,
+      "relation": "Same frame serializer, physical byte check, and newline write."
+    },
+    {
+      "symbol": "SeenIds::insert; Assembly",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 147,
+      "new_path": "codex-rs/component-host/src/session_wire/assembly.rs",
+      "new_tested_line": 24,
+      "relation": "Same monotonic IDs, bounded missing-ID set and spool/progress fields."
+    },
+    {
+      "symbol": "MessageAssembler::{with_limits,start,accept,finish}",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 178,
+      "new_path": "codex-rs/component-host/src/session_wire/assembly.rs",
+      "new_tested_line": 56,
+      "relation": "Owns former MessageReader active/seen/limits fields in the same order. start is moved; accept contains old next frame dispatch; finish retains logical EOF rejection."
+    },
+    {
+      "symbol": "Sending::{new,step}",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 390,
+      "new_path": "codex-rs/component-host/src/session_wire/sending.rs",
+      "new_tested_line": 23,
+      "relation": "Same outgoing validation, spool, one-frame progress, transfer counts and flush-before-sent publication."
+    },
+    {
+      "symbol": "SessionComponent, Header, Incoming, Outgoing; limits; validation; write_messages",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 36,
+      "new_path": "codex-rs/component-host/src/session_wire.rs",
+      "new_tested_line": 37,
+      "relation": "Retained parent interface/types/constants and control/regular queue scheduler. No public API or scheduler policy added."
+    },
+    {
+      "symbol": "MessageReader::{new,with_limits,next}",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire.rs",
+      "original_line": 178,
+      "new_path": "codex-rs/component-host/src/session_wire.rs",
+      "new_tested_line": 89,
+      "relation": "Reader retained; delegates physical bytes and logical assembly, with direct serde_json::from_slice::<Frame> and separate logical EOF finish check."
+    },
+    {
+      "symbol": "Six existing wire tests",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": "codex-rs/component-host/src/session_wire_tests.rs",
+      "original_line": 26,
+      "new_path": "codex-rs/component-host/src/session_wire_tests.rs",
+      "new_tested_line": 29,
+      "relation": "Existing assertions/bodies unchanged; adds explicit base64 Engine/STANDARD and AsyncBufReadExt imports."
+    },
+    {
+      "symbol": "raw_duplicate_fields_are_rejected_before_assembly",
+      "origin": "project custom component-host, not an upstream Codex native subsystem",
+      "original_path": null,
+      "original_line": null,
+      "new_path": "codex-rs/component-host/src/session_wire/raw_tests.rs",
+      "new_tested_line": 7,
+      "relation": "New production-reader regression supplies four raw duplicate-field byte frames (id, bytes, type, nested component kind); requires invalid-frame and duplicate-field diagnostics."
+    }
+  ],
+  "unchanged_boundary_files": [
+    {
+      "path": "codex-rs/component-host/src/lib.rs",
+      "base_blob": "cbb882490875e0b868edf43460e9e1bd42ea5a46",
+      "sha256": "270e2f3d122c2baad90ad428c2662c9c81f65d4a1ed81cab2d36a505d4287d71",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session.rs",
+      "base_blob": "38e829c18e51ffd36ee74b22ecc183b5dd4e290d",
+      "sha256": "510d2049f8717d38ea2bbab0b815c6a745f1f8902835310f88e3efb064840178",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_limits.rs",
+      "base_blob": "ca408d4dca62c194020a65c0643771c5ba0b4bc5",
+      "sha256": "0617b2d1ee16c1094174bdca06b55f1ea626721b2596e9c1ad87d7a9c79ebfef",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_options.rs",
+      "base_blob": "ac1d9ca4234f337962f579dd1866e118fa69908d",
+      "sha256": "5aa81b1a5b7d67ddedbe6ac27170e714cf80cc66469b9dd8c6d8398363cc54eb",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_reply.rs",
+      "base_blob": "735d4d4129c409d2164599f02bd57ac375641985",
+      "sha256": "e56769eff740b857e11eef205206cfcdd00e04582ffda5a78642a2d96091c278",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_server.rs",
+      "base_blob": "4102193314c1cdc9b6bc821c4964d58f6f3365ae",
+      "sha256": "6b7678ffcef8b5dc25a67d51e085d755672f00bd04423185dfa8cae07888706f",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_supervisor.rs",
+      "base_blob": "12e67dc80f89728a39b24cd49bb61b249585882d",
+      "sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_failure.rs",
+      "base_blob": "c1b7950235cca312144f668c53107642871672d2",
+      "sha256": "0ef00ae9edb55ecfcfba44d06510ade3e530f2ba291f2644233adfff0b60d7f0",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/process.rs",
+      "base_blob": "441c8bbe68c7031fc0f417ffcff929324ed5c376",
+      "sha256": "2417783ccff48083969d1a247367488759148e95c30cf96704de84b983aeaa3a",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/src/process_control.rs",
+      "base_blob": "b24a1f48eeda6963dc5e455fc7b7c38682387d58",
+      "sha256": "b317299306af71287e46afc984c9fee37f8ea60ae746508a4b07eea2027b7e0b",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-api/Cargo.toml",
+      "base_blob": "ab43eabb0bccfdf6c90d46555acd108423536f4d",
+      "sha256": "88b7254e980c0091f3eb407ae3f046f1a06fb696acb3d2b10f64b221a8f00077",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "base_blob": "6c301fb9c78def64ff247f3db25dca1077abbfc8",
+      "sha256": "aa77d05a5f19e008df1650d92eb15134ee44e374def520cec603f3d3104e8f8c",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/Cargo.toml",
+      "base_blob": "690e53070bfe26a5774f8ead5decdd4251ce36a7",
+      "sha256": "a53a41967716a0981f475c7373b48917dd4ce6207ba7c3e088b8aa7eff60ba53",
+      "base_equals_tested": true
+    },
+    {
+      "path": "codex-rs/component-host/BUILD.bazel",
+      "base_blob": "65a2b3bca2409ae337f77ceb70523519b4c76ccd",
+      "sha256": "26259e446a2f2208c486161418969a873167e4e118589449b49e08d2d3d61713",
+      "base_equals_tested": true
+    }
+  ],
+  "retained_policies": [
+    "Frame schema: request_start/result_start/chunk/end/error/shutdown/shutdown_complete with existing serde fields; no broker envelope or negotiation activated.",
+    "Physical frames remain bounded at 4 MiB; chunks remain192 KiB; 64 pending/assembly and missing-ID limits remain.",
+    "Control bodies remain64 KiB through unchanged session_limits; ordinary request/reply defaults remain uncapped with existing optional per-session limits.",
+    "Declared ordinary limits checked before seen-ID admission and spool creation; controls retain their separate budget.",
+    "Urgent control arbitration and after_sent fences retained; Shutdown/ShutdownComplete do not overtake active ordinary payloads; sent flag publishes after flush.",
+    "Payload still owns NamedTempFile; serialization/deserialization remain spawn_blocking work with prior cancellation/owner semantics.",
+    "Same partial physical/logical EOF errors and frame/ID/chunk/error diagnostics retained; direct raw-byte Frame decoding preserves duplicate rejection."
+  ],
+  "broker_status": {
+    "enabled": false,
+    "added_installable_component": false,
+    "reason": "No broker module registered or dependency/manifest/activation changed in these seven paths. Existing lib.rs and public API remain byte-identical to P02; separately staged broker extension remains unlinked."
+  },
+  "static_validation": {
+    "existing_wire_test_bodies_unchanged_except_imports": true,
+    "review": {
+      "path": "/tmp/p03-session-wire-slice1-independent-review.md",
+      "sha256": "22a4054f9715b0a4b9224d3564b880a53e3717c7b456cf5a9356b34808dab7a0",
+      "bytes": 2646
+    },
+    "limits": "Static source/body comparison is not compiler or runtime proof; gate results below apply to adopted aggregate, not each historical patch slice."
+  },
+  "tested_source_report": {
+    "path": "/workspace/acceptance/p03-wire-slice1-tests.source.json",
+    "sha256": "123778032f821923bf28d36a9db73e4f464939cf7199262c915168041e1a8cc0",
+    "bytes": 2824102
+  }
+}

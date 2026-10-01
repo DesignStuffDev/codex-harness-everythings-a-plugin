@@ -214,17 +214,20 @@ remain unverified. App Server and TUI are compiled consumers, not extracted
 presentation services. Private storage lookup remains a fourth consumer awaiting
 the P03 authority broker; this milestone does not complete P02 or the platform.
 
-The next bounded lifecycle slice is [per-start Preparing cancellation](component-sdk/FILE_SEARCH_PREPARING_CANCELLATION_PLAN.md):
+The subsequent bounded lifecycle slice was [per-start Preparing cancellation](component-sdk/FILE_SEARCH_PREPARING_CANCELLATION_PLAN.md):
 an immediately available single-start control, retained cleanup receipt, native
-constructor propagation and unchanged sibling authority. This is a chosen
-implementation direction and ordered queue. The additive SDK primitives are now
+constructor propagation and unchanged sibling authority. The historical gates below
+culminate in promoted main `c28a1c33a856a987316f4b97b4c488d68055fffc`; remaining
+limits are retained explicitly. The additive SDK primitives were initially
 implemented at `d22cea88aa23e35a619d996fc731122450e51313`; their
 [19 passing API tests](verification/2026-10-01/P02B_STARTUP_SDK_EVIDENCE.md) cover
 carrier ownership and handoff, not active native/process Preparing cancellation.
 The [process control gate](verification/2026-10-01/P02B_PREPARING_PROCESS_EVIDENCE.md) passed42,
 the [native owner gate](verification/2026-10-01/P02B_PREPARING_NATIVE_OWNER_EVIDENCE.md) passed88,
 and [native backend gate](verification/2026-10-01/P02B_PREPARING_NATIVE_BACKEND_EVIDENCE.md) passed96
-(overlapping scopes, not a sum). Source is externally preserved on cancellation WIP `9bd3bc30` (required startup base `272993ff`). Required SDK revision2 and worker
+(overlapping scopes, not a sum). These historical sources were preserved at cancellation
+WIP `9bd3bc30` (required startup base `272993ff`); final WIP `3b8a889` is a parent
+of the later accepted main `c28a1c33`. Required SDK revision2 and worker
 service now pass [169 focused tests](verification/2026-10-01/P02B_REQUIRED_START_SERVICE_EVIDENCE.md);
 runtime pending control passes [55](verification/2026-10-01/P02B_RUNTIME_PREPARING_EVIDENCE.md),
 including six real worker-process cases. New0.2 worker built separately against unchanged frozen

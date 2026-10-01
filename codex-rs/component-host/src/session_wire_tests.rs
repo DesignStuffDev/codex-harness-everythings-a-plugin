@@ -1,7 +1,10 @@
 use super::*;
+use base64::Engine;
+use base64::engine::general_purpose::STANDARD;
 use pretty_assertions::assert_eq;
 use serde_json::json;
 use std::io::Cursor;
+use tokio::io::AsyncBufReadExt;
 use tokio::io::BufReader;
 
 fn result(id: u64, value: Value) -> Outgoing {

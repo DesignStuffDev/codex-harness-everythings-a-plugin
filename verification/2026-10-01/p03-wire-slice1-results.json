@@ -1,0 +1,854 @@
+{
+  "schema": "codex-component-p03-wire-results-v1",
+  "status": "Adopted aggregate focused tests passed; lint/format and newly linked installed-runtime acceptance separate",
+  "classification": "Private refactor of existing custom shared transport; no pre-existing native subsystem extraction and no newly independently installable capability",
+  "source_lineage": "upstream/p03-wire-slice1-lineage.json",
+  "source_report": {
+    "path": "/workspace/acceptance/p03-wire-slice1-tests.source.json",
+    "sha256": "123778032f821923bf28d36a9db73e4f464939cf7199262c915168041e1a8cc0",
+    "bytes": 2824102
+  },
+  "log": {
+    "path": "/workspace/acceptance/p03-wire-slice1-tests.log",
+    "sha256": "3cf5f6d13e979dd3fa922e421a2c68a2ddb8d91f47c8f6ad7875c097cd80454b",
+    "bytes": 12650
+  },
+  "command": [
+    "python3",
+    "../component-sdk/tests/subreaper_runner.py",
+    "--report",
+    "/workspace/acceptance/p03-wire-slice1-tests.subreaper.json",
+    "--",
+    "env",
+    "-u",
+    "NO_COLOR",
+    "CARGO_BUILD_JOBS=1",
+    "just",
+    "test",
+    "--locked",
+    "--retries",
+    "0",
+    "--test-threads",
+    "2",
+    "-p",
+    "codex-component-host",
+    "-p",
+    "codex-component-api"
+  ],
+  "started_utc": "2026-10-01T12:59:28Z",
+  "finished_utc": "2026-10-01T12:59:52Z",
+  "status_code": 0,
+  "scoped_source_unchanged": true,
+  "source_entries": 10153,
+  "canonical_source_map_sha256": "643e6e280c6d32955e23b959586c244feef4376b58ff75b28458db11fb888fed",
+  "canonical_map_serialization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True),UTF-8",
+  "source_authority": "Exact before/after source map; historical wrapper baseline label is not a claim that this working source equals that commit.",
+  "historical_wrapper_baseline_label": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+  "source_files": [
+    {
+      "path": "codex-rs/component-host/src/session_wire.rs",
+      "base_mode": "100644",
+      "base_blob": "44de72b807574a004ce60802cfe50420fee64e3f",
+      "base_sha256": "90e5f8943dd355179d6fcc699bdeea6f566d0bad2b368a8d6614dba5de3ca6e0",
+      "stage_proposed_sha256": "c5eca18ab99c5ef14469f98521a79b0054c1264823fb4b8a788b58c8394a11f7",
+      "archive_proposed_member_sha256": "c5eca18ab99c5ef14469f98521a79b0054c1264823fb4b8a788b58c8394a11f7",
+      "adopted_tested_sha256": "d86453e22238de4ac0c8aa756e76420eedfabfc0d81c71d0bcc90676be8aaeeb",
+      "publication_mode": "100644",
+      "tested_lines": 186,
+      "tested_bytes": 5528
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/assembly.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "archive_proposed_member_sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "adopted_tested_sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "publication_mode": "100644",
+      "tested_lines": 223,
+      "tested_bytes": 7433
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/codec.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+      "archive_proposed_member_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+      "adopted_tested_sha256": "6ddb8b7460e94248846fe0206f4c4d6395b025965e62c3b38676e4c5f0b05140",
+      "publication_mode": "100644",
+      "tested_lines": 87,
+      "tested_bytes": 2271
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/payload.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+      "archive_proposed_member_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+      "adopted_tested_sha256": "8c4b1b40d746642389bfe54d4dc8fa7b0eb30ad611656a4145c36e2eb998fca6",
+      "publication_mode": "100644",
+      "tested_lines": 33,
+      "tested_bytes": 1047
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/raw_tests.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "archive_proposed_member_sha256": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "adopted_tested_sha256": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "publication_mode": "100644",
+      "tested_lines": 25,
+      "tested_bytes": 1123
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire/sending.rs",
+      "base_mode": null,
+      "base_blob": null,
+      "base_sha256": null,
+      "stage_proposed_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+      "archive_proposed_member_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+      "adopted_tested_sha256": "998b5f4509bf2b90c44997e7ca23ec2bcba77c353f40ac8c8e59874fcefcf982",
+      "publication_mode": "100644",
+      "tested_lines": 183,
+      "tested_bytes": 6240
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire_tests.rs",
+      "base_mode": "100644",
+      "base_blob": "26aafdfcc6efb040c0ab0e7bd16a4ae0bb1f5adb",
+      "base_sha256": "18f069aa9359031e1ebf7d1dd82587168a0860d9dd34b62194fef3556faac7ce",
+      "stage_proposed_sha256": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f",
+      "archive_proposed_member_sha256": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f",
+      "adopted_tested_sha256": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f",
+      "publication_mode": "100644",
+      "tested_lines": 234,
+      "tested_bytes": 8041
+    }
+  ],
+  "tests": {
+    "executed": 87,
+    "passed": 87,
+    "failed": 0,
+    "skipped": 1,
+    "retries": 0,
+    "test_threads": 2,
+    "cargo_build_jobs": 1,
+    "NO_COLOR": "unset",
+    "target_pass_counts": {
+      "codex-component-host": 81,
+      "codex-component-host::bin/codex-component": 6
+    },
+    "component_api": "Compiled as requested; zero API pass entries in log. Do not report API tests as executed.",
+    "skipped_name_in_log": null,
+    "skip_limit": "One test skipped; terminal log does not name it. No acceptance claim for skipped execution.",
+    "run_id": "9d1f10fd-f67d-467f-8892-0f2c4659887b",
+    "test_time_seconds": 12.176,
+    "raw_duplicate_field_case_count": 4,
+    "new_raw_test": {
+      "ordinal": 74,
+      "target": "codex-component-host",
+      "test": "session_wire::raw_tests::raw_duplicate_fields_are_rejected_before_assembly",
+      "elapsed_seconds": 0.005,
+      "log_line": 81
+    },
+    "existing_large_history_test": {
+      "ordinal": 87,
+      "target": "codex-component-host",
+      "test": "session_wire::tests::histories_larger_than_sixteen_megabytes_round_trip",
+      "elapsed_seconds": 4.964,
+      "log_line": 94
+    },
+    "large_history_fixture": "17*1024*1024 byte string plus JSON envelope, actual spool/wire roundtrip test",
+    "entries": [
+      {
+        "ordinal": 1,
+        "target": "codex-component-host",
+        "test": "catalog::tests::absent_settings_preserves_native_runtime",
+        "elapsed_seconds": 0.004,
+        "log_line": 8
+      },
+      {
+        "ordinal": 2,
+        "target": "codex-component-host",
+        "test": "catalog::tests::competing_install_requires_preserving_the_current_explicit_selection",
+        "elapsed_seconds": 0.007,
+        "log_line": 9
+      },
+      {
+        "ordinal": 3,
+        "target": "codex-component-host",
+        "test": "catalog::tests::debug_output_omits_plugin_credentials_and_arguments",
+        "elapsed_seconds": 0.008,
+        "log_line": 10
+      },
+      {
+        "ordinal": 4,
+        "target": "codex-component-host",
+        "test": "catalog::tests::incompatible_versions_cycles_and_conflicts_fail_before_activation",
+        "elapsed_seconds": 0.005,
+        "log_line": 11
+      },
+      {
+        "ordinal": 5,
+        "target": "codex-component-host",
+        "test": "catalog::tests::explicit_selection_can_be_reset_and_does_not_accept_unknown_provider",
+        "elapsed_seconds": 0.006,
+        "log_line": 12
+      },
+      {
+        "ordinal": 6,
+        "target": "codex-component-host",
+        "test": "catalog::tests::installation_rejects_a_store_nested_inside_its_source",
+        "elapsed_seconds": 0.005,
+        "log_line": 13
+      },
+      {
+        "ordinal": 7,
+        "target": "codex-component-host",
+        "test": "catalog::tests::installation_rejects_symlinks_without_copying_outside_content",
+        "elapsed_seconds": 0.004,
+        "log_line": 14
+      },
+      {
+        "ordinal": 8,
+        "target": "codex-component-host",
+        "test": "catalog::tests::installed_object_names_cannot_escape_the_store",
+        "elapsed_seconds": 0.004,
+        "log_line": 15
+      },
+      {
+        "ordinal": 9,
+        "target": "codex-component-host",
+        "test": "catalog::tests::installed_objects_cannot_be_symlinks_to_external_packages",
+        "elapsed_seconds": 0.004,
+        "log_line": 16
+      },
+      {
+        "ordinal": 10,
+        "target": "codex-component-host",
+        "test": "catalog::tests::installs_resolves_dependencies_and_preserves_state_on_removal",
+        "elapsed_seconds": 0.006,
+        "log_line": 17
+      },
+      {
+        "ordinal": 11,
+        "target": "codex-component-host",
+        "test": "catalog::tests::invalid_install_rolls_back_without_changing_registry",
+        "elapsed_seconds": 0.005,
+        "log_line": 18
+      },
+      {
+        "ordinal": 12,
+        "target": "codex-component-host",
+        "test": "catalog::tests::manifest_rejects_unsupported_contract_and_entrypoint_escape",
+        "elapsed_seconds": 0.005,
+        "log_line": 19
+      },
+      {
+        "ordinal": 13,
+        "target": "codex-component-host",
+        "test": "catalog::tests::removal_and_reinstallation_preserve_existing_bindings",
+        "elapsed_seconds": 0.01,
+        "log_line": 20
+      },
+      {
+        "ordinal": 14,
+        "target": "codex-component-host",
+        "test": "catalog::tests::search_selection_rejects_incompatible_upgrade_without_changing_active_package",
+        "elapsed_seconds": 0.008,
+        "log_line": 21
+      },
+      {
+        "ordinal": 15,
+        "target": "codex-component-host",
+        "test": "catalog::tests::storage_installation_rejects_lossy_contract_before_activation",
+        "elapsed_seconds": 0.006,
+        "log_line": 22
+      },
+      {
+        "ordinal": 16,
+        "target": "codex-component-host",
+        "test": "process::tests::cancellation_terminates_plugin_process_group",
+        "elapsed_seconds": 0.045,
+        "log_line": 23
+      },
+      {
+        "ordinal": 17,
+        "target": "codex-component-host",
+        "test": "process::tests::cancelling_initialization_kills_and_reaps_child",
+        "elapsed_seconds": 0.055,
+        "log_line": 24
+      },
+      {
+        "ordinal": 18,
+        "target": "codex-component-host",
+        "test": "process::tests::dropping_stream_and_cancelling_next_kill_and_reap_children",
+        "elapsed_seconds": 0.108,
+        "log_line": 25
+      },
+      {
+        "ordinal": 19,
+        "target": "codex-component-host",
+        "test": "process::tests::explicit_force_reaps_even_when_event_delivery_is_backpressured",
+        "elapsed_seconds": 0.089,
+        "log_line": 26
+      },
+      {
+        "ordinal": 20,
+        "target": "codex-component-host",
+        "test": "process::tests::graceful_deadline_runs_without_polling_and_cannot_be_extended",
+        "elapsed_seconds": 0.135,
+        "log_line": 27
+      },
+      {
+        "ordinal": 21,
+        "target": "codex-component-host",
+        "test": "process::tests::deadline_remains_active_while_consumer_is_idle",
+        "elapsed_seconds": 0.348,
+        "log_line": 28
+      },
+      {
+        "ordinal": 22,
+        "target": "codex-component-host",
+        "test": "process::tests::graceful_request_can_extend_cleanup_after_the_plugin_result",
+        "elapsed_seconds": 0.746,
+        "log_line": 29
+      },
+      {
+        "ordinal": 23,
+        "target": "codex-component-host",
+        "test": "process::tests::graceful_shutdown_preserves_partial_frame_and_waits_for_cleanup",
+        "elapsed_seconds": 0.78,
+        "log_line": 30
+      },
+      {
+        "ordinal": 24,
+        "target": "codex-component-host",
+        "test": "process::tests::invocation_passes_explicit_contract_and_shutdown",
+        "elapsed_seconds": 0.043,
+        "log_line": 31
+      },
+      {
+        "ordinal": 25,
+        "target": "codex-component-host",
+        "test": "process::tests::linux_parent_death::killed_parent_terminates_blocked_components_in_separate_process_groups",
+        "elapsed_seconds": 0.066,
+        "log_line": 32
+      },
+      {
+        "ordinal": 26,
+        "target": "codex-component-host",
+        "test": "process::tests::oversized_requests_fail_without_waiting_for_a_response",
+        "elapsed_seconds": 0.2,
+        "log_line": 33
+      },
+      {
+        "ordinal": 27,
+        "target": "codex-component-host",
+        "test": "process::tests::sensitive_components_cannot_emit_inherited_stderr",
+        "elapsed_seconds": 0.092,
+        "log_line": 34
+      },
+      {
+        "ordinal": 28,
+        "target": "codex-component-host",
+        "test": "process::tests::separate_invocations_keep_durable_state",
+        "elapsed_seconds": 0.073,
+        "log_line": 35
+      },
+      {
+        "ordinal": 29,
+        "target": "codex-component-host",
+        "test": "process::tests::streaming_preserves_event_order_and_finishes_once",
+        "elapsed_seconds": 0.047,
+        "log_line": 36
+      },
+      {
+        "ordinal": 30,
+        "target": "codex-component-host",
+        "test": "session::tests::abandoned_waiters_still_occupy_bounded_admission_until_completed",
+        "elapsed_seconds": 0.097,
+        "log_line": 37
+      },
+      {
+        "ordinal": 31,
+        "target": "codex-component-host",
+        "test": "session::tests::cancelled_waiter_keeps_write_owned_and_close_drains_it",
+        "elapsed_seconds": 0.083,
+        "log_line": 38
+      },
+      {
+        "ordinal": 32,
+        "target": "codex-component-host",
+        "test": "session::tests::fork_cleanup_bypasses_blocked_deletion_and_covers_cancelled_prepare",
+        "elapsed_seconds": 0.06,
+        "log_line": 39
+      },
+      {
+        "ordinal": 33,
+        "target": "codex-component-host",
+        "test": "session::tests::invalid_methods_are_rejected_without_disrupting_accepted_calls",
+        "elapsed_seconds": 0.046,
+        "log_line": 40
+      },
+      {
+        "ordinal": 34,
+        "target": "codex-component-host",
+        "test": "session::tests::launch_options::existing_connect_wrappers_keep_installed_package_directory",
+        "elapsed_seconds": 0.117,
+        "log_line": 41
+      },
+      {
+        "ordinal": 35,
+        "target": "codex-component-host",
+        "test": "session::tests::launch_options::invalid_explicit_directories_and_relative_entrypoint_fail_before_launch",
+        "elapsed_seconds": 0.044,
+        "log_line": 42
+      },
+      {
+        "ordinal": 36,
+        "target": "codex-component-host",
+        "test": "process::tests::malformed_frames_and_plugin_failures_are_reported",
+        "elapsed_seconds": 0.924,
+        "log_line": 43
+      },
+      {
+        "ordinal": 37,
+        "target": "codex-component-host",
+        "test": "session::tests::launch_options::rejected_handshake_with_explicit_directory_reaps_before_return",
+        "elapsed_seconds": 0.082,
+        "log_line": 44
+      },
+      {
+        "ordinal": 38,
+        "target": "codex-component-host",
+        "test": "session::tests::launch_options::simultaneous_explicit_directories_keep_host_and_package_identity_unchanged",
+        "elapsed_seconds": 0.088,
+        "log_line": 45
+      },
+      {
+        "ordinal": 39,
+        "target": "codex-component-host",
+        "test": "session::tests::old_single_invocation_plugins_cannot_opt_in_accidentally",
+        "elapsed_seconds": 0.039,
+        "log_line": 46
+      },
+      {
+        "ordinal": 40,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::abandoned_response_and_release_waiters_do_not_cancel_or_replay_work",
+        "elapsed_seconds": 0.093,
+        "log_line": 47
+      },
+      {
+        "ordinal": 41,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::cancelling_before_regular_admission_sends_neither_start_nor_release",
+        "elapsed_seconds": 0.113,
+        "log_line": 48
+      },
+      {
+        "ordinal": 42,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::full_cleanup_capacity_times_out_before_admission_and_recovers_after_release",
+        "elapsed_seconds": 0.634,
+        "log_line": 49
+      },
+      {
+        "ordinal": 43,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::rejected_start_keeps_cleanup_observable_until_owned_worker_is_joined",
+        "elapsed_seconds": 0.09,
+        "log_line": 50
+      },
+      {
+        "ordinal": 44,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::immediately_dropped_cleanup_follows_the_whole_paired_request",
+        "elapsed_seconds": 0.692,
+        "log_line": 51
+      },
+      {
+        "ordinal": 45,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::reserved_release_bypasses_full_call_capacity_and_shutdown_drains_abandoned_start",
+        "elapsed_seconds": 0.105,
+        "log_line": 52
+      },
+      {
+        "ordinal": 46,
+        "target": "codex-component-host",
+        "test": "session::tests::payload_limits::cleanup_reply_retains_unconfirmed_receipt_and_operation_error",
+        "elapsed_seconds": 0.041,
+        "log_line": 53
+      },
+      {
+        "ordinal": 47,
+        "target": "codex-component-host",
+        "test": "session::tests::payload_limits::legacy_remote_error_text_cannot_forge_a_local_size_limit_receipt",
+        "elapsed_seconds": 0.036,
+        "log_line": 54
+      },
+      {
+        "ordinal": 48,
+        "target": "codex-component-host",
+        "test": "session::tests::payload_limits::local_oversize_never_admits_and_reserved_cleanup_survives_full_ordinary_capacity",
+        "elapsed_seconds": 0.059,
+        "log_line": 55
+      },
+      {
+        "ordinal": 49,
+        "target": "codex-component-host",
+        "test": "session::tests::payload_limits::peer_oversized_declaration_is_terminal_reaped_and_preserves_typed_cause",
+        "elapsed_seconds": 0.032,
+        "log_line": 56
+      },
+      {
+        "ordinal": 50,
+        "target": "codex-component-host",
+        "test": "session::tests::payload_limits::reply_cap_smaller_than_control_allowance_is_rejected_before_process_launch",
+        "elapsed_seconds": 0.007,
+        "log_line": 57
+      },
+      {
+        "ordinal": 51,
+        "target": "codex-component-host",
+        "test": "session::tests::peer_failure_is_terminal_without_automatic_restart",
+        "elapsed_seconds": 0.055,
+        "log_line": 58
+      },
+      {
+        "ordinal": 52,
+        "target": "codex-component-host",
+        "test": "session::tests::paired_start::response_timeout_keeps_cleanup_available_and_release_failure_is_not_success",
+        "elapsed_seconds": 0.555,
+        "log_line": 59
+      },
+      {
+        "ordinal": 53,
+        "target": "codex-component-host",
+        "test": "session::tests::reaping::cancelled_startup_keeps_its_owner_until_the_child_is_reaped",
+        "elapsed_seconds": 0.033,
+        "log_line": 60
+      },
+      {
+        "ordinal": 54,
+        "target": "codex-component-host",
+        "test": "session::tests::persistent_process_multiplexes_calls_and_large_payloads",
+        "elapsed_seconds": 1.551,
+        "log_line": 61
+      },
+      {
+        "ordinal": 55,
+        "target": "codex-component-host",
+        "test": "session::tests::reaping::reader_writer_and_peer_failures_reap_before_terminal_completion",
+        "elapsed_seconds": 0.178,
+        "log_line": 62
+      },
+      {
+        "ordinal": 56,
+        "target": "codex-component-host",
+        "test": "session::tests::reaping::paired_release_timeout_is_uncertain_and_forced_close_reaps_the_process",
+        "elapsed_seconds": 2.044,
+        "log_line": 63
+      },
+      {
+        "ordinal": 57,
+        "target": "codex-component-host",
+        "test": "session::tests::reaping::startup_rejection_and_deadline_reap_before_returning_error",
+        "elapsed_seconds": 1.033,
+        "log_line": 64
+      },
+      {
+        "ordinal": 58,
+        "target": "codex-component-host",
+        "test": "session::tests::synchronous_close_fences_retained_clones_and_drains_without_a_close_waiter",
+        "elapsed_seconds": 0.042,
+        "log_line": 65
+      },
+      {
+        "ordinal": 59,
+        "target": "codex-component-host",
+        "test": "session::tests::timed_out_waiter_does_not_kill_healthy_service_or_replay_write",
+        "elapsed_seconds": 0.297,
+        "log_line": 66
+      },
+      {
+        "ordinal": 60,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::default_caps_preserve_large_history_payloads",
+        "elapsed_seconds": 0.029,
+        "log_line": 67
+      },
+      {
+        "ordinal": 61,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::escaped_strings_use_the_counting_serializer_after_the_lower_bound",
+        "elapsed_seconds": 0.005,
+        "log_line": 68
+      },
+      {
+        "ordinal": 62,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::incoming_declared_lengths_are_checked_without_payloads",
+        "elapsed_seconds": 0.004,
+        "log_line": 69
+      },
+      {
+        "ordinal": 63,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::lower_bound_rejects_large_nested_strings_and_wide_containers",
+        "elapsed_seconds": 0.007,
+        "log_line": 70
+      },
+      {
+        "ordinal": 64,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::ordinary_caps_do_not_replace_the_control_budget",
+        "elapsed_seconds": 0.006,
+        "log_line": 71
+      },
+      {
+        "ordinal": 65,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::reply_configuration_cannot_reject_legal_control_replies",
+        "elapsed_seconds": 0.009,
+        "log_line": 72
+      },
+      {
+        "ordinal": 66,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::request_limits_match_exact_serialized_bytes",
+        "elapsed_seconds": 0.005,
+        "log_line": 73
+      },
+      {
+        "ordinal": 67,
+        "target": "codex-component-host",
+        "test": "session_limits::tests::serializer_stops_at_the_first_over_budget_write",
+        "elapsed_seconds": 0.005,
+        "log_line": 74
+      },
+      {
+        "ordinal": 68,
+        "target": "codex-component-host",
+        "test": "session_server::limit_tests::oversized_reply_uses_legacy_error_and_preserves_control_lane",
+        "elapsed_seconds": 0.009,
+        "log_line": 75
+      },
+      {
+        "ordinal": 69,
+        "target": "codex-component-host",
+        "test": "session_server::limit_tests::oversized_request_is_rejected_before_body_decode_and_survives_finish",
+        "elapsed_seconds": 0.005,
+        "log_line": 76
+      },
+      {
+        "ordinal": 70,
+        "target": "codex-component-host",
+        "test": "session_server::limit_tests::reader_size_failure_is_retained_when_a_later_writer_also_fails",
+        "elapsed_seconds": 0.007,
+        "log_line": 77
+      },
+      {
+        "ordinal": 71,
+        "target": "codex-component-host",
+        "test": "session_server::limit_tests::response_preflight_uses_reserved_lane_even_if_public_metadata_changes",
+        "elapsed_seconds": 0.006,
+        "log_line": 78
+      },
+      {
+        "ordinal": 72,
+        "target": "codex-component-host",
+        "test": "session_server::tests::cancelling_next_during_reader_completion_preserves_shutdown",
+        "elapsed_seconds": 0.017,
+        "log_line": 79
+      },
+      {
+        "ordinal": 73,
+        "target": "codex-component-host",
+        "test": "session_supervisor::tests::completed_worker_error_is_preserved_while_the_sibling_is_cancelled_and_joined",
+        "elapsed_seconds": 0.006,
+        "log_line": 80
+      },
+      {
+        "ordinal": 74,
+        "target": "codex-component-host",
+        "test": "session_wire::raw_tests::raw_duplicate_fields_are_rejected_before_assembly",
+        "elapsed_seconds": 0.005,
+        "log_line": 81
+      },
+      {
+        "ordinal": 75,
+        "target": "codex-component-host",
+        "test": "session_wire::tests::error_discards_partial_result_and_json_parsing_is_lazy",
+        "elapsed_seconds": 0.007,
+        "log_line": 82
+      },
+      {
+        "ordinal": 76,
+        "target": "codex-component-host",
+        "test": "session::tests::reaping::shutdown_deadline_failed_exit_and_success_all_return_after_reaping",
+        "elapsed_seconds": 2.126,
+        "log_line": 83
+      },
+      {
+        "ordinal": 77,
+        "target": "codex-component-host",
+        "test": "session_wire::tests::malformed_streams_fail_without_accepting_partial_values",
+        "elapsed_seconds": 0.029,
+        "log_line": 84
+      },
+      {
+        "ordinal": 78,
+        "target": "codex-component-host",
+        "test": "session_wire::tests::out_of_order_ids_are_bounded_and_completed_duplicates_rejected",
+        "elapsed_seconds": 0.036,
+        "log_line": 85
+      },
+      {
+        "ordinal": 79,
+        "target": "codex-component-host",
+        "test": "session_wire::tests::oversized_controls_and_never_sent_dependencies_fail",
+        "elapsed_seconds": 0.005,
+        "log_line": 86
+      },
+      {
+        "ordinal": 80,
+        "target": "codex-component-host",
+        "test": "session_wire::tests::urgent_controls_interleave_but_cleanup_waits_for_request_end",
+        "elapsed_seconds": 0.067,
+        "log_line": 87
+      },
+      {
+        "ordinal": 81,
+        "target": "codex-component-host::bin/codex-component",
+        "test": "launch::tests::launch_deadline_force_terminates_with_explicit_unknown_durability",
+        "elapsed_seconds": 0.131,
+        "log_line": 88
+      },
+      {
+        "ordinal": 82,
+        "target": "codex-component-host::bin/codex-component",
+        "test": "launch::tests::launch_interrupt_during_handshake_cleans_up_and_reports_uncertainty",
+        "elapsed_seconds": 0.032,
+        "log_line": 89
+      },
+      {
+        "ordinal": 83,
+        "target": "codex-component-host::bin/codex-component",
+        "test": "launch::tests::service::interrupt_near_startup_limit_receives_its_full_cleanup_budget",
+        "elapsed_seconds": 0.794,
+        "log_line": 90
+      },
+      {
+        "ordinal": 84,
+        "target": "codex-component-host::bin/codex-component",
+        "test": "launch::tests::service::launch_failure_paths_without_interrupt_report_uncertainty_after_reaping",
+        "elapsed_seconds": 0.537,
+        "log_line": 91
+      },
+      {
+        "ordinal": 85,
+        "target": "codex-component-host::bin/codex-component",
+        "test": "launch::tests::service::launch_survives_its_startup_timeout_after_readiness",
+        "elapsed_seconds": 0.641,
+        "log_line": 92
+      },
+      {
+        "ordinal": 86,
+        "target": "codex-component-host::bin/codex-component",
+        "test": "launch::tests::service::normal_result_allows_presentation_cleanup_beyond_half_a_second",
+        "elapsed_seconds": 0.842,
+        "log_line": 93
+      },
+      {
+        "ordinal": 87,
+        "target": "codex-component-host",
+        "test": "session_wire::tests::histories_larger_than_sixteen_megabytes_round_trip",
+        "elapsed_seconds": 4.964,
+        "log_line": 94
+      }
+    ]
+  },
+  "strict_runner": {
+    "report": {
+      "path": "/workspace/acceptance/p03-wire-slice1-tests.subreaper.json",
+      "sha256": "bb8a75e09e35e0c35e73e9f660060b44700a85aa4cb79b330179769b1147a6af",
+      "bytes": 784
+    },
+    "source": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    },
+    "raw": {
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-component-host",
+        "-p",
+        "codex-component-api"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 736785,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 736834,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 736843,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 736599,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 736599,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 22.316636158997426
+    },
+    "returncode_histogram": {
+      "-9": 3,
+      "0": 1
+    },
+    "limit": "Raw signal returns retained; no attribution to individual tests or all-descendant-zero claim."
+  },
+  "validation_limits": [
+    "This is custom shared support, not native subsystem extraction or broker activation.",
+    "Unit/process fixture regressions exercise the changed library; independently installed unchanged-worker interoperability still requires newly codec-linked executables.",
+    "P02 frozen full CLI1b72 and its successful GUI/storage/search evidence predate this source and cannot establish runtime acceptance of the new codec.",
+    "No API schema/version/dependency change or new installable package is introduced.",
+    "No claim that partial-read future cancellation or detached spawn_blocking parsing has gained new guarantees; prior semantics remain.",
+    "Later lint/format results must be linked separately to these exact tested preformat bytes; no repeat test is implied.",
+    "Historical staged patches were not individually built/tested; the complete adopted aggregate was tested.",
+    "Archives and raw reports referenced by cloud paths remain local unless separately published/exported."
+  ]
+}

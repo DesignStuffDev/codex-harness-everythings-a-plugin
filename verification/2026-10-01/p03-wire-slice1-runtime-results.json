@@ -1,0 +1,505 @@
+{
+  "passed": true,
+  "evidence_kind": "p03_wire_slice1_real_cli_reused_worker_compatibility",
+  "source_scope": "Historical completed codec-slice runtime only; subsequent declaration slice excluded",
+  "reports": {
+    "acceptance": {
+      "path": "/tmp/p03-wire-slice1-cli-runtime/cli-acceptance.json",
+      "sha256": "097580712e38a2c3fb362cb13f27d203739937840d0dc5209de49e54e17f29e1"
+    },
+    "source_wrapper": {
+      "path": "/workspace/acceptance/p03-wire-slice1-cli-runtime.source.json",
+      "sha256": "182048101b20756b5d3200c8f6cdb9641bccda43081324daf9b2b8ce0e13998f"
+    },
+    "strict_subreaper": {
+      "path": "/workspace/acceptance/p03-wire-slice1-cli-runtime.subreaper.json",
+      "sha256": "623c54553b765474273940a00098dc6022cd67fcfeda613b804fe429275a5bc9"
+    }
+  },
+  "run": {
+    "started_utc": "2026-10-01T13:24:43Z",
+    "finished_utc": "2026-10-01T13:24:47Z",
+    "exit_status": 0,
+    "source_unchanged": true,
+    "source_entries": 8861,
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-wire-slice1-cli-runtime.subreaper.json",
+      "--",
+      "python3",
+      "-B",
+      "/tmp/p03-reused-search-cli-stage/reused_cli_acceptance.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--cli",
+      "/workspace/component-checkpoint-candidate-p03-wire-cli-20261001/codex-file-search",
+      "--manager",
+      "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+      "--build-report",
+      "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "--runtime-artifact-receipt",
+      "/workspace/acceptance/p03-wire-slice1-cli-artifact.json",
+      "--expected-source-report",
+      "/workspace/acceptance/p03-wire-slice1-fmt.source.json",
+      "--tests-source-report",
+      "/workspace/acceptance/p03-wire-slice1-tests.source.json",
+      "--work-dir",
+      "/tmp/p03-wire-slice1-cli-runtime"
+    ],
+    "log_sha256": "e6b774b87aa26671e9f42f9e937f9ae943563a87bd89ac2ff30e26d6a0b7c054"
+  },
+  "source_binding": {
+    "published_starting_baseline": "c28a1c33a856a987316f4b97b4c488d68055fffc",
+    "prior_test_to_format_to_build": {
+      "build_entries": 8861,
+      "format_entries": 10153,
+      "common_entries": 8860,
+      "exact_complete_subsets": [
+        "codex-rs/",
+        "component-sdk/"
+      ],
+      "build_only": {
+        "MODULE.bazel": "3c6061228e9a3a3b419591bb1dbb4155197f072bab2e3c10205dc2d334e3a442"
+      },
+      "format_only_prefix_counts": {
+        "sdk/python": 1257,
+        "sdk/typescript": 31,
+        "sdk/python-runtime": 5
+      },
+      "build_map_sha256": "f17525d6474fe0d384e548ae29d579b01d027041997292671ae18c8c62597a15",
+      "current_build_map_bytes_match": true,
+      "current_source_metadata_before_sha256": "997bba157fb5f117f6986778a931c679cab8139dfa1a498b94fb5ab633cf3cc6",
+      "test_to_formatted_changed_paths": [
+        "codex-rs/component-host/src/session_wire/codec.rs",
+        "codex-rs/component-host/src/session_wire/payload.rs",
+        "codex-rs/component-host/src/session_wire/sending.rs"
+      ],
+      "limitation": "Checks every mapped build input; SDK omissions and unlisted/generated files are outside this current-source snapshot. Prior tests used pre-format bytes; this gate is a separate installed-worker CLI execution."
+    },
+    "runtime_map_equals_successful_unchanged_build_map": true,
+    "seven_codec_paths": {
+      "codex-rs/component-host/src/session_wire.rs": "d86453e22238de4ac0c8aa756e76420eedfabfc0d81c71d0bcc90676be8aaeeb",
+      "codex-rs/component-host/src/session_wire/assembly.rs": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "codex-rs/component-host/src/session_wire/codec.rs": "791349fa4a52a6183c94e3f50ceb5d6dfeadfba44b19327d060a87619ea9966a",
+      "codex-rs/component-host/src/session_wire/payload.rs": "b0a6ca23eedb08afdaee84d25dc2eef3c1cd5db564d76ced5ec92e2a565022b9",
+      "codex-rs/component-host/src/session_wire/raw_tests.rs": "79470d1d1d3a8fdb4037c6f0ce1300e92491ebc424b185d17c627cde31e259c5",
+      "codex-rs/component-host/src/session_wire/sending.rs": "63f880dde9d4a46fe070c2336b1864f0b85d05eda765068d9e528c84ced83d79",
+      "codex-rs/component-host/src/session_wire_tests.rs": "024a7dbd66031a1ef03fbbd914d154a305e7de7ff87063a0def6b335db601a6f"
+    },
+    "current_checkout_equality_claimed": false
+  },
+  "inputs": {
+    "worker_build": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+      "bytes": 81383
+    },
+    "runtime_receipt": {
+      "path": "/workspace/acceptance/p03-wire-slice1-cli-artifact.json",
+      "sha256": "9093788b89952b86cf2e5ec936f274de3ea0df06b7b3b91d383297e00acd0354",
+      "bytes": 1595
+    },
+    "formatted_source": {
+      "path": "/workspace/acceptance/p03-wire-slice1-fmt.source.json",
+      "sha256": "9776ae39a5b757a56a2f3fe2b9a56934e8b600c24b308d2d938fa157c7614c0e",
+      "bytes": 2823734
+    },
+    "tested_source": {
+      "path": "/workspace/acceptance/p03-wire-slice1-tests.source.json",
+      "sha256": "123778032f821923bf28d36a9db73e4f464939cf7199262c915168041e1a8cc0",
+      "bytes": 2824102
+    },
+    "original_orchestrator": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/cli_acceptance.py",
+      "sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+      "bytes": 16077
+    },
+    "acceptance_support": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/acceptance_support.py",
+      "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+      "bytes": 9352
+    },
+    "subreaper_runner": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    },
+    "staged_orchestrator": {
+      "path": "/tmp/p03-reused-search-cli-stage/reused_cli_acceptance.py",
+      "sha256": "ebbfd0842d9bc79a794323ae14538b22c063b2c1e7a8148683a9b7e6ba7c4722",
+      "bytes": 17191
+    },
+    "staged_provenance": {
+      "path": "/tmp/p03-reused-search-cli-stage/reuse_provenance.py",
+      "sha256": "a35bc975a8424c9943f475b65d25bd71d79f19a9c76aaaf504023c0ba72d0db1",
+      "bytes": 10343
+    },
+    "stage_manifest": {
+      "path": "/tmp/p03-reused-search-cli-stage/manifest.json",
+      "sha256": "10ec778c4261ab2ecb4075159fa7ac84ea1326b94f31e58d33316397188ac9f4",
+      "bytes": 1759
+    },
+    "stage_readme": {
+      "path": "/tmp/p03-reused-search-cli-stage/README.md",
+      "sha256": "93b8e966123055bbd244e1a88201190cc2d2705aa177c25f85cd65d6a1b680d0",
+      "bytes": 2993
+    },
+    "worker_source_inventory": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/source-inventory.json",
+      "sha256": "b516c4c241ef817366bd0a98eafb75c58360ec8611d1ee0e720a994b6544ddb1",
+      "bytes": 56947
+    },
+    "runtime_build": {
+      "path": "/workspace/acceptance/p03-wire-slice1-cli-build.source.json",
+      "sha256": "c3da48c94096a9ca91fc2ad16826bacc9fc65ce7d657dcea16e307ac785dd7a2",
+      "bytes": 2448243
+    },
+    "fresh_cli": {
+      "path": "/workspace/component-checkpoint-candidate-p03-wire-cli-20261001/codex-file-search",
+      "sha256": "a52a960f424101e34d0027555d8ee7f223c7a685721d57477c2a4dcf1cb7dfa1",
+      "bytes": 21185808
+    },
+    "original_manager": {
+      "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+      "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+      "bytes": 6575272
+    }
+  },
+  "binaries": {
+    "new_search_cli": {
+      "sha256": "a52a960f424101e34d0027555d8ee7f223c7a685721d57477c2a4dcf1cb7dfa1",
+      "bytes": 21185808,
+      "mtime_ns": 1790860418840906349,
+      "mode": 365
+    },
+    "original_manager": {
+      "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+      "bytes": 6575272,
+      "mtime_ns": 1790835039120093093,
+      "mode": 448
+    },
+    "installed_preserved_worker04": {
+      "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "bytes": 10362672,
+      "mtime_ns": 1790861084887544413,
+      "mode": 448
+    },
+    "before_after_identical": true,
+    "new_manager_runtime_executed": false,
+    "worker_rebuilt_by_this_gate": false
+  },
+  "results": {
+    "commands": [
+      {
+        "label": "native-lexical-root",
+        "status": 0,
+        "elapsed_seconds": 0.05279459699522704,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "native-exclude",
+        "status": 0,
+        "elapsed_seconds": 0.052254972004448064,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "native-unicode",
+        "status": 0,
+        "elapsed_seconds": 0.03614895499777049,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "native-truncated",
+        "status": 0,
+        "elapsed_seconds": 0.03774651201092638,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "native-indices-off",
+        "status": 0,
+        "elapsed_seconds": 0.052417792001506314,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "native-no-pattern",
+        "status": 0,
+        "elapsed_seconds": 0.01740092500403989,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "install",
+        "status": 0,
+        "elapsed_seconds": 0.009941205993527547,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "select",
+        "status": 0,
+        "elapsed_seconds": 0.013156871995306574,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "list-selected",
+        "status": 0,
+        "elapsed_seconds": 0.010502043995074928,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "external-lexical-root",
+        "status": 0,
+        "elapsed_seconds": 0.05454124200332444,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 2
+      },
+      {
+        "label": "external-exclude",
+        "status": 0,
+        "elapsed_seconds": 0.053412587993079796,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 2
+      },
+      {
+        "label": "external-unicode",
+        "status": 0,
+        "elapsed_seconds": 0.0581345499958843,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 2
+      },
+      {
+        "label": "external-truncated",
+        "status": 0,
+        "elapsed_seconds": 0.051454102009302005,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 2
+      },
+      {
+        "label": "external-indices-off",
+        "status": 0,
+        "elapsed_seconds": 0.04894472099840641,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 2
+      },
+      {
+        "label": "external-cli-ctrl-c",
+        "status": 130,
+        "elapsed_seconds": 0.035689728989382274,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 2
+      },
+      {
+        "label": "selected-failure-no-fallback",
+        "status": 1,
+        "elapsed_seconds": 0.01173439499689266,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "selected-failure-no-pattern",
+        "status": 0,
+        "elapsed_seconds": 0.011047068008338101,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "remove",
+        "status": 0,
+        "elapsed_seconds": 0.010743099002866074,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "list-removed",
+        "status": 0,
+        "elapsed_seconds": 0.009587164997356012,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "removed-native-lexical-root",
+        "status": 0,
+        "elapsed_seconds": 0.04378225500113331,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "removed-native-exclude",
+        "status": 0,
+        "elapsed_seconds": 0.0462436790112406,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "removed-native-unicode",
+        "status": 0,
+        "elapsed_seconds": 0.04491131399117876,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "removed-native-truncated",
+        "status": 0,
+        "elapsed_seconds": 0.043584148996160366,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      },
+      {
+        "label": "removed-native-indices-off",
+        "status": 0,
+        "elapsed_seconds": 0.036470450009801425,
+        "all_observed_pids_absent": true,
+        "remaining_pids": [],
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "observed_process_count": 1
+      }
+    ],
+    "status_histogram": {
+      "0": 22,
+      "1": 1,
+      "130": 1
+    },
+    "parity_cases": [
+      "lexical-root",
+      "exclude",
+      "unicode",
+      "truncated",
+      "indices-off"
+    ],
+    "exact_ordered_json_without_normalization": true,
+    "real_cli_ctrl_c": {
+      "exit_status": 130,
+      "all_observed_pids_absent": true,
+      "signal_target": "CLI only, after observing installed worker executable",
+      "no_partial_output": true
+    },
+    "selected_failure_no_fallback": true,
+    "no_pattern_bypasses_selected_failure": true,
+    "removal_restores_native_future_selection": true,
+    "immutable_object_retained": true,
+    "install_input_parked_before_execution": true,
+    "observed_installed_worker_pids": [
+      738968,
+      738987,
+      739006,
+      739026,
+      739045
+    ],
+    "all_24_observed_pid_sets_absent": true,
+    "timeouts_or_emergency_cleanup": false
+  },
+  "preservation": {
+    "all_bound_inputs_unchanged": true,
+    "mapped_source_bytes_and_metadata_unchanged": true,
+    "metadata_before_sha256": "997bba157fb5f117f6986778a931c679cab8139dfa1a498b94fb5ab633cf3cc6",
+    "metadata_after_sha256": "997bba157fb5f117f6986778a931c679cab8139dfa1a498b94fb5ab633cf3cc6",
+    "original_worker_proof_unchanged": true,
+    "original_manager_full_fingerprint_matches_worker_build": true
+  },
+  "strict_subreaper": {
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 738880,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ],
+    "command_pid": 738880,
+    "command_wait_status": 0,
+    "command_returncode": 0,
+    "runner_error": null,
+    "exit_status": 0,
+    "elapsed_seconds": 2.8896743410005
+  },
+  "limitations": [
+    "This is standalone one-root codex-file-search CLI compatibility, not a new independent worker build. Worker04 and the original manager were reused unchanged.",
+    "The newly built codex-component manager was not executed by this gate.",
+    "No App Server, full Codex CLI/TUI, desktop GUI, broker activation or native-constructor cancellation proof is provided by this run.",
+    "The private shared-codec refactor is custom support, not a newly extracted upstream subsystem.",
+    "Process polling can miss short-lived descendants; observed PID absence and the actual outer strict subreaper receipt are separate evidence.",
+    "Source preservation applies to this completed run at 2026-10-01T13:24:43Z\u201313:24:47Z. Later API declarations were adopted after it and are not covered; no current-checkout equality is asserted.",
+    "The wrapper baseline label is historical metadata, not a claim that this dirty source equaled that commit. Published starting baseline was c28a1c33a856a987316f4b97b4c488d68055fffc.",
+    "Source-map scope differs from the earlier format/test report as explicitly recorded; unlisted/generated files and omitted SDK paths are outside the runtime source snapshot."
+  ]
+}
