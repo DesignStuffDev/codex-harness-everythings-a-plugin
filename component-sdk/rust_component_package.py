@@ -7,6 +7,7 @@ import argparse
 import copy
 import hashlib
 import json
+import math
 import os
 from pathlib import Path
 from pathlib import PurePosixPath
@@ -457,15 +458,93 @@ class ExportPlan:
             temporary.rename(output)
 
 
-def assemble(
-    repo, binary, output, plugin_id, kind, name, *, contract_version=1, version="0.1.0"
-):
-    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", plugin_id):
-        raise ValueError("invalid plugin ID")
-    if not kind or not name or len(kind.encode()) > 128 or len(name.encode()) > 128:
-        raise ValueError("component kind/name must contain 1–128 UTF-8 bytes")
-    if type(contract_version) is not int or not 1 <= contract_version <= 0xFFFFFFFF:
-        raise ValueError("component contract version must be a positive 32-bit integer")
+MAX_METADATA_BYTES = 16 * 1024
+MAX_METADATA_DEPTH = 8
+MAX_METADATA_NODES = 1024
+
+
+def validate_component_metadata(value):
+    """Return a detached bounded JSON object; None retains the old empty default."""
+    if value is None:
+        return {}
+    if type(value) is not dict:
+        raise ValueError("component metadata must be a JSON object")
+    pending = [(value, 0)]
+    nodes, string_bytes = 1, 0
+    while pending:
+        current, depth = pending.pop()
+        if depth > MAX_METADATA_DEPTH:
+            raise ValueError("component metadata exceeds maximum depth")
+        if type(current) in (dict, list):
+            nodes += len(current)
+            if nodes > MAX_METADATA_NODES:
+                raise ValueError("component metadata exceeds maximum node count")
+            if type(current) is dict:
+                strings = current.keys()
+                children = current.values()
+            else:
+                strings = ()
+                children = current
+            for key in strings:
+                if type(key) is not str:
+                    raise ValueError("component metadata object keys must be strings")
+                if len(key) > MAX_METADATA_BYTES:
+                    raise ValueError("component metadata exceeds maximum UTF-8 bytes")
+                string_bytes += len(key.encode("utf-8"))
+            pending.extend((child, depth + 1) for child in children)
+        elif type(current) is str:
+            if len(current) > MAX_METADATA_BYTES:
+                raise ValueError("component metadata exceeds maximum UTF-8 bytes")
+            string_bytes += len(current.encode("utf-8"))
+        elif type(current) is float:
+            if not math.isfinite(current):
+                raise ValueError("component metadata numbers must be finite")
+        elif type(current) is int:
+            if not -(2**63) <= current < 2**64:
+                raise ValueError("component metadata integer exceeds JSON host range")
+        elif current is not None and type(current) is not bool:
+            raise ValueError("component metadata contains a non-JSON value")
+        if string_bytes > MAX_METADATA_BYTES:
+            raise ValueError("component metadata exceeds maximum UTF-8 bytes")
+    text = json.dumps(value, ensure_ascii=False, allow_nan=False, separators=(",", ":"))
+    if len(text.encode("utf-8")) > MAX_METADATA_BYTES:
+        raise ValueError("component metadata exceeds maximum UTF-8 bytes")
+    return json.loads(text)
+
+
+def parse_component_metadata(text):
+    """Read bounded inline JSON, rejecting duplicate keys before dict creation."""
+    if len(text) > MAX_METADATA_BYTES or len(text.encode("utf-8")) > MAX_METADATA_BYTES:
+        raise ValueError("component metadata exceeds maximum UTF-8 bytes")
+
+    def unique_object(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("component metadata contains duplicate object keys")
+            result[key] = value
+        return result
+
+    def reject_constant(_):
+        raise ValueError("component metadata numbers must be finite")
+
+    try:
+        value = json.loads(text, object_pairs_hook=unique_object, parse_constant=reject_constant)
+    except RecursionError as error:
+        raise ValueError("component metadata exceeds maximum depth") from error
+    if type(value) is not dict:
+        raise ValueError("component metadata must be a JSON object")
+    return validate_component_metadata(value)
+
+
+class MetadataArgument(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        if getattr(namespace, self.dest) is not None:
+            parser.error("component metadata may be supplied only once")
+        setattr(namespace, self.dest, values)
+
+
+def validate_package_version(version):
     semantic_version = (
         re.fullmatch(
             r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)"
@@ -487,6 +566,20 @@ def assemble(
         )
     ):
         raise ValueError("package version must be semantic versioning")
+    return version
+
+
+def assemble(
+    repo, binary, output, plugin_id, kind, name, *, contract_version=1, version="0.1.0", metadata=None
+):
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", plugin_id):
+        raise ValueError("invalid plugin ID")
+    if not kind or not name or len(kind.encode()) > 128 or len(name.encode()) > 128:
+        raise ValueError("component kind/name must contain 1–128 UTF-8 bytes")
+    if type(contract_version) is not int or not 1 <= contract_version <= 0xFFFFFFFF:
+        raise ValueError("component contract version must be a positive 32-bit integer")
+    validate_package_version(version)
+    metadata = validate_component_metadata(metadata)
     if not binary.is_file():
         raise ValueError("binary must be a regular file")
     covered_source = nucleo_covered_source(repo)
@@ -518,7 +611,7 @@ def assemble(
                 "kind": kind,
                 "name": name,
                 "contract_version": contract_version,
-                "metadata": {},
+                "metadata": metadata,
             }
         ],
     }
@@ -697,6 +790,12 @@ def main():
     sub.add_argument("--name", default="default")
     sub.add_argument("--contract-version", type=int, default=1)
     sub.add_argument(
+        "--metadata",
+        type=parse_component_metadata,
+        action=MetadataArgument,
+        help="Bounded inline component JSON object; declaration is not runtime proof",
+    )
+    sub.add_argument(
         "--version",
         default="0.1.0",
         help="Package semantic version (independent of the component contract)",
@@ -713,6 +812,7 @@ def main():
                 args.name,
                 contract_version=args.contract_version,
                 version=args.version,
+                metadata=args.metadata,
             )
             print(args.output.absolute())
         else:
