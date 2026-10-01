@@ -3,6 +3,7 @@ use codex_protocol::config_types::ForcedLoginMethod;
 use std::fmt;
 use std::sync::Arc;
 use std::sync::Mutex;
+use std::sync::MutexGuard;
 use tokio::sync::watch;
 
 /// Failure to observe or validate this manager's local authentication policy.
@@ -71,6 +72,10 @@ struct State {
     epoch: u64,
     failure: Option<AuthPolicyError>,
 }
+pub(super) struct PolicyCommitGuard<'a> {
+    _state: MutexGuard<'a, State>,
+}
+
 pub(super) struct WorkspacePolicy {
     state: Mutex<State>,
     owner: Arc<()>,
@@ -94,11 +99,7 @@ impl WorkspacePolicy {
         }
     }
 
-    // Only local pure state operations enter here. Wakeups are always outside the state lock.
-    fn access<T>(
-        &self,
-        operation: impl FnOnce(&mut State) -> (Result<T, AuthPolicyError>, bool),
-    ) -> Result<T, AuthPolicyError> {
+    fn lock_available(&self) -> Result<MutexGuard<'_, State>, AuthPolicyError> {
         let (mut state, poisoned) = match self.state.lock() {
             Ok(state) => (state, false),
             Err(error) => (error.into_inner(), true),
@@ -107,10 +108,34 @@ impl WorkspacePolicy {
         if newly_unavailable {
             state.failure = Some(AuthPolicyError::Unavailable);
         }
-        let (result, notify) = match state.failure {
-            Some(error) => (Err(error), newly_unavailable),
-            None => operation(&mut state),
-        };
+        if let Some(error) = state.failure {
+            drop(state);
+            if newly_unavailable {
+                self.changed.send_replace(());
+            }
+            return Err(error);
+        }
+        Ok(state)
+    }
+
+    pub(super) fn lock_current(
+        &self,
+        stamp: &AuthPolicyStamp,
+    ) -> Result<PolicyCommitGuard<'_>, AuthPolicyError> {
+        let state = self.lock_available()?;
+        if !Arc::ptr_eq(&self.owner, &stamp.owner) || state.epoch != stamp.epoch {
+            return Err(AuthPolicyError::Changed);
+        }
+        Ok(PolicyCommitGuard { _state: state })
+    }
+
+    // Only local pure state operations enter here. Wakeups are always outside the state lock.
+    fn access<T>(
+        &self,
+        operation: impl FnOnce(&mut State) -> (Result<T, AuthPolicyError>, bool),
+    ) -> Result<T, AuthPolicyError> {
+        let mut state = self.lock_available()?;
+        let (result, notify) = operation(&mut state);
         drop(state);
         if notify {
             self.changed.send_replace(());

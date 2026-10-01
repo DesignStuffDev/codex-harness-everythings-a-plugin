@@ -1,3 +1,13 @@
+#[path = "auth_acquisition.rs"]
+mod auth_acquisition;
+#[path = "auth_reload.rs"]
+mod auth_reload;
+use auth_reload::AuthLoadError;
+use auth_reload::AuthLoadUpdate;
+use auth_reload::CachePolicy;
+use auth_reload::ExternalLoadOrigin;
+use auth_reload::LoadedAuth;
+use auth_reload::NativePolicyRejection;
 #[path = "workspace_policy.rs"]
 mod workspace_policy;
 mod workspace_routing;
@@ -1124,8 +1134,14 @@ fn ensure_auth_workspace_allowed(
     expected_workspace_ids: Option<&[String]>,
     account_id: &str,
 ) -> std::io::Result<()> {
-    crate::server::ensure_workspace_account_allowed(expected_workspace_ids, account_id)
-        .map_err(|message| std::io::Error::new(std::io::ErrorKind::PermissionDenied, message))
+    crate::server::ensure_workspace_account_allowed(expected_workspace_ids, account_id).map_err(
+        |message| {
+            std::io::Error::new(
+                std::io::ErrorKind::PermissionDenied,
+                NativePolicyRejection(message),
+            )
+        },
+    )
 }
 
 fn ensure_agent_identity_workspace_allowed(
@@ -2409,25 +2425,23 @@ impl AuthManager {
     pub async fn auth(&self) -> Option<CodexAuth> {
         if self.has_external_auth() {
             self.reload().await;
-            return self.auth_cached();
+            return self.checked_cached_auth(Clone::clone);
         }
 
-        let auth = self.auth_cached()?;
+        let auth = self.checked_cached_auth(Clone::clone)?;
         if Self::should_refresh_proactively(&auth)
             && let Err(err) = self.refresh_token().await
         {
             tracing::error!("Failed to refresh token: {}", err);
-            return Some(auth);
         }
-        self.auth_cached()
+        self.checked_cached_auth(Clone::clone)
     }
 
-    /// Refreshes auth, then captures credentials and their account-bound factory together.
+    /// Refreshes auth, then checks current policy while capturing credentials and their factory.
     /// The auth read lock prevents an identity change between the two snapshots.
     pub async fn auth_with_http_client_factory(&self) -> Option<(CodexAuth, HttpClientFactory)> {
-        self.auth().await;
-        let cached = self.inner.read().ok()?;
-        Some((cached.auth.clone()?, self.http_client_factory()))
+        self.auth().await?;
+        self.checked_cached_auth(|auth| (auth.clone(), self.http_client_factory()))
     }
 
     pub async fn agent_identity_auth(
@@ -2494,10 +2508,14 @@ impl AuthManager {
     }
 
     /// Reloads auth from the active source. Returns whether the auth value changed.
+    /// Source failures and stale policy snapshots preserve the current cache.
     pub async fn reload(&self) -> bool {
         tracing::info!("Reloading auth");
-        let new_auth = self.load_auth().await;
-        self.set_cached_auth(new_auth)
+        let Ok(loaded) = self.load_auth().await else {
+            return false;
+        };
+        self.commit_auth_load(loaded)
+            .is_ok_and(|change| change.changed)
     }
 
     async fn reload_if_account_id_matches(
@@ -2512,8 +2530,10 @@ impl AuthManager {
             }
         };
 
-        let new_auth = self.load_auth().await;
-        let new_account_id = new_auth.as_ref().and_then(CodexAuth::get_account_id);
+        let Ok(loaded) = self.load_auth().await else {
+            return ReloadOutcome::Skipped;
+        };
+        let new_account_id = loaded.captured_auth().and_then(CodexAuth::get_account_id);
 
         if new_account_id.as_deref() != Some(expected_account_id) {
             let found_account_id = new_account_id.as_deref().unwrap_or("unknown");
@@ -2524,11 +2544,10 @@ impl AuthManager {
         }
 
         tracing::info!("Reloading auth for account {expected_account_id}");
-        let cached_before_reload = self.auth_cached();
-        let auth_changed =
-            !Self::auths_equal_for_refresh(cached_before_reload.as_ref(), new_auth.as_ref());
-        self.set_cached_auth(new_auth);
-        if auth_changed {
+        let Ok(change) = self.commit_auth_load(loaded) else {
+            return ReloadOutcome::Skipped;
+        };
+        if change.credentials_changed {
             ReloadOutcome::ReloadedChanged
         } else {
             ReloadOutcome::ReloadedNoChange
@@ -2589,89 +2608,97 @@ impl AuthManager {
         }
     }
 
-    async fn load_auth(&self) -> Option<CodexAuth> {
-        let policy = self.auth_policy_snapshot().ok()?;
-        if let Some(external_auth) = self.external_auth_provider() {
+    async fn load_auth(&self) -> Result<LoadedAuth, AuthLoadError> {
+        let policy = self.auth_policy_snapshot().map_err(AuthLoadError::Policy)?;
+        let update = if let Some(external_auth) = self.external_auth_provider() {
             let cached_auth = self.auth_cached();
             if cached_auth
                 .as_ref()
                 .is_some_and(|auth| self.refresh_failure_for_auth(auth).is_some())
             {
-                return cached_auth;
-            }
-            return match self.resolve_external_auth(external_auth.as_ref()).await {
-                Ok(auth) => Some(auth),
-                Err(err) => {
-                    tracing::error!("Failed to resolve external auth: {err}");
-                    match err {
-                        RefreshTokenError::Permanent(error) => {
-                            if let Some(auth) = cached_auth.as_ref() {
-                                self.record_permanent_refresh_failure_if_unchanged(auth, &error);
-                            }
-                            cached_auth
-                        }
-                        RefreshTokenError::Transient(_) => None,
-                        RefreshTokenError::Policy(_) => cached_auth,
+                AuthLoadUpdate::Preserve {
+                    attempted: cached_auth,
+                    failure: None,
+                }
+            } else {
+                let resolved = external_auth
+                    .resolve()
+                    .await
+                    .map_err(|error| {
+                        (
+                            ExternalLoadOrigin::Resolver,
+                            external_auth.classify_error(error),
+                        )
+                    })
+                    .and_then(|auth| {
+                        self.validate_external_auth(&auth, external_auth.as_ref())
+                            .map(|()| auth)
+                            .map_err(|error| (ExternalLoadOrigin::Restriction, error))
+                    });
+                if let Err((_, error)) = &resolved {
+                    tracing::error!("Failed to resolve external auth: {error}");
+                }
+                match resolved {
+                    Ok(auth) => AuthLoadUpdate::Replace(Some(auth)),
+                    Err((
+                        ExternalLoadOrigin::Resolver | ExternalLoadOrigin::Restriction,
+                        RefreshTokenError::Permanent(error),
+                    )) => AuthLoadUpdate::Preserve {
+                        attempted: cached_auth,
+                        failure: Some(error),
+                    },
+                    Err((
+                        ExternalLoadOrigin::Resolver | ExternalLoadOrigin::Restriction,
+                        RefreshTokenError::Policy(_),
+                    )) => AuthLoadUpdate::Preserve {
+                        attempted: cached_auth,
+                        failure: None,
+                    },
+                    Err((ExternalLoadOrigin::Resolver, RefreshTokenError::Transient(error))) => {
+                        return Err(AuthLoadError::Source(error));
+                    }
+                    Err((ExternalLoadOrigin::Restriction, RefreshTokenError::Transient(_))) => {
+                        AuthLoadUpdate::Replace(None)
                     }
                 }
-            };
-        }
-
-        load_auth(
-            &self.codex_home,
-            self.enable_codex_api_key_env,
-            self.auth_credentials_store_mode,
-            Some(policy.allowed_login_methods()),
-            policy.effective_chatgpt_workspaces(),
-            self.chatgpt_base_url.as_deref(),
-            self.keyring_backend_kind,
-            self.agent_identity_authapi_base_url.as_deref(),
-            &self.auth_route_config,
-        )
-        .await
-        .ok()
-        .flatten()
-        .filter(|auth| {
-            validate_auth_restrictions(
+            }
+        } else {
+            let auth = match load_auth(
+                &self.codex_home,
+                self.enable_codex_api_key_env,
+                self.auth_credentials_store_mode,
                 Some(policy.allowed_login_methods()),
                 policy.effective_chatgpt_workspaces(),
-                auth,
-            )
-            .is_ok()
+                self.chatgpt_base_url.as_deref(),
+                self.keyring_backend_kind,
+                self.agent_identity_authapi_base_url.as_deref(),
+                &self.auth_route_config,
+            ).await {
+                Ok(auth) => auth,
+                Err(error) if error.get_ref().is_some_and(<dyn std::error::Error + std::marker::Send + std::marker::Sync + 'static>::is::<NativePolicyRejection>) => None,
+                Err(error) => return Err(AuthLoadError::Source(error)),
+            };
+            // A successfully evaluated native restriction remains an authoritative None.
+            AuthLoadUpdate::Replace(auth.filter(|auth| {
+                validate_auth_restrictions(
+                    Some(policy.allowed_login_methods()),
+                    policy.effective_chatgpt_workspaces(),
+                    auth,
+                )
+                .is_ok()
+            }))
+        };
+        self.validate_policy_stamp(&policy.stamp())
+            .map_err(AuthLoadError::Policy)?;
+        Ok(LoadedAuth {
+            policy: policy.stamp(),
+            update,
         })
     }
 
     fn set_cached_auth(&self, new_auth: Option<CodexAuth>) -> bool {
-        if let Ok(mut guard) = self.inner.write() {
-            let previous = guard.auth.as_ref();
-            let changed = !AuthManager::auths_equal(previous, new_auth.as_ref());
-            let auth_changed_for_refresh =
-                !Self::auths_equal_for_refresh(previous, new_auth.as_ref());
-            let owner_changed =
-                auth_changed_for_refresh && !same_owner(previous, new_auth.as_ref());
-            if owner_changed {
-                self.auth_route_config
-                    .application_network_policy()
-                    .invalidate();
-            }
-            if auth_changed_for_refresh {
-                guard.permanent_refresh_failure = None;
-            }
-            tracing::info!("Reloaded auth, changed: {changed}");
-            guard.auth = new_auth;
-            if auth_changed_for_refresh {
-                self.auth_change_state_tx.send_modify(|state| {
-                    state.generation += 1;
-                    if owner_changed {
-                        state.owner_generation += 1;
-                    }
-                });
-                self.auth_change_tx.send_modify(|revision| *revision += 1);
-            }
-            changed
-        } else {
-            false
-        }
+        self.replace_auth_cache(AuthLoadUpdate::Replace(new_auth), CachePolicy::Unfenced)
+            .is_ok_and(|change| change.changed)
     }
 
     pub async fn set_external_auth(

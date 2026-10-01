@@ -276,13 +276,21 @@ async fn unavailable_policy_blocks_native_load_even_with_valid_stored_api_auth()
     let expected = CodexAuth::from_api_key("fixture-policy-key");
     let manager =
         AuthManager::from_auth_for_testing_with_home(expected.clone(), home.path().to_path_buf());
-    assert_eq!(manager.load_auth().await, Some(expected.clone()));
+    assert_eq!(
+        manager.load_auth().await.unwrap().captured_auth().cloned(),
+        Some(expected.clone())
+    );
     manager.workspace_policy.state.lock().unwrap().epoch = u64::MAX;
     assert_eq!(
         manager.set_forced_chatgpt_workspace_id(Some(Vec::new())),
         Err(AuthPolicyError::RevisionExhausted)
     );
-    assert_eq!(manager.load_auth().await, None);
+    assert!(matches!(
+        manager.load_auth().await,
+        Err(super::super::auth_reload::AuthLoadError::Policy(
+            AuthPolicyError::RevisionExhausted
+        ))
+    ));
     // This slice changes policy decisions, not the separate cached-credential ownership API.
     assert_eq!(manager.auth_cached(), Some(expected));
 }
@@ -303,12 +311,40 @@ async fn unavailable_policy_blocks_external_permanent_failure_cached_return() {
         ),
     );
     assert!(manager.refresh_failure_for_auth(&expected).is_some());
-    assert_eq!(manager.load_auth().await, Some(expected.clone()));
+    assert_eq!(
+        manager.load_auth().await.unwrap().captured_auth().cloned(),
+        Some(expected.clone())
+    );
     manager.workspace_policy.state.lock().unwrap().epoch = u64::MAX;
     assert_eq!(
         manager.set_forced_chatgpt_workspace_id(Some(Vec::new())),
         Err(AuthPolicyError::RevisionExhausted)
     );
-    assert_eq!(manager.load_auth().await, None);
+    assert!(matches!(
+        manager.load_auth().await,
+        Err(super::super::auth_reload::AuthLoadError::Policy(
+            AuthPolicyError::RevisionExhausted
+        ))
+    ));
     assert_eq!(manager.auth_cached(), Some(expected));
+}
+
+#[tokio::test]
+async fn unavailable_policy_denies_actual_cached_acquisition_without_clearing() {
+    for exhausted in [false, true] {
+        let expected = CodexAuth::from_api_key("cached");
+        let manager = AuthManager::from_optional_auth_for_testing(Some(expected.clone()));
+        if exhausted {
+            manager.workspace_policy.state.lock().unwrap().epoch = u64::MAX;
+            assert_eq!(
+                manager.set_forced_chatgpt_workspace_id(Some(vec!["other".into()])),
+                Err(AuthPolicyError::RevisionExhausted),
+            );
+        } else {
+            poison_policy(&manager);
+        }
+        assert_eq!(manager.auth().await, None);
+        assert!(manager.auth_with_http_client_factory().await.is_none());
+        assert_eq!(manager.auth_cached(), Some(expected));
+    }
 }
