@@ -2,6 +2,8 @@
 mod auth_acquisition;
 #[path = "auth_reload.rs"]
 mod auth_reload;
+#[path = "auth_source.rs"]
+mod auth_source;
 use auth_reload::AuthCacheRevision;
 use auth_reload::AuthLoadError;
 use auth_reload::AuthLoadUpdate;
@@ -1835,6 +1837,7 @@ impl AuthDotJson {
 struct CachedAuth {
     auth: Option<CodexAuth>,
     revision: AuthCacheRevision,
+    external_auth: Option<Arc<dyn ExternalAuth>>,
     /// Permanent refresh failure cached for the current auth snapshot so
     /// later refresh attempts for the same credentials fail fast without network.
     permanent_refresh_failure: Option<AuthScopedRefreshFailure>,
@@ -2096,7 +2099,6 @@ pub struct AuthManager {
     refresh_lock: Semaphore,
     agent_identity_lock: Semaphore,
     agent_identity_bootstrap_cooldown: Mutex<AgentIdentityBootstrapCooldown>,
-    external_auth: RwLock<Option<Arc<dyn ExternalAuth>>>,
     workload_identity_selected: bool,
     auth_route_config: AuthRouteConfig,
 }
@@ -2236,6 +2238,7 @@ impl AuthManager {
                 auth: managed_auth,
                 permanent_refresh_failure: None,
                 revision: AuthCacheRevision::new(),
+                external_auth: None,
             }),
             auth_change_tx,
             auth_change_state_tx: watch::channel(AuthChangeState::default()).0,
@@ -2251,7 +2254,6 @@ impl AuthManager {
             refresh_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_bootstrap_cooldown: Mutex::default(),
-            external_auth: RwLock::new(None),
             workload_identity_selected: false,
             auth_route_config,
         }
@@ -2268,6 +2270,7 @@ impl AuthManager {
             auth,
             permanent_refresh_failure: None,
             revision: AuthCacheRevision::new(),
+            external_auth: None,
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
 
@@ -2288,7 +2291,6 @@ impl AuthManager {
             refresh_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_bootstrap_cooldown: Mutex::default(),
-            external_auth: RwLock::new(None),
             workload_identity_selected: false,
             auth_route_config: crate::test_support::transport_default_auth_route_config(),
         })
@@ -2300,6 +2302,7 @@ impl AuthManager {
             auth: Some(auth),
             permanent_refresh_failure: None,
             revision: AuthCacheRevision::new(),
+            external_auth: None,
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
         Arc::new(Self {
@@ -2319,7 +2322,6 @@ impl AuthManager {
             refresh_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_bootstrap_cooldown: Mutex::default(),
-            external_auth: RwLock::new(None),
             workload_identity_selected: false,
             auth_route_config: crate::test_support::transport_default_auth_route_config(),
         })
@@ -2335,6 +2337,7 @@ impl AuthManager {
             auth: Some(auth),
             permanent_refresh_failure: None,
             revision: AuthCacheRevision::new(),
+            external_auth: None,
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
         Arc::new(Self {
@@ -2358,7 +2361,6 @@ impl AuthManager {
             refresh_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_bootstrap_cooldown: Mutex::default(),
-            external_auth: RwLock::new(None),
             workload_identity_selected: false,
             auth_route_config: crate::test_support::transport_default_auth_route_config(),
         })
@@ -2372,6 +2374,7 @@ impl AuthManager {
                 auth: None,
                 permanent_refresh_failure: None,
                 revision: AuthCacheRevision::new(),
+                external_auth: Some(Arc::new(BearerTokenRefresher::new(config))),
             }),
             auth_change_tx,
             auth_change_state_tx: watch::channel(AuthChangeState::default()).0,
@@ -2387,7 +2390,6 @@ impl AuthManager {
             refresh_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_lock: Semaphore::new(/*permits*/ 1),
             agent_identity_bootstrap_cooldown: Mutex::default(),
-            external_auth: RwLock::new(Some(Arc::new(BearerTokenRefresher::new(config)))),
             workload_identity_selected: false,
             // External bearer auth refreshes by running the provider's command and never makes
             // auth-owned HTTP requests, so this route is intentionally inert.
@@ -2716,45 +2718,6 @@ impl AuthManager {
             .is_ok_and(|change| change.changed)
     }
 
-    pub async fn set_external_auth(
-        &self,
-        external_auth: Arc<dyn ExternalAuth>,
-    ) -> Result<(), RefreshTokenError> {
-        if self.workload_identity_selected {
-            return Err(permanent_external_auth_error(
-                "workload identity auth cannot be replaced at runtime",
-            ));
-        }
-        self.install_external_auth(external_auth).await
-    }
-
-    async fn install_external_auth(
-        &self,
-        external_auth: Arc<dyn ExternalAuth>,
-    ) -> Result<(), RefreshTokenError> {
-        let auth = self.resolve_external_auth(external_auth.as_ref()).await?;
-        let mut external_auth_slot = self.external_auth.write().map_err(|_| {
-            RefreshTokenError::Transient(std::io::Error::other("external auth lock is poisoned"))
-        })?;
-        *external_auth_slot = Some(external_auth);
-        drop(external_auth_slot);
-        if let Ok(mut guard) = self.inner.write() {
-            guard.permanent_refresh_failure = None;
-        }
-        self.commit_external_auth(auth)
-    }
-
-    pub fn clear_external_auth(&self) {
-        if self.workload_identity_selected {
-            return;
-        }
-        if let Ok(mut external_auth) = self.external_auth.write()
-            && external_auth.take().is_some()
-        {
-            self.set_cached_auth(/*new_auth*/ None);
-        }
-    }
-
     /// Publishes an exact policy change, invalidating previously captured policy stamps.
     pub fn set_forced_chatgpt_workspace_id(
         &self,
@@ -2900,13 +2863,6 @@ impl AuthManager {
 
     pub fn unauthorized_recovery(self: &Arc<Self>) -> UnauthorizedRecovery {
         UnauthorizedRecovery::new(Arc::clone(self))
-    }
-
-    fn external_auth_provider(&self) -> Option<Arc<dyn ExternalAuth>> {
-        self.external_auth
-            .read()
-            .ok()
-            .and_then(|external_auth| external_auth.clone())
     }
 
     fn has_refreshable_external_auth(&self) -> bool {
@@ -3140,27 +3096,6 @@ impl AuthManager {
         Ok(())
     }
 
-    fn commit_external_auth(&self, auth: CodexAuth) -> Result<(), RefreshTokenError> {
-        if auth.is_external_chatgpt_tokens() {
-            let auth_dot_json = auth.get_current_auth_json().ok_or_else(|| {
-                RefreshTokenError::Transient(std::io::Error::other(
-                    "external ChatGPT auth tokens are missing auth state",
-                ))
-            })?;
-            // Independent AuthManagers share external ChatGPT auth through the process-local store.
-            save_auth(
-                &self.codex_home,
-                &auth_dot_json,
-                AuthCredentialsStoreMode::Ephemeral,
-                AuthKeyringBackendKind::default(),
-            )
-            .map_err(RefreshTokenError::Transient)?;
-        }
-
-        self.set_cached_auth(Some(auth));
-        Ok(())
-    }
-
     fn validate_external_auth(
         &self,
         auth: &CodexAuth,
@@ -3223,3 +3158,7 @@ mod change_state_tests;
 #[cfg(test)]
 #[path = "account_user_id_tests.rs"]
 mod account_user_id_tests;
+
+#[cfg(test)]
+#[path = "auth_source_tests.rs"]
+mod auth_source_tests;

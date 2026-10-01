@@ -4,7 +4,9 @@ use super::AuthPolicyError;
 use super::AuthPolicyStamp;
 use super::AuthScopedRefreshFailure;
 use super::CodexAuth;
+use super::ExternalAuth;
 use super::RefreshTokenFailedError;
+use super::auth_source::AuthOwnerUpdate;
 use super::same_owner;
 use std::fmt;
 use std::sync::Arc;
@@ -86,6 +88,13 @@ pub(super) struct CacheChange {
     pub(super) credentials_changed: bool,
 }
 
+// Kept internal: callers cannot combine a source install with a Preserve update.
+enum SourceChange {
+    Keep,
+    Install(Arc<dyn ExternalAuth>),
+    Clear,
+}
+
 impl AuthManager {
     pub(super) fn commit_auth_load(
         &self,
@@ -102,10 +111,27 @@ impl AuthManager {
 
     pub(super) fn replace_auth_cache(
         &self,
-        mut update: AuthLoadUpdate,
+        update: AuthLoadUpdate,
         policy: CachePolicy<'_>,
     ) -> Result<CacheChange, AuthLoadError> {
+        self.replace_auth_owner(AuthOwnerUpdate::Cache(update), policy)
+    }
+
+    pub(super) fn replace_auth_owner(
+        &self,
+        update: AuthOwnerUpdate,
+        policy: CachePolicy<'_>,
+    ) -> Result<CacheChange, AuthLoadError> {
+        let (mut update, source) = match update {
+            AuthOwnerUpdate::Cache(update) => (update, SourceChange::Keep),
+            AuthOwnerUpdate::Install { provider, auth } => (
+                AuthLoadUpdate::Replace(Some(auth)),
+                SourceChange::Install(provider),
+            ),
+            AuthOwnerUpdate::ClearExternal => (AuthLoadUpdate::Replace(None), SourceChange::Clear),
+        };
         // Declared before locks so even unwinding drops trait-backed auth only after lock release.
+        let retired_provider;
         let mut retired_auth = None;
         let mut retired_failure = None;
         let mut retired_revision = None;
@@ -114,6 +140,12 @@ impl AuthManager {
             .inner
             .write()
             .map_err(|_| AuthLoadError::CacheUnavailable)?;
+        if matches!(source, SourceChange::Clear) && cached.external_auth.is_none() {
+            return Ok(CacheChange {
+                changed: false,
+                credentials_changed: false,
+            });
+        }
         if let CachePolicy::Captured { revision, .. } = &policy
             && &cached.revision != *revision
         {
@@ -168,7 +200,7 @@ impl AuthManager {
         match &mut update {
             AuthLoadUpdate::Replace(auth) => {
                 retired_auth = std::mem::replace(&mut cached.auth, auth.take());
-                if credentials_changed {
+                if credentials_changed || !matches!(source, SourceChange::Keep) {
                     retired_failure = cached.permanent_refresh_failure.take();
                 }
             }
@@ -178,6 +210,11 @@ impl AuthManager {
                 }
             }
         }
+        retired_provider = match source {
+            SourceChange::Keep => None,
+            SourceChange::Install(provider) => cached.external_auth.replace(provider),
+            SourceChange::Clear => cached.external_auth.take(),
+        };
         if let Some(revision) = next_revision.take() {
             retired_revision = Some(std::mem::replace(&mut cached.revision, revision));
         }
@@ -198,7 +235,12 @@ impl AuthManager {
             self.auth_change_tx.send_modify(|revision| *revision += 1);
         }
         drop(cached);
-        drop((retired_auth, retired_failure, retired_revision));
+        drop((
+            retired_provider,
+            retired_auth,
+            retired_failure,
+            retired_revision,
+        ));
         tracing::info!("Reloaded auth, changed: {changed}");
         Ok(CacheChange {
             changed,
