@@ -75,29 +75,34 @@ async fn close_during_pending_startup_preserves_the_cleanup_cause() {
     }
 }
 
-/// Signals immediately before returning the selected session, with no later
-/// await in open. On the current-thread executor, the retained startup task
-/// finishes sending its result before the test can resume on this signal.
+/// Signals from the pending ticket immediately before returning the selected
+/// session, with no later await in finish. On the current-thread executor, the
+/// facade startup task publishes its result before the test resumes on this signal.
 struct ReadyBackend {
     session: Arc<dyn SearchBackendSession>,
-    returned: Semaphore,
+    returned: Arc<Semaphore>,
+    start: crate::pending_fixture::SingleStart,
 }
 
 impl SearchBackend for ReadyBackend {
-    fn open(&self, _: SearchOpen) -> SearchStartFuture<'_> {
-        Box::pin(async move {
-            self.returned.add_permits(1);
-            Ok(Arc::clone(&self.session))
-        })
+    fn begin_open(&self, _: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        let session = Arc::clone(&self.session);
+        self.start.begin(
+            Box::pin(async move { Ok(session) }),
+            crate::pending_fixture::FailureOrigin::Genuine,
+            Some(Arc::clone(&self.returned)),
+        )
     }
 
     fn request_shutdown(&self) {
+        self.start.request_cancel();
         self.session.request_close();
     }
 
     fn shutdown(&self) -> SearchCloseFuture<'_> {
         Box::pin(async move {
             self.request_shutdown();
+            self.start.completed().await;
             joined()
         })
     }
@@ -109,7 +114,8 @@ async fn close_before_startup_observer_resumes_preserves_the_cleanup_cause() {
         let native = Session::new(/*closes*/ 1, outcome.clone());
         let backend = Arc::new(ReadyBackend {
             session: native,
-            returned: Semaphore::new(0),
+            returned: Arc::new(Semaphore::new(0)),
+            start: crate::pending_fixture::SingleStart::default(),
         });
         let provider = FileSearchProvider::from_backend(backend.clone(), policy()).unwrap();
         let scope = scope(&provider);
@@ -237,7 +243,8 @@ async fn immediate_unchanged_polls_allow_single_thread_updates_and_cancellation(
     });
     let backend = Arc::new(ReadyBackend {
         session: native.clone(),
-        returned: Semaphore::new(0),
+        returned: Arc::new(Semaphore::new(0)),
+        start: crate::pending_fixture::SingleStart::default(),
     });
     let provider = FileSearchProvider::from_backend(backend, policy()).unwrap();
     let scope = scope(&provider);

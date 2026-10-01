@@ -20,7 +20,8 @@ use crate::*;
 pub(super) struct Backend {
     pub sessions: Mutex<VecDeque<Arc<Session>>>,
     pub all: Vec<Arc<Session>>,
-    pub starts: Semaphore,
+    pub starts: Arc<Semaphore>,
+    pub controls: Mutex<Vec<Arc<crate::pending_fixture::Control>>>,
     pub opened: Semaphore,
     pub stopped: AtomicBool,
     pub panic_shutdown: AtomicBool,
@@ -33,7 +34,8 @@ impl Backend {
         Arc::new(Self {
             sessions: Mutex::new(sessions.iter().cloned().collect()),
             all: sessions,
-            starts: Semaphore::new(starts),
+            starts: Arc::new(Semaphore::new(starts)),
+            controls: Mutex::new(Vec::new()),
             opened: Semaphore::new(0),
             shutdowns: Semaphore::new(1),
             shutdown_entered: Semaphore::new(0),
@@ -44,18 +46,27 @@ impl Backend {
     }
 }
 impl SearchBackend for Backend {
-    fn open(&self, _: SearchOpen) -> SearchStartFuture<'_> {
-        Box::pin(async move {
-            self.opened.add_permits(1);
-            self.starts.acquire().await.expect("start gate").forget();
-            lock(&self.sessions)
-                .pop_front()
-                .map(|value| value as Arc<dyn SearchBackendSession>)
-                .ok_or_else(|| SearchStartError {
-                    operation: failure(),
-                    cleanup: StartCleanup::NotAdmitted,
-                })
-        })
+    fn begin_open(&self, _: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        let session = lock(&self.sessions)
+            .pop_front()
+            .ok_or_else(|| SearchStartError {
+                operation: failure(),
+                cleanup: StartCleanup::NotAdmitted,
+            })?;
+        let starts = Arc::clone(&self.starts);
+        let mut controls = lock(&self.controls);
+        // The finite preloaded session queue bounds accepted constructor owners.
+        let (pending, control) = crate::pending_fixture::begin(
+            Box::pin(async move {
+                starts.acquire().await.expect("start gate").forget();
+                Ok(session as Arc<dyn SearchBackendSession>)
+            }),
+            crate::pending_fixture::FailureOrigin::Genuine,
+            /*returned*/ None,
+        );
+        controls.push(control);
+        self.opened.add_permits(1);
+        Ok(pending)
     }
     fn request_shutdown(&self) {
         assert!(
@@ -63,11 +74,19 @@ impl SearchBackend for Backend {
             "controlled shutdown hook panic"
         );
         self.stopped.store(true, Ordering::SeqCst);
+        let controls = lock(&self.controls).clone();
+        for control in controls {
+            control.request_cancel();
+        }
         for session in &self.all {
             session.request_close();
         }
     }
     fn shutdown(&self) -> SearchCloseFuture<'_> {
+        let controls = lock(&self.controls).clone();
+        for control in &controls {
+            control.request_cancel();
+        }
         Box::pin(async move {
             for session in &self.all {
                 session.closing.store(true, Ordering::SeqCst);
@@ -79,6 +98,11 @@ impl SearchBackend for Backend {
                 .await
                 .expect("shutdown gate")
                 .forget();
+            for control in controls {
+                let _ = control.completed().await;
+            }
+            // This separate configured provider receipt is the test's recovery
+            // authority after an uncertain lease receipt; do not rewrite it.
             self.outcome.clone()
         })
     }
@@ -139,6 +163,12 @@ impl Session {
 impl SearchBackendSession for Session {
     fn update_query(&self, query: SearchQuery) -> SearchFuture<'_, QueryAccepted> {
         Box::pin(async move {
+            if self.closing.load(Ordering::SeqCst) {
+                return Err(SearchError::new(
+                    SearchErrorKind::ClosedLease,
+                    "closed fixture",
+                ));
+            }
             self.update_entered.add_permits(1);
             self.updates.acquire().await.expect("update gate").forget();
             if let Some(error) = lock(&self.update_error).clone() {

@@ -14,6 +14,7 @@ use codex_file_search_api::FileMatch;
 use codex_file_search_api::FileSearchOptions;
 use codex_file_search_api::FileSearchSnapshot;
 use codex_file_search_api::MatchType;
+use codex_file_search_api::PendingSearchStart;
 use codex_file_search_api::ProviderLimits;
 use codex_file_search_api::QueryAccepted;
 use codex_file_search_api::SearchBackend;
@@ -29,7 +30,7 @@ use codex_file_search_api::SearchOpen;
 use codex_file_search_api::SearchPhase;
 use codex_file_search_api::SearchPoll;
 use codex_file_search_api::SearchQuery;
-use codex_file_search_api::SearchStartFuture;
+use codex_file_search_api::SearchStartError;
 use pretty_assertions::assert_eq;
 use tokio::sync::Notify;
 use tokio::sync::Semaphore;
@@ -103,6 +104,7 @@ impl Fixture {
         });
         let backend = Arc::new(Backend {
             session: Arc::clone(&session),
+            start: crate::pending_fixture::SingleStart::default(),
             shutdown_entered: Semaphore::new(0),
             allow_shutdown: Semaphore::new(0),
             shutdown_outcome,
@@ -130,17 +132,24 @@ impl Fixture {
 
 struct Backend {
     session: Arc<Session>,
+    start: crate::pending_fixture::SingleStart,
     shutdown_entered: Semaphore,
     allow_shutdown: Semaphore,
     shutdown_outcome: SearchCloseOutcome,
 }
 
 impl SearchBackend for Backend {
-    fn open(&self, _: SearchOpen) -> SearchStartFuture<'_> {
-        Box::pin(async move { Ok(self.session.clone() as Arc<dyn SearchBackendSession>) })
+    fn begin_open(&self, _: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        let session = Arc::clone(&self.session);
+        self.start.begin(
+            Box::pin(async move { Ok(session as Arc<dyn SearchBackendSession>) }),
+            crate::pending_fixture::FailureOrigin::Genuine,
+            /*returned*/ None,
+        )
     }
 
     fn request_shutdown(&self) {
+        self.start.request_cancel();
         self.session.request_close();
     }
 
@@ -158,6 +167,7 @@ impl SearchBackend for Backend {
                     .await
                     .unwrap();
             }
+            self.start.completed().await;
             self.shutdown_outcome.clone()
         })
     }
@@ -228,6 +238,12 @@ impl Drop for ActiveOperation<'_> {
 impl SearchBackendSession for Session {
     fn update_query(&self, query: SearchQuery) -> SearchFuture<'_, QueryAccepted> {
         Box::pin(async move {
+            if self.closing.load(Ordering::SeqCst) {
+                return Err(SearchError::new(
+                    SearchErrorKind::ClosedLease,
+                    "fixture update closed",
+                ));
+            }
             self.update_active.store(true, Ordering::SeqCst);
             let _active = ActiveOperation {
                 active: &self.update_active,
