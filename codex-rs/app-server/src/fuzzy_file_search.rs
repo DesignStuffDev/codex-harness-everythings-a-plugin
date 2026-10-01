@@ -1,256 +1,214 @@
+//! Presentation adaptation for backend-owned native search sessions.
+
 use std::num::NonZero;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::sync::Mutex;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
+use std::time::Duration;
 
 use codex_app_server_protocol::FuzzyFileSearchMatchType;
 use codex_app_server_protocol::FuzzyFileSearchResult;
-use codex_app_server_protocol::FuzzyFileSearchSessionCompletedNotification;
-use codex_app_server_protocol::FuzzyFileSearchSessionUpdatedNotification;
-use codex_app_server_protocol::ServerNotification;
 use codex_file_search as file_search;
-use tracing::warn;
+use tokio_util::task::TaskTracker;
 
+use crate::outgoing_message::ConnectionId;
 use crate::outgoing_message::OutgoingMessageSender;
+
+mod publisher;
+pub(crate) use publisher::PublisherFailures;
+use publisher::SearchObserver;
+use publisher::SearchPublisher;
 
 const MATCH_LIMIT: usize = 50;
 const MAX_THREADS: usize = 12;
 
+#[expect(clippy::expect_used)]
+fn options() -> file_search::FileSearchOptions {
+    let cores = std::thread::available_parallelism()
+        .map(std::num::NonZero::get)
+        .unwrap_or(1);
+    file_search::FileSearchOptions {
+        limit: NonZero::new(MATCH_LIMIT).expect("search limit is nonzero"),
+        threads: NonZero::new(cores.clamp(1, MAX_THREADS)).expect("search threads are nonzero"),
+        compute_indices: true,
+        ..Default::default()
+    }
+}
+
 pub(crate) async fn run_fuzzy_file_search(
+    owner: &file_search::FileSearchOwner,
     query: String,
     roots: Vec<String>,
     cancellation_flag: Arc<AtomicBool>,
-) -> Vec<FuzzyFileSearchResult> {
-    if roots.is_empty() {
-        return Vec::new();
+) -> anyhow::Result<Vec<FuzzyFileSearchResult>> {
+    if roots.is_empty() || query.is_empty() {
+        return Ok(Vec::new());
     }
-
-    #[expect(clippy::expect_used)]
-    let limit = NonZero::new(MATCH_LIMIT).expect("MATCH_LIMIT should be a valid non-zero usize");
-
-    let cores = std::thread::available_parallelism()
-        .map(std::num::NonZero::get)
-        .unwrap_or(1);
-    let threads = cores.min(MAX_THREADS);
-    #[expect(clippy::expect_used)]
-    let threads = NonZero::new(threads.max(1)).expect("threads should be non-zero");
-    let search_dirs: Vec<PathBuf> = roots.iter().map(PathBuf::from).collect();
-
-    let mut files = match tokio::task::spawn_blocking(move || {
-        file_search::run(
-            query.as_str(),
-            search_dirs,
-            file_search::FileSearchOptions {
-                limit,
-                threads,
-                compute_indices: true,
-                ..Default::default()
-            },
-            Some(cancellation_flag),
+    let observer = Arc::new(SearchObserver::new(Arc::clone(&cancellation_flag)));
+    let query_id = observer.set_query(query.clone())?;
+    let session = owner
+        .create(
+            roots.into_iter().map(PathBuf::from).collect(),
+            options(),
+            observer.clone(),
+            Some(cancellation_flag.clone()),
         )
-    })
-    .await
-    {
-        Ok(Ok(res)) => res
-            .matches
-            .into_iter()
-            .map(|m| {
-                let file_name = m.path.file_name().unwrap_or_default();
-                FuzzyFileSearchResult {
-                    root: m.root.to_string_lossy().to_string(),
-                    path: m.path.to_string_lossy().to_string(),
-                    match_type: match m.match_type {
-                        file_search::MatchType::File => FuzzyFileSearchMatchType::File,
-                        file_search::MatchType::Directory => FuzzyFileSearchMatchType::Directory,
-                    },
-                    file_name: file_name.to_string_lossy().to_string(),
-                    score: m.score,
-                    indices: m.indices,
-                }
-            })
-            .collect::<Vec<_>>(),
-        Ok(Err(err)) => {
-            warn!("fuzzy-file-search failed: {err}");
-            Vec::new()
+        .await?;
+    let mut changes = observer.subscribe();
+    let result = async {
+        session.update_query_tagged(&query, query_id)?;
+        loop {
+            if observer.is_complete() || cancellation_flag.load(Ordering::Acquire) {
+                return Ok(observer.files());
+            }
+            if session.is_finished() {
+                anyhow::bail!("file search ended before reporting query completion");
+            }
+            tokio::select! {
+                changed = changes.changed() => { changed?; }
+                _ = tokio::time::sleep(Duration::from_millis(20)) => {}
+            }
         }
-        Err(err) => {
-            warn!("fuzzy-file-search join failed: {err}");
-            Vec::new()
-        }
-    };
-
-    files.sort_by(file_search::cmp_by_score_desc_then_path_asc::<
-        FuzzyFileSearchResult,
-        _,
-        _,
-    >(|f| f.score, |f| f.path.as_str()));
-
-    files
+    }
+    .await;
+    observer.request_close();
+    combine(result, session.close().await)
 }
 
 pub(crate) struct FuzzyFileSearchSession {
-    session: file_search::FileSearchSession,
-    shared: Arc<SessionShared>,
+    session: file_search::ManagedFileSearchSession,
+    publisher: SearchPublisher,
 }
 
 impl FuzzyFileSearchSession {
-    pub(crate) fn update_query(&self, query: String) {
-        if self.shared.canceled.load(Ordering::Relaxed) {
-            return;
+    pub(crate) fn update_query(&self, query: String) -> anyhow::Result<()> {
+        // Publish expected identity before native work can invoke its reporter.
+        let query_id = self.publisher.observer().set_query(query.clone())?;
+        if let Err(error) = self.session.update_query_tagged(&query, query_id) {
+            self.request_close();
+            return Err(error);
         }
-        {
-            #[expect(clippy::unwrap_used)]
-            let mut latest_query = self.shared.latest_query.lock().unwrap();
-            *latest_query = query.clone();
-        }
-        self.session.update_query(&query);
+        Ok(())
+    }
+
+    pub(crate) fn request_close(&self) {
+        self.publisher.request_close();
+        self.session.request_close();
+    }
+
+    pub(crate) async fn close(self) -> anyhow::Result<()> {
+        self.request_close();
+        // Both owners retain accepted cleanup if this waiter disappears.
+        let native = self.session.close().await;
+        let publisher = self.publisher.close().await;
+        combine(native, publisher)
     }
 }
 
-impl Drop for FuzzyFileSearchSession {
-    fn drop(&mut self) {
-        self.shared.canceled.store(true, Ordering::Relaxed);
-    }
+/// Constructed before native admission so a connection fence also stops startup.
+pub(crate) struct PendingSearchSession {
+    publisher: SearchPublisher,
 }
 
-pub(crate) fn start_fuzzy_file_search_session(
-    session_id: String,
-    roots: Vec<String>,
-    outgoing: Arc<OutgoingMessageSender>,
-) -> anyhow::Result<FuzzyFileSearchSession> {
-    #[expect(clippy::expect_used)]
-    let limit = NonZero::new(MATCH_LIMIT).expect("MATCH_LIMIT should be a valid non-zero usize");
-    let cores = std::thread::available_parallelism()
-        .map(std::num::NonZero::get)
-        .unwrap_or(1);
-    let threads = cores.min(MAX_THREADS);
-    #[expect(clippy::expect_used)]
-    let threads = NonZero::new(threads.max(1)).expect("threads should be non-zero");
-    let search_dirs: Vec<PathBuf> = roots.iter().map(PathBuf::from).collect();
-    let canceled = Arc::new(AtomicBool::new(false));
-
-    let shared = Arc::new(SessionShared {
-        session_id,
-        latest_query: Mutex::new(String::new()),
-        outgoing,
-        runtime: tokio::runtime::Handle::current(),
-        canceled: canceled.clone(),
-    });
-
-    let reporter = Arc::new(SessionReporterImpl {
-        shared: shared.clone(),
-    });
-    let session = file_search::create_session(
-        search_dirs,
-        file_search::FileSearchOptions {
-            limit,
-            threads,
-            compute_indices: true,
-            ..Default::default()
-        },
-        reporter,
-        Some(canceled),
-    )?;
-
-    Ok(FuzzyFileSearchSession { session, shared })
+pub(crate) struct SearchStartFailure {
+    pub(crate) operation: anyhow::Error,
+    pub(crate) cleanup: anyhow::Result<()>,
 }
 
-struct SessionShared {
-    session_id: String,
-    latest_query: Mutex<String>,
-    outgoing: Arc<OutgoingMessageSender>,
-    runtime: tokio::runtime::Handle,
-    canceled: Arc<AtomicBool>,
-}
-
-struct SessionReporterImpl {
-    shared: Arc<SessionShared>,
-}
-
-impl SessionReporterImpl {
-    fn send_snapshot(&self, snapshot: &file_search::FileSearchSnapshot) {
-        if self.shared.canceled.load(Ordering::Relaxed) {
-            return;
+impl PendingSearchSession {
+    pub(crate) fn new(
+        connection_id: ConnectionId,
+        session_id: String,
+        outgoing: Arc<OutgoingMessageSender>,
+        tasks: &TaskTracker,
+        failures: PublisherFailures,
+    ) -> Self {
+        Self {
+            publisher: SearchPublisher::start(connection_id, session_id, outgoing, tasks, failures),
         }
-
-        let query = {
-            #[expect(clippy::unwrap_used)]
-            self.shared.latest_query.lock().unwrap().clone()
-        };
-        if snapshot.query != query {
-            return;
-        }
-
-        let files = if query.is_empty() {
-            Vec::new()
-        } else {
-            collect_files(snapshot)
-        };
-
-        let notification = ServerNotification::FuzzyFileSearchSessionUpdated(
-            FuzzyFileSearchSessionUpdatedNotification {
-                session_id: self.shared.session_id.clone(),
-                query,
-                files,
-            },
-        );
-        let outgoing = self.shared.outgoing.clone();
-        self.shared.runtime.spawn(async move {
-            outgoing.send_server_notification(notification).await;
-        });
     }
 
-    fn send_complete(&self) {
-        if self.shared.canceled.load(Ordering::Relaxed) {
-            return;
+    pub(crate) fn observer(&self) -> Arc<SearchObserver> {
+        Arc::clone(self.publisher.observer())
+    }
+
+    pub(crate) async fn start(
+        self,
+        owner: &file_search::FileSearchOwner,
+        roots: Vec<String>,
+    ) -> Result<FuzzyFileSearchSession, SearchStartFailure> {
+        let observer = self.observer();
+        let session = owner
+            .create(
+                roots.into_iter().map(PathBuf::from).collect(),
+                options(),
+                observer.clone(),
+                Some(observer.cancellation()),
+            )
+            .await;
+        match session {
+            Ok(session) => Ok(FuzzyFileSearchSession {
+                session,
+                publisher: self.publisher,
+            }),
+            Err(operation) => {
+                // A failed constructor still owns a publisher. Requesting its
+                // stop is insufficient for the joined start/stop acknowledgement.
+                // Native startup rejection and cleanup failure are different:
+                // intentional cancellation can have a successful close receipt.
+                let native_cleanup = operation
+                    .downcast_ref::<file_search::FileSearchStartError>()
+                    .and_then(file_search::FileSearchStartError::cleanup_error)
+                    .map(|error| anyhow::anyhow!("native startup cleanup failed: {error:#}"))
+                    .map_or(Ok(()), Err);
+                let cleanup = combine(native_cleanup, self.publisher.close().await);
+                Err(SearchStartFailure { operation, cleanup })
+            }
         }
-        let session_id = self.shared.session_id.clone();
-        let outgoing = self.shared.outgoing.clone();
-        self.shared.runtime.spawn(async move {
-            let notification = ServerNotification::FuzzyFileSearchSessionCompleted(
-                FuzzyFileSearchSessionCompletedNotification { session_id },
-            );
-            outgoing.send_server_notification(notification).await;
-        });
     }
 }
 
-impl file_search::SessionReporter for SessionReporterImpl {
-    fn on_update(&self, snapshot: &file_search::FileSearchSnapshot) {
-        self.send_snapshot(snapshot);
-    }
+pub(crate) use publisher::SearchObserver as PendingSearchObserver;
 
-    fn on_complete(&self) {
-        self.send_complete();
+fn combine<T>(result: anyhow::Result<T>, cleanup: anyhow::Result<()>) -> anyhow::Result<T> {
+    match (result, cleanup) {
+        (Ok(value), Ok(())) => Ok(value),
+        (Err(error), Ok(())) | (Ok(_), Err(error)) => Err(error),
+        (Err(error), Err(cleanup)) => {
+            Err(error.context(format!("search cleanup also failed: {cleanup:#}")))
+        }
     }
 }
 
 fn collect_files(snapshot: &file_search::FileSearchSnapshot) -> Vec<FuzzyFileSearchResult> {
+    if snapshot.query.is_empty() {
+        return Vec::new();
+    }
     let mut files = snapshot
         .matches
         .iter()
-        .map(|m| {
-            let file_name = m.path.file_name().unwrap_or_default();
-            FuzzyFileSearchResult {
-                root: m.root.to_string_lossy().to_string(),
-                path: m.path.to_string_lossy().to_string(),
-                match_type: match m.match_type {
-                    file_search::MatchType::File => FuzzyFileSearchMatchType::File,
-                    file_search::MatchType::Directory => FuzzyFileSearchMatchType::Directory,
-                },
-                file_name: file_name.to_string_lossy().to_string(),
-                score: m.score,
-                indices: m.indices.clone(),
-            }
+        .map(|item| FuzzyFileSearchResult {
+            root: item.root.to_string_lossy().to_string(),
+            path: item.path.to_string_lossy().to_string(),
+            match_type: match item.match_type {
+                file_search::MatchType::File => FuzzyFileSearchMatchType::File,
+                file_search::MatchType::Directory => FuzzyFileSearchMatchType::Directory,
+            },
+            file_name: item
+                .path
+                .file_name()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .to_string(),
+            score: item.score,
+            indices: item.indices.clone(),
         })
         .collect::<Vec<_>>();
-
     files.sort_by(file_search::cmp_by_score_desc_then_path_asc::<
         FuzzyFileSearchResult,
         _,
         _,
-    >(|f| f.score, |f| f.path.as_str()));
+    >(|file| file.score, |file| file.path.as_str()));
     files
 }

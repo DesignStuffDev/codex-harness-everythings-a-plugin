@@ -29,12 +29,14 @@ METHODS = frozenset(
         "thread/items/list",
         "turn/start",
         "turn/interrupt",
+        "fuzzyFileSearch",
     }
 )
 
 
 class Bridge:
     def __init__(self, executable, codex_home=None, cwd=None):
+        self.cwd = str(Path(cwd or os.getcwd()).resolve())
         self.condition = threading.Condition()
         self.write_lock = threading.Lock()
         self.requests = {}
@@ -68,7 +70,7 @@ class Bridge:
                     "clientInfo": {
                         "name": "codex_component_desktop",
                         "title": "Codex Components",
-                        "version": "0.1.0",
+                        "version": "0.2.0",
                     }
                 },
             )
@@ -358,6 +360,8 @@ class Handler(BaseHTTPRequestHandler):
         static = {
             "/": ("index.html", "text/html; charset=utf-8"),
             "/app.js": ("app.js", "text/javascript; charset=utf-8"),
+            "/file-search.js": ("file-search.js", "text/javascript; charset=utf-8"),
+            "/file-picker.js": ("file-picker.js", "text/javascript; charset=utf-8"),
             "/style.css": ("style.css", "text/css; charset=utf-8"),
         }
         if not self._allowed(authenticated=path not in static):
@@ -374,6 +378,8 @@ class Handler(BaseHTTPRequestHandler):
                     200,
                     {
                         "connected": not bridge.closed,
+                        "cwd": bridge.cwd,
+                        "path_style": "windows" if os.name == "nt" else "posix",
                         "cursor": bridge.sequence,
                         "requests": list(bridge.approvals.values()),
                     },

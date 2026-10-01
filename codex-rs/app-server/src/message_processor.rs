@@ -42,6 +42,7 @@ use crate::request_processors::PluginRequestProcessor;
 use crate::request_processors::ProcessExecRequestProcessor;
 use crate::request_processors::ProjectRequestProcessor;
 use crate::request_processors::RemoteControlRequestProcessor;
+use crate::request_processors::SearchConnectionState;
 use crate::request_processors::SearchRequestProcessor;
 use crate::request_processors::ThreadGoalRequestProcessor;
 use crate::request_processors::ThreadQueueRequestProcessor;
@@ -175,6 +176,7 @@ pub(crate) struct MessageProcessor {
 #[derive(Debug)]
 pub(crate) struct ConnectionSessionState {
     pub(crate) rpc_gate: Arc<ConnectionRpcGate>,
+    pub(crate) searches: Arc<SearchConnectionState>,
     pub(crate) origin: crate::transport::ConnectionOrigin,
     pub(crate) mcp_event_streams: McpEventStreams,
     initialized: OnceLock<InitializedConnectionSessionState>,
@@ -195,6 +197,7 @@ impl ConnectionSessionState {
         Self {
             origin,
             rpc_gate: Arc::new(ConnectionRpcGate::new()),
+            searches: Arc::new(SearchConnectionState::default()),
             mcp_event_streams: McpEventStreams::default(),
             initialized: OnceLock::new(),
         }
@@ -619,10 +622,16 @@ impl MessageProcessor {
     }
 
     pub(crate) fn clear_runtime_references(&self) {
+        self.request_search_shutdown();
         self.account_processor.clear_external_auth();
         self.apps_processor.shutdown();
         self.models_refresh_worker.shutdown();
         self.skills_watcher.shutdown();
+    }
+
+    /// Fence search admission and callbacks even when forced exit skips joins.
+    pub(crate) fn request_search_shutdown(&self) {
+        self.search_processor.request_shutdown();
     }
 
     pub(crate) async fn process_request(
@@ -844,12 +853,13 @@ impl MessageProcessor {
             .await;
     }
 
-    pub(crate) async fn drain_background_tasks(&self) {
+    pub(crate) async fn drain_background_tasks(&self) -> anyhow::Result<()> {
         self.models_refresh_worker.shutdown();
         if let Some(worker) = &self.turn_cost_worker {
             worker.shutdown();
         }
         self.thread_processor.drain_background_tasks().await;
+        self.search_processor.shutdown().await
     }
 
     pub(crate) async fn cancel_active_login(&self) {
@@ -870,6 +880,8 @@ impl MessageProcessor {
         session_state: &ConnectionSessionState,
     ) {
         session_state.rpc_gate.close().await;
+        // Cancel owned work before waiting for its admitted RPC handlers.
+        session_state.searches.request_shutdown();
         self.account_processor
             .gateway_connection_closed(connection_id);
         self.request_serialization_queues.discard_closed().await;
@@ -891,6 +903,9 @@ impl MessageProcessor {
             );
         }
         self.outgoing.connection_closed(connection_id).await;
+        self.search_processor
+            .connection_closed(connection_id, &session_state.searches)
+            .await;
         self.fs_processor.connection_closed(connection_id).await;
         self.command_exec_processor
             .connection_closed(connection_id)
@@ -1815,22 +1830,34 @@ impl MessageProcessor {
             }
             ClientRequest::FuzzyFileSearch { params, .. } => self
                 .search_processor
-                .fuzzy_file_search(params)
+                .fuzzy_file_search(connection_id, Arc::clone(&session.searches), params)
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionStart { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_start_response(params)
+                .fuzzy_file_search_session_start_response(
+                    connection_id,
+                    Arc::clone(&session.searches),
+                    params,
+                )
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionUpdate { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_update_response(params)
+                .fuzzy_file_search_session_update_response(
+                    connection_id,
+                    Arc::clone(&session.searches),
+                    params,
+                )
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionStop { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_stop(params)
+                .fuzzy_file_search_session_stop(
+                    connection_id,
+                    Arc::clone(&session.searches),
+                    params,
+                )
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::OneOffCommandExec { params, .. } => {

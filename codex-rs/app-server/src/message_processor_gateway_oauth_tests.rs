@@ -186,7 +186,7 @@ delivery = {{ kind = "header", name = "X-Gateway-Authorization" }}
         "Bearer new-access"
     );
     processor.shutdown_threads().await;
-    processor.drain_background_tasks().await;
+    processor.drain_background_tasks().await?;
     Ok(())
 }
 
@@ -273,6 +273,6 @@ delivery = {{ kind = "header", name = "X-Gateway-Authorization" }}
     });
     assert!(server.received_requests().await.unwrap().is_empty());
     processor.shutdown_threads().await;
-    processor.drain_background_tasks().await;
+    processor.drain_background_tasks().await?;
     Ok(())
 }

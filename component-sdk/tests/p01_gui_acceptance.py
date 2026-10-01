@@ -356,6 +356,11 @@ def main():
     parser.add_argument("--codex", type=Path, required=True)
     parser.add_argument("--manual-migration-report", type=Path, required=True)
     parser.add_argument("--work-dir", type=Path, required=True)
+    parser.add_argument(
+        "--exercise-file-search",
+        action="store_true",
+        help="Also exercise desktop file references through real native search",
+    )
     args = parser.parse_args()
     if sys.platform != "linux" or not hasattr(signal, "pidfd_send_signal"):
         parser.error("Linux /proc, pidfds and child-subreaper support are required")
@@ -435,6 +440,18 @@ def main():
             ),
             CODEX_BROWSER_BIN=os.environ.get("CODEX_BROWSER_BIN", "/usr/bin/chromium"),
         )
+        search_fixture = None
+        if args.exercise_file_search:
+            import desktop_search_acceptance
+
+            search_fixture = desktop_search_acceptance.prepare(project, work)
+            report["file_search"] = {
+                "backend": "frozen-host native fuzzyFileSearch; selected search component not tested",
+                "helper_fingerprint": fingerprint(
+                    SDK / "tests/desktop_search_acceptance.py"
+                ),
+                "fixture": search_fixture,
+            }
         nonce = uuid4().hex[:12]
         persisted = [
             "Preserve this real legacy conversation through manual migration.",
@@ -481,7 +498,7 @@ def main():
                 browsers.append,
             )
             browser.command(
-                "await page.waitForFunction(() => document.querySelector('#connection').classList.contains('connected')); return {connected: true};"
+                "await page.waitForFunction(() => document.querySelector('#connection').classList.contains('connected') || document.querySelector('#error').textContent); if (!(await page.locator('#connection').getAttribute('class') || '').includes('connected')) throw new Error('UI startup failed: ' + await page.locator('#error').innerText()); return {connected: true};"
             )
             browser.command(
                 f"await page.locator({json.dumps('.thread[data-thread-id=' + json.dumps(thread_id) + ']')}).click(); "
@@ -491,6 +508,17 @@ def main():
                 browser.command(
                     "await page.waitForFunction(() => document.querySelector('#run-status').textContent === 'Task interrupted'); return {coldInterruptedTurn: true};"
                 )
+            if search_fixture is not None:
+                reference_prompt, search_result = desktop_search_acceptance.exercise(
+                    browser, search_fixture, cycle, thread_id, work, screenshot
+                )
+                reference_turn = submit(browser, reference_prompt)
+                completed(
+                    browser, reference_turn, "GUI fixture response: " + reference_prompt
+                )
+                run["file_search"] = dict(search_result, reference_turn=reference_turn)
+                if cycle == 1:
+                    persisted.append(reference_prompt)
             prompt = (
                 f"Verify P01 {'streaming' if cycle == 1 else 'cold recovery'} {nonce}: "
                 + "stream observation " * 30

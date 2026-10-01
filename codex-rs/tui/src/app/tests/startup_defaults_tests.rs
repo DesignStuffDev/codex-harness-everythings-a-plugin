@@ -12,7 +12,8 @@ async fn run_startup_for_test(
     bootstrap: AppServerBootstrap,
     selection: SessionSelection,
 ) -> Result<AppExitInfo> {
-    App::run(
+    let file_search_runtime = crate::file_search::FileSearchRuntime::new();
+    let result = App::run(
         tui,
         server,
         config.clone(),
@@ -37,8 +38,14 @@ async fn run_startup_for_test(
         crate::startup_draft::tests::quiet_startup_test_pump(),
         /*managed_worktree*/ None,
         /*daemon_cli_executable*/ None,
+        file_search_runtime.clone(),
     )
-    .await
+    .await;
+    file_search_runtime
+        .shutdown()
+        .await
+        .map_err(|error| color_eyre::eyre::eyre!(error.to_string()))?;
+    result
 }
 
 #[tokio::test]

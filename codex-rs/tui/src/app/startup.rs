@@ -200,6 +200,7 @@ impl App {
         mut startup_draft: StartupDraftPump,
         managed_worktree: Option<crate::ManagedTuiWorktree>,
         daemon_cli_executable: Option<AbsolutePathBuf>,
+        file_search_runtime: crate::file_search::FileSearchRuntime,
     ) -> Result<AppExitInfo> {
         use tokio_stream::StreamExt;
 
@@ -763,7 +764,11 @@ impl App {
                 history_cell::StartupWarningsCell::new(vec![warning]),
             )));
         }
-        let file_search = FileSearchManager::new(config.cwd.to_path_buf(), app_event_tx.clone());
+        let file_search = FileSearchManager::new(
+            config.cwd.to_path_buf(),
+            app_event_tx.clone(),
+            file_search_runtime,
+        );
         let runtime_keymap =
             RuntimeKeymap::from_config(&local_settings.tui.keymap).map_err(|err| {
                 color_eyre::eyre::eyre!(

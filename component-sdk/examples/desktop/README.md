@@ -1,7 +1,7 @@
 # Desktop presentation component
 
 An independently built graphical client for this Codex harness. It provides a
-responsive task sidebar, conversation view, text composer, streamed assistant
+responsive task sidebar, conversation view, text composer, file-reference search, streamed assistant
 and command output, approval decisions, interruption, and saved task recovery.
 The HTML, CSS, JavaScript and Python gateway ship inside this plugin's zipapp.
 The host does not bundle the interface. Removing the plugin leaves CLI and
@@ -94,6 +94,7 @@ The adapter uses the pinned upstream schemas under
 | Approvals | Server request ID retained; command/file requests return `{decision:"accept"\|"decline"\|"cancel"}`; permissions return `{permissions,scope:"turn"}` |
 | Questions | `item/tool/requestUserInput` → `{answers:{questionId:{answers:[text]}}}` |
 | Cancellation | `turn/interrupt {threadId,turnId}`; completion determines final UI state |
+| File search | `fuzzyFileSearch {query,roots:[cwd],cancellationToken}` → `{files:[{root,path,match_type,file_name,score,indices}]}`; selection inserts a quoted path reference into unsent text |
 
 Interrupted and failed turns receive explicit status text. If a tool has no
 final item event, its card preserves output and identifies the interruption or
@@ -101,7 +102,7 @@ missing final status rather than claiming success. Completed earlier turns and
 their tool results remain intact.
 
 The HTTP service exposes authenticated `POST /rpc`, `POST /reply`, `GET /status`
-and `GET /events` (SSE). It forwards only the listed thread and turn RPCs. Server
+and `GET /events` (SSE). It forwards only the listed thread, turn and one-shot file-search RPCs. Server
 requests remain pending until a correlated reply or `serverRequest/resolved`.
 Unknown interaction types require explicit cancellation; the UI never
 automatically approves them. The gateway maintains a bounded transient replay
@@ -122,9 +123,29 @@ tokens. The token begins in a URL fragment and is moved into session storage.
 The browser event channel sends it in a local query parameter because native
 EventSource cannot set an Authorization header. Do not share the private URL.
 
+## File references
+
+Use **Find file** beside the working directory, type a name, then click a result
+or use Up/Down and Enter. Escape closes the picker. The chosen full path is
+inserted as a quoted `@"/path/to/file"` reference at the composer selection;
+spaces, quotes and Windows backslashes use JSON string escaping. Existing draft
+text is retained, including when search fails. This adds a path reference, not
+an uploaded attachment or file contents.
+
+Search roots come from the visible working directory, falling back to the
+launched gateway's cwd returned by authenticated `/status`. Search never chooses
+another ambient root. The client debounces input, retains only one active query
+and the latest queued successor, and validates query/root/thread/connection
+identity before showing results or inserting a selection. Clearing, closing,
+changing tasks/roots or reconnecting invalidates earlier results. Each query has
+a page-unique cancellation token; an empty request with that same token asks App
+Server to cancel obsolete work. This is best-effort cancellation through the
+existing API, not a claim of joined native cleanup. Errors remain visible in the
+picker and can be retried; there is no local filesystem or fixture fallback.
+
 ## Validation and current scope
 
-`python3 -m unittest discover -s component-sdk/tests -p test_desktop.py -v`
+`python3 -m unittest discover -s component-sdk/tests -p 'test_desktop*.py' -v`
 exercises a clearly labeled subprocess app-server fixture: stream delivery,
 approval round trip, cancellation, history across gateway restart, explicit home
 and cwd, rejected cross-origin requests, separate zipapp build/resources and
@@ -142,9 +163,16 @@ requires `codex_bin`. Real harness/model integration evidence is recorded in the
 project verification report. In-app Browser manual checks require that tool to
 be available; headless browser checks must be described separately.
 
-Current UI scope is text tasks, common command/file/permission approvals and
+`node --test component-sdk/tests/test_desktop_search.cjs` covers query coalescing,
+stale results across repeated queries/context changes, cancellation, explicit
+errors and escaped reference insertion without a browser or real engine.
+Actual browser/engine search interaction is a separate acceptance gate.
+
+Current UI scope is text tasks, file references, common command/file/permission approvals and
 user-input questions. It does not implement account login, voice, realtime,
 image attachments, hosted MCP app widgets, native biometric verification,
 project/worktree management or all app-server methods. Configure authentication
 through the existing Codex CLI. The gateway is an initial Python standard-library
 local client, not a public multiuser application server.
+
+File search requires an absolute directory path using the gateway host’s path syntax. Relative inputs show an error and remain unchanged; the blank directory field uses the authenticated gateway’s absolute default. Linux runtime behavior is validated; Windows path syntax has unit coverage but no Windows browser/runtime validation.

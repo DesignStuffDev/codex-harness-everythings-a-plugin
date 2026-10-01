@@ -655,10 +655,10 @@ pub(crate) enum AppEvent {
     /// is at most one in-flight search.
     StartFileSearch(String),
 
-    /// Result of a completed asynchronous file search. The `query` echoes the
-    /// original search term so the UI can decide whether the results are
-    /// still relevant.
+    /// Search snapshot carrying manager/session/query identity for validation
+    /// after it has waited in the app event queue.
     FileSearchResult {
+        request: crate::file_search::FileSearchRequest,
         query: String,
         matches: Vec<FileMatch>,
     },

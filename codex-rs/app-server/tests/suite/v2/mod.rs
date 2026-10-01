@@ -117,6 +117,8 @@ mod review;
 mod rollout_compress;
 mod rollout_migration;
 mod safety_check_downgrade;
+#[path = "search_connection_tests.rs"]
+mod search_connection;
 #[cfg(not(target_os = "windows"))]
 mod selected_capability_stack;
 mod selected_environment;

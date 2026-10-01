@@ -641,8 +641,9 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                 .connection_closed(IN_PROCESS_CONNECTION_ID, &session)
                 .await;
             processor.clear_all_thread_listeners().await;
-            processor.drain_background_tasks().await;
+            let background_cleanup = processor.drain_background_tasks().await;
             processor.shutdown_threads().await;
+            background_cleanup.map_err(IoError::other)
         });
         let mut pending_request_responses =
             HashMap::<RequestId, oneshot::Sender<PendingClientRequestResponse>>::new();
@@ -863,11 +864,11 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
 }
 
 async fn finish_processor_and_store(
-    processor: &mut tokio::task::JoinHandle<()>,
+    processor: &mut tokio::task::JoinHandle<IoResult<()>>,
     store: &StoreShutdownGuard,
 ) -> IoResult<()> {
     let processor_result = match timeout(PROCESSOR_SHUTDOWN_TIMEOUT, &mut *processor).await {
-        Ok(Ok(())) => Ok(()),
+        Ok(Ok(result)) => result,
         Ok(Err(_)) => Err(IoError::other(
             "in-process request processor failed during shutdown",
         )),

@@ -106,6 +106,12 @@ the native walker/matcher/pool were joined.
 
 ## Stage B: version 1 contract and actual presentation integration
 
+Source-grounded implementation notes are retained in
+[FILE_SEARCH_NATIVE_BACKEND_PLAN.md](FILE_SEARCH_NATIVE_BACKEND_PLAN.md) and
+[FILE_SEARCH_COMPOSITION_PLAN.md](FILE_SEARCH_COMPOSITION_PLAN.md). They cover
+the native completion/allocation details and exact embedded-client ownership
+points; their proposed behavior is not evidence of an implemented service.
+
 ### Chosen package boundaries
 
 | Package | Owned responsibility |
@@ -118,19 +124,270 @@ the native walker/matcher/pool were joined.
 | `codex-component-path-codec` | Existing same-OS path encoding, extracted without history/protocol dependencies; state codec re-exports its existing API unchanged. |
 
 These are agreed implementation boundaries, not existing installed packages.
-App Server composes a process-wide provider before creating connection scopes;
-TUI selects before its outer search runtime; standalone resolves the Codex home
-and selection before opening a patterned query. No-pattern directory listing
-does not need a search process. A connection scope closes only its own leases;
-global shutdown closes the provider. Enforce aggregate capacity as well as
-per-connection limits so additional connections cannot create unlimited workers.
+App Server composes one provider per explicit runtime instance before creating
+connection scopes. Embedded TUI and its App Server share that provider; independent
+embeddings retain independent selection and ownership even in the same process or
+with equal homes. Standalone search resolves the Codex home and selection before
+opening a patterned query. No-pattern directory listing does not need a search
+process. A scope closes only its own leases; runtime shutdown closes the provider.
+Enforce aggregate capacity across all scopes as well as per-scope limits. This is
+a composition-wide bound, not an OS-wide quota over arbitrary independent embeds.
 
-The existing synchronous query method cannot acknowledge a remote RPC. If kept
-for client compatibility, it means bounded local admission to one retained,
-ordered/coalescing update worker. Document that distinction; remote rejection must
-remain observable through the session's failure/close result. Never block a UI
-thread or hold its state mutex across a remote call. Final facade signatures and
-scope ownership must be agreed before consumer substitution.
+For embedded startup, select after `in_process::start_uninitialized` has applied
+`in_process_bootstrap::configure` effective policy. Inject the provider through
+internal `MessageProcessorArgs`; do not independently construct a second provider
+inside synchronous `MessageProcessor::new` or a connection's `Default`.
+Expose a restricted scope factory from `InProcessClientHandle`, through
+`InProcessAppServerClient`, to the local picker. Factories must not own shutdown
+or keep a closed provider alive, and stale factories must fail without fallback.
+
+TUI obtains its scope from the **final** embedded `AppServerSession` immediately
+before `App::run`: onboarding can replace the initial server. A scope-acquisition
+error must join the already started server. Preserve the outer TUI runtime and
+replace its provider-wide close with scope-only close. Embedded reconnect is
+currently rejected; a future implementation must explicitly rotate providers and
+join the old scope. Remote/daemon TUI instead owns a separate local provider for
+its existing local picker; do not silently send local paths to a remote server.
+
+Provider shutdown fences every scope/factory before joining accepted work, and
+must not wait for public handles to disappear. Keep startup cleanup armed across
+every fallible initialization step. Repair the inherited
+`InProcessAppServerClient::shutdown` fallback that can return success after an
+acknowledgement/worker timeout or abort before relying on it for shared-provider
+cleanup. Required checks include one selected worker shared by embedded clients,
+cross-scope aggregate saturation, separate scope shutdown, whole-provider close,
+two embeds with different selections, and abandoned startup/close waiters.
+
+Dependency direction for these six packages is:
+
+```text
+component-path-codec -> serde + utils-absolute-path
+file-search-api      -> std + serde
+file-search          -> file-search-api + native algorithm dependencies
+file-search-component
+                    -> file-search-api + component-path-codec + component-host
+file-search-runtime -> API + native search + component client + catalog/home lookup
+file-search-local-plugin
+                    -> native search + component dispatcher
+```
+
+The native plugin must not depend on the runtime composition crate. Preserve the
+standalone executable name when its binary target moves to that crate. The API
+does not depend on Tokio, the component host, or the native implementation;
+object-safe boxed standard-library futures keep backend implementations separate.
+
+### Agreed backend and client facade signatures
+
+The following interfaces are the agreed Stage B design, **not implemented or
+compiled APIs**. Use one asynchronous backend contract for both native and
+process implementations. Keep scope accounting, synchronous client admission and
+reporter delivery in the runtime facade rather than duplicating those semantics
+in each backend.
+
+```rust
+// file-search-api; ordinary imports are omitted from these design signatures.
+pub type SearchFuture<'a, T> =
+    Pin<Box<dyn Future<Output = Result<T, SearchError>> + Send + 'a>>;
+
+pub type SearchStartFuture<'a> = Pin<Box<dyn Future<
+    Output = Result<Arc<dyn SearchBackendSession>, SearchStartError>
+> + Send + 'a>>;
+
+pub struct SearchOpen {
+    pub roots: Vec<PathBuf>,
+    pub options: FileSearchOptions,
+    pub budget: SearchBudget,
+}
+
+pub struct SearchQuery {
+    pub id: NonZeroU64,
+    pub text: String,
+}
+
+pub struct QueryAccepted {
+    pub id: NonZeroU64,
+}
+
+pub struct SearchFrame {
+    pub revision: u64,
+    pub query_id: u64,
+    pub query: String,
+    pub snapshot: Option<FileSearchSnapshot>,
+    pub phase: SearchPhase,
+}
+
+pub enum SearchPhase {
+    Running,
+    Idle,
+    Cancelled,
+    Closed,
+    Failed(SearchError),
+}
+
+pub enum SearchPoll {
+    Changed(SearchFrame),
+    Unchanged { revision: u64 },
+}
+
+pub trait SearchBackend: Send + Sync {
+    fn open(&self, request: SearchOpen) -> SearchStartFuture<'_>;
+    fn request_shutdown(&self);
+    fn shutdown(&self) -> SearchFuture<'_, ()>;
+}
+
+pub trait SearchBackendSession: Send + Sync {
+    fn update_query(&self, query: SearchQuery)
+        -> SearchFuture<'_, QueryAccepted>;
+    fn next_snapshot(&self, after_revision: u64, wait: Duration)
+        -> SearchFuture<'_, SearchPoll>;
+    fn request_close(&self);
+    fn close(&self) -> SearchFuture<'_, ()>;
+}
+```
+
+The awaited backend update acknowledges admission by the native worker or remote
+component, not completed matching. At most one backend poll is outstanding per
+lease. Its wait is bounded, closure wakes it, and the latest terminal state is
+retained for subsequent observers. Dropping a poll waiter does not release the
+session or cancel an accepted operation.
+
+Query identity zero is reserved for initial state. A frame is a complete state
+replacement, not a delta. A present snapshot must match the frame's query ID and
+text exactly. `Idle` requires a matching snapshot; initial/running or terminal
+states may have none if that query has not published one. Never copy a previous
+query's results into a new identity. `Cancelled` records cancellation, not joined
+cleanup; `Closed` and successful `close` require the retained work to have drained.
+The native adapter must implement and test this distinction: current native
+`on_complete_tagged` alone does not distinguish idle from external cancellation.
+Semantically equal queries and consecutive no-match queries need explicit tests,
+as does cancellation before the first snapshot. This is a contract adaptation
+requirement, not a claim that a normal-idle native bug has been demonstrated.
+
+The runtime exposes cloneable provider, scope and managed-session handles:
+
+```rust
+impl FileSearchProvider {
+    pub async fn from_catalog(
+        catalog: &ComponentCatalog,
+        limits: ProviderLimits,
+    ) -> Result<Self, SearchError>;
+    pub fn new_scope(&self, limits: ScopeLimits)
+        -> Result<FileSearchScope, SearchError>;
+    pub fn request_shutdown(&self);
+    pub async fn shutdown(&self) -> Result<(), SearchError>;
+}
+
+impl FileSearchScope {
+    pub async fn create(
+        &self,
+        request: SearchOpen,
+        reporter: Arc<dyn SessionReporter>,
+        cancel_flag: Option<Arc<AtomicBool>>,
+    ) -> Result<ManagedSearchSession, SearchStartError>;
+    pub fn request_shutdown(&self);
+    pub async fn shutdown(&self) -> Result<(), SearchError>;
+}
+
+impl ManagedSearchSession {
+    pub fn update_query_tagged(&self, query: &str, id: u64)
+        -> Result<(), SearchError>;
+    pub fn request_close(&self);
+    pub fn is_finished(&self) -> bool;
+    pub async fn close(self) -> Result<(), SearchError>;
+}
+```
+
+The synchronous managed-session update acknowledges **bounded local admission**,
+not the backend's acknowledgment. One retained actor serializes query updates,
+coalesces superseded queries and validates replies before reporter delivery.
+Allow one bounded snapshot poll alongside one in-flight update so a quiet poll
+does not impose its full timeout on each keystroke. Retain that poll through its
+completion or joined close; dropping an observer does not free its request slot
+or authorize another concurrent poll. Reject obsolete replies at delivery. Keep
+at most one pending query and one in-flight update, rather than one retained
+receipt per historical query. Define and check the monotonic ID and
+size limits before local admission. Never block a UI thread or hold its state
+mutex across an RPC, callback or join.
+
+Add a default `SessionReporter::on_error(&self, error: &SearchError)` for source
+compatibility, and implement it in both client reporters. A remote rejection
+must clear/fail the current presentation through its generation fence and remain
+observable through close/shutdown; it must not leave stale results indefinitely.
+`is_finished` is observation, not a cleanup receipt. Normal `Idle` drives tagged
+completion, while cancellation/failure must not be relabeled successful idle.
+
+### Scope ownership, limits and startup receipts
+
+The provider owns the selected backend, aggregate capacity, retained operations
+and shutdown result. A selected process is shared by connection scopes. Each
+scope owns only its admitted sessions; scope shutdown never shuts down the
+provider or another connection's sessions. Host-generated scope/session identity
+is distinct from user-supplied App Server session names and cancellation tokens.
+
+`ProviderLimits` carries aggregate retained-session and resource ceilings;
+`ScopeLimits` carries the retained-session allowance within those ceilings.
+`SearchBudget` is a validated per-session index/resource allocation, separate
+from output limits in `FileSearchOptions`. Its entry/byte defaults still require
+the measurements described below. None of these types permits silently clamping
+options or treating the transport's RPC-slot count as a session bound.
+
+Capacity covers preparing, ready and closing states. Register ownership before
+spawning or awaiting work. Hold permits through confirmed cleanup, including
+abandoned startup. Dropping the last public scope/session handle requests close;
+internal task ownership must not accidentally prevent that last-owner action.
+The owner retains cleanup independently of observer futures. Repeated close and
+shutdown observers see the retained result. A scope shutdown fences its admission
+and drains its startup, update/poll and callback work; provider shutdown fences
+all scopes and then drains/closes the backend. Successful close is acknowledged
+only after retained tasks and the backend's owned workers have drained. Forced
+termination, a queued release or a vanished waiter is not successful joined close.
+Treat the optional external cancellation flag as observation input. Private
+session closure must not write that flag or cancel a sibling that shares it.
+The runtime must retain its cancellation observer and join it during cleanup;
+the flag itself is not serialized to a process component.
+
+Keep startup operation failure separate from its cleanup receipt:
+
+```rust
+pub struct SearchStartError {
+    pub operation: SearchError,
+    pub cleanup: StartCleanup,
+}
+
+pub enum StartCleanup {
+    NotAdmitted,
+    Confirmed,
+    Unconfirmed(SearchError),
+}
+```
+
+`SearchError` contains a typed failure category and bounded diagnostic text using
+the failure categories below; it does not serialize `anyhow::Error` or native
+worker internals. `NotAdmitted` means no backend work was accepted. `Confirmed`
+requires an observed cleanup receipt, even when startup was intentionally
+cancelled. An observed failure with unconfirmed cleanup remains explicit. The
+native adapter maps `FileSearchStartError` into this common type, replacing App
+Server's native-specific downcast. The paired process-admission prerequisite
+below supplies the corresponding remote receipt.
+
+### Moving native values without changing algorithm behavior
+
+Move `FileMatch`, `MatchType`, `FileSearchResults`, `FileSearchSnapshot`,
+`FileSearchOptions` and `SessionReporter` into the API, with native re-exports.
+Move `FileMatch::full_path` and the options' default implementation with their
+types; Rust does not allow their inherent implementations to remain in another
+crate. Keep `IndexedEntry`, Nucleo types and worker ownership native.
+
+Preserve the existing domain `Serialize` output. Define separate component wire
+DTOs using the extracted native-path codec rather than changing `FileMatch`'s
+path serialization and thereby changing standalone JSON. Preserve path tags,
+platform rejection and exact absolute-path validation. Existing TUI event,
+composer and popup imports can temporarily use the same native re-exports; do
+not introduce parallel, incompatible match types. Adapt native callbacks into a
+bounded latest-snapshot slot without changing scoring, traversal or query
+normalization. Backend lifecycle/resource changes still require their own tests.
+
+### Startup selection
 
 Introduce a typed service facade and `file_search:default`, contract version 1.
 Native implementation and process adapter implement the same facade. A separate
@@ -145,6 +402,16 @@ returns an explicit error rather than silently starting native workers. Active
 leases retain their selected package/configuration until closed; changes apply
 to a newly composed runtime. Do not promise live replacement or cross-process
 index persistence in version 1.
+
+Compose the provider in App Server's `MessageProcessor::new` before constructing
+`SearchRequestProcessor`. Remove native construction from
+`SearchConnectionState::default`; obtain a scope from the already selected
+provider under the connection's admission fence before its first search. In TUI,
+compose before the outer `FileSearchRuntime`/`App::run` in `tui/src/lib.rs`, inject
+its scope, and retain the existing post-App shutdown drain. Cwd changes and
+reconnect keep the original provider/catalog snapshot. The standalone composition
+uses `codex_utils_home_dir::find_codex_home` and the catalog, without importing Core
+configuration or creating a native owner before selection.
 
 ### Proposed methods
 
@@ -167,7 +434,17 @@ an error or dropped waiter queues release but does not wait for its receipt.
 Add a paired-admission API returning the pending response and reserved cleanup
 handle immediately after admission, so the retained search owner can await release
 on an observed startup failure. Keep the existing storage convenience method's
-semantics unchanged. Dropping the reserved guard still queues release without
+semantics unchanged. The proposed additive surface is:
+
+```rust
+ComponentSession::start_with_cleanup(...)
+    -> Result<(PendingComponentReply, DeferredControl)>;
+PendingComponentReply::wait(self) -> Result<Value>;
+```
+
+The owner retains both values across response failure or cancellation; the
+existing helper can wrap the new admission primitive. Dropping the reserved guard
+still queues release without
 competing for ordinary RPC capacity. Never describe a queued release as joined
 cleanup. The service owns accepted work independently of request waiters.
 Release arriving before an open handler runs must prevent that handler from

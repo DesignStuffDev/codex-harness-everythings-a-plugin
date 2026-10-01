@@ -98,6 +98,394 @@ dev_alias.workspace = true
     def plan(self):
         return packaging.ExportPlan(self.repo, "rust", "plugin")
 
+    def nested_vendor(self, *, include_unused=False):
+        with (self.workspace / "plugin/Cargo.toml").open("a") as manifest:
+            manifest.write('\n[dependencies.nucleo]\npath = "../vendor/nucleo"\n')
+        members = '["matcher", "unused"]' if include_unused else '["matcher"]'
+        self.write(
+            "rust/vendor/nucleo/Cargo.toml",
+            f"""# Keep upstream formatting when unchanged.
+[package]
+name = "nucleo"
+version = "0.5.0"
+edition = "2021"
+license = "MPL-2.0"
+[workspace]
+members = {members}
+[dependencies]
+nucleo-matcher = {{ path = "matcher", version = "0.3.1" }}
+""",
+        )
+        self.write(
+            "rust/vendor/nucleo/src/lib.rs", "// Covered source\npub fn search() {}\n"
+        )
+        self.write("rust/vendor/nucleo/LICENSE", "Mozilla Public License Version 2.0\n")
+        self.write(
+            "rust/vendor/nucleo/PROVENANCE.md",
+            "Pinned vendor revision and local changes.\n",
+        )
+        self.write(
+            "rust/vendor/nucleo/matcher/Cargo.toml",
+            """# Separate workspace member.
+[package]
+name = "nucleo-matcher"
+version = "0.3.1"
+edition = "2021"
+license = "MPL-2.0"
+[dependencies]
+ordinary = { path = "../../../ordinary" }
+""",
+        )
+        self.write(
+            "rust/vendor/nucleo/matcher/src/lib.rs",
+            "// Matcher source\npub fn score() {}\n",
+        )
+        self.write(
+            "rust/vendor/nucleo/matcher/LICENSE", "Mozilla Public License Version 2.0\n"
+        )
+        self.write(
+            "rust/vendor/nucleo/unused/Cargo.toml",
+            '[package]\nname="unused"\nversion="0.1.0"\n',
+        )
+        self.write(
+            "rust/vendor/nucleo/unused/src/lib.rs", "not a production dependency"
+        )
+        self.write(
+            "rust/vendor/nucleo/matcher/fuzz/Cargo.toml",
+            '[package]\nname="fuzz"\nversion="0.1.0"\n',
+        )
+        self.write(
+            "rust/vendor/nucleo/matcher/fuzz/src/lib.rs", "not a production dependency"
+        )
+        return self.workspace / "vendor/nucleo"
+
+    def test_nested_dependency_export_preserves_separate_workspace_and_covered_source(
+        self,
+    ):
+        vendor = self.nested_vendor(include_unused=True)
+        original = {
+            path: path.read_bytes() for path in vendor.rglob("*") if path.is_file()
+        }
+        output = self.base / "nested-export"
+        self.plan().export(output)
+        root = tomllib.loads((output / "rust/Cargo.toml").read_text())["workspace"]
+        self.assertEqual(root["exclude"], ["vendor/nucleo"])
+        self.assertEqual(
+            root["members"],
+            ["builder", "optional", "ordinary", "patched", "platform", "plugin"],
+        )
+        exported_vendor = output / "rust/vendor/nucleo"
+        nested = tomllib.loads((exported_vendor / "Cargo.toml").read_text())
+        self.assertEqual(nested["workspace"]["members"], ["matcher"])
+        self.assertFalse((exported_vendor / "unused").exists())
+        self.assertFalse((exported_vendor / "matcher/fuzz").exists())
+        for name in (
+            "src/lib.rs",
+            "LICENSE",
+            "PROVENANCE.md",
+            "matcher/src/lib.rs",
+            "matcher/LICENSE",
+            "matcher/Cargo.toml",
+        ):
+            self.assertEqual(
+                (exported_vendor / name).read_bytes(), original[vendor / name]
+            )
+        self.assertEqual({path: path.read_bytes() for path in original}, original)
+        inventory = json.loads((output / "COMPONENT_SOURCE_EXPORT.json").read_text())
+        self.assertEqual(inventory["nested_workspaces"], ["vendor/nucleo"])
+        self.assertTrue(
+            any(
+                edge["from"] == "nucleo" and edge["to"] == "vendor/nucleo/matcher"
+                for edge in inventory["local_edges"]
+            )
+        )
+        self.assertTrue(
+            any(
+                edge["from"] == "nucleo-matcher" and edge["to"] == "ordinary"
+                for edge in inventory["local_edges"]
+            )
+        )
+
+    def test_unchanged_nested_manifests_keep_exact_upstream_bytes(self):
+        vendor = self.nested_vendor()
+        root_path = self.workspace / "Cargo.toml"
+        root = tomllib.loads(root_path.read_text())
+        root["workspace"]["exclude"] = ["vendor/nucleo", "unrelated-exclusion"]
+        root_path.write_text(packaging.dump_toml(root))
+        output = self.base / "unchanged-export"
+        self.plan().export(output)
+        for name in ("Cargo.toml", "matcher/Cargo.toml"):
+            self.assertEqual(
+                (output / "rust/vendor/nucleo" / name).read_bytes(),
+                (vendor / name).read_bytes(),
+            )
+        exported = tomllib.loads((output / "rust/Cargo.toml").read_text())["workspace"]
+        self.assertEqual(exported["exclude"], ["unrelated-exclusion", "vendor/nucleo"])
+
+    def test_nested_member_selected_without_root_retains_declaring_package(self):
+        vendor = self.nested_vendor()
+        plugin_path = self.workspace / "plugin/Cargo.toml"
+        plugin = tomllib.loads(plugin_path.read_text())
+        plugin["dependencies"].pop("nucleo")
+        root_path = self.workspace / "Cargo.toml"
+        root = tomllib.loads(root_path.read_text())
+        for selection in ("path_patch", "direct_member"):
+            with self.subTest(selection=selection):
+                if selection == "path_patch":
+                    root["patch"]["crates-io"]["nucleo-matcher"] = {
+                        "path": "vendor/nucleo/matcher"
+                    }
+                else:
+                    root["patch"]["crates-io"].pop("nucleo-matcher")
+                    plugin["dependencies"]["nucleo-matcher"] = {
+                        "path": "../vendor/nucleo/matcher"
+                    }
+                plugin_path.write_text(packaging.dump_toml(plugin))
+                root_path.write_text(packaging.dump_toml(root))
+                plan = self.plan()
+                self.assertIn(vendor, plan.crates)
+                self.assertIn(vendor / "matcher", plan.crates)
+                retention = plan.describe()["nested_workspace_owner_retention"]
+                self.assertEqual(
+                    [(item["path"], item["selected_members"]) for item in retention],
+                    [("rust/vendor/nucleo", ["rust/vendor/nucleo/matcher"])],
+                )
+                self.assertFalse(
+                    any(
+                        edge["from"] == "plugin" and edge["to"] == "vendor/nucleo"
+                        for edge in plan.edges
+                    )
+                )
+                self.assertTrue(
+                    any(
+                        edge["from"] == "nucleo"
+                        and edge["to"] == "vendor/nucleo/matcher"
+                        for edge in plan.edges
+                    )
+                )
+                output = self.base / selection
+                plan.export(output)
+                exported_root = tomllib.loads((output / "rust/Cargo.toml").read_text())
+                self.assertEqual(
+                    exported_root["workspace"]["default-members"], ["plugin"]
+                )
+                self.assertEqual(
+                    exported_root["workspace"]["exclude"], ["vendor/nucleo"]
+                )
+                self.assertFalse(
+                    any(
+                        member.startswith("vendor/")
+                        for member in exported_root["workspace"]["members"]
+                    )
+                )
+                self.assertEqual(
+                    (output / "rust/vendor/nucleo/Cargo.toml").read_bytes(),
+                    (vendor / "Cargo.toml").read_bytes(),
+                )
+                self.assertEqual(
+                    "nucleo-matcher" in exported_root["patch"]["crates-io"],
+                    selection == "path_patch",
+                )
+
+    def test_nested_inheritance_is_rejected_instead_of_using_outer_workspace(self):
+        vendor = self.nested_vendor()
+        manifest = vendor / "matcher/Cargo.toml"
+        original = manifest.read_text()
+        cases = [
+            (
+                original.replace('version = "0.3.1"', "version.workspace = true"),
+                "inherited package",
+            ),
+            (
+                original + "\n[dependencies.optional_alias]\nworkspace = true\n",
+                "inherited dependency",
+            ),
+            (original + "\n[lints]\nworkspace = true\n", "inherited lint"),
+        ]
+        for content, error in cases:
+            with self.subTest(error=error):
+                manifest.write_text(content)
+                with self.assertRaisesRegex(ValueError, error):
+                    self.plan()
+        manifest.write_text(original)
+
+    def test_nested_dependency_paths_keep_portability_guards(self):
+        vendor = self.nested_vendor()
+        manifest = vendor / "matcher/Cargo.toml"
+        original = manifest.read_text()
+        for dependency in (str(self.workspace / "ordinary"), "../../../../outside"):
+            with self.subTest(dependency=dependency):
+                manifest.write_text(
+                    original.replace('"../../../ordinary"', json.dumps(dependency))
+                )
+                with self.assertRaises((ValueError, FileNotFoundError)):
+                    self.plan()
+
+    def covered_source_export(self):
+        vendor = self.nested_vendor()
+        (vendor / "README.md").write_text("Nucleo upstream documentation.\n")
+        (vendor / "PROVENANCE.md").write_text(
+            "https://github.com/helix-editor/nucleo\n"
+            "4253de9faabb4e5c6d81d946a5e35a90f87347ee\n"
+            "Local covered changes retain MPL-2.0.\n"
+        )
+        destination = self.workspace / "third-party/nucleo"
+        destination.parent.mkdir()
+        vendor.rename(destination)
+        manifest = self.workspace / "plugin/Cargo.toml"
+        manifest.write_text(
+            manifest.read_text().replace("../vendor/nucleo", "../third-party/nucleo")
+        )
+        exported = self.base / "covered-export"
+        self.plan().export(exported)
+        return exported
+
+    def test_native_package_carries_inventoried_mpl_source_and_keeps_root_notices(self):
+        exported = self.covered_source_export()
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        output = self.base / "covered-package"
+        packaging.assemble(
+            exported, binary, output, "example.native", "thread_store", "default"
+        )
+        notice = json.loads((output / "THIRD_PARTY_NOTICES.json").read_text())
+        self.assertEqual(
+            [
+                (item["name"], item["version"], item["license"])
+                for item in notice["components"]
+            ],
+            [("nucleo", "0.5.0", "MPL-2.0"), ("nucleo-matcher", "0.3.1", "MPL-2.0")],
+        )
+        self.assertEqual((output / "LICENSE").read_text(), "license")
+        self.assertEqual((output / "NOTICE").read_text(), "notice")
+        inventory = json.loads((exported / "COMPONENT_SOURCE_EXPORT.json").read_text())
+        expected = {
+            item["path"]: item
+            for item in inventory["source_hashes"]
+            if item["path"].startswith("rust/third-party/nucleo/")
+        }
+        self.assertEqual(
+            {item["source_path"] for item in notice["files"]}, set(expected)
+        )
+        for item in notice["files"]:
+            self.assertEqual(
+                (output / item["package_path"]).read_bytes(),
+                (exported / item["source_path"]).read_bytes(),
+            )
+            self.assertEqual(
+                item["source_sha256"], expected[item["source_path"]]["source_sha256"]
+            )
+            self.assertEqual(item["package_sha256"], item["export_sha256"])
+        self.assertIn("not a complete transitive-license", notice["scope"])
+
+    def test_mpl_package_rejects_source_tampering_before_creating_output(self):
+        exported = self.covered_source_export()
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        source = exported / "rust/third-party/nucleo/src/lib.rs"
+        source.write_text(source.read_text() + "// Changed after export\n")
+        output = self.base / "tampered-package"
+        with self.assertRaisesRegex(ValueError, "hash does not match export"):
+            packaging.assemble(
+                exported, binary, output, "example.native", "thread_store", "default"
+            )
+        self.assertFalse(output.exists())
+
+    def test_mpl_package_rejects_inventory_escape_and_missing_covered_files(self):
+        exported = self.covered_source_export()
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        path = exported / "COMPONENT_SOURCE_EXPORT.json"
+        original = path.read_text()
+        for mode in ("escape", "missing", "omitted", "source_hash"):
+            with self.subTest(mode=mode):
+                inventory = json.loads(original)
+                item = next(
+                    entry
+                    for entry in inventory["source_hashes"]
+                    if entry["path"].endswith("nucleo/src/lib.rs")
+                )
+                if mode == "escape":
+                    item["path"] = "../outside.rs"
+                elif mode == "missing":
+                    item["path"] = "rust/third-party/nucleo/src/missing.rs"
+                elif mode == "omitted":
+                    inventory["source_hashes"].remove(item)
+                else:
+                    item["source_sha256"] = "0" * 64
+                path.write_text(json.dumps(inventory))
+                output = self.base / "bad-inventory-package"
+                with self.assertRaises(ValueError):
+                    packaging.assemble(
+                        exported,
+                        binary,
+                        output,
+                        "example.native",
+                        "thread_store",
+                        "default",
+                    )
+                self.assertFalse(output.exists())
+
+    def test_non_mpl_export_assembly_unchanged_and_vendor_checkout_requires_export(
+        self,
+    ):
+        exported = self.base / "ordinary-export"
+        self.plan().export(exported)
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        output = self.base / "ordinary-package"
+        packaging.assemble(
+            exported, binary, output, "example.native", "tool", "default"
+        )
+        self.assertEqual(
+            {path.name for path in output.iterdir()},
+            {"native-plugin", "LICENSE", "NOTICE", "codex-component.json"},
+        )
+        self.covered_source_export()
+        output = self.base / "unexported-package"
+        with self.assertRaisesRegex(ValueError, "requires a source export inventory"):
+            packaging.assemble(
+                self.repo, binary, output, "example.native", "tool", "default"
+            )
+        self.assertFalse(output.exists())
+
+    def test_mpl_package_rejects_covered_symlink_and_cross_platform_escape_paths(self):
+        exported = self.covered_source_export()
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        path = exported / "COMPONENT_SOURCE_EXPORT.json"
+        original = path.read_text()
+        for invalid in ("/absolute.rs", "C:\\outside.rs", "rust\\..\\outside.rs"):
+            with self.subTest(path=invalid):
+                inventory = json.loads(original)
+                inventory["source_hashes"][0]["path"] = invalid
+                path.write_text(json.dumps(inventory))
+                with self.assertRaises(ValueError):
+                    packaging.assemble(
+                        exported,
+                        binary,
+                        self.base / "escape-package",
+                        "example.native",
+                        "tool",
+                        "default",
+                    )
+        path.write_text(original)
+        source = exported / "rust/third-party/nucleo/src/lib.rs"
+        outside = self.base / "outside.rs"
+        outside.write_bytes(source.read_bytes())
+        source.unlink()
+        source.symlink_to(outside)
+        with self.assertRaisesRegex(ValueError, "symlinks"):
+            packaging.assemble(
+                exported,
+                binary,
+                self.base / "symlink-package",
+                "example.native",
+                "tool",
+                "default",
+            )
+        self.assertFalse((self.base / "symlink-package").exists())
+
     def test_export_preserves_production_closure_and_resources(self):
         original = {
             path: packaging.digest(path) for path in self.repo.rglob("Cargo.toml")

@@ -1,4 +1,5 @@
 [workspace]
+exclude = ["third-party/nucleo"]
 members = [
     "aws-auth",
     "analytics",
@@ -430,7 +431,8 @@ memchr = "2.7.6"
 mime_guess = "2.0.5"
 multimap = "0.10.0"
 notify = "8.2.0"
-nucleo = { git = "https://github.com/helix-editor/nucleo.git", rev = "4253de9faabb4e5c6d81d946a5e35a90f87347ee" }
+nucleo = { path = "third-party/nucleo" }
+rayon = "=1.11.0"
 once_cell = "1.20.2"
 openssl-sys = "*"
 opentelemetry = "0.31.0"
@@ -655,6 +657,9 @@ inherits = "test"
 opt-level = 0
 
 [patch.crates-io]
+# rules_rs resolves transitive non-member path crates from root patch entries.
+# Keep the vendored matcher in Nucleo's own workspace with its original license.
+nucleo-matcher = { path = "third-party/nucleo/matcher" }
 # Uncomment to debug local changes.
 # ratatui = { path = "../../ratatui" }
 crossterm = { git = "https://github.com/openai-oss-forks/crossterm", rev = "efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4" }
