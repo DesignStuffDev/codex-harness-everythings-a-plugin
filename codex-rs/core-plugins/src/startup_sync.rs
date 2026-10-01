@@ -3,6 +3,7 @@ use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
+#[cfg(not(target_os = "linux"))]
 use std::process::Stdio;
 use std::time::Duration;
 
@@ -638,18 +639,13 @@ fn git_ls_remote_head_sha(codex_home: &Path, git_binary: &Path) -> Result<String
 }
 
 fn git_head_sha(repo_path: &Path, git_binary: &Path) -> Result<String, String> {
-    let output = git_command(git_binary)?
-        .arg("-C")
-        .arg(repo_path)
-        .arg("rev-parse")
-        .arg("HEAD")
-        .output()
-        .map_err(|err| {
-            format!(
-                "failed to run git rev-parse HEAD in {}: {err}",
-                repo_path.display()
-            )
-        })?;
+    let mut command = git_command(git_binary)?;
+    command.arg("-C").arg(repo_path).args(["rev-parse", "HEAD"]);
+    let output = run_git_command_with_timeout(
+        &mut command,
+        "git rev-parse curated plugins HEAD",
+        CURATED_PLUGINS_GIT_TIMEOUT,
+    )?;
     ensure_git_success(&output, "git rev-parse HEAD")?;
 
     let sha = String::from_utf8_lossy(&output.stdout).trim().to_string();
@@ -680,6 +676,21 @@ fn git_command(git_binary: &Path) -> Result<Command, String> {
     Ok(command)
 }
 
+#[cfg(target_os = "linux")]
+fn run_git_command_with_timeout(
+    command: &mut Command,
+    context: &str,
+    timeout: Duration,
+) -> Result<Output, String> {
+    codex_utils_pty::run_bounded_background_command(
+        command,
+        context,
+        timeout,
+        &std::sync::atomic::AtomicBool::new(false),
+    )
+}
+
+#[cfg(not(target_os = "linux"))]
 fn run_git_command_with_timeout(
     command: &mut Command,
     context: &str,
@@ -1131,3 +1142,7 @@ fn apply_zip_permissions(
 #[cfg(test)]
 #[path = "startup_sync_tests.rs"]
 mod tests;
+
+#[cfg(all(test, target_os = "linux"))]
+#[path = "startup_sync_git_lifecycle_tests.rs"]
+mod git_lifecycle_tests;

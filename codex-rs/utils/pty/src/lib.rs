@@ -1,3 +1,7 @@
+#[cfg(target_os = "linux")]
+mod bounded_command;
+#[cfg(target_os = "linux")]
+pub use bounded_command::run_bounded_background_command;
 mod child;
 pub use child::Child;
 mod child_command;
