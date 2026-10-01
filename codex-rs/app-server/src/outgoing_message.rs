@@ -125,6 +125,23 @@ pub(crate) enum OutgoingEnvelope {
     },
 }
 
+/// Reserved capacity allows a producer to validate its generation and commit a
+/// targeted notification synchronously, without holding a lock across I/O.
+pub(crate) struct ConnectionNotificationPermit<'a> {
+    connection_id: ConnectionId,
+    permit: mpsc::Permit<'a, OutgoingEnvelope>,
+}
+
+impl ConnectionNotificationPermit<'_> {
+    pub(crate) fn send(self, notification: ServerNotification) {
+        self.permit.send(OutgoingEnvelope::ToConnection {
+            connection_id: self.connection_id,
+            message: timestamped_server_notification(notification),
+            write_complete_tx: None,
+        });
+    }
+}
+
 /// Sends messages to the client and manages request callbacks.
 pub(crate) struct OutgoingMessageSender {
     verification_auth: OnceLock<Arc<codex_login::AuthManager>>,
@@ -238,6 +255,16 @@ impl ThreadScopedOutgoingMessageSender {
 }
 
 impl OutgoingMessageSender {
+    /// Cancellation-safe bounded admission; failure is observable by its owner.
+    pub(crate) async fn reserve_server_notification_to_connection(
+        &self,
+        connection_id: ConnectionId,
+    ) -> anyhow::Result<ConnectionNotificationPermit<'_>> {
+        let permit = self.sender.reserve().await
+            .map_err(|_| anyhow::anyhow!("outgoing notification queue is closed"))?;
+        Ok(ConnectionNotificationPermit { connection_id, permit })
+    }
+
     pub(crate) fn new(
         sender: mpsc::Sender<OutgoingEnvelope>,
         analytics_events_client: AnalyticsEventsClient,

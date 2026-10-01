@@ -5,6 +5,8 @@ if (tokenFromUrl) { sessionStorage.setItem("desktopToken", tokenFromUrl); histor
 const token = sessionStorage.getItem("desktopToken") || "";
 let selected = null, activeTurn = null, events, threadCursor, turnCursor, selecting = 0, submitting = false;
 const items = new Map(), requests = new Map(), completedTurns = new Map();
+let fileSearchConnection = 0, defaultSearchRoot = "", searchPathStyle = "posix";
+const filePicker = createFilePicker({rpc, byId: $, context: () => ({root: $("cwd").value.trim() || defaultSearchRoot, threadId: selected, connection: fileSearchConnection, pathStyle: searchPathStyle})});
 function error(message) { $("error").textContent = message; $("error").hidden = !message; }
 function connection(text, connected) { $("connection").classList.toggle("connected", connected); $("connection").lastElementChild.textContent = text; }
 function element(tag, text, className) { const node = document.createElement(tag); node.textContent = text; if (className) node.className = className; return node; }
@@ -78,6 +80,7 @@ async function loadTurns(older = false, generation = selecting) {
 }
 async function selectThread(id) {
   if (submitting) return;
+  filePicker.close();
   const generation = ++selecting; selected = id; turnCursor = null; items.clear(); $("messages").replaceChildren(); running(null); error("");
   $("welcome").hidden = true; $("conversation").hidden = false; $("sidebar").classList.remove("open"); localStorage.setItem("codexSelectedThread", id);
   const response = await rpc("thread/resume", {threadId: id, excludeTurns: true});
@@ -88,12 +91,14 @@ async function selectThread(id) {
 }
 function newTask() {
   if (submitting) return;
+  filePicker.close();
   ++selecting; selected = null; activeTurn = null; localStorage.removeItem("codexSelectedThread"); items.clear(); $("messages").replaceChildren();
   $("welcome").hidden = false; $("conversation").hidden = true; $("task-title").textContent = "New task"; $("sidebar").classList.remove("open");
   document.querySelectorAll(".thread").forEach((button) => button.classList.remove("selected")); running(null); error(""); $("prompt").focus();
 }
 async function submit(event) {
   event.preventDefault(); const text = $("prompt").value.trim(); if (!text || submitting || activeTurn) return;
+  filePicker.close();
   submitting = true; $("send").disabled = true; error("");
   try {
     if (!selected) { const params = {ephemeral: false}; if ($("cwd").value.trim()) params.cwd = $("cwd").value.trim(); const created = await rpc("thread/start", params); selected = created.thread.id; ++selecting; localStorage.setItem("codexSelectedThread", selected); $("welcome").hidden = true; $("conversation").hidden = false; }
@@ -148,14 +153,19 @@ function notification(message) {
   scrollMessages();
 }
 async function connect() {
+  filePicker.close(); ++fileSearchConnection;
   events?.close(); const status = await call("/status"); if (!status.connected) throw new Error("Codex has stopped. Relaunch the desktop component to reconnect.");
+  defaultSearchRoot = status.cwd || ""; searchPathStyle = status.path_style || "posix";
   requests.clear(); status.requests.forEach((request) => requests.set(request.id, request)); renderRequests();
   events = new EventSource(`/events?token=${encodeURIComponent(token)}&after=${status.cursor}`);
-  events.onopen = () => connection("Connected", true); events.onerror = () => connection("Reconnecting", false);
+  events.onopen = () => { ++fileSearchConnection; filePicker.close(); connection("Connected", true); };
+  events.onerror = () => { ++fileSearchConnection; filePicker.close(); connection("Reconnecting", false); };
   events.onmessage = (event) => notification(JSON.parse(event.data));
-  events.addEventListener("disconnected", () => { events.close(); connection("Disconnected", false); error("Codex has stopped. Relaunch the desktop component; your saved tasks remain available."); });
+  events.addEventListener("disconnected", () => { filePicker.close(); ++fileSearchConnection; events.close(); connection("Disconnected", false); error("Codex has stopped. Relaunch the desktop component; your saved tasks remain available."); });
   events.addEventListener("reset", safely(async () => { await connect(); if (selected) await selectThread(selected); }));
 }
+$("cwd").addEventListener("input", () => filePicker.rootChanged());
+window.addEventListener("pagehide", () => filePicker.close());
 $("composer").onsubmit = safely(submit); $("new-task").onclick = newTask; $("menu").onclick = () => $("sidebar").classList.toggle("open");
 $("refresh").onclick = safely(() => listThreads()); $("more-threads").onclick = safely(() => listThreads(true)); $("older").onclick = safely(() => loadTurns(true));
 $("stop").onclick = safely(async () => { if (selected && activeTurn) await rpc("turn/interrupt", {threadId: selected, turnId: activeTurn}); });

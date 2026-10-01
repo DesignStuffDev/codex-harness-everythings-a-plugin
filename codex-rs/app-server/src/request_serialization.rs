@@ -17,6 +17,10 @@ use tracing::Instrument;
 use crate::connection_rpc_gate::ConnectionRpcGate;
 use crate::outgoing_message::ConnectionId;
 
+#[cfg(test)]
+#[path = "request_serialization_search_tests.rs"]
+mod search_tests;
+
 type BoxFutureUnit = Pin<Box<dyn Future<Output = ()> + Send + 'static>>;
 
 static QUEUED_REQUESTS: Gauge = Gauge::new("app.requests.queued");
@@ -39,6 +43,7 @@ pub(crate) enum RequestSerializationQueueKey {
         process_handle: String,
     },
     FuzzyFileSearchSession {
+        connection_id: ConnectionId,
         session_id: String,
     },
     FsWatch {
@@ -91,7 +96,7 @@ impl RequestSerializationQueueKey {
                 RequestSerializationAccess::Exclusive,
             ),
             ClientRequestSerializationScope::FuzzyFileSearchSession { session_id } => (
-                Self::FuzzyFileSearchSession { session_id },
+                Self::FuzzyFileSearchSession { connection_id, session_id },
                 RequestSerializationAccess::Exclusive,
             ),
             ClientRequestSerializationScope::FsWatch { watch_id } => (

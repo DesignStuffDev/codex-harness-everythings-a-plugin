@@ -318,8 +318,8 @@ impl App {
         self.workspace_command_runner = Some(Arc::new(AppServerWorkspaceCommandRunner::new(
             app_server.request_handle(),
         )));
-        self.file_search =
-            FileSearchManager::new(self.config.cwd.to_path_buf(), self.app_event_tx.clone());
+        self.file_search
+            .restart(self.config.cwd.to_path_buf(), self.app_event_tx.clone());
         self.model_catalog = Arc::new(
             ModelCatalog::new(bootstrap.available_models)
                 .with_collaboration_modes(bootstrap.collaboration_modes),

@@ -18,7 +18,6 @@ use std::num::NonZero;
 use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::sync::Condvar;
 use std::sync::Mutex;
 use std::sync::RwLock;
 use std::sync::atomic::AtomicBool;
@@ -35,8 +34,17 @@ use nucleo::pattern::AtomKind;
 use nucleo::pattern::Pattern;
 
 mod cli;
+mod async_owner;
+mod lifecycle;
+
+#[cfg(test)]
+#[path = "lifecycle_tests.rs"]
+mod lifecycle_tests;
 
 pub use cli::Cli;
+pub use async_owner::FileSearchOwner;
+pub use async_owner::FileSearchStartError;
+pub use async_owner::ManagedFileSearchSession;
 
 /// A single match result returned from the search.
 ///
@@ -95,6 +103,8 @@ pub struct FileSearchResults {
 
 #[derive(Debug, Clone, Serialize, PartialEq, Eq, Default)]
 pub struct FileSearchSnapshot {
+    /// Monotonic session-local identity; zero denotes the initial idle state.
+    pub query_id: u64,
     pub query: String,
     pub matches: Vec<FileMatch>,
     pub total_match_count: usize,
@@ -136,28 +146,89 @@ pub trait SessionReporter: Send + Sync + 'static {
     /// Called when the debounced top-N changes.
     fn on_update(&self, snapshot: &FileSearchSnapshot);
 
-    /// Called when the session becomes idle or is cancelled. Guaranteed to be called at least once per update_query.
+    /// Called when matching becomes idle or external cancellation is observed.
+    /// Private closure fences callbacks and may discard pending queries.
     fn on_complete(&self);
+
+    /// Associates completion with the latest query processed by the matcher.
+    /// Existing reporters can ignore identity by implementing only `on_complete`.
+    fn on_complete_tagged(&self, _query_id: u64) {
+        self.on_complete();
+    }
 }
 
+/// Owns a search supervisor. Dropping requests cleanup; [`Self::close`] joins it.
 pub struct FileSearchSession {
     inner: Arc<SessionInner>,
+    supervisor: Option<thread::JoinHandle<anyhow::Result<()>>>,
+    finished: Receiver<()>,
 }
 
 impl FileSearchSession {
-    /// Update the query. This should be cheap relative to re-walking.
+    /// Update with an automatically increasing identity; ignored after closure.
     pub fn update_query(&self, pattern_text: &str) {
-        let _ = self
-            .inner
-            .work_tx
-            .send(WorkSignal::QueryUpdated(pattern_text.to_string()));
+        let _ = self.submit_query(pattern_text, /*query_id*/ None);
+    }
+
+    /// Admit an explicitly identified query. IDs must be positive and strictly
+    /// increase within this session, including automatically assigned IDs.
+    pub fn update_query_tagged(&self, pattern_text: &str, query_id: u64) -> anyhow::Result<()> {
+        self.submit_query(pattern_text, Some(query_id))
+    }
+
+    fn submit_query(&self, pattern_text: &str, query_id: Option<u64>) -> anyhow::Result<()> {
+        let mut previous = self.inner.last_query_id.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        if self.inner.shutdown.load(Ordering::Acquire) {
+            anyhow::bail!("file-search session is closed");
+        }
+        let query_id = match query_id {
+            Some(id) => id,
+            None => previous.checked_add(1).ok_or_else(|| anyhow::anyhow!("file-search query identities exhausted"))?,
+        };
+        if query_id == 0 || query_id <= *previous {
+            anyhow::bail!("file-search query identity must be positive and strictly increasing");
+        }
+        self.inner.work_tx.send(WorkSignal::QueryUpdated {
+            query: pattern_text.to_owned(),
+            query_id,
+        }).map_err(|_| anyhow::anyhow!("file-search worker has stopped"))?;
+        *previous = query_id;
+        Ok(())
+    }
+
+    /// Stop accepting work and request cleanup without waiting for workers.
+    /// This never changes a cancellation flag shared with another session.
+    pub fn request_close(&self) {
+        let _admission = self.inner.last_query_id.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        if !self.inner.shutdown.swap(true, Ordering::AcqRel) {
+            let _ = self.inner.work_tx.send(WorkSignal::Shutdown);
+        }
+    }
+
+    /// Request closure and join traversal, matching and every private pool thread.
+    ///
+    /// Call from a blocking worker in asynchronous applications. Filesystem calls
+    /// and reporter callbacks must return before closure can finish. Calling this
+    /// from this session's reporter is rejected; use `request_close` there instead.
+    pub fn close(mut self) -> anyhow::Result<()> {
+        self.request_close();
+        let Some(supervisor) = self.supervisor.take() else {
+            return Ok(());
+        };
+        if supervisor.thread().id() == thread::current().id() {
+            anyhow::bail!("cannot join file search from its own reporter callback");
+        }
+        supervisor
+            .join()
+            .map_err(|_| anyhow::anyhow!("file-search supervisor panicked"))?
     }
 }
 
 impl Drop for FileSearchSession {
     fn drop(&mut self) {
-        self.inner.shutdown.store(true, Ordering::Relaxed);
-        let _ = self.inner.work_tx.send(WorkSignal::Shutdown);
+        // The supervisor retains all child ownership even when its waiter drops.
+        // Only a successful explicit close acknowledges joined cleanup.
+        self.request_close();
     }
 }
 
@@ -174,46 +245,24 @@ pub fn create_session(
         compute_indices,
         respect_gitignore,
     } = options;
-
     let Some(primary_search_directory) = search_directories.first() else {
         anyhow::bail!("at least one search directory is required");
     };
     let override_matcher = build_override_matcher(primary_search_directory, &exclude)?;
     let (work_tx, work_rx) = unbounded();
-
-    let notify_tx = work_tx.clone();
-    let notify = Arc::new(move || {
-        let _ = notify_tx.send(WorkSignal::NucleoNotify);
-    });
-    let nucleo = Nucleo::new(
-        Config::DEFAULT.match_paths(),
-        notify,
-        Some(threads.get()),
-        1,
-    );
-    let injector = nucleo.injector();
-
-    let cancelled = cancel_flag.unwrap_or_else(|| Arc::new(AtomicBool::new(false)));
-
     let inner = Arc::new(SessionInner {
         search_directories,
         limit: limit.get(),
         threads: threads.get(),
         compute_indices,
         respect_gitignore,
-        cancelled,
+        cancelled: cancel_flag.unwrap_or_else(|| Arc::new(AtomicBool::new(false))),
         shutdown: Arc::new(AtomicBool::new(false)),
+        last_query_id: Mutex::new(0),
         reporter,
         work_tx,
     });
-
-    let matcher_inner = inner.clone();
-    thread::spawn(move || matcher_worker(matcher_inner, work_rx, nucleo));
-
-    let walker_inner = inner.clone();
-    thread::spawn(move || walker_worker(walker_inner, override_matcher, injector));
-
-    Ok(FileSearchSession { inner })
+    lifecycle::start(inner, work_rx, override_matcher)
 }
 
 pub trait Reporter {
@@ -300,12 +349,16 @@ pub fn run(
     options: FileSearchOptions,
     cancel_flag: Option<Arc<AtomicBool>>,
 ) -> anyhow::Result<FileSearchResults> {
-    let reporter = Arc::new(RunReporter::default());
+    let reporter = Arc::new(RunReporter {
+        expected_query: pattern_text.to_owned(),
+        ..RunReporter::default()
+    });
     let session = create_session(roots, options, reporter.clone(), cancel_flag)?;
 
     session.update_query(pattern_text);
 
-    let snapshot = reporter.wait_for_complete();
+    let snapshot = reporter.wait_for_complete(&session);
+    session.close()?;
     Ok(FileSearchResults {
         matches: snapshot.matches,
         total_match_count: snapshot.total_match_count,
@@ -356,12 +409,13 @@ struct SessionInner {
     respect_gitignore: bool,
     cancelled: Arc<AtomicBool>,
     shutdown: Arc<AtomicBool>,
+    last_query_id: Mutex<u64>,
     reporter: Arc<dyn SessionReporter>,
     work_tx: Sender<WorkSignal>,
 }
 
 enum WorkSignal {
-    QueryUpdated(String),
+    QueryUpdated { query: String, query_id: u64 },
     NucleoNotify,
     WalkComplete,
     Shutdown,
@@ -424,6 +478,9 @@ fn walker_worker(
         return;
     };
 
+    if inner.cancelled.load(Ordering::Acquire) || inner.shutdown.load(Ordering::Acquire) {
+        return;
+    }
     let mut walk_builder = WalkBuilder::new(first_root);
     for root in inner.search_directories.iter().skip(1) {
         walk_builder.add(root);
@@ -452,14 +509,15 @@ fn walker_worker(
     let walker = walk_builder.build_parallel();
 
     walker.run(|| {
-        const CHECK_INTERVAL: usize = 1024;
-        let mut n = 0;
         let search_directories = inner.search_directories.clone();
         let injector = injector.clone();
         let cancelled = inner.cancelled.clone();
         let shutdown = inner.shutdown.clone();
 
         Box::new(move |entry| {
+            if cancelled.load(Ordering::Acquire) || shutdown.load(Ordering::Acquire) {
+                return ignore::WalkState::Quit;
+            }
             let entry = match entry {
                 Ok(entry) => entry,
                 Err(_) => return ignore::WalkState::Continue,
@@ -483,13 +541,6 @@ fn walker_worker(
                     },
                 );
             }
-            n += 1;
-            if n >= CHECK_INTERVAL {
-                if cancelled.load(Ordering::Relaxed) || shutdown.load(Ordering::Relaxed) {
-                    return ignore::WalkState::Quit;
-                }
-                n = 0;
-            }
             ignore::WalkState::Continue
         })
     });
@@ -499,7 +550,7 @@ fn walker_worker(
 fn matcher_worker(
     inner: Arc<SessionInner>,
     work_rx: Receiver<WorkSignal>,
-    mut nucleo: Nucleo<IndexedEntry>,
+    nucleo: &mut Nucleo<IndexedEntry>,
 ) -> anyhow::Result<()> {
     const TICK_TIMEOUT_MS: u64 = 10;
     let config = Config::DEFAULT.match_paths();
@@ -508,18 +559,25 @@ fn matcher_worker(
     let shutdown_requested = || inner.shutdown.load(Ordering::Relaxed);
 
     let mut last_query = String::new();
+    let mut last_query_id = 0;
     let mut next_notify = never();
     let mut will_notify = false;
     let mut walk_complete = false;
 
     loop {
+        if cancel_requested() || shutdown_requested() {
+            break;
+        }
         select! {
             recv(work_rx) -> signal => {
                 let Ok(signal) = signal else {
                     break;
                 };
                 match signal {
-                    WorkSignal::QueryUpdated(query) => {
+                    WorkSignal::QueryUpdated { query, query_id } => {
+                        if shutdown_requested() {
+                            break;
+                        }
                         let append = query.starts_with(&last_query);
                         nucleo.pattern.reparse(
                             0,
@@ -529,6 +587,7 @@ fn matcher_worker(
                             append,
                         );
                         last_query = query;
+                        last_query_id = query_id;
                         will_notify = true;
                         next_notify = after(Duration::from_millis(0));
                     }
@@ -553,7 +612,13 @@ fn matcher_worker(
             recv(next_notify) -> _ => {
                 will_notify = false;
                 let status = nucleo.tick(TICK_TIMEOUT_MS);
-                if status.changed {
+                // During reparse, Nucleo can expose the previous snapshot while
+                // the replacement computation is still running. Never label a
+                // different pattern's matches with the latest query identity.
+                if status.changed
+                    && nucleo.snapshot().pattern().column_pattern(0).atoms
+                        == nucleo.pattern.column_pattern(0).atoms
+                {
                     let snapshot = nucleo.snapshot();
                     let limit = inner.limit.min(snapshot.matched_item_count() as usize);
                     let pattern = snapshot.pattern().column_pattern(0);
@@ -586,16 +651,19 @@ fn matcher_worker(
                         .collect();
 
                     let snapshot = FileSearchSnapshot {
+                        query_id: last_query_id,
                         query: last_query.clone(),
                         matches,
                         total_match_count: snapshot.matched_item_count() as usize,
                         scanned_file_count: snapshot.item_count() as usize,
                         walk_complete,
                     };
-                    inner.reporter.on_update(&snapshot);
+                    if !shutdown_requested() {
+                        inner.reporter.on_update(&snapshot);
+                    }
                 }
-                if !status.running && walk_complete {
-                    inner.reporter.on_complete();
+                if !status.running && walk_complete && !shutdown_requested() {
+                    inner.reporter.on_complete_tagged(last_query_id);
                 }
             }
             default(Duration::from_millis(100)) => {
@@ -608,47 +676,63 @@ fn matcher_worker(
         }
     }
 
-    // If we cancelled or otherwise exited the loop, make sure the reporter is notified.
-    inner.reporter.on_complete();
+    // External cancellation retains its completion notification. Private close
+    // fences callbacks; explicit close waits for any callback already in flight.
+    if !shutdown_requested() {
+        inner.reporter.on_complete_tagged(last_query_id);
+    }
 
     Ok(())
 }
 
-#[derive(Default)]
 struct RunReporter {
+    expected_query: String,
     snapshot: RwLock<FileSearchSnapshot>,
-    completed: (Condvar, Mutex<bool>),
+    completed_tx: Sender<()>,
+    completed_rx: Receiver<()>,
+}
+
+impl Default for RunReporter {
+    fn default() -> Self {
+        let (completed_tx, completed_rx) = crossbeam_channel::bounded(1);
+        Self {
+            expected_query: String::new(),
+            snapshot: RwLock::default(),
+            completed_tx,
+            completed_rx,
+        }
+    }
 }
 
 impl SessionReporter for RunReporter {
     fn on_update(&self, snapshot: &FileSearchSnapshot) {
-        #[allow(clippy::unwrap_used)]
-        let mut guard = self.snapshot.write().unwrap();
+        let mut guard = self.snapshot.write().unwrap_or_else(std::sync::PoisonError::into_inner);
         *guard = snapshot.clone();
     }
 
+    fn on_complete_tagged(&self, query_id: u64) {
+        if query_id != 0 {
+            self.on_complete();
+        }
+    }
+
     fn on_complete(&self) {
-        let (cv, mutex) = &self.completed;
-        #[allow(clippy::unwrap_used)]
-        let mut completed = mutex.lock().unwrap();
-        *completed = true;
-        cv.notify_all();
+        // Startup can become idle before the caller submits its first query.
+        // That completion must not finish a different one-shot query.
+        let snapshot = self.snapshot.read().unwrap_or_else(std::sync::PoisonError::into_inner);
+        if snapshot.query == self.expected_query {
+            let _ = self.completed_tx.try_send(());
+        }
     }
 }
 
 impl RunReporter {
-    fn wait_for_complete(&self) -> FileSearchSnapshot {
-        let (cv, mutex) = &self.completed;
-        #[allow(clippy::unwrap_used)]
-        let mut completed = mutex.lock().unwrap();
-        while !*completed {
-            #[allow(clippy::unwrap_used)]
-            {
-                completed = cv.wait(completed).unwrap();
-            }
+    fn wait_for_complete(&self, session: &FileSearchSession) -> FileSearchSnapshot {
+        select! {
+            recv(self.completed_rx) -> _ => {},
+            recv(session.finished) -> _ => {},
         }
-        #[allow(clippy::unwrap_used)]
-        self.snapshot.read().unwrap().clone()
+        self.snapshot.read().unwrap_or_else(std::sync::PoisonError::into_inner).clone()
     }
 }
 

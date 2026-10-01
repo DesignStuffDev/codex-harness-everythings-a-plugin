@@ -3518,10 +3518,12 @@ dependencies = [
  "ignore",
  "nucleo",
  "pretty_assertions",
+ "rayon",
  "serde",
  "serde_json",
  "tempfile",
  "tokio",
+ "tokio-util",
 ]
 
 [[package]]
@@ -10664,7 +10666,6 @@ dependencies = [
 [[package]]
 name = "nucleo"
 version = "0.5.0"
-source = "git+https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9faabb4e5c6d81d946a5e35a90f87347ee"
 dependencies = [
  "nucleo-matcher",
  "parking_lot",
@@ -10674,7 +10675,6 @@ dependencies = [
 [[package]]
 name = "nucleo-matcher"
 version = "0.3.1"
-source = "git+https://github.com/helix-editor/nucleo.git?rev=4253de9faabb4e5c6d81d946a5e35a90f87347ee#4253de9faabb4e5c6d81d946a5e35a90f87347ee"
 dependencies = [
  "memchr",
  "unicode-segmentation",

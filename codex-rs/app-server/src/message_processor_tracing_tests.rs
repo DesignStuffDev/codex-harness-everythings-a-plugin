@@ -171,7 +171,7 @@ impl TracingHarness {
 
     async fn shutdown(self) {
         self.processor.shutdown_threads().await;
-        self.processor.drain_background_tasks().await;
+        self.processor.drain_background_tasks().await.expect("background cleanup");
     }
 
     async fn request<T>(&mut self, request: ClientRequest, trace: Option<W3cTraceContext>) -> T

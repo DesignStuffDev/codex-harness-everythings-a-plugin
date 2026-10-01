@@ -33,6 +33,8 @@ mod config_rpc;
 #[path = "connection_handling_stdio_tests.rs"]
 mod connection_handling_stdio;
 mod connection_handling_websocket;
+#[path = "search_connection_tests.rs"]
+mod search_connection;
 #[cfg(unix)]
 mod connection_handling_websocket_unix;
 #[cfg(unix)]

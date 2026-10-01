@@ -595,6 +595,7 @@ pub(crate) use process_exec_processor::ProcessExecRequestProcessor;
 pub(crate) use projects::ProjectRequestProcessor;
 pub(crate) use remote_control_processor::RemoteControlRequestProcessor;
 pub(crate) use search::SearchRequestProcessor;
+pub(crate) use search::SearchConnectionState;
 pub(crate) use thread_goal_processor::ThreadGoalRequestProcessor;
 pub(crate) use thread_processor::ThreadRequestProcessor;
 pub(crate) use thread_processor::ThreadResumeTarget;

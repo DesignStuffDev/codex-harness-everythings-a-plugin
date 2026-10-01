@@ -1,8 +1,9 @@
-"""Build storage outside the checkout, remove its source, then exercise the real CLI.
+"""Build storage outside the checkout, remove its build tree, then exercise the CLI.
 
 Run with the repository's Rust verification environment already sourced. Third-party
 caches may be shared; every local Cargo package must resolve inside the export.
 The host executables must already exist and are never built by this script.
+Bundled MPL-covered vendor source intentionally remains in the installed package.
 """
 
 import argparse
@@ -222,12 +223,16 @@ def main():
         )
         report["runtime_libraries"] = libraries
         report["package_files"] = {
-            p.name: fingerprint(p) for p in sorted(package.iterdir()) if p.is_file()
+            p.relative_to(package).as_posix(): fingerprint(p)
+            for p in sorted(package.rglob("*")) if p.is_file()
         }
         # This directory was created exclusively by this run; keep its inventory.
         shutil.rmtree(source)
         assert not source.exists()
         report["source_removed_before_install"] = True
+        report["source_removal_scope"] = (
+            "Exported build tree removed; any bundled MPL-covered vendor source intentionally travels with the package."
+        )
         run(
             "runtime",
             [

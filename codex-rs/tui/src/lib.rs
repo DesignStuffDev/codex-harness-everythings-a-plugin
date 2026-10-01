@@ -2031,6 +2031,7 @@ async fn run_ratatui_app(
 
     // Keep the large event-loop future out of the enclosing startup futures so session
     // transitions have enough stack headroom to rebuild configuration and the chat widget.
+    let file_search_runtime = file_search::FileSearchRuntime::new();
     let app_result = Box::pin(App::run(
         &mut tui,
         app_server,
@@ -2056,10 +2057,22 @@ async fn run_ratatui_app(
         startup_draft,
         managed_worktree,
         daemon_cli_executable,
+        file_search_runtime.clone(),
     ))
     .await;
 
     terminal_restore_guard.restore_silently();
+    // The owner outlives the entire App future, including early startup returns.
+    let app_result = match file_search_runtime.shutdown().await {
+        Ok(()) => app_result,
+        Err(error) => {
+            tracing::warn!("file search shutdown failed: {error}");
+            match app_result {
+                Ok(_) => Err(color_eyre::eyre::eyre!("file search shutdown failed: {error}")),
+                Err(app_error) => Err(app_error.wrap_err(format!("file search shutdown failed: {error}"))),
+            }
+        }
+    };
     // Mark the end of the recorded session.
     session_log::log_session_end();
     // ignore error when collecting usage – report underlying error instead

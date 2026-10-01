@@ -1669,8 +1669,10 @@ impl App {
                     );
                 }
             }
-            AppEvent::FileSearchResult { query, matches } => {
-                self.chat_widget.apply_file_search_result(query, matches);
+            AppEvent::FileSearchResult { request, query, matches } => {
+                if self.file_search.accepts(&request, &query) {
+                    self.chat_widget.apply_file_search_result(query, matches);
+                }
             }
             AppEvent::TaskSearchResult {
                 thread_id,

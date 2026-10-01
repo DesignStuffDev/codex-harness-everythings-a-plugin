@@ -1329,7 +1329,8 @@ pub async fn run_main_with_transport_options(
             }
             drop(snapshot);
             drop(thread_listener_tasks);
-            if !shutdown_state.forced() {
+            processor.request_search_shutdown();
+            let background_cleanup = if !shutdown_state.forced() {
                 futures::future::join_all(connections.iter().map(
                     |(&connection_id, connection_state)| {
                         processor.connection_closed(connection_id, &connection_state.session)
@@ -1337,11 +1338,13 @@ pub async fn run_main_with_transport_options(
                 ))
                 .await;
                 connection_cleanup_tasks.drain().await;
-                processor.drain_background_tasks().await;
+                let cleanup = processor.drain_background_tasks().await;
                 processor.shutdown_threads().await;
+                cleanup
             } else {
                 connection_cleanup_tasks.abort();
-            }
+                Ok(())
+            };
             info!(
                 exit_reason,
                 remaining_connection_count = connections.len(),
@@ -1349,9 +1352,10 @@ pub async fn run_main_with_transport_options(
                 "processor task exited"
             );
             if managed_daemon && shutdown_state.forced() {
-                AppServerExit::Forced
+                Ok(AppServerExit::Forced)
             } else {
-                AppServerExit::Graceful
+                background_cleanup.map_err(std::io::Error::other)?;
+                Ok(AppServerExit::Graceful)
             }
         }
     });
@@ -1362,7 +1366,10 @@ pub async fn run_main_with_transport_options(
     // Ancillary routers can retain senders after request processing stops; do
     // not postpone the storage fence until all transport tasks have exited.
     store_lifecycle.begin_shutdown();
-    if matches!(processor_exit, Ok(AppServerExit::Forced)) {
+    let processor_result = processor_exit
+        .map_err(|error| std::io::Error::other(format!("app-server processor shutdown failed: {error}")))
+        .and_then(std::convert::identity);
+    if matches!(&processor_result, Ok(AppServerExit::Forced)) {
         return Ok(AppServerExit::Forced);
     }
     let _ = outbound_handle.await;
@@ -1373,7 +1380,7 @@ pub async fn run_main_with_transport_options(
         let _ = handle.await;
     }
 
-    Ok(AppServerExit::Graceful)
+    processor_result
     }.await;
     if matches!(&result, Ok(AppServerExit::Forced)) {
         // Force shutdown remains responsive. Drop fences storage immediately;

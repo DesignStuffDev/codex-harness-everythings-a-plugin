@@ -178,7 +178,7 @@ fn log_inbound_app_event_with(logger: &SessionLogger, event: &AppEvent) {
             });
             logger.write_json_line(value);
         }
-        AppEvent::FileSearchResult { query, matches } => {
+        AppEvent::FileSearchResult { query, matches, .. } => {
             let value = json!({
                 "ts": now_ts(),
                 "dir": "to_tui",

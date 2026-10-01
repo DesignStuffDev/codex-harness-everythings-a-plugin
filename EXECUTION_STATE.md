@@ -21,8 +21,9 @@ Inventory: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
 - P02a native search ownership, App Server/TUI lifecycle and GUI file-picker work
   are staged in the working tree, **not included in the P01 source commit**.
   Native search's latest 35/35 tests passed with unchanged scoped source and the
-  subreaper. App Server tests are still compiling; the TUI reconnect sender fix
-  awaits its rerun. This is partial verification, not an accepted P02 checkpoint.
+  subreaper. All 395 App Server library tests passed with unchanged scoped source;
+  public RPC tests remain pending. The TUI reconnect sender fix is under test.
+  This is partial verification, not an accepted P02 checkpoint.
   There is still no independently installed search implementation.
 - Upstream maintenance remains required. Its release gates explicitly require a
   later pinned upstream revision, unchanged compatible custom-plugin packages,
@@ -143,8 +144,18 @@ edits. The earlier `020257Z` snapshot failed member verification and is marked
 unverified; do not use it as a verified recovery point. Save another snapshot
 before publication. Current private native evidence:
 `/workspace/acceptance/p02-native-final-startup-corrected.{log,source.json,subreaper.json}`.
-App Server run: `/workspace/acceptance/p02-app-server-search-unit.*`; inspect its
-terminal status instead of assuming completion. Preserve original failures.
+App Server's initial `/workspace/acceptance/p02-app-server-search-unit.*` build
+failed for insufficient disk space before any test ran. Its space-retry passed
+27 focused cases; `/workspace/acceptance/p02-app-server-lib-regression.*` then
+passed all 395 library cases. Each run has actual source hashes and a subreaper
+report. Current TUI run: `/workspace/acceptance/p02-tui-search-reconnect.*`;
+inspect its terminal status instead of assuming completion. Preserve failures.
+Later member-verified P02 source snapshot `p01-source-20261001T022522Z.tar.gz`
+contains 99 changed paths versus roadmap checkpoint
+`4288e493d3164ef2995808c02cc65e60528ca96e`; SHA256
+`ef4b7dce8d62930f674c8ec00f29203fd31f19bd7e0bd44cd470db896c4b7515`.
+It includes the reconnect fix and proposed Stage B interfaces, before this state
+update. Installed search remains future work.
 Cloud-local archives are not externally durable backups. GitHub protects only the
 source included in its published refs; preserve newer work before further edits.
 Never publish credentials, private bearer URLs, caches, binaries or runtime homes.
@@ -157,6 +168,12 @@ revision38, connected/running; re-observe rather than trusting this record.
 Source `/workspace/toolchains/component-verification-env.sh`, use jobs1 and existing
 debug0/incremental0 settings. One owner serializes Rust builds; never kill Rust.
 Use just test, scoped just fix and just fmt; regenerate Bazel/schema when applicable.
+The 32 GiB overlay required audited cache management. Seven generated cache files
+now use `/tmp` backing through their original target paths; hashes/modes/mtimes
+are preserved. Mapping/restoration instructions are in the private recovery file
+`p02-generated-cache-tmpfs-relocation.json`. These volatile files are rebuildable
+caches, not source or runtime state. Recheck disk/tmpfs/memory before linking;
+never remove source, evidence, frozen binaries or active process mappings for space.
 
 Overlay is 32 GiB with roughly 1.2 GB free after P01. Check actual resources before
 linking. Eviction reports retain exact hashes of removed stale generated executables;

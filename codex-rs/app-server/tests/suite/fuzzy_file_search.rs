@@ -549,7 +549,10 @@ async fn test_fuzzy_file_search_session_stops_sending_updates_after_stop() -> Re
 
     mcp.stop_fuzzy_file_search_session(session_id).await?;
 
-    assert_no_session_updates_for(&mut mcp, session_id, STOP_GRACE_PERIOD, SHORT_READ_TIMEOUT)
+    // The response reader retained earlier wire notifications. Discard only
+    // that pre-response backlog; any following wire update now violates stop.
+    mcp.clear_message_buffer();
+    assert_no_session_updates_for(&mut mcp, session_id, std::time::Duration::ZERO, SHORT_READ_TIMEOUT)
         .await?;
 
     Ok(())

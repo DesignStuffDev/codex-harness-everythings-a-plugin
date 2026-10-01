@@ -37,6 +37,32 @@ remaining manifest data. It does not edit Rust source. This means exported tests
 that require removed development dependencies are not a supported test workspace;
 run the original component's tests before packaging.
 
+Self-contained nested dependency workspaces, such as the vendored Nucleo/Matcher
+pair, keep their own workspace ownership. Their packages are excluded from the
+exported outer workspace members; the outer `exclude` retains the vendor root,
+and nested members are pruned to the production dependency closure. The source
+inventory records these roots in `nested_workspaces`. Unchanged manifests keep
+their exact original bytes, as do Rust sources, license files and provenance.
+Only manifests whose export metadata changes are serialized again.
+
+Selecting a nested member directly or through a root path override also retains
+its declaring root package and that package's production dependencies. This is
+conservative: all root path overrides are retained even when an override might be
+unused by the selected component. For example, the root Nucleo Matcher patch can
+include the vendor pair in an otherwise unrelated component export. These packages
+remain outside the outer workspace members and do not change its default entry.
+The `nested_workspace_owner_retention` inventory records that reason separately
+from actual dependency edges. Copying such a package does not add a dependency
+from the entry package or cause Cargo to build it by default.
+
+This support is deliberately bounded: nested package/dependency/lint inheritance
+is rejected rather than resolved against the outer harness workspace. Virtual
+nested workspace roots, multiple nested workspace levels and nested exclusion
+rules also fail explicitly.
+These cases require additional ownership/resolution support before export. The
+existing rejection of symlinks, absolute dependency paths and dependencies outside
+the selected source workspace continues to apply.
+
 Selected crates retain their source, migrations, schemas, templates, native files
 and other resources. `target`, `.git`, Python caches and unselected nested Cargo
 packages are excluded. Direct literal Rust `include_*` paths are audited and their
@@ -112,6 +138,30 @@ license obligations remain the package author's responsibility. The install comm
 copies the completed package into the host's immutable object store; the original
 source and build tree are not required at activation.
 
+When the exported dependency closure contains the locally modified Nucleo,
+assembly must use that **export** as `--repo`, with its unchanged
+`COMPONENT_SOURCE_EXPORT.json`. Assembly from the unexported harness checkout is
+rejected for this dependency. The assembler validates inventoried paths and hashes
+and copies the covered vendor subtree to `third-party/nucleo/` in the native
+package. Both MPL-2.0 licenses, covered Rust sources, manifests, README and
+provenance travel with the executable. Root Apache `LICENSE` and `NOTICE` remain
+unchanged.
+
+`THIRD_PARTY_NOTICES.json` identifies Nucleo 0.5.0 and Matcher 0.3.1 as MPL-2.0,
+records their pinned upstream revision `4253de9faabb4e5c6d81d946a5e35a90f87347ee`,
+and attests original-source, exported-file and packaged-file hashes. The source
+pin comes from the retained vendor provenance, not the current harness Git HEAD.
+Only export metadata may change manifest bytes; other covered source must retain
+matching source/export hashes. Missing or changed files, unlisted covered files,
+unsafe paths and symlinks fail assembly. This targeted bundle is **not a complete
+transitive-dependency license compliance report**.
+
+The acceptance helper fingerprints package files recursively, including covered
+source. It removes the temporary host/plugin **build source tree** before
+installation; the covered vendor source intentionally remains with the package
+and installed copy. That license material does not require rebuilding the host
+or retaining the external Cargo build directory.
+
 The thread-store plugin uses the persistent protocol. The one-invocation CLI `call`
 command intentionally cannot drive it. Exercise it through an actual engine
 session or a client using `ComponentBinding::connect()`, then verify persistence,
@@ -121,11 +171,20 @@ was not rebuilt.
 
 ## Current validation scope
 
-The current storage-v2 native thread-store export contains 81 local crates and
-917 resolved packages. It excludes `codex-core`, the CLI, TUI, app-server implementation and
+Before P02's Nucleo vendoring, the verified storage-v2 native thread-store export
+contained 81 local crates and 917 resolved packages. It excludes `codex-core`, the
+CLI, TUI, app-server implementation and
 `core_test_support`. Its current production closure still includes substantial
 native protocol, extension, configuration and tool dependencies; source packaging
 does not prove those dependencies are independently replaceable.
+
+With the current P02 source, export planning finds 83 local crates for native
+storage and three for file-search, including Nucleo and Nucleo Matcher in their
+separate workspace. Focused Python tests cover nested dependency traversal,
+workspace membership/exclusion, source/license fidelity, inheritance rejection
+and path protection. These planning/tests do not establish a new resolved-package
+count or independent native build; the historical runtime evidence below remains
+separate from P02 validation.
 
 The [storage-v2 independent-build report](../verification/2026-09-30/thread-store-native-v2-independent.json)
 records a fresh offline, locked build from the exported source in 109.286 seconds.
