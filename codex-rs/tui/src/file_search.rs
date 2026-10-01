@@ -186,3 +186,7 @@ mod coordinator_tests;
 #[cfg(test)]
 #[path = "file_search/test_support.rs"]
 mod test_support;
+
+#[cfg(test)]
+#[path = "file_search/pending_tests.rs"]
+mod pending_tests;

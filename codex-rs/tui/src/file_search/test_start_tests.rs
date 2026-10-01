@@ -2,7 +2,6 @@
 //! losing a pending owner or inventing a joined receipt when its runtime dies.
 use super::*;
 use pretty_assertions::assert_eq;
-use std::future::Future;
 use std::future::poll_fn;
 use std::num::NonZeroUsize;
 use std::task::Poll;
