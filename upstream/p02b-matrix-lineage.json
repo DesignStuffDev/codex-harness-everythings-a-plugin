@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "kind": "foreign_dependency_correction_lineage",
+  "recorded_at_utc": "2026-10-01T04:30:18.138028+00:00",
+  "openai_upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "dependency": {
+    "repository": "https://github.com/helix-editor/nucleo",
+    "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+    "license": "MPL-2.0",
+    "package": "nucleo-matcher",
+    "version": "0.3.1"
+  },
+  "implementation_commit": "ac5fdae1b7db8134318891eeb991b9c330e6ea8b",
+  "implementation_tree": "d59a58799acde091d508b99e27bdf7fa3ae74564",
+  "base_commit": "612bf2a4a8d7537bcac38c8bef5c537fe1965c6e",
+  "previous_lineage": "p02-search-lineage.json",
+  "boundary": {
+    "symbol": "MatrixLayout::fieds_from_ptr",
+    "upstream_path": "matcher/src/matrix.rs",
+    "upstream_blob": "a91ed95f5beda8d9decc5c615cf5384bfbda4d5b",
+    "current_path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+    "current_blob": "6345c21040d7321b9ca7ffb47080830080390091",
+    "intentional_change": "Use (haystack_len + 1 - needle_len) * needle_len for the matrix view, matching the reserved matrix layout, instead of multiplying by haystack_len again.",
+    "regression": "Inspect raw fat-pointer metadata from a real allocated slab before constructing any slice reference. Original512/4case260608cells extends beyondslab; corrected2036cells match reservation.",
+    "behavior_preserved": "Matching/scoring/traversal algorithms unchanged; only slice extent corrected."
+  },
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+      "mode": "100644",
+      "base_blob": "a91ed95f5beda8d9decc5c615cf5384bfbda4d5b",
+      "blob": "6345c21040d7321b9ca7ffb47080830080390091",
+      "sha256": "8d6c7329fde45076225c56ac96e26f05d6dd3177543948669b1e52e1e6e4e63f"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs",
+      "mode": "100644",
+      "base_blob": null,
+      "blob": "14598d2d3ef0e3d44cf3640ff9142560f807fb82",
+      "sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+      "mode": "100644",
+      "base_blob": "523fee0781a925a11798a0fbb93df23bd431a32b",
+      "blob": "8f2fd5c66e580a5dbbbf53318dfccb67c21c2d8e",
+      "sha256": "50d7614067e9799655c7a4f8d4f7cf0f539ef2caedf8b22e8ed3a7c3766e2ec1"
+    }
+  ],
+  "evidence": "../verification/2026-10-01/P02B_MATCHER_FIX_EVIDENCE.md",
+  "limits": [
+    "This is a local correction to the pinned foreign dependency, not integration of a later official Codex revision.",
+    "Vendor37 tests apply to this code. The separate41 native cases used a newer WIP queue implementation, excluded from this leaf checkpoint.",
+    "No new CLI or GUI build/runtime acceptance is claimed; previously frozen binaries remain unchanged.",
+    "Bounded allocation work is a separate later source scope."
+  ]
+}

@@ -6,6 +6,12 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
 
 ## Last verified checkpoints
 
+- Pinned matcher correction source: `ac5fdae1b7db8134318891eeb991b9c330e6ea8b`,
+  tree `d59a58799acde091d508b99e27bdf7fa3ae74564`. Safe pre-fix raw-metadata
+  regression failed as expected; vendor37 cases passed after the correction.
+  [Evidence](verification/2026-10-01/P02B_MATCHER_FIX_EVIDENCE.md) separates the
+  newer WIP native41 cases and makes no new CLI/GUI runtime claim.
+
 - New support-library source: `98eeb3e1c93b3a856834c57e6c4d57bfa9f8c782`,
   tree `01e5f25c3a40cd90ea4cae430e481a3e40cc9e65`: neutral search API and shared
   path codec with old storage exports; [56/56 focused tests](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md),
@@ -70,12 +76,14 @@ preserved all 30 allocated ELF sections; runtime gates used this immutable copy.
 
 1. Re-observe original task environment, repository, actual working files, refs,
    source/index hashes, processes and disk/memory. Read AGENTS and runtime skill.
-2. Preserve the newer working native queue and paired process-startup changes.
-   Their combined scoped run passed99/99 with one ignored test and unchanged
-   source; they remain outside the support checkpoint pending final checks.
-   An allocation audit found an inherited matcher matrix-slice extent error:
-   retain its safe pre-fix regression and narrow correction separately, then
-   rerun vendor/native gates before broader bounded-allocation work.
+2. Preserve native queue and paired process-startup work at external WIP
+   `812b2d3e7df40dde146f4a33b3ad6fbacd53542c` on
+   `wip/p02b-runtime-20261001`. Combined99/99 passed with one ignored helper,
+   unchanged source and subreaper0; after the separate matcher correction,
+   vendor37 + native41 passed. Scoped fix/format completed. These runtime
+   changes remain outside main pending broader client/runtime acceptance.
+   New bounded index allocation and opt-in logical payload limits are being
+   implemented after that WIP snapshot; preserve them separately before restart.
 3. Implement bounded native backend, coalesced query admission, honest final
    snapshot/Idle ordering, entry/index/worker budgets and resource errors. See
    [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md).
@@ -115,7 +123,10 @@ SHA256 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
 Later member-verified incremental `p01-source-20261001T040040Z.tar.gz` (historical
 prefix) covers 124 changed paths versus main4288; SHA256
 `9e581f18c9abc5e3719b6f45c11c2fe7b23e0b9284faf408049462edd6691a05`.
-It precedes this final state/lineage edit. Keep original failures and later snapshots.
+It precedes later source/state/lineage edits. A later member-verified incremental
+`p01-source-20261001T042418Z.tar.gz` covers17 runtime paths versus main612bf2a,
+SHA256 `18871beeccf1df50794e2d8705589d503766de92fc1d0acac86cae37234a0d39`.
+Those paths are also on external WIP812b2d3e. Keep original failures and snapshots.
 Cloud-local archives are recovery checkpoints, not proven outside backups. GitHub
 protects included published source only. Exclude binaries, caches, runtime homes,
 credentials and private bearer URLs from publication.

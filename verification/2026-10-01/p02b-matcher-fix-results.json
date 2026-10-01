@@ -1,0 +1,550 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-01T04:31:10.349594+00:00",
+  "status": "verified narrow inherited dependency fix; no new host/UI runtime gate",
+  "classification": "pinned foreign-dependency correction, not native subsystem extraction",
+  "source": {
+    "commit": "ac5fdae1b7db8134318891eeb991b9c330e6ea8b",
+    "tree": "d59a58799acde091d508b99e27bdf7fa3ae74564",
+    "parent": "612bf2a4a8d7537bcac38c8bef5c537fe1965c6e",
+    "source_wip": "812b2d3e7df40dde146f4a33b3ad6fbacd53542c",
+    "publication_record": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-matrix-source-publication.json",
+      "bytes": 1462,
+      "sha256": "0f08d2bc4a71c17f0eaa3347bbc0fb910d3c5d6874b9c3cb31368543b1290756"
+    },
+    "changed_paths": [
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+        "mode": "100644",
+        "base_blob": "a91ed95f5beda8d9decc5c615cf5384bfbda4d5b",
+        "blob": "6345c21040d7321b9ca7ffb47080830080390091",
+        "sha256": "8d6c7329fde45076225c56ac96e26f05d6dd3177543948669b1e52e1e6e4e63f"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "blob": "14598d2d3ef0e3d44cf3640ff9142560f807fb82",
+        "sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "mode": "100644",
+        "base_blob": "523fee0781a925a11798a0fbb93df23bd431a32b",
+        "blob": "8f2fd5c66e580a5dbbbf53318dfccb67c21c2d8e",
+        "sha256": "50d7614067e9799655c7a4f8d4f7cf0f539ef2caedf8b22e8ed3a7c3766e2ec1"
+      }
+    ],
+    "exact_changed_blobs_match_wip": true,
+    "vendor_tested_files_match_commit": [
+      {
+        "path": "codex-rs/third-party/nucleo/Cargo.toml",
+        "sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+        "commit_blob": "a49f7879e11ef8de893e6d6f80654a0af8166dc5"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/LICENSE",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "commit_blob": "a612ad9813b006ce81d1ee438dd784da99a54007"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "sha256": "50d7614067e9799655c7a4f8d4f7cf0f539ef2caedf8b22e8ed3a7c3766e2ec1",
+        "commit_blob": "8f2fd5c66e580a5dbbbf53318dfccb67c21c2d8e"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/README.md",
+        "sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+        "commit_blob": "e617cfa0e175f89e2f5e7aa1e57d58c28e47ddbf"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/Cargo.toml",
+        "sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+        "commit_blob": "4b90ddbb035ae2a8169f997fa6de371f9ca50520"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/LICENSE",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "commit_blob": "a612ad9813b006ce81d1ee438dd784da99a54007"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore",
+        "sha256": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+        "commit_blob": "1a45eee7760d240bfa8ac1989088e0349169f264"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml",
+        "sha256": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+        "commit_blob": "1b9d8a7fd3203813651a84763275c49117adb1d3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs",
+        "sha256": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+        "commit_blob": "d9df7d36b0f6e7e464102ab1e70ffeff5fecc142"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz.sh",
+        "sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+        "commit_blob": "d3ffa2c9a6627dad6ddaa009ac2d5a7a5e2017e0"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh",
+        "sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+        "commit_blob": "32a2669746a93a838ac2d3793a64e645e0479c14"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs",
+        "sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+        "commit_blob": "aacbe46141a51f018a70f599028346a74c185cc3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs",
+        "sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+        "commit_blob": "3de501aaae6ceaec2921c11ddc92ba11a3bbde1c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars.rs",
+        "sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+        "commit_blob": "d13a246616dd9e72d538450ac6a31e8d15d3caa4"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/config.rs",
+        "sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+        "commit_blob": "eca7ae388da845d93892737e060b6cc29fe287db"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/debug.rs",
+        "sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+        "commit_blob": "b8369f32dc6b79a6629adf221d1981d1535af708"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/exact.rs",
+        "sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+        "commit_blob": "3cb3ceb2025c5baa193b3c0a4224d0565ea114ad"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs",
+        "sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+        "commit_blob": "8215bf31fda7015123755a43d8b27d9a16d4a60c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs",
+        "sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+        "commit_blob": "5d53ecfb76f3d1265fe9a4b0e4af36c59f5c5585"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/lib.rs",
+        "sha256": "84a47fce13e1fad9ee34d96a4627342ec6176fe0667763e856544a3106b5fc0b",
+        "commit_blob": "3e8874c590c0fa3d87826749b1832076ddc2f002"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+        "sha256": "8d6c7329fde45076225c56ac96e26f05d6dd3177543948669b1e52e1e6e4e63f",
+        "commit_blob": "6345c21040d7321b9ca7ffb47080830080390091"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs",
+        "sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+        "commit_blob": "14598d2d3ef0e3d44cf3640ff9142560f807fb82"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs",
+        "sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+        "commit_blob": "88880ba91df4da12d6e2f8f5952352c5e9666446"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/pattern.rs",
+        "sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+        "commit_blob": "495feede30e9a3ce754fade159c5e7ad798463f6"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/prefilter.rs",
+        "sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+        "commit_blob": "1e79cc2c70efcc8521aa05281b61caddf963fe03"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/score.rs",
+        "sha256": "d6e77c89ede3df98681e2a03efb8d97f910b2967c7c6e6b912d56c927a8f3d0c",
+        "commit_blob": "c934a8ef49891bddd658d6eb1d221392bfa89f49"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/tests.rs",
+        "sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+        "commit_blob": "32a024036d6d05fdcbf8e37b13e6d8c0f3131a62"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs",
+        "sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+        "commit_blob": "a38c887584cf257a6ebd4a5dfdebd93f18fad8b3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs",
+        "sha256": "4f9b7c388111ed6a894eb4052018f5ef2c3bac11faaebd5ad9459863b79759cf",
+        "commit_blob": "664dae7a834d6e66b441652ed7436ae9d0b338fa"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/boxcar.rs",
+        "sha256": "ea0cd05cc0ea3d723ea1bfcf89e8784d96b90fa99101e1d1ac2542ffcb94b9c3",
+        "commit_blob": "9b48809daeb827a60c6994a0bea0de2c663cbd22"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/lib.rs",
+        "sha256": "0afcee4fe2f798b36148dc4fe3a7844139460cbc8ae997eaf45c5b5998f42985",
+        "commit_blob": "227f0f955268f6d771336d8d7095fefb70ba5252"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/par_sort.rs",
+        "sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+        "commit_blob": "92f716cc3f1278d896a4323d2dbdbbf3f31222b8"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/pattern/tests.rs",
+        "sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+        "commit_blob": "40e8e328723f94e4552822137f69c91fef39d63f"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/pattern.rs",
+        "sha256": "e3235175016ac8f254bfd50521e971aa86a51d33a6619b96a5be82cd47c1de89",
+        "commit_blob": "816b0a31691c421bb8ad90f9ef92cd48dacecf3f"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/shutdown_tests.rs",
+        "sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+        "commit_blob": "02147da093847cb5715c009c67d888836e22e94c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/tests.rs",
+        "sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+        "commit_blob": "676c50df44b4d3358f0157b854dc6aae28b1146e"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/worker.rs",
+        "sha256": "a9f93800400f3b94d818740137fe85aedbe5c24e7a05c5a95f81de4bf9966deb",
+        "commit_blob": "aedd46c4b66101a02fbdef3c2fb9827b264d1ac1"
+      }
+    ],
+    "native_wip_source_files_match": 15,
+    "native_wip_paths_not_equal_to_leaf_commit": [
+      "codex-rs/file-search/src/lib.rs",
+      "codex-rs/file-search/src/lifecycle.rs",
+      "codex-rs/file-search/src/lifecycle_tests.rs",
+      "codex-rs/file-search/src/matcher.rs",
+      "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+      "codex-rs/file-search/src/query_completion_tests.rs",
+      "codex-rs/file-search/src/work_queue.rs",
+      "codex-rs/file-search/src/work_queue_tests.rs"
+    ],
+    "scope_note": "Only the three listed matcher/provenance paths are changed by this source commit. Working vendor files were not used as immutable proof because independent bounded-index work continued after this run."
+  },
+  "provenance": {
+    "repository": "https://github.com/helix-editor/nucleo",
+    "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+    "license": "MPL-2.0",
+    "inherited_matrix_git_blob": "a91ed95f5beda8d9decc5c615cf5384bfbda4d5b",
+    "inherited_matrix_sha256": "c3ff2b105ac1a0cee11c2e2d60640f775a217614a6c4713a23358fcdf4c966db",
+    "historical_source_audit": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-nucleo-source-audit.json",
+      "bytes": 9100,
+      "sha256": "d5862ff6ab1bdb7654638937166b19fbfc20bb7ea4f1891f8631fdf19149276b"
+    },
+    "intentional_change": "MatrixLayout::fieds_from_ptr now uses the reserved needle dimension for the raw matrix slice length. Matching score/selection algorithms are unchanged."
+  },
+  "regression_design": {
+    "baseline_matrix_sha256": "fc19fc79cedb90dd103a7c4efdbe87591e69d2abb1872a423c52b6acf9c0b1ec",
+    "baseline_equals_inherited_matrix_plus_test_module": true,
+    "baseline_and_fixed_regression_test_bytes_equal": true,
+    "test_cases": [
+      "ascii_matrix_view_extent_matches_reserved_layout",
+      "unicode_matrix_view_extent_matches_reserved_layout"
+    ],
+    "length_samples_per_case": [
+      [
+        512,
+        4
+      ],
+      [
+        2048,
+        2
+      ],
+      [
+        512,
+        128
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "safe_failure_method": "Allocate a real MatrixSlab, verify the computed reserved layout fits it, call fieds_from_ptr with in-allocation base offsets, and inspect raw slice length/address metadata only. No returned slice is dereferenced, no possibly oversized slice reference is formed, and MatrixSlab::alloc is not called by the regression. Thus the pre-fix extent error is demonstrated without reproducing the invalid-reference construction in the production alloc path.",
+    "limits": "Two deterministic ASCII/Unicode extent tests and retained matching suites; no exhaustive memory-safety proof, sanitizer/Miri run, exploit demonstration, or new GUI/runtime build."
+  },
+  "runs": {
+    "initial_compile_failure": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-matrix-baseline.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--locked",
+        "-p",
+        "nucleo-matcher",
+        "--lib",
+        "matrix_extent_tests"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "recorded_baseline": "900337e46bdffdecc9e2dd7d7d832b849ee558ec",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:18:41Z",
+      "finished_utc": "2026-10-01T04:18:43Z",
+      "returncode": 101,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-matrix-baseline.source.json",
+        "bytes": 10430,
+        "sha256": "27088272fd1c7155ebd7f55ceb686c9a3abb75dfc100e4bba7a50f963903a6f0"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-matrix-baseline.log",
+        "bytes": 1419,
+        "sha256": "e29973d1bf3c4ddea0b8ba2ba6069ac873875231a1f6035d74e0e0ae3a1ff6fb"
+      },
+      "source_before_count": 39,
+      "source_after_count": 39,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "781a20c2937f66a0f92d965eeb629efd69ac2e100ef043fc52cda51ee4ac129c",
+      "source_after_canonical_sha256": "781a20c2937f66a0f92d965eeb629efd69ac2e100ef043fc52cda51ee4ac129c",
+      "changed_paths": [],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-matrix-baseline.subreaper.json",
+          "bytes": 432,
+          "sha256": "8822045859cd5cb34345f32de4cf58daa9defac14c35f3190a1cb8f4b88744b9"
+        },
+        "enabled": true,
+        "command_returncode": 101,
+        "exit_status": 101,
+        "runner_error": null,
+        "reaped_children": 1
+      },
+      "tests_executed": 0,
+      "classification": "preserved test-fixture compilation failure",
+      "diagnosis": "Initial ASCII fixture used u8, which does not implement the pinned chars::Char trait. It was corrected to AsciiChar before the intentional baseline test run."
+    },
+    "baseline_expected_failures": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-matrix-baseline-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--locked",
+        "-p",
+        "nucleo-matcher",
+        "--lib",
+        "matrix_extent_tests"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "recorded_baseline": "900337e46bdffdecc9e2dd7d7d832b849ee558ec",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:19:51Z",
+      "finished_utc": "2026-10-01T04:19:53Z",
+      "returncode": 100,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-matrix-baseline-corrected.source.json",
+        "bytes": 10440,
+        "sha256": "c87648d70123aade8325b2bf5da3bba635dfe86c37b677dcefc5ec43fc6ffdde"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-matrix-baseline-corrected.log",
+        "bytes": 5811,
+        "sha256": "11e7b592010719f79a98e0f1ee4ccc567f1095222ab9a1cf52eb37f905cb49b2"
+      },
+      "source_before_count": 39,
+      "source_after_count": 39,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "4781d93beca4043d5698bef87b2a3da3e1620fd9d9799bab86accfd6e90d600f",
+      "source_after_canonical_sha256": "4781d93beca4043d5698bef87b2a3da3e1620fd9d9799bab86accfd6e90d600f",
+      "changed_paths": [],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-matrix-baseline-corrected.subreaper.json",
+          "bytes": 431,
+          "sha256": "e388cea86e94f9f2c533935baa5141eaec994a6b80f25fa7d687012b39992adf"
+        },
+        "enabled": true,
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null,
+        "reaped_children": 1
+      },
+      "classification": "expected regression failures on inherited production code",
+      "tests_executed": 2,
+      "tests_passed": 0,
+      "tests_failed": 2,
+      "tests_skipped": 25,
+      "attempts_per_test": 2,
+      "observation": {
+        "haystack_len": 512,
+        "needle_len": 4,
+        "observed_raw_slice_length": 260608,
+        "observed_end_within_slab": false,
+        "expected_raw_slice_length": 2036,
+        "expected_end_within_slab": true
+      },
+      "test_source_sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc"
+    },
+    "fixed_vendor_and_native_wip": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-matrix-fixed-native.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--locked",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher",
+        "-p",
+        "codex-file-search",
+        "--lib"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "recorded_baseline": "900337e46bdffdecc9e2dd7d7d832b849ee558ec",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:21:10Z",
+      "finished_utc": "2026-10-01T04:21:16Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-matrix-fixed-native.source.json",
+        "bytes": 13876,
+        "sha256": "0eee6cc3f789df4e245dca0300f9ab1d307f7a51ccb54db70d91182b7927665c"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-matrix-fixed-native.log",
+        "bytes": 12443,
+        "sha256": "3535863b9c6bcdb24c33076ebfcb717c80d839fe05fc77e27cbda9a2758bce6a"
+      },
+      "source_before_count": 54,
+      "source_after_count": 54,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "35f334437b050f2cb0cd56318c4de47ecced44cbc6e334b46104a50c12dac00f",
+      "source_after_canonical_sha256": "35f334437b050f2cb0cd56318c4de47ecced44cbc6e334b46104a50c12dac00f",
+      "changed_paths": [],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-matrix-fixed-native.subreaper.json",
+          "bytes": 449,
+          "sha256": "15cc630bbb91d4e4edc5d0060c0a8e2016babca9d0ae8abf99ab86f27e818e04"
+        },
+        "enabled": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "reaped_children": 1
+      },
+      "tests_executed": 78,
+      "tests_passed": 78,
+      "tests_failed": 0,
+      "tests_skipped": 0,
+      "by_package": {
+        "codex-file-search": 41,
+        "nucleo": 10,
+        "nucleo-matcher": 27
+      },
+      "vendor_tests_passed": 37,
+      "native_wip_tests_passed": 41,
+      "test_source_sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+      "scope_note": "The 37 vendor tests apply to the exact accepted vendor source. The 41 native tests executed newer WIP bounded-queue/completion changes, eight file paths of which differ from this leaf source commit; those changes are not included or claimed verified on main by this leaf."
+    },
+    "scoped_fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-component-host"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "recorded_baseline": "612bf2a4a8d7537bcac38c8bef5c537fe1965c6e",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:22:47Z",
+      "finished_utc": "2026-10-01T04:22:52Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-startup-fix.source.json",
+        "bytes": 24476,
+        "sha256": "fc6d3ddbd1ae27e3ef7aaaa7eb1bd5039df884c21f29d289bda30e86652f1dc4"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-startup-fix.log",
+        "bytes": 4373,
+        "sha256": "ebba278faeffc46f070dc9994042780b660edf57ef046219048d266e0cc4ab04"
+      },
+      "source_before_count": 99,
+      "source_after_count": 99,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "b5e86f4e13cacaac35389b8384468ab80b9446747d1c601fb581d11333f6bbb4",
+      "source_after_canonical_sha256": "b5e86f4e13cacaac35389b8384468ab80b9446747d1c601fb581d11333f6bbb4",
+      "changed_paths": [],
+      "tested_vendor_files_unchanged": 37
+    },
+    "format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "recorded_baseline": "612bf2a4a8d7537bcac38c8bef5c537fe1965c6e",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:23:59Z",
+      "finished_utc": "2026-10-01T04:24:18Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-startup-format.source.json",
+        "bytes": 24404,
+        "sha256": "f791229d1874fed8f5f2dc82e94bedcfe2e40c728ce4f9f563983dce4c4eb8c7"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-startup-format.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_before_count": 99,
+      "source_after_count": 99,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "b5e86f4e13cacaac35389b8384468ab80b9446747d1c601fb581d11333f6bbb4",
+      "source_after_canonical_sha256": "45b3c9c6143c44fcbe8d8998a20e5b40e6813411c8b74025a887cf14eecd3b7d",
+      "changed_paths": [
+        "codex-rs/component-host/src/session_start_tests.rs"
+      ],
+      "tested_vendor_files_unchanged": 37
+    }
+  },
+  "counting": {
+    "passing_single_run_total": 78,
+    "nucleo": 10,
+    "nucleo_matcher": 27,
+    "vendor_total": 37,
+    "native_newer_wip": 41,
+    "new_matrix_tests_in_matcher27": 2,
+    "older_vendor35_is_subset_not_additional": true,
+    "baseline_retries_not_distinct_tests": true,
+    "no_single_all_green_main_native41_claim": true
+  },
+  "limits": [
+    "No new CLI/App Server executable or installed GUI runtime was built/tested for this leaf checkpoint.",
+    "The earlier StageA frozen executable/UI evidence predates this matcher correction and is not relabeled.",
+    "No bounded-index implementation or independently installed search provider is included by this leaf.",
+    "Existing vendor style warnings remain; no warning-free claim."
+  ],
+  "privacy": "Only whitelisted source identities, commands, outcome counts, paths and hashes are published. No credential values, bearer URLs, ready-file contents or private runtime/session state copied."
+}

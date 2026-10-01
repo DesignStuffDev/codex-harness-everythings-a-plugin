@@ -42,6 +42,9 @@ StageB drafts are excluded; each accepted boundary needs its own mapped checkpoi
 The later [StageB support map](upstream/p02b-contract-lineage.json) records the
 neutral API and path-codec extraction into shared libraries, preserving the
 distinction between support refactoring and installed service replacement.
+The [matcher correction map](upstream/p02b-matrix-lineage.json) records an
+inherited foreign dependency extent bug, its exact patch and safely demonstrated
+regression. This does not satisfy P18U's later official Codex integration gate.
 
 ## Separately installable maintenance service
 
