@@ -507,5 +507,14 @@ bind the exact source, executable and independently built packages. This uses
 Chromium/Playwright and deterministic inference; in-app Browser and live-provider
 proof remain unavailable. Existing native extraction coverage is unchanged, and
 credential/source lifetime, broker/catalog activation and P18U upstream integration/
-rollback remain required work. The next private cache-revision draft is untested
-and is excluded from this runtime checkpoint.
+rollback remain required work. The subsequent cache-revision checkpoint has its
+own scoped evidence below; it is excluded from this earlier runtime checkpoint.
+
+The [credential-cache map](upstream/p03-native-cache-revision-lineage.json) binds
+six final source paths at `18140083910d19c86e9cadaef0990db9aa652f6e` to native
+manager load/cache adaptation, project-authored revision identity and connected
+regression tests. [Evidence](verification/2026-10-01/P03_CACHE_REVISION_EVIDENCE.md)
+separates the original failed source, corrected 385-test source and reviewed
+formatting transition. No dependency, public contract, persisted schema or
+official upstream revision changes. This map does not advance the frozen d04
+index, close its semantic findings, implement an updater or satisfy P18U.

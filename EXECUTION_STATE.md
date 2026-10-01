@@ -10,9 +10,11 @@ Read [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md),
 - Original cloud checkout: `/workspace/codex-harness-everythings-a-plugin`.
   Preserve `/workspace/codex-harness-next-components` and both worktrees' changes.
 - Origin: `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
-- Last remotely verified main before this runtime supplement:
-  `f9e922c35fc9639e66e775837139d01a90c0c4aa`, tree
-  `e64c32309f5ad12f4cf4dcbe1c8c5aefba8bcd35`. Source parent:
+- Last remotely verified main before this checkpoint preparation: `192d353d96618d2bd8387a2d2543224d9aecf967`, tree
+  `70a83f2575ac863a12267460af23af053b07f92c`, parent `f9e922c3`. All eight runtime
+  supplement files were verified remotely. Runtime publication receipt SHA256
+  `533680ab8eabfe9824bdd5a55e2a02b0cec0b8868595fa8400dd68641910040c`.
+  Source checkpoint:
   `e289b6b5a2f6608779059963aef73c8cc66148eb`, tree
   `04ca864b074159df73d6914c851da59ba3444424`. All 15 affected final blobs matched.
   Publication receipt `p03-native-acquisition-publication.json`, SHA256
@@ -56,41 +58,62 @@ Other subsystems remain coupled, adapters or compiled prerequisites.
   The frozen d04 index has 1,092 paths/28 map shapes/27 edges. Metadata recognition
   is not semantic closure, an implemented updater or a later upstream integration.
 
-## Ordered next actions
+## Current source checkpoint and ordered next actions
 
-1. Verify original environment/filesystem, current remote ref, processes and resources.
-   Publish this completed runtime supplement with exact file/ref verification.
+1. Current immutable native source: `18140083910d19c86e9cadaef0990db9aa652f6e`,
+   tree `36e47c268966b945ee967e4c13e73224cc6b85cb`, parent `192d353d`.
+   [Cache evidence](verification/2026-10-01/P03_CACHE_REVISION_EVIDENCE.md) records
+   385 passes (277 login +108 provider), no skips/retries; preserve the separate
+   1-pass/7-failure baseline. Only two production paths changed between runs;
+   all eight new tests were unchanged. Lint passed unchanged; three files were
+   formatted mechanically. All 8,886 scoped final entries match the source tree.
+   The unchanged strict runner returned 0/null; its extra adopted descendant
+   exited by SIGKILL (-9), with exact fixture/cause attribution unknown.
+   Source archive `p03-cache-revision-verified-source.tar.gz`, SHA256
+   `e2bc6e7a5b0467e09f1ab367ed209ff44196a30975d3a8de3b26b0c1cbb33030`.
+   Publish this source plus evidence/docs via fresh ref check/nonforce update,
+   then verify every affected remote blob and preserve the receipt. Re-resolve
+   remote main when resuming; never infer it from stale local refs.
+2. Build this source's full CLI and rerun installed storage/migration/GUI gates.
+   The earlier `e289b6b5`/`192d353d` runtime proof above does not cover this change.
    Root owns checkout/Rust/cache/Git mutations; workers stage only under `/tmp`.
-2. Reclaim sufficient build space through reviewed reversible artifact consolidation.
-   Last observation: about 194 MB overlay /176 MB tmp, insufficient for another large
-   link. An unused older P02b CLI can potentially be preserved in a verified archive;
-   no action is accepted solely from this plan. Preserve live verified-v2 GUI, current
-   d04/new CLI, all source and old arg0 links. Repeat identity/reference/hash checks.
-3. Next reviewed **untested** candidate:
-   `/tmp/p03-native-cache-revision-stage/FINAL_MANIFEST.json`, SHA256
-   `226a211d21ade16bb22cc754bb0548b5f51d9ca9610b1eebb1cd723e0ca426b6`.
-   Six paths/eight authored tests; private retained credential revision at real
-   load/commit, plus held-resolver retained-endpoint HTTP cases. Adopt its separate
-   tests-only patch first, preserve the failing baseline, then reviewed production
-   and complete login/provider regression, lint/format and real-host gates.
-   Staged archive `p03-native-cache-revision-stage-226a211d.tar.gz`, SHA256
-   `da6605a945dc5902b6291aa02264695789739f607c1d678024f416f8c8fa699c`, covers28 files
-   but is cloud-local only. Do not count this candidate as tested or published.
-4. Carry authority through actual source-owner replacement, persistence, gateway
-   retained work, HTTP retries/body/decode and native model-cache publication.
-   Preserve legitimate account-bound factory revocation in tests. Follow the
-   [native prerequisite audit](component-sdk/design/native-catalog/NATIVE_CATALOG_NEXT_CHECKPOINT.md)
-   and reviewed plan archive `p03-catalog-async-authority-plan-02.reviewed.tar.gz`
-   (SHA256 `dc2b0cd61267daf1f75c54d35cce2d1c476a425c6155276d86de924fb7a4fbe4`).
-5. Implement [leaf broker](P03_LEAF_BROKER_DESIGN.md) admission, retained lifecycle,
-   cancellation/drain/quarantine and actual native catalog composition. Keep catalog
-   rejection fail-closed until coordinated activation. Prove installed consumers
-   and native/custom catalog replacement with unchanged host and GUI/headless recovery.
-6. Continue every P04–P19 inventory obligation and maintain provenance each slice.
-   **P18U is required**: independently installed maintenance component plus external
+   Last free overlay about149MB: preserve/retire completed green test executables
+   with verified compression first, then consolidate an unused older CLI only
+   under fresh exact-byte/reference guards. Preserve current/live GUI and old
+   arg0 aliases. No cache mutation while builds, lint or formatting run.
+3. Next reviewed source-owner plan: source/cache/provider publication under one
+   owner, then latest-admitted installer and source/cache/policy fencing. Frozen
+   plan manifest `bbe999f2ab518fc58803793bf2839aa19ffe4a199c99775cae1c4169a3cdb5c4`;
+   archive `p03-native-source-publication-plan-bbe999f2.tar.gz`, SHA256
+   `dad402783e9f3e369e47e3b65ef62a34f3759d9332b42f7bac0e5c20a6e3716d`.
+   A worker is staging a smaller connected owner transition under `/tmp`; it is
+   unadopted/untested. Verify its final manifest and current formatted preimages.
+   Mechanical co-location is not a complete source fence or installed extraction.
+4. Carry authority through installer ordering/equal-byte replacement, actual
+   refresh success/failure, shared persistence, gateway retained work, HTTP
+   retries/body/decode and native model-cache publication. Preserve legitimate
+   account-bound factory revocation. Follow the reviewed native plans and
+   [leaf broker design](P03_LEAF_BROKER_DESIGN.md); do not activate catalog before
+   its connected lifecycle/cancellation/drain/quarantine gates pass.
+5. Prove installed native/custom catalog consumers with a separately built worker,
+   unchanged host and actual GUI/headless recovery. Then continue every P04–P19
+   inventory obligation, maintaining exact provenance each slice.
+6. **P18U is required**: independently installed maintenance component plus external
    bootstrap/recovery, real later upstream integration in isolation, compatible
    custom packages, incompatible-update refusal and failed activation/applicable
    interrupted-migration rollback. No polling or live update is enabled.
+
+## Recent resource preservation
+
+The original source backup and all older evidence remain intact. Additional
+cloud-local recovery archives retain the unused 7a63 CLI and all three failed
+red-run test executables before their generated paths were retired. Their
+receipts are `p03-old-p02b-full-cli-consolidation.json` (SHA256
+`b1f0f7f0af4ff95689deb145b1486d971e338b5dc2dbfe823ef33a8f57532a94`) and
+`p03-cache-revision-red-elf-preservation.json` (SHA256
+`4d4c39f02d3dad5127b68d44e500113a2e8e1fb819d1c2234ce0e46c76309601`).
+The failed run remains failed; the login integration executable was compiled but
+had zero selected red cases. These archives are not external backups.
 
 ## Operating and recovery instructions
 
@@ -107,7 +130,7 @@ completed test executables were archived before retirement. Some inactive storag
 copies share inodes: copy before write/chmod/utime. No cache mutation during Rust.
 
 Environment ID: `ccarenv_b64_Y2NhcmVudl8wYzAyOTNkMzVhZTg4MTkxYjc4YjQyZmVhNWYwMDllYQ`.
-Latest observation kept the original config identity, running/connected, revision89,
+Latest observation kept the original config identity, running/connected, revision892,
 restricted package_managers, policy state unknown, no extra hostname/VPN/preview.
 Root did not reset or replace it. Revalidate. In-app Browser/Context7 remain unavailable;
 optional viewer networking does not block extraction. Keep private URLs/logs private.

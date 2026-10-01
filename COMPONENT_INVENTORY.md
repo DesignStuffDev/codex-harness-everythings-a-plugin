@@ -235,5 +235,11 @@ bind the exact source, executable and independently built packages. This uses
 Chromium/Playwright and deterministic inference; in-app Browser and live-provider
 proof remain unavailable. Existing native extraction coverage is unchanged, and
 credential/source lifetime, broker/catalog activation and P18U upstream integration/
-rollback remain required work. The next private cache-revision draft is untested
-and is excluded from this runtime checkpoint.
+rollback remain required work. The subsequent cache-revision checkpoint has its
+own scoped evidence below; it is excluded from this earlier runtime checkpoint.
+
+C06's subsequent [credential-cache checkpoint](verification/2026-10-01/P03_CACHE_REVISION_EVIDENCE.md)
+adds native stale-reload protection with 385 scoped passes, including retained
+provider HTTP behavior. Extraction status and installed-component counts do not
+change. Source ownership, installer ordering, persistent authority, selected
+catalog activation and fresh full-host/UI acceptance remain separate gates.

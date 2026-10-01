@@ -54,3 +54,9 @@ retains exact adopted/tested source hashes, the uncovered initial regression and
 the corrected 271-test pass; final scoped lint passed unchanged and formatting was mechanically reviewed. Literal original
 path/blob/symbol proof is not full semantic equivalence or independent auth/catalog
 extraction. The upstream pin and historical publication records above are unchanged.
+
+The subsequent [credential-cache lineage](upstream/p03-native-cache-revision-lineage.json)
+records exact source `18140083910d19c86e9cadaef0990db9aa652f6e`, original/native
+manager anchors and intentional project-private revision/test code. Its separate
+[385-test evidence](verification/2026-10-01/P03_CACHE_REVISION_EVIDENCE.md) does not
+advance upstream or establish independent authentication/catalog extraction.

@@ -777,5 +777,22 @@ bind the exact source, executable and independently built packages. This uses
 Chromium/Playwright and deterministic inference; in-app Browser and live-provider
 proof remain unavailable. Existing native extraction coverage is unchanged, and
 credential/source lifetime, broker/catalog activation and P18U upstream integration/
-rollback remain required work. The next private cache-revision draft is untested
-and is excluded from this runtime checkpoint.
+rollback remain required work. The subsequent cache-revision checkpoint has its
+own scoped evidence below; it is excluded from this earlier runtime checkpoint.
+
+## P03 next checkpoint: native credential-cache ownership
+
+Source `18140083910d19c86e9cadaef0990db9aa652f6e` rejects stale native reload and
+failure publication after credential replacement, clearing or A→B→A changes.
+[Evidence](verification/2026-10-01/P03_CACHE_REVISION_EVIDENCE.md) preserves the
+1-pass/7-failure baseline and corrected **385 passes**, including two retained
+provider-endpoint HTTP cases. Lint passed unchanged; three formatting-only
+transitions were reviewed. This is a compiled native C06 prerequisite, not a
+new installed component or full-host/UI proof for this source.
+
+Next: unify active provider and cached credential ownership, then fence pending
+installs, equal-byte source replacement, refresh outcomes and shared credential
+writes. Keep catalog activation fail-closed until its connected authority and
+unchanged-host external-package acceptance pass. P18U remains required and
+unimplemented; the new [lineage](upstream/p03-native-cache-revision-lineage.json)
+preserves the current source/test/customization mapping without advancing upstream.
