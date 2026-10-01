@@ -18,7 +18,7 @@ use tokio::sync::mpsc;
 use tokio::time::Duration;
 use tokio::time::timeout;
 
-fn processor() -> (
+pub(super) fn processor() -> (
     SearchRequestProcessor,
     mpsc::Receiver<OutgoingEnvelope>,
     FileSearchProvider,

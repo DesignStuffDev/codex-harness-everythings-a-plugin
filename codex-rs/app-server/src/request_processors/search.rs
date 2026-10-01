@@ -606,3 +606,7 @@ mod preparing_tests;
 #[cfg(test)]
 #[path = "search/ingress_tests.rs"]
 mod ingress_tests;
+
+#[cfg(test)]
+#[path = "search/ingress_regression_tests.rs"]
+mod ingress_regression_tests;
