@@ -12,6 +12,8 @@ use codex_file_search_api::SearchBudget;
 use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchErrorKind;
+use codex_file_search_api::SearchStartCancellationOutcome;
+use codex_file_search_api::SearchStartControl;
 use codex_file_search_api::SearchStartError;
 use codex_file_search_api::SessionReporter;
 use tokio::sync::Notify;
@@ -62,6 +64,7 @@ pub(crate) struct Lease {
     pub(crate) state: Mutex<LeaseState>,
     pub(crate) changed: Notify,
     pub(crate) completed: watch::Sender<Option<SearchCloseOutcome>>,
+    pub(crate) cancelled: watch::Sender<Option<SearchStartCancellationOutcome>>,
 }
 #[derive(Default)]
 pub(crate) struct LeaseState {
@@ -69,9 +72,12 @@ pub(crate) struct LeaseState {
     pub(crate) close_started: bool,
     pub(crate) start_finished: bool,
     pub(crate) start_error: Option<SearchStartError>,
-    // Captured before an error itself starts closure. Only a prior explicit
-    // fence can classify a confirmed ClosedLease startup as cancellation.
-    pub(crate) closing_before_start_result: bool,
+    pub(crate) pending_start: Option<Arc<dyn SearchStartControl>>,
+    // Explicit origin, never inferred from a late closing flag or error kind.
+    pub(crate) skipped_before_backend: bool,
+    pub(crate) backend_cancellation: Option<SearchStartCancellationOutcome>,
+    pub(crate) cleanup_uncertain: Option<SearchError>,
+    pub(crate) terminal: Option<SearchStartCancellationOutcome>,
     pub(crate) backend: Option<Arc<dyn SearchBackendSession>>,
     pub(crate) update_active: bool,
     pub(crate) query_id: u64,

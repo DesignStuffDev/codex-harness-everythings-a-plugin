@@ -8,6 +8,7 @@ use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchErrorKind;
 use codex_file_search_api::SearchQuery;
+use codex_file_search_api::SearchStartCancellationOutcome;
 use codex_file_search_api::StartCleanup;
 use futures::FutureExt;
 use tokio::sync::oneshot;
@@ -145,10 +146,8 @@ pub(crate) fn close_cause(outcome: &SearchCloseOutcome) -> SearchError {
 }
 
 impl Lease {
-    fn record_failure(&self, error: SearchError) {
-        lock(&self.state)
-            .first_error
-            .get_or_insert_with(|| error.clone());
+    pub(crate) fn record_failure(&self, error: SearchError) {
+        let error = lock(&self.state).first_error.get_or_insert(error).clone();
         if let Some(provider) = self.provider.upgrade() {
             let mut state = lock(&provider.state);
             state.first_error.get_or_insert_with(|| error.clone());
@@ -163,17 +162,26 @@ impl Lease {
     }
     pub(crate) fn request_close(self: &Arc<Self>) {
         let Some(provider) = self.provider.upgrade() else {
-            complete(&self.completed, uncertain(lost()));
+            let operation = self.retained_failure().unwrap_or_else(lost);
+            self.publish_completion(SearchStartCancellationOutcome {
+                operation: Err(operation),
+                cleanup: StartCleanup::Unconfirmed(lost()),
+            });
             return;
         };
         let token = provider.tasks.token();
-        let (backend, start) = {
+        let (backend, pending, start) = {
             let mut state = lock(&self.state);
             state.closing = true;
             let start = !state.close_started;
             state.close_started = true;
-            (state.backend.clone(), start)
+            (state.backend.clone(), state.pending_start.clone(), start)
         };
+        if let Some(pending) = pending
+            && std::panic::catch_unwind(AssertUnwindSafe(|| pending.request_cancel())).is_err()
+        {
+            self.record_failure(panicked());
+        }
         if let Some(backend) = backend
             && std::panic::catch_unwind(AssertUnwindSafe(|| backend.request_close())).is_err()
         {
@@ -192,25 +200,36 @@ impl Lease {
         };
         runtime.spawn(async move {
             let mut guard = guard;
-            let mut outcome = lease.join_backend().await;
-            let unconfirmed = matches!(outcome.cleanup, CloseCleanup::Unconfirmed(_));
-            if !unconfirmed {
+            let mut receipt = lease.join_backend().await;
+            {
+                let mut state = lock(&lease.state);
+                state.backend_cancellation = Some(receipt.clone());
+            }
+            let initial_uncertainty = matches!(receipt.cleanup, StartCleanup::Unconfirmed(_));
+            if !initial_uncertainty {
+                // Includes the accepted startup result owner, update and pump.
+                // Startup itself never waits for this close actor.
                 lease.drain_local().await;
+                receipt = lease.reconcile_start(receipt).await;
             }
-            if let Some(error) = &lock(&lease.state).first_error {
-                outcome.operation = Err(error.clone());
+            if let Some(error) = lease.retained_operation(&receipt) {
+                receipt.operation = Err(error);
             }
+            if let Some(error) = &lock(&lease.state).cleanup_uncertain {
+                receipt.cleanup = StartCleanup::Unconfirmed(error.clone());
+            }
+            let unconfirmed = matches!(receipt.cleanup, StartCleanup::Unconfirmed(_));
             {
                 let mut state = lock(&provider.state);
-                if let Err(error) = &outcome.operation {
+                if let Err(error) = &receipt.operation {
                     state.first_error.get_or_insert_with(|| error.clone());
                 }
                 let mut refund = false;
                 if let Some(scope) = state.scopes.get_mut(&lease.scope) {
-                    if let Err(error) = &outcome.operation {
+                    if let Err(error) = &receipt.operation {
                         scope.first_error.get_or_insert_with(|| error.clone());
                     }
-                    if outcome.cleanup == CloseCleanup::Joined {
+                    if !unconfirmed {
                         refund = scope.leases.remove(&lease.id).is_some();
                     }
                 }
@@ -221,65 +240,26 @@ impl Lease {
                     }
                 }
             }
-            complete(&lease.completed, outcome.clone());
+            lease.publish_completion(receipt);
             if unconfirmed {
-                // Receipt is immutable uncertainty, not a callback join. Keep
-                // this cleanup owner/token while accepted local owners drain.
+                // Quota and accepted local ownership survive early uncertainty.
                 provider.request_shutdown();
                 lease.drain_local().await;
+                if let Some(error) = lease.retained_failure() {
+                    // Late real failures still enter ledgers, without rewriting
+                    // the immutable uncertain receipt or refunding this lease.
+                    lease.record_failure(error);
+                }
+            } else {
+                let (pending, backend) = {
+                    let mut state = lock(&lease.state);
+                    (state.pending_start.take(), state.backend.take())
+                };
+                drop(pending);
+                drop(backend);
             }
             guard.lease.take();
         });
-    }
-    async fn join_backend(&self) -> SearchCloseOutcome {
-        let (backend, start_error, closing_before_start_result) = loop {
-            let changed = self.changed.notified();
-            tokio::pin!(changed);
-            changed.as_mut().enable();
-            let ready = {
-                let state = lock(&self.state);
-                if state.start_finished {
-                    Some((
-                        state.backend.clone(),
-                        state.start_error.clone(),
-                        state.closing_before_start_result,
-                    ))
-                } else {
-                    None
-                }
-            };
-            if let Some(ready) = ready {
-                break ready;
-            }
-            changed.await;
-        };
-        if let Some(error) = start_error {
-            let cleanup = match error.cleanup {
-                StartCleanup::NotAdmitted | StartCleanup::Confirmed => CloseCleanup::Joined,
-                StartCleanup::Unconfirmed(error) => CloseCleanup::Unconfirmed(error),
-            };
-            let operation = if closing_before_start_result
-                && error.operation.kind() == SearchErrorKind::ClosedLease
-                && cleanup == CloseCleanup::Joined
-            {
-                Ok(())
-            } else {
-                Err(error.operation)
-            };
-            return SearchCloseOutcome { operation, cleanup };
-        }
-        let Some(backend) = backend else {
-            return uncertain(lost());
-        };
-        // The owned close is an independent cancellation/drain route even if
-        // a nonblocking request_close hook panicked before waking the poll.
-        match AssertUnwindSafe(async { backend.close().await })
-            .catch_unwind()
-            .await
-        {
-            Ok(outcome) => outcome,
-            Err(_) => uncertain(panicked()),
-        }
     }
     async fn drain_local(&self) {
         self.operations.wait().await;
@@ -324,10 +304,15 @@ struct CloseCompletionGuard {
 impl Drop for CloseCompletionGuard {
     fn drop(&mut self) {
         if let Some(lease) = self.lease.take() {
-            if let Some(provider) = lease.provider.upgrade() {
-                lock(&provider.state).first_error.get_or_insert_with(lost);
-            }
-            complete(&lease.completed, uncertain(lost()));
+            let operation = lease.retained_failure().unwrap_or_else(lost);
+            lock(&lease.state)
+                .cleanup_uncertain
+                .get_or_insert_with(lost);
+            lease.record_failure(operation.clone());
+            lease.publish_completion(SearchStartCancellationOutcome {
+                operation: Err(operation),
+                cleanup: StartCleanup::Unconfirmed(lost()),
+            });
         }
     }
 }

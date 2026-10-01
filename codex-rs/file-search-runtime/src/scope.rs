@@ -8,6 +8,7 @@ use codex_file_search_api::SearchStartError;
 use codex_file_search_api::SessionReporter;
 
 use crate::FileSearchSession;
+use crate::PendingFileSearchStart;
 use crate::state::*;
 
 /// Cloneable public scope. Internal tasks hold Scope, never ScopeHandle, so last
@@ -32,12 +33,20 @@ impl FileSearchScope {
     pub(crate) fn inner(&self) -> &Arc<Scope> {
         &self.handle.0
     }
+    /// Reserve one start synchronously and expose its exact cancellation control.
+    pub fn begin_open(
+        &self,
+        request: SearchOpen,
+        reporter: Arc<dyn SessionReporter>,
+    ) -> Result<PendingFileSearchStart, SearchStartError> {
+        crate::startup::begin_open(Arc::clone(self.inner()), request, reporter)
+    }
     pub async fn open(
         &self,
         request: SearchOpen,
         reporter: Arc<dyn SessionReporter>,
     ) -> Result<FileSearchSession, SearchStartError> {
-        crate::startup::open(Arc::clone(self.inner()), request, reporter).await
+        self.begin_open(request, reporter)?.finish().await
     }
     pub fn request_shutdown(&self) {
         self.inner().request_shutdown();

@@ -2,6 +2,7 @@ use std::panic::AssertUnwindSafe;
 use std::sync::Arc;
 use std::sync::Mutex;
 
+use codex_file_search_api::SearchErrorKind;
 use codex_file_search_api::SearchOpen;
 use codex_file_search_api::SearchStartError;
 use codex_file_search_api::SessionReporter;
@@ -11,20 +12,19 @@ use tokio::sync::Notify;
 use tokio::sync::oneshot;
 use tokio::sync::watch;
 
-use crate::FileSearchSession;
+use crate::PendingFileSearchStart;
 use crate::policy::exhausted;
-use crate::session::close_cause;
 use crate::state::*;
 
-pub(crate) async fn open(
+pub(crate) fn begin_open(
     scope: Arc<Scope>,
     request: SearchOpen,
     reporter: Arc<dyn SessionReporter>,
-) -> Result<FileSearchSession, SearchStartError> {
+) -> Result<PendingFileSearchStart, SearchStartError> {
     let provider = scope.provider.upgrade().ok_or_else(|| rejected(closed()))?;
     let request = provider.policy.compact_open(request).map_err(rejected)?;
     let token = provider.tasks.token();
-    let lease = {
+    let (lease, local_token) = {
         let mut state = lock(&provider.state);
         if state.closing {
             return Err(rejected(closed()));
@@ -72,7 +72,9 @@ pub(crate) async fn open(
             state: Mutex::new(LeaseState::default()),
             changed: Notify::new(),
             completed: watch::channel(None).0,
+            cancelled: watch::channel(None).0,
         });
+        let local_token = lease.operations.token();
         state.next_lease = id;
         state.used = used;
         state.sessions += 1;
@@ -81,117 +83,128 @@ pub(crate) async fn open(
         if let Some(scope) = state.scopes.get_mut(&scope.id) {
             scope.leases.insert(id, Arc::clone(&lease));
         }
-        lease
+        (lease, local_token)
     };
-    let mut abandon = AbandonedStart(Some(Arc::clone(&lease)));
     let (sender, receiver) = oneshot::channel();
-    let owner = Arc::clone(&lease);
+    let pending = PendingFileSearchStart::new(Arc::clone(&lease), receiver);
     let runtime = provider.runtime.clone();
     let guard = StartCompletionGuard {
-        lease: Some(Arc::clone(&owner)),
+        lease: Some(Arc::clone(&lease)),
         _token: token,
+        _local_token: local_token,
     };
     runtime.spawn(async move {
         let mut guard = guard;
-        let started = match AssertUnwindSafe(async { provider.backend.open(request).await })
-            .catch_unwind()
-            .await
-        {
-            Ok(result) => result,
-            Err(_) => {
-                let error = panicked();
-                Err(SearchStartError {
-                    operation: error.clone(),
-                    cleanup: StartCleanup::Unconfirmed(error),
-                })
-            }
-        };
-        let (backend, failure, closing, pump_local_token) = {
-            let mut state = lock(&owner.state);
-            state.start_finished = true;
-            match started {
-                Ok(backend) => {
-                    state.backend = Some(Arc::clone(&backend));
-                    (
-                        Some(backend),
-                        None,
-                        state.closing,
-                        Some(owner.operations.token()),
-                    )
-                }
-                Err(error) => {
-                    state.closing_before_start_result = state.closing;
-                    state.start_error = Some(error.clone());
-                    (None, Some(error), true, None)
-                }
-            }
-        };
-        if let (Some(backend), Some(local_token)) = (backend, pump_local_token) {
-            let pump_token = provider.tasks.token();
-            let pump = Arc::clone(&owner);
-            let provider = Arc::clone(&provider);
-            let runtime = provider.runtime.clone();
-            let pump_guard = crate::session::OperationGuard {
-                lease: Arc::clone(&pump),
-                kind: crate::session::Operation::Pump,
-                finished: false,
-                admission_released: false,
-                _token: pump_token,
-                _local_token: local_token,
-            };
-            runtime.spawn(async move {
-                crate::observation::run(pump, backend, provider.policy, pump_guard).await;
-            });
-        }
-        owner.changed.notify_waiters();
+        run_start(lease, provider, request, sender).await;
         guard.lease.take();
-        let result = if closing {
-            owner.request_close();
-            let outcome = observe(owner.completed.subscribe()).await;
-            let cleanup = if failure
-                .as_ref()
-                .is_some_and(|error| error.cleanup == StartCleanup::NotAdmitted)
-                && outcome.cleanup == codex_file_search_api::CloseCleanup::Joined
-            {
-                StartCleanup::NotAdmitted
-            } else {
-                outcome.cleanup.clone().into()
-            };
-            let operation = match failure {
-                Some(error)
-                    if error.operation.kind()
-                        != codex_file_search_api::SearchErrorKind::ClosedLease =>
-                {
-                    error.operation
-                }
-                Some(error) if outcome.operation.is_ok() => error.operation,
-                _ => close_cause(&outcome),
-            };
-            Err(SearchStartError { operation, cleanup })
+    });
+    Ok(pending)
+}
+
+async fn run_start(
+    owner: Arc<Lease>,
+    provider: Arc<Provider>,
+    request: SearchOpen,
+    sender: oneshot::Sender<Result<(), SearchStartError>>,
+) {
+    let skip = {
+        let mut state = lock(&owner.state);
+        if state.closing {
+            state.skipped_before_backend = true;
+            true
         } else {
-            Ok(())
+            false
+        }
+    };
+    let started = if skip {
+        Err(rejected(closed()))
+    } else {
+        match std::panic::catch_unwind(AssertUnwindSafe(|| provider.backend.begin_open(request))) {
+            Ok(Ok(pending)) => {
+                let control = pending.control();
+                let closing = {
+                    let mut state = lock(&owner.state);
+                    state.pending_start = Some(control);
+                    state.closing
+                };
+                owner.changed.notify_waiters();
+                if closing {
+                    // Forward the latched intent outside the lease mutex.
+                    owner.request_close();
+                }
+                match AssertUnwindSafe(pending.finish()).catch_unwind().await {
+                    Ok(result) => result,
+                    Err(_) => Err(unconfirmed_start(panicked())),
+                }
+            }
+            Ok(Err(error)) => Err(error),
+            Err(_) => Err(unconfirmed_start(panicked())),
+        }
+    };
+    let (backend, failure, closing, pump_local_token) = {
+        let mut state = lock(&owner.state);
+        state.start_finished = true;
+        match started {
+            Ok(backend) => {
+                state.backend = Some(Arc::clone(&backend));
+                let token = (!state.closing).then(|| owner.operations.token());
+                (Some(backend), None, state.closing, token)
+            }
+            Err(error) => {
+                // Capture a known spontaneous failure before automatic close
+                // invokes any backend hook. A later closing flag cannot erase it.
+                if !state.skipped_before_backend
+                    && (state.pending_start.is_none()
+                        || error.operation.kind() != SearchErrorKind::ClosedLease
+                        || !state.closing)
+                {
+                    state
+                        .first_error
+                        .get_or_insert_with(|| error.operation.clone());
+                }
+                if let StartCleanup::Unconfirmed(cleanup) = &error.cleanup {
+                    state
+                        .cleanup_uncertain
+                        .get_or_insert_with(|| cleanup.clone());
+                }
+                state.start_error = Some(error.clone());
+                (None, Some(error), true, None)
+            }
+        }
+    };
+    // Propagate the already retained winner, including a spontaneous ClosedLease,
+    // before automatic cleanup can invoke a failing external hook.
+    if failure.is_some() {
+        let known = lock(&owner.state).first_error.clone();
+        if let Some(error) = known {
+            owner.record_failure(error);
+        }
+    }
+    if let (Some(backend), Some(local_token)) = (backend, pump_local_token) {
+        let pump = Arc::clone(&owner);
+        let pump_guard = crate::session::OperationGuard {
+            lease: Arc::clone(&pump),
+            kind: crate::session::Operation::Pump,
+            finished: false,
+            admission_released: false,
+            _token: provider.tasks.token(),
+            _local_token: local_token,
         };
-        let _ = sender.send(result);
-    });
-    let result = receiver.await.unwrap_or_else(|_| {
-        Err(SearchStartError {
-            operation: lost(),
-            cleanup: StartCleanup::Unconfirmed(lost()),
-        })
-    });
-    result?;
-    let closing = lock(&lease.state).closing;
-    if closing {
-        let outcome = observe(lease.completed.subscribe()).await;
-        return Err(SearchStartError {
-            operation: close_cause(&outcome),
-            cleanup: outcome.cleanup.into(),
+        let policy = provider.policy;
+        provider.runtime.spawn(async move {
+            crate::observation::run(pump, backend, policy, pump_guard).await;
         });
     }
-    // Ownership transfers without an await; a dropped receiver leaves the
-    // AbandonedStart guard to request close of the same retained lease.
-    abandon.0.take();
-    Ok(FileSearchSession::new(lease))
+    owner.changed.notify_waiters();
+    if closing {
+        owner.request_close();
+    }
+    // The retained startup actor never awaits facade close: close drains its
+    // local startup token before confirming cleanup. Only the passive public
+    // observer waits for the final cancellation/close receipt.
+    if sender.send(failure.map_or(Ok(()), Err)).is_err() {
+        owner.request_close();
+    }
 }
 fn rejected(operation: codex_file_search_api::SearchError) -> SearchStartError {
     SearchStartError {
@@ -199,29 +212,31 @@ fn rejected(operation: codex_file_search_api::SearchError) -> SearchStartError {
         cleanup: StartCleanup::NotAdmitted,
     }
 }
-struct AbandonedStart(Option<Arc<Lease>>);
-impl Drop for AbandonedStart {
-    fn drop(&mut self) {
-        if let Some(lease) = self.0.take() {
-            lease.request_close();
-        }
+fn unconfirmed_start(operation: codex_file_search_api::SearchError) -> SearchStartError {
+    SearchStartError {
+        cleanup: StartCleanup::Unconfirmed(operation.clone()),
+        operation,
     }
 }
 struct StartCompletionGuard {
     lease: Option<Arc<Lease>>,
     _token: tokio_util::task::task_tracker::TaskTrackerToken,
+    _local_token: tokio_util::task::task_tracker::TaskTrackerToken,
 }
 impl Drop for StartCompletionGuard {
     fn drop(&mut self) {
         if let Some(lease) = self.lease.take() {
+            let operation = lease.retained_failure().unwrap_or_else(lost);
             {
                 let mut state = lock(&lease.state);
                 state.start_finished = true;
-                state.start_error = Some(SearchStartError {
-                    operation: lost(),
+                state.cleanup_uncertain.get_or_insert_with(lost);
+                state.start_error.get_or_insert_with(|| SearchStartError {
+                    operation: operation.clone(),
                     cleanup: StartCleanup::Unconfirmed(lost()),
                 });
             }
+            lease.record_failure(operation);
             lease.changed.notify_waiters();
             lease.request_close();
         }
