@@ -3,15 +3,13 @@ use crate::FileSearchSnapshot;
 use crate::IndexedEntry;
 use crate::SessionInner;
 use crate::get_file_path;
+use crate::native_index::NativeMatcher;
 use crossbeam_channel::Receiver;
 use crossbeam_channel::after;
 use crossbeam_channel::never;
 use crossbeam_channel::select;
 use nucleo::Config;
 use nucleo::Matcher;
-use nucleo::Nucleo;
-use nucleo::pattern::CaseMatching;
-use nucleo::pattern::Normalization;
 use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
@@ -21,11 +19,24 @@ use std::time::Duration;
 pub(super) fn matcher_worker(
     inner: Arc<SessionInner>,
     work_rx: Receiver<()>,
-    nucleo: &mut Nucleo<IndexedEntry>,
+    nucleo: &mut dyn NativeMatcher,
 ) -> anyhow::Result<()> {
     const TICK_TIMEOUT_MS: u64 = 10;
     let config = Config::DEFAULT.match_paths();
-    let mut indices_matcher = inner.compute_indices.then(|| Matcher::new(config));
+    let mut indices_matcher = if inner.compute_indices {
+        if inner.budget.is_some() {
+            Some(Matcher::try_new(config).ok_or_else(|| {
+                codex_file_search_api::SearchError::new(
+                    codex_file_search_api::SearchErrorKind::ResourceExhausted,
+                    "native highlighting scratch allocation failed",
+                )
+            })?)
+        } else {
+            Some(Matcher::new(config))
+        }
+    } else {
+        None
+    };
     let cancel_requested = || inner.cancelled.load(Ordering::Acquire);
     let shutdown_requested = || inner.shutdown.load(Ordering::Acquire);
 
@@ -50,13 +61,7 @@ pub(super) fn matcher_worker(
                 }
                 if let Some((query, query_id)) = pending.query {
                     let append = query.starts_with(&last_query);
-                    nucleo.pattern.reparse(
-                        0,
-                        &query,
-                        CaseMatching::Ignore,
-                        Normalization::Smart,
-                        append,
-                    );
+                    nucleo.reparse(&query, append);
                     last_query = query;
                     last_query_id = query_id;
                     will_notify = true;
@@ -78,7 +83,7 @@ pub(super) fn matcher_worker(
                 // During reparse, Nucleo can expose the previous snapshot while
                 // replacement computation runs. Never relabel its old matches.
                 let coherent = nucleo.snapshot().pattern().column_pattern(0).atoms
-                    == nucleo.pattern.column_pattern(0).atoms;
+                    == nucleo.pattern().column_pattern(0).atoms;
                 if cancel_requested() || shutdown_requested() {
                     break;
                 }

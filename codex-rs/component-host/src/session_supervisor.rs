@@ -37,6 +37,8 @@ use crate::session::SessionInner;
 use crate::session::Shared;
 use crate::session_failure::SessionFailure;
 use crate::session_limits::SessionPayloadLimits;
+use crate::session_options::ComponentSessionOptions;
+use crate::session_options::SessionWorkingDirectory;
 use crate::session_wire::Header;
 use crate::session_wire::MessageReader;
 use crate::session_wire::Outgoing;
@@ -64,11 +66,35 @@ impl ComponentBinding {
         &self,
         limits: SessionPayloadLimits,
     ) -> Result<ComponentSession> {
-        limits.validate()?;
+        self.connect_with_options(ComponentSessionOptions {
+            payload_limits: limits,
+            ..ComponentSessionOptions::default()
+        })
+        .await
+    }
+
+    /// Connect with explicit, immutable process-start choices. Directory
+    /// validation and spawn stay owned by the existing cancellable startup task;
+    /// failure never falls back to a different directory or executable.
+    pub async fn connect_with_options(
+        &self,
+        options: ComponentSessionOptions,
+    ) -> Result<ComponentSession> {
+        options.payload_limits.validate()?;
+        if let SessionWorkingDirectory::ExplicitAbsolute(path) = &options.working_directory {
+            ensure!(
+                path.is_absolute(),
+                "explicit component working directory must be absolute"
+            );
+            ensure!(
+                self.entrypoint.is_absolute(),
+                "explicit component working directory requires an absolute entrypoint"
+            );
+        }
         let binding = self.clone();
         let (cancel, cancelled) = watch::channel(false);
         let _cancellation = StartupCancellation(cancel);
-        tokio::spawn(async move { binding.connect_owned(cancelled, limits).await })
+        tokio::spawn(async move { binding.connect_owned(cancelled, options).await })
             .await
             .context("persistent startup supervisor failed; direct-child reaping is unconfirmed")?
     }
@@ -76,8 +102,9 @@ impl ComponentBinding {
     async fn connect_owned(
         &self,
         mut cancelled: watch::Receiver<bool>,
-        limits: SessionPayloadLimits,
+        options: ComponentSessionOptions,
     ) -> Result<ComponentSession> {
+        let limits = options.payload_limits;
         let deadline = Duration::from_millis(self.timeout_ms);
         // Keep this owner outside the cancellable startup future. Even a caller
         // abandoning connect leaves this task alive to kill and wait explicitly.
@@ -88,11 +115,21 @@ impl ComponentBinding {
                 Err(anyhow::anyhow!("persistent component startup cancelled"))
             }
             initialized = async {
+                let working_directory = match &options.working_directory {
+                    SessionWorkingDirectory::PackageDirectory => &self.package_dir,
+                    SessionWorkingDirectory::ExplicitAbsolute(path) => {
+                        let metadata = timeout(deadline, tokio::fs::metadata(path))
+                            .await.context("persistent component working directory validation timed out")?
+                            .context("validate persistent component working directory")?;
+                        ensure!(metadata.is_dir(), "explicit component working directory is not a directory");
+                        path
+                    }
+                };
                 timeout(deadline, tokio::fs::create_dir_all(&self.state_dir)).await??;
                 let mut command = plugin_command(self);
                 command
                     .args(&self.args)
-                    .current_dir(&self.package_dir)
+                    .current_dir(working_directory)
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
                     .kill_on_drop(true)

@@ -99,7 +99,7 @@ mod utf32_str;
 mod tests;
 
 pub use crate::config::Config;
-pub use crate::utf32_str::{Utf32Str, Utf32String};
+pub use crate::utf32_str::{Utf32AllocationError, Utf32AllocationPlan, Utf32Str, Utf32String};
 
 use crate::chars::{AsciiChar, Char};
 use crate::matrix::MatrixSlab;

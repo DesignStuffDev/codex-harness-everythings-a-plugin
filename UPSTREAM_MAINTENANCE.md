@@ -45,6 +45,13 @@ distinction between support refactoring and installed service replacement.
 The [matcher correction map](upstream/p02b-matrix-lineage.json) records an
 inherited foreign dependency extent bug, its exact patch and safely demonstrated
 regression. This does not satisfy P18U's later official Codex integration gate.
+The separately preserved [bounded-search WIP map](upstream/p02b-bounded-lineage.json)
+records all35 changed source blobs, original native queue/completion ownership,
+foreign matcher allocation changes and new process-transport contracts at
+`98c540863b9868eb216dba18f963c220c4be5187`. Its focused tests do not establish a
+new accepted CLI/GUI runtime or installed search replacement. WIP provenance is
+retained independently of acceptance so later updates cannot mistake unfinished
+customizations for verified component behavior.
 
 ## Separately installable maintenance service
 

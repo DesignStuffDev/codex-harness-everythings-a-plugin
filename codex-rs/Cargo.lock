@@ -3525,6 +3525,7 @@ version = "0.0.0"
 dependencies = [
  "anyhow",
  "clap",
+ "codex-file-search-api",
  "crossbeam-channel",
  "ignore",
  "nucleo",
@@ -3544,6 +3545,26 @@ dependencies = [
  "pretty_assertions",
  "serde",
  "serde_json",
+]
+
+[[package]]
+name = "codex-file-search-component"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "codex-component-api",
+ "codex-component-host",
+ "codex-component-path-codec",
+ "codex-file-search-api",
+ "futures",
+ "libc",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tokio-util",
+ "uuid",
 ]
 
 [[package]]

@@ -92,7 +92,9 @@ vectors and the in-flight vector, matcher values/slabs, pattern-column headers,
 and owned Arc allocations. Payload paths/columns, query atoms/clones, traversal
 and ignore metadata, thread stacks, callback state, Rayon runtime bookkeeping,
 and allocator overhead are separate; this is not an RSS limit. The native
-session ledger and separately installed backend remain later integration work.
+session now adds a retained admission ledger for entry count, exact path/column
+payload bytes and dedicated OS workers. Backend selection and the separately
+installed implementation remain later integration work.
 Stable Arc constructors can still follow Rust's ordinary OOM abort path; the
 fallible slab/arena/vector paths do not imply universal system-OOM recovery.
 
@@ -104,3 +106,27 @@ into reserved destination capacity without candidate-sized intermediate vectors;
 do not replace it with unindexed filtering without re-auditing allocations.
 Upstream or toolchain updates must recheck these assumptions and the concrete
 fixed layout before accepting the new source.
+
+
+## Exact native column payload planning
+
+- `matcher/src/utf32_str.rs` adds an opaque borrowed `Utf32AllocationPlan` and
+  typed fallible allocation. It uses the existing ASCII/CRLF classification and
+  feature-dependent grapheme iterator to preflight the exact UTF-32 payload.
+  Native injection reserves that charge before allocation. Fresh exact reserve
+  capacities are checked; conversion never grows geometrically or allocates a
+  second shrinking buffer. Existing `From` conversion behavior is unchanged.
+- `matcher/src/lib.rs` exports the plan/error types; the five checks in
+  `matcher/src/utf32_allocation_tests.rs` exercise representation and payload
+  parity, CRLF, combining graphemes, large non-power-of-two input and safe layout
+  overflow. Execution evidence is recorded separately by the harness.
+
+## Mechanical lint cleanup
+
+The scoped Clippy fix applied twelve mechanical edits after the first bounded
+index test run: one final-expression return in `matcher/src/score.rs`; two
+explicit elided lifetimes in `matcher/src/utf32_str.rs`; four redundant trait
+object parentheses in `src/lib.rs` and three in `src/worker.rs`; one equivalent
+`Option::map_or(true, ...)` to `is_none_or(...)` in `src/pattern.rs`; and one
+`repeat(...).take(...)` to `repeat_n(...)` in an existing `src/boxcar.rs` test.
+These preserve matching, evaluation order, assertions and tested input sizes.

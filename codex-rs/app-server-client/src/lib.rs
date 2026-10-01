@@ -18,6 +18,7 @@
 
 mod path;
 mod remote;
+mod shutdown;
 
 use std::error::Error;
 use std::fmt;
@@ -59,7 +60,6 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 use serde::de::DeserializeOwned;
 use tokio::sync::mpsc;
 use tokio::sync::oneshot;
-use tokio::time::timeout;
 use toml::Value as TomlValue;
 use tracing::warn;
 
@@ -84,8 +84,6 @@ pub mod legacy_core {
 }
 
 const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
-// Covers the embedded drain, its analytics flush, and final task join.
-const IN_PROCESS_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(45);
 
 /// Raw app-server request result for typed in-process requests.
 ///
@@ -329,6 +327,7 @@ pub struct InProcessAppServerClient {
     command_tx: mpsc::Sender<ClientCommand>,
     event_rx: mpsc::UnboundedReceiver<InProcessServerEvent>,
     worker_handle: tokio::task::JoinHandle<()>,
+    shutdown_runtime: tokio::runtime::Handle,
 }
 
 #[derive(Clone)]
@@ -463,6 +462,7 @@ impl InProcessAppServerClient {
             command_tx,
             event_rx,
             worker_handle,
+            shutdown_runtime: tokio::runtime::Handle::current(),
         })
     }
 
@@ -602,39 +602,15 @@ impl InProcessAppServerClient {
         self.event_rx.recv().await
     }
 
-    /// Shuts down worker and in-process runtime with bounded wait.
+    /// Begin owned shutdown and return its bounded completion observer.
     ///
-    /// If graceful shutdown exceeds timeout, the worker task is aborted to
-    /// avoid leaking background tasks in embedding callers.
-    pub async fn shutdown(self) -> IoResult<()> {
-        let Self {
-            command_tx,
-            event_rx,
-            worker_handle,
-        } = self;
-        let mut worker_handle = worker_handle;
-        // Stop forwarding caller-facing events before asking the worker to shut down.
-        drop(event_rx);
-        let (response_tx, response_rx) = oneshot::channel();
-        if command_tx
-            .send(ClientCommand::Shutdown { response_tx })
-            .await
-            .is_ok()
-            && let Ok(command_result) = timeout(IN_PROCESS_SHUTDOWN_TIMEOUT, response_rx).await
-        {
-            command_result.map_err(|_| {
-                IoError::new(
-                    ErrorKind::BrokenPipe,
-                    "in-process app-server shutdown channel is closed",
-                )
-            })??;
-        }
-
-        if let Err(_elapsed) = timeout(IN_PROCESS_SHUTDOWN_TIMEOUT, &mut worker_handle).await {
-            worker_handle.abort();
-            let _ = worker_handle.await;
-        }
-        Ok(())
+    /// Dropping even an unpolled observer does not cancel shutdown. The original
+    /// runtime retains its coordinator. Success requires acknowledgement and
+    /// worker join; forced abortion reports unconfirmed runtime/storage cleanup.
+    /// The captured runtime also permits constructing this future outside an
+    /// entered Tokio context. Runtime destruction cannot guarantee cleanup.
+    pub fn shutdown(self) -> impl std::future::Future<Output = IoResult<()>> + Send {
+        shutdown::start(self)
     }
 }
 
@@ -768,10 +744,10 @@ impl AppServerClient {
         }
     }
 
-    pub async fn shutdown(self) -> IoResult<()> {
+    pub fn shutdown(self) -> impl std::future::Future<Output = IoResult<()>> + Send {
         match self {
-            Self::InProcess(client) => client.shutdown().await,
-            Self::Remote(client) => client.shutdown().await,
+            Self::InProcess(client) => futures::future::Either::Left(client.shutdown()),
+            Self::Remote(client) => futures::future::Either::Right(client.shutdown()),
         }
     }
 
@@ -2061,6 +2037,7 @@ mod tests {
             command_tx,
             event_rx,
             worker_handle,
+            shutdown_runtime: tokio::runtime::Handle::current(),
         };
 
         let event = timeout(Duration::from_secs(2), client.next_event())
@@ -2168,6 +2145,7 @@ mod tests {
             command_tx,
             event_rx,
             worker_handle,
+            shutdown_runtime: tokio::runtime::Handle::current(),
         };
 
         client.shutdown().await.expect("shutdown should complete");

@@ -5,15 +5,13 @@ use ignore::WalkBuilder;
 use ignore::overrides::OverrideBuilder;
 #[cfg(test)]
 use nucleo::Config;
-use nucleo::Injector;
 #[cfg(test)]
 use nucleo::Matcher;
-use nucleo::Utf32String;
 #[cfg(test)]
 use nucleo::pattern::CaseMatching;
 #[cfg(test)]
 use nucleo::pattern::Normalization;
-use serde::Serialize;
+#[cfg(test)]
 use std::num::NonZero;
 use std::path::Path;
 use std::path::PathBuf;
@@ -22,7 +20,6 @@ use std::sync::Mutex;
 use std::sync::RwLock;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
-use std::thread;
 use tokio::process::Command;
 
 #[cfg(test)]
@@ -36,6 +33,9 @@ mod async_owner;
 mod cli;
 mod lifecycle;
 mod matcher;
+mod native_budget;
+mod native_index;
+mod native_session;
 mod work_queue;
 
 use matcher::matcher_worker;
@@ -55,45 +55,22 @@ pub use async_owner::FileSearchStartError;
 pub use async_owner::ManagedFileSearchSession;
 pub use cli::Cli;
 
-/// A single match result returned from the search.
-///
-/// * `score` – Relevance score returned by `nucleo`.
-/// * `path`  – Path to the matched entry (file or directory), relative to the
-///   search directory.
-/// * `match_type` – Whether this match is a file or directory.
-/// * `indices` – Optional list of character indices that matched the query.
-///   These are only filled when the caller of [`run`] sets
-///   `options.compute_indices` to `true`. The indices vector follows the
-///   guidance from `nucleo::pattern::Pattern::indices`: they are
-///   unique and sorted in ascending order so that callers can use
-///   them directly for highlighting.
-#[derive(Debug, Clone, Serialize, PartialEq, Eq)]
-pub struct FileMatch {
-    pub score: u32,
-    pub path: PathBuf,
-    pub match_type: MatchType,
-    pub root: PathBuf,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub indices: Option<Vec<u32>>, // Sorted & deduplicated when present
-}
+pub use codex_file_search_api::FileMatch;
+pub use codex_file_search_api::FileSearchOptions;
+pub use codex_file_search_api::FileSearchResults;
+pub use codex_file_search_api::FileSearchSnapshot;
+pub use codex_file_search_api::MatchType;
+pub use codex_file_search_api::SessionReporter;
+pub use native_session::FileSearchSession;
+pub(crate) use native_session::NativePolicy;
+pub use native_session::create_bounded_session;
+pub use native_session::create_session;
+pub(crate) use native_session::create_session_with_receipt;
 
-#[derive(Debug, Clone, Copy, Serialize, PartialEq, Eq)]
-#[serde(rename_all = "lowercase")]
-pub enum MatchType {
-    File,
-    Directory,
-}
-
-/// Carries the entry type observed by the walker so matched paths are not restatted.
+/// Entry payload has one owner: the shared immutable index arena.
 struct IndexedEntry {
-    full_path: Arc<str>,
+    full_path: Box<str>,
     match_type: MatchType,
-}
-
-impl FileMatch {
-    pub fn full_path(&self) -> PathBuf {
-        self.root.join(&self.path)
-    }
 }
 
 /// Returns the final path component for a matched path, falling back to the full path.
@@ -102,189 +79,6 @@ pub fn file_name_from_path(path: &str) -> String {
         .file_name()
         .map(|name| name.to_string_lossy().into_owned())
         .unwrap_or_else(|| path.to_string())
-}
-
-#[derive(Debug)]
-pub struct FileSearchResults {
-    pub matches: Vec<FileMatch>,
-    pub total_match_count: usize,
-}
-
-#[derive(Debug, Clone, Serialize, PartialEq, Eq, Default)]
-pub struct FileSearchSnapshot {
-    /// Monotonic session-local identity; zero denotes the initial idle state.
-    pub query_id: u64,
-    pub query: String,
-    pub matches: Vec<FileMatch>,
-    pub total_match_count: usize,
-    pub scanned_file_count: usize,
-    pub walk_complete: bool,
-}
-
-#[derive(Debug, Clone)]
-pub struct FileSearchOptions {
-    pub limit: NonZero<usize>,
-    pub exclude: Vec<String>,
-    pub threads: NonZero<usize>,
-    pub compute_indices: bool,
-    /// Toggle ignore-file processing in the walker.
-    ///
-    /// When enabled, `.gitignore` files are scoped by
-    /// `WalkBuilder::require_git(true)`, so they are honored only when the
-    /// traversed path is inside a git repository. When disabled, the walker
-    /// turns off `.gitignore`, git-global/exclude rules, `.ignore`, and
-    /// parent-directory ignore scanning.
-    pub respect_gitignore: bool,
-}
-
-impl Default for FileSearchOptions {
-    fn default() -> Self {
-        Self {
-            #[expect(clippy::unwrap_used)]
-            limit: NonZero::new(20).unwrap(),
-            exclude: Vec::new(),
-            #[expect(clippy::unwrap_used)]
-            threads: NonZero::new(2).unwrap(),
-            compute_indices: false,
-            respect_gitignore: true,
-        }
-    }
-}
-
-pub trait SessionReporter: Send + Sync + 'static {
-    /// Called when the debounced top-N changes.
-    fn on_update(&self, snapshot: &FileSearchSnapshot);
-
-    /// Called when matching becomes idle or external cancellation is observed.
-    /// Private closure fences callbacks and may discard pending queries.
-    fn on_complete(&self);
-
-    /// Associates completion with the latest query processed by the matcher.
-    /// Existing reporters can ignore identity by implementing only `on_complete`.
-    fn on_complete_tagged(&self, _query_id: u64) {
-        self.on_complete();
-    }
-}
-
-/// Owns a search supervisor. Dropping requests cleanup; [`Self::close`] joins it.
-pub struct FileSearchSession {
-    inner: Arc<SessionInner>,
-    supervisor: Option<thread::JoinHandle<anyhow::Result<()>>>,
-    finished: Receiver<()>,
-}
-
-impl FileSearchSession {
-    /// Update with an automatically increasing identity; ignored after closure.
-    pub fn update_query(&self, pattern_text: &str) {
-        let _ = self.submit_query(pattern_text, /*query_id*/ None);
-    }
-
-    /// Admit an explicitly identified query. IDs must be positive and strictly
-    /// increase within this session, including automatically assigned IDs.
-    pub fn update_query_tagged(&self, pattern_text: &str, query_id: u64) -> anyhow::Result<()> {
-        self.submit_query(pattern_text, Some(query_id))
-    }
-
-    fn submit_query(&self, pattern_text: &str, query_id: Option<u64>) -> anyhow::Result<()> {
-        let mut previous = self
-            .inner
-            .last_query_id
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if self.inner.shutdown.load(Ordering::Acquire) {
-            anyhow::bail!("file-search session is closed");
-        }
-        let query_id = match query_id {
-            Some(id) => id,
-            None => previous
-                .checked_add(1)
-                .ok_or_else(|| anyhow::anyhow!("file-search query identities exhausted"))?,
-        };
-        if query_id == 0 || query_id <= *previous {
-            anyhow::bail!("file-search query identity must be positive and strictly increasing");
-        }
-        self.inner
-            .work_tx
-            .send(WorkSignal::QueryUpdated {
-                query: pattern_text.to_owned(),
-                query_id,
-            })
-            .map_err(|_| anyhow::anyhow!("file-search worker has stopped"))?;
-        *previous = query_id;
-        Ok(())
-    }
-
-    /// Stop accepting work and request cleanup without waiting for workers.
-    /// This never changes a cancellation flag shared with another session.
-    pub fn request_close(&self) {
-        let _admission = self
-            .inner
-            .last_query_id
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if !self.inner.shutdown.swap(true, Ordering::AcqRel) {
-            let _ = self.inner.work_tx.send(WorkSignal::Shutdown);
-        }
-    }
-
-    /// Request closure and join traversal, matching and every private pool thread.
-    ///
-    /// Call from a blocking worker in asynchronous applications. Filesystem calls
-    /// and reporter callbacks must return before closure can finish. Calling this
-    /// from this session's reporter is rejected; use `request_close` there instead.
-    pub fn close(mut self) -> anyhow::Result<()> {
-        self.request_close();
-        let Some(supervisor) = self.supervisor.take() else {
-            return Ok(());
-        };
-        if supervisor.thread().id() == thread::current().id() {
-            anyhow::bail!("cannot join file search from its own reporter callback");
-        }
-        supervisor
-            .join()
-            .map_err(|_| anyhow::anyhow!("file-search supervisor panicked"))?
-    }
-}
-
-impl Drop for FileSearchSession {
-    fn drop(&mut self) {
-        // The supervisor retains all child ownership even when its waiter drops.
-        // Only a successful explicit close acknowledges joined cleanup.
-        self.request_close();
-    }
-}
-
-pub fn create_session(
-    search_directories: Vec<PathBuf>,
-    options: FileSearchOptions,
-    reporter: Arc<dyn SessionReporter>,
-    cancel_flag: Option<Arc<AtomicBool>>,
-) -> anyhow::Result<FileSearchSession> {
-    let FileSearchOptions {
-        limit,
-        exclude,
-        threads,
-        compute_indices,
-        respect_gitignore,
-    } = options;
-    let Some(primary_search_directory) = search_directories.first() else {
-        anyhow::bail!("at least one search directory is required");
-    };
-    let override_matcher = build_override_matcher(primary_search_directory, &exclude)?;
-    let (work_tx, work_rx) = WorkSender::channel();
-    let inner = Arc::new(SessionInner {
-        search_directories,
-        limit: limit.get(),
-        threads: threads.get(),
-        compute_indices,
-        respect_gitignore,
-        cancelled: cancel_flag.unwrap_or_else(|| Arc::new(AtomicBool::new(false))),
-        shutdown: Arc::new(AtomicBool::new(false)),
-        last_query_id: Mutex::new(0),
-        reporter,
-        work_tx,
-    });
-    lifecycle::start(inner, work_rx, override_matcher)
 }
 
 pub trait Reporter {
@@ -434,6 +228,8 @@ struct SessionInner {
     last_query_id: Mutex<u64>,
     reporter: Arc<dyn SessionReporter>,
     work_tx: WorkSender,
+    budget: Option<Arc<native_budget::NativeBudget>>,
+    failure: Arc<Mutex<Option<codex_file_search_api::SearchError>>>,
 }
 
 fn build_override_matcher(
@@ -486,7 +282,7 @@ fn get_file_path<'a>(path: &'a Path, search_directories: &[PathBuf]) -> Option<(
 fn walker_worker(
     inner: Arc<SessionInner>,
     override_matcher: Option<ignore::overrides::Override>,
-    injector: Injector<IndexedEntry>,
+    injector: native_index::EntryInjector,
 ) {
     let Some(first_root) = inner.search_directories.first() else {
         let _ = inner.work_tx.send(WorkSignal::WalkComplete);
@@ -528,6 +324,7 @@ fn walker_worker(
         let injector = injector.clone();
         let cancelled = inner.cancelled.clone();
         let shutdown = inner.shutdown.clone();
+        let inner = inner.clone();
 
         Box::new(move |entry| {
             if cancelled.load(Ordering::Acquire) || shutdown.load(Ordering::Acquire) {
@@ -546,15 +343,10 @@ fn walker_worker(
                     Some(file_type) if file_type.is_dir() => MatchType::Directory,
                     _ => MatchType::File,
                 };
-                injector.push(
-                    IndexedEntry {
-                        full_path: Arc::from(full_path),
-                        match_type,
-                    },
-                    |_, cols| {
-                        cols[0] = Utf32String::from(relative_path);
-                    },
-                );
+                if let Err(error) = injector.push(&inner, full_path, relative_path, match_type) {
+                    inner.fail(error);
+                    return ignore::WalkState::Quit;
+                }
             }
             ignore::WalkState::Continue
         })

@@ -107,9 +107,10 @@ const IN_PROCESS_CONNECTION_ID: ConnectionId = ConnectionId(0);
 const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
 // Connection, background work and thread shutdown each have their own drain.
 const PROCESSOR_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(45);
-// Covers processor (45s), store (120s), outbound (5s), and analytics (25s),
-// including a small margin. All client-side shutdown waits share this deadline.
-const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(200);
+/// Overall embedded shutdown budget: processor (45s), store (120s), outbound
+/// (5s), and analytics (25s), plus margin. Facades must allow this entire budget
+/// before forcing cancellation. Admission, acknowledgement and join share it.
+pub const IN_PROCESS_SHUTDOWN_BUDGET: Duration = Duration::from_secs(200);
 /// Default bounded channel capacity for in-process runtime queues.
 pub const DEFAULT_IN_PROCESS_CHANNEL_CAPACITY: usize = CHANNEL_CAPACITY;
 
@@ -358,7 +359,7 @@ impl InProcessClientHandle {
         // waiting so a required notification cannot block the runtime's drain.
         drop(self.event_rx);
         let (done_tx, done_rx) = oneshot::channel();
-        let deadline = tokio::time::Instant::now() + SHUTDOWN_ACK_TIMEOUT;
+        let deadline = tokio::time::Instant::now() + IN_PROCESS_SHUTDOWN_BUDGET;
         let request = tokio::time::timeout_at(
             deadline,
             self.client

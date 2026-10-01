@@ -13,6 +13,8 @@ use anyhow::ensure;
 use codex_component_api::COMPONENT_API_VERSION;
 use codex_component_api::ComponentManifest;
 use codex_component_api::ComponentSettings;
+use codex_component_api::FILE_SEARCH_CONTRACT_VERSION;
+use codex_component_api::FILE_SEARCH_KIND;
 use codex_component_api::MANIFEST_FILE;
 use codex_component_api::THREAD_STORE_CONTRACT_VERSION;
 use semver::Version;
@@ -255,14 +257,15 @@ pub(crate) fn read_manifest(package: &Path) -> Result<ComponentManifest> {
                     | "auth"
                     | "thread_store"
                     | "attachment_store"
+                    | FILE_SEARCH_KIND
             ),
             "unsupported component kind: {}",
             spec.kind
         );
-        let supported_version = if spec.kind == "thread_store" {
-            THREAD_STORE_CONTRACT_VERSION
-        } else {
-            1
+        let supported_version = match spec.kind.as_str() {
+            "thread_store" => THREAD_STORE_CONTRACT_VERSION,
+            FILE_SEARCH_KIND => FILE_SEARCH_CONTRACT_VERSION,
+            _ => 1,
         };
         ensure!(
             spec.contract_version == supported_version,

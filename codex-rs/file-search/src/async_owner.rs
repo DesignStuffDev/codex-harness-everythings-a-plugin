@@ -2,8 +2,16 @@
 
 use crate::FileSearchOptions;
 use crate::FileSearchSession;
+use crate::NativePolicy;
 use crate::SessionReporter;
-use crate::create_session;
+use crate::create_session_with_receipt;
+use codex_file_search_api::CloseCleanup;
+use codex_file_search_api::SearchBudget;
+use codex_file_search_api::SearchCloseOutcome;
+use codex_file_search_api::SearchError;
+use codex_file_search_api::SearchErrorKind;
+use codex_file_search_api::SearchStartError;
+use codex_file_search_api::StartCleanup;
 use std::collections::HashMap;
 use std::num::NonZero;
 use std::path::PathBuf;
@@ -18,8 +26,6 @@ use tokio_util::task::TaskTracker;
 use tokio_util::task::task_tracker::TaskTrackerToken;
 
 const MAX_FAILURES: usize = 16;
-const MAX_FAILURE_BYTES: usize = 2_048;
-type Outcome = Result<(), String>;
 
 /// Retains native startup and joined cleanup across cancellation of client waits.
 ///
@@ -83,39 +89,78 @@ struct State {
     stopping: bool,
     next_id: u64,
     entries: HashMap<u64, Entry>,
-    failures: Vec<String>,
+    failures: Vec<SearchError>,
+    first_operation: Option<SearchError>,
+    first_unconfirmed: Option<SearchError>,
     omitted_failures: usize,
 }
 
 struct Entry {
     phase: Phase,
     runtime: Handle,
-    ready: Arc<Completion>,
-    closed: Arc<Completion>,
+    ready: Arc<Completion<Result<(), ReadyFailure>>>,
+    closed: Arc<Completion<SearchCloseOutcome>>,
 }
 
 enum Phase {
     Preparing { released: bool },
     Ready(FileSearchSession),
     Closing,
+    // A completed local task is not proof that every native worker joined.
+    // Keep this slot reserved until independent recovery proves otherwise.
+    Quarantined,
 }
 
-#[derive(Default)]
-struct Completion {
-    result: Mutex<Option<Outcome>>,
+#[derive(Clone)]
+enum ReadyFailure {
+    Construction(SearchStartError),
+    Released(SearchError),
+}
+
+enum CreateFailure {
+    Rejected(SearchStartError),
+    Accepted {
+        error: SearchStartError,
+        legacy_cleanup: Option<SearchError>,
+    },
+}
+
+impl CreateFailure {
+    fn rejected(kind: SearchErrorKind, message: impl AsRef<str>) -> Self {
+        Self::Rejected(SearchStartError {
+            operation: SearchError::new(kind, message),
+            cleanup: StartCleanup::NotAdmitted,
+        })
+    }
+}
+
+struct Completion<T> {
+    result: Mutex<Option<T>>,
     changed: Notify,
 }
 
-impl Completion {
-    fn finish(&self, result: Outcome) {
-        *self
+impl<T> Default for Completion<T> {
+    fn default() -> Self {
+        Self {
+            result: Mutex::new(None),
+            changed: Notify::new(),
+        }
+    }
+}
+
+impl<T: Clone> Completion<T> {
+    fn finish(&self, result: T) {
+        let mut retained = self
             .result
             .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner) = Some(result);
-        self.changed.notify_waiters();
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        if retained.is_none() {
+            *retained = Some(result);
+            self.changed.notify_waiters();
+        }
     }
 
-    async fn wait(&self) -> anyhow::Result<()> {
+    async fn wait(&self) -> T {
         loop {
             let changed = self.changed.notified();
             tokio::pin!(changed);
@@ -126,7 +171,7 @@ impl Completion {
                 .unwrap_or_else(std::sync::PoisonError::into_inner)
                 .clone();
             if let Some(result) = result {
-                return result.map_err(anyhow::Error::msg);
+                return result;
             }
             changed.await;
         }
@@ -146,7 +191,7 @@ impl FileSearchOwner {
     }
 
     /// Reserve ownership before starting native work. Cancelling this wait
-    /// releases the reservation but leaves accepted cleanup with this owner.
+    /// releases the lease but leaves accepted cleanup and its slot with this owner.
     pub async fn create(
         &self,
         roots: Vec<PathBuf>,
@@ -154,7 +199,59 @@ impl FileSearchOwner {
         reporter: Arc<dyn SessionReporter>,
         cancel_flag: Option<Arc<AtomicBool>>,
     ) -> anyhow::Result<ManagedFileSearchSession> {
-        let runtime = Handle::try_current()?;
+        match self
+            .create_inner(roots, options, reporter, cancel_flag, NativePolicy::Legacy)
+            .await
+        {
+            Ok(session) => Ok(session),
+            Err(CreateFailure::Rejected(error)) => Err(error.operation.into()),
+            Err(CreateFailure::Accepted {
+                error,
+                legacy_cleanup,
+            }) => Err(FileSearchStartError {
+                operation: error.operation.into(),
+                // Preserve the legacy conservative constructor/close error:
+                // its presence was never proof that native threads are unjoined.
+                cleanup: legacy_cleanup.map(anyhow::Error::from),
+            }
+            .into()),
+        }
+    }
+
+    /// Admit a bounded native session with a private cancellation flag. The
+    /// typed error distinguishes rejected admission from joined or uncertain
+    /// cleanup; abandoning this waiter never transfers ownership to the caller.
+    pub async fn create_bounded(
+        &self,
+        roots: Vec<PathBuf>,
+        options: FileSearchOptions,
+        budget: SearchBudget,
+        reporter: Arc<dyn SessionReporter>,
+    ) -> Result<ManagedFileSearchSession, SearchStartError> {
+        self.create_inner(
+            roots,
+            options,
+            reporter,
+            /*cancel_flag*/ None,
+            NativePolicy::Bounded(budget),
+        )
+        .await
+        .map_err(|error| match error {
+            CreateFailure::Rejected(error) | CreateFailure::Accepted { error, .. } => error,
+        })
+    }
+
+    async fn create_inner(
+        &self,
+        roots: Vec<PathBuf>,
+        options: FileSearchOptions,
+        reporter: Arc<dyn SessionReporter>,
+        cancel_flag: Option<Arc<AtomicBool>>,
+        policy: NativePolicy,
+    ) -> Result<ManagedFileSearchSession, CreateFailure> {
+        let runtime = Handle::try_current().map_err(|error| {
+            CreateFailure::rejected(SearchErrorKind::SearchFailed, error.to_string())
+        })?;
         let (id, ready, closed, token) = {
             let mut state = self
                 .inner
@@ -162,15 +259,23 @@ impl FileSearchOwner {
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner);
             if state.stopping {
-                anyhow::bail!("file-search owner is shutting down");
+                return Err(CreateFailure::rejected(
+                    SearchErrorKind::ClosedLease,
+                    "file-search owner is shutting down",
+                ));
             }
             if state.entries.len() >= self.inner.capacity {
-                anyhow::bail!("file-search owner session capacity reached");
+                return Err(CreateFailure::rejected(
+                    SearchErrorKind::ResourceExhausted,
+                    "file-search owner session capacity reached",
+                ));
             }
-            let id = state
-                .next_id
-                .checked_add(1)
-                .ok_or_else(|| anyhow::anyhow!("file-search session identities exhausted"))?;
+            let id = state.next_id.checked_add(1).ok_or_else(|| {
+                CreateFailure::rejected(
+                    SearchErrorKind::ResourceExhausted,
+                    "file-search session identities exhausted",
+                )
+            })?;
             state.next_id = id;
             let ready = Arc::new(Completion::default());
             let closed = Arc::new(Completion::default());
@@ -195,26 +300,36 @@ impl FileSearchOwner {
                 closed,
             }),
         };
-        let startup =
-            runtime.spawn_blocking(move || create_session(roots, options, reporter, cancel_flag));
+        let startup = runtime.spawn_blocking(move || {
+            create_session_with_receipt(roots, options, reporter, cancel_flag, policy)
+        });
         let owner = self.inner.clone();
         runtime.spawn(async move {
             let _token = token;
-            let result = startup
-                .await
-                .map_err(|error| anyhow::anyhow!("file-search startup task failed: {error}"))
-                .and_then(std::convert::identity);
+            let result = startup.await.unwrap_or_else(|error| {
+                let operation = task_failure("startup", error);
+                Err(SearchStartError {
+                    cleanup: StartCleanup::Unconfirmed(operation.clone()),
+                    operation,
+                })
+            });
             owner.started(id, result);
         });
-        if let Err(start_error) = ready.wait().await {
-            // An observed rejection acknowledges cleanup too. If this wait is
-            // abandoned, the lease still leaves accepted work with the owner.
-            let cleanup = session.close().await.err();
-            return Err(FileSearchStartError {
-                operation: start_error,
-                cleanup,
-            }
-            .into());
+        if let Err(failure) = ready.wait().await {
+            // Observing rejection also waits for the retained cleanup receipt.
+            // Abandoning this wait leaves cleanup and capacity with the owner.
+            let outcome = session.close_outcome().await;
+            let error = match failure {
+                ReadyFailure::Construction(error) => error,
+                ReadyFailure::Released(operation) => SearchStartError {
+                    operation,
+                    cleanup: outcome.cleanup.clone().into(),
+                },
+            };
+            return Err(CreateFailure::Accepted {
+                error,
+                legacy_cleanup: legacy_close_error(&outcome),
+            });
         }
         Ok(session)
     }
@@ -224,9 +339,10 @@ impl FileSearchOwner {
         self.inner.request_shutdown();
     }
 
-    /// Drain all accepted work. Cancelling this wait does not cancel cleanup;
-    /// repeated observers receive the retained, bounded failure report.
-    pub async fn shutdown(&self) -> anyhow::Result<()> {
+    /// Drain accepted tasks and retain the first operation failure separately
+    /// from cleanup evidence. Unconfirmed sessions keep their capacity slots;
+    /// repeated observers receive the same receipt, not a fabricated release.
+    pub async fn shutdown_outcome(&self) -> SearchCloseOutcome {
         self.request_shutdown();
         self.inner.tasks.wait().await;
         let state = self
@@ -234,9 +350,38 @@ impl FileSearchOwner {
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        let mut failures = state.failures.clone();
-        if !state.entries.is_empty() {
-            failures.push("file-search cleanup ended with retained sessions".into());
+        let cleanup = match &state.first_unconfirmed {
+            Some(error) => CloseCleanup::Unconfirmed(error.clone()),
+            None if state.entries.is_empty() => CloseCleanup::Joined,
+            None => CloseCleanup::Unconfirmed(SearchError::new(
+                SearchErrorKind::ForcedShutdown,
+                "file-search cleanup ended with retained sessions",
+            )),
+        };
+        SearchCloseOutcome {
+            operation: state.first_operation.clone().map_or(Ok(()), Err),
+            cleanup,
+        }
+    }
+
+    /// Legacy bounded diagnostic report. Use `shutdown_outcome` to distinguish
+    /// an operation failure from joined or unconfirmed cleanup.
+    pub async fn shutdown(&self) -> anyhow::Result<()> {
+        let outcome = self.shutdown_outcome().await;
+        let state = self
+            .inner
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut failures = state
+            .failures
+            .iter()
+            .map(ToString::to_string)
+            .collect::<Vec<_>>();
+        if let CloseCleanup::Unconfirmed(error) = outcome.cleanup
+            && state.first_unconfirmed.is_none()
+        {
+            failures.push(error.to_string());
         }
         if state.omitted_failures != 0 {
             failures.push(format!(
@@ -279,7 +424,7 @@ pub struct ManagedFileSearchSession {
 struct Lease {
     owner: Arc<OwnerInner>,
     id: u64,
-    closed: Arc<Completion>,
+    closed: Arc<Completion<SearchCloseOutcome>>,
 }
 
 impl Drop for Lease {
@@ -347,9 +492,17 @@ impl ManagedFileSearchSession {
         }
     }
 
-    pub async fn close(self) -> anyhow::Result<()> {
+    /// Close the shared session and observe its immutable operation/cleanup
+    /// receipt. Cancelled observers do not cancel the retained native join.
+    pub async fn close_outcome(self) -> SearchCloseOutcome {
         self.request_close();
         self.lease.closed.wait().await
+    }
+
+    /// Legacy close result. An error can accompany joined native cleanup; use
+    /// `close_outcome` when deciding whether an owning reservation is releasable.
+    pub async fn close(self) -> anyhow::Result<()> {
+        legacy_close_error(&self.close_outcome().await).map_or(Ok(()), |error| Err(error.into()))
     }
 }
 
@@ -361,13 +514,13 @@ struct CloseJob {
 }
 
 impl OwnerInner {
-    fn started(self: &Arc<Self>, id: u64, result: anyhow::Result<FileSearchSession>) {
+    fn started(self: &Arc<Self>, id: u64, result: Result<FileSearchSession, SearchStartError>) {
         let mut state = self
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        // Startup owns the only transition out of Preparing, so its entry
-        // cannot have been removed by a dropped waiter or shutdown.
+        // Startup owns the only transition out of Preparing, so a dropped
+        // waiter or shutdown cannot remove its reservation.
         let Some(entry) = state.entries.get_mut(&id) else {
             return;
         };
@@ -387,18 +540,32 @@ impl OwnerInner {
                         token: self.tasks.token(),
                     };
                     drop(state);
-                    ready.finish(Err("file-search session closed during startup".into()));
+                    ready.finish(Err(ReadyFailure::Released(SearchError::new(
+                        SearchErrorKind::ClosedLease,
+                        "file-search session closed during startup",
+                    ))));
                     self.launch_close(job);
                 }
             }
             Err(error) => {
-                let error = bounded_failure(error);
                 let closed = entry.closed.clone();
-                state.entries.remove(&id);
-                record_failure(&mut state, error.clone());
+                let cleanup = match &error.cleanup {
+                    StartCleanup::NotAdmitted | StartCleanup::Confirmed => CloseCleanup::Joined,
+                    StartCleanup::Unconfirmed(error) => CloseCleanup::Unconfirmed(error.clone()),
+                };
+                let outcome = SearchCloseOutcome {
+                    operation: Err(error.operation.clone()),
+                    cleanup,
+                };
+                if outcome.cleanup == CloseCleanup::Joined {
+                    state.entries.remove(&id);
+                } else {
+                    entry.phase = Phase::Quarantined;
+                }
+                record_outcome(&mut state, &outcome);
                 drop(state);
-                ready.finish(Err(error.clone()));
-                closed.finish(Err(error));
+                ready.finish(Err(ReadyFailure::Construction(error)));
+                closed.finish(outcome);
             }
         }
     }
@@ -426,6 +593,10 @@ impl OwnerInner {
                 None
             }
             Phase::Closing => None,
+            Phase::Quarantined => {
+                entry.phase = Phase::Quarantined;
+                None
+            }
             Phase::Ready(native) => {
                 native.request_close();
                 Some(CloseJob {
@@ -465,43 +636,74 @@ impl OwnerInner {
             runtime,
             token,
         } = job;
-        let close = runtime.spawn_blocking(move || native.close());
+        // Keep only the error cell: retaining the whole SessionInner would
+        // defer reporter destruction beyond the joined close boundary.
+        let native_failure = native.inner.failure.clone();
+        let close = runtime.spawn_blocking(move || native.close_outcome());
         let owner = self.clone();
         runtime.spawn(async move {
             let _token = token;
-            let result = close
-                .await
-                .map_err(|error| anyhow::anyhow!("file-search close task failed: {error}"))
-                .and_then(std::convert::identity)
-                .map_err(bounded_failure);
+            let outcome = close.await.unwrap_or_else(|error| {
+                let cleanup = task_failure("close", error);
+                let operation = native_failure
+                    .lock()
+                    .unwrap_or_else(std::sync::PoisonError::into_inner)
+                    .clone()
+                    .unwrap_or_else(|| cleanup.clone());
+                SearchCloseOutcome {
+                    cleanup: CloseCleanup::Unconfirmed(cleanup),
+                    operation: Err(operation),
+                }
+            });
             let mut state = owner
                 .state
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner);
-            if let Some(entry) = state.entries.remove(&id) {
-                if let Err(error) = &result {
-                    record_failure(&mut state, error.clone());
+            if let Some(entry) = state.entries.get_mut(&id) {
+                let closed = entry.closed.clone();
+                if outcome.cleanup == CloseCleanup::Joined {
+                    state.entries.remove(&id);
+                } else {
+                    entry.phase = Phase::Quarantined;
                 }
+                record_outcome(&mut state, &outcome);
                 drop(state);
-                entry.closed.finish(result);
+                closed.finish(outcome);
             }
         });
     }
 }
 
-fn bounded_failure(error: anyhow::Error) -> String {
-    let mut message = error.to_string();
-    if message.len() > MAX_FAILURE_BYTES {
-        let mut end = MAX_FAILURE_BYTES;
-        while !message.is_char_boundary(end) {
-            end -= 1;
-        }
-        message.truncate(end);
-    }
-    message
+fn task_failure(action: &str, error: tokio::task::JoinError) -> SearchError {
+    let kind = if error.is_cancelled() {
+        SearchErrorKind::ForcedShutdown
+    } else {
+        SearchErrorKind::SearchFailed
+    };
+    SearchError::new(kind, format!("file-search {action} task failed: {error}"))
 }
 
-fn record_failure(state: &mut State, error: String) {
+fn legacy_close_error(outcome: &SearchCloseOutcome) -> Option<SearchError> {
+    match (&outcome.operation, &outcome.cleanup) {
+        (Err(error), _) | (Ok(()), CloseCleanup::Unconfirmed(error)) => Some(error.clone()),
+        (Ok(()), CloseCleanup::Joined) => None,
+    }
+}
+
+fn record_outcome(state: &mut State, outcome: &SearchCloseOutcome) {
+    if let Err(error) = &outcome.operation {
+        state.first_operation.get_or_insert_with(|| error.clone());
+        record_failure(state, error.clone());
+    }
+    if let CloseCleanup::Unconfirmed(error) = &outcome.cleanup {
+        state.first_unconfirmed.get_or_insert_with(|| error.clone());
+        if outcome.operation.as_ref().err() != Some(error) {
+            record_failure(state, error.clone());
+        }
+    }
+}
+
+fn record_failure(state: &mut State, error: SearchError) {
     if state.failures.len() < MAX_FAILURES {
         state.failures.push(error);
     } else {

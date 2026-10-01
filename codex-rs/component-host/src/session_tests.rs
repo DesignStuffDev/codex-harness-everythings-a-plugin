@@ -410,3 +410,6 @@ mod paired_start;
 
 #[path = "session_payload_tests.rs"]
 mod payload_limits;
+
+#[path = "session_options_tests.rs"]
+mod launch_options;

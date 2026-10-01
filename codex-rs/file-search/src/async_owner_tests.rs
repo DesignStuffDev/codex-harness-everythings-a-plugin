@@ -417,3 +417,6 @@ fn observed_cooperative_start_cancellation_has_no_cleanup_failure() {
     assert!(typed.cleanup_error().is_none());
     shutdown.expect("cooperative cancellation must drain cleanly");
 }
+
+#[path = "async_owner_receipt_tests.rs"]
+mod receipts;

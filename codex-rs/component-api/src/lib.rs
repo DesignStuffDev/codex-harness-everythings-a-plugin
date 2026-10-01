@@ -11,6 +11,9 @@ pub const COMPONENT_API_VERSION: u32 = 1;
 /// Storage v2 preserves trusted native state before the implementation applies
 /// its own persistence encoding. Version 1 used a lossy extra history round trip.
 pub const THREAD_STORE_CONTRACT_VERSION: u32 = 2;
+/// Persistent file-search providers retain bounded leases and explicit cleanup receipts.
+pub const FILE_SEARCH_CONTRACT_VERSION: u32 = 1;
+pub const FILE_SEARCH_KIND: &str = "file_search";
 pub const MANIFEST_FILE: &str = "codex-component.json";
 pub const MAX_FRAME_BYTES: usize = 4 * 1024 * 1024;
 

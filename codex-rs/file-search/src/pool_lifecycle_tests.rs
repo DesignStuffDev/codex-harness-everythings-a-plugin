@@ -1,6 +1,8 @@
 #![allow(clippy::expect_used, clippy::unwrap_used)]
 
 use super::*;
+use nucleo::Config;
+use nucleo::Nucleo;
 use pretty_assertions::assert_eq;
 use std::sync::atomic::AtomicUsize;
 use std::time::Duration;
@@ -187,6 +189,8 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
         last_query_id: Mutex::new(0),
         reporter: Arc::new(Reporter(updates)),
         work_tx: work_tx.clone(),
+        budget: None,
+        failure: Arc::new(Mutex::new(None)),
     });
     let mut pool_threads = PoolThreads::default();
     let pool = pool_threads.build(1, |_| {}, spawn_pool_thread).unwrap();
@@ -222,7 +226,7 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
     for name in ["apple.txt", "apple-b.txt"] {
         injector.push(
             IndexedEntry {
-                full_path: Arc::from(root.path().join(name).to_str().unwrap()),
+                full_path: Box::from(root.path().join(name).to_str().unwrap()),
                 match_type: MatchType::File,
             },
             |_, columns| columns[0] = Utf32String::from(name),
@@ -329,6 +333,8 @@ fn completed_walk_publishes_a_fresh_snapshot_even_when_nucleo_did_not_change() {
         last_query_id: Mutex::new(0),
         reporter: Arc::new(Reporter(updates)),
         work_tx: work_tx.clone(),
+        budget: None,
+        failure: Arc::new(Mutex::new(None)),
     });
     let mut pool_threads = PoolThreads::default();
     let pool = pool_threads.build(1, |_| {}, spawn_pool_thread).unwrap();
@@ -341,7 +347,7 @@ fn completed_walk_publishes_a_fresh_snapshot_even_when_nucleo_did_not_change() {
     let injector = nucleo.injector();
     injector.push(
         IndexedEntry {
-            full_path: Arc::from(root.path().join("needle.txt").to_str().unwrap()),
+            full_path: Box::from(root.path().join("needle.txt").to_str().unwrap()),
             match_type: MatchType::File,
         },
         |_, columns| columns[0] = Utf32String::from("needle.txt"),
