@@ -1,0 +1,342 @@
+{
+  "schema_version": 1,
+  "kind": "preserved_integration_wip_not_accepted_runtime",
+  "source": {
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "previous_checkpoint": "e18d75907f448288dceb86646054d588e32c03b7",
+    "implementation_commit": "98c540863b9868eb216dba18f963c220c4be5187",
+    "implementation_tree": "d193d69db07c0ca378a9f95dae27d6dcee9d6019",
+    "branch": "wip/p02b-bounded-search-20261001"
+  },
+  "classification": "bounded_support_and_transport_primitives_not_installed_native_search",
+  "boundaries": [
+    {
+      "id": "native_search_queue_and_completion",
+      "original_paths": [
+        "codex-rs/file-search/src/lib.rs"
+      ],
+      "original_symbols": [
+        "create_session",
+        "matcher_worker"
+      ],
+      "current_paths": [
+        "codex-rs/file-search/src/work_queue.rs",
+        "codex-rs/file-search/src/matcher.rs"
+      ],
+      "intentional_changes": [
+        "Coalesced latest-query admission with sticky lifecycle flags.",
+        "Current-query completed snapshot precedes Idle; stale pattern completion fails."
+      ],
+      "status": "native_behavior_prerequisite_not_selected_component"
+    },
+    {
+      "id": "bounded_nucleo_allocation",
+      "origin": {
+        "repository": "https://github.com/helix-editor/nucleo",
+        "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+        "license": "MPL-2.0"
+      },
+      "original_paths": [
+        "src/boxcar.rs",
+        "src/worker.rs",
+        "src/lib.rs",
+        "src/pattern.rs",
+        "matcher/src/lib.rs",
+        "matcher/src/matrix.rs"
+      ],
+      "current_paths": [
+        "codex-rs/third-party/nucleo/src/bounded.rs",
+        "codex-rs/third-party/nucleo/src/boxcar.rs",
+        "codex-rs/third-party/nucleo/src/worker.rs"
+      ],
+      "current_symbols": [
+        "IndexAllocationPlan",
+        "BoundedNucleo",
+        "BoundedInjector"
+      ],
+      "intentional_changes": [
+        "Prepaid fixed arrays/arena/scratch with checked typed entry admission, preserving legacy API.",
+        "Twelve mechanical Clippy fixes are recorded in the verification transition; fixed index accounting excludes payload/query/traversal/thread-stack/RSS costs."
+      ],
+      "status": "primitive_tested_enclosing_native_ledger_pending"
+    },
+    {
+      "id": "persistent_process_admission_and_limits",
+      "origin": "Custom component infrastructure; no equivalent imported upstream service",
+      "current_paths": [
+        "codex-rs/component-host/src/session.rs",
+        "codex-rs/component-host/src/session_reply.rs",
+        "codex-rs/component-host/src/session_limits.rs",
+        "codex-rs/component-host/src/session_failure.rs",
+        "codex-rs/component-host/src/session_server.rs",
+        "codex-rs/component-host/src/session_wire.rs"
+      ],
+      "current_symbols": [
+        "start_with_cleanup",
+        "PendingComponentReply",
+        "SessionPayloadLimits",
+        "PayloadLimitExceeded",
+        "release_reply",
+        "validate_response"
+      ],
+      "intentional_changes": [
+        "Separate accepted startup from observing reply without losing reserved cleanup.",
+        "Opt-in logical request/reply limits and retained typed local errors; ordinary defaults remain unbounded.",
+        "Return opaque release response for domain cleanup validation; transport delivery alone does not prove domain join."
+      ],
+      "status": "focused_process_tests_passed_broader_engine_storage_ui_regression_pending"
+    }
+  ],
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/component-host/src/lib.rs",
+      "upstream_blob": null,
+      "before_blob": "45aa7815519a1801c53faeac6d723dfb42caf851",
+      "after_blob": "78c2264c207d775c7c48634a4cf2de84c26558e8",
+      "sha256": "8b6bce0ed15a319a2b20bbc24242b8fffd236f2cb8036641d59159d7eb29a591"
+    },
+    {
+      "path": "codex-rs/component-host/src/session.rs",
+      "upstream_blob": null,
+      "before_blob": "d2aab3e0728a72aa73e3c6089b518bcc7e811016",
+      "after_blob": "38e829c18e51ffd36ee74b22ecc183b5dd4e290d",
+      "sha256": "510d2049f8717d38ea2bbab0b815c6a745f1f8902835310f88e3efb064840178"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_failure.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "c1b7950235cca312144f668c53107642871672d2",
+      "sha256": "0ef00ae9edb55ecfcfba44d06510ade3e530f2ba291f2644233adfff0b60d7f0"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_limits.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "ca408d4dca62c194020a65c0643771c5ba0b4bc5",
+      "sha256": "0617b2d1ee16c1094174bdca06b55f1ea626721b2596e9c1ad87d7a9c79ebfef"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_limits_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "cc3dc99934bd20c742bb2a06bab773bee7510867",
+      "sha256": "5eb4ae4c592c3edf133802af21af5cf071cb317f8f75c910c67507d1a7912742"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_payload_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "24b4409914d43b9b07a4dbf602984f6252c1b518",
+      "sha256": "4e446b570687839b86b05cf3385c567aa69b6d9303657f6967e35f34b4f4ef99"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_reaping_tests.rs",
+      "upstream_blob": null,
+      "before_blob": "ee225d53a2ab71d2b5a35bfc69dbf0cbdee40f97",
+      "after_blob": "52f167d62fb320c654a2ff3ba49dab853484541f",
+      "sha256": "a9118f8505cc306cf34d9486b6ec3a62236d7a73ffb63e79e270461ee0769bd9"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_reply.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "735d4d4129c409d2164599f02bd57ac375641985",
+      "sha256": "e56769eff740b857e11eef205206cfcdd00e04582ffda5a78642a2d96091c278"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_server.rs",
+      "upstream_blob": null,
+      "before_blob": "fcbc08ff57cd4232da5e8d9ea9d749b8c60d7afc",
+      "after_blob": "4102193314c1cdc9b6bc821c4964d58f6f3365ae",
+      "sha256": "6b7678ffcef8b5dc25a67d51e085d755672f00bd04423185dfa8cae07888706f"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_server_limit_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "0cd3a0c5d500a4e41698160a0bd7f207417ec377",
+      "sha256": "3a6d58e349655f013b47f941f2ae403c16519bc46e51cbba0899f2454e919985"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_start_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "57c8aee335ec8b28b8599d4c5930548559479cfd",
+      "sha256": "ddf07b71f24ed4602f65a0e795a2c4d5b8fe3a1d12ba1a2dbbe2248a2d8115dd"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_supervisor.rs",
+      "upstream_blob": null,
+      "before_blob": "cb28bf4d5f21b3900e76c19b49f9d468a241bb1c",
+      "after_blob": "1552d50c4f1ffd29dde6ffd058bbcb6fdda2936f",
+      "sha256": "5a0145bfd4fbf15c2202ef8c7f5a8225c5b6a7a9456a45a351c1460b6f36223e"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_tests.rs",
+      "upstream_blob": null,
+      "before_blob": "a29e64fc32b160105a3777a302a54cb3b95ba164",
+      "after_blob": "2bc6fa3bb300d572481ad18d58b6679e6a750b6b",
+      "sha256": "a3f7c159848ac362278cb799db792cf689fd6bd8de0adf1581891509fc98ad41"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire.rs",
+      "upstream_blob": null,
+      "before_blob": "08361420647b7906538bf92f7f5bfb52d3cc1c3d",
+      "after_blob": "44de72b807574a004ce60802cfe50420fee64e3f",
+      "sha256": "90e5f8943dd355179d6fcc699bdeea6f566d0bad2b368a8d6614dba5de3ca6e0"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire_tests.rs",
+      "upstream_blob": null,
+      "before_blob": "752fad43f923918640fea553e71606fe53e1684d",
+      "after_blob": "26aafdfcc6efb040c0ab0e7bd16a4ae0bb1f5adb",
+      "sha256": "18f069aa9359031e1ebf7d1dd82587168a0860d9dd34b62194fef3556faac7ce"
+    },
+    {
+      "path": "codex-rs/file-search/src/lib.rs",
+      "upstream_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+      "before_blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6",
+      "after_blob": "ecd83f2aedad8ec0996c0b32e33db20291195355",
+      "sha256": "341a811ce4248744a806ab789c82f8c90ffb559bc98b790b7f0d0f28d134cbf2"
+    },
+    {
+      "path": "codex-rs/file-search/src/lifecycle.rs",
+      "upstream_blob": null,
+      "before_blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5",
+      "after_blob": "072bcfca2cc4f1e91aa107ade7771e5d54a5002b",
+      "sha256": "6d16176b7b93463a0e065b2e90bc0567109000762c3ca312452e153797a2833b"
+    },
+    {
+      "path": "codex-rs/file-search/src/lifecycle_tests.rs",
+      "upstream_blob": null,
+      "before_blob": "1a02ce6f0639d6c4c44d9cf7004ffeb3e679ffb8",
+      "after_blob": "59e5c2c11fdb120ee6a7f00a53e1d5bb6ef454ba",
+      "sha256": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4"
+    },
+    {
+      "path": "codex-rs/file-search/src/matcher.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "5f2735443e172a49d8351c80c141605bee04b548",
+      "sha256": "4ace52788c50c61d5d4f0c704e9d364d4165fc1d3f401700405485e3610454f6"
+    },
+    {
+      "path": "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+      "upstream_blob": null,
+      "before_blob": "d0ce6f6033d0494871f18958aa496e502aa99e2d",
+      "after_blob": "84aa9d4def3cb0b7b7943cd2d7b0635ed12e93d9",
+      "sha256": "eca9e6ca74ff0e31284ad9b7dba48bf788615d52241b1a6bf844eebae4138bf0"
+    },
+    {
+      "path": "codex-rs/file-search/src/query_completion_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "786b58468f9fc3cb796454324c549e29e249d963",
+      "sha256": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e"
+    },
+    {
+      "path": "codex-rs/file-search/src/work_queue.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "8204fd15bb3e3adb1608eef99cd92fd1caeb9965",
+      "sha256": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506"
+    },
+    {
+      "path": "codex-rs/file-search/src/work_queue_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "8b8f0fdd6f40f8d94b963b5175ae4a80a9173793",
+      "sha256": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+      "upstream_blob": null,
+      "before_blob": "8f2fd5c66e580a5dbbbf53318dfccb67c21c2d8e",
+      "after_blob": "a8db7f78962744524f6b978a7f12b72876e4e037",
+      "sha256": "03c94b05dec8f484e060e35e7265d76c80bc3fccc921821257167d9b25212f7f"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/lib.rs",
+      "upstream_blob": null,
+      "before_blob": "3e8874c590c0fa3d87826749b1832076ddc2f002",
+      "after_blob": "6b67fe032bd8eb16a5f63b5375662434bf42ee71",
+      "sha256": "cdfa8c3cc0d2ddf5e5a73f429461445f71f8fd7868cbd8150c3fb44c098c1a72"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+      "upstream_blob": null,
+      "before_blob": "6345c21040d7321b9ca7ffb47080830080390091",
+      "after_blob": "b88dadd5c89758bc9e87f74fb2b48772d5349aff",
+      "sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/score.rs",
+      "upstream_blob": null,
+      "before_blob": "c934a8ef49891bddd658d6eb1d221392bfa89f49",
+      "after_blob": "f0ad8983e95f6be4e7f42fc915d4e94ad469900a",
+      "sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs",
+      "upstream_blob": null,
+      "before_blob": "664dae7a834d6e66b441652ed7436ae9d0b338fa",
+      "after_blob": "01f23abe2642536b1dace7b53bbc44eed1361180",
+      "sha256": "f6a882f478d5993b2e9e33688a3eb835e24f8576cbf5fed483fc86e8fb18376b"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/bounded.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "a79a6fb41f6db96699b1952e3fca93560568ab4a",
+      "sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/bounded_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "56290982d043811f9b275cd57285f1ad0edd2f3a",
+      "sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/boxcar.rs",
+      "upstream_blob": null,
+      "before_blob": "9b48809daeb827a60c6994a0bea0de2c663cbd22",
+      "after_blob": "696e66e204d13c71eecacd8c6eacc3b8e7249131",
+      "sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs",
+      "upstream_blob": null,
+      "before_blob": null,
+      "after_blob": "844972defafd23d1ceee44775be468a475e9ad6d",
+      "sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/lib.rs",
+      "upstream_blob": null,
+      "before_blob": "227f0f955268f6d771336d8d7095fefb70ba5252",
+      "after_blob": "72dcae5ab4fc6075adc79b0adebefd7fe9706938",
+      "sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/pattern.rs",
+      "upstream_blob": null,
+      "before_blob": "816b0a31691c421bb8ad90f9ef92cd48dacecf3f",
+      "after_blob": "90d6ec84fc463a9841334daccbcbed59c8c3da1f",
+      "sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/worker.rs",
+      "upstream_blob": null,
+      "before_blob": "aedd46c4b66101a02fbdef3c2fb9827b264d1ac1",
+      "after_blob": "7571e7ed190c2b2af41983de467e35cec5ddf039",
+      "sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170"
+    }
+  ],
+  "evidence": [
+    "verification/2026-10-01/P02B_BOUNDED_INDEX_EVIDENCE.md",
+    "verification/2026-10-01/P02B_TRANSPORT_LIMITS_EVIDENCE.md"
+  ],
+  "updater_gate": "This WIP does not integrate a later official upstream Codex revision and does not satisfy P18U acceptance."
+}

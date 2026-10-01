@@ -6,6 +6,14 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
 
 ## Last verified checkpoints
 
+- Latest externally preserved integration WIP: `98c540863b9868eb216dba18f963c220c4be5187`,
+  tree `d193d69db07c0ca378a9f95dae27d6dcee9d6019`, branch
+  `wip/p02b-bounded-search-20261001`. Bounded index primitives and opt-in
+  process payload limits passed166 focused cases with one ignored helper;
+  all scoped test-source hashes were unchanged and the subreaper completed.
+  Lint/format transitions are separately recorded. This is not an accepted new
+  CLI/GUI build, native budget enforcement or installed search replacement.
+
 - Pinned matcher correction source: `ac5fdae1b7db8134318891eeb991b9c330e6ea8b`,
   tree `d59a58799acde091d508b99e27bdf7fa3ae74564`. Safe pre-fix raw-metadata
   regression failed as expected; vendor37 cases passed after the correction.
@@ -82,8 +90,13 @@ preserved all 30 allocated ELF sections; runtime gates used this immutable copy.
    unchanged source and subreaper0; after the separate matcher correction,
    vendor37 + native41 passed. Scoped fix/format completed. These runtime
    changes remain outside main pending broader client/runtime acceptance.
-   New bounded index allocation and opt-in logical payload limits are being
-   implemented after that WIP snapshot; preserve them separately before restart.
+   The subsequent bounded index primitives and logical payload limits are now
+   preserved in WIP98c540 above. Its 35 source paths are also member-verified in
+   `p02b-bounded-search-source.tar.gz`, SHA256
+   `692c3de970a5f0a7d2f4d51373ff38b7eedb66a21b7fd0f0ac5e6be29c40256e`.
+   New native budget integration, explicit process startup cwd, file_search1
+   wire/service/process adapter and catalog admission are being implemented
+   after that snapshot; preserve them separately before restart.
 3. Implement bounded native backend, coalesced query admission, honest final
    snapshot/Idle ordering, entry/index/worker budgets and resource errors. See
    [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md).
