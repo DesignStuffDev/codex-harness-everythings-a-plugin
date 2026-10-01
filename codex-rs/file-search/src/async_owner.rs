@@ -253,20 +253,6 @@ impl FileSearchOwner {
         })
     }
 
-    /// Internal backend route also bounds query and native snapshot payloads.
-    pub(crate) async fn create_backend(
-        &self,
-        roots: Vec<PathBuf>,
-        options: FileSearchOptions,
-        budget: SearchBudget,
-        output: crate::native_output::NativeOutputLimits,
-        reporter: Arc<dyn SessionReporter>,
-    ) -> Result<ManagedFileSearchSession, SearchStartError> {
-        self.begin_create_backend(roots, options, budget, output, reporter)?
-            .finish()
-            .await
-    }
-
     async fn create_inner(
         &self,
         roots: Vec<PathBuf>,

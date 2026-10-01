@@ -7,6 +7,7 @@ use std::sync::Mutex;
 use std::sync::MutexGuard;
 
 use codex_file_search_api::CloseCleanup;
+use codex_file_search_api::PendingSearchStart;
 use codex_file_search_api::SearchBackend;
 use codex_file_search_api::SearchBackendSession;
 use codex_file_search_api::SearchBudget;
@@ -33,6 +34,9 @@ use crate::native_backend_session::NativeLease;
 use crate::native_backend_session::NativeSession;
 use crate::native_backend_session::SessionReporterBridge;
 
+#[path = "native_backend_start.rs"]
+mod startup;
+
 /// One selected native provider, independent of presentation and wire transport.
 /// The embedding process must keep its cwd stable for this provider's lifetime.
 pub struct NativeSearchBackend {
@@ -40,6 +44,12 @@ pub struct NativeSearchBackend {
 }
 
 impl NativeSearchBackend {
+    /// Reserve one bounded start and expose cancellation before native construction.
+    /// The same control targets this lease after a successful ready handoff.
+    pub fn begin_open(&self, request: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        startup::begin_open(self.inner.clone(), request)
+    }
+
     pub fn new(base_dir: PathBuf, limits: NativeBackendLimits) -> Result<Self, SearchError> {
         limits.validate()?;
         if !base_dir.is_absolute()
@@ -64,6 +74,10 @@ impl NativeSearchBackend {
                 state: Mutex::new(Registry::default()),
                 tasks: TaskTracker::new(),
                 closed,
+                #[cfg(test)]
+                before_pending: Mutex::new(None),
+                #[cfg(test)]
+                before_handoff: Mutex::new(None),
             }),
         })
     }
@@ -71,76 +85,10 @@ impl NativeSearchBackend {
 
 impl SearchBackend for NativeSearchBackend {
     fn open(&self, request: SearchOpen) -> SearchStartFuture<'_> {
-        Box::pin(async move {
-            let request = self
-                .inner
-                .limits
-                .prepare_open(request, &self.inner.base_dir)
-                .map_err(not_admitted)?;
-            let (ready_tx, ready_rx) = oneshot::channel();
-            let (session, token) = {
-                let mut state = lock(&self.inner.state);
-                if state.stopping {
-                    return Err(not_admitted(closed()));
-                }
-                if state.sessions.len() >= self.inner.limits.max_sessions.get() {
-                    return Err(not_admitted(exhausted(
-                        "native file-search provider session capacity exhausted",
-                    )));
-                }
-                let allocation = amounts(request.budget);
-                let ceiling = amounts(self.inner.limits.resources);
-                let mut next = [0; 3];
-                for index in 0..3 {
-                    next[index] = state.used[index]
-                        .checked_add(allocation[index])
-                        .filter(|value| *value <= ceiling[index])
-                        .ok_or_else(|| {
-                            not_admitted(exhausted(
-                                "native file-search aggregate resource capacity exhausted",
-                            ))
-                        })?;
-                }
-                let id = state.next_id.checked_add(1).ok_or_else(|| {
-                    not_admitted(exhausted(
-                        "native file-search provider identities exhausted",
-                    ))
-                })?;
-                let session = Arc::new(NativeSession::new(id, allocation, self.inner.limits));
-                let token = self.inner.tasks.token();
-                state.next_id = id;
-                state.used = next;
-                state.sessions.insert(id, session.clone());
-                (session, token)
-            };
-            // Only the observing open future holds this public lease. Its drop
-            // fences the session even while startup/lifecycle tasks retain state.
-            let public: Arc<dyn SearchBackendSession> = Arc::new(NativeLease {
-                inner: session.clone(),
-            });
-            let provider = self.inner.clone();
-            let guard = SessionTaskGuard {
-                provider: provider.clone(),
-                session: session.clone(),
-                armed: true,
-                _token: token,
-            };
-            self.inner.runtime.spawn(async move {
-                let mut guard = guard;
-                run_session(provider, session, request, ready_tx).await;
-                guard.armed = false;
-            });
-            match ready_rx.await {
-                Ok(Ok(())) => Ok(public),
-                Ok(Err(error)) => Err(error),
-                Err(_) => Err(SearchStartError {
-                    operation: failed("native file-search startup owner disappeared"),
-                    cleanup: StartCleanup::Unconfirmed(failed(
-                        "native file-search startup receipt was lost",
-                    )),
-                }),
-            }
-        })
+        match self.begin_open(request) {
+            Ok(pending) => pending.finish(),
+            Err(error) => Box::pin(async move { Err(error) }),
+        }
     }
 
     fn request_shutdown(&self) {
@@ -166,6 +114,10 @@ pub(super) struct Provider {
     state: Mutex<Registry>,
     tasks: TaskTracker,
     closed: watch::Sender<Option<SearchCloseOutcome>>,
+    #[cfg(test)]
+    before_pending: Mutex<Option<Arc<dyn Fn() + Send + Sync>>>,
+    #[cfg(test)]
+    before_handoff: Mutex<Option<Arc<dyn Fn() + Send + Sync>>>,
 }
 
 #[derive(Default)]
@@ -241,18 +193,39 @@ async fn run_session(
     request: SearchOpen,
     ready: oneshot::Sender<Result<(), SearchStartError>>,
 ) {
+    if session.is_closing() {
+        let outcome = session.finish(SearchCloseOutcome {
+            operation: Ok(()),
+            cleanup: CloseCleanup::Joined,
+        });
+        provider.finish(&session, &outcome);
+        session.publish_close(outcome, StartCleanup::NotAdmitted);
+        let _ = ready.send(Err(not_admitted(closed())));
+        return;
+    }
     let reporter = Arc::new(SessionReporterBridge(session.clone()));
-    let native = match provider
-        .owner
-        .create_backend(
-            request.roots,
-            request.options,
-            request.budget,
-            provider.limits.output(),
-            reporter,
-        )
-        .await
-    {
+    let pending = provider.owner.begin_create_backend(
+        request.roots,
+        request.options,
+        request.budget,
+        provider.limits.output(),
+        reporter,
+    );
+    let result = match pending {
+        Ok(pending) => {
+            #[cfg(test)]
+            {
+                let before_pending = lock(&session.before_pending).clone();
+                if let Some(before_pending) = before_pending {
+                    before_pending();
+                }
+            }
+            session.preparing(pending.control());
+            pending.finish().await
+        }
+        Err(error) => Err(error),
+    };
+    let native = match result {
         Ok(native) => native,
         Err(error) => {
             let cleanup = match &error.cleanup {
@@ -269,8 +242,11 @@ async fn run_session(
             };
             let outcome = session.finish(SearchCloseOutcome { operation, cleanup });
             provider.finish(&session, &outcome);
-            session.publish_close(outcome);
-            let _ = ready.send(Err(error));
+            session.publish_close(outcome.clone(), error.cleanup.clone());
+            let _ = ready.send(Err(SearchStartError {
+                operation: outcome.operation.err().unwrap_or(error.operation),
+                cleanup: error.cleanup,
+            }));
             return;
         }
     };
@@ -279,7 +255,7 @@ async fn run_session(
         let outcome = native.close_outcome().await;
         let outcome = session.finish(outcome);
         provider.finish(&session, &outcome);
-        session.publish_close(outcome.clone());
+        session.publish_close(outcome.clone(), outcome.cleanup.clone().into());
         let _ = ready.send(Err(SearchStartError {
             operation: outcome.operation.err().unwrap_or_else(closed),
             cleanup: outcome.cleanup.into(),
@@ -318,7 +294,7 @@ async fn run_session(
     }
     let outcome = session.finish(outcome);
     provider.finish(&session, &outcome);
-    session.publish_close(outcome);
+    session.publish_close(outcome.clone(), outcome.cleanup.into());
 }
 
 struct SessionTaskGuard {
@@ -338,7 +314,8 @@ impl Drop for SessionTaskGuard {
                 cleanup: CloseCleanup::Unconfirmed(error),
             });
             self.provider.finish(&self.session, &outcome);
-            self.session.publish_close(outcome);
+            self.session
+                .publish_close(outcome.clone(), outcome.cleanup.into());
         }
     }
 }
