@@ -1,0 +1,94 @@
+{
+  "schema": "p03-curated-b1-ownership-review-v1",
+  "status": "static_review_required_split_no_implementation",
+  "created_utc": "2026-10-01T21:15:36.033719+00:00",
+  "design_inputs": [
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-sync-bc-design/PIPELINE_PLAN.md",
+      "sha256": "5da8e0dd6bb0fa49def7b552f40ff195ccd2ccfcebf67837079164e826c99606",
+      "bytes": 10911
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-sync-bc-design/STAGE_QUEUE.json",
+      "sha256": "ac3920e9977d44dde83e9059bbd17427d3845e34584ede67497c035f765eec1e",
+      "bytes": 6241
+    }
+  ],
+  "reviewed_working_tree_sources": [
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugins/src/startup_sync.rs",
+      "sha256": "06fa54f70913802b681b4460a1de376b0cfd668bfe8d8b3404dc0912b6e88f00",
+      "bytes": 39725
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugins/src/manager.rs",
+      "sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153",
+      "bytes": 148748
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/pty/src/bounded_command.rs",
+      "sha256": "d8b3a06d30aa6c862ef14b95b8ec8e6a97bab1dcbb797451e12455735e1efbc9",
+      "bytes": 8972
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/utils/pty/src/child_reaper.rs",
+      "sha256": "60cd52bdec3b94d6874a21ca736df63a674324e7ddfc97c16a894a806357fc05",
+      "bytes": 2953
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/login/src/gateway_auth_storage.rs",
+      "sha256": "0772e5bf3a0775ed52c5891bc2c69ff99604dfc2bad1155534ca8e45387f464f",
+      "bytes": 2902
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/rollout/src/writer_lock.rs",
+      "sha256": "e9a49bef7540dc688de8243d6df1ee9a24cf328c082934b1352d8bebef857468",
+      "bytes": 6875
+    }
+  ],
+  "source_identity_limit": "Exact file hashes at static review; no new source commit, compilation or runtime claim. Stage A lint/format may later change layout.",
+  "required_split": [
+    {
+      "id": "B1a",
+      "contract": "Typed transport outcome + real retained cleanup/admission ownership; integrate actual pipeline, local HEAD and manager together; preserve String facade without dropping ownership; no fallback after stop, unknown cleanup or publication uncertainty.",
+      "ordering_change": "Pull the necessary admission-generation/retained-owner subset of C1a/C1b ahead of cancellable B1; remaining host/callback lifecycle stays later.",
+      "complex_changed_line_limit_including_tests": 500,
+      "measured_line_count": null,
+      "limit_policy": "No unmeasured fit claim. If implementation exceeds limit, stage tests/mechanical extraction separately; retain the coupled behavior transition as one coherent adoption unit."
+    },
+    {
+      "id": "B1b",
+      "contract": "Cancellable stable file lock and same-control Git/fallback admission, consuming B1a ownership; ordinary30s lock ceiling, stop recheck after acquisition, no swallowed typed HEAD error.",
+      "depends_on": "B1a",
+      "complex_changed_line_limit_including_tests": 500,
+      "measured_line_count": null,
+      "does_not_claim": "Cancellation of already admitted HTTP/body/extraction/commit or full host shutdown."
+    }
+  ],
+  "retained_resource_requirements": [
+    "stable file lock",
+    "exact admission generation",
+    "staged repository",
+    "trusted temporary Git repository",
+    "completion ownership sufficient for protected mutators"
+  ],
+  "known_current_gaps": [
+    "String failure loses structured cleanup state",
+    "Native(pid) shared reaper has no acknowledgment/resource bundle",
+    "function error drops lock and TempDir",
+    "fetch may mutate existing repository",
+    "HEAD failure swallowed into SHA Option",
+    "activation precedes SHA write and publication errors can fall back",
+    "manager String error unconditionally reopens process-global gate"
+  ],
+  "production_code_staged": false,
+  "tests_executed": false,
+  "rust_commands_executed": false,
+  "repository_git_or_cache_mutations": false,
+  "prior_stages_edited": false,
+  "second_static_review": {
+    "agent": "/root/cache_runtime_evidence/source_owner_lineage_review",
+    "conclusion": "Independently confirmed that typed errors and cancellable locking alone do not retain lock/staging through unknown cleanup; caller integration must accompany retained ownership."
+  },
+  "full_host_acceptance_passed": false
+}
