@@ -8,6 +8,7 @@ use codex_component_host::ComponentSessionOptions;
 use codex_component_host::DeferredControl;
 use codex_component_host::SessionWorkingDirectory;
 use codex_file_search_api::CloseCleanup;
+use codex_file_search_api::PendingSearchStart;
 use codex_file_search_api::SearchBackend;
 use codex_file_search_api::SearchCloseFuture;
 use codex_file_search_api::SearchCloseOutcome;
@@ -36,6 +37,8 @@ mod decode;
 mod open;
 #[path = "process_session.rs"]
 mod session;
+#[path = "process_start.rs"]
+mod start;
 #[path = "process_state.rs"]
 mod state;
 
@@ -59,6 +62,14 @@ pub struct ProcessSearchBackend {
 }
 
 impl ProcessSearchBackend {
+    /// Reserve one bounded start and expose cancellation before awaiting ready.
+    /// The retained owner uses this lease's existing paired OPEN/RELEASE route.
+    /// A selected worker's constructor responsiveness remains its own contract;
+    /// old workers are not upgraded by exposing this host-side control.
+    pub fn begin_open(&self, request: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        open::begin_open(Arc::clone(&self.inner), request)
+    }
+
     /// Immutable ceilings accepted by this selected provider. Runtime scope
     /// accounting must use these values, not assume requested limits survived
     /// negotiation unchanged.
@@ -110,7 +121,10 @@ impl Drop for ProcessSearchBackend {
 
 impl SearchBackend for ProcessSearchBackend {
     fn open(&self, request: SearchOpen) -> SearchStartFuture<'_> {
-        Box::pin(open::open(Arc::clone(&self.inner), request))
+        match self.begin_open(request) {
+            Ok(pending) => pending.finish(),
+            Err(error) => Box::pin(async move { Err(error) }),
+        }
     }
 
     fn request_shutdown(&self) {

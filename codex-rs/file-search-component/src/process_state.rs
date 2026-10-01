@@ -12,6 +12,7 @@ use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchErrorKind;
 use codex_file_search_api::SearchOpen;
+use codex_file_search_api::StartCleanup;
 use tokio::sync::Notify;
 use tokio::sync::watch;
 
@@ -47,6 +48,7 @@ pub(super) struct Lease {
     pub stopping: watch::Sender<bool>,
     pub completed: watch::Sender<Option<SearchCloseOutcome>>,
     pub changed: Notify,
+    pub start_cleanup: OnceLock<StartCleanup>,
 }
 
 #[derive(Default)]
@@ -148,6 +150,7 @@ impl Provider {
             stopping,
             completed,
             changed: Notify::new(),
+            start_cleanup: OnceLock::new(),
         });
         state.leases.push(Arc::clone(&lease));
         Ok(lease)
@@ -196,10 +199,15 @@ impl Lease {
         }
     }
 
-    pub fn finish(self: &Arc<Self>, mut outcome: SearchCloseOutcome) {
+    pub fn finish(self: &Arc<Self>, mut outcome: SearchCloseOutcome, cleanup: StartCleanup) {
         let first = lock(&self.state).first_error.clone();
         if let Some(error) = first {
             outcome.operation = Err(error);
+        }
+        // One owner publishes both receipts. A guard or late completion cannot
+        // rewrite uncertainty already observed by cancellation or close callers.
+        if self.start_cleanup.set(cleanup).is_err() {
+            return;
         }
         if let Some(provider) = self.provider.upgrade() {
             let mut state = lock(&provider.state);
@@ -233,7 +241,10 @@ impl Drop for LeaseOwnerGuard {
         if let Some(lease) = self.0.take() {
             let error = lost();
             lease.fail(error.clone());
-            lease.finish(uncertain(error.clone()));
+            lease.finish(
+                uncertain(error.clone()),
+                StartCleanup::Unconfirmed(error.clone()),
+            );
             if let Some(provider) = lease.provider.upgrade() {
                 provider.fail(error);
             }

@@ -183,11 +183,12 @@ def handle(request, params, lease):
         limits = params['requested_limits']
         reply(request,params,{'limits':limits,'native_path_platform':'windows_wide' if os.name=='nt' else 'unix_bytes','encoding':'file_search1'})
     elif method == 'open':
-        if config.get('hold_open'): wait_gate('open_gate',lease['stop'])
+        if config.get('hold_open') or config.get('hold_open_epoch') == params['identity']['session_epoch']:
+            wait_gate('open_gate',lease['stop'])
         lease_limits = {key:limits[key] for key in ['max_query_utf8_bytes','max_matches','max_frame_bytes','max_poll_wait_ms']}
         lease_limits.update(max_pending_polls=1,max_in_flight_updates=1)
         if config.get('open_error'):
-            error = {'operation':{'kind':'search_failed','message':'earlier startup failure'},'cleanup':{'status':'confirmed'}}
+            error = {'operation':{'kind':'closed_lease' if config.get('open_closed_error') else 'search_failed','message':'earlier startup failure'},'cleanup':{'status':'not_admitted' if config.get('open_not_admitted') else 'confirmed'}}
             reply(request,params,None,error)
         else:
             reply(request,params,{'initial_cursor':'0','limits':lease_limits,'budget':params['budget']})
@@ -212,6 +213,7 @@ def handle(request, params, lease):
         record('poll_done')
     elif method == 'release':
         lease['stop'].set()
+        record('released_epochs',params['identity']['session_epoch'])
         record('release_started')
         for event in ['open_done','update_done','poll_done']: lease[event].wait()
         if config.get('hold_release'): wait_gate('release_gate')
@@ -238,10 +240,21 @@ for line in sys.stdin:
             if method == 'open':
                 lease = {name:threading.Event() for name in ['stop','open_done','update_done','poll_done']}
                 lease['update_done'].set(); lease['poll_done'].set()
-                lease.update(query='',query_id='0')
+                lease.update(query='',query_id='0',identity=dict(params['identity']))
                 leases[params['identity']['lease_id']] = lease
                 record('epochs',params['identity']['session_epoch'])
-            elif 'lease_id' in params['identity']: lease = leases[params['identity']['lease_id']]
+            elif 'lease_id' in params['identity']:
+                lease = leases.get(params['identity']['lease_id'])
+                if lease is None or lease['identity'] != params['identity']:
+                    reply(request,params,None,{'kind':'invalid_input','message':'fixture lease identity mismatch'})
+                    record('identity_rejected')
+                    continue
+            # Only operations admitted before the close fence may drain normally.
+            # An update to a wrongly cancelled sibling must not appear successful.
+            if method in ['update_query','next_snapshot'] and lease['stop'].is_set():
+                reply(request,params,None,{'kind':'closed_lease','message':'fixture lease is closed'})
+                record('late_operation_rejected')
+                continue
             if method == 'update_query': lease['update_done'].clear()
             if method == 'next_snapshot': lease['poll_done'].clear()
             record(method)
