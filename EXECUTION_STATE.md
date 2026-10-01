@@ -38,6 +38,10 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
 - Checked grants are published and remotely verified at `6c5b232518ca951ebc80d5199cae01c901f68c85`,
   tree `7b2c4e0d1332b6cbab75b95e969e061d1307fde7`, parent `5fbe8a7`. Five API source
   paths plus nine docs/evidence/audit files; receipt `p03-broker-grants-publication.json`.
+- Latest offer/ack API checkpoint: `9cf9002d9c70068f2eb9f3bcd054ee64120feb6c`, tree
+  `4de47ce8a643d605b6097c16498f6b292e1f92df`, parent `6c5b232`; eleven paths were
+  nonforce-published and remotely verified. Receipt `p03-broker-offer-publication.json`
+  records the exact three formatted source paths and separate documentation/evidence.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
   `147ac2447134294359c4071b0aeb495922760db7`. Retain LICENSE/NOTICE and lineage.
@@ -130,10 +134,39 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
 
 ## Ordered next actions
 
+Current verified native prerequisite: the two-file provider-owned model endpoint
+change is adopted from `/tmp/p03-provider-endpoint-stage/FINAL_MANIFEST.json`
+(`22c63961cea9539a2b6ed8031740cd8b74e5ed20d1606ac08f9de8f584907119`).
+The first provider/models-manager check exited101 during compilation because the
+overlay filled; **zero tests executed**, and all scoped source hashes were unchanged.
+Retain `/workspace/acceptance/p03-provider-endpoint-tests.{log,source.json,subreaper.json}`.
+The unchanged-source retry passed **160/160, zero skipped or in-run retries**: 106 provider
+and 54 models-manager tests, including all five new real local-HTTP cases. Lint passed
+unchanged; formatting changed only the new test module mechanically. See
+[evidence](verification/2026-10-01/P03_PROVIDER_ENDPOINT_EVIDENCE.md) and its source lineage.
+The raw successful-run subreaper record includes one unattributed -9 child exit and command
+exit0; preserve both. This is compiled native capability ownership only; no catalog plugin
+or broker is activated, and old full-host/UI results do not validate this new code.
+Six generated apt metadata files were checksum-archived before retirement, preserving
+sysroot libraries and setup/package records. Recovery archive
+`p03-apt-metadata-preservation.tar.gz` has SHA256
+`1531a9707373af18a4102ce83ad0b4bb651cc346dd2309e4cf780c3c13f49026`.
+It is a cloud-local cache recovery record, not an external source backup.
+Recovery also retired 314 audited obsolete generated library objects (640,327,680 allocated
+bytes) while retaining source/toolchain, metadata, current dependency closure and binaries.
+Receipt `p03-provider-obsolete-library-retirement.json` records exact old identities.
+Eight inactive completed storage worker copies now share the retained original package
+inode; bytes, modes and paths remain unchanged, but historical mtimes/inodes/link counts
+deliberately differ. Preserve `p03-completed-storage-copy-dedup.json`; copy before any future
+write/chmod/utime. This changed storage representation, not historical runtime outcomes.
+
 1. Recheck original environment, source state, remote refs, active work and resource headroom.
    Both wire and declaration checkpoints have durable receipts above; revalidate remote identity
    before new publication. Never infer it from local files or stale local main.
-2. Follow the agreed [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
+2. Publish the native provider prerequisite with its actual evidence; maintain the P00M
+   current provenance index/checker alongside extraction. Stage native policy-epoch work
+   separately. A fresh full-host build and UI regression must bind the new source before
+   claiming runtime integration. Follow the agreed [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
    [source bindings](upstream/p03-broker-design-bindings.json). The card is a preserved design
    snapshot, not execution proof. Declaration DTOs are accepted; retain the catalog rejection
    until coordinated negotiated activation. Checked limits, handles/grants and the
@@ -200,6 +233,13 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   `p03-failed-link-temporary-preservation.json` records original bytes, modes and restore recipe;
   archive SHA `628a47758ffc72b4e207435498e27deca92f34708795bbbb44ac66900f2928d2`.
   The successful final executable and metadata remain. No source/frozen host was removed.
+- Two completed generated helpers (`logs_client`, `exec-server`, including their two deps
+  hardlink aliases) were archived and verified before retirement for native-test headroom.
+  `p03-completed-helper-executable-preservation.json` retains aliases, modes, hashes, native
+  build associations and restore instructions; all fingerprint/dep metadata stayed unchanged.
+  Archive SHA `df6a8be63dba8005329a817759bb149ce2db9a585c9a95cb618fac272968fdf7`.
+  The exec-server bytes matched the earlier retained replacement. These are generated targets;
+  future tests selecting either helper must restore or rebuild them. Frozen hosts are untouched.
 - GUI reports/logs/readiness URLs are private. Publish only reviewed whitelisted summaries/images.
   Tested staged-runner source archive and member manifest are under `verification/2026-10-01/fixtures/`
   and `p02b-preparing-source-fixtures.json`; exact path-bound provenance checks require reviewed

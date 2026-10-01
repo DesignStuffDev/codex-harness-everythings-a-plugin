@@ -1,0 +1,17 @@
+# P03 native provider endpoint ownership
+
+The focused retry passed **160/160 tests, zero skipped, zero in-run retries** on October 1, 2026 (2026-10-01T14:57:03Z–2026-10-01T15:00:12Z). The actual split was 106 model-provider and 54 models-manager tests. All five new provider endpoint tests passed. They exercise real local HTTP against deterministic fixtures alongside native manager/cache and static-provider behavior; they do not contact production model services.
+
+`ConfiguredModelProvider` now owns one retained native model-catalog endpoint. Its optional `ModelProvider::models_endpoint` capability returns that endpoint, and nonstatic native managers reuse it. Tests cover stable sharing across disk/disabled/injected cache modes, authoritative static-catalog bypass, live auth replacement, per-request network-policy denial, sibling provider separation, Bedrock/custom endpoint absence and gateway credential rotation shared with the native manager. This is a compiled native ownership boundary prerequisite, **not an independently installed catalog or model-provider component**.
+
+The first command failed during compilation with ENOSPC while creating a temporary directory for `codex-protocol`: exit 101, zero executed tests, unchanged source. That failed report remains preserved. Root recovered space by retiring 314 exactly audited obsolete generated libraries and deduplicating eight inactive identical completed storage worker copies. The deduplication deliberately changed recorded inode/mtime/link metadata while retaining bytes/paths/modes; historical runtime evidence is not a claim that those current-path metadata fingerprints remain unchanged. Both recovery receipts are bound in the results JSON. No code or assertion change separates the failed compilation and successful retry.
+
+The first failed before/after maps equal the successful retry before/after and lint before/after maps, then the formatter before map: **8,792 entries**. `just fix` for both affected crates passed without source changes. Formatting passed; its separately reviewed changes and final hashes are recorded in the companion JSON. Tests used the adopted pre-format bytes; no post-format rerun is claimed.
+
+The successful strict subreaper returned 0 with no runner error in 186.954006805 seconds. Preserve its raw outcomes: PID 750638 wait status 9 / return code -9, and command PID 748457 wait status 0 / return code 0. The cause of the -9 record is not established here; this report does not characterize all descendants as successful. The first failed command's strict receipt retained command PID 747065, wait status 25856 / return code 101.
+
+The exact adopted stage manifest is `22c63961cea9539a2b6ed8031740cd8b74e5ed20d1606ac08f9de8f584907119`, with cloud-local archive `52caba119737b5d68524d69049edde5ff76fe884f274c02f9db1cbc7545289c1`. The publication parent is `9cf9002d9c70068f2eb9f3bcd054ee64120feb6c`. Stage labels saying uncompiled are historical; actual completed tests are recorded here. Wrapper baseline text is not a clean-commit assertion.
+
+No broker activation, service grant, process-isolated endpoint, external cache owner epoch, independently built plugin, full harness/CLI/App Server/TUI/GUI session or new cancellation behavior was verified in this gate. Earlier installed runtime evidence retains its own source scope.
+
+Details: [results](p03-provider-endpoint-results.json) and [source lineage](../../upstream/p03-provider-endpoint-lineage.json).

@@ -144,6 +144,23 @@ Revalidate remote refs before publishing; preserve both saved worktrees and WIP.
 paths exist; evidence citations resolve; no claimed new test results; no secrets,
 binaries or caches staged. **Exit:** documentation checkpoint pushed and verified.
 
+### P00M — Current provenance closure and ongoing maintenance intake
+
+**Required now and at every extraction checkpoint; updater execution remains P18U.**
+The historical maps retain exact source identities and selected semantic anchors,
+but do not yet form a normalized current ownership/impact index. Close that
+provenance gap alongside implementation, using the
+[current mapping requirements](UPSTREAM_MAINTENANCE.md#current-provenance-closure).
+For each accepted boundary, link the original repository/revision/path/symbol to
+its current implementation, contract, customization, owner and evidence; classify
+new project code and foreign dependencies separately. Preserve historical records.
+**Exit:** a pinned checkpoint index and read-only validation report account for
+all changed paths and accepted boundaries, with unmapped or ambiguous entries
+explicitly unresolved. Do not report complete current provenance while affected
+entries remain unresolved; prior runtime results retain their original scope.
+This gate does not claim a complete symbol graph, updater, later-upstream candidate
+or rollback result.
+
 ### P01 — Finish native storage maintenance/migration selection
 
 **Checkpoint complete:** source `5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb`.
@@ -312,6 +329,11 @@ identifies two independently implementable native seams: a provider-owned endpoi
 and an atomic forced-workspace policy epoch. Both remain prerequisites for selected remote
 catalog authority. The audit explicitly marks saved catalog code as unlinked drafts and
 defines native/custom external-worker acceptance; it is not extraction or runtime evidence.
+The provider endpoint ownership change now passes 160 native provider/models-manager tests,
+including five new local-HTTP cases; lint passed unchanged and test formatting was reviewed.
+[Evidence](verification/2026-10-01/P03_PROVIDER_ENDPOINT_EVIDENCE.md) retains the initial
+disk-full compilation failure and exact source transitions. This is a compiled native
+prerequisite, not an independently installed catalog/provider or a new full-host/UI gate.
 
 ### P04 — Configuration, credentials and native authentication
 
@@ -557,9 +579,10 @@ guide, migration/compatibility matrix, supported-platform results and honest lim
 
 ### P18U — Upstream maintenance and update component
 
-**Prerequisites:** begin lineage/mapping in P00; implement candidate integration
-after P03 and representative native packages stabilize; activation/rollback uses
-P18 installation transactions. See [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md)
+**Prerequisites:** maintain current lineage through P00M now; do not defer missing
+provenance until updater implementation. Implement candidate integration after P03
+and representative native packages stabilize; activation/rollback uses P18
+installation transactions. See [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md)
 and [upstream/lineage.json](upstream/lineage.json) for the concrete workflow/ledger.
 
 **Deliver in sequence:**
@@ -655,8 +678,10 @@ an explicitly partial development checkpoint/release candidate.
    formatting; substantive fixes require their own appropriate checks.
 7. Record commands, statuses, actual tested tree/diff, binary/package hashes, OS,
    fixtures and failures. Preserve original failed runs and corrected-run provenance.
-8. Update inventory, execution queue and validation. Commit only the coherent
-   milestone; retain unfinished work separately. Recheck remote refs, push without
+8. Update inventory, execution queue, validation and P00M provenance. Bind each
+   changed native boundary and intentional customization to its exact origin,
+   destination, contract owner and evidence; retain unresolved mapping explicitly.
+   Commit only the coherent milestone; retain unfinished work separately. Recheck remote refs, push without
    force, and verify remote commit and critical files. Stop a conflicting push and
    reconcile concurrent publication; never overwrite it.
 

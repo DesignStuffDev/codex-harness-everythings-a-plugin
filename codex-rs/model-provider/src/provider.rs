@@ -16,6 +16,7 @@ use codex_login::WorkspaceRoutingRequest;
 use codex_login::default_client::ClientRedirectPolicy;
 use codex_model_provider_info::ModelProviderInfo;
 use codex_models_manager::cache::ModelsCache;
+use codex_models_manager::manager::ModelsEndpointClient;
 use codex_models_manager::manager::OpenAiModelsManager;
 use codex_models_manager::manager::SharedModelsManager;
 use codex_models_manager::manager::StaticModelsManager;
@@ -315,6 +316,16 @@ pub trait ModelProvider: fmt::Debug + Send + Sync {
         })
     }
 
+    /// Returns the native endpoint capability owned by this provider, when available.
+    ///
+    /// The endpoint retains provider auth and resolves transport from each request's
+    /// HTTP client factory. Callers still own discovery, static-catalog and cache
+    /// policy; exposing this capability neither enables discovery nor grants a broker scope.
+    /// Custom providers without this endpoint and Bedrock keep the default absence.
+    fn models_endpoint(&self) -> Option<Arc<dyn ModelsEndpointClient>> {
+        None
+    }
+
     /// Creates the model manager implementation appropriate for this provider.
     fn models_manager(
         &self,
@@ -397,6 +408,7 @@ struct ConfiguredModelProvider {
     auth_manager: Option<Arc<AuthManager>>,
     // Construct eagerly; report setup failures when auth is requested because the factory is infallible.
     gateway_auth_manager: Option<Result<Arc<GatewayAuthManager>, String>>,
+    models_endpoint: Arc<OpenAiModelsEndpoint>,
 }
 
 enum ModelsCacheConfig {
@@ -411,10 +423,18 @@ impl ConfiguredModelProvider {
         auth_manager: Option<Arc<AuthManager>>,
         gateway_auth_manager: Option<Result<Arc<GatewayAuthManager>, String>>,
     ) -> Self {
+        // Construction only retains metadata and the same auth owners; requests
+        // still resolve credentials and HTTP policy when the endpoint is called.
+        let models_endpoint = Arc::new(OpenAiModelsEndpoint::new(
+            info.clone(),
+            auth_manager.clone(),
+            gateway_auth_manager.clone(),
+        ));
         Self {
             info,
             auth_manager,
             gateway_auth_manager,
+            models_endpoint,
         }
     }
 
@@ -429,11 +449,7 @@ impl ConfiguredModelProvider {
                 model_catalog,
             ));
         }
-        let endpoint = Arc::new(OpenAiModelsEndpoint::new(
-            self.info.clone(),
-            self.auth_manager.clone(),
-            self.gateway_auth_manager.clone(),
-        ));
+        let endpoint: Arc<dyn ModelsEndpointClient> = self.models_endpoint.clone();
         let auth_manager = self.auth_manager.clone();
         let manager = match cache {
             ModelsCacheConfig::Disk { codex_home } => {
@@ -454,6 +470,10 @@ impl ConfiguredModelProvider {
 }
 
 impl ModelProvider for ConfiguredModelProvider {
+    fn models_endpoint(&self) -> Option<Arc<dyn ModelsEndpointClient>> {
+        Some(self.models_endpoint.clone())
+    }
+
     fn info(&self) -> &ModelProviderInfo {
         &self.info
     }
@@ -1442,3 +1462,7 @@ printf '%s\n' '{"AccessKeyId":"exported","SecretAccessKey":"secret"}'
         }
     }
 }
+
+#[cfg(test)]
+#[path = "provider_endpoint_tests.rs"]
+mod provider_endpoint_tests;

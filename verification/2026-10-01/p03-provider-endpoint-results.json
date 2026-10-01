@@ -1,0 +1,917 @@
+{
+  "passed": true,
+  "evidence_kind": "p03_native_provider_endpoint_ownership_prerequisite",
+  "publication_parent": "9cf9002d9c70068f2eb9f3bcd054ee64120feb6c",
+  "reports": {
+    "tests": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-tests.source.json",
+      "sha256": "10d20bd089dec383041d338df90f28d6d045bc861f1fe64bd8e4693d0f9eb127",
+      "bytes": 2431795
+    },
+    "tests-retry": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-tests-retry.source.json",
+      "sha256": "a02c152d3a8529b462b80f0310de696ad72bcd48e6e278de23e01e3877f08ae2",
+      "bytes": 2431799
+    },
+    "fix": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-fix.source.json",
+      "sha256": "4c312f1cd84d1b04dbeca30996b5b585ee0b559f8903d0019209bb46a1def46f",
+      "bytes": 2431493
+    },
+    "fmt": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-fmt.source.json",
+      "sha256": "e88b7f34b06b89b2345ff95b119ac0fb380e1c406b84f2e5545cbd08c2389e9d",
+      "bytes": 2431418
+    },
+    "tests_subreaper": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-tests.subreaper.json",
+      "sha256": "9d5ce66faf8fd271b38f3cf59b2c9bb408266b63d68434624db29d88079dea83",
+      "bytes": 555
+    },
+    "tests-retry_subreaper": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-tests-retry.subreaper.json",
+      "sha256": "f16b077f8be129e9394078ec5dc5292e5f4a5d0370dbf3eb33364643fd136e4d",
+      "bytes": 623
+    },
+    "adoption": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-adoption.json",
+      "sha256": "880470a248e353974156c91f2ddf3c9bf9b9c3879c49dc1e45dba868651d44c3",
+      "bytes": 1113
+    },
+    "frozen_stage_manifest": {
+      "path": "/tmp/p03-provider-endpoint-stage/FINAL_MANIFEST.json",
+      "sha256": "22c63961cea9539a2b6ed8031740cd8b74e5ed20d1606ac08f9de8f584907119",
+      "bytes": 1722
+    },
+    "stage_source_bindings": {
+      "path": "/tmp/p03-provider-endpoint-stage/SOURCE_BINDINGS.json",
+      "sha256": "9871a127e1f0cd89bfb677f39142af2146cf9dd3eafede0215d0e870980cc889",
+      "bytes": 3645
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/model-provider/src/provider.rs",
+      "base_sha256": "adabad97f59dbc593431a9c47911e74d1fd9d48648b874026a23db86b32ec5a1",
+      "adopted_and_tested_sha256": "537672c9984b6710a43dff5d1b517f6cef943fabab66b6042b501e117c1ecd63",
+      "formatted_sha256": "537672c9984b6710a43dff5d1b517f6cef943fabab66b6042b501e117c1ecd63",
+      "formatted_bytes": 56235
+    },
+    {
+      "path": "codex-rs/model-provider/src/provider_endpoint_tests.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "40002addf3aa15430ae0bac99314d0c19c1e56a07d0f476e842edf0a7c466635",
+      "formatted_sha256": "7672e6cb88bc9bb4e9f0e32ee0b866ef8a953bfa897634a7e46e8aa145b2eb62",
+      "formatted_bytes": 14999
+    }
+  ],
+  "source_chain": {
+    "source_entries": 8792,
+    "first_before_after_equals_retry_before_after_equals_fix_before_after_equals_format_before": true,
+    "tested_map_sha256": "f5d226ef59ddd60da492b76fe84f15265a52b3474c92a95827e3c8839bcc2856",
+    "formatted_map_sha256": "3bb7e223da615878a50c24ba9493ccdd7333c20b3d86dbd6b69d74f678e7273a",
+    "formatted_changed_paths": [
+      "codex-rs/model-provider/src/provider_endpoint_tests.rs"
+    ],
+    "format_review": "Independent full diff review: only test-file line wrapping, trailing commas and whitespace changed; all literals, assertions and behavior are unchanged. Production provider.rs is byte-identical to tested source.",
+    "retested_after_format": false
+  },
+  "first_attempt": {
+    "started_utc": "2026-10-01T14:43:15Z",
+    "finished_utc": "2026-10-01T14:45:03Z",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-provider-endpoint-tests.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "CARGO_BUILD_JOBS=1",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-model-provider",
+      "-p",
+      "codex-models-manager"
+    ],
+    "returncode": 101,
+    "tests_executed": 0,
+    "failure": "rustc failed creating a temporary directory for codex-protocol with ENOSPC before test execution",
+    "source_unchanged": true,
+    "log_sha256": "0375a21f6a62ee8317ac1e08c7d2d75010926cb3746d2e0d966659b98ed788b8",
+    "strict_subreaper": {
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-model-provider",
+        "-p",
+        "codex-models-manager"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 747065,
+          "wait_status": 25856,
+          "returncode": 101
+        }
+      ],
+      "command_pid": 747065,
+      "command_wait_status": 25856,
+      "command_returncode": 101,
+      "runner_error": null,
+      "exit_status": 101,
+      "elapsed_seconds": 106.5321052280051
+    }
+  },
+  "resource_recovery": {
+    "receipts": {
+      "obsolete_generated_cache_retirement": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-provider-obsolete-library-retirement.json",
+        "sha256": "5cb6a2676463c6ec34ebd27a9082a334d4b522e6015da2c4cddd99e4c7082ea0",
+        "bytes": 719704
+      },
+      "completed_storage_copy_dedup": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-completed-storage-copy-dedup.json",
+        "sha256": "1a5ee5485063f05782d4de9742d7b28ec32195accb7466d0b857221e168ea2df",
+        "bytes": 9407
+      }
+    },
+    "code_or_assertion_changes": false,
+    "summary": "Root retired 314 exactly audited obsolete generated nonexecutables and deduplicated eight inactive identical completed storage worker copies to retained package backing. Original metadata transitions are recorded; source and frozen host binaries were preserved. Prior apt-cache preservation was separate."
+  },
+  "successful_retry": {
+    "started_utc": "2026-10-01T14:57:03Z",
+    "finished_utc": "2026-10-01T15:00:12Z",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-provider-endpoint-tests-retry.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "CARGO_BUILD_JOBS=1",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-model-provider",
+      "-p",
+      "codex-models-manager"
+    ],
+    "returncode": 0,
+    "passed": 160,
+    "failed": 0,
+    "skipped": 0,
+    "in_run_retries": 0,
+    "new_native_provider_endpoint_tests": [
+      "provider::provider_endpoint_tests::bedrock_and_custom_provider_keep_static_managers_without_endpoint_capability",
+      "provider::provider_endpoint_tests::explicit_static_catalog_bypasses_endpoint_and_every_cache_mode",
+      "provider::provider_endpoint_tests::native_managers_retain_the_provider_endpoint_across_all_cache_modes",
+      "provider::provider_endpoint_tests::retained_capability_observes_live_auth_and_each_request_network_policy",
+      "provider::provider_endpoint_tests::capability_and_native_manager_share_gateway_credentials_after_rotation"
+    ],
+    "passed_by_crate": {
+      "codex-model-provider": 106,
+      "codex-models-manager": 54
+    },
+    "executed_tests": [
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::auth::tests::bedrock_auth_source_distinguishes_static_environment_credentials"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::auth::tests::bedrock_bearer_auth_prefers_configured_region_and_uses_header"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::auth::tests::bedrock_bearer_auth_rejects_missing_configured_region"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::auth::tests::bedrock_bearer_auth_uses_aws_default_region_env"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::auth::tests::bedrock_mantle_sigv4_strips_headers_not_preserved_by_mantle"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::auth::tests::bedrock_bearer_auth_uses_aws_region_env"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::catalog_uses_mantle_model_ids_in_priority_order"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::bedrock_models_preserve_source_metadata_with_supported_capabilities"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::configured_bedrock_catalogs_normalize_unsupported_model_capabilities"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::gpt_5_bedrock_models_do_not_include_availability_nux_or_upgrade"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::gpt_5_bedrock_models_are_visible"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::gpt_5_bedrock_models_only_allow_default_service_tier"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::catalog::tests::gpt_5_bedrock_models_use_bedrock_context_window"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::credential_export::tests::credential_export_reuses_cache_and_coalesces_refreshes"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::credential_export::tests::credential_output_formats_expiration_and_sanitized_errors"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::error_tests::classifies_only_refreshable_bedrock_auth_failures"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::error_tests::credential_export_errors_distinguish_configuration_failures_from_retryable_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::error_tests::expired_signature_has_actionable_guidance"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::error_tests::expired_signature_preserves_the_retry_deadline"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::error_tests::other_unauthorized_errors_remain_generic"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::error_tests::signature_errors_with_other_statuses_remain_generic"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::mantle::tests::aws_auth_config_uses_configured_region"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::credential_export::tests::credential_export_process_errors_are_bounded_and_sanitized"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::mantle::tests::aws_auth_config_uses_profile_and_mantle_service"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::mantle::tests::base_url_uses_region_endpoint"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::mantle::tests::base_url_rejects_unsupported_region"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::runtime::tests::base_url_uses_regional_runtime_endpoint"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::runtime::tests::aws_auth_config_uses_bedrock_service"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::runtime_catalog::tests::runtime_catalog_includes_supported_cross_region_models_in_priority_order"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::runtime_catalog::tests::runtime_catalog_disables_web_search_without_overriding_review_models"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::api_provider_for_bedrock_bearer_token_uses_configured_region_endpoint"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::capabilities_enable_web_search_but_disable_image_generation"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::command_auth_resolves_configured_and_regional_base_urls"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::configured_profile_takes_precedence_over_managed_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::openai_auth_is_not_exposed_to_bedrock"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::preferred_background_models_match_bedrock_endpoint"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::runtime_capabilities_disable_web_search_and_support_v2_remote_compaction"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "amazon_bedrock::tests::runtime_managed_auth_resolves_runtime_endpoint"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::agent_identity_auth_provider_preserves_account_routing_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::chatgpt_bootstrap_unavailable_uses_session_bearer_fallback"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::auth_manager_provider_follows_refreshes_but_not_account_switches"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::chatgpt_session_fallback_skips_later_agent_identity_bootstrap"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::custom_provider_does_not_inherit_ambient_auth_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::custom_provider_does_not_inherit_ambient_bedrock_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::custom_provider_uses_command_resolved_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::custom_provider_uses_explicit_bearer_instead_of_ambient_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::chatgpt_sessions_share_bootstrap_failure_cooldown"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::first_party_run_scope_uses_agent_assertion_and_exposes_telemetry"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::header_auth_adds_predefined_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::openai_provider_preserves_ambient_auth_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::openai_provider_rejects_bedrock_api_key_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "bearer_auth_provider::tests::bearer_auth_provider_adds_auth_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "auth::tests::unauthenticated_auth_provider_adds_no_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "bearer_auth_provider::tests::bearer_auth_provider_reports_when_auth_header_will_attach"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "bearer_auth_provider::tests::bearer_auth_provider_adds_fedramp_routing_header_for_fedramp_accounts"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::command_auth_provider_reports_command_auth_without_cached_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::api_key_discovery_respects_provider_routing"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::explicit_catalog_rejects_oversized_response"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::explicit_catalog_rejects_redirects_without_forwarding_provider_credentials"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::command_auth_refresh_fetches_a_catalog_for_the_current_credentials"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::explicit_catalog_requires_unique_nonempty_slugs"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::model_discovery_enforces_managed_residency_over_provider_headers"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::explicit_catalog_reuses_auth_headers_and_query_parameters"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::model_request_uses_request_time_proxy_policy_and_exact_url"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::provider_without_command_auth_reports_no_command_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::tests::provider_api_key_without_endpoint_overrides_uses_codex_backend"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_endpoint::timeout_tests::catalog_deadline_returns_request_timeout"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_identity::tests::cache_identity_distinguishes_auth_requirements_and_unknown_plans"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_identity::tests::cache_identity_tracks_catalog_url"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_identity::tests::cache_identity_tracks_provider_routing_and_effective_api_credentials"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::provider_endpoint_tests::bedrock_and_custom_provider_keep_static_managers_without_endpoint_capability"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "models_identity::tests::cache_identity_tracks_account_email_user_plan_and_auth_mode_but_not_token_refresh"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::provider_endpoint_tests::explicit_static_catalog_bypasses_endpoint_and_every_cache_mode"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::provider_endpoint_tests::native_managers_retain_the_provider_endpoint_across_all_cache_modes"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::provider_endpoint_tests::retained_capability_observes_live_auth_and_each_request_network_policy"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::amazon_bedrock_provider_creates_static_models_manager"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::amazon_bedrock_provider_returns_bedrock_account_state"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_bedrock_catalog_only_allows_default_service_tier"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_provider_models_manager_uses_provider_bearer_token"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_provider_remote_compaction_matches_provider_support"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_provider_runtime_base_url_uses_configured_base_url"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_provider_uses_default_approval_review_model_with_chatgpt_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_provider_uses_default_approval_review_preferred_model"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::configured_provider_uses_luna_for_approval_review_with_api_key_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::create_model_provider_builds_command_auth_manager_without_base_manager"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::create_model_provider_does_not_use_openai_auth_manager_for_amazon_bedrock_provider"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::create_model_provider_uses_managed_auth_for_amazon_bedrock_provider"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::custom_non_openai_provider_returns_no_account_state"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::openai_provider_enables_remote_compaction"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::openai_provider_rejects_bedrock_api_key_account_state"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::openai_provider_returns_api_key_account_state"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::openai_provider_returns_chatgpt_account_state_without_email"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::openai_provider_returns_unauthenticated_openai_account_state"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::scoped_auth_ignores_scope_for_non_openai_provider"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::tests::shared_bedrock_auth_refresh_is_reused_only_for_matching_configuration"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "provider::provider_endpoint_tests::capability_and_native_manager_share_gateway_credentials_after_rotation"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::gateway_login_states_stop_request_retries"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::gateway_credentials_accompany_primary_auth_in_models_and_responses"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::gateway_setup_errors_are_reported_when_authentication_is_requested"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::gateway_refresh_preserves_primary_auth_and_hides_issuer_errors"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::models_cache_is_reused_only_for_matching_gateway_configuration"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::models_observe_gateway_rotation_from_a_separate_provider_instance"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "workspace_routing_tests::concurrent_discovery_cannot_forget_established_routing"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "workspace_routing_tests::missing_routing_owner_and_wrong_workspace_fail_closed"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "workspace_routing_tests::workspace_routing_preserves_paths_and_excludes_other_providers"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "collaboration_mode_presets::tests::default_mode_instructions_follow_user_input_tool_availability"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "collaboration_mode_presets::tests::preset_names_use_mode_display_names"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::api_key_discovery_tests::api_key_discovery_disabled_preserves_command_auth_discovery_and_merging"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::api_key_discovery_tests::api_key_discovery_startup_flag_controls_fetches_and_cached_catalogs"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::authoritative_catalog_failure_invalidates_cache_until_refresh_succeeds"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::authoritative_catalog_preserves_hidden_models_and_matches_exact_ids"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::build_available_models_picks_default_after_hiding_hidden_models"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::bundled_models_json_roundtrips"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::cache_identity_tests::matching_etag_cannot_renew_a_different_identity_or_catalog"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::cache_identity_tests::mismatched_and_legacy_cache_entries_fetch_the_current_catalog"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::dynamic_manager_preserves_requested_model_when_fallback_is_allowed"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::file_cache_implements_models_cache_contract"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::file_cache_refresh_ttl_renews_expired_entry_without_serving_it_stale"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_applies_long_context_override_to_bundled_gpt_5_6_models"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_matches_hyphenated_provider_namespace_suffix"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_matches_namespaced_suffix"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_rejects_multi_segment_namespace_suffix_matching"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_tracks_fallback_usage"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_uses_custom_catalog"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::get_model_info_uses_fallback_for_bundled_models_when_chatgpt_remote_is_authoritative"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::injected_cache_hit_avoids_remote_fetch"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::injected_cache_read_error_falls_back_and_persists_remote_models"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::injected_cache_ttl_refresh_preserves_cached_payload"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::injected_cache_write_error_does_not_fail_remote_refresh"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::manager_without_cache_fetches_on_every_refresh"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::model_info_overrides_tests::offline_model_info_with_tool_output_override"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::model_info_overrides_tests::offline_model_info_without_tool_output_override"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::online_refresh_updates_access_programs_with_unchanged_etag"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_drops_removed_remote_models"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_fetches_when_external_api_key_overrides_chatgpt_auth"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_fetches_with_chatgpt_auth_tokens"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_keeps_merging_for_custom_api_auth"
+      },
+      {
+        "crate": "codex-model-provider",
+        "name": "shared_state::tests::models_observe_gateway_rotation_from_the_same_provider_instance"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_merges_hidden_only_chatgpt_remote_with_bundled_catalog"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_preserves_bundled_catalog_for_empty_chatgpt_remote"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_refetches_when_cache_stale"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_refetches_when_version_mismatch"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_skips_network_without_auth"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_sorts_by_priority"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_uses_cache_when_fresh"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_uses_cached_chatgpt_when_external_api_key_is_unresolved"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_uses_cached_remote_only_catalog_for_chatgpt_auth"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::refresh_available_models_uses_remote_only_catalog_for_chatgpt_auth"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::static_manager_falls_back_from_unsupported_requested_model_when_allowed"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::static_manager_preserves_supported_requested_model_when_fallback_is_allowed"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::static_manager_preserves_unsupported_requested_model_when_fallback_is_disabled"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::static_manager_uses_empty_default_when_fallback_is_allowed_and_catalog_is_empty"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::baked_personality_section_is_preserved_without_explicit_none"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::base_instruction_override_is_literal_and_preserves_catalog_messages"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::explicit_empty_base_instructions_stay_empty_with_personality_none"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::model_context_window_override_clamps_to_max_context_window"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::model_context_window_uses_model_value_without_override"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::personality_none_strips_catalog_instruction_sources_through_the_next_h1"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "model_info::tests::unknown_model_uses_builtin_instruction_template"
+      },
+      {
+        "crate": "codex-models-manager",
+        "name": "manager::tests::static_manager_reads_latest_auth_mode"
+      }
+    ],
+    "test_seconds": 23.612,
+    "log_sha256": "0e067fb93e95be00d9a6282d79c3969a361249d4b62e09a5764ace95c1850e45",
+    "source_unchanged": true,
+    "strict_subreaper": {
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-model-provider",
+        "-p",
+        "codex-models-manager"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 750638,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 748457,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 748457,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 186.95400680499733
+    }
+  },
+  "lint": {
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-model-provider",
+      "-p",
+      "codex-models-manager"
+    ],
+    "returncode": 0,
+    "source_unchanged": true,
+    "log_sha256": "2a737625a1671772c07439f044c42091586345677bbe12ce5b002b607517e895"
+  },
+  "format": {
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "returncode": 0,
+    "scoped_source_unchanged": false,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "limitations": [
+    "Native compiled provider endpoint ownership prerequisite, not an independently built/installed/replaced model-provider or catalog plugin.",
+    "No broker activation, endpoint registration/grant issuance, retained external cache owner epoch, process boundary or service authority enforcement is introduced.",
+    "New behavior tests use real local HTTP with deterministic wiremock servers and synthetic credentials, not live OpenAI/Bedrock service authentication or remote production providers.",
+    "Arc identity/count checks demonstrate retained native endpoint sharing within this compiled process; they do not prove process-isolated ownership or plugin shutdown.",
+    "Static catalog, Bedrock/custom absence and native cache behavior are exercised only as the actual test names/results record; no full harness/App Server/CLI/TUI/GUI/session test is claimed.",
+    "The initial ENOSPC run executed zero tests and remains preserved; zero in-run retries is distinct from this separate explicit command rerun after resource recovery.",
+    "Tests used adopted pre-format bytes; mechanical formatting is separately recorded, with no post-format test rerun claimed.",
+    "The frozen stage uncompiled/runtime-unverified labels are historical; wrapper baseline is metadata, not a clean-commit claim. Source archives are cloud-local until separately published/exported.",
+    "Historical completed storage fixture binary metadata changed during explicitly recorded deduplication. Bytes/paths/modes were retained; old current-path inode/mtime/link fingerprints must not be claimed unchanged after that resource action."
+  ]
+}

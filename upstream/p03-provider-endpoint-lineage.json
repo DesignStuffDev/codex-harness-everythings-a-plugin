@@ -1,0 +1,137 @@
+{
+  "schema_version": 1,
+  "classification": "Native compiled provider endpoint authority boundary prerequisite; not independent extraction",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "upstream_mapping_basis": "Stage source bindings and recorded existing native symbols; no upstream fetch or Git operation performed for this evidence.",
+  "publication_parent": "9cf9002d9c70068f2eb9f3bcd054ee64120feb6c",
+  "adoption": {
+    "receipt": {
+      "path": "/workspace/acceptance/p03-provider-endpoint-adoption.json",
+      "sha256": "880470a248e353974156c91f2ddf3c9bf9b9c3879c49dc1e45dba868651d44c3",
+      "bytes": 1113
+    },
+    "stage_manifest": {
+      "path": "/tmp/p03-provider-endpoint-stage/FINAL_MANIFEST.json",
+      "sha256": "22c63961cea9539a2b6ed8031740cd8b74e5ed20d1606ac08f9de8f584907119",
+      "bytes": 1722
+    },
+    "archive": "/workspace/recovery-backups/20260930T165936Z/p03-provider-endpoint-adoption.tar.gz",
+    "archive_sha256": "52caba119737b5d68524d69049edde5ff76fe884f274c02f9db1cbc7545289c1",
+    "exact_stage_adoption": true,
+    "durability": "cloud-local preservation, not external export"
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/model-provider/src/provider.rs",
+      "base_sha256": "adabad97f59dbc593431a9c47911e74d1fd9d48648b874026a23db86b32ec5a1",
+      "adopted_and_tested_sha256": "537672c9984b6710a43dff5d1b517f6cef943fabab66b6042b501e117c1ecd63",
+      "formatted_sha256": "537672c9984b6710a43dff5d1b517f6cef943fabab66b6042b501e117c1ecd63",
+      "formatted_bytes": 56235
+    },
+    {
+      "path": "codex-rs/model-provider/src/provider_endpoint_tests.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "40002addf3aa15430ae0bac99314d0c19c1e56a07d0f476e842edf0a7c466635",
+      "formatted_sha256": "7672e6cb88bc9bb4e9f0e32ee0b866ef8a953bfa897634a7e46e8aa145b2eb62",
+      "formatted_bytes": 14999
+    }
+  ],
+  "symbol_mapping": [
+    {
+      "path": "codex-rs/model-provider/src/provider.rs",
+      "existing_symbols": [
+        "ModelProvider",
+        "ConfiguredModelProvider::new",
+        "ConfiguredModelProvider::create_models_manager"
+      ],
+      "new_symbols": [
+        "ModelProvider::models_endpoint",
+        "ConfiguredModelProvider.models_endpoint"
+      ],
+      "change": "Project-specific optional capability plus reuse of one native endpoint owner. Static catalog return/cache branches/endpoint auth and routing are preserved."
+    },
+    {
+      "path": "codex-rs/model-provider/src/provider_endpoint_tests.rs",
+      "new_symbols": [
+        "five native provider capability tests"
+      ],
+      "change": "Real local HTTP, native manager/cache behavior and provider identity/absence checks."
+    }
+  ],
+  "unchanged_reference_paths": [
+    {
+      "path": "AGENTS.md",
+      "sha256": "b3dc6716209116a311dce67ddd490d7d0b998031734720524ad407fe67c7cf48"
+    },
+    {
+      "path": "codex-rs/model-provider/src/models_endpoint.rs",
+      "sha256": "5c75c00677dc412a83cade77528fe1cbaba00c13a3f138957c59a9d3a5aa9581"
+    },
+    {
+      "path": "codex-rs/models-manager/src/manager.rs",
+      "sha256": "d998bb2768561c761f83a77ce60d3be4b5d1a453e4a7afb10c5f86d314d76a80"
+    },
+    {
+      "path": "codex-rs/models-manager/src/cache.rs",
+      "sha256": "3083813793a39afc5f7fc811c5f14648187b772e5553c029e825dc5ae48de5c5"
+    },
+    {
+      "path": "codex-rs/model-provider/src/amazon_bedrock/mod.rs",
+      "sha256": "9f3b698ee0e8efc496e05c266280a0012fc4076db6fc836f7ee3a7f1e059d1e4"
+    },
+    {
+      "path": "codex-rs/model-provider/src/amazon_bedrock/catalog.rs",
+      "sha256": "4e9f3b23273d794dbf98337d36ed1a43fa936664834e48708c0d3d8b87f8331d"
+    },
+    {
+      "path": "codex-rs/model-provider/src/auth.rs",
+      "sha256": "1c1042b33df733ffb583d19bd3102c8511ab37b9e5e8cd91a673103321f249d8"
+    },
+    {
+      "path": "codex-rs/model-provider/src/shared_state_test_support.rs",
+      "sha256": "54628ad2829dcd9829525bf3f2aeefcc0f5d0d72f02809233cad7762baed3e6e"
+    },
+    {
+      "path": "codex-rs/model-provider/src/models_identity.rs",
+      "sha256": "83776d5eed3e3a4fdad8c9b0690fecfbe15123b91286ad80eb2d14fa7a0c43a7"
+    },
+    {
+      "path": "codex-rs/model-provider/Cargo.toml",
+      "sha256": "88905a84f9b42ed5b2fd60752aa0265cbbcf5d6c7db614ccda3b6d9ecfb253a7"
+    },
+    {
+      "path": "codex-rs/model-provider/src/lib.rs",
+      "sha256": "0ec8bc9a91e752099602042e33152e3a6c1477d2ca757ab54cb1489a5a94d1f2"
+    }
+  ],
+  "intentional_customization": "ModelProvider gains optional models_endpoint capability with default absence. ConfiguredModelProvider retains one Arc<OpenAiModelsEndpoint> initialized from the same provider/auth/gateway owners, returns it through the capability, and reuses it in nonstatic native model managers. Static return/cache branches and endpoint auth/request routing are preserved.",
+  "preserved_boundaries": [
+    "Static configured catalog returns before endpoint-backed manager construction.",
+    "Default/custom providers and Bedrock retain endpoint absence.",
+    "Endpoint request-time auth and supplied HttpClientFactory policy remain native implementation responsibilities.",
+    "No host broker registry, grants, authority epoch, external cache or component installation path added."
+  ],
+  "source_chain": {
+    "source_entries": 8792,
+    "first_before_after_equals_retry_before_after_equals_fix_before_after_equals_format_before": true,
+    "tested_map_sha256": "f5d226ef59ddd60da492b76fe84f15265a52b3474c92a95827e3c8839bcc2856",
+    "formatted_map_sha256": "3bb7e223da615878a50c24ba9493ccdd7333c20b3d86dbd6b69d74f678e7273a",
+    "formatted_changed_paths": [
+      "codex-rs/model-provider/src/provider_endpoint_tests.rs"
+    ],
+    "format_review": "Independent full diff review: only test-file line wrapping, trailing commas and whitespace changed; all literals, assertions and behavior are unchanged. Production provider.rs is byte-identical to tested source.",
+    "retested_after_format": false
+  },
+  "test_boundary": "Five new actual local HTTP/native-manager behavior tests; the broader actual retry list is in the companion results.",
+  "limitations": [
+    "Native compiled provider endpoint ownership prerequisite, not an independently built/installed/replaced model-provider or catalog plugin.",
+    "No broker activation, endpoint registration/grant issuance, retained external cache owner epoch, process boundary or service authority enforcement is introduced.",
+    "New behavior tests use real local HTTP with deterministic wiremock servers and synthetic credentials, not live OpenAI/Bedrock service authentication or remote production providers.",
+    "Arc identity/count checks demonstrate retained native endpoint sharing within this compiled process; they do not prove process-isolated ownership or plugin shutdown.",
+    "Static catalog, Bedrock/custom absence and native cache behavior are exercised only as the actual test names/results record; no full harness/App Server/CLI/TUI/GUI/session test is claimed.",
+    "The initial ENOSPC run executed zero tests and remains preserved; zero in-run retries is distinct from this separate explicit command rerun after resource recovery.",
+    "Tests used adopted pre-format bytes; mechanical formatting is separately recorded, with no post-format test rerun claimed.",
+    "The frozen stage uncompiled/runtime-unverified labels are historical; wrapper baseline is metadata, not a clean-commit claim. Source archives are cloud-local until separately published/exported.",
+    "Historical completed storage fixture binary metadata changed during explicitly recorded deduplication. Bytes/paths/modes were retained; old current-path inode/mtime/link fingerprints must not be claimed unchanged after that resource action."
+  ]
+}

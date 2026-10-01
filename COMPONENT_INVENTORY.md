@@ -69,9 +69,19 @@ A small external recovery/bootstrap path is a justified proposed SUPPORT/kernel 
 
 Acceptance must exercise a real later pinned upstream revision in an isolated candidate, explain changes to extracted boundaries, retain an already installed external component without rebuilding that component when its API stays compatible, and reject incompatible versions clearly. Prove both successful activation/recovery and failed-candidate rollback with preserved sessions/configuration. Until that exists, the lineage and design documents are planning evidence only. C27 currently has no Rust workspace member, so adding this requirement does not itself add a member to the ledger below.
 
+C27 has two separately reported workstreams. **Current P00M provenance:** close
+and maintain the normalized original-to-current boundary/path/contract/evidence
+index described in [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md#current-provenance-closure).
+Exact historical path/blob inventories and selected anchors already exist; they
+are not yet a complete current semantic ownership index. **Future P18U delivery:**
+implement and independently install the updater, then demonstrate a real later
+upstream candidate, incompatible-candidate rejection and external-bootstrap
+recovery after failed activation. Documentation or native provider prerequisites
+do not satisfy those execution gates or create another VERIFIED_NATIVE subsystem.
+
 ## Complete explicit workspace package ledger
 
-Every entry below is `package-name (path relative to codex-rs/)`, read from its actual Cargo manifest. Each of the 166 explicit workspace members appears exactly once. Shared implementation dependencies can cross rows; the ledger assigns inventory ownership, not an exclusive dependency graph. Status details above take precedence over a row-level label.
+Every entry below is `package-name (path relative to codex-rs/)`, read from its actual Cargo manifest. All 169 explicit workspace members are accounted for in this ledger and its dated additions below. Shared implementation dependencies can cross rows; the ledger assigns inventory ownership, not an exclusive dependency graph. Status details above take precedence over a row-level label.
 
 | ID / owner | Status | Explicit workspace packages |
 | --- | --- | --- |
@@ -93,7 +103,7 @@ Every entry below is `package-name (path relative to codex-rs/)`, read from its 
 | C15 Memory reading, writing, jobs and history notes | COUPLED | `codex-memories-read` (`memories/read`); `codex-memories-write` (`memories/write`); `codex-memories-extension` (`ext/memories`); `codex-history-notes-extension` (`ext/history-notes`) |
 | C16 Goals and queued work | COUPLED | `codex-goal-extension` (`ext/goal`); `codex-queue-extension` (`ext/queue`) |
 | C17 Hooks and event-triggered execution | COUPLED | `codex-hooks` (`hooks`) |
-| C18 Filesystem, search, watch, Git, worktrees and import | COUPLED | `codex-file-system` (`file-system`); `codex-file-search` (`file-search`); `codex-file-search-api` (`file-search-api`) [SUPPORT contract]; `codex-file-watcher` (`file-watcher`); `codex-git-utils` (`git-utils`); `codex-worktree` (`worktree`); `codex-utils-git-discovery` (`utils/git-discovery`); `codex-git-attribution` (`ext/git-attribution`); `codex-apply-patch` (`apply-patch`); `codex-external-agent-migration` (`external-agent-migration`); `codex-utils-fuzzy-match` (`utils/fuzzy-match`) |
+| C18 Filesystem, search, watch, Git, worktrees and import | VERIFIED_NATIVE bounded search subset; remaining filesystem/watch/Git/worktree/import COUPLED | `codex-file-system` (`file-system`); `codex-file-search` (`file-search`); `codex-file-search-api` (`file-search-api`) [SUPPORT contract]; `codex-file-watcher` (`file-watcher`); `codex-git-utils` (`git-utils`); `codex-worktree` (`worktree`); `codex-utils-git-discovery` (`utils/git-discovery`); `codex-git-attribution` (`ext/git-attribution`); `codex-apply-patch` (`apply-patch`); `codex-external-agent-migration` (`external-agent-migration`); `codex-utils-fuzzy-match` (`utils/fuzzy-match`) |
 | C19 CLI, TUI, App Server, daemon and presentation clients | COUPLED native frontends; ADDITIVE GUI | `codex-app-server` (`app-server`); `codex-app-server-transport` (`app-server-transport`); `codex-app-server-daemon` (`app-server-daemon`); `codex-app-server-client` (`app-server-client`); `codex-app-server-protocol` (`app-server-protocol`); `codex-tui` (`tui`); `codex-cli` (`cli`); `codex-ansi-escape` (`ansi-escape`); `codex-terminal-detection` (`terminal-detection`); `codex-mermaid` (`mermaid`); `codex-arg0` (`arg0`); `codex-install-context` (`install-context`); `codex-utils-cli` (`utils/cli`) |
 | C20 Cloud tasks and provider proxy products | COUPLED | `codex-cloud-tasks` (`cloud-tasks`); `codex-cloud-tasks-client` (`cloud-tasks-client`); `codex-responses-api-proxy` (`responses-api-proxy`) |
 | C21 Network transports, socket bridges and streaming plumbing | COUPLED / SUPPORT | `codex-http-client` (`http-client`); `codex-websocket-client` (`websocket-client`); `codex-stdio-to-uds` (`stdio-to-uds`); `codex-tcp-tunnel` (`tcp-tunnel`); `codex-uds` (`uds`); `codex-utils-rustls-provider` (`utils/rustls-provider`); `codex-utils-stream-parser` (`utils/stream-parser`) |

@@ -98,8 +98,9 @@ has 169 members. Its [evidence](verification/2026-10-01/P02B_SELECTED_SEARCH_EVI
 includes a fresh external worker build and actual installation, result parity,
 cancellation, failure and removal through unchanged host binaries. This is one
 native caller's replacement proof; App Server, TUI and private storage search
-remain unfinished. A normalized cross-map ownership/completeness checker and
-automated contract/security/migration impact analysis are still future P18U work.
+remain unfinished. A normalized cross-map ownership/completeness checker remains required current
+P00M provenance work; automated contract/security/migration impact decisions remain
+P18U implementation work.
 No later official Codex revision or updater rollback is tested by this checkpoint.
 
 The subsequent [App Server consumer map](upstream/p02b-app-server-lineage.json)
@@ -145,6 +146,73 @@ version 0.2.0. Installed interoperability with the accepted host passed; newer
 host Preparing and GUI gates remain separate. An updater must preserve these
 distinctions instead of treating a package version or successful merge as proof
 that every consumer has upgraded safely.
+
+## Current provenance closure
+
+Current source mapping is an immediate P00M obligation; the separately installable
+updater and its integration/recovery demonstrations remain P18U implementation.
+The original upstream pin is still `d42056091aded7feb1d88ac7e83972108b2aa478`.
+Later project checkpoints, vendored dependency updates and installed worker
+compatibility tests do not advance that official Codex revision.
+
+The existing records establish these bounded starting points:
+
+| Current responsibility | Original native anchors and retained mapping | Interpretation |
+| --- | --- | --- |
+| C02 native thread storage | `thread-store/src/store.rs::ThreadStore`, `thread-store/src/local/mod.rs::LocalThreadStore`, `thread-store/src/live_thread.rs::LiveThread` in [initial lineage](upstream/lineage.json) | Native implementation externalized for the recorded operations; auxiliary state and remaining maintenance stay separate. |
+| C02 manual rollout migration | `cli/src/migrate_rollouts.rs::run`, `thread-store/src/local/rollout_migration.rs::migrate_rollouts_with_progress` in [P01 lineage](upstream/p01-migration-lineage.json) | Existing native algorithm plus custom selected dispatch, retained lifecycle and capability versioning. |
+| C04 inline attachments | `attachment-store/src/lib.rs::{AttachmentStore,InlineAttachmentStore}` in [initial lineage](upstream/lineage.json) | Native byte-preserving upload and `NotFound` resolution only; manager-level evidence does not establish every production caller or remote blob storage. |
+| C18 native search | `file-search/src/lib.rs::{FileSearchSession,create_session,walker_worker,matcher_worker}` in [selected-search lineage](upstream/p02b-selected-search-lineage.json), extended by [App Server](upstream/p02b-app-server-lineage.json), [TUI](upstream/p02b-tui-consumer-lineage.json) and Preparing maps | Actual traversal/matcher replacement with consumer-specific evidence; private rollout lookup and the rest of C18 remain separate. |
+| C00 component and broker support | [Shared wire](upstream/p03-wire-slice1-lineage.json), [declarations](upstream/p03-service-declarations-lineage.json), [limits](upstream/p03-broker-limits-lineage.json), [grants](upstream/p03-broker-grants-lineage.json), [offer/ack](upstream/p03-broker-offer-lineage.json) | Intentional project contracts/refactors; these files have no invented original native implementation and do not activate a broker. |
+| C05/C06 inference/auth seams and C19 GUI | Boundary entries in [initial lineage](upstream/lineage.json) | Adapters or additive GUI, not extraction of native provider/authentication implementations or official desktop source. |
+
+Paths in that table are relative to `codex-rs/`. The linked records retain the
+original revision/blob identities and destination symbols; the table is an index,
+not a new validation of historical Git objects or a complete symbol/call graph.
+The provider-owned endpoint capability has separate
+[native test evidence](verification/2026-10-01/P03_PROVIDER_ENDPOINT_EVIDENCE.md) and
+[original/current symbol mapping](upstream/p03-provider-endpoint-lineage.json).
+Its 160 passing tests establish the compiled native ownership prerequisite only;
+exposing it is not catalog extraction or installed-host/UI proof.
+
+The remaining current-provenance work is concrete:
+
+1. Produce a checkpoint-scoped ownership index joining every retained lineage
+   snapshot, accepted boundary and full changed-path inventory. Historical
+   `current_blob` fields remain bound to their named checkpoints. Add explicit
+   supersedes/extends relations instead of relabeling old WIP or failed gates.
+2. Record semantic origin separately from the diff status `added`: native code
+   moved or copied into a new path still needs its original repository, immutable
+   revision, path, blob and symbol/range. Mark project-authored code as such with
+   its introducing checkpoint and rationale; record foreign repository/revision,
+   patch and license for vendored code. A null same-path upstream blob alone cannot
+   distinguish these cases. Label each relation as source derivation, adaptation,
+   intentional custom code or interface/dependency use. In particular, App Server
+   `run_main` is a GUI dependency and `ExtensionRegistryBuilder` an infrastructure
+   integration anchor; neither makes the new GUI or component runtime copied
+   upstream code. Lines are locators within a hash-bound file.
+3. For each maintained boundary link original and destination symbols, its API,
+   adapters and selected callers, persistent state/dependency/lifecycle owners,
+   contract/capability versions, intentional behavior changes and acceptance scope.
+   Preserve semantic unknowns and exclusions rather than inferring equivalence
+   from a matching name, directory move or successful build.
+4. Add a read-only validator for supported historical schemas, referenced
+   commit/tree/blob/anchor identities, changed-path coverage, links/licenses and
+   source-to-test-to-export-to-package-to-host evidence. Missing, contradictory or
+   unsupported entries must be reported unresolved. Local-only artifacts need
+   retained digest-bound summaries and an explicit durability limitation.
+5. Publish the normalized index and its actual validation report with a pinned
+   checkpoint before claiming complete current provenance. Resolve affected
+   mapping gaps before a later-upstream candidate can pass impact review. Automated
+   semantic porting, dependency impact decisions and the updater remain separate
+   implementation work; source metadata alone cannot decide compatibility.
+
+The initial map explicitly labels all 617 path rows `not_individually_reviewed`
+and maps selected boundary anchors. This is an honest historical limitation, not
+617 proven defects or a reason to discard its scoped runtime evidence. Later
+maps add detail but use different schemas; the selected-search record already
+identifies normalized ownership/completeness as missing. Current mapping closure
+must therefore have its own result, rather than inheriting a runtime pass.
 
 ## Separately installable maintenance service
 
@@ -243,7 +311,11 @@ their actual authorization, not a generic updater permission prompt.
 
 Record a release tuple: upstream revision + host build/tree + manifest API + each
 component contract/version/package digest + SDK version + persistent state/schema
-version. Package semantic versions alone do not express wire or state compatibility.
+version. Include optional capability versions, state readers/writers, supported
+upgrade/downgrade paths and the tested old/new overlap matrix. For example, P01's
+storage wire 2, optional manual migration capability 1 and native package 0.2.0
+are separate version dimensions; search worker 0.2.0 still uses wire contract 1.
+Package semantic versions alone do not express wire or state compatibility.
 Keep host negotiation, generated protocol/schema artifacts, native packages, custom
 SDK templates and GUI/app-server compatibility in the same review.
 

@@ -32,7 +32,12 @@ of the shallow local baseline. The import records the original upstream revision
 it does not claim authorship of OpenAI's source. Both original local branches,
 working edits and the pre-publication Git bundle remain preserved.
 
-`main` is the recovered component/GUI checkpoint. The separate
+At recovery publication, `main` was the recovered component/GUI checkpoint.
+Later accepted source and extraction checkpoints are recorded in
+[UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md); the original upstream pin above
+has not advanced. Its [current provenance closure](UPSTREAM_MAINTENANCE.md#current-provenance-closure)
+distinguishes the existing immutable lineage records from the still-required
+normalized current ownership/evidence index. The separate
 `wip/recovered-next-components-20260930` branch preserves newer unverified source;
 its README and WIP_STATUS explain that copied older evidence is not proof of its
 newer implementation. Neither branch claims complete harness compartmentalization.
