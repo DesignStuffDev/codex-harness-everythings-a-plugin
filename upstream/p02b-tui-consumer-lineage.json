@@ -1,0 +1,1511 @@
+{
+  "schema_version": 1,
+  "artifact_kind": "p02b_tui_consumer_lineage_proposal",
+  "status": "Source published at a469cf4; documented partial consumer milestone with tested/published source distinctions",
+  "prepared_utc": "2026-10-01T08:53:25.865367+00:00",
+  "scope": "Lineage for 26 native TUI consumer paths and separately versioned acceptance tooling. Not a whole-harness extraction inventory.",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "license": "Apache-2.0; retain LICENSE and NOTICE",
+    "read_method": "git show at pinned revision from preserved /tmp/codex-upstream-source; no Git mutations"
+  },
+  "publication": {
+    "source_implementation_commit": "a469cf4be85fda40c64e563ece3e1639e4abdbac",
+    "source_implementation_tree": "3216dfb131f72939c986902053665cbad85ce610",
+    "final_evidence_sha256": "5bab48b7195795f5453d859f64f5af50d57d316a5b7ab512422a1666d95857b2",
+    "status": "Source published and remote verified; evidence documentation staged separately",
+    "prior_source_checkpoint": {
+      "commit": "30c2674600cc84da161562c407515b61511b7c3a",
+      "tree": "86c0bce7a5b399c2337c7c3878ed12ee76da4918"
+    },
+    "previous_docs_main": {
+      "commit": "b68db514687f6d4466b8d960b0e88010ddc179c9",
+      "tree": "91597ccbdd327c7e60d80a3aa003a4a178073d7e"
+    },
+    "implementation_commit": "a469cf4be85fda40c64e563ece3e1639e4abdbac",
+    "implementation_tree": "3216dfb131f72939c986902053665cbad85ce610",
+    "parent": "b68db514687f6d4466b8d960b0e88010ddc179c9",
+    "branch": "main",
+    "remote_verified_by_parent": true,
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-full-consumer-source-publication.json",
+      "sha256": "1446644fb81724a84df9af5636241dc5e9ab9346185878f099c5427d3ab45f38"
+    },
+    "final_evidence_path": "../verification/2026-10-01/p02b-tui-consumer-results.json",
+    "lineage_destination": "upstream/p02b-tui-consumer-lineage.json"
+  },
+  "build": {
+    "receipt": {
+      "path": "/workspace/acceptance/p02b-full-cli-build.source.json",
+      "sha256": "210f5249d759b5064938b65960a18cf0cbd03dd213acd58afc3b0f3c9e3e5d64",
+      "bytes": 2814663
+    },
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "-p",
+      "codex-cli"
+    ],
+    "returncode": 0,
+    "source_unchanged": true,
+    "scope_paths": 10118,
+    "started_utc": "2026-10-01T08:21:38Z",
+    "finished_utc": "2026-10-01T08:28:09Z",
+    "mapped_paths": 26,
+    "all_mapped_hashes_match_build": true,
+    "claim": "The frozen binary was built from these recorded bytes. Test and runtime coverage remains in separate evidence receipts."
+  },
+  "mappings": [
+    {
+      "path": "codex-rs/tui/Cargo.toml",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Production dependencies use neutral file-search-api and file-search-runtime; native file-search remains an explicit test dependency.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/Cargo.toml",
+        "source_sha256": "89240b8f9298fd15022e20756d8407af8b78c8fa19d04ad46120bd9d7c62baa1",
+        "anchors": [
+          {
+            "symbol_or_text": "codex-file-search =",
+            "line": 47,
+            "source_line": "codex-file-search = { workspace = true }"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "e0e28fef464c0952a9e2160b84aa0fee8eb1b4509cd54865b3aa599623826265",
+        "anchors": [
+          {
+            "symbol_or_text": "codex-file-search =",
+            "line": 176,
+            "source_line": "codex-file-search = { workspace = true }"
+          },
+          {
+            "symbol_or_text": "codex-file-search-api =",
+            "line": 47,
+            "source_line": "codex-file-search-api = { workspace = true }"
+          },
+          {
+            "symbol_or_text": "codex-file-search-runtime =",
+            "line": 48,
+            "source_line": "codex-file-search-runtime = { workspace = true }"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "7e7d75c3bb9cadad9ed1a63cbeb6f25ab6ba50b24ef0c84c8b7aadc080885ab2",
+        "tui_regression_sha256": "e0e28fef464c0952a9e2160b84aa0fee8eb1b4509cd54865b3aa599623826265",
+        "post_format_sha256": "e0e28fef464c0952a9e2160b84aa0fee8eb1b4509cd54865b3aa599623826265",
+        "frozen_full_cli_build_sha256": "e0e28fef464c0952a9e2160b84aa0fee8eb1b4509cd54865b3aa599623826265"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app/event_dispatch.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Consume payload-free search wakes, validate current generation, and deliver typed results or visible failures.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app/event_dispatch.rs",
+        "source_sha256": "2af2efc65a84b7fdf755f414413b595d2c85b4663367d85cf3b625f7e3f62770",
+        "anchors": [
+          {
+            "symbol_or_text": "fn handle_event",
+            "line": 28,
+            "source_line": "pub(crate) async fn handle_event("
+          },
+          {
+            "symbol_or_text": "AppEvent::FileSearchResult",
+            "line": 1672,
+            "source_line": "AppEvent::FileSearchResult { query, matches } => {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "f0e1c5a2b3a06599d97199b148117e133278e4d196d778566b2227c4a1c8d9a3",
+        "anchors": [
+          {
+            "symbol_or_text": "fn handle_event",
+            "line": 28,
+            "source_line": "pub(crate) async fn handle_event("
+          },
+          {
+            "symbol_or_text": "AppEvent::FileSearchReady",
+            "line": 1677,
+            "source_line": "AppEvent::FileSearchReady { wake } => {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "a44ffca3fc0071dcca1cbca193b59cf992f529cd790206e6b070d628d6090096",
+        "tui_regression_sha256": "f0e1c5a2b3a06599d97199b148117e133278e4d196d778566b2227c4a1c8d9a3",
+        "post_format_sha256": "f0e1c5a2b3a06599d97199b148117e133278e4d196d778566b2227c4a1c8d9a3",
+        "frozen_full_cli_build_sha256": "f0e1c5a2b3a06599d97199b148117e133278e4d196d778566b2227c4a1c8d9a3"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app/startup.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Compose selected search ownership from App Server capability and retain search/App Server cleanup through startup and normal exit.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app/startup.rs",
+        "source_sha256": "7ebc55c4e9fc52979e5929242f219ddb10ccfe3786298c88aef4b83f58131c3e",
+        "anchors": [
+          {
+            "symbol_or_text": "pub async fn run",
+            "line": 178,
+            "source_line": "pub async fn run("
+          },
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 766,
+            "source_line": "let file_search = FileSearchManager::new(config.cwd.to_path_buf(), app_event_tx.clone());"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "ed1cb647bce2533ffc9c2b72e61b8cc721f912492ba76bd01737514275b39a8e",
+        "anchors": [
+          {
+            "symbol_or_text": "pub async fn run",
+            "line": 178,
+            "source_line": "pub async fn run("
+          },
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 792,
+            "source_line": "let file_search = FileSearchManager::new("
+          },
+          {
+            "symbol_or_text": "file_search_startup::",
+            "line": 212,
+            "source_line": "crate::file_search_startup::finish(file_search_runtime, app_server, Err(error.into()))"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json",
+        "preserved_bytes": {
+          "archive": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T084914Z.tar.gz",
+          "member": "codex-rs/tui/src/app/startup.rs"
+        }
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "48c7f8cd68e3d752f3b4f6ab372680d5189ccf265b474b9998df8d8dec037532",
+        "tui_regression_sha256": "66ecb265e230ca82afd07d1827dea8db1d63d0cf4357710fa5dfcc59c4b001b7",
+        "post_format_sha256": "ed1cb647bce2533ffc9c2b72e61b8cc721f912492ba76bd01737514275b39a8e",
+        "frozen_full_cli_build_sha256": "ed1cb647bce2533ffc9c2b72e61b8cc721f912492ba76bd01737514275b39a8e"
+      },
+      "later_formatting": {
+        "source_receipt": "/workspace/acceptance/p02b-gui-fixture-final-format.source.json",
+        "before_sha256": "ed1cb647bce2533ffc9c2b72e61b8cc721f912492ba76bd01737514275b39a8e",
+        "after_sha256": "270bcf9775ee39d909f948e6027040a398c18409431c1c553369392fa12b722d",
+        "note": "Later recorded formatting change, not the bytes in the frozen full CLI build. No rebuilt host or behavioral equivalence is inferred."
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app/test_support.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Update test composition to supply an explicit search runtime.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app/test_support.rs",
+        "source_sha256": "3d2d57ef34f2f7b16b09fe46458ab9bd7721603774811a4b6f8c4c180388a98a",
+        "anchors": [
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 16,
+            "source_line": "let file_search = FileSearchManager::new(config.cwd.to_path_buf(), app_event_tx.clone());"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 16,
+            "source_line": "let file_search = FileSearchManager::new(config.cwd.to_path_buf(), app_event_tx.clone());"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 12,
+            "source_line": "pub(crate) async fn make_test_app() -> App {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "4f30bd2042ef875dabb921fbb88b48a926d7644fdd8999cb418e277cb9fda41c",
+        "anchors": [
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 16,
+            "source_line": "let file_search = FileSearchManager::new("
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 16,
+            "source_line": "let file_search = FileSearchManager::new("
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 12,
+            "source_line": "pub(crate) async fn make_test_app() -> App {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "4ab2aa0d9f9105fea88fb90493f5de644701cfd48d9c0d824090adad524aca47",
+        "tui_regression_sha256": "4f30bd2042ef875dabb921fbb88b48a926d7644fdd8999cb418e277cb9fda41c",
+        "post_format_sha256": "4f30bd2042ef875dabb921fbb88b48a926d7644fdd8999cb418e277cb9fda41c",
+        "frozen_full_cli_build_sha256": "4f30bd2042ef875dabb921fbb88b48a926d7644fdd8999cb418e277cb9fda41c"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app/tests.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Update app fixtures to supply explicit runtime ownership.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app/tests.rs",
+        "source_sha256": "9ef6ee5347313acf93c49e1c54da451620a988146552fb5746c1ad65b4727923",
+        "anchors": [
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 6044,
+            "source_line": "let file_search = FileSearchManager::new(config.cwd.to_path_buf(), app_event_tx.clone());"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 129,
+            "source_line": "use crate::file_search::FileSearchManager;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 115,
+            "source_line": "async fn drain_managed_worktree_start(app: &mut App, server: &mut AppServerSession) {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "d4fa75146fbbb424af938b7ffb5a8f058532056457cf221045105ce006a4d090",
+        "anchors": [
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 6044,
+            "source_line": "let file_search = FileSearchManager::new("
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 129,
+            "source_line": "use crate::file_search::FileSearchManager;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 115,
+            "source_line": "async fn drain_managed_worktree_start(app: &mut App, server: &mut AppServerSession) {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "b42ffb9f02642d1086de277e3cef37326cefb0d815b4ff21c67c075c50030bd2",
+        "tui_regression_sha256": "d4fa75146fbbb424af938b7ffb5a8f058532056457cf221045105ce006a4d090",
+        "post_format_sha256": "d4fa75146fbbb424af938b7ffb5a8f058532056457cf221045105ce006a4d090",
+        "frozen_full_cli_build_sha256": "d4fa75146fbbb424af938b7ffb5a8f058532056457cf221045105ce006a4d090"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app/tests/startup_defaults_tests.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Update startup test composition for selected-provider ownership.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app/tests/startup_defaults_tests.rs",
+        "source_sha256": "2bed44a2f52b2f1c88066443253658f87581d701a363471a21aade37066adf96",
+        "anchors": [
+          {
+            "symbol_or_text": "fn ",
+            "line": 8,
+            "source_line": "async fn run_startup_for_test("
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "14915b1934694206fd794932e1a3415791829a54f4efe4aced5d3bcbbca4e484",
+        "anchors": [
+          {
+            "symbol_or_text": "file_search",
+            "line": 15,
+            "source_line": "let file_search_runtime = crate::file_search::FileSearchRuntime::for_tests();"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 8,
+            "source_line": "async fn run_startup_for_test("
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "e3f68d420a10a811e7c5778380225b9a55b734f11d67266f904e16ddbe6ba376",
+        "tui_regression_sha256": "14915b1934694206fd794932e1a3415791829a54f4efe4aced5d3bcbbca4e484",
+        "post_format_sha256": "14915b1934694206fd794932e1a3415791829a54f4efe4aced5d3bcbbca4e484",
+        "frozen_full_cli_build_sha256": "14915b1934694206fd794932e1a3415791829a54f4efe4aced5d3bcbbca4e484"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app_event.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Replace queued native result payloads with bounded payload-free FileSearchReady wakes.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app_event.rs",
+        "source_sha256": "02ae7467395168f5ff16f0021fba8f237ad5a9dc73a22d9f61720279b7170ad3",
+        "anchors": [
+          {
+            "symbol_or_text": "enum AppEvent",
+            "line": 281,
+            "source_line": "pub(crate) enum AppEvent {"
+          },
+          {
+            "symbol_or_text": "FileSearchResult {",
+            "line": 661,
+            "source_line": "FileSearchResult {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "42267a3b514b9bfc26591dda17ce5cc17f6a96f6871727b9c5c088c3f90d3b50",
+        "anchors": [
+          {
+            "symbol_or_text": "enum AppEvent",
+            "line": 280,
+            "source_line": "pub(crate) enum AppEvent {"
+          },
+          {
+            "symbol_or_text": "FileSearchReady {",
+            "line": 658,
+            "source_line": "FileSearchReady {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "1431acbcddf779a2266cbf3d82042914dbb3738c790082c304cdf28dde0d9425",
+        "tui_regression_sha256": "6355920158126c064e37d048a122d5c273a3fe272bb556fb42bc3397dace1f0b",
+        "post_format_sha256": "42267a3b514b9bfc26591dda17ce5cc17f6a96f6871727b9c5c088c3f90d3b50",
+        "frozen_full_cli_build_sha256": "42267a3b514b9bfc26591dda17ce5cc17f6a96f6871727b9c5c088c3f90d3b50"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/app_event_sender.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Add wake admission acknowledgment while retaining voice-event filtering.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/app_event_sender.rs",
+        "source_sha256": "72bd0fdb019f2b53ed9919199b0ffeef28a3f9308aad8bee4feb1e9906b22eb4",
+        "anchors": [
+          {
+            "symbol_or_text": "fn send(",
+            "line": 42,
+            "source_line": "pub(crate) fn send(&self, event: AppEvent) {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "5d6f9e363a079e7471cc28894a6022f9f2b761c9d7bdb5a7590ccca564ec79e2",
+        "anchors": [
+          {
+            "symbol_or_text": "fn send(",
+            "line": 42,
+            "source_line": "pub(crate) fn send(&self, event: AppEvent) {"
+          },
+          {
+            "symbol_or_text": "fn send_file_search_wake",
+            "line": 76,
+            "source_line": "pub(crate) fn send_file_search_wake(&self, wake: crate::file_search::FileSearchWake) -> bool {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "72bd0fdb019f2b53ed9919199b0ffeef28a3f9308aad8bee4feb1e9906b22eb4",
+        "tui_regression_sha256": "d34c2b4413e70e09a38f6756773f27fe2c80fb7b94d7826b711db033ff63387f",
+        "post_format_sha256": "5d6f9e363a079e7471cc28894a6022f9f2b761c9d7bdb5a7590ccca564ec79e2",
+        "frozen_full_cli_build_sha256": "5d6f9e363a079e7471cc28894a6022f9f2b761c9d7bdb5a7590ccca564ec79e2"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/bottom_pane/chat_composer.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Consume neutral FileMatch and MatchType in existing mention/composer presentation.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/bottom_pane/chat_composer.rs",
+        "source_sha256": "87b5a122f77533583366f823bb6268c703629b68a0481c0ba228ef4aca2f7c4b",
+        "anchors": [
+          {
+            "symbol_or_text": "fn on_file_search_result",
+            "line": 1869,
+            "source_line": "pub(crate) fn on_file_search_result(&mut self, query: String, matches: Vec<FileMatch>) {"
+          },
+          {
+            "symbol_or_text": "use codex_file_search::",
+            "line": 430,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 322,
+            "source_line": "use super::file_search_popup::FileSearchPopup;"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "dfd40e30728c869899145979387f3a3f3a659d8adf90278efa2110a974d5b57d",
+        "anchors": [
+          {
+            "symbol_or_text": "fn on_file_search_result",
+            "line": 1869,
+            "source_line": "pub(crate) fn on_file_search_result(&mut self, query: String, matches: Vec<FileMatch>) {"
+          },
+          {
+            "symbol_or_text": "use codex_file_search_api::",
+            "line": 430,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 322,
+            "source_line": "use super::file_search_popup::FileSearchPopup;"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "87b5a122f77533583366f823bb6268c703629b68a0481c0ba228ef4aca2f7c4b",
+        "tui_regression_sha256": "dfd40e30728c869899145979387f3a3f3a659d8adf90278efa2110a974d5b57d",
+        "post_format_sha256": "dfd40e30728c869899145979387f3a3f3a659d8adf90278efa2110a974d5b57d",
+        "frozen_full_cli_build_sha256": "dfd40e30728c869899145979387f3a3f3a659d8adf90278efa2110a974d5b57d"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/bottom_pane/chat_composer/mentions_layout_tests.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Use neutral result types in existing mention-layout fixtures.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/bottom_pane/chat_composer/mentions_layout_tests.rs",
+        "source_sha256": "41f44299ca914593180b6ca32c6eaa3a8d1dd3fc9a81034abc6dd52df9641428",
+        "anchors": [
+          {
+            "symbol_or_text": "file_search",
+            "line": 218,
+            "source_line": "vec![codex_file_search::FileMatch {"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 8,
+            "source_line": "fn composer() -> ChatComposer {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "a600068cab23fa89e76052b76a55430dc6fd4dae730103cc56a6ba5c0e3edfc5",
+        "anchors": [
+          {
+            "symbol_or_text": "file_search",
+            "line": 218,
+            "source_line": "vec![codex_file_search_api::FileMatch {"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 8,
+            "source_line": "fn composer() -> ChatComposer {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "41f44299ca914593180b6ca32c6eaa3a8d1dd3fc9a81034abc6dd52df9641428",
+        "tui_regression_sha256": "a600068cab23fa89e76052b76a55430dc6fd4dae730103cc56a6ba5c0e3edfc5",
+        "post_format_sha256": "a600068cab23fa89e76052b76a55430dc6fd4dae730103cc56a6ba5c0e3edfc5",
+        "frozen_full_cli_build_sha256": "a600068cab23fa89e76052b76a55430dc6fd4dae730103cc56a6ba5c0e3edfc5"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/bottom_pane/file_search_popup.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Consume neutral search types in existing file popup presentation.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/bottom_pane/file_search_popup.rs",
+        "source_sha256": "8d6bf186cc89fd36a6ea718dce39c930db1c55c6a4973d16fd98d29346c0d950",
+        "anchors": [
+          {
+            "symbol_or_text": "use codex_file_search::",
+            "line": 6,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 6,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 37,
+            "source_line": "pub(crate) fn new() -> Self {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "5cc930401efa40e63217e8628d2a34ede043c981f11760e509d345f3310e6880",
+        "anchors": [
+          {
+            "symbol_or_text": "use codex_file_search_api::",
+            "line": 6,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 6,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 37,
+            "source_line": "pub(crate) fn new() -> Self {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "8d6bf186cc89fd36a6ea718dce39c930db1c55c6a4973d16fd98d29346c0d950",
+        "tui_regression_sha256": "5cc930401efa40e63217e8628d2a34ede043c981f11760e509d345f3310e6880",
+        "post_format_sha256": "5cc930401efa40e63217e8628d2a34ede043c981f11760e509d345f3310e6880",
+        "frozen_full_cli_build_sha256": "5cc930401efa40e63217e8628d2a34ede043c981f11760e509d345f3310e6880"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/bottom_pane/mentions_v2/filter.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Use neutral match values in existing mention filtering.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/bottom_pane/mentions_v2/filter.rs",
+        "source_sha256": "acc0cbe2f0338a6591a7af79cd5328275e57ff065a9f8e7d46d825266b56d805",
+        "anchors": [
+          {
+            "symbol_or_text": "use codex_file_search::",
+            "line": 1,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 1,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 11,
+            "source_line": "pub(super) fn filtered_candidates("
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "bd82c94aada22d07a27aec1d38efbfe5f46c7c346895c5da84da3956b13abcf3",
+        "anchors": [
+          {
+            "symbol_or_text": "use codex_file_search_api::",
+            "line": 1,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 1,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 11,
+            "source_line": "pub(super) fn filtered_candidates("
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "acc0cbe2f0338a6591a7af79cd5328275e57ff065a9f8e7d46d825266b56d805",
+        "tui_regression_sha256": "bd82c94aada22d07a27aec1d38efbfe5f46c7c346895c5da84da3956b13abcf3",
+        "post_format_sha256": "bd82c94aada22d07a27aec1d38efbfe5f46c7c346895c5da84da3956b13abcf3",
+        "frozen_full_cli_build_sha256": "bd82c94aada22d07a27aec1d38efbfe5f46c7c346895c5da84da3956b13abcf3"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/bottom_pane/mentions_v2/popup.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Use neutral match values in existing unified mention popup.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/bottom_pane/mentions_v2/popup.rs",
+        "source_sha256": "e1d4b3dd5edd239d56c29b4e531ce0fcb245c1fd2b1f7ba0dcd7acb457078083",
+        "anchors": [
+          {
+            "symbol_or_text": "use codex_file_search::",
+            "line": 3,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 3,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 28,
+            "source_line": "pub(crate) fn new(candidates: Vec<Candidate>, query: &str) -> Self {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "796d60ff8a4df1ef0cd5d904f152290b21b1ba35f15c72d8adf28aab1f8f6924",
+        "anchors": [
+          {
+            "symbol_or_text": "use codex_file_search_api::",
+            "line": 3,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 3,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 28,
+            "source_line": "pub(crate) fn new(candidates: Vec<Candidate>, query: &str) -> Self {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "e1d4b3dd5edd239d56c29b4e531ce0fcb245c1fd2b1f7ba0dcd7acb457078083",
+        "tui_regression_sha256": "796d60ff8a4df1ef0cd5d904f152290b21b1ba35f15c72d8adf28aab1f8f6924",
+        "post_format_sha256": "796d60ff8a4df1ef0cd5d904f152290b21b1ba35f15c72d8adf28aab1f8f6924",
+        "frozen_full_cli_build_sha256": "796d60ff8a4df1ef0cd5d904f152290b21b1ba35f15c72d8adf28aab1f8f6924"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/bottom_pane/mod.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Pass neutral match values through existing bottom-pane presentation.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/bottom_pane/mod.rs",
+        "source_sha256": "4698ca77d465b5b02736f43f3a35ac99749b94a796d325e19e2d2a6476d8937a",
+        "anchors": [
+          {
+            "symbol_or_text": "fn on_file_search_result",
+            "line": 2129,
+            "source_line": "pub(crate) fn on_file_search_result(&mut self, query: String, matches: Vec<FileMatch>) {"
+          },
+          {
+            "symbol_or_text": "use codex_file_search::",
+            "line": 53,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 53,
+            "source_line": "use codex_file_search::FileMatch;"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "e101a85b0276d60aa495d6be85815d38b58e9304fcd3577c17da8644a4e55775",
+        "anchors": [
+          {
+            "symbol_or_text": "fn on_file_search_result",
+            "line": 2129,
+            "source_line": "pub(crate) fn on_file_search_result(&mut self, query: String, matches: Vec<FileMatch>) {"
+          },
+          {
+            "symbol_or_text": "use codex_file_search_api::",
+            "line": 53,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 53,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "4698ca77d465b5b02736f43f3a35ac99749b94a796d325e19e2d2a6476d8937a",
+        "tui_regression_sha256": "e101a85b0276d60aa495d6be85815d38b58e9304fcd3577c17da8644a4e55775",
+        "post_format_sha256": "e101a85b0276d60aa495d6be85815d38b58e9304fcd3577c17da8644a4e55775",
+        "frozen_full_cli_build_sha256": "e101a85b0276d60aa495d6be85815d38b58e9304fcd3577c17da8644a4e55775"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Pass neutral match values into existing composer presentation.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/chatwidget.rs",
+        "source_sha256": "f58595cd8bb75b5ca41a77e2a15a1f2f505f0bfa3934233381c9f76073e2fb18",
+        "anchors": [
+          {
+            "symbol_or_text": "fn apply_file_search_result",
+            "line": 1611,
+            "source_line": "pub(crate) fn apply_file_search_result(&mut self, query: String, matches: Vec<FileMatch>) {"
+          },
+          {
+            "symbol_or_text": "use codex_file_search::",
+            "line": 443,
+            "source_line": "use codex_file_search::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 443,
+            "source_line": "use codex_file_search::FileMatch;"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "03ea1591d0adff5d007b51d3dc2dcd7966d82f02a5a8d19af88f9f76d6e9b290",
+        "anchors": [
+          {
+            "symbol_or_text": "fn apply_file_search_result",
+            "line": 1611,
+            "source_line": "pub(crate) fn apply_file_search_result(&mut self, query: String, matches: Vec<FileMatch>) {"
+          },
+          {
+            "symbol_or_text": "use codex_file_search_api::",
+            "line": 443,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          },
+          {
+            "symbol_or_text": "file_search",
+            "line": 443,
+            "source_line": "use codex_file_search_api::FileMatch;"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "f58595cd8bb75b5ca41a77e2a15a1f2f505f0bfa3934233381c9f76073e2fb18",
+        "tui_regression_sha256": "03ea1591d0adff5d007b51d3dc2dcd7966d82f02a5a8d19af88f9f76d6e9b290",
+        "post_format_sha256": "03ea1591d0adff5d007b51d3dc2dcd7966d82f02a5a8d19af88f9f76d6e9b290",
+        "frozen_full_cli_build_sha256": "03ea1591d0adff5d007b51d3dc2dcd7966d82f02a5a8d19af88f9f76d6e9b290"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Replace direct native-session construction with selected-provider manager, generation fences and bounded delivery access.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "fn on_user_query",
+            "line": 53,
+            "source_line": "pub fn on_user_query(&self, query: String) {"
+          },
+          {
+            "symbol_or_text": "fn start_session_locked",
+            "line": 75,
+            "source_line": "fn start_session_locked(&self, st: &mut SearchState) {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "82a1d15edd3f3f6161f0016df314493b7155f36b6ff59d4515708afb43a73fde",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 65,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "fn on_user_query",
+            "line": 120,
+            "source_line": "pub(crate) fn on_user_query(&self, query: &str) -> Result<(), SearchError> {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "15a180c13b8f05c0e026b57d80e2081ffb5503f52c73a9b15899fc496de3190a",
+        "tui_regression_sha256": "6475e71805576376a1cdfddb14804d767c2d25fc2af52a2c91a9e7e7503cbbf4",
+        "post_format_sha256": "82a1d15edd3f3f6161f0016df314493b7155f36b6ff59d4515708afb43a73fde",
+        "frozen_full_cli_build_sha256": "82a1d15edd3f3f6161f0016df314493b7155f36b6ff59d4515708afb43a73fde"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/coordinator.rs",
+      "classification": "extracted_consumer_adapter",
+      "intentional_change": "Retain one coordinator for admitted open/update/close receipts, coalesced query intent and typed failure delivery.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "6fb7d401493fea7c46cc412b6bea2c43dc65b15b637524db89587d630b781b76",
+        "anchors": [
+          {
+            "symbol_or_text": "async fn run",
+            "line": 50,
+            "source_line": "async fn run(inner: Arc<RuntimeInner>) {"
+          },
+          {
+            "symbol_or_text": "async fn observe",
+            "line": 211,
+            "source_line": "async fn observe<T>(runtime: &RuntimeInner, receipt: impl Future<Output = T>) -> T {"
+          },
+          {
+            "symbol_or_text": "struct CoordinatorGuard",
+            "line": 248,
+            "source_line": "struct CoordinatorGuard {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "3703c1460e86c620792fe387242745575970a9232efd8d73752d547f72b365a7",
+        "post_format_sha256": "6fb7d401493fea7c46cc412b6bea2c43dc65b15b637524db89587d630b781b76",
+        "frozen_full_cli_build_sha256": "6fb7d401493fea7c46cc412b6bea2c43dc65b15b637524db89587d630b781b76"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/coordinator_tests.rs",
+      "classification": "additive_regression_fixture",
+      "intentional_change": "Add controlled-backend lifecycle, coalescing and delivery regression coverage.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "dde30355d80f49af958a80e3ef953395f205eca77a654129cbcfdcd6929849c1",
+        "anchors": [
+          {
+            "symbol_or_text": "async fn blocked_ack_coalesces",
+            "line": 48,
+            "source_line": "async fn blocked_ack_coalesces_b_c_to_latest_without_parallel_updates() {"
+          },
+          {
+            "symbol_or_text": "async fn abandoned_shutdown_observer",
+            "line": 237,
+            "source_line": "async fn abandoned_shutdown_observer_keeps_drain_and_retained_failure() {"
+          },
+          {
+            "symbol_or_text": "async fn intentional_retirement",
+            "line": 188,
+            "source_line": "async fn intentional_retirement_does_not_relabel_joined_close_as_failure() {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "6eff14f41680f884d44431922e8eb97df462c2a3dcabb08ff0e82574d746daf9",
+        "post_format_sha256": "dde30355d80f49af958a80e3ef953395f205eca77a654129cbcfdcd6929849c1",
+        "frozen_full_cli_build_sha256": "dde30355d80f49af958a80e3ef953395f205eca77a654129cbcfdcd6929849c1"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/reporter.rs",
+      "classification": "extracted_consumer_adapter",
+      "intentional_change": "Adapt neutral session reports into one bounded result slot, generation checks and wake retries.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "ca728ebe702916bb7e983e836af538db80fcbb844d54a8e4182f0678b5115ce8",
+        "anchors": [
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 19,
+            "source_line": "pub(super) struct TuiSessionReporter {"
+          },
+          {
+            "symbol_or_text": "fn on_update",
+            "line": 32,
+            "source_line": "fn on_update(&self, snapshot: &FileSearchSnapshot) {"
+          },
+          {
+            "symbol_or_text": "fn retry_pending",
+            "line": 125,
+            "source_line": "pub(super) fn retry_pending(runtime: &RuntimeInner) -> bool {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "cf7cf7c2a6c2e3bde8903288357a37fce171eb44173abdd00fec81e3bec578c5",
+        "post_format_sha256": "ca728ebe702916bb7e983e836af538db80fcbb844d54a8e4182f0678b5115ce8",
+        "frozen_full_cli_build_sha256": "ca728ebe702916bb7e983e836af538db80fcbb844d54a8e4182f0678b5115ce8"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/runtime.rs",
+      "classification": "extracted_consumer_adapter",
+      "intentional_change": "Own embedded-provider sibling scope or explicitly selected local provider and retained shutdown drainage.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "6a04ccf6d8707b1b0823c15dae77bc56ddd579e75da857a4ed1ff2d852fb67c2",
+        "anchors": [
+          {
+            "symbol_or_text": "enum FileSearchSource",
+            "line": 37,
+            "source_line": "pub(crate) enum FileSearchSource {"
+          },
+          {
+            "symbol_or_text": "struct FileSearchRuntime",
+            "line": 42,
+            "source_line": "pub(crate) struct FileSearchRuntime(Arc<PublicOwner>);"
+          },
+          {
+            "symbol_or_text": "fn begin_shutdown",
+            "line": 345,
+            "source_line": "fn begin_shutdown("
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "a49cd617e6ab8c39d66be105d8ce3323c90733cfdd0f6f13b1efad8aef30ddc4",
+        "post_format_sha256": "6a04ccf6d8707b1b0823c15dae77bc56ddd579e75da857a4ed1ff2d852fb67c2",
+        "frozen_full_cli_build_sha256": "6a04ccf6d8707b1b0823c15dae77bc56ddd579e75da857a4ed1ff2d852fb67c2"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/state.rs",
+      "classification": "extracted_consumer_adapter",
+      "intentional_change": "Own current root/query/session identity, invalidation and bounded delivery state.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "a3852c9aea4c8befb4845fbdcebd5eb7923fb5d4daede82d08383ad942ab3d6a",
+        "anchors": [
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 18,
+            "source_line": "pub(super) struct SearchState {"
+          },
+          {
+            "symbol_or_text": "fn invalidate",
+            "line": 75,
+            "source_line": "pub fn invalidate(&mut self) -> Option<FileSearchSession> {"
+          },
+          {
+            "symbol_or_text": "struct Intent",
+            "line": 94,
+            "source_line": "pub(super) struct Intent {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "a165ec355f6bd72b340653ab25005933dbeba046a58658db08d0fabb0975af2e",
+        "post_format_sha256": "a3852c9aea4c8befb4845fbdcebd5eb7923fb5d4daede82d08383ad942ab3d6a",
+        "frozen_full_cli_build_sha256": "a3852c9aea4c8befb4845fbdcebd5eb7923fb5d4daede82d08383ad942ab3d6a"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/test_support.rs",
+      "classification": "additive_regression_fixture",
+      "intentional_change": "Add controlled neutral backend fixtures for coordinator lifecycle tests.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "516ed798a66561842ee96ced89122530ddc800b2b9ab4e86ef93e0a0a14d6d91",
+        "anchors": [
+          {
+            "symbol_or_text": "struct Backend",
+            "line": 18,
+            "source_line": "pub(super) struct Backend {"
+          },
+          {
+            "symbol_or_text": "struct Session",
+            "line": 69,
+            "source_line": "pub(super) struct Session {"
+          },
+          {
+            "symbol_or_text": "fn shutdown",
+            "line": 51,
+            "source_line": "fn shutdown(&self) -> SearchCloseFuture<'_> {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "762c30f71bc6288685e64cb2dce44c4b5a7fb49bf3f741b6ed31e8919efa78c5",
+        "post_format_sha256": "516ed798a66561842ee96ced89122530ddc800b2b9ab4e86ef93e0a0a14d6d91",
+        "frozen_full_cli_build_sha256": "516ed798a66561842ee96ced89122530ddc800b2b9ab4e86ef93e0a0a14d6d91"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search_startup.rs",
+      "classification": "extracted_consumer_adapter",
+      "intentional_change": "Compose the search source from App Server capability and combine search/App Server shutdown errors.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/app/startup.rs",
+        "source_sha256": "7ebc55c4e9fc52979e5929242f219ddb10ccfe3786298c88aef4b83f58131c3e",
+        "anchors": [
+          {
+            "symbol_or_text": "pub async fn run",
+            "line": 178,
+            "source_line": "pub async fn run("
+          },
+          {
+            "symbol_or_text": "FileSearchManager::new",
+            "line": 766,
+            "source_line": "let file_search = FileSearchManager::new(config.cwd.to_path_buf(), app_event_tx.clone());"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "a0e30265e3dff574f456f084dea5dafdb5facd472dde3ee8dab745869fb659b5",
+        "anchors": [
+          {
+            "symbol_or_text": "async fn start",
+            "line": 14,
+            "source_line": "pub(crate) async fn start("
+          },
+          {
+            "symbol_or_text": "async fn finish",
+            "line": 39,
+            "source_line": "pub(crate) async fn finish<T>("
+          },
+          {
+            "symbol_or_text": "fn combine",
+            "line": 48,
+            "source_line": "pub(crate) fn combine<T>("
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": null,
+        "tui_regression_sha256": "58a3fee3a236baba81d2c310e9c2593f3f733a43dacb229364e0561d3587e570",
+        "post_format_sha256": "a0e30265e3dff574f456f084dea5dafdb5facd472dde3ee8dab745869fb659b5",
+        "frozen_full_cli_build_sha256": "a0e30265e3dff574f456f084dea5dafdb5facd472dde3ee8dab745869fb659b5"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/file_search_tests.rs",
+      "classification": "additive_regression_fixture",
+      "intentional_change": "Add real-native manager tests for query/root/reconnect fences, dropped manager and runtime closure.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": false,
+        "source_path": "codex-rs/tui/src/file_search.rs",
+        "source_sha256": "7aaa33ac7fd28cbe5fa3405cd3490b30e614272122bb572c9c352acc418b71d9",
+        "anchors": [
+          {
+            "symbol_or_text": "struct FileSearchManager",
+            "line": 16,
+            "source_line": "pub(crate) struct FileSearchManager {"
+          },
+          {
+            "symbol_or_text": "struct SearchState",
+            "line": 22,
+            "source_line": "struct SearchState {"
+          },
+          {
+            "symbol_or_text": "struct TuiSessionReporter",
+            "line": 102,
+            "source_line": "struct TuiSessionReporter {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "d98e83157d2842e2206a868dfa4bc1c7abf4ea68ef86d0703fc1b8cc7f4e5361",
+        "anchors": [
+          {
+            "symbol_or_text": "async fn repeated_query_text",
+            "line": 40,
+            "source_line": "async fn repeated_query_text_and_empty_query_fence_already_queued_results() -> anyhow::Result<()> {"
+          },
+          {
+            "symbol_or_text": "async fn cwd_and_reconnect",
+            "line": 84,
+            "source_line": "async fn cwd_and_reconnect_fence_same_query_results_and_search_the_new_root() -> anyhow::Result<()>"
+          },
+          {
+            "symbol_or_text": "async fn manager_drop",
+            "line": 133,
+            "source_line": "async fn manager_drop_during_startup_releases_weak_state_and_outer_owner_drains()"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "6494f66d508b186dda32cbfd64ad53894e891396fe221ee1f6316c95a5ab1f87",
+        "tui_regression_sha256": "a7012c3ae36dfcfe9747e66213d9f7b6699210d30de51341bd9e704fc6e6ad2d",
+        "post_format_sha256": "d98e83157d2842e2206a868dfa4bc1c7abf4ea68ef86d0703fc1b8cc7f4e5361",
+        "frozen_full_cli_build_sha256": "d98e83157d2842e2206a868dfa4bc1c7abf4ea68ef86d0703fc1b8cc7f4e5361"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/lib.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Register and compose the new search startup/runtime boundary in the existing compiled TUI.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/lib.rs",
+        "source_sha256": "b4edfbd5564b99a58b2af76c6997094763945186ec56093273ac6fa04c1de69f",
+        "anchors": [
+          {
+            "symbol_or_text": "file_search",
+            "line": 149,
+            "source_line": "mod file_search;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 284,
+            "source_line": "async fn start_embedded_app_server("
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "47e5a99de4c43f8867081a337c30972918d8cd232dee36519911ea39bc8294ac",
+        "anchors": [
+          {
+            "symbol_or_text": "file_search",
+            "line": 149,
+            "source_line": "mod file_search;"
+          },
+          {
+            "symbol_or_text": "fn ",
+            "line": 285,
+            "source_line": "async fn start_embedded_app_server("
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "1f92635abaabc898f95d748c15c3885a1e6756c371f2c01f329de43028cfd223",
+        "tui_regression_sha256": "c3e3701088d0b982c48eb665f3a31e7f7dd0bc70427e48cd9e083a1b179edc23",
+        "post_format_sha256": "47e5a99de4c43f8867081a337c30972918d8cd232dee36519911ea39bc8294ac",
+        "frozen_full_cli_build_sha256": "47e5a99de4c43f8867081a337c30972918d8cd232dee36519911ea39bc8294ac"
+      }
+    },
+    {
+      "path": "codex-rs/tui/src/session_log.rs",
+      "classification": "modified_upstream_consumer",
+      "intentional_change": "Log admitted query and payload-free delivery readiness without duplicating retained search payloads.",
+      "upstream": {
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path_exists_at_same_path": true,
+        "source_path": "codex-rs/tui/src/session_log.rs",
+        "source_sha256": "129a25c4c492b23f96de09d24829e63a7de6d2f56ff42c83303c0900604a59fb",
+        "anchors": [
+          {
+            "symbol_or_text": "fn log_inbound_app_event",
+            "line": 122,
+            "source_line": "pub(crate) fn log_inbound_app_event(event: &AppEvent) {"
+          },
+          {
+            "symbol_or_text": "AppEvent::FileSearchResult",
+            "line": 181,
+            "source_line": "AppEvent::FileSearchResult { query, matches } => {"
+          }
+        ]
+      },
+      "tested_build": {
+        "sha256": "cf8485eaa222de40fb2b5c25d95b73a868d27ca9b370d2513434dbffa641b513",
+        "anchors": [
+          {
+            "symbol_or_text": "fn log_inbound_app_event",
+            "line": 122,
+            "source_line": "pub(crate) fn log_inbound_app_event(event: &AppEvent) {"
+          },
+          {
+            "symbol_or_text": "AppEvent::FileSearchReady",
+            "line": 181,
+            "source_line": "AppEvent::FileSearchReady { .. } => {"
+          }
+        ],
+        "source_receipt": "/workspace/acceptance/p02b-full-cli-build.source.json"
+      },
+      "checkpoint_bindings": {
+        "frozen_as_sha256": "b56982d377d2037dd9f0ce2861642c21c8380711e10a7f4c018c9d1f9abde203",
+        "tui_regression_sha256": "cf8485eaa222de40fb2b5c25d95b73a868d27ca9b370d2513434dbffa641b513",
+        "post_format_sha256": "cf8485eaa222de40fb2b5c25d95b73a868d27ca9b370d2513434dbffa641b513",
+        "frozen_full_cli_build_sha256": "cf8485eaa222de40fb2b5c25d95b73a868d27ca9b370d2513434dbffa641b513"
+      }
+    }
+  ],
+  "native_vs_additive": {
+    "native_functionality": "The pre-existing TUI file-search consumer now routes through neutral contracts and selected-provider ownership instead of constructing its native search session directly. The already separately built native file-search worker supplies replaceable search behavior.",
+    "compiled_consumer_limit": "These TUI adapters and rendering widgets remain compiled into the full CLI; this slice does not make the TUI itself an independently installed presentation plugin.",
+    "sdk_desktop": {
+      "source_paths": [
+        "component-sdk/examples/desktop",
+        "component-sdk/codex_component_sdk"
+      ],
+      "classification": "additive separately packaged presentation/client plugin and developer SDK; not extracted official desktop UI source",
+      "integration": "Uses the real Codex App Server lifecycle/protocol. GUI runtime proof is separate from the terminal picker receipts.",
+      "upstream_source_claim": null
+    },
+    "acceptance_tooling": "Python fixture and terminal/browser automation helpers are verification additions, not extracted native harness subsystems."
+  },
+  "later_helper_lineage": {
+    "path": "component-sdk/tests/gui_selected_search_acceptance.py",
+    "build_sha256": "67a049f50f4a9a9b3b320c4931a3357b25db253f34ed6bce2c375820cd90a37b",
+    "ordered_sha256": [
+      "67a049f50f4a9a9b3b320c4931a3357b25db253f34ed6bce2c375820cd90a37b",
+      "ffffa8b68536949a5e6279a643d7fdf4b8560ef75c2f9493b277119cb9f2bd82",
+      "022ba819b9ec4754524be4136d243d68dc97488a28e49769d120ffb018d33161"
+    ],
+    "attempts": [
+      {
+        "attempt": "01",
+        "source_receipt": {
+          "path": "/workspace/acceptance/p02b-full-cli-gui-run.source.json",
+          "sha256": "be384ad412346f80f75e31beba63bc1821092eae3f8730e8acb448dc794798cd",
+          "bytes": 20167
+        },
+        "helper_sha256": "67a049f50f4a9a9b3b320c4931a3357b25db253f34ed6bce2c375820cd90a37b",
+        "command_exit": 1,
+        "private_result_path": "/workspace/acceptance/p02b-full-cli-gui/acceptance-private.json",
+        "passed": false,
+        "recorded_gui_runs": 0,
+        "note": "Private report referenced only; environment, authentication and raw transcript fields are not copied."
+      },
+      {
+        "attempt": "02",
+        "source_receipt": {
+          "path": "/workspace/acceptance/p02b-full-cli-gui-02-run.source.json",
+          "sha256": "99318bd7c2f76fce767a23a6448443cefa0d6b3530dadb9f961b784d8ddd7bf0",
+          "bytes": 20178
+        },
+        "helper_sha256": "67a049f50f4a9a9b3b320c4931a3357b25db253f34ed6bce2c375820cd90a37b",
+        "command_exit": 1,
+        "private_result_path": "/workspace/acceptance/p02b-full-cli-gui-02/acceptance-private.json",
+        "passed": false,
+        "recorded_gui_runs": 0,
+        "note": "Private report referenced only; environment, authentication and raw transcript fields are not copied."
+      },
+      {
+        "attempt": "03",
+        "source_receipt": {
+          "path": "/workspace/acceptance/p02b-full-cli-gui-03-run.source.json",
+          "sha256": "ef6df83dc8f439d280edb71df1d857bacc6633c6801a2a777d3a7fad293f2179",
+          "bytes": 20178
+        },
+        "helper_sha256": "ffffa8b68536949a5e6279a643d7fdf4b8560ef75c2f9493b277119cb9f2bd82",
+        "command_exit": 1,
+        "private_result_path": "/workspace/acceptance/p02b-full-cli-gui-03/acceptance-private.json",
+        "passed": false,
+        "recorded_gui_runs": 0,
+        "note": "Private report referenced only; environment, authentication and raw transcript fields are not copied."
+      },
+      {
+        "attempt": "04",
+        "source_receipt": {
+          "path": "/workspace/acceptance/p02b-full-cli-gui-04-run.source.json",
+          "sha256": "3c45205475b3fd8138e0b19fb3affd9d198398d62be9c3d83ba47b5162de241a",
+          "bytes": 20181
+        },
+        "helper_sha256": "022ba819b9ec4754524be4136d243d68dc97488a28e49769d120ffb018d33161",
+        "command_exit": 0,
+        "private_result_path": "/workspace/acceptance/p02b-full-cli-gui-04/acceptance-private.json",
+        "passed": true,
+        "recorded_gui_runs": 2,
+        "note": "Private report referenced only; environment, authentication and raw transcript fields are not copied."
+      }
+    ],
+    "notes": [
+      "Attempts01/02 used67a and failed before GUI runs; attempt03 usedffff and also records zero GUI runs.",
+      "Attempt04 used022ba and passed with two recorded GUI runs. These are acceptance-helper transitions after the frozen Rust host build, not host rebuilds.",
+      "Do not copy private fixture report contents into published evidence. Parent owns the sanitized runtime summary."
+    ]
+  },
+  "post_build_formatting": {
+    "receipt": {
+      "path": "/workspace/acceptance/p02b-gui-fixture-final-format.source.json",
+      "sha256": "921a5c2f5950c1344e41017ef59a4b189719d96f4fb19478fa47a8eeec73def3",
+      "bytes": 2814618
+    },
+    "changed_paths": [
+      "codex-rs/tui/src/app/startup.rs"
+    ],
+    "rebuild_or_retest_claim": false,
+    "postformat_source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T084942Z.tar.gz",
+      "sha256": "acf2258611dec4e7f35b4bd1a27bec4dbaea1d8d2031c97fbf26eb215eed94d5",
+      "paths": 223,
+      "status": "parent-provided recovery identity; archive retained inside cloud filesystem, not external durability proof"
+    }
+  },
+  "gaps": [
+    "Per-Preparing lease cancel-and-wait remains a separate planned facade change; accepted startup ownership is retained and whole-scope/provider shutdown remains distinct.",
+    "Private rollout lookup/storage-broker work is separate; neutral filesystem search must not silently gain private session-storage access.",
+    "No remote-transport reconnect, daemon or shared-socket runtime claim from the installed TUI receipt.",
+    "No in-app Browser, live model/provider/auth-network, exhaustive resource-scale or whole-harness extraction claim.",
+    "Automated upstream integration still requires chosen-revision staging, semantic review, compatibility/security/migration/runtime gates and rollback acceptance; this file supplies provenance anchors only."
+  ],
+  "resume_binding_instructions": [
+    "Source commit/tree and final evidence digest are bound. Publish this map with consolidated evidence; preserve build ed1cb versus formatted270bc startup bytes and acceptance-helper revisions.",
+    "Next semantic updates must add paths/symbols/gates; this map does not complete P18U or the platform."
+  ]
+}

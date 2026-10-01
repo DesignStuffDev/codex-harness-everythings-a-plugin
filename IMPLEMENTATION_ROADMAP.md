@@ -1,6 +1,6 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-Status: **incomplete platform; verified partial baseline**. Updated 2026-09-30.
+Status: **incomplete platform; verified partial baseline**. Updated 2026-10-01.
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical
 [COMPONENTS.md](COMPONENTS.md), [VALIDATION.md](VALIDATION.md), and the domain plans
@@ -184,8 +184,8 @@ add bounded native/process implementations and replace real composition paths.
 
 **StageB support slice:** `98eeb3e1c93b3a856834c57e6c4d57bfa9f8c782` registers
 neutral search/cleanup contracts and the shared lossless path codec.
-[56 focused cases](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md) passed;
-native/process implementations and independent installation remain pending.
+[56 focused cases](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md) passed at
+that support checkpoint; subsequent implementation and installation proof follows.
 
 **Later StageB working checkpoint:** source WIP `651b0b87a281934e5cd7c639021049fad8d393ac`
 implements the actual bounded native worker and standalone CLI selection. Its
@@ -199,11 +199,20 @@ routes actual App Server search through that selected provider. Its
 457 library/client, 351 protocol/runtime and 13 public-RPC passes in separate
 scopes, followed by real installed-worker parity, streaming, failure, removal
 and shutdown with unchanged binaries. [Lineage](upstream/p02b-app-server-lineage.json)
-maps all 62 changed files and key original/current ownership symbols. TUI adoption
-has passed its 5,620-case library regression, but its new full-CLI/GUI runtime is
-still pending; the accepted full-engine GUI gate remains StageA. Private storage
-lookup remains a fourth consumer awaiting the P03 authority broker. Keep source
-WIP separate until the new runtime regressions pass.
+maps all 62 changed files and key original/current ownership symbols.
+
+**Verified multi-client search checkpoint:** main
+`a469cf4be85fda40c64e563ece3e1639e4abdbac` promotes that native component and
+adds actual TUI selection. The [new evidence](verification/2026-10-01/P02B_TUI_CONSUMER_EVIDENCE.md)
+records 5,620 passing TUI tests (four ignored), the independently installed worker
+through a real terminal, and both desktop GUI cycles with selected search/storage,
+streaming, approvals, Stop, reload, cold recovery and manager-only Ctrl+C shutdown.
+The host and separately built package hashes stayed unchanged during installation
+and runtime. Existing storage and manual migration gates passed against this full
+CLI. Chromium/Playwright is fallback evidence; in-app Browser and live inference
+remain unverified. App Server and TUI are compiled consumers, not extracted
+presentation services. Private storage lookup remains a fourth consumer awaiting
+the P03 authority broker; this milestone does not complete P02 or the platform.
 
 The next bounded lifecycle slice is [per-start Preparing cancellation](component-sdk/FILE_SEARCH_PREPARING_CANCELLATION_PLAN.md):
 an immediately available single-start control, retained cleanup receipt, native

@@ -2,148 +2,114 @@
 
 Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md),
 [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md), [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
-Full v1 is incomplete. This file is a concise queue; exact historical evidence stays linked below.
+Full v1 is incomplete. This records verified partial milestones and the ordered next work.
 
-## Durable checkpoints and current source
+## Published checkpoint
 
-- Previous main documentation checkpoint `f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad`, tree
-  `8eae4fda3b4ed65de2a4d0bef9b552636940204e`: verified documentation/lineage publication,
-  parent `562554acf45a39cb82cd62df65cf3b6627dc9011`. Accepted runtime source was unchanged.
-- Latest published source WIP `30c2674600cc84da161562c407515b61511b7c3a`, tree
-  `86c0bce7a5b399c2337c7c3878ed12ee76da4918`, on `wip/p02b-bounded-search-20261001`;
-  parent selected-CLI WIP `651b0b87a281934e5cd7c639021049fad8d393ac`. Connector publication
-  and remote ref verified. All 8,739 frozen AS build fingerprints independently match the exact tree.
-- App Server/client has passing library/contract/public RPC and real installed-worker gates below.
-  Source is externally preserved; this documentation checkpoint records its evidence and lineage.
-  Earlier CLI proof remains; existing GUI/storage proof is older-engine. This is not all consumers.
-- Root applied 26 TUI paths after the AS freeze. First selected gate ended exit 101 at linker SIGBUS,
-  zero tests executed; only Cargo.lock changed across its scope. Disk-zero was observed, not proven
-  ENOSPC. Retry passed 23/23; full TUI regression passed 5,620, four skipped, unchanged scope.
-  Five SDK PTY files were applied afterward. Scoped lint passed with one equivalent
-  condition collapse; a test-only helper was then restricted to test builds.
-  Formatting and Bazel lock refresh passed separately; the full CLI build is running.
-  New full-CLI runtime remains pending. Desktop Python14, controller7 and terminal
-  observer5 passed in separate scopes; fixtures/observer checks are not real-engine proof.
-- Upstream remains OpenAI Codex `d42056091aded7feb1d88ac7e83972108b2aa478`.
-  Retain Apache LICENSE/NOTICE and pinned Nucleo MPL notices/provenance.
-- Native thread persistence and inline attachment storage are extracted subsets. Model/auth
-  remain adapters. Native loop/context/compaction/tools/policy and auxiliary state remain coupled.
-  The independently packaged GUI is additive presentation; do not count it as native extraction.
+- Main source `a469cf4be85fda40c64e563ece3e1639e4abdbac`, tree
+  `3216dfb131f72939c986902053665cbad85ce610`, parent docs `b68db514687f6d4466b8d960b0e88010ddc179c9`.
+  GitHub connector publication and remote verification completed. 215 source paths over prior main,
+  34 new blobs versus preceding App Server source tree 86c0. This is not whole-harness completion.
+- Previous App Server source `30c2674600cc84da161562c407515b61511b7c3a` and standalone
+  search source `651b0b87a281934e5cd7c639021049fad8d393ac` remain historical checkpoints.
+- Frozen build/runtime bytes differ from publication in exactly two documented scope entries:
+  startup.rs ed1cb→270bc: two calls formatted after runtime; no format-only rebuild/retest.
+  GUI acceptance helper 67a→ffff→022ba: metadata/catalog fixture fixes, separately exercised in GUI04.
+  Raw build/final scopes 10,118 have 10,116 equal entries; published retained intersection has 8,946 exact
+  matches plus those 2 exceptions. Never substitute one denominator or claim full source equality.
+- Native thread storage, inline attachment storage and native filesystem search are extracted subsets.
+  Standalone CLI, App Server and TUI now exercise installed search; the GUI uses actual selected search.
+  GUI presentation is additive; model/auth remain adapters. Loop/context/tools/policy are still coupled.
 
-## Most recent verified gates — separate scopes, no invented total
+## Latest verification — separate scopes, no invented total
 
-- [App Server consumer evidence](verification/2026-10-01/P02B_APP_SERVER_CONSUMER_EVIDENCE.md):
-  `p02b-as-client-tests-04` passed 457/457 (App Server 415 + client 42), zero skipped/retries,
-  all 8,739 scoped fingerprints unchanged, child/subreaper exit 0, no runner error.
-  Initial production import failure, second test import failure, and 456/457 assertion failure
-  remain preserved. The test-only correction requires the full actual `ownership is closing` cause.
-- `p02b-as-protocol-runtime-tests`: 351/351 passed, one ignored schema-generation helper;
-  SDK contract/API tests 27 passed. Each has unchanged recorded scope and clean subreaper.
-  Stable/experimental schema generation and Bazel lock regeneration completed separately.
-  First stable schema scope omitted Python SDK output fingerprints; later captures bind resulting bytes.
-- `p02b-as-public-search`: 13/13 passed, 1,448 filtered, unchanged scope and clean subreaper.
-  Explicit empty-query fixture correction preserves snapshot/identity/completion barriers.
-  Scoped fix passed unchanged; format passed with 26 changed Rust/Python paths, no format-only retest.
-  Locked App Server build passed with 8,739 unchanged paths. Frozen AS SHA256
-  `a4ca81bb835f8b1883f5fb702982055ebf7161fffd49b80e81265a9fb2500a0a`.
-- Real `p02b-as-search-independent-01` acceptance passed: reused separate package03, seven exact
-  native/installed/restored cases, concurrent sessions/ABA/clear/stop/sibling isolation, real typed
-  resource exhaustion, failed config without fallback, removal and EOF shutdown. Six management/
-  config commands and four RPC server runs had expected statuses (resource-error shutdown 1).
-  All 40 tracked PIDs absent, host/package/tooling unchanged, outer subreaper 0 with no runner error.
-  Retain adopted Git helper 524152 SIGPIPE(-13); do not claim every child exit was zero.
-- [Selected standalone search](verification/2026-10-01/P02B_SELECTED_SEARCH_EVIDENCE.md):
-  combined 222/222; native/worker 178/178; four race cases x50=200 executions, no retries.
-  Independent build03 succeeded, then runtime02 passed 24 expected-status CLI/manager commands.
-  Exact native/installed parity, real Ctrl+C 130, selected failure, removal/restoration and PID absence.
-  Original compile/config/race/startup/lock failures remain historical evidence, not green runs.
-- Later TUI (outside AS source): selected retry 23 passed with 5,601 filtered; full regression 5,620
-  passed with 4 skipped. Both used zero retries, 10,112 unchanged scope entries and subreaper 0.
-  Preserve adopted-child nonzero statuses in raw reports; runner 0 does not mean every child exited 0.
-  Reports: `/workspace/acceptance/p02b-tui-{selected-tests-02,regression}.source.json`.
-- Passing native T12 profile is recorded by `p02b-interactive-native-profile`: one test/eight rows,
-  78 filtered. At 100k/T12 with highlights, fixed charged storage 11,069,744 bytes and 26 workers;
-  128 MiB remains the ceiling. This is a small traversal/matching fixture, not full-scale or RSS proof.
-- [StageA engine/storage/GUI](verification/2026-10-01/P02_SEARCH_PREREQUISITE_EVIDENCE.md),
-  source `25b2c3150879761026086a62e480045fc38d32ff`: last accepted GUI engine checkpoint.
-  Existing storage 0.2.0 package reuse/migration and GUI 49+38 Chromium commands passed.
-  Actual manager Launch SIGINT during active turns exited 0 and all tracked descendants disappeared.
-  These are older-engine results using deterministic inference, not new consumer/Browser/live-model proof.
-- Historical detail: [P01](verification/2026-10-01/P01_TEST_EVIDENCE.md),
-  [contracts](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md),
-  [matcher fix](verification/2026-10-01/P02B_MATCHER_FIX_EVIDENCE.md),
-  [bounded index](verification/2026-10-01/P02B_BOUNDED_INDEX_EVIDENCE.md),
-  [native budget](verification/2026-10-01/P02B_NATIVE_BUDGET_EVIDENCE.md),
-  [native backend](verification/2026-10-01/P02B_NATIVE_BACKEND_EVIDENCE.md),
-  [process adapter](verification/2026-10-01/P02B_SEARCH_PROCESS_EVIDENCE.md),
-  [client shutdown](verification/2026-10-01/P02B_CLIENT_SHUTDOWN_EVIDENCE.md).
+- [Full CLI/TUI/GUI evidence](verification/2026-10-01/P02B_TUI_CONSUMER_EVIDENCE.md):
+  TUI selected retry 23 passed; full regression 5,620 passed, 4 skipped; zero retries and unchanged scope.
+  Initial linker SIGBUS 101 ran zero tests; Cargo.lock changed. Disk-zero observation is not proven ENOSPC.
+  Scoped fix changed one conditional; test-only cfg annotation and formatting are recorded separately.
+- Locked fullCLI build passed with 10,118 unchanged fingerprints. Actual 634,206,672-byte CLI SHA256
+  `7a63e9406d1605bac0a84e1b703735caeb211ceccf148337acf07614c7c0032d` was relocated exactly,
+  original inode retained, nlink 1, both mutable Cargo aliases removed; no stripping or transformation.
+- Actual installed TUI gate 01: five manager commands 0; native 0/installed 0/config-rejection 1/restored 0.
+  Real @queries, draft clearing, /cd and /quit. Selected worker SIGSTOP 0.6s prevented a fresh match,
+  SIGCONT delivered it through same worker; root switch retained worker. All 25 tracked PIDs absent.
+  Preserve six adopted Git exit 128 receipts; command/subreaper 0 does not mean all descendants exit 0.
+- Existing Rust thread-storage package 0.2.0/contract 2 reused unchanged; no new Rust package build.
+  Nested 13 commands passed, including 4 real CLI turns, tool/context/model-event behavior, cold resume,
+  three selected storage processes and native restoration with history. Inference is deterministic.
+- Manual migration01 and fresh02 each passed 10 commands and real App Server lifecycle checks:
+  exact native/selected dry-run parity, unchanged scoped storage snapshot, migrated→already_paginated,
+  cold CLI/App Server history and cancellation. No attachment-specific or crash-durability claim.
+- Real GUI04: Chromium/Playwright 49+38 browser commands passed, zero page errors; actual selected
+  native search, real response barriers, click/keyboard reference insertion, draft/query/root/task fences,
+  streaming, approval, cancellation and cold recovery. Inference is a deterministic fixture.
+  First SIGINT sent only to component manager during active turns; exits 0 in 0.266/0.269s; 24/12 tracked
+  manager descendants absent and browser drainage passed. This is not requested in-app Browser proof.
+- Preserve GUI01/02/03 failures: all zero GUI runs. 01 manager-mode mismatch; 02 metadata schema;
+  03 catalogue expectations after 3 successful setup commands and exclusive fixture claim.
+  Fresh manual02 fixture used for04; claimed first fixture preserved. No assertion weakened or chmod.
+- Desktop unit 14, controller 7 and terminal-parser 5 passed separately; these fixture/unit checks alone
+  are not the actual GUI/PTy evidence above. No live-provider credentials or private URLs published.
+- [App Server](verification/2026-10-01/P02B_APP_SERVER_CONSUMER_EVIDENCE.md): 457 library/client,
+  351 protocol/runtime(+1 skip), SDK 27, public RPC 13; actual installed stdio parity and cleanup passed.
+  [Standalone](verification/2026-10-01/P02B_SELECTED_SEARCH_EVIDENCE.md): 222 focused; 178 native/worker;
+  four races×50=200 no retries; independent build03 and 24-command runtime02 accepted.
+- Earlier [StageA](verification/2026-10-01/P02_SEARCH_PREREQUISITE_EVIDENCE.md), native contracts,
+  matcher/index/budget/client-shutdown evidence remain historical. Do not relabel old tests as new.
 
 ## Ordered next actions
 
-1. Revalidate original environment, repository/worktrees, refs, source/index, active processes,
-   disk and memory. Read AGENTS and cloud-runtime skill. Preserve current source before edits.
-2. Verify this App Server evidence/lineage documentation checkpoint on remote main.
-   Source `30c267` is already remotely verified; all mapping uses immutable tree/build bytes.
-   Recheck remote refs before every non-force publication; preserve the original work index.
-3. Finish the full CLI build, preserve post-regression tooling and freeze its actual output.
-   Keep original SIGBUS failure/lock transition and passing retry/regression source identities distinct.
-4. Complete real installed TUI selection/stop/reconnect acceptance and existing storage/GUI regression
-   against the appropriate new host. Recheck manager Launch Ctrl+C. Chromium fallback is useful
-   but is not in-app Browser evidence; no GUI/model proof comes from the search-only AS run.
-5. Preserve the successful AS runtime/package03 proof and immutable binaries; no repeat test solely
-   for formatting. Follow [the Preparing cancellation queue](component-sdk/FILE_SEARCH_PREPARING_CANCELLATION_PLAN.md)
-   for observable per-request control/cleanup, a newly built worker and old-package compatibility.
-6. Finish remaining P02 consumers/package compatibility, upgrade/rejection/removal and real custom
-   replacement checks. Private rollout lookup is a fourth consumer pending P03 broker; keep it visible.
-7. Continue P03 ownership/transport/dependency broker, then the roadmap's model/provider/auth,
-   turn/agent orchestration, context/history/compaction, tools/execution/security, auxiliary persistence,
-   config/events and remaining UI/platform services. Keep every inventory row's proof and gaps explicit.
-8. Implement required P18U upstream-update maintenance component after contracts stabilize:
-   original-path/symbol mapping, isolated chosen-revision candidate, compatibility/security/regression/
-   real-host/UI gates, coordinated host/plugin versions, migration and independent-bootstrap rollback.
-   Demonstrate a real upstream integration plus failed/breaking update recovery before final release.
-   No periodic polling or live installation update is authorized merely by the roadmap.
+1. Read AGENTS, cloud-runtime skill, canonical roadmap and this state. Revalidate original environment,
+   repository/worktrees, remote refs, preserved index/source, active processes, memory and disk.
+2. This documentation checkpoint records reviewed evidence/lineage/state for source a469cf4.
+   Verify the latest remote ref/publication receipt before new work; do not repeat publication blindly.
+3. Execute the next SDK/package slice from the canonical roadmap. Keep P02 preparation-request
+   cancellation acceptance queued: real admitted startup, retained first cause and cleanup proof.
+4. Complete supported replacement/upgrade/rejection/removal and remaining consumer gates; retain
+   remote reconnect/daemon and private rollout lookup as explicit gaps. Move shared ownership into P03.
+5. Follow P03 broker/transport/dependency ownership, then model/provider/auth, turn/agent orchestration,
+   context/history/compaction, tools/execution/security, auxiliary state, configuration/events/platform
+   services. Keep native extraction, additive plugins, and adapter-only contracts distinct in inventory.
+6. Retest affected streaming/approvals/cancellation/persistence/recovery and GUI in every relevant cycle.
+   Actual in-app Browser remains unavailable here; use truthful fallback evidence without blocking core work.
+7. Implement required P18U upstream integration/update component after contracts stabilize: original
+   path/symbol maps, isolated chosen-revision candidate, compatibility/security/real-host/UI gates,
+   migration, coordinated host/plugin versions, rollback artifacts and independent bootstrap recovery.
+   Demonstrate one real upstream update plus breaking/failed rollback; no periodic polling yet.
+8. Preserve and publish verified milestones non-destructively. Continue successive feasible components;
+   run/resources are finite and remaining whole-platform work must never be described as finished.
 
-## Preserve and resume safely
+## Recovery and reproducibility
 
-Primary `/workspace/codex-harness-everythings-a-plugin`; recovered isolated WIP
-`/workspace/codex-harness-next-components`. Origin is DesignStuffDev/codex-harness-everythings-a-plugin.
-Original work branch remains at official import `d42056091aded7feb1d88ac7e83972108b2aa478`.
-Index metadata bytes changed; all 8,834 staged entries still match that HEAD per root's preservation audit.
-Current index SHA256 `2cc2f0dc3e0724bb879d15e02927bf798c4884fee70018a77ef17f31fffdd598`
-exactly matches `original-work-index-20261001T0728.bin`; historical `2e0abf...` was an earlier byte image.
-Never reset/clean/bulk-stage either tree. Use whitelisted files and a temporary publication index.
-Git shell authentication currently fails; connector publication succeeded. Local WIP remains `651` and
-local main remains `f2cc6c2`; remote `30c267` is not fetched, but exact local tree `86c0bce7` objects exist.
-Use verified remote parents plus exact trees for future publication; never invent a same-tree local
-commit or reset original work to repair ref drift. Publication reports and fresh remote checks are
-the source of truth; pending main documentation publication can leave local refs intentionally stale.
+Primary `/workspace/codex-harness-everythings-a-plugin`; isolated recovered WIP
+`/workspace/codex-harness-next-components`. Origin DesignStuffDev/codex-harness-everythings-a-plugin.
+Official source pin `d42056091aded7feb1d88ac7e83972108b2aa478`; retain Apache LICENSE/NOTICE and Nucleo MPL.
+Original work branch remains at upstream import. Root audited all 8,834 staged entries equal HEAD.
+Current index metadata SHA `0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59`;
+older 2cc2/2e0 images remain preserved. Never reset/clean/bulk-stage either worktree.
+Git shell authentication fails; connector publication succeeds. Local main/WIP refs intentionally lag
+remote b68/a469 and 30c267; revalidate remotes and use exact parent/tree objects. Do not invent a
+same-tree local commit or reset original work to hide ref drift. Publication reports are authoritative.
 
 Recovery directory `/workspace/recovery-backups/20260930T165936Z/`:
-- Full both-worktree/SDK/docs/evidence/Git archive `codex-recovered-workspace.tar.zst`, SHA256
+- Full both-tree/SDK/docs/evidence/Git `codex-recovered-workspace.tar.zst`, SHA
   `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
-- Frozen AS incremental `p01-source-20261001T073424Z.tar.gz`, 185 source members, SHA256
-  `aa6d2f9e70aae809b4619d8a71c5a44f505ef80f01a5bda71e9ce083527e5159`.
-  All members verified; AS build source_after matches 170 delta paths; published tree matches all 8,739.
-  Source `30c267` includes 62 changes over `651`; runtime README received a documented status-only update.
-  Keep earlier 072520 and later TUI 074033 (210 paths; SHA fd9061224c5a79c3ecac3b5eb317c29f770f642f946bf983f21dee94261c948e).
-- Published standalone source archive `p02b-selected-cli-tested-source.tar.gz`, SHA256
-  `b077447af6c7d80e09c371a11f07f95e55e70803e3819d62d0ab09b7ac1bdb36`, bound to WIP 651.
-Cloud-local archives are recovery checkpoints; GitHub gives external durability only for published files.
-Preserve original failed logs, unused staged drafts, older archives and both saved worktrees.
+- Published source checkpoint `p02b-full-consumer-source-checkpoint.tar.gz`, SHA
+  `d570aed0ae603bba00c5f3a95a4b2109954577d2d44adb26e1051c461e6067ad`.
+- Post-format 223-path `p01-source-20261001T084942Z.tar.gz`, SHA
+  `acf2258611dec4e7f35b4bd1a27bec4dbaea1d8d2031c97fbf26eb215eed94d5`; keep 084914 preformat too.
+- Publication reports: `p02b-full-consumer-source-publication.json`, prior AS source/docs and CLI reports.
+- Three completed generated test executables retained as exact verified gzip archives before only their
+  mutable cache aliases were retired. Report `p02b-completed-test-cache-preservation.json` preserves
+  identities/checks. Source, evidence, frozen hosts, libraries, depfiles/fingerprints protected.
+Archives and binaries are cloud-local checkpoints. GitHub gives external durability only to published files.
 
-Frozen AS: `/workspace/component-checkpoint-candidate-p02b-app-server-20261001/` (unchanged copy, nlink 1).
-Frozen CLI02/manager: `/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/`.
-Independent package03: `/workspace/acceptance/p02b-search-independent-03/package` (source parked).
-Earlier GUI engine: `/workspace/component-checkpoint-candidate-p02a-20261001/`; keep its immutable hashes.
+Frozen fullCLI: `/workspace/component-checkpoint-candidate-p02b-full-cli-20261001/`.
+GUI04 uses unchanged original CLI02 manager for exact independent-build fingerprint (mode included).
+Preserve independent search package03, storage0.2 packages, old frozen AS/CLI/GUI hosts and screenshots.
 Source `/workspace/toolchains/component-verification-env.sh`; Rust 1.95/jobs1/debug0/incremental0.
-One owner serializes Rust. Use `just test`, scoped `just fix`, `just fmt`, required schemas/Bazel lock.
-Use `/tmp/run-p02-check.py`; obsolete `/tmp/run-component-regression.py` has a stale source label.
-Never kill Rust or erase active caches; 32 GiB overlay requires current resource/mapping checks before builds.
-Generated-cache symlink backing files and frozen executable hardlink detachment must remain intact.
-
-Optional viewer `/workspace/remote-viewer-setup` is isolated from harness work. Prior enforced policy
-had no additional hostname grant; user-accessible preview/remote Browser reachability is unverified.
-Recheck supported policy before claiming connectivity. Never reset/replace this VM to bypass the blocker.
-Routine implementation/testing and verified non-force publication are authorized. Continue feasible work;
-finite run/resources and unavailable in-app Browser are limits, not evidence the platform is finished.
+One owner serializes Rust; use just test/scoped fix/fmt and required schemas/Bazel lock. Wrapper
+`/tmp/run-p02-check.py` records actual scopes; old run-component-regression.py has a stale source label.
+Check resource/mapping state before builds; never erase active caches, unverified source or mapped files.
+Optional `/workspace/remote-viewer-setup` remains separate; no verified local-browser bridge/preview.
+Do not reset/replace this VM or let optional viewer networking stop component implementation.

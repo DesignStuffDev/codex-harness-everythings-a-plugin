@@ -109,8 +109,17 @@ binds all 62 changed files and 44 original/current symbol anchors to source
 match that tree. Its [evidence](verification/2026-10-01/P02B_APP_SERVER_CONSUMER_EVIDENCE.md)
 adds real App Server selection of the independently built native search worker.
 The map distinguishes extracted search from compiled App Server/client adapters,
-protocol compatibility and later unverified TUI/GUI work. This is provenance for
-future maintenance; neither the updater nor a later upstream integration ran.
+protocol compatibility and the then-unverified TUI/GUI work.
+
+The subsequent [TUI/full CLI consumer map](upstream/p02b-tui-consumer-lineage.json)
+binds the TUI adoption, acceptance tooling and explicit post-build source transitions
+to main `a469cf4be85fda40c64e563ece3e1639e4abdbac`, tree
+`3216dfb131f72939c986902053665cbad85ce610`. Its
+[evidence](verification/2026-10-01/P02B_TUI_CONSUMER_EVIDENCE.md) includes real installed
+TUI, storage/migration and GUI behavior. The GUI preflight fixes were exercised
+separately after the host build; two final Rust call-format changes are mechanical.
+These lineage records support future maintenance; neither the updater nor a later
+official upstream revision integration has run.
 
 ## Separately installable maintenance service
 
