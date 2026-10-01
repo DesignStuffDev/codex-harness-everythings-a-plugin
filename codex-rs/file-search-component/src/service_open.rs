@@ -30,6 +30,8 @@ use crate::service::lock;
 use crate::service::panic_error;
 use crate::service_lease::Lease;
 use crate::service_lease::LeaseState;
+use crate::service_lease::StartOrigin;
+use crate::service_lease::owner_lost;
 
 impl Inner {
     pub(crate) fn open(self: &Arc<Self>, request: OpenRequest) -> PendingServiceReply {
@@ -50,30 +52,65 @@ impl Inner {
             }
         };
         let (sender, receiver) = oneshot::channel();
+        let guard = StartCompletionGuard {
+            lease: Some(Arc::clone(&lease)),
+            _token: token,
+        };
         self.runtime.spawn(async move {
-            let _token = token;
+            let mut guard = guard;
             // reserve validated the conversion; even an unexpected conversion
             // error still goes through the retained startup/close owner.
-            let started = match request.into_native() {
-                Ok(request) => match AssertUnwindSafe(async { backend.open(request).await })
+            let cancelled_before_admission = {
+                let mut state = lock(&lease.state);
+                if state.closing {
+                    state.start_origin = StartOrigin::CancelledBeforeAdmission;
+                    true
+                } else {
+                    false
+                }
+            };
+            let started = if cancelled_before_admission {
+                Err(SearchStartError {
+                    operation: closed_error(),
+                    cleanup: StartCleanup::NotAdmitted,
+                })
+            } else {
+                match request.into_native() {
+                    Ok(request) => match AssertUnwindSafe(async {
+                        // begin_open is synchronous and external; no state lock is
+                        // held through admission or any cancellation hook.
+                        let pending = backend.begin_open(request)?;
+                        let control = pending.control();
+                        let closing = {
+                            let mut state = lock(&lease.state);
+                            state.pending_start = Some(Arc::clone(&control));
+                            state.closing
+                        };
+                        lease.changed.notify_waiters();
+                        if closing {
+                            lease.request_start_cancel(&control);
+                        }
+                        pending.finish().await
+                    })
                     .catch_unwind()
                     .await
-                {
-                    Ok(result) => result,
-                    Err(_) => {
-                        let error = panic_error();
-                        Err(SearchStartError {
-                            operation: error.clone(),
-                            cleanup: StartCleanup::Unconfirmed(error),
-                        })
-                    }
-                },
-                Err(error) => Err(SearchStartError {
-                    operation: error,
-                    cleanup: StartCleanup::NotAdmitted,
-                }),
+                    {
+                        Ok(result) => result,
+                        Err(_) => {
+                            let error = panic_error();
+                            Err(SearchStartError {
+                                operation: error.clone(),
+                                cleanup: StartCleanup::Unconfirmed(error),
+                            })
+                        }
+                    },
+                    Err(error) => Err(SearchStartError {
+                        operation: error,
+                        cleanup: StartCleanup::NotAdmitted,
+                    }),
+                }
             };
-            let (closing, result) = {
+            let (closing, result, late_error) = {
                 let mut state = lock(&lease.state);
                 state.start_finished = true;
                 match started {
@@ -86,34 +123,43 @@ impl Inner {
                                 limits: lease.limits.clone(),
                                 budget: lease.budget,
                             }),
+                            None,
                         )
                     }
                     Err(error) => {
-                        // Capture the fence before this failure's automatic
-                        // request_close; that later close is not caller intent.
                         state.startup_closed_before_result = state.closing;
                         state.start_failure = Some(error.clone());
-                        (true, Err(error))
+                        let late_error = state.completed.then(|| error.operation.clone());
+                        (true, Err(error), late_error)
                     }
                 }
             };
             lease.changed.notify_waiters();
+            guard.lease.take();
+            if let Some(error) = late_error {
+                lease.retain_failure(error);
+            }
             let result = if closing {
                 lease.request_close();
                 let outcome = lease.outcome().await;
-                let operation = result
-                    .err()
-                    .map(|error| error.operation)
-                    .unwrap_or_else(closed_error);
-                let operation = if operation.kind() == SearchErrorKind::ClosedLease {
-                    outcome.operation.err().unwrap_or(operation)
+                let failure = result.err();
+                let cleanup = if failure
+                    .as_ref()
+                    .is_some_and(|error| error.cleanup == StartCleanup::NotAdmitted)
+                    && outcome.cleanup == CloseCleanup::Joined
+                {
+                    StartCleanup::NotAdmitted
                 } else {
-                    operation
+                    outcome.cleanup.clone().into()
                 };
-                Err(SearchStartError {
-                    operation,
-                    cleanup: outcome.cleanup.into(),
-                })
+                let operation = match failure {
+                    Some(error) if !lock(&lease.state).expected_start_cancellation => {
+                        error.operation
+                    }
+                    Some(error) => outcome.operation.err().unwrap_or(error.operation),
+                    None => outcome.operation.err().unwrap_or_else(closed_error),
+                };
+                Err(SearchStartError { operation, cleanup })
             } else {
                 result
             };
@@ -210,5 +256,31 @@ impl Inner {
             );
         }
         result
+    }
+}
+
+struct StartCompletionGuard {
+    lease: Option<Arc<Lease>>,
+    _token: tokio_util::task::task_tracker::TaskTrackerToken,
+}
+
+impl Drop for StartCompletionGuard {
+    fn drop(&mut self) {
+        if let Some(lease) = self.lease.take() {
+            let error = owner_lost();
+            {
+                let mut state = lock(&lease.state);
+                state.start_finished = true;
+                state.start_failure.get_or_insert(SearchStartError {
+                    operation: error.clone(),
+                    cleanup: StartCleanup::Unconfirmed(error.clone()),
+                });
+                state.closing = true;
+            }
+            lease.changed.notify_waiters();
+            // This guard may run without an executor. Publish before its task
+            // token drops; do not call external hooks or spawn a cleanup task.
+            lease.finish(crate::service::uncertain(error));
+        }
     }
 }
