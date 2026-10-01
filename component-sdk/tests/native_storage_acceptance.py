@@ -34,6 +34,7 @@ def main():
     parser.add_argument("--work-dir", type=Path, required=True)
     parser.add_argument("--target-dir", type=Path, required=True)
     parser.add_argument("--contract-version", type=int, required=True)
+    parser.add_argument("--package-version", default="0.1.0")
     args = parser.parse_args()
     repo = args.repo.resolve(strict=True)
     host, codex = args.host.resolve(strict=True), args.codex.resolve(strict=True)
@@ -49,6 +50,7 @@ def main():
         "passed": False,
         "started_utc": datetime.now(timezone.utc).isoformat(),
         "contract_version": args.contract_version,
+        "package_version": args.package_version,
         "commands": [],
         "binaries_before": {"host": fingerprint(host), "codex": fingerprint(codex)},
         "artifact_directory": str(work),
@@ -209,6 +211,8 @@ def main():
                 "default",
                 "--contract-version",
                 args.contract_version,
+                "--version",
+                args.package_version,
             ],
         )
         run("strip", ["strip", "--strip-unneeded", package / binary.name])

@@ -147,6 +147,24 @@ pub trait ThreadStore: Any + Send + Sync {
         false
     }
 
+    /// Whether manual migration supports progress, retained reports and joined cancellation.
+    fn supports_manual_rollout_migration(&self) -> bool {
+        false
+    }
+
+    /// Accepts a manual migration owned by the store independently of its observer.
+    /// Unsupported implementations must not start another backend implicitly.
+    fn start_rollout_migration(
+        &self,
+        _options: crate::RolloutMigrationOptions,
+    ) -> ThreadStoreFuture<'_, Box<dyn crate::RolloutMigrationRun>> {
+        Box::pin(async {
+            Err(ThreadStoreError::Unsupported {
+                operation: "manual_rollout_migration",
+            })
+        })
+    }
+
     /// Schedules implementation-owned rollout maintenance, returning after
     /// acceptance rather than after a potentially long background pass.
     fn run_rollout_maintenance(

@@ -1,11 +1,14 @@
 """Exercise source closure/export without compiling or touching the Rust workspace."""
 
 import importlib.util
+import contextlib
+import io
 import json
 from pathlib import Path
 import tempfile
 import tomllib
 import unittest
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / "rust_component_package.py"
 SPEC = importlib.util.spec_from_file_location("rust_component_package", SCRIPT)
@@ -197,6 +200,7 @@ dev_alias.workspace = true
             contract_version=2,
         )
         manifest = json.loads((output / "codex-component.json").read_text())
+        self.assertEqual(manifest["version"], "0.1.0")
         self.assertEqual(manifest["entrypoint"], "native-plugin")
         self.assertEqual(
             manifest["components"],
@@ -211,6 +215,92 @@ dev_alias.workspace = true
         )
         self.assertEqual((output / "native-plugin").stat().st_mode & 0o777, 0o755)
         self.assertEqual((output / "NOTICE").read_text(), "notice")
+
+    def test_assemble_retains_explicit_package_version(self):
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        for index, version in enumerate(
+            ("0.2.0", "1.2.3-rc.1+build.01", "1.0.0-0.a-1", "1.0.0+001")
+        ):
+            with self.subTest(version=version):
+                output = self.base / f"package-{index}"
+                packaging.assemble(
+                    self.repo,
+                    binary,
+                    output,
+                    "example.native",
+                    "thread_store",
+                    "default",
+                    contract_version=2,
+                    version=version,
+                )
+                manifest = json.loads((output / "codex-component.json").read_text())
+                self.assertEqual(manifest["version"], version)
+                self.assertEqual(manifest["components"][0]["contract_version"], 2)
+
+    def test_invalid_version_rejected_before_package_directory_is_created(self):
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        for version in (
+            None,
+            True,
+            2,
+            "",
+            "0.2",
+            "v0.2.0",
+            "01.2.3",
+            "1.2.3-01",
+            "1.2.3-a..b",
+            "1.2.3-rc_1",
+            "1.2.3-α",
+            "1.2.3+",
+            "1.2.3+a..b",
+            "1.2.3\n",
+            "18446744073709551616.0.0",
+        ):
+            with self.subTest(version=version):
+                output = self.base / "invalid-package"
+                with self.assertRaisesRegex(ValueError, "semantic versioning"):
+                    packaging.assemble(
+                        self.repo,
+                        binary,
+                        output,
+                        "example.native",
+                        "thread_store",
+                        "default",
+                        version=version,
+                    )
+                self.assertFalse(output.exists())
+
+    def test_assemble_cli_forwards_package_version(self):
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        output = self.base / "cli-package"
+        argv = [
+            str(SCRIPT),
+            "assemble",
+            "--repo",
+            str(self.repo),
+            "--binary",
+            str(binary),
+            "--output",
+            str(output),
+            "--id",
+            "example.native",
+            "--kind",
+            "thread_store",
+            "--contract-version",
+            "2",
+            "--version",
+            "0.2.0",
+        ]
+        with patch("sys.argv", argv), contextlib.redirect_stdout(io.StringIO()):
+            packaging.main()
+        manifest = json.loads((output / "codex-component.json").read_text())
+        self.assertEqual(
+            (manifest["version"], manifest["components"][0]["contract_version"]),
+            ("0.2.0", 2),
+        )
 
 
 if __name__ == "__main__":

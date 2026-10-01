@@ -9,3 +9,6 @@ mod lifecycle;
 #[path = "cases/maintenance.rs"]
 mod maintenance;
 mod support;
+
+#[path = "cases/migration.rs"]
+mod migration;

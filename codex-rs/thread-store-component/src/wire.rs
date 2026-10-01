@@ -6,10 +6,12 @@
 
 use crate::StorageError;
 use crate::contract::CopyAttachmentsParams;
+use crate::contract::MigrationLeaseRequest;
 use crate::contract::PendingMetadataParams;
 use crate::contract::PersistParams;
 use crate::contract::PrepareForkRequest;
 use crate::contract::PreparedForkResponse;
+use crate::contract::StartMigrationRequest;
 use codex_protocol::ThreadId;
 use codex_thread_store::AddThreadAttachmentOutcome;
 use codex_thread_store::AddThreadAttachmentParams;
@@ -45,6 +47,8 @@ use codex_thread_store::ResumeMetadata;
 use codex_thread_store::ResumeThreadParams;
 use codex_thread_store::RevertThreadParams;
 use codex_thread_store::RolloutMaintenance;
+use codex_thread_store::RolloutMigrationReport;
+use codex_thread_store::RolloutMigrationSnapshot;
 use codex_thread_store::SearchThreadOccurrencesParams;
 use codex_thread_store::SearchThreadsParams;
 use codex_thread_store::StoredModelContext;
@@ -127,6 +131,10 @@ pub enum StorageRequest {
     ReadResumeMetadata(ThreadId),
     LocalRolloutPath(ThreadId),
     RunRolloutMaintenance(RolloutMaintenance),
+    StartMigration(StartMigrationRequest),
+    MigrationSnapshot(MigrationLeaseRequest),
+    MigrationReport(MigrationLeaseRequest),
+    CancelMigration(MigrationLeaseRequest),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -187,6 +195,10 @@ pub enum StorageResponse {
         #[serde(with = "codex_component_state_codec::native_path::option")] Option<PathBuf>,
     ),
     RunRolloutMaintenance(()),
+    StartMigration(()),
+    MigrationSnapshot(RolloutMigrationSnapshot),
+    MigrationReport(#[serde(with = "crate::remote::migration::report")] RolloutMigrationReport),
+    CancelMigration(()),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

@@ -81,6 +81,8 @@ fn native_operation(operation: &str) -> Option<&'static str> {
         "project/move",
         "project/delete",
         "rollout_maintenance",
+        "manual_rollout_migration",
+        "manual_rollout_migration_contract",
     ];
     OPERATIONS.iter().copied().find(|known| *known == operation)
 }

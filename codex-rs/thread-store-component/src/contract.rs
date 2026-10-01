@@ -14,6 +14,8 @@ pub use codex_component_host::THREAD_STORE_CONTRACT_VERSION;
 pub const OPEN_METHOD: &str = "thread_store/open";
 pub const CALL_METHOD: &str = "thread_store/call";
 pub const RELEASE_FORK_METHOD: &str = "thread_store/release_fork";
+pub const RELEASE_MIGRATION_METHOD: &str = "thread_store/release_migration";
+pub const MANUAL_ROLLOUT_MIGRATION_CONTRACT_VERSION: u32 = 1;
 
 /// Filesystem roots shared with host-owned memories, goals, queue and agent graph.
 /// Contract v2 preserves this explicit compatibility dependency; it does not
@@ -48,6 +50,9 @@ pub struct StorageCapabilities {
     pub projects: bool,
     pub paginated_history_lists: bool,
     pub rollout_maintenance: bool,
+    /// Additive capability: absent in older storage-v2 implementations.
+    #[serde(default)]
+    pub manual_rollout_migration: Option<u32>,
     pub rollout_path_reads: bool,
     pub shared_local_sqlite: LocalStoragePaths,
 }
@@ -62,6 +67,9 @@ impl StorageCapabilities {
             projects: store.supports_projects(),
             paginated_history_lists: store.supports_paginated_history_lists(),
             rollout_maintenance: store.supports_rollout_maintenance(),
+            manual_rollout_migration: store
+                .supports_manual_rollout_migration()
+                .then_some(MANUAL_ROLLOUT_MIGRATION_CONTRACT_VERSION),
             rollout_path_reads: store.supports_rollout_path_reads(),
             shared_local_sqlite: paths,
         }
@@ -108,4 +116,22 @@ pub struct PreparedForkResponse {
     // LocalThreadStore implementation details in the external contract.
     #[serde(with = "crate::remote::stored_model_context")]
     pub model_context: codex_thread_store::StoredModelContext,
+}
+
+/// Migration subcontracts evolve independently of ordinary storage-v2 operations.
+/// The service checks this version before accepting native migration work.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct StartMigrationRequest {
+    pub contract_version: u32,
+    pub lease_id: String,
+    #[serde(with = "crate::remote::migration::options")]
+    pub options: codex_thread_store::RolloutMigrationOptions,
+}
+
+/// Client-allocated identity pairs start with its pre-reserved cleanup control.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct MigrationLeaseRequest {
+    pub lease_id: String,
 }

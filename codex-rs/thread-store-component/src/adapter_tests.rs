@@ -10,6 +10,7 @@ use codex_protocol::ThreadId;
 use codex_protocol::protocol::ThreadHistoryMode;
 use codex_thread_store::ThreadStore;
 use codex_thread_store::ThreadStoreShutdownGuard;
+use pretty_assertions::assert_eq;
 use serde_json::Value;
 use serde_json::json;
 use tempfile::TempDir;
@@ -41,6 +42,10 @@ def open_store(request):
         frame({'type':'error', 'id':request['id'], 'message':'fixture refused open'})
         return
     value = config['capabilities']
+    if config['mode'] == 'migration_absent':
+        value.pop('manual_rollout_migration', None)
+    if config['mode'] == 'migration_future':
+        value['manual_rollout_migration'] = 99
     if config['mode'] == 'decode':
         value = {}
     if config['mode'] == 'contract':
@@ -104,6 +109,7 @@ impl Fixture {
             projects: false,
             paginated_history_lists: true,
             rollout_maintenance: false,
+            manual_rollout_migration: None,
             rollout_path_reads: false,
             shared_local_sqlite: paths.clone(),
         };
@@ -255,6 +261,34 @@ async fn shutdown_owner_closes_process_with_retained_store_and_unpolled_future()
         );
         fixture.release("shutdown_gate")?;
         retained.shutdown_store().await?;
+        assert!(fixture.binding.state_dir.join("exited").exists());
+    }
+    Ok(())
+}
+
+#[tokio::test]
+async fn absent_or_newer_migration_contract_keeps_ordinary_storage_compatible() -> Result<()> {
+    for mode in ["migration_absent", "migration_future"] {
+        let fixture = Fixture::new(mode)?;
+        let store = fixture.connect().await??;
+        assert_eq!(store.default_history_mode(), ThreadHistoryMode::Paginated);
+        assert!(!store.supports_manual_rollout_migration());
+        let result = store
+            .start_rollout_migration(codex_thread_store::RolloutMigrationOptions {
+                mode: codex_thread_store::RolloutMigrationMode::DryRun,
+                thread_ids: Vec::new(),
+                max_mib_per_second: None,
+            })
+            .await;
+        assert!(matches!(
+            result,
+            Err(codex_thread_store::ThreadStoreError::Unsupported {
+                operation: "manual_rollout_migration"
+            })
+        ));
+        // The fixture rejects any non-open RPC: unsupported migration did not invoke it.
+        fixture.release("shutdown_gate")?;
+        store.shutdown_process().await?;
         assert!(fixture.binding.state_dir.join("exited").exists());
     }
     Ok(())

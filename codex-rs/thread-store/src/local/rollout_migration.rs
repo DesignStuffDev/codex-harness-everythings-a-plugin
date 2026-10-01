@@ -45,6 +45,7 @@ use crate::ThreadStoreResult;
 mod canonicalizer;
 mod legacy_event;
 mod line_parser;
+pub(super) mod manual;
 mod publish;
 mod rollback;
 mod rollback_plan;
@@ -68,7 +69,8 @@ use publish::sync_parent_directory;
 use publish::write_migration_journal;
 use rollback_plan::RollbackPlan;
 use rollback_plan::RollbackPlanner;
-use telemetry::RolloutMigrationTelemetry;
+pub use telemetry::RolloutMigrationCompletion;
+pub use telemetry::RolloutMigrationTelemetry;
 use telemetry::RolloutMigrationTrigger;
 
 const PROJECTION_BATCH_BYTES: u64 = 256 * 1024;
@@ -324,23 +326,44 @@ impl LocalThreadStore {
     async fn migrate_rollouts_with_progress_for_trigger(
         &self,
         options: RolloutMigrationOptions,
-        mut on_progress: impl FnMut(RolloutMigrationProgress),
+        on_progress: impl FnMut(RolloutMigrationProgress),
+        trigger: RolloutMigrationTrigger,
+        paths: RolloutMigrationPaths,
+        control: MigrationControl<'_>,
+    ) -> ThreadStoreResult<RolloutMigrationReport> {
+        self.migrate_rollouts_observed(
+            options,
+            manual::Observer {
+                progress: on_progress,
+                discovered: |_| {},
+            },
+            trigger,
+            paths,
+            control,
+        )
+        .await
+    }
+
+    async fn migrate_rollouts_observed(
+        &self,
+        options: RolloutMigrationOptions,
+        mut observer: manual::Observer<impl FnMut(RolloutMigrationProgress), impl FnMut(usize)>,
         trigger: RolloutMigrationTrigger,
         paths: RolloutMigrationPaths,
         control: MigrationControl<'_>,
     ) -> ThreadStoreResult<RolloutMigrationReport> {
         let telemetry = RolloutMigrationTelemetry::new(trigger, &options);
         let result = self
-            .migrate_rollouts_with_progress_inner(options, &mut on_progress, paths, control)
+            .migrate_rollouts_with_progress_inner(options, &mut observer, paths, control)
             .await;
-        telemetry.finish(&result, control);
+        telemetry.finish_native(&result, control);
         result
     }
 
     async fn migrate_rollouts_with_progress_inner(
         &self,
         options: RolloutMigrationOptions,
-        on_progress: &mut impl FnMut(RolloutMigrationProgress),
+        observer: &mut manual::Observer<impl FnMut(RolloutMigrationProgress), impl FnMut(usize)>,
         paths: RolloutMigrationPaths,
         control: MigrationControl<'_>,
     ) -> ThreadStoreResult<RolloutMigrationReport> {
@@ -361,7 +384,7 @@ impl LocalThreadStore {
         };
         let mut paths = match paths {
             RolloutMigrationPaths::Discover => {
-                find_all_rollout_paths(&self.config.codex_home).await?
+                find_all_rollout_paths_controlled(&self.config.codex_home, control).await?
             }
             RolloutMigrationPaths::Known(paths) => paths,
         };
@@ -385,6 +408,7 @@ impl LocalThreadStore {
             HashMap::new()
         };
         let total_paths = paths.len();
+        (observer.discovered)(total_paths);
         let mut report = RolloutMigrationReport::default();
 
         for (index, path) in paths.into_iter().enumerate() {
@@ -398,7 +422,7 @@ impl LocalThreadStore {
             if let Some(outcome) = outcome {
                 report.outcomes.push(outcome);
             }
-            on_progress(RolloutMigrationProgress {
+            (observer.progress)(RolloutMigrationProgress {
                 processed_paths: index + 1,
                 total_paths,
                 outcome_status,
@@ -1282,17 +1306,26 @@ async fn read_rollout_record(
     }))
 }
 
-async fn find_rollout_paths(root: &Path) -> ThreadStoreResult<Vec<PathBuf>> {
+async fn find_rollout_paths(
+    root: &Path,
+    control: MigrationControl<'_>,
+) -> ThreadStoreResult<Vec<PathBuf>> {
     let mut directories = vec![root.to_path_buf()];
     let mut paths = Vec::new();
 
     while let Some(directory) = directories.pop() {
+        if control.is_stopped() {
+            break;
+        }
         let mut entries = match tokio::fs::read_dir(&directory).await {
             Ok(entries) => entries,
             Err(error) if error.kind() == std::io::ErrorKind::NotFound => continue,
             Err(error) => return Err(migration_error(error)),
         };
         while let Some(entry) = entries.next_entry().await.map_err(migration_error)? {
+            if control.is_stopped() {
+                break;
+            }
             let kind = entry.file_type().await.map_err(migration_error)?;
             if kind.is_dir() {
                 directories.push(entry.path());
@@ -1326,9 +1359,21 @@ async fn find_rollout_paths(root: &Path) -> ThreadStoreResult<Vec<PathBuf>> {
 }
 
 async fn find_all_rollout_paths(codex_home: &Path) -> ThreadStoreResult<Vec<PathBuf>> {
-    let mut paths = find_rollout_paths(&codex_home.join(codex_rollout::SESSIONS_SUBDIR)).await?;
+    find_all_rollout_paths_controlled(codex_home, MigrationControl::Uninterrupted).await
+}
+
+async fn find_all_rollout_paths_controlled(
+    codex_home: &Path,
+    control: MigrationControl<'_>,
+) -> ThreadStoreResult<Vec<PathBuf>> {
+    let mut paths =
+        find_rollout_paths(&codex_home.join(codex_rollout::SESSIONS_SUBDIR), control).await?;
     paths.extend(
-        find_rollout_paths(&codex_home.join(codex_rollout::ARCHIVED_SESSIONS_SUBDIR)).await?,
+        find_rollout_paths(
+            &codex_home.join(codex_rollout::ARCHIVED_SESSIONS_SUBDIR),
+            control,
+        )
+        .await?,
     );
     Ok(paths)
 }

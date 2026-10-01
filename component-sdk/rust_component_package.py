@@ -350,13 +350,36 @@ class ExportPlan:
             temporary.rename(output)
 
 
-def assemble(repo, binary, output, plugin_id, kind, name, *, contract_version=1):
+def assemble(
+    repo, binary, output, plugin_id, kind, name, *, contract_version=1, version="0.1.0"
+):
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", plugin_id):
         raise ValueError("invalid plugin ID")
     if not kind or not name or len(kind.encode()) > 128 or len(name.encode()) > 128:
         raise ValueError("component kind/name must contain 1–128 UTF-8 bytes")
     if type(contract_version) is not int or not 1 <= contract_version <= 0xFFFFFFFF:
         raise ValueError("component contract version must be a positive 32-bit integer")
+    semantic_version = (
+        re.fullmatch(
+            r"(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)"
+            r"(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?"
+            r"(?:\+[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*)?",
+            version,
+        )
+        if isinstance(version, str)
+        else None
+    )
+    # Match the host's semver parser: numeric prerelease identifiers cannot have
+    # leading zeroes, and its three numeric version fields fit in u64.
+    if (
+        semantic_version is None
+        or any(int(part) > 0xFFFFFFFFFFFFFFFF for part in semantic_version.groups()[:3])
+        or any(
+            part.isdigit() and len(part) > 1 and part.startswith("0")
+            for part in (semantic_version.group(4) or "").split(".")
+        )
+    ):
+        raise ValueError("package version must be semantic versioning")
     if not binary.is_file():
         raise ValueError("binary must be a regular file")
     output.mkdir(parents=True, exist_ok=False)
@@ -366,7 +389,7 @@ def assemble(repo, binary, output, plugin_id, kind, name, *, contract_version=1)
     manifest = {
         "api_version": 1,
         "id": plugin_id,
-        "version": "0.1.0",
+        "version": version,
         "entrypoint": binary.name,
         "args": [],
         "dependencies": {},
@@ -401,6 +424,11 @@ def main():
     sub.add_argument("--kind", required=True)
     sub.add_argument("--name", default="default")
     sub.add_argument("--contract-version", type=int, default=1)
+    sub.add_argument(
+        "--version",
+        default="0.1.0",
+        help="Package semantic version (independent of the component contract)",
+    )
     args = parser.parse_args()
     try:
         if args.command == "assemble":
@@ -412,6 +440,7 @@ def main():
                 args.kind,
                 args.name,
                 contract_version=args.contract_version,
+                version=args.version,
             )
             print(args.output.absolute())
         else:

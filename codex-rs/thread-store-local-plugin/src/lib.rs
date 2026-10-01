@@ -91,6 +91,7 @@ pub async fn run_stdio() -> Result<()> {
     // writer operations. Release leases before waiting for deletion handlers.
     owner.begin_shutdown();
     service.release_all_forks().await;
+    service.begin_shutdown_migrations().await;
     let mut failures = Vec::new();
     if let Err(error) = read_result {
         failures.push(format!("storage request stream failed: {error:#}"));
@@ -102,6 +103,9 @@ pub async fn run_stdio() -> Result<()> {
         {
             failures.push(format!("storage handler failed: {error:#}"));
         }
+    }
+    if let Err(error) = service.shutdown_migrations().await {
+        failures.push(format!("storage migration cleanup failed: {error}"));
     }
     if let Err(error) = service.shutdown_writers().await {
         failures.push(format!("storage writer durability fence failed: {error}"));

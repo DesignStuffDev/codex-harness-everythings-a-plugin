@@ -30,7 +30,19 @@ enum RolloutMigrationScope {
     Selected,
 }
 
-pub(super) struct RolloutMigrationTelemetry {
+/// Terminal observation for migration metrics, independent of cancellation internals.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RolloutMigrationCompletion {
+    Completed,
+    Cancelled,
+}
+
+/// Records one migration's low-cardinality metrics in the current process.
+///
+/// Native migration already uses this recorder. A host should create a manual
+/// recorder only when a selected external worker does not export these metrics;
+/// recording again for the native path would count the same operation twice.
+pub struct RolloutMigrationTelemetry {
     trigger: RolloutMigrationTrigger,
     mode: RolloutMigrationMode,
     scope: RolloutMigrationScope,
@@ -38,6 +50,11 @@ pub(super) struct RolloutMigrationTelemetry {
 }
 
 impl RolloutMigrationTelemetry {
+    /// Starts host-side timing immediately before an external manual migration.
+    pub fn manual(options: &RolloutMigrationOptions) -> Self {
+        Self::new(RolloutMigrationTrigger::Manual, options)
+    }
+
     pub(super) fn new(trigger: RolloutMigrationTrigger, options: &RolloutMigrationOptions) -> Self {
         Self {
             trigger,
@@ -51,10 +68,25 @@ impl RolloutMigrationTelemetry {
         }
     }
 
-    pub(super) fn finish(
-        &self,
+    pub(super) fn finish_native(
+        self,
         result: &ThreadStoreResult<RolloutMigrationReport>,
         control: MigrationControl<'_>,
+    ) {
+        let completion = if control.is_stopped() {
+            RolloutMigrationCompletion::Cancelled
+        } else {
+            RolloutMigrationCompletion::Completed
+        };
+        self.finish(result, completion);
+    }
+
+    /// Records the observed result once; an operation error takes precedence over
+    /// cancellation. This does not assert storage durability or successful cleanup.
+    pub fn finish(
+        self,
+        result: &ThreadStoreResult<RolloutMigrationReport>,
+        completion: RolloutMigrationCompletion,
     ) {
         let Some(metrics) = codex_otel::global() else {
             return;
@@ -77,7 +109,7 @@ impl RolloutMigrationTelemetry {
         }
         let result = match result {
             Err(_) => "error",
-            Ok(_) if control.is_stopped() => "cancelled",
+            Ok(_) if completion == RolloutMigrationCompletion::Cancelled => "cancelled",
             Ok(report)
                 if report
                     .outcomes

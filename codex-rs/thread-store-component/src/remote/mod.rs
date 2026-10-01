@@ -67,6 +67,7 @@ mod creation;
 mod discovery;
 mod history_arc;
 mod metadata;
+pub(crate) mod migration;
 pub(crate) mod timeline;
 
 pub(crate) use creation::append_thread_items_params;

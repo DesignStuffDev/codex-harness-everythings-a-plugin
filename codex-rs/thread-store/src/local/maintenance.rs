@@ -52,7 +52,7 @@ impl Default for MaintenanceSupervisor {
 }
 
 impl MaintenanceSupervisor {
-    fn schedule(
+    pub(in crate::local) fn schedule(
         &self,
         job: impl Future<Output = Completion> + Send + 'static,
     ) -> ThreadStoreResult<()> {
@@ -74,6 +74,10 @@ impl MaintenanceSupervisor {
         state.jobs.spawn_on(job, &runtime);
         state.runtime = Some(runtime);
         Ok(())
+    }
+
+    pub(in crate::local) fn cancellation(&self) -> watch::Receiver<bool> {
+        self.cancellation.subscribe()
     }
 
     pub(super) fn begin_shutdown(&self) {

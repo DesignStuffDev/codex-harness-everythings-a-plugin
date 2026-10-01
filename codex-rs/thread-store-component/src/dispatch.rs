@@ -9,6 +9,26 @@ impl StorageService {
         request: StorageRequest,
     ) -> ThreadStoreResult<StorageResponse> {
         match request {
+            StorageRequest::StartMigration(request) => self
+                .migrations
+                .start(self.store.as_ref(), request)
+                .await
+                .map(StorageResponse::StartMigration),
+            StorageRequest::MigrationSnapshot(request) => self
+                .migrations
+                .snapshot(&request.lease_id)
+                .await
+                .map(StorageResponse::MigrationSnapshot),
+            StorageRequest::MigrationReport(request) => self
+                .migrations
+                .report(&request.lease_id)
+                .await
+                .map(StorageResponse::MigrationReport),
+            StorageRequest::CancelMigration(request) => self
+                .migrations
+                .cancel(&request.lease_id)
+                .await
+                .map(StorageResponse::CancelMigration),
             StorageRequest::CreateThread(params) => {
                 let thread_id = params.thread_id;
                 self.store.create_thread(params).await?;

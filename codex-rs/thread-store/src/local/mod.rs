@@ -119,6 +119,7 @@ use crate::UpdateProjectParams;
 use crate::UpdateThreadMetadataParams;
 use crate::UpdatedProject;
 
+pub use rollout_migration::RolloutMigrationCompletion;
 pub use rollout_migration::RolloutMigrationFailureReason;
 pub use rollout_migration::RolloutMigrationMode;
 pub use rollout_migration::RolloutMigrationOptions;
@@ -126,6 +127,7 @@ pub use rollout_migration::RolloutMigrationOutcome;
 pub use rollout_migration::RolloutMigrationProgress;
 pub use rollout_migration::RolloutMigrationReport;
 pub use rollout_migration::RolloutMigrationStatus;
+pub use rollout_migration::RolloutMigrationTelemetry;
 
 /// Local filesystem/SQLite-backed implementation of [`ThreadStore`].
 ///
@@ -507,6 +509,17 @@ impl ThreadStore for LocalThreadStore {
 
     fn supports_rollout_maintenance(&self) -> bool {
         true
+    }
+
+    fn supports_manual_rollout_migration(&self) -> bool {
+        true
+    }
+
+    fn start_rollout_migration(
+        &self,
+        options: crate::RolloutMigrationOptions,
+    ) -> ThreadStoreFuture<'_, Box<dyn crate::RolloutMigrationRun>> {
+        Box::pin(async move { rollout_migration::manual::start(self, options) })
     }
 
     fn supports_rollout_path_reads(&self) -> bool {

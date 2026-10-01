@@ -84,7 +84,7 @@ use crate::error::transport_error;
 /// process and writer ownership; an interrupted call is never replayed.
 #[derive(Clone)]
 pub struct ProcessThreadStore {
-    session: ComponentSession,
+    pub(crate) session: ComponentSession,
     capabilities: StorageCapabilities,
 }
 
@@ -147,7 +147,10 @@ impl ProcessThreadStore {
         self.session.close().await
     }
 
-    async fn request(&self, request: StorageRequest) -> ThreadStoreResult<StorageResponse> {
+    pub(crate) async fn request(
+        &self,
+        request: StorageRequest,
+    ) -> ThreadStoreResult<StorageResponse> {
         let params = serde_json::to_value(request).map_err(transport_error)?;
         let value = self
             .session
@@ -158,7 +161,7 @@ impl ProcessThreadStore {
     }
 }
 
-fn decode_reply(value: serde_json::Value) -> ThreadStoreResult<StorageResponse> {
+pub(crate) fn decode_reply(value: serde_json::Value) -> ThreadStoreResult<StorageResponse> {
     match serde_json::from_value(value).map_err(transport_error)? {
         StorageReply::Ok(response) => Ok(*response),
         StorageReply::Error(error) => Err(error.into_native()),
@@ -207,6 +210,16 @@ impl ThreadStore for ProcessThreadStore {
     }
     fn supports_rollout_maintenance(&self) -> bool {
         self.capabilities.rollout_maintenance
+    }
+    fn supports_manual_rollout_migration(&self) -> bool {
+        self.capabilities.manual_rollout_migration
+            == Some(crate::MANUAL_ROLLOUT_MIGRATION_CONTRACT_VERSION)
+    }
+    fn start_rollout_migration(
+        &self,
+        options: codex_thread_store::RolloutMigrationOptions,
+    ) -> ThreadStoreFuture<'_, Box<dyn codex_thread_store::RolloutMigrationRun>> {
+        Box::pin(crate::migration_adapter::start(self, options))
     }
     fn supports_rollout_path_reads(&self) -> bool {
         self.capabilities.rollout_path_reads

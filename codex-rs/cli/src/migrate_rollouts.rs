@@ -5,18 +5,19 @@ use std::path::Path;
 use std::time::Duration;
 use std::time::Instant;
 
-use anyhow::Context;
 use clap::Parser;
 use codex_core::config::ConfigBuilder;
 use codex_protocol::ThreadId;
-use codex_thread_store::LocalThreadStore;
-use codex_thread_store::LocalThreadStoreConfig;
+use codex_thread_store::RolloutMigrationCompletion;
 use codex_thread_store::RolloutMigrationMode;
 use codex_thread_store::RolloutMigrationOptions;
-use codex_thread_store::RolloutMigrationProgress;
+use codex_thread_store::RolloutMigrationPhase;
 use codex_thread_store::RolloutMigrationReport;
+use codex_thread_store::RolloutMigrationSnapshot;
 use codex_thread_store::RolloutMigrationStatus;
 use codex_utils_cli::CliConfigOverrides;
+
+mod runtime;
 
 #[derive(Debug, Parser)]
 pub(crate) struct MigrateRolloutsCommand {
@@ -85,30 +86,26 @@ pub(crate) async fn run(
     } else {
         None
     };
-    let state_db = if mode == RolloutMigrationMode::Apply {
-        Some(
-            codex_rollout::state_db::try_init(&config)
-                .await
-                .context("failed to initialize local thread metadata")?,
-        )
-    } else {
-        None
-    };
-    let store = LocalThreadStore::new(LocalThreadStoreConfig::from_config(&config), state_db);
     let mut progress = MigrationProgress::new(mode, json);
     progress.begin();
-    let result = store
-        .migrate_rollouts_with_progress(
-            RolloutMigrationOptions {
-                mode,
-                thread_ids: command.thread,
-                max_mib_per_second: command.max_mib_per_second,
-            },
-            |update| progress.update(update),
-        )
-        .await;
+    let result = runtime::execute(
+        &config,
+        RolloutMigrationOptions {
+            mode,
+            thread_ids: command.thread,
+            max_mib_per_second: command.max_mib_per_second,
+        },
+        |snapshot| progress.update(snapshot),
+    )
+    .await;
     progress.finish();
-    let report = result?;
+    let execution = result?;
+    let report = match execution.report {
+        Ok(report) => report,
+        Err(error) => {
+            return runtime::combine_cleanup(Err(error.into()), execution.cleanup);
+        }
+    };
     let thread_storage = match thread_storage_before {
         Some(before) => thread_storage_bytes(
             config.codex_home.as_path(),
@@ -121,23 +118,50 @@ pub(crate) async fn run(
     };
 
     if json {
-        println!("{}", serde_json::to_string_pretty(&report)?);
+        match serde_json::to_string_pretty(&report) {
+            Ok(report) => println!("{report}"),
+            Err(error) => return runtime::combine_cleanup(Err(error.into()), execution.cleanup),
+        }
     } else {
-        print_human_report(&report, mode, verbose, progress.elapsed(), thread_storage);
+        let completion = if execution.cleanup.is_ok() {
+            ReportCompletion::Joined(execution.completion)
+        } else {
+            ReportCompletion::CleanupUncertain
+        };
+        print_human_report(
+            &report,
+            mode,
+            verbose,
+            progress.elapsed(),
+            thread_storage,
+            completion,
+        );
     }
 
-    if report
+    let outcome = if matches!(execution.completion, RolloutMigrationCompletion::Cancelled) {
+        if execution.cleanup.is_ok() {
+            Err(anyhow::anyhow!(
+                "rollout migration cancelled after joined cleanup"
+            ))
+        } else {
+            Err(anyhow::anyhow!(
+                "rollout migration cancelled; cleanup was not confirmed"
+            ))
+        }
+    } else if report
         .outcomes
         .iter()
         .any(|outcome| outcome.status == RolloutMigrationStatus::Failed)
     {
-        anyhow::bail!("one or more rollout migrations failed");
-    }
-    Ok(())
+        Err(anyhow::anyhow!("one or more rollout migrations failed"))
+    } else {
+        Ok(())
+    };
+    runtime::combine_cleanup(outcome, execution.cleanup)
 }
 
 const TTY_PROGRESS_INTERVAL: Duration = Duration::from_millis(250);
-const NON_TTY_PROGRESS_INTERVAL: usize = 1_000;
+const NON_TTY_PROGRESS_INTERVAL: u64 = 1_000;
 const MAX_EXCEPTION_DETAILS: usize = 20;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -152,7 +176,7 @@ struct MigrationProgress {
     output: ProgressOutput,
     started_at: Instant,
     last_rendered_at: Instant,
-    last_plain_processed: usize,
+    last_plain_processed: u64,
     counts: MigrationCounts,
     wrote_tty_line: bool,
 }
@@ -186,17 +210,28 @@ impl MigrationProgress {
         }
     }
 
-    fn update(&mut self, update: RolloutMigrationProgress) {
-        if let Some(status) = update.outcome_status {
-            self.counts.observe(status);
+    fn update(&mut self, update: RolloutMigrationSnapshot) {
+        self.counts = MigrationCounts {
+            eligible: update.counts.eligible,
+            migrated: update.counts.migrated,
+            already_paginated: update.counts.already_paginated,
+            skipped_empty: update.counts.skipped_empty,
+            skipped_busy: update.counts.skipped_busy,
+            failed: update.counts.failed,
+        };
+        let terminal = matches!(
+            update.phase,
+            RolloutMigrationPhase::Completed | RolloutMigrationPhase::Cancelled
+        );
+        if update.phase == RolloutMigrationPhase::Scanning {
+            return;
         }
         match self.output {
             ProgressOutput::Quiet => {}
             ProgressOutput::Tty
-                if update.processed_paths == update.total_paths
-                    || self.last_rendered_at.elapsed() >= TTY_PROGRESS_INTERVAL =>
+                if terminal || self.last_rendered_at.elapsed() >= TTY_PROGRESS_INTERVAL =>
             {
-                let line = self.line(update);
+                let line = self.line(&update);
                 let mut stderr = io::stderr().lock();
                 let _ = write!(stderr, "\r\x1b[2K{line}");
                 let _ = stderr.flush();
@@ -204,13 +239,13 @@ impl MigrationProgress {
                 self.wrote_tty_line = true;
             }
             ProgressOutput::Plain
-                if update.processed_paths == update.total_paths
+                if terminal
                     || update
                         .processed_paths
                         .saturating_sub(self.last_plain_processed)
                         >= NON_TTY_PROGRESS_INTERVAL =>
             {
-                eprintln!("{}", self.line(update));
+                eprintln!("{}", self.line(&update));
                 self.last_plain_processed = update.processed_paths;
             }
             ProgressOutput::Tty | ProgressOutput::Plain => {}
@@ -231,11 +266,12 @@ impl MigrationProgress {
         self.started_at.elapsed()
     }
 
-    fn line(&self, update: RolloutMigrationProgress) -> String {
+    fn line(&self, update: &RolloutMigrationSnapshot) -> String {
+        let total = update.total_paths.unwrap_or_default();
         let percent = update
             .processed_paths
             .saturating_mul(100)
-            .checked_div(update.total_paths)
+            .checked_div(total)
             .unwrap_or(100);
         let action = match self.mode {
             RolloutMigrationMode::DryRun => "Checking",
@@ -254,7 +290,7 @@ impl MigrationProgress {
         format!(
             "{action} rollouts  {}/{} ({percent}%)  •  {status_counts}  •  {} skipped  •  {} failed  •  {}",
             update.processed_paths,
-            update.total_paths,
+            total,
             self.counts.skipped(),
             self.counts.failed,
             format_elapsed(self.elapsed()),
@@ -264,12 +300,12 @@ impl MigrationProgress {
 
 #[derive(Default)]
 struct MigrationCounts {
-    eligible: usize,
-    migrated: usize,
-    already_paginated: usize,
-    skipped_empty: usize,
-    skipped_busy: usize,
-    failed: usize,
+    eligible: u64,
+    migrated: u64,
+    already_paginated: u64,
+    skipped_empty: u64,
+    skipped_busy: u64,
+    failed: u64,
 }
 
 impl MigrationCounts {
@@ -284,9 +320,14 @@ impl MigrationCounts {
         }
     }
 
-    fn skipped(&self) -> usize {
+    fn skipped(&self) -> u64 {
         self.skipped_empty + self.skipped_busy
     }
+}
+
+enum ReportCompletion {
+    Joined(RolloutMigrationCompletion),
+    CleanupUncertain,
 }
 
 fn print_human_report(
@@ -295,14 +336,25 @@ fn print_human_report(
     verbose: bool,
     elapsed: Duration,
     thread_storage: Option<(u64, u64)>,
+    completion: ReportCompletion,
 ) {
     let mut counts = MigrationCounts::default();
     for outcome in &report.outcomes {
         counts.observe(outcome.status);
     }
-    let completion = match mode {
-        RolloutMigrationMode::DryRun => "Scan complete",
-        RolloutMigrationMode::Apply => "Migration complete",
+    let completion = match (completion, mode) {
+        (ReportCompletion::CleanupUncertain, _) => "Migration cleanup uncertain",
+        (ReportCompletion::Joined(RolloutMigrationCompletion::Cancelled), _) => {
+            "Migration cancelled"
+        }
+        (
+            ReportCompletion::Joined(RolloutMigrationCompletion::Completed),
+            RolloutMigrationMode::DryRun,
+        ) => "Scan complete",
+        (
+            ReportCompletion::Joined(RolloutMigrationCompletion::Completed),
+            RolloutMigrationMode::Apply,
+        ) => "Migration complete",
     };
     println!("{completion} in {}.", format_elapsed(elapsed));
     match mode {
@@ -448,3 +500,7 @@ fn format_bytes(bytes: u64) -> String {
         format!("{} B", bytes as u64)
     }
 }
+
+#[cfg(test)]
+#[path = "migrate_rollouts/progress_tests.rs"]
+mod tests;
