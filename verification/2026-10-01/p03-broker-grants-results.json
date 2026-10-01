@@ -1,0 +1,286 @@
+{
+  "schema_version": 1,
+  "publication_parent": {
+    "commit": "5fbe8a7901e1f935c40e969b4bb3cd7811e0d6be",
+    "tree": "2ef11a23fd848b4e236186b8518dd5d7c811d2df",
+    "provenance": "Parent verified publication, exact current lib preimage independently checked."
+  },
+  "classification": "Custom checked broker grant/API infrastructure; no native upstream subsystem extracted.",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "publication_binding": "Grant publication pending; parent commit is context, not a claim that the working tree equals that commit.",
+  "passed": true,
+  "claim": "Grant constructors/serde/canonicalization validation only; broker inactive.",
+  "stage_manifest": {
+    "path": "/tmp/p03-broker-grants-stage/FINAL_MANIFEST.json",
+    "sha256": "ba38a6cf6505f8552ad8aca2fd5015edcbe61437a70f255ee9742c722d2a4e2f",
+    "bytes": 2924
+  },
+  "adoption": {
+    "path": "/workspace/acceptance/p03-broker-grants-adoption.json",
+    "sha256": "123319179f2608a9116e20705c1b72aa5486ac95df151402c5de9824c04470a8",
+    "bytes": 1768
+  },
+  "cloud_local_adoption_archive": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-broker-grants-adoption.tar.gz",
+    "sha256": "81bcc6743cda6ec96e71ededcbdf5ae1ba3928b9bd0984bcbfcb8486453b57d4",
+    "durability": "Verified cloud-local preservation; not independent external backup."
+  },
+  "tested_diff": {
+    "paths": 5,
+    "additions": 367,
+    "removals": 0
+  },
+  "tests": {
+    "executed": 15,
+    "passed": 15,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "new_grant_tests": 5,
+    "prior_api_tests": 10,
+    "nextest_run_id": "982873c4-eb47-4356-9089-0798007c47f9",
+    "names": [
+      "v0.0.0",
+      "broker_grants_tests::operations_validate_names_and_finite_positive_caps_through_serde",
+      "broker_grants_tests::handles_validate_utf8_bytes_and_redact_debug_without_changing_wire_values",
+      "broker_grants_tests::service_grants_canonicalize_operations_without_collapsing_duplicates_or_identity",
+      "broker_grants_tests::raw_grants_reject_duplicate_missing_and_unknown_fields_without_value_roundtrip",
+      "broker_limits_tests::invalid_concurrency_and_zero_budgets_are_rejected_during_deserialization",
+      "broker_grants_tests::service_grants_enforce_descriptor_and_operation_count_boundaries",
+      "broker_limits_tests::limits_round_trip_through_the_checked_wire_shape",
+      "broker_limits_tests::limit_schema_rejects_raw_duplicates_missing_and_unknown_fields",
+      "service_requirements_tests::broker_manifest_is_rejected_by_the_legacy_strict_component_schema",
+      "broker_limits_tests::maximum_call_budget_fits_both_request_and_response_without_overflow",
+      "service_requirements_tests::checked_requirements_preserve_exact_operations_and_presence",
+      "service_requirements_tests::declaration_versions_and_service_count_fail_before_use",
+      "service_requirements_tests::legacy_manifest_round_trip_omits_service_requirements",
+      "service_requirements_tests::descriptors_enforce_utf8_byte_limits_and_duplicate_operations",
+      "service_requirements_tests::raw_duplicates_and_unknown_fields_are_not_erased_by_value_conversion"
+    ]
+  },
+  "gates": [
+    {
+      "name": "tests",
+      "report": {
+        "path": "/workspace/acceptance/p03-broker-grants-tests.source.json",
+        "sha256": "53fee9ac97c3de4f287d2c6a42139f35770e4e80e9f5088cccfe9e9e54c81b54",
+        "bytes": 2431006
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-broker-grants-tests.log",
+        "sha256": "f54aa2d89f519a2de67ca9349d8ac9990b389ee3e9b9a4769d0c26ae3efa698c",
+        "bytes": 2643
+      },
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-broker-grants-tests.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-component-api"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T14:16:12Z",
+      "finished_utc": "2026-10-01T14:16:17Z",
+      "returncode": 0,
+      "source_count_before": 8789,
+      "source_count_after": 8789,
+      "source_before_map_sha256": "5b5dad8db44ed22a0ab369db3ca18f00cebccb55ab8f566a8745ce105c992464",
+      "source_after_map_sha256": "5b5dad8db44ed22a0ab369db3ca18f00cebccb55ab8f566a8745ce105c992464",
+      "source_unchanged": true
+    },
+    {
+      "name": "fix",
+      "report": {
+        "path": "/workspace/acceptance/p03-broker-grants-fix.source.json",
+        "sha256": "2152fb66e6241e5ec84c818b41ad2c09433d8081c6faa332bdeb7a31e0684c2c",
+        "bytes": 2430710
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-broker-grants-fix.log",
+        "sha256": "7a2ec0d3f469ce474760801c4161b3046a8f38c0ec82d82cb44ad0b93335fcba",
+        "bytes": 219
+      },
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-component-api"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T14:16:41Z",
+      "finished_utc": "2026-10-01T14:16:43Z",
+      "returncode": 0,
+      "source_count_before": 8789,
+      "source_count_after": 8789,
+      "source_before_map_sha256": "5b5dad8db44ed22a0ab369db3ca18f00cebccb55ab8f566a8745ce105c992464",
+      "source_after_map_sha256": "5b5dad8db44ed22a0ab369db3ca18f00cebccb55ab8f566a8745ce105c992464",
+      "source_unchanged": true
+    },
+    {
+      "name": "fmt",
+      "report": {
+        "path": "/workspace/acceptance/p03-broker-grants-fmt.source.json",
+        "sha256": "d3bbdcbdd8ad7ef4ac7a35c1d23b9948fa986578c35ccb35b5418f3eca3830b5",
+        "bytes": 2430674
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-broker-grants-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T14:17:01Z",
+      "finished_utc": "2026-10-01T14:17:24Z",
+      "returncode": 0,
+      "source_count_before": 8789,
+      "source_count_after": 8789,
+      "source_before_map_sha256": "5b5dad8db44ed22a0ab369db3ca18f00cebccb55ab8f566a8745ce105c992464",
+      "source_after_map_sha256": "03db1046f01f13c8c3e27e75c9c6e548faf8499367f87d7f18bc9c540fcdfea2",
+      "source_unchanged": false
+    }
+  ],
+  "subreaper": {
+    "report": {
+      "path": "/workspace/acceptance/p03-broker-grants-tests.subreaper.json",
+      "sha256": "59e0752d308949bceedce2fa744798df8adc19f6d7cc15069a8938b91cd80813",
+      "bytes": 502
+    },
+    "command_returncode": 0,
+    "exit_status": 0,
+    "runner_error": null,
+    "reaped": [
+      {
+        "pid": 745318,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ]
+  },
+  "source_binding": {
+    "authoritative": "Exact source_before/source_after maps in the cited reports.",
+    "recorder_baseline_field": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "recorder_baseline_is_tested_tree_identity": false,
+    "map_digest_encoding": "SHA256 of UTF-8 JSON with sorted keys, separators comma/colon, ensure_ascii=false",
+    "source_paths": [
+      {
+        "path": "codex-rs/component-api/src/broker_grants.rs",
+        "base_sha256": null,
+        "tested_sha256": "2acac4263f812cc2c7983ad78afcdd1ddd32152db56dc18da2e038c949085bbf",
+        "formatted_sha256": "346e5ea561ec236f4bb0d1e01bcb2224d8f2d0772f75c36efbbb59927881bd1e",
+        "tested_bytes": 3530,
+        "formatted_bytes": 3762,
+        "tested_additions": 107,
+        "tested_removals": 0
+      },
+      {
+        "path": "codex-rs/component-api/src/broker_grants_tests.rs",
+        "base_sha256": null,
+        "tested_sha256": "2baa7552ebbb7259caf64ddd8acbaa737698800571d222d9321166da129daebb",
+        "formatted_sha256": "c4ec4cc44d390d0bf2a39b745d5b1fcde31d388c74fec720c7a578af8d4e0f14",
+        "tested_bytes": 6986,
+        "formatted_bytes": 8310,
+        "tested_additions": 126,
+        "tested_removals": 0
+      },
+      {
+        "path": "codex-rs/component-api/src/broker_handles.rs",
+        "base_sha256": null,
+        "tested_sha256": "33ff70127c1a95f7549bad018d87d2f4d50b0772f9262bfccd1a29e752f9f761",
+        "formatted_sha256": "33ff70127c1a95f7549bad018d87d2f4d50b0772f9262bfccd1a29e752f9f761",
+        "tested_bytes": 2161,
+        "formatted_bytes": 2161,
+        "tested_additions": 73,
+        "tested_removals": 0
+      },
+      {
+        "path": "codex-rs/component-api/src/broker_negotiation_error.rs",
+        "base_sha256": null,
+        "tested_sha256": "795ae701a9dbfde6d4bf2a124172611c4531cdc2c1f5db5c77711ff119f22431",
+        "formatted_sha256": "f4324388e9394aeab38dea58d8ca73120f1f53ff7ab4297e6c7216347b390cba",
+        "tested_bytes": 2180,
+        "formatted_bytes": 2211,
+        "tested_additions": 48,
+        "tested_removals": 0
+      },
+      {
+        "path": "codex-rs/component-api/src/lib.rs",
+        "base_sha256": "a335ba9ffe0aed1a7bc83fc4ca9b16c89f126fc421cc3cfb8950b5ca551a6584",
+        "tested_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+        "formatted_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+        "tested_bytes": 3791,
+        "formatted_bytes": 3791,
+        "tested_additions": 13,
+        "tested_removals": 0
+      }
+    ],
+    "formatted_lib_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c"
+  },
+  "format_transition": {
+    "changed_paths": [
+      "codex-rs/component-api/src/broker_grants.rs",
+      "codex-rs/component-api/src/broker_grants_tests.rs",
+      "codex-rs/component-api/src/broker_negotiation_error.rs"
+    ],
+    "review": "Full diffs inspected: layout, optional trailing commas and one string-valued match arm wrapped in braces; no predicates, literals or assertions changed.",
+    "test_rerun_after_format": false,
+    "diffs": [
+      {
+        "path": "codex-rs/component-api/src/broker_grants.rs",
+        "unified_diff": "--- tested/codex-rs/component-api/src/broker_grants.rs\n+++ formatted/codex-rs/component-api/src/broker_grants.rs\n@@ -26,21 +26,33 @@\n }\n \n impl GrantedOperationV1 {\n-    pub fn new(name: String, max_request_bytes: u64, max_response_bytes: u64)\n-        -> Result<Self, BrokerNegotiationError>\n-    {\n+    pub fn new(\n+        name: String,\n+        max_request_bytes: u64,\n+        max_response_bytes: u64,\n+    ) -> Result<Self, BrokerNegotiationError> {\n         if name.is_empty() || name.len() > 256 {\n             return Err(BrokerNegotiationError::InvalidOperationName);\n         }\n         if max_request_bytes == 0 || max_response_bytes == 0 {\n             return Err(BrokerNegotiationError::InvalidOperationLimit);\n         }\n-        Ok(Self { name, max_request_bytes, max_response_bytes })\n+        Ok(Self {\n+            name,\n+            max_request_bytes,\n+            max_response_bytes,\n+        })\n     }\n \n-    pub fn name(&self) -> &str { &self.name }\n-    pub fn max_request_bytes(&self) -> u64 { self.max_request_bytes }\n-    pub fn max_response_bytes(&self) -> u64 { self.max_response_bytes }\n+    pub fn name(&self) -> &str {\n+        &self.name\n+    }\n+    pub fn max_request_bytes(&self) -> u64 {\n+        self.max_request_bytes\n+    }\n+    pub fn max_response_bytes(&self) -> u64 {\n+        self.max_response_bytes\n+    }\n }\n \n impl TryFrom<RawGrantedOperation> for GrantedOperationV1 {\n@@ -69,9 +81,12 @@\n }\n \n impl ServiceGrantV1 {\n-    pub fn new(name: String, version: u32, mut operations: Vec<GrantedOperationV1>,\n-        authority: ServiceAuthorityHandle) -> Result<Self, BrokerNegotiationError>\n-    {\n+    pub fn new(\n+        name: String,\n+        version: u32,\n+        mut operations: Vec<GrantedOperationV1>,\n+        authority: ServiceAuthorityHandle,\n+    ) -> Result<Self, BrokerNegotiationError> {\n         if name.is_empty() || name.len() > 128 {\n             return Err(BrokerNegotiationError::InvalidServiceName);\n         }\n@@ -90,13 +105,26 @@\n             }\n         }\n         operations.sort_by(|left, right| left.name().cmp(right.name()));\n-        Ok(Self { name, version, operations, authority })\n+        Ok(Self {\n+            name,\n+            version,\n+            operations,\n+            authority,\n+        })\n     }\n \n-    pub fn name(&self) -> &str { &self.name }\n-    pub fn version(&self) -> u32 { self.version }\n-    pub fn operations(&self) -> &[GrantedOperationV1] { &self.operations }\n-    pub fn authority(&self) -> &ServiceAuthorityHandle { &self.authority }\n+    pub fn name(&self) -> &str {\n+        &self.name\n+    }\n+    pub fn version(&self) -> u32 {\n+        self.version\n+    }\n+    pub fn operations(&self) -> &[GrantedOperationV1] {\n+        &self.operations\n+    }\n+    pub fn authority(&self) -> &ServiceAuthorityHandle {\n+        &self.authority\n+    }\n }\n \n impl TryFrom<RawServiceGrant> for ServiceGrantV1 {\n"
+      },
+      {
+        "path": "codex-rs/component-api/src/broker_grants_tests.rs",
+        "unified_diff": "--- tested/codex-rs/component-api/src/broker_grants_tests.rs\n+++ formatted/codex-rs/component-api/src/broker_grants_tests.rs\n@@ -14,7 +14,12 @@\n }\n \n fn operation(name: &str) -> GrantedOperationV1 {\n-    GrantedOperationV1::new(name.to_owned(), /*max_request_bytes*/ 1, /*max_response_bytes*/ 2).unwrap()\n+    GrantedOperationV1::new(\n+        name.to_owned(),\n+        /*max_request_bytes*/ 1,\n+        /*max_response_bytes*/ 2,\n+    )\n+    .unwrap()\n }\n \n #[test]\n@@ -24,8 +29,14 @@\n     let grant = ServiceAuthorityHandle::new(raw.clone()).unwrap();\n     assert_eq!(serde_json::to_value(&connection).unwrap(), json!(raw));\n     assert_eq!(serde_json::to_value(&grant).unwrap(), json!(raw));\n-    assert_eq!(serde_json::from_value::<BrokerConnectionHandle>(json!(raw)).unwrap(), connection);\n-    assert_eq!(serde_json::from_value::<ServiceAuthorityHandle>(json!(raw)).unwrap(), grant);\n+    assert_eq!(\n+        serde_json::from_value::<BrokerConnectionHandle>(json!(raw)).unwrap(),\n+        connection\n+    );\n+    assert_eq!(\n+        serde_json::from_value::<ServiceAuthorityHandle>(json!(raw)).unwrap(),\n+        grant\n+    );\n     assert!(!format!(\"{connection:?} {grant:?}\").contains(&raw));\n     for raw in [String::new(), \"secret-marker\".repeat(30)] {\n         let connection = BrokerConnectionHandle::new(raw.clone()).unwrap_err();\n@@ -36,7 +47,12 @@\n         assert!(serde_json::from_value::<BrokerConnectionHandle>(json!(raw)).is_err());\n         assert!(serde_json::from_value::<ServiceAuthorityHandle>(json!(raw)).is_err());\n     }\n-    for raw in [json!(\"\u00e9\".repeat(129)), json!(null), json!(7), json!({\"value\":\"token\"})] {\n+    for raw in [\n+        json!(\"\u00e9\".repeat(129)),\n+        json!(null),\n+        json!(7),\n+        json!({\"value\":\"token\"}),\n+    ] {\n         assert!(serde_json::from_value::<BrokerConnectionHandle>(raw.clone()).is_err());\n         assert!(serde_json::from_value::<ServiceAuthorityHandle>(raw).is_err());\n     }\n@@ -49,9 +65,21 @@\n     assert_eq!(serde_json::to_value(operation).unwrap(), raw);\n     for (field, value, diagnostic) in [\n         (\"name\", json!(\"\"), \"invalid broker operation name\"),\n-        (\"name\", json!(\"\u00e9\".repeat(129)), \"invalid broker operation name\"),\n-        (\"max_request_bytes\", json!(0), \"byte limits must be positive\"),\n-        (\"max_response_bytes\", json!(0), \"byte limits must be positive\"),\n+        (\n+            \"name\",\n+            json!(\"\u00e9\".repeat(129)),\n+            \"invalid broker operation name\",\n+        ),\n+        (\n+            \"max_request_bytes\",\n+            json!(0),\n+            \"byte limits must be positive\",\n+        ),\n+        (\n+            \"max_response_bytes\",\n+            json!(0),\n+            \"byte limits must be positive\",\n+        ),\n     ] {\n         let mut invalid = raw.clone();\n         invalid[field] = value;\n@@ -62,65 +90,167 @@\n \n #[test]\n fn service_grants_canonicalize_operations_without_collapsing_duplicates_or_identity() {\n-    let left = ServiceGrantV1::new(\"host.a\".into(), /*version*/ 1,\n-        vec![operation(\"write\"), operation(\"read\")], authority()).unwrap();\n-    let right = ServiceGrantV1::new(\"host.a\".into(), /*version*/ 1,\n-        vec![operation(\"read\"), operation(\"write\")], authority()).unwrap();\n+    let left = ServiceGrantV1::new(\n+        \"host.a\".into(),\n+        /*version*/ 1,\n+        vec![operation(\"write\"), operation(\"read\")],\n+        authority(),\n+    )\n+    .unwrap();\n+    let right = ServiceGrantV1::new(\n+        \"host.a\".into(),\n+        /*version*/ 1,\n+        vec![operation(\"read\"), operation(\"write\")],\n+        authority(),\n+    )\n+    .unwrap();\n     assert_eq!(left, right);\n-    assert_eq!(serde_json::to_value(&left).unwrap(), json!({\"name\":\"host.a\",\"version\":1,\n+    assert_eq!(\n+        serde_json::to_value(&left).unwrap(),\n+        json!({\"name\":\"host.a\",\"version\":1,\n         \"operations\":[{\"name\":\"read\",\"max_request_bytes\":1,\"max_response_bytes\":2},\n-        {\"name\":\"write\",\"max_request_bytes\":1,\"max_response_bytes\":2}],\"authority\":\"private-authority\"}));\n-    assert_eq!(serde_json::from_value::<ServiceGrantV1>(serde_json::to_value(&left).unwrap()).unwrap(), left);\n+        {\"name\":\"write\",\"max_request_bytes\":1,\"max_response_bytes\":2}],\"authority\":\"private-authority\"})\n+    );\n+    assert_eq!(\n+        serde_json::from_value::<ServiceGrantV1>(serde_json::to_value(&left).unwrap()).unwrap(),\n+        left\n+    );\n     assert!(!format!(\"{left:?}\").contains(\"private-authority\"));\n-    let duplicate = GrantedOperationV1::new(\"read\".into(), /*max_request_bytes*/ 9, /*max_response_bytes*/ 10).unwrap();\n-    assert_eq!(ServiceGrantV1::new(\"host.a\".into(), /*version*/ 1,\n-        vec![operation(\"read\"), duplicate], authority()), Err(BrokerNegotiationError::DuplicateOperation));\n-    let exact_names = ServiceGrantV1::new(\"host.a\".into(), /*version*/ 1,\n-        vec![operation(\"Read\"), operation(\"read\"), operation(\"\u00e9\"), operation(\"e\\u{301}\")], authority()).unwrap();\n+    let duplicate = GrantedOperationV1::new(\n+        \"read\".into(),\n+        /*max_request_bytes*/ 9,\n+        /*max_response_bytes*/ 10,\n+    )\n+    .unwrap();\n+    assert_eq!(\n+        ServiceGrantV1::new(\n+            \"host.a\".into(),\n+            /*version*/ 1,\n+            vec![operation(\"read\"), duplicate],\n+            authority()\n+        ),\n+        Err(BrokerNegotiationError::DuplicateOperation)\n+    );\n+    let exact_names = ServiceGrantV1::new(\n+        \"host.a\".into(),\n+        /*version*/ 1,\n+        vec![\n+            operation(\"Read\"),\n+            operation(\"read\"),\n+            operation(\"\u00e9\"),\n+            operation(\"e\\u{301}\"),\n+        ],\n+        authority(),\n+    )\n+    .unwrap();\n     assert_eq!(exact_names.operations().len(), 4);\n-    let other = ServiceGrantV1::new(\"host.a\".into(), /*version*/ 1,\n-        right.operations().to_vec(), ServiceAuthorityHandle::new(\"other\".into()).unwrap()).unwrap();\n+    let other = ServiceGrantV1::new(\n+        \"host.a\".into(),\n+        /*version*/ 1,\n+        right.operations().to_vec(),\n+        ServiceAuthorityHandle::new(\"other\".into()).unwrap(),\n+    )\n+    .unwrap();\n     assert_ne!(left, other);\n }\n \n #[test]\n fn service_grants_enforce_descriptor_and_operation_count_boundaries() {\n     let operations: Vec<_> = (0..32).map(|n| operation(&format!(\"op{n}\"))).collect();\n-    let grant = ServiceGrantV1::new(\"\u00e9\".repeat(64), u32::MAX, operations.clone(), authority()).unwrap();\n+    let grant =\n+        ServiceGrantV1::new(\"\u00e9\".repeat(64), u32::MAX, operations.clone(), authority()).unwrap();\n     assert_eq!(grant.name(), \"\u00e9\".repeat(64));\n     assert_eq!(grant.version(), u32::MAX);\n     for (name, version, operations, expected) in [\n-        (String::new(), 1, operations.clone(), BrokerNegotiationError::InvalidServiceName),\n-        (\"\u00e9\".repeat(65), 1, operations.clone(), BrokerNegotiationError::InvalidServiceName),\n-        (\"a\".into(), 0, operations.clone(), BrokerNegotiationError::InvalidServiceVersion),\n-        (\"a\".into(), 1, Vec::new(), BrokerNegotiationError::InvalidOperationCount),\n-    ] {\n-        assert_eq!(ServiceGrantV1::new(name, version, operations, authority()), Err(expected));\n+        (\n+            String::new(),\n+            1,\n+            operations.clone(),\n+            BrokerNegotiationError::InvalidServiceName,\n+        ),\n+        (\n+            \"\u00e9\".repeat(65),\n+            1,\n+            operations.clone(),\n+            BrokerNegotiationError::InvalidServiceName,\n+        ),\n+        (\n+            \"a\".into(),\n+            0,\n+            operations.clone(),\n+            BrokerNegotiationError::InvalidServiceVersion,\n+        ),\n+        (\n+            \"a\".into(),\n+            1,\n+            Vec::new(),\n+            BrokerNegotiationError::InvalidOperationCount,\n+        ),\n+    ] {\n+        assert_eq!(\n+            ServiceGrantV1::new(name, version, operations, authority()),\n+            Err(expected)\n+        );\n     }\n     let mut overflow = operations;\n     overflow.push(operation(\"extra\"));\n-    assert_eq!(ServiceGrantV1::new(\"a\".into(), /*version*/ 1, overflow, authority()),\n-        Err(BrokerNegotiationError::InvalidOperationCount));\n+    assert_eq!(\n+        ServiceGrantV1::new(\"a\".into(), /*version*/ 1, overflow, authority()),\n+        Err(BrokerNegotiationError::InvalidOperationCount)\n+    );\n }\n \n #[test]\n fn raw_grants_reject_duplicate_missing_and_unknown_fields_without_value_roundtrip() {\n     let operation = r#\"{\"name\":\"read\",\"max_request_bytes\":1,\"max_response_bytes\":2}\"#;\n     for (raw, diagnostic) in [\n-        (operation.replacen('{', \"{\\\"name\\\":\\\"other\\\",\", 1), \"duplicate field\"),\n-        (operation.replace(\",\\\"max_request_bytes\\\":1\", \"\"), \"missing field\"),\n-        (operation.replacen('{', \"{\\\"extra\\\":true,\", 1), \"unknown field\"),\n-    ] {\n-        assert!(serde_json::from_str::<GrantedOperationV1>(&raw).unwrap_err().to_string().contains(diagnostic));\n-    }\n-    let valid = format!(r#\"{{\"name\":\"host.a\",\"version\":1,\"operations\":[{operation}],\"authority\":\"private-authority\"}}\"#);\n+        (\n+            operation.replacen('{', \"{\\\"name\\\":\\\"other\\\",\", 1),\n+            \"duplicate field\",\n+        ),\n+        (\n+            operation.replace(\",\\\"max_request_bytes\\\":1\", \"\"),\n+            \"missing field\",\n+        ),\n+        (\n+            operation.replacen('{', \"{\\\"extra\\\":true,\", 1),\n+            \"unknown field\",\n+        ),\n+    ] {\n+        assert!(\n+            serde_json::from_str::<GrantedOperationV1>(&raw)\n+                .unwrap_err()\n+                .to_string()\n+                .contains(diagnostic)\n+        );\n+    }\n+    let valid = format!(\n+        r#\"{{\"name\":\"host.a\",\"version\":1,\"operations\":[{operation}],\"authority\":\"private-authority\"}}\"#\n+    );\n     for (raw, diagnostic) in [\n-        (valid.replacen('{', \"{\\\"authority\\\":\\\"other\\\",\", 1), \"duplicate field\"),\n+        (\n+            valid.replacen('{', \"{\\\"authority\\\":\\\"other\\\",\", 1),\n+            \"duplicate field\",\n+        ),\n         (valid.replace(\",\\\"version\\\":1\", \"\"), \"missing field\"),\n         (valid.replacen('{', \"{\\\"extra\\\":true,\", 1), \"unknown field\"),\n-        (valid.replace(&format!(\"[{operation}]\"), &format!(\"[{operation},{operation}]\")), \"duplicate broker operation\"),\n-        (valid.replace(\"private-authority\", \"\"), \"invalid service authority handle\"),\n-    ] {\n-        assert!(serde_json::from_str::<ServiceGrantV1>(&raw).unwrap_err().to_string().contains(diagnostic));\n-    }\n-}\n+        (\n+            valid.replace(\n+                &format!(\"[{operation}]\"),\n+                &format!(\"[{operation},{operation}]\"),\n+            ),\n+            \"duplicate broker operation\",\n+        ),\n+        (\n+            valid.replace(\"private-authority\", \"\"),\n+            \"invalid service authority handle\",\n+        ),\n+    ] {\n+        assert!(\n+            serde_json::from_str::<ServiceGrantV1>(&raw)\n+                .unwrap_err()\n+                .to_string()\n+                .contains(diagnostic)\n+        );\n+    }\n+}\n"
+      },
+      {
+        "path": "codex-rs/component-api/src/broker_negotiation_error.rs",
+        "unified_diff": "--- tested/codex-rs/component-api/src/broker_negotiation_error.rs\n+++ formatted/codex-rs/component-api/src/broker_negotiation_error.rs\n@@ -36,7 +36,9 @@\n             Self::DuplicateService => \"duplicate broker service and version\",\n             Self::DuplicateOperation => \"duplicate broker operation\",\n             Self::InvalidOperationLimit => \"broker operation byte limits must be positive\",\n-            Self::OperationLimitExceedsConnection => \"operation byte limit exceeds connection limit\",\n+            Self::OperationLimitExceedsConnection => {\n+                \"operation byte limit exceeds connection limit\"\n+            }\n             Self::UndeclaredService => \"broker service was not declared\",\n             Self::MissingRequiredService => \"required broker service is missing\",\n             Self::OperationSetMismatch => \"broker operation set differs from declaration\",\n"
+      }
+    ]
+  },
+  "native_catalog_audit": {
+    "classification": "Preserved read-only source audit and proposed next checkpoint; not implementation/build/runtime proof.",
+    "documents": [
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/design/native-catalog/NATIVE_CATALOG_NEXT_CHECKPOINT.md",
+        "sha256": "f7e605c3e2515c77647c8a1a4ea629a90b76a3ec26add9a25d156019d59a6d00",
+        "bytes": 11962
+      },
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/design/native-catalog/SOURCE_BINDINGS.json",
+        "sha256": "d755c0183376a212abb234df98694f7be7edc53d4490660cc5850910285ffc77",
+        "bytes": 4599
+      }
+    ]
+  },
+  "not_proven": [
+    "Runtime service authority issuance or authentication",
+    "Bounded serde allocation before Vec/String materialization",
+    "Broker admission, dispatch, resource ledgers, cancellation or settlement",
+    "Offer/ack compatibility or negotiation (separate pending slice)",
+    "Installed worker/service execution or GUI regression in this gate",
+    "New native subsystem extraction"
+  ],
+  "next": [
+    "Adopt and test separately reviewed offer/ack DTO slice.",
+    "Agree smallest retained accounting module contract before runtime implementation.",
+    "Keep inactive catalog guard until coordinated negotiation and runtime gates."
+  ]
+}

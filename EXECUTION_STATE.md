@@ -31,6 +31,10 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   tree `2822cb23417e67a22434c275b7af7155aee8bae8`, parent `ca38f8c6`. It contains twelve
   reviewed source paths plus Cargo.lock and separate evidence/design documentation. Receipt:
   `p03-service-declarations-publication.json`. Broker remains inactive.
+- Latest checked-limit checkpoint: `5fbe8a7901e1f935c40e969b4bb3cd7811e0d6be`, tree
+  `2ef11a23fd848b4e236186b8518dd5d7c811d2df`, parent `8ee6b667`, nonforce-published
+  and remotely verified. Three API source files plus nine documentation/evidence files;
+  receipt `p03-broker-limits-publication.json`. No live broker enforcement is activated.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
   `147ac2447134294359c4071b0aeb495922760db7`. Retain LICENSE/NOTICE and lineage.
@@ -110,6 +114,11 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   [Evidence](verification/2026-10-01/P03_BROKER_LIMITS_EVIDENCE.md) binds actual tested and formatted
   bytes. No dependency, manifest, runtime enforcement, native extraction or UI change.
 
+- Checked handles and service grants: **15 API tests passed, zero skipped/retries**
+  (five new grant cases and ten earlier cases). Lint unchanged; three mechanical format changes.
+  [Evidence](verification/2026-10-01/P03_BROKER_GRANTS_EVIDENCE.md) records exact source and scope.
+  This validates descriptions only; it issues no authority and activates no service.
+
 ## Ordered next actions
 
 1. Recheck original environment, source state, remote refs, active work and resource headroom.
@@ -120,7 +129,7 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
    snapshot, not execution proof. Declaration DTOs are accepted; retain the catalog rejection
    until coordinated negotiated activation. Checked budget configuration is verified; implement the
    [accepted offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) next,
-   first checked handles/grants, then exact canonical offer/ack matching. Missing optional-only
+   checked handles/grants now pass their API gate; exact canonical offer/ack matching is next. Missing optional-only
    acknowledgement disables the broker; required absence or present-invalid acknowledgement fails.
    Keep strict parsing on original bounded handshake bytes, including envelope duplicate fields.
 3. Implement bounded connection/call/decoded-work ownership, exact grant equality, retained
@@ -134,6 +143,9 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
 5. Extract native model-catalog/cache after required provider capability, atomic native policy
    epochs, isolated-session behavior, finite domain limits and retained cleanup seams. Real
    model listing/selection must change through separately built replacements with unchanged host.
+   Follow the [native prerequisite audit](component-sdk/design/native-catalog/NATIVE_CATALOG_NEXT_CHECKPOINT.md)
+   and its exact source bindings; provider endpoint and native policy epoch can be implemented
+   independently before broker activation, but neither alone is extraction.
    General Session cleanup, model-v2, authentication/configuration, inference and the private
    storage search fallback remain obligations, not silently removed prerequisites.
 6. Continue P04–P19 and every inventory row. P18U must implement the installable updater plus
@@ -173,6 +185,12 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   Archive SHA `125e90d2ec711bf4fa2a2c62bdf84abb2fbd6ed0facd3ec202d24dde4e9ed19d`; receipt
   `p03-completed-tui-executable-preservation.json`. Do not treat absent generated executables as
   missing source or delete preserved hosts; regenerate only when needed with planned headroom.
+- One generated temporary linker output (`codex_thread_store_component-fd3e6e92c2bd856a.tmp83d0ef5`)
+  was preserved then retired after idle/process-reference checks. Its basename/timestamp align
+  with the earlier SIGBUS failure; the failed log does not bind its exact temporary pathname.
+  `p03-failed-link-temporary-preservation.json` records original bytes, modes and restore recipe;
+  archive SHA `628a47758ffc72b4e207435498e27deca92f34708795bbbb44ac66900f2928d2`.
+  The successful final executable and metadata remain. No source/frozen host was removed.
 - GUI reports/logs/readiness URLs are private. Publish only reviewed whitelisted summaries/images.
   Tested staged-runner source archive and member manifest are under `verification/2026-10-01/fixtures/`
   and `p02b-preparing-source-fixtures.json`; exact path-bound provenance checks require reviewed

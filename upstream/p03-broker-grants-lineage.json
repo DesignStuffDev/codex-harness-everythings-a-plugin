@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "publication_parent": {
+    "commit": "5fbe8a7901e1f935c40e969b4bb3cd7811e0d6be",
+    "tree": "2ef11a23fd848b4e236186b8518dd5d7c811d2df",
+    "provenance": "Parent verified publication, exact current lib preimage independently checked."
+  },
+  "classification": "Custom checked broker grant/API infrastructure; no native upstream subsystem extracted.",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "publication_binding": "Grant publication pending; parent commit is context, not a claim that the working tree equals that commit.",
+  "tested_source_report": {
+    "path": "/workspace/acceptance/p03-broker-grants-tests.source.json",
+    "sha256": "53fee9ac97c3de4f287d2c6a42139f35770e4e80e9f5088cccfe9e9e54c81b54",
+    "bytes": 2431006
+  },
+  "formatted_source_report": {
+    "path": "/workspace/acceptance/p03-broker-grants-fmt.source.json",
+    "sha256": "d3bbdcbdd8ad7ef4ac7a35c1d23b9948fa986578c35ccb35b5418f3eca3830b5",
+    "bytes": 2430674
+  },
+  "stage_manifest": {
+    "path": "/tmp/p03-broker-grants-stage/FINAL_MANIFEST.json",
+    "sha256": "ba38a6cf6505f8552ad8aca2fd5015edcbe61437a70f255ee9742c722d2a4e2f",
+    "bytes": 2924
+  },
+  "entries": [
+    {
+      "path": "codex-rs/component-api/src/broker_grants.rs",
+      "base_sha256": null,
+      "tested_sha256": "2acac4263f812cc2c7983ad78afcdd1ddd32152db56dc18da2e038c949085bbf",
+      "formatted_sha256": "346e5ea561ec236f4bb0d1e01bcb2224d8f2d0772f75c36efbbb59927881bd1e",
+      "tested_bytes": 3530,
+      "formatted_bytes": 3762,
+      "tested_additions": 107,
+      "tested_removals": 0,
+      "origin": "Project-authored component API, absent as a native upstream broker subsystem.",
+      "classification": "custom infrastructure/API",
+      "symbols": [
+        "GrantedOperationV1",
+        "ServiceGrantV1"
+      ]
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_grants_tests.rs",
+      "base_sha256": null,
+      "tested_sha256": "2baa7552ebbb7259caf64ddd8acbaa737698800571d222d9321166da129daebb",
+      "formatted_sha256": "c4ec4cc44d390d0bf2a39b745d5b1fcde31d388c74fec720c7a578af8d4e0f14",
+      "tested_bytes": 6986,
+      "formatted_bytes": 8310,
+      "tested_additions": 126,
+      "tested_removals": 0,
+      "origin": "Project-authored component API, absent as a native upstream broker subsystem.",
+      "classification": "custom infrastructure/API",
+      "symbols": [
+        "five grant validation tests"
+      ]
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_handles.rs",
+      "base_sha256": null,
+      "tested_sha256": "33ff70127c1a95f7549bad018d87d2f4d50b0772f9262bfccd1a29e752f9f761",
+      "formatted_sha256": "33ff70127c1a95f7549bad018d87d2f4d50b0772f9262bfccd1a29e752f9f761",
+      "tested_bytes": 2161,
+      "formatted_bytes": 2161,
+      "tested_additions": 73,
+      "tested_removals": 0,
+      "origin": "Project-authored component API, absent as a native upstream broker subsystem.",
+      "classification": "custom infrastructure/API",
+      "symbols": [
+        "BrokerConnectionHandle",
+        "ServiceAuthorityHandle"
+      ]
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_negotiation_error.rs",
+      "base_sha256": null,
+      "tested_sha256": "795ae701a9dbfde6d4bf2a124172611c4531cdc2c1f5db5c77711ff119f22431",
+      "formatted_sha256": "f4324388e9394aeab38dea58d8ca73120f1f53ff7ab4297e6c7216347b390cba",
+      "tested_bytes": 2180,
+      "formatted_bytes": 2211,
+      "tested_additions": 48,
+      "tested_removals": 0,
+      "origin": "Project-authored component API, absent as a native upstream broker subsystem.",
+      "classification": "custom infrastructure/API",
+      "symbols": [
+        "BrokerNegotiationError"
+      ]
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "base_sha256": "a335ba9ffe0aed1a7bc83fc4ca9b16c89f126fc421cc3cfb8950b5ca551a6584",
+      "tested_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+      "formatted_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+      "tested_bytes": 3791,
+      "formatted_bytes": 3791,
+      "tested_additions": 13,
+      "tested_removals": 0,
+      "origin": "Project-authored component API, absent as a native upstream broker subsystem.",
+      "classification": "custom infrastructure/API",
+      "symbols": [
+        "private modules, public reexports and test registration"
+      ]
+    }
+  ],
+  "native_catalog_audit": {
+    "classification": "Preserved read-only source audit and proposed next checkpoint; not implementation/build/runtime proof.",
+    "documents": [
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/design/native-catalog/NATIVE_CATALOG_NEXT_CHECKPOINT.md",
+        "sha256": "f7e605c3e2515c77647c8a1a4ea629a90b76a3ec26add9a25d156019d59a6d00",
+        "bytes": 11962
+      },
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/design/native-catalog/SOURCE_BINDINGS.json",
+        "sha256": "d755c0183376a212abb234df98694f7be7edc53d4490660cc5850910285ffc77",
+        "bytes": 4599
+      }
+    ]
+  },
+  "runtime_activation": false,
+  "native_extraction": false,
+  "dependencies_changed": false,
+  "source_drift": "Three documented mechanical formatting transitions after the passing test; all other report scope hashes unchanged."
+}

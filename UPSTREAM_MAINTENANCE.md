@@ -373,3 +373,7 @@ The [P03 broker-limit lineage](upstream/p03-broker-limits-lineage.json) maps add
 configuration and its tests to the current custom API. It changes no upstream native symbol
 and implements neither accounting nor the updater. The separate negotiation design remains
 unimplemented; future update tooling must preserve these compatibility and authority contracts.
+
+The [grant API lineage](upstream/p03-broker-grants-lineage.json) records checked opaque
+handle representations and canonical service/operation descriptions. This is additive custom
+contract code, with no native upstream symbol movement or authority issued by construction.

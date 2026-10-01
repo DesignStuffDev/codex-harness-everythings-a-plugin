@@ -1,6 +1,6 @@
 # P03 service declaration API — first coherent slice
 
-This freeze contains the declaration API and explicit inactive-catalog guard only. Broker limit DTOs, negotiation, outcomes, runtime ledgers and guarded session APIs remain separate staged work.
+This freeze contains the declaration API and explicit inactive-catalog guard only. Checked [broker limit configuration](BROKER_LIMITS_V1.md) is now available separately. Negotiation, outcomes, runtime ledgers and guarded session APIs remain later work.
 
 
 `component-api` exports:

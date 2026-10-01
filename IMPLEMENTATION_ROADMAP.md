@@ -287,6 +287,7 @@ native extraction. See [current evidence/queue](EXECUTION_STATE.md), the
 [declaration API](component-sdk/SERVICE_REQUIREMENTS_V1.md), and the preserved
 [agreed broker design](P03_LEAF_BROKER_DESIGN.md). Checked [limit configuration](component-sdk/BROKER_LIMITS_V1.md)
 passes ten API tests, including six existing declaration cases; it reserves no resources.
+Checked handles/service grants additionally pass fifteen API cases, including prior cases.
 The [offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) is accepted
 design, with runtime negotiation, accounting and lifecycle enforcement still planned. Source
 presence does not satisfy activation or full GUI acceptance.
@@ -304,6 +305,12 @@ storage lifecycle gates, unchanged strict PID assertions, core startup/cancellat
 actual manager Ctrl+C and GUI Stop/recovery. **Exit:** broker truly linked and used
 by an installed dependency consumer; logical limits and error/deadline fidelity
 documented; session startup failure cannot leak an acquired native service.
+
+The [native catalog prerequisite audit](component-sdk/design/native-catalog/NATIVE_CATALOG_NEXT_CHECKPOINT.md)
+identifies two independently implementable native seams: a provider-owned endpoint capability
+and an atomic forced-workspace policy epoch. Both remain prerequisites for selected remote
+catalog authority. The audit explicitly marks saved catalog code as unlinked drafts and
+defines native/custom external-worker acceptance; it is not extraction or runtime evidence.
 
 ### P04 — Configuration, credentials and native authentication
 
