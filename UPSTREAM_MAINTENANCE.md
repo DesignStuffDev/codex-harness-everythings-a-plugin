@@ -102,6 +102,16 @@ remain unfinished. A normalized cross-map ownership/completeness checker and
 automated contract/security/migration impact analysis are still future P18U work.
 No later official Codex revision or updater rollback is tested by this checkpoint.
 
+The subsequent [App Server consumer map](upstream/p02b-app-server-lineage.json)
+binds all 62 changed files and 44 original/current symbol anchors to source
+`30c2674600cc84da161562c407515b61511b7c3a`, tree
+`86c0bce7a5b399c2337c7c3878ed12ee76da4918`. All 8,739 frozen build fingerprints
+match that tree. Its [evidence](verification/2026-10-01/P02B_APP_SERVER_CONSUMER_EVIDENCE.md)
+adds real App Server selection of the independently built native search worker.
+The map distinguishes extracted search from compiled App Server/client adapters,
+protocol compatibility and later unverified TUI/GUI work. This is provenance for
+future maintenance; neither the updater nor a later upstream integration ran.
+
 ## Separately installable maintenance service
 
 Proposed selector: `maintenance:upstream`, contract version 1. This kind is not

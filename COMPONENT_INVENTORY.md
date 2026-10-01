@@ -132,9 +132,16 @@ bringing the working manifest to 169. The actual native traversal/matcher is now
 separately built and installed for the standalone CLI: 222 focused tests and 24
 real CLI/manager commands passed, including parity, cancellation and removal with
 unchanged host binaries. See [evidence](verification/2026-10-01/P02B_SELECTED_SEARCH_EVIDENCE.md).
-This is a replaceable native search subset; App Server/TUI/private storage search
-are still pending and C18 as a whole remains coupled. The 166-member ledger above
-continues to describe accepted main source, not this newer WIP composition.
+The subsequent App Server source `30c2674600cc84da161562c407515b61511b7c3a`
+also selects that independently built native worker through the real request path.
+[Consumer evidence](verification/2026-10-01/P02B_APP_SERVER_CONSUMER_EVIDENCE.md)
+records exact native/installed parity, concurrent streams, typed failure,
+removal/restoration and normal cleanup without rebuilding its frozen host.
+This is a replaceable native search subset; App Server itself is still a compiled
+consumer adapter. TUI source has passed 5,620 library cases but its new installed
+runtime/GUI proof is pending; private storage search awaits its authority broker.
+C18 as a whole remains coupled. The 166-member ledger above describes accepted
+main source, not this newer 169-member WIP composition.
 
 | Owner | Additional source | Classification and scope |
 | --- | --- | --- |

@@ -193,9 +193,24 @@ implements the actual bounded native worker and standalone CLI selection. Its
 focused cases and an external source/target build followed by 24 real CLI/manager
 commands, including parity, Ctrl+C, failure without fallback and removal, with
 host hashes unchanged. This establishes native search replacement for that caller.
-App Server, TUI and private storage lookup remain separate unfinished consumers;
-the current accepted full-engine GUI gate is still StageA. Keep source WIP separate
-until those runtime regressions pass.
+The subsequent App Server checkpoint `30c2674600cc84da161562c407515b61511b7c3a`
+routes actual App Server search through that selected provider. Its
+[evidence](verification/2026-10-01/P02B_APP_SERVER_CONSUMER_EVIDENCE.md) records
+457 library/client, 351 protocol/runtime and 13 public-RPC passes in separate
+scopes, followed by real installed-worker parity, streaming, failure, removal
+and shutdown with unchanged binaries. [Lineage](upstream/p02b-app-server-lineage.json)
+maps all 62 changed files and key original/current ownership symbols. TUI adoption
+has passed its 5,620-case library regression, but its new full-CLI/GUI runtime is
+still pending; the accepted full-engine GUI gate remains StageA. Private storage
+lookup remains a fourth consumer awaiting the P03 authority broker. Keep source
+WIP separate until the new runtime regressions pass.
+
+The next bounded lifecycle slice is [per-start Preparing cancellation](component-sdk/FILE_SEARCH_PREPARING_CANCELLATION_PLAN.md):
+an immediately available single-start control, retained cleanup receipt, native
+constructor propagation and unchanged sibling authority. This is a chosen
+implementation direction and ordered queue, not a tested capability. Preserve
+old package compatibility and separately build the updated worker before claiming
+its stronger cancellation behavior.
 
 **Prerequisites:** P02a search uses contract cards, the accepted process/session
 protocol and existing native authorized root snapshots. P02b filesystem/watch/Git

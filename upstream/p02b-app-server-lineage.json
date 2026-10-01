@@ -1,0 +1,1323 @@
+{
+  "schema_version": 1,
+  "kind": "app_server_selected_search_consumer_checkpoint_not_whole_harness_acceptance",
+  "generated_utc": "2026-10-01T08:13:13.334409+00:00",
+  "source": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "import_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "accepted_main_checkpoint": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "previous_checkpoint": "651b0b87a281934e5cd7c639021049fad8d393ac",
+    "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+    "implementation_tree": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+    "previous_lineage": "p02b-selected-search-lineage.json",
+    "mapping_method": "Read-only immutable Git trees; current commit identity verified remotely by parent, exact local tree verified independently. No live post-freeze TUI content used."
+  },
+  "scope": {
+    "changed_paths": 62,
+    "whole_frozen_build_scope_matched": 8739,
+    "categories": {
+      "dependency_registration_and_lock": 4,
+      "in_process_client_scope_and_retained_shutdown": 10,
+      "generated_protocol_and_sdk_artifacts": 14,
+      "bounded_search_presentation_and_failure_contract": 8,
+      "app_server_selected_native_search_consumer": 13,
+      "interactive_policy_and_measured_native_profile": 4,
+      "exhaustive_notification_compatibility_only_not_selected_picker": 3,
+      "acceptance_tools_and_existing_gui_fixture_compatibility": 6
+    },
+    "excluded": [
+      "Later26-path TUI picker adoption and failed TUI gate",
+      "New GUI/storage/live-model proof",
+      "Full harness extraction",
+      "Implemented upstream update/rollback machinery"
+    ]
+  },
+  "boundaries": [
+    {
+      "id": "app_server_selected_native_search_consumer",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "existing_native_search_consumer_now_routes_to_independently_installed_native_implementation",
+      "contract": {
+        "kind": "file_search",
+        "name": "default",
+        "major": 1
+      },
+      "intentional_changes": [
+        "Replace direct native run/session construction at App Server with one selected provider and connection scopes. Preserve original lexical roots and real native matching options. Explicit selected errors do not activate fallback.",
+        "App Server transport, request dispatch, admission and presentation remain compiled host consumer adapters; they are not independently installed App Server replacements."
+      ],
+      "ownership": "SearchShutdownGuard owns the shared selected provider outside abortable processors; factories are weak and every connection/session has retained startup/update/close ownership.",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+          "sha256": "542eb1e54f23b86c89d86c7a2435c5c426aa236c1274e5f41b50f37737a07282",
+          "symbols": [
+            {
+              "anchor": "pub(crate) async fn run_fuzzy_file_search(",
+              "line": 21
+            },
+            {
+              "anchor": "pub(crate) fn start_fuzzy_file_search_session(",
+              "line": 118
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a",
+          "sha256": "bcaabab1344202ec866bc41fa86201a25e9b8149da50cf0f6794fe0a64dba908",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct SearchRequestProcessor {",
+              "line": 24
+            },
+            {
+              "anchor": "pub(crate) async fn fuzzy_file_search_session_stop(",
+              "line": 125
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/app-server/src/file_search_services.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "71ea404fc26e84542aa74aa99b5cfa04f248db1a",
+          "sha256": "fc7be3d1e2c262c36cc31d4d217e2fcc9d3970c882b8400903df0d1ca5f29545",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct SearchContext {",
+              "line": 24
+            },
+            {
+              "anchor": "pub(crate) async fn start(codex_home:",
+              "line": 34
+            },
+            {
+              "anchor": "pub(crate) struct SearchShutdownGuard {",
+              "line": 66
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "171550bcf0fdf25f19a8bb73065765932d97bb2d",
+          "sha256": "5c9203e9899cb4638a2ef97783ae102c2bd398206c5f4329a3c3ec77d4839e3d",
+          "symbols": [
+            {
+              "anchor": "pub(crate) async fn run_fuzzy_file_search(",
+              "line": 46
+            },
+            {
+              "anchor": "pub(crate) struct PendingSearchSession {",
+              "line": 146
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "95cda34ba52622643f5f6df139e2fa1dc5869193",
+          "sha256": "07ea7b2c53bda4e97a8edd219e82e205ad79cba147e040b0272b9a0a8b577d96",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct SearchRequestProcessor {",
+              "line": 37
+            },
+            {
+              "anchor": "pub(crate) async fn connection_closed(",
+              "line": 115
+            },
+            {
+              "anchor": "pub(crate) async fn fuzzy_file_search_session_start_response(",
+              "line": 261
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "25b2ec1c331b227e5f32e73684b26843b78d3655",
+          "sha256": "33a79d5598bd8399ef4e8c28ac42c69ba070c7d48f1b8248c305a8482cbecad1",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct SearchConnectionState {",
+              "line": 23
+            },
+            {
+              "anchor": "pub(super) struct StartWaiter {",
+              "line": 205
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "library457",
+        "public_rpc13",
+        "installed_runtime01_exact_parity_and_sibling_isolation"
+      ],
+      "limits": [
+        "No observed per-request pending-start cancellation gate in the installed stdio acceptance.",
+        "Private rollout lookup remains coupled; this is not all search consumers."
+      ]
+    },
+    {
+      "id": "bounded_search_presentation_and_failure_contract",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "native_consumer_adapter_and_additive_typed_public_protocol",
+      "intentional_changes": [
+        "Retain query identity and snapshot-before-completion; distinguish deliberate stop from terminal failure.",
+        "Add bounded typed fuzzyFileSearch/sessionFailed notification with regenerated JSON/TypeScript/Python contracts. Failure notification is not a cleanup receipt."
+      ],
+      "ownership": "SearchObserver retains authoritative state; SearchPublisher owns the bounded presentation pump and cancellation fencing.",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+          "sha256": "542eb1e54f23b86c89d86c7a2435c5c426aa236c1274e5f41b50f37737a07282",
+          "symbols": [
+            {
+              "anchor": "struct SessionShared {",
+              "line": 160
+            },
+            {
+              "anchor": "struct SessionReporterImpl {",
+              "line": 168
+            },
+            {
+              "anchor": "fn collect_files(",
+              "line": 230
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server-protocol/src/protocol/common.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "c6d6fad791b8a72d1c12c8c08a0329ea247287c5",
+          "sha256": "56f208350d678f946068a92bd9627fae1578950cd06d5070ece01b327c1e9524",
+          "symbols": [
+            {
+              "anchor": "pub struct FuzzyFileSearchSessionUpdatedNotification {",
+              "line": 1909
+            },
+            {
+              "anchor": "pub struct FuzzyFileSearchSessionCompletedNotification {",
+              "line": 1918
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "6eacf4a821ed60d30b870d5e02cba82b27cbd7f1",
+          "sha256": "32b5098f5916b163aab5672e59fa0c512222990a69310bb982a2d2bbb7535ede",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct SearchObserver {",
+              "line": 66
+            },
+            {
+              "anchor": "pub(crate) struct SearchPublisher {",
+              "line": 236
+            },
+            {
+              "anchor": "async fn publish(",
+              "line": 310
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/lifecycle.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "7ef4d6620335e8bedf90733f7741596d2d8bc180",
+          "sha256": "38b7829709e73d885d1bb4628a48b470e1a6645d5990ea75def5600700bafd3f",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct PendingSearchUpdate {",
+              "line": 24
+            },
+            {
+              "anchor": "pub(super) fn watch_session(",
+              "line": 103
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server-protocol/src/protocol/v2/fuzzy_file_search.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "7470351df60969946a54dafcd9be48e599371a82",
+          "sha256": "b82a4ba343e48c2926aa92c02fa3a1d8ba8a0e6663ae74b15d7c7e9694a118cf",
+          "symbols": [
+            {
+              "anchor": "pub struct FuzzyFileSearchSessionFailedNotification {",
+              "line": 13
+            },
+            {
+              "anchor": "pub struct FuzzyFileSearchSessionError {",
+              "line": 24
+            },
+            {
+              "anchor": "pub enum FuzzyFileSearchSessionErrorKind {",
+              "line": 34
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "protocol316",
+        "runtime35",
+        "sdk27",
+        "public_rpc13",
+        "installed_runtime01_real_resource_exhaustion"
+      ],
+      "limits": [
+        "First stable generator omitted SDK before/after capture; later SDK hashes and tests bind post-generation bytes only.",
+        "Exhaustive matches in four TUI files are compatibility plumbing, not selected TUI picker acceptance."
+      ]
+    },
+    {
+      "id": "in_process_client_scope_and_retained_shutdown",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "host_lifecycle_and_client_adapter_support",
+      "intentional_changes": [
+        "Expose the selected search factory to local in-process consumers without another provider owner.",
+        "Coordinate deliberate shutdown before dropping observation and await normal search/storage cleanup; preserve operation error separately from unconfirmed cleanup."
+      ],
+      "ownership": "Client shutdown coordinator owns workers and guards even if its waiter disappears; provider close intent is explicit. Forced fallback boundaries remain a later P03 concern.",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server/src/in_process.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+          "sha256": "72b929dfa4af366237b990814a1699321a3c29e5f328a8588c5853a1f769f4a1",
+          "symbols": [
+            {
+              "anchor": "pub struct InProcessClientHandle {",
+              "line": 285
+            },
+            {
+              "anchor": "pub async fn shutdown(self) -> IoResult<()> {",
+              "line": 346
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server-client/src/lib.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+          "sha256": "99dd2644f72340b0f17ae06fd3130a1199b0c5c67865b1ec6b69289a00849dfe",
+          "symbols": [
+            {
+              "anchor": "pub struct InProcessAppServerClient {",
+              "line": 328
+            },
+            {
+              "anchor": "pub struct InProcessAppServerRequestHandle {",
+              "line": 335
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/app-server-client/src/file_search.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "a80cf9a25cde29906752fc7a5415c762d9a2eef2",
+          "sha256": "235bb898b523f339007067238b87660d21978f92c4cdca1f0c74e35dcfb4d7ac",
+          "symbols": [
+            {
+              "anchor": "pub(super) async fn capture(",
+              "line": 15
+            },
+            {
+              "anchor": "pub fn file_search_scope_factory(&self) -> io::Result<FileSearchScopeFactory> {",
+              "line": 35
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server-client/src/shutdown.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "6367ca6d2f5bd654dd2dc2d37a2b8794143da88d",
+          "sha256": "31db118c57cbcb23f7c45be7aa0bac62b17a9d1c841c7c8677e8e6bd563b10f3",
+          "symbols": [
+            {
+              "anchor": "pub(super) fn start(",
+              "line": 27
+            },
+            {
+              "anchor": "async fn coordinate(",
+              "line": 79
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/in_process_notification.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "85ee19688b75bca0e713fd5cdcf2ce64543e19dd",
+          "sha256": "0ede0819b03bee84ee95803b31e2512be8efeeb0dd6a9ed7a9b9d07859662edb",
+          "symbols": [
+            {
+              "anchor": "pub(super) async fn forward(",
+              "line": 17
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/file_search_services.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "71ea404fc26e84542aa74aa99b5cfa04f248db1a",
+          "sha256": "fc7be3d1e2c262c36cc31d4d217e2fcc9d3970c882b8400903df0d1ca5f29545",
+          "symbols": [
+            {
+              "anchor": "pub(crate) fn begin_shutdown(&self) {",
+              "line": 90
+            },
+            {
+              "anchor": "pub(crate) async fn finish(&self) -> io::Result<()> {",
+              "line": 96
+            }
+          ]
+        }
+      ],
+      "evidence": [
+        "client42",
+        "app_server415",
+        "installed_runtime01_EOF_drain"
+      ],
+      "limits": [
+        "Installed runtime gate is stdio EOF, not manager Launch Ctrl+C.",
+        "No newer GUI/storage regression on this frozen App Server."
+      ]
+    },
+    {
+      "id": "interactive_policy_and_measured_native_profile",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "composition_policy_not_new_plugin",
+      "intentional_changes": [
+        "Choose explicit shared-provider resource ceilings and per-lease budgets rather than silent thread/matching substitutions.",
+        "Use real IndexedEntry/IndexAllocationPlan diagnostics for 2/12-thread,100k/250k,highlights-on/off cases."
+      ],
+      "ownership": "Shared composition enforces aggregate admission; native backend reserves actual charged storage. Accounting is not an OS/RSS quota.",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "implementation_commit": null,
+          "blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+          "sha256": "542eb1e54f23b86c89d86c7a2435c5c426aa236c1274e5f41b50f37737a07282",
+          "symbols": [
+            {
+              "anchor": "pub(crate) fn start_fuzzy_file_search_session(",
+              "line": 118
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-runtime/src/interactive_policy.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "20eb3c825cc03ef6ff134b49f955b208e5fb719c",
+          "sha256": "63cc11e2cd8105e5ab0b3d2eba46ec731e6726a989017ba56b057897f766db50",
+          "symbols": [
+            {
+              "anchor": "pub fn interactive_policy()",
+              "line": 18
+            },
+            {
+              "anchor": "pub fn interactive_allocation(",
+              "line": 60
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/provider.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "e540b10affde38cfbacae775121593f7f27c6413",
+          "sha256": "9da480df15916042b4db92442c7839012f432f2ad2dd88e8bf74a3b5ee31453d",
+          "symbols": [
+            {
+              "anchor": "pub fn effective_policy(&self)",
+              "line": 81
+            },
+            {
+              "anchor": "pub fn owns_scope(&self,",
+              "line": 122
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_budget_tests.rs",
+          "revision": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+          "implementation_commit": "30c2674600cc84da161562c407515b61511b7c3a",
+          "blob": "8897d82155b5d79fb65551fc5a7d0770dc7bb914",
+          "sha256": "53bee62c2de984e76cb39005b16528d30ac8ae36fb4fe4590a71bc2a6ca4c634",
+          "symbols": [
+            {
+              "anchor": "fn consumer_candidate_profiles_prepay_actual_index_layout_and_preserve_native_matching()",
+              "line": 372
+            }
+          ]
+        }
+      ],
+      "policy": {
+        "per_lease_index_entries": 100000,
+        "per_lease_index_bytes": 134217728,
+        "worker_formula": "2*T+2",
+        "shared_worker_ceiling": 64,
+        "shared_sessions": 16,
+        "shared_scopes": 64,
+        "shared_entries": 1600000,
+        "shared_index_bytes": 2147483648,
+        "query_utf8_bytes": 65536,
+        "roots_options_retained_bytes": 262144,
+        "native_snapshot_retained_bytes": 16777216,
+        "runtime_frame_retained_bytes": 16777216
+      },
+      "evidence": [
+        "interactive_native_profile_eight_rows",
+        "installed_runtime01"
+      ],
+      "limits": [
+        "Measured fixed allocation floors and small traversal do not prove maximum production scale or RSS.",
+        "Encoded wire-frame accounting differs from native retained payload."
+      ]
+    }
+  ],
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "2b0a9c3c30ad3125f50d8f87cfef47f69dda2865",
+      "current_blob": "432823a06ce79aeba97bdb44bc8e33f68a84c872",
+      "sha256": "ceed3359e80b6f0842d8690f45f6a0224b636f48957d848c2d35f0d4bc28b0e4",
+      "upstream_blob": "ea897239537da5b7bbc3106eb5c1a8593f34895c",
+      "upstream_path": "codex-rs/Cargo.lock",
+      "boundary": "dependency_registration_and_lock",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-client/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "daa6ef661f00486af405e764705a60bdcf7b1036",
+      "current_blob": "c21cff36d1d86c70e95087d2da794cf5fbe786e2",
+      "sha256": "107e3f1d2d25c1b81baafe66202c30f19ff686b57ac71fced133933f6462a9f0",
+      "upstream_blob": "daa6ef661f00486af405e764705a60bdcf7b1036",
+      "upstream_path": "codex-rs/app-server-client/Cargo.toml",
+      "boundary": "dependency_registration_and_lock",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-client/src/file_search.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "a80cf9a25cde29906752fc7a5415c762d9a2eef2",
+      "sha256": "235bb898b523f339007067238b87660d21978f92c4cdca1f0c74e35dcfb4d7ac",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-client/src/file_search_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "2d86ce3160da6c2dda9b001803914678be43b66e",
+      "sha256": "18e40636219d10fdad6408b78bf399555882493847cb4827717be0a5c1b75eed",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-client/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "83f35b6801252ad1e32b82fab09191bccd1b9221",
+      "current_blob": "a982925c0f100d6f7052765125b01fdd050b671e",
+      "sha256": "331fadf2cc0c6b79299e39ab7549c869907e58f2279e8c05088b4e3ca30e97f8",
+      "upstream_blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+      "upstream_path": "codex-rs/app-server-client/src/lib.rs",
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-client/src/shutdown.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "c990855ef3d574129b67bb269204a058bcdd9e36",
+      "current_blob": "6367ca6d2f5bd654dd2dc2d37a2b8794143da88d",
+      "sha256": "31db118c57cbcb23f7c45be7aa0bac62b17a9d1c841c7c8677e8e6bd563b10f3",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-client/src/shutdown_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "76f8477decc6bae175c51d215f1056ea3d8438e8",
+      "current_blob": "ed5cbb50b5aee50c941a216055e9356f6d6c85ce",
+      "sha256": "df131885387bdfd6b5b52d9dd0b16f46691822b0199a437a855b61f8e1adecc6",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/ServerNotification.json",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "3c65020a322ac2f40baf65957f96e041c6975189",
+      "current_blob": "b937161006e107d4e2f97e8bdd73c906e380da82",
+      "sha256": "a80b9ddc71cb1c0b1682bd9034770ec1e13ba9cb57a754be47eb8eb98b11decc",
+      "upstream_blob": "3c65020a322ac2f40baf65957f96e041c6975189",
+      "upstream_path": "codex-rs/app-server-protocol/schema/json/ServerNotification.json",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/codex_app_server_protocol.schemas.json",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "663cc473da0337f792f11668323665c149b8db0d",
+      "current_blob": "4def0ea220940016c30c46eea0a16092e8effb31",
+      "sha256": "79e2894d4e01db514276a0c9d686c4778e400a4d07d540eff9e0a5689185f0b1",
+      "upstream_blob": "663cc473da0337f792f11668323665c149b8db0d",
+      "upstream_path": "codex-rs/app-server-protocol/schema/json/codex_app_server_protocol.schemas.json",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/codex_app_server_protocol.v2.schemas.json",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "8856accc957b6b208b6f5a79ba5ebfc0037f7d26",
+      "current_blob": "d0ada7e181e3cf78a2e7b55bbf49503a7d2fa371",
+      "sha256": "766810f0a5d017a18245aa07013ef3ab88182b29251cdded378aaf4041c3465c",
+      "upstream_blob": "8856accc957b6b208b6f5a79ba5ebfc0037f7d26",
+      "upstream_path": "codex-rs/app-server-protocol/schema/json/codex_app_server_protocol.v2.schemas.json",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/json/v2/FuzzyFileSearchSessionFailedNotification.json",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "74c64a3f060ee65a798b15e8352c7aecefbd1add",
+      "sha256": "dcda78d4ceed96bc44b4beae7e8c4ae5f1d43066f7eff2bc13931ce075310812",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/precomputed/app-server-exports-experimental.json.zst",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "2c53aa1783082ceb9a0eb20967f1bf2d7301d26f",
+      "current_blob": "a3133556ab7d0d1901a6374bdec4205f20395c53",
+      "sha256": "4494264f8cbb4af69b74756000046cc973403dda4f6b2f356ae49c1680a9cc6f",
+      "upstream_blob": "2c53aa1783082ceb9a0eb20967f1bf2d7301d26f",
+      "upstream_path": "codex-rs/app-server-protocol/schema/precomputed/app-server-exports-experimental.json.zst",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/precomputed/app-server-exports-stable.json.zst",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "1efda781c923bc7d4860149cbf22f96f39b7a447",
+      "current_blob": "af6b6984b505e85d407f9a6a74b82885da937aa6",
+      "sha256": "8ec2f60fd99a33b101bcef406f3fc130c5a2b6976d40c8e283d1bdf04f12ca7c",
+      "upstream_blob": "1efda781c923bc7d4860149cbf22f96f39b7a447",
+      "upstream_path": "codex-rs/app-server-protocol/schema/precomputed/app-server-exports-stable.json.zst",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/typescript/ServerNotification.ts",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "50cc33acf3c58e9eda2f471d2a3fb93d0b8ad3c8",
+      "current_blob": "a7fb11b2e1f918aab40ee494ffc32df67c5789e7",
+      "sha256": "d464ad2bf41aea3fb667805c3b2d5d51f58f08b55614d1007b2a892ca591fee3",
+      "upstream_blob": "50cc33acf3c58e9eda2f471d2a3fb93d0b8ad3c8",
+      "upstream_path": "codex-rs/app-server-protocol/schema/typescript/ServerNotification.ts",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/typescript/ServerNotificationEnvelope.ts",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "f3c6d2c2e6a75b6408b24060b8580166f8547f0c",
+      "current_blob": "60575074066bc0f0da53afb07d9a656302f65eab",
+      "sha256": "afcbad262a25849515e922d4131b2ba9d652ee8c162322f811e52b7fe1d0c361",
+      "upstream_blob": "f3c6d2c2e6a75b6408b24060b8580166f8547f0c",
+      "upstream_path": "codex-rs/app-server-protocol/schema/typescript/ServerNotificationEnvelope.ts",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/typescript/v2/FuzzyFileSearchSessionError.ts",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "db30413a4961699e583a32c2779a12fbf0e78019",
+      "sha256": "99d50df963bd8ab77d45ec4c1eebc4482344ba8876d694df866c80bc34847133",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/typescript/v2/FuzzyFileSearchSessionErrorKind.ts",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "309d000aca375bef0df3e5d8570d1265a1fe2e49",
+      "sha256": "4d02378eba35a0de7bf48edced0b85e32946202a4e74071146b92b3bab5fa052",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/typescript/v2/FuzzyFileSearchSessionFailedNotification.ts",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "ee173d3efd78fdf6109a7f65ebc520a24ed5d831",
+      "sha256": "471b531c548a10ff071bb7252761c93bfc7cf4499a7ec1294b615adcb359694c",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/schema/typescript/v2/index.ts",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "b96f29ce44bb564f7b54e8b7dae44220276068a3",
+      "current_blob": "40b11e98dfc7cc76db9bfdf5f71ab6dac3cd97b5",
+      "sha256": "baab431896ecd0ca82d4ed617eab0c9267f22a0dfe64cfa6fca5e06de4dda4f7",
+      "upstream_blob": "b96f29ce44bb564f7b54e8b7dae44220276068a3",
+      "upstream_path": "codex-rs/app-server-protocol/schema/typescript/v2/index.ts",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/src/protocol/common.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "c6d6fad791b8a72d1c12c8c08a0329ea247287c5",
+      "current_blob": "bd47975828063ceacb1c445956779f56435ee935",
+      "sha256": "63003ef39a7634f9fd391317b800c9b39cb0f5962605fa206b03e772d77bf362",
+      "upstream_blob": "c6d6fad791b8a72d1c12c8c08a0329ea247287c5",
+      "upstream_path": "codex-rs/app-server-protocol/src/protocol/common.rs",
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/src/protocol/v2/fuzzy_file_search.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "7470351df60969946a54dafcd9be48e599371a82",
+      "sha256": "b82a4ba343e48c2926aa92c02fa3a1d8ba8a0e6663ae74b15d7c7e9694a118cf",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/src/protocol/v2/fuzzy_file_search_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "540a603307ff614bddbae04f83dc882d49aa4abf",
+      "sha256": "ef63926b2d802ee350604d212e70573f458bd3ec0ff8881d7e1fc5005d9ab8b8",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server-protocol/src/protocol/v2/mod.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "1c1432dfbde1083e8dc11ce53463491ebbab9d6e",
+      "current_blob": "b0a87ae9c7502bf59ebad5cc9fd5f7c868f44cc3",
+      "sha256": "5db4037114dd2c159ad0ba1f6af762df26e8b0a4ece80e341e8c1f398b04adab",
+      "upstream_blob": "1c1432dfbde1083e8dc11ce53463491ebbab9d6e",
+      "upstream_path": "codex-rs/app-server-protocol/src/protocol/v2/mod.rs",
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "12418814aa1abbacc50b3f486f70a617411d3a9f",
+      "current_blob": "cc8b0c114334672ef03caf7dee99a647d0780a16",
+      "sha256": "822344ee21e712a6cb10e566e268f338e218db6ab3e1ce8020878ab88cedc499",
+      "upstream_blob": "12418814aa1abbacc50b3f486f70a617411d3a9f",
+      "upstream_path": "codex-rs/app-server/Cargo.toml",
+      "boundary": "dependency_registration_and_lock",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/file_search_services.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "71ea404fc26e84542aa74aa99b5cfa04f248db1a",
+      "sha256": "fc7be3d1e2c262c36cc31d4d217e2fcc9d3970c882b8400903df0d1ca5f29545",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00",
+      "current_blob": "171550bcf0fdf25f19a8bb73065765932d97bb2d",
+      "sha256": "5c9203e9899cb4638a2ef97783ae102c2bd398206c5f4329a3c3ec77d4839e3d",
+      "upstream_blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+      "upstream_path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/lifecycle.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "7ef4d6620335e8bedf90733f7741596d2d8bc180",
+      "sha256": "38b7829709e73d885d1bb4628a48b470e1a6645d5990ea75def5600700bafd3f",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "371fcebc56b15e984333627ccd9b22f1dfedf7cf",
+      "current_blob": "6eacf4a821ed60d30b870d5e02cba82b27cbd7f1",
+      "sha256": "32b5098f5916b163aab5672e59fa0c512222990a69310bb982a2d2bbb7535ede",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/publisher_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "a45e71950b724ac46def5d9bd17f22d94790af96",
+      "current_blob": "7b428d9677b956bcb75240a3540ddf122d224fec",
+      "sha256": "f3f7a5f0e85f022f5f486f492a09cc1ab3ec29d18bd401804a20accf6c55d128",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "a94bf1b38c343f886317c01aaf3fb8063ebcc311",
+      "current_blob": "312a9d8fe5193a1e8d3ea53adb01d2d4dd7a0c86",
+      "sha256": "5ac3eaaf6fb7d45c7a313ac9e2ce22af37197e0b0c6738f28b2df313ba78d1ed",
+      "upstream_blob": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+      "upstream_path": "codex-rs/app-server/src/in_process.rs",
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "b5f50e372ae07a98f2f2a1cdc85562742f706d77",
+      "current_blob": "129f7826d3416eaed6b6e9719cf42a7305b173be",
+      "sha256": "a6ac7c5f6cb8c077ec8929144c97649258e2b2af55e565f00be226aa842cd608",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_notification.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "85ee19688b75bca0e713fd5cdcf2ce64543e19dd",
+      "sha256": "0ede0819b03bee84ee95803b31e2512be8efeeb0dd6a9ed7a9b9d07859662edb",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_notification_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "65b11622a342cde964dff0efb812f0e6d5c023b8",
+      "sha256": "50013d5b7b9aafc95dd458a34e425cdc549f39a3c4e46732fe3ce76ec5b1721a",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "8ddf193c11bb1e0642705440e70b0753690072b2",
+      "sha256": "30ea65c89f40451f26216a2396e8e8f7d40efeefb9e05d62b8dd59524afdbea4",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "in_process_client_scope_and_retained_shutdown",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "2e4b81007b3756de5198cd15400b9301670c8935",
+      "current_blob": "404242b85f29f6457605ddd7ea99cdce732341d8",
+      "sha256": "d25ff76b668f5f224e8b3505ac0e59ebdc2bbb48014a59e218d3da081c989806",
+      "upstream_blob": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+      "upstream_path": "codex-rs/app-server/src/lib.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "82da2ab910651c5fff773afdcae2e3d7c96f184c",
+      "current_blob": "41d2172e595a85434b9cdcc329515f4287c11f7a",
+      "sha256": "70bbd3f88dca7f7cc3f928ef4b168b828e7230db04e4109db192a04076234bdf",
+      "upstream_blob": "796ecf2fc86a47c056cb934e6590c120d9836c32",
+      "upstream_path": "codex-rs/app-server/src/message_processor.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor_gateway_oauth_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "ddc79bdd1133d16f71405e545e5845414a187dfb",
+      "current_blob": "e1b0dd347667f228c260eaaf2788305b1866a22e",
+      "sha256": "10d6322822a546570b88e01f238968d9fbb5cc66ed25329be3d5ca4a86e6df6d",
+      "upstream_blob": "dd63e6718392629a848efd314f30b596244725dc",
+      "upstream_path": "codex-rs/app-server/src/message_processor_gateway_oauth_tests.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "22d624ad818007a2417bba50d76715adff85d5ca",
+      "current_blob": "8a37527c0c09baceaeb47d38eba4b4c642846ba4",
+      "sha256": "a9d9e32c291020dbc35156ffa6c557a19877012ae01c88b0ab68b66a18fbe4ad",
+      "upstream_blob": "41d843c743abf671b82983e3bcec118ea5df99d2",
+      "upstream_path": "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/notification_media.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "4223ea796d2882be95a5153f43212e5356d0fa8d",
+      "current_blob": "7b0065bf57e2c4c1e5bab29e525aa370468f0fd2",
+      "sha256": "d8041c0d4ed710ae4f312158ecbd8664d9d7ba5dee2c7da2b1405eadb6889f82",
+      "upstream_blob": "4223ea796d2882be95a5153f43212e5356d0fa8d",
+      "upstream_path": "codex-rs/app-server/src/notification_media.rs",
+      "boundary": "bounded_search_presentation_and_failure_contract",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "f95ae6774858be231b5d7ec535ea3093bc31ae24",
+      "current_blob": "95cda34ba52622643f5f6df139e2fa1dc5869193",
+      "sha256": "07ea7b2c53bda4e97a8edd219e82e205ad79cba147e040b0272b9a0a8b577d96",
+      "upstream_blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a",
+      "upstream_path": "codex-rs/app-server/src/request_processors/search.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "64709601704155b8b082a76b0b86ef31c4177cee",
+      "current_blob": "25b2ec1c331b227e5f32e73684b26843b78d3655",
+      "sha256": "33a79d5598bd8399ef4e8c28ac42c69ba070c7d48f1b8248c305a8482cbecad1",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "ff342763c6a33a60937a38f1f3099bafc1aee9ed",
+      "sha256": "db5ea0110024d744f4f78891b22244fe96aaaa82b4c4419e063485cbf6f6a8b5",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "6868befbb674d9a89dabd5e9e4f055014ed13116",
+      "current_blob": "28ce0375d731b43075fce37815436c6fbea23e2e",
+      "sha256": "1a351b25b79766f92810a190eb6a72c467b94fcd6e07b08c326785ddfd6bcf96",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/shutdown_race_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "8ebe6910b1a61c20ddb814cbaa0e77ba5c37451d",
+      "sha256": "7fc93d7657eecf97dacba3fc4908e29204d8318dbe91f19026d781098878151c",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/src/user_verification_test_support.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "5911a5ef8d1a08a03eb632b0fe5bb97940708c76",
+      "current_blob": "f2e45d0be00207b3ae185460811df67a34c8d558",
+      "sha256": "8196df4941a33ac0712351adddba09261a7ae694709c24dc95877768169bb3f5",
+      "upstream_blob": "d2096bc1f17dce225d4e2edad6c62bbb67eb162b",
+      "upstream_path": "codex-rs/app-server/src/user_verification_test_support.rs",
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/app-server/tests/suite/v2/search_connection_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "eea93a7c6ec2b728af8d074ac824f49098daa9a1",
+      "current_blob": "c69c25dab278c7541b2651fc2af97b5c5c147ed6",
+      "sha256": "736743f659f9ce293e27f6a701153fb00dce89759cd24a675aa3ba0f1d08d23f",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "app_server_selected_native_search_consumer",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/interactive_policy.rs",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "20eb3c825cc03ef6ff134b49f955b208e5fb719c",
+      "sha256": "63cc11e2cd8105e5ab0b3d2eba46ec731e6726a989017ba56b057897f766db50",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "interactive_policy_and_measured_native_profile",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "1c671e97320949891b1e7bc37ffbf6d6c004da29",
+      "current_blob": "3c759a558ea99eb52a95d32e6902f9e212bdee8d",
+      "sha256": "21d3f5667f27d6035220888bf0d9ca62bc6ae453af72577e80f05cc2a103ed8f",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "interactive_policy_and_measured_native_profile",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/provider.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "a2819981b6072dc281220b037895a09db5112677",
+      "current_blob": "e540b10affde38cfbacae775121593f7f27c6413",
+      "sha256": "9da480df15916042b4db92442c7839012f432f2ad2dd88e8bf74a3b5ee31453d",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "interactive_policy_and_measured_native_profile",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/file-search/src/native_budget_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "290b68131b022a4f72d8f31ad942be4a0865e6b4",
+      "current_blob": "8897d82155b5d79fb65551fc5a7d0770dc7bb914",
+      "sha256": "53bee62c2de984e76cb39005b16528d30ac8ae36fb4fe4590a71bc2a6ca4c634",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "interactive_policy_and_measured_native_profile",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/tui/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "2cc77ff6d55a3529e4b2ccc3f3354dbe042486a7",
+      "current_blob": "00b59713e1bd7eea0f54a2e1d19015736164594a",
+      "sha256": "7e7d75c3bb9cadad9ed1a63cbeb6f25ab6ba50b24ef0c84c8b7aadc080885ab2",
+      "upstream_blob": "9d61157c421220bd70852e72ce59b89a79a025be",
+      "upstream_path": "codex-rs/tui/Cargo.toml",
+      "boundary": "dependency_registration_and_lock",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/tui/src/app/app_server_event_targets.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "9e5b60bd83e7e9a6241b8baeb90659592c4ecf24",
+      "current_blob": "cb4b709a5f98cd6831eebd51601c670dfecf790f",
+      "sha256": "3e1d85b42003e02d2508b398862d5dd692e68ba25797b5c694d5dcc3630859dc",
+      "upstream_blob": "9e5b60bd83e7e9a6241b8baeb90659592c4ecf24",
+      "upstream_path": "codex-rs/tui/src/app/app_server_event_targets.rs",
+      "boundary": "exhaustive_notification_compatibility_only_not_selected_picker",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/tui/src/app_server_session.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "f9c6f5fd7793ba5de0ed47622f4ffb342dc7f96b",
+      "current_blob": "7b62895190ae6e3c0892d90edb22ef07fd95e8f0",
+      "sha256": "bce7b8d8a162ea4ef54f7406394b8d14349b9a6e73a2bba7f8e4f053f1a2b7b7",
+      "upstream_blob": "f9c6f5fd7793ba5de0ed47622f4ffb342dc7f96b",
+      "upstream_path": "codex-rs/tui/src/app_server_session.rs",
+      "boundary": "exhaustive_notification_compatibility_only_not_selected_picker",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "codex-rs/tui/src/chatwidget/protocol.rs",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "d4aa343b75115519a5399295127a02b977013d0b",
+      "current_blob": "11903d5f8ab54514929477714745180fe567f1e6",
+      "sha256": "b20949394e48a9058196a2c4f1f5292f8914192795645ceeb8d306622004367f",
+      "upstream_blob": "d4aa343b75115519a5399295127a02b977013d0b",
+      "upstream_path": "codex-rs/tui/src/chatwidget/protocol.rs",
+      "boundary": "exhaustive_notification_compatibility_only_not_selected_picker",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "component-sdk/tests/file_search/APP_SERVER_ACCEPTANCE.md",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "8d1afc3c0c524668c9df17b15e8d5cc17375bdc3",
+      "sha256": "176ac562cf92b632950ed5314876f4bc317b38cc0178d7786704bbffd46d63af",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "acceptance_tools_and_existing_gui_fixture_compatibility",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "component-sdk/tests/file_search/app_server_acceptance.py",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "711dc85d0ca69e5484ec49b1b87cbfc2e88f2891",
+      "sha256": "69d019bd0ce15c4a89c7cf8a5e17ca3233e343d79a2e668b63f841e3d9d10771",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "acceptance_tools_and_existing_gui_fixture_compatibility",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "component-sdk/tests/file_search/rpc_support.py",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "065a5903020031250927dc5a55fdbebfcfa795e4",
+      "sha256": "6c725095da72f71cbaa2139e64e9d86496764687a1b75788987df788aa839c15",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "acceptance_tools_and_existing_gui_fixture_compatibility",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "component-sdk/tests/file_search/search_cases.py",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "48e5cd1df8c07ddedb931602c58319aa960cb706",
+      "sha256": "07aa1032ad41808c2537c30536a8f446e32ad5e9c2c1f62c17d2c0c0f08b3460",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "acceptance_tools_and_existing_gui_fixture_compatibility",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "component-sdk/tests/gui_selected_search_acceptance.py",
+      "status": "A",
+      "mode": "100644",
+      "previous_blob": "0000000000000000000000000000000000000000",
+      "current_blob": "090e8cb0ab88fad9c17db71d7a55c9a80998fbc6",
+      "sha256": "67a049f50f4a9a9b3b320c4931a3357b25db253f34ed6bce2c375820cd90a37b",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "acceptance_tools_and_existing_gui_fixture_compatibility",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "component-sdk/tests/p01_gui_acceptance.py",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "20c1c5f24fe80dc8503061449b040f5bdb39f1d8",
+      "current_blob": "6b3e342fb1a51ba21126b6681661c5f6f25c683e",
+      "sha256": "08613df9d7347a42dfe98dc67f4d36b6190e77110acc48ef2b7cfdc6d0e0caaa",
+      "upstream_blob": null,
+      "upstream_path": null,
+      "boundary": "acceptance_tools_and_existing_gui_fixture_compatibility",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "sdk/python/src/openai_codex/generated/notification_registry.py",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "af2d3590abe7b1563fd82dc9a51330efa2c5a71f",
+      "current_blob": "ef56202f410a57d2e22c13103b8b171ed097ff9c",
+      "sha256": "eb0bee91a52dae6b2fec44afd439906b4cad1fccb018c0c5ece034eeb04d5cd7",
+      "upstream_blob": "af2d3590abe7b1563fd82dc9a51330efa2c5a71f",
+      "upstream_path": "sdk/python/src/openai_codex/generated/notification_registry.py",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    },
+    {
+      "path": "sdk/python/src/openai_codex/generated/v2_all.py",
+      "status": "M",
+      "mode": "100644",
+      "previous_blob": "6a2edc47255bdd912f168c962facc3ba1a35e111",
+      "current_blob": "e83751635f77d10607673aa2f3e17902196666c8",
+      "sha256": "e1d5dcdd2d46a49109c0d15fa9fb0b8ecb262de57a0a994123f06f9f1faf1805",
+      "upstream_blob": "6a2edc47255bdd912f168c962facc3ba1a35e111",
+      "upstream_path": "sdk/python/src/openai_codex/generated/v2_all.py",
+      "boundary": "generated_protocol_and_sdk_artifacts",
+      "semantic_scope": "Selected source anchors and scoped tests do not constitute full semantic proof for every changed line."
+    }
+  ],
+  "evidence": {
+    "path": "../verification/2026-10-01/p02b-app-server-consumer-results.json",
+    "sha256": "243b3ddb4a8150d99ad1461e58181e11ca96e916d9e8b423568222a2db09a8ec",
+    "status": "verified_partial_app_server_milestone_source_published; evidence_documentation_staged; later TUI source and tests excluded",
+    "publication": {
+      "commit": "30c2674600cc84da161562c407515b61511b7c3a",
+      "tree": "86c0bce7a5b399c2337c7c3878ed12ee76da4918",
+      "parent": "651b0b87a281934e5cd7c639021049fad8d393ac",
+      "verified_remote_ref": "30c2674600cc84da161562c407515b61511b7c3a",
+      "method": "Authenticated GitHub connector; each uploaded blob SHA and resulting tree matched local Git objects; non-force update after immediate remote-ref check"
+    },
+    "immutable_tree_receipt_sha256": "2f41f5db5db1d6f8fd18ba0891efd8c164eaca4e5a0b98014ccf3bb70d0eab88",
+    "separate_test_scopes": {
+      "app_server_client": {
+        "passed": 457,
+        "skipped": 0
+      },
+      "protocol_runtime": {
+        "passed": 351,
+        "skipped": 1
+      },
+      "python_sdk": {
+        "passed": 27
+      },
+      "public_rpc": {
+        "passed": 13,
+        "filtered": 1448
+      }
+    },
+    "installed_runtime": "Package03 with unchanged frozen App Server; seven exact parity cases and actual lifecycle/error checks. Git helper SIGPIPE receipt retained; all40 tracked PIDs absent.",
+    "later_failed_tui_gate": "Exit101 linker SIGBUS, zero tests; not part of accepted AS code/evidence.",
+    "interactive_profile_report": {
+      "path": "/workspace/acceptance/p02b-interactive-native-profile.source.json",
+      "sha256": "6fdd891a1f9a32c88bb5d89261dda6313f1670deb53722f4fe45a88de4671677",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "note": "Separate eight-row actual native budget/traversal diagnostic, not maximum-scale/RSS proof."
+    }
+  },
+  "interpretation": {
+    "symbols": "Selected exact original/current anchors, not a complete symbol graph. Missing or ambiguous anchors stop generation.",
+    "classification": "This completes an additional native-search consumer route to the installed component. App Server/transport/client layers themselves are not advertised as independently installed components.",
+    "failures": "Historical compiler/assertion failures, source transitions and current TUI failure are retained separately from accepted runs.",
+    "upstream_update": "No later upstream revision integrated; semantic/contract/state/security changes require isolated review and real gates. Merging successfully is not proof."
+  },
+  "licenses": {
+    "native": "Preserve upstream Apache-2.0 LICENSE and NOTICE.",
+    "vendor": "No Nucleo source changed in this delta; preserve pinned MPL-2.0 notices and previous selected-search lineage foreign_provenance."
+  },
+  "P18U_gaps": [
+    "Read-only schema-normalizing lineage checker and complete component/path ownership index remain planned.",
+    "The exact62-path delta is inventoried; anchors do not prove every semantic effect or all subsystem coverage.",
+    "Required later-upstream integration, failed/breaking candidate rejection, state migration and external-bootstrap rollback have not been demonstrated."
+  ]
+}
