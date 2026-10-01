@@ -7,7 +7,17 @@ use serde::Deserialize;
 use serde::Serialize;
 use serde_json::Value;
 
+mod broker_limits;
 mod service_requirements;
+
+pub use broker_limits::BrokerConnectionLimits;
+pub use broker_limits::BrokerConnectionLimitsSpec;
+pub use broker_limits::BrokerLimitsError;
+pub use broker_limits::BrokerProcessLimits;
+pub use broker_limits::BrokerProcessLimitsSpec;
+pub use broker_limits::MAX_BROKER_BLOCKING_JOBS;
+pub use broker_limits::MAX_BROKER_CALLS_PER_CONNECTION;
+pub use broker_limits::MAX_BROKER_CONNECTIONS;
 
 pub use service_requirements::HostServiceRequirement;
 pub use service_requirements::MAX_HOST_SERVICES;
@@ -75,3 +85,7 @@ pub struct ComponentSettings {
 #[cfg(test)]
 #[path = "service_requirements_tests.rs"]
 mod service_requirements_tests;
+
+#[cfg(test)]
+#[path = "broker_limits_tests.rs"]
+mod broker_limits_tests;

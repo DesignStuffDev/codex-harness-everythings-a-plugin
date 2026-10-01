@@ -1,0 +1,173 @@
+{
+  "passed": true,
+  "evidence_kind": "p03_broker_limits_checked_configuration_api",
+  "publication_parent": {
+    "commit": "8ee6b667521e49ed9879a5ccd35cc22aa6595458",
+    "tree": "2822cb23417e67a22434c275b7af7155aee8bae8",
+    "binding": "Parent-reported verified publication; exact local preimage independently checked."
+  },
+  "reports": {
+    "tests": {
+      "path": "/workspace/acceptance/p03-broker-limits-tests.source.json",
+      "sha256": "f28b45e29db2c47afa15a37521a1c638420bbcc9551c96f30c2ef4c7bc9e4414",
+      "bytes": 2430018
+    },
+    "fix": {
+      "path": "/workspace/acceptance/p03-broker-limits-fix.source.json",
+      "sha256": "c76f62a8de674cd8448bef3ef1a46c7fbb04925ff04f530843b53ae58e90b7e7",
+      "bytes": 2429722
+    },
+    "fmt": {
+      "path": "/workspace/acceptance/p03-broker-limits-fmt.source.json",
+      "sha256": "db22771fdc9ec53e2763d9cbc1271e5e6f85e296075bd96c1bc412d160592fc2",
+      "bytes": 2429686
+    },
+    "subreaper": {
+      "path": "/workspace/acceptance/p03-broker-limits-tests.subreaper.json",
+      "sha256": "057d1b872f4c314f08f06015dc2e4444f918974f6f7dbe32292297d1ba654c6b",
+      "bytes": 502
+    },
+    "adoption": {
+      "path": "/workspace/acceptance/p03-broker-limits-adoption.json",
+      "sha256": "205b460c3069090cf8f80e88e5d9b54cafe90ca0ca7522c4ce2bc2be31b75ea7",
+      "bytes": 1557
+    },
+    "frozen_stage_manifest": {
+      "path": "/tmp/p03-broker-limits-stage/FINAL_MANIFEST.json",
+      "sha256": "90a0cf5a0d81d38b42d3a11a2e833ccf797041a16e13388069cc23ec6afaac11",
+      "bytes": 3739
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/component-api/src/broker_limits.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "e866f43f4f6cca0cf6f46f848eaf821f2dc444d5c92bcfa4befc311d3e0f12b6",
+      "formatted_sha256": "27af0c7515872127387a4bb7bcd7e8aef46183d93e4f66566d0457d4f176cdc7",
+      "formatted_bytes": 7752,
+      "format_changed": true
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_limits_tests.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "b2ba61f8a74413801dc965c2919a0092bb52ce6957a61f7ff55e55a81ade67ac",
+      "formatted_sha256": "d4864376ae60aabf83812b5b80894a2f5a9eed7a0a99b56dbb4757383b089992",
+      "formatted_bytes": 6811,
+      "format_changed": true
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "base_sha256": "ac641ebd572db2af0114344d5403b834299b69999b326d7fc4af2cb09fb40c7e",
+      "adopted_and_tested_sha256": "a335ba9ffe0aed1a7bc83fc4ca9b16c89f126fc421cc3cfb8950b5ca551a6584",
+      "formatted_sha256": "a335ba9ffe0aed1a7bc83fc4ca9b16c89f126fc421cc3cfb8950b5ca551a6584",
+      "formatted_bytes": 3411,
+      "format_changed": false
+    }
+  ],
+  "source_chain": {
+    "tests_before_equals_after_equals_fix_before_after_equals_format_before": true,
+    "source_entries": 8785,
+    "tested_map_sha256": "edcc003810f39ed1b0b9d777bf329f7e99ee841a03b2fad56c38933b631126a8",
+    "formatted_map_sha256": "492948c5f52ff9a701fb3826bae3249c1642273f69a1a2dc0ba72aac03e28e62",
+    "formatted_changed_paths": [
+      "codex-rs/component-api/src/broker_limits.rs",
+      "codex-rs/component-api/src/broker_limits_tests.rs"
+    ],
+    "format_review": "Only mechanical line wrapping, trailing commas and braces around unchanged string expression; predicates, literals and assertions unchanged.",
+    "retested_after_format": false
+  },
+  "tests": {
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-broker-limits-tests.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "CARGO_BUILD_JOBS=1",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-component-api"
+    ],
+    "started_utc": "2026-10-01T14:03:11Z",
+    "finished_utc": "2026-10-01T14:03:15Z",
+    "returncode": 0,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "new_budget_tests": 4,
+    "prior_declaration_tests": 6,
+    "binaries": 1,
+    "test_seconds": 0.022,
+    "executed_test_names": [
+      "broker_limits_tests::invalid_concurrency_and_zero_budgets_are_rejected_during_deserialization",
+      "broker_limits_tests::limit_schema_rejects_raw_duplicates_missing_and_unknown_fields",
+      "broker_limits_tests::maximum_call_budget_fits_both_request_and_response_without_overflow",
+      "broker_limits_tests::limits_round_trip_through_the_checked_wire_shape",
+      "service_requirements_tests::broker_manifest_is_rejected_by_the_legacy_strict_component_schema",
+      "service_requirements_tests::checked_requirements_preserve_exact_operations_and_presence",
+      "service_requirements_tests::descriptors_enforce_utf8_byte_limits_and_duplicate_operations",
+      "service_requirements_tests::declaration_versions_and_service_count_fail_before_use",
+      "service_requirements_tests::raw_duplicates_and_unknown_fields_are_not_erased_by_value_conversion",
+      "service_requirements_tests::legacy_manifest_round_trip_omits_service_requirements"
+    ],
+    "log_sha256": "d2a7b363b1aef65e3318af1d89fbbe24e866ab89450832405a8733b203fcfac0",
+    "scoped_source_unchanged": true
+  },
+  "lint": {
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-component-api"
+    ],
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "log_sha256": "b66e581b58d5eadaa97747c8e72c20dedaa1f118dd986d182892e88f8751c56a"
+  },
+  "format": {
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "returncode": 0,
+    "scoped_source_unchanged": false,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "finished_utc": "2026-10-01T14:04:22Z"
+  },
+  "strict_subreaper": {
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 744189,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ],
+    "command_pid": 744189,
+    "command_wait_status": 0,
+    "command_returncode": 0,
+    "runner_error": null,
+    "exit_status": 0,
+    "elapsed_seconds": 2.798177026998019
+  },
+  "limitations": [
+    "Additive custom configuration validation only; no pre-existing native Codex subsystem was extracted.",
+    "No broker activation, authority grant, live connection/call ledger, resource reservation, codec scheduling or quota enforcement was implemented or runtime-tested by this slice.",
+    "Byte/node/string ceilings are configuration values; physical_frame_staging_bytes is arithmetic, not an allocation, measured RSS limit or proof of buffering behavior.",
+    "Connection validate_for checks one maximum request plus response fits process spool; it does not promise all configured aggregate work can run simultaneously.",
+    "No independent plugin install, host/App Server/CLI/TUI/GUI behavior or new cancellation guarantee is proved here. Earlier runtime evidence belongs to its own prior source checkpoint.",
+    "The 10 tests ran before mechanical formatting. No post-format rerun is claimed; the two changed files were reviewed and predicates/literals/assertions were unchanged.",
+    "Frozen stage manifest status staged_uncompiled is historical; completed evidence is these terminal reports. Wrapper baseline is metadata, not a clean-commit assertion.",
+    "Source preservation/archive is cloud-local until publication; no external durability is asserted by this evidence."
+  ]
+}

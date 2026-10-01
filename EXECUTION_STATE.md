@@ -27,6 +27,10 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   tree `c8073ab505d94ce06ed2e345f74e364c83c44adc`. Seven private wire paths plus evidence/docs
   were nonforce-published and verified. Receipt `p03-wire-slice1-publication.json` is in recovery.
   The next declaration checkpoint below has separate source and runtime bindings.
+- Declaration support is now published and remotely verified at `8ee6b667521e49ed9879a5ccd35cc22aa6595458`,
+  tree `2822cb23417e67a22434c275b7af7155aee8bae8`, parent `ca38f8c6`. It contains twelve
+  reviewed source paths plus Cargo.lock and separate evidence/design documentation. Receipt:
+  `p03-service-declarations-publication.json`. Broker remains inactive.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
   `147ac2447134294359c4071b0aeb495922760db7`. Retain LICENSE/NOTICE and lineage.
@@ -101,16 +105,24 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   ordinary JSON packages omit it and remain compatible. Never count these overlapping suites
   as additive independent coverage. Their exact snapshots and source-only runner archives remain.
 
+- Checked broker limits: **10 API tests passed, zero skipped/retries** (four new budget cases,
+  six existing declaration cases). Lint unchanged; two mechanical format changes reviewed.
+  [Evidence](verification/2026-10-01/P03_BROKER_LIMITS_EVIDENCE.md) binds actual tested and formatted
+  bytes. No dependency, manifest, runtime enforcement, native extraction or UI change.
+
 ## Ordered next actions
 
 1. Recheck original environment, source state, remote refs, active work and resource headroom.
-   Publish the verified declaration checkpoint separately from the wire checkpoint if its durable
-   receipt is absent; never infer publication from local files or stale local main.
+   Both wire and declaration checkpoints have durable receipts above; revalidate remote identity
+   before new publication. Never infer it from local files or stale local main.
 2. Follow the agreed [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
    [source bindings](upstream/p03-broker-design-bindings.json). The card is a preserved design
    snapshot, not execution proof. Declaration DTOs are accepted; retain the catalog rejection
-   until coordinated negotiated activation. Review the separate finite-budget DTO draft next
-   (`/tmp/p03-broker-dto-stage`), then freeze exact offer/acknowledgement and failure contracts.
+   until coordinated negotiated activation. Checked budget configuration is verified; implement the
+   [accepted offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) next,
+   first checked handles/grants, then exact canonical offer/ack matching. Missing optional-only
+   acknowledgement disables the broker; required absence or present-invalid acknowledgement fails.
+   Keep strict parsing on original bounded handshake bytes, including envelope duplicate fields.
 3. Implement bounded connection/call/decoded-work ownership, exact grant equality, retained
    decode/serialize/flush/receiver receipts and all centralized leaf-entry guards in reviewed
    slices. Reuse active startup supervision; do not revive stale waiter-owned broker drafts.

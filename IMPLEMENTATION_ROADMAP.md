@@ -285,8 +285,11 @@ passed 177 tests and eight real manager installation/catalog commands. The decla
 fails closed while broker negotiation is inactive; these are support changes, not additional
 native extraction. See [current evidence/queue](EXECUTION_STATE.md), the
 [declaration API](component-sdk/SERVICE_REQUIREMENTS_V1.md), and the preserved
-[agreed broker design](P03_LEAF_BROKER_DESIGN.md). Its remaining lifecycle and budget sections
-are planned work; source presence does not satisfy activation or full GUI acceptance.
+[agreed broker design](P03_LEAF_BROKER_DESIGN.md). Checked [limit configuration](component-sdk/BROKER_LIMITS_V1.md)
+passes ten API tests, including six existing declaration cases; it reserves no resources.
+The [offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) is accepted
+design, with runtime negotiation, accounting and lifecycle enforcement still planned. Source
+presence does not satisfy activation or full GUI acceptance.
 
 **Prerequisites:** baseline preserved; no domain activation mixed into this change.
 **Deliver in reviewable stages:** integrate saved session constructor cleanup owner;

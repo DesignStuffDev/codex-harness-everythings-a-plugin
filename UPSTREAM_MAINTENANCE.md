@@ -368,3 +368,8 @@ installation gate. The [declaration contract](component-sdk/SERVICE_REQUIREMENTS
 records the Rust source-literal change and unchanged plain JSON behavior. The broader
 [broker design](P03_LEAF_BROKER_DESIGN.md) and its [source snapshot](upstream/p03-broker-design-bindings.json)
 are intentionally future-facing: no grant or runtime broker activation is inferred from them.
+
+The [P03 broker-limit lineage](upstream/p03-broker-limits-lineage.json) maps additive checked
+configuration and its tests to the current custom API. It changes no upstream native symbol
+and implements neither accounting nor the updater. The separate negotiation design remains
+unimplemented; future update tooling must preserve these compatibility and authority contracts.
