@@ -120,12 +120,14 @@ typed error. Do not recover categories by matching diagnostic strings. Keep
 constructor cleanup conservative where `lifecycle::start` itself can fail while
 joining; do not blanket-convert constructor error receipts to confirmed cleanup.
 
-The generic close signature cannot separately carry an operation failure and a
-cleanup receipt. Keep ownership evidence internally: native reservations can be
-released after their actual joined owner has finished, while the operation error
-remains reported. Never assume an arbitrary remote `Err` proves release; unknown
-remote cleanup must remain quarantined until process/provider cleanup is proven.
-Do not weaken the current API silently to solve this integration distinction.
+The API now proposes `SearchCloseOutcome`, which separates the retained
+operation result from `CloseCleanup::Joined` or `Unconfirmed`. Native reservations
+can be released after actual joined cleanup even when the operation failed; that
+operation failure remains observable. Adapt internal owner completion so it
+retains both facts rather than reconstructing a join receipt from an error string.
+Never infer joined cleanup from an arbitrary remote error or successful search.
+Unknown remote cleanup stays quarantined until separate provider/process cleanup
+is proven. Preserve the same retained outcome for repeated close observers.
 
 At most one accepted snapshot poll survives its observing future. Reserve the
 slot before spawning/awaiting; retain a bounded wait and clear the slot only when

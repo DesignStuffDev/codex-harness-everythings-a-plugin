@@ -2864,10 +2864,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "codex-component-path-codec"
+version = "0.0.0"
+dependencies = [
+ "codex-utils-absolute-path",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "codex-component-state-codec"
 version = "0.0.0"
 dependencies = [
  "chrono",
+ "codex-component-path-codec",
  "codex-extension-items",
  "codex-history",
  "codex-protocol",
@@ -3524,6 +3535,15 @@ dependencies = [
  "tempfile",
  "tokio",
  "tokio-util",
+]
+
+[[package]]
+name = "codex-file-search-api"
+version = "0.0.0"
+dependencies = [
+ "pretty_assertions",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

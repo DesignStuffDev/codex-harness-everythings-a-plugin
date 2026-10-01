@@ -1,7 +1,6 @@
+use super::PlatformPath;
 use super::absolute;
 use super::native;
-use codex_protocol::protocol::NetworkAccess;
-use codex_protocol::protocol::SandboxPolicy;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use pretty_assertions::assert_eq;
 use serde::Deserialize;
@@ -65,6 +64,29 @@ fn trusted_native_path_preserves_non_unicode_os_string() {
 }
 
 #[test]
+fn public_wrappers_preserve_pinned_wire_tag_and_native_units() {
+    let path = non_unicode_path();
+    #[cfg(unix)]
+    let expected = serde_json::json!({ "UnixBytes": [112, 97, 116, 104, 95, 255, 128] });
+    #[cfg(windows)]
+    let expected = serde_json::json!({ "WindowsWide": [112, 97, 116, 104, 95, 55296] });
+
+    let encoded = serde_json::to_value(crate::native_path::Borrowed(&path))
+        .expect("public borrowed encoding");
+    assert_eq!(encoded, expected);
+    let restored: crate::native_path::Owned =
+        serde_json::from_value(expected).expect("public owned decoding");
+    assert_eq!(restored.0.as_os_str(), path.as_os_str());
+
+    let absolute = absolute_non_unicode_path();
+    let encoded = serde_json::to_value(crate::absolute_path::Borrowed(&absolute))
+        .expect("public absolute borrowed encoding");
+    let restored: crate::absolute_path::Owned =
+        serde_json::from_value(encoded).expect("public absolute owned decoding");
+    assert_eq!(restored.0, absolute);
+}
+
+#[test]
 fn trusted_native_path_does_not_normalize_relative_or_empty_paths() {
     for path in ["", ".", "./one//../two/", "a\0b"] {
         let original = NativePath(PathBuf::from(path));
@@ -111,9 +133,9 @@ fn trusted_absolute_path_rejects_representation_changes() {
 #[test]
 fn trusted_paths_reject_foreign_platform() {
     #[cfg(unix)]
-    let foreign = serde_json::json!({ "WindowsWide": [67, 58, 92, 55296] });
+    let foreign = PlatformPath::WindowsWide(vec![67, 58, 92, 0xd800]);
     #[cfg(windows)]
-    let foreign = serde_json::json!({ "UnixBytes": [47, 255] });
+    let foreign = PlatformPath::UnixBytes(vec![47, 0xff]);
     let json = serde_json::to_string(&foreign).expect("tagged path encoding");
     for error in [
         serde_json::from_str::<NativePath>(&json).expect_err("foreign native path rejected"),
@@ -161,48 +183,4 @@ fn trusted_path_containers_preserve_values_and_presence() {
             json
         );
     }
-}
-
-#[test]
-fn trusted_sandbox_policy_preserves_non_unicode_roots_and_flags() {
-    #[derive(Debug, PartialEq, Serialize, Deserialize)]
-    #[serde(transparent)]
-    struct Policy(
-        #[serde(with = "super::super::events_permissions::SandboxPolicyWire")] SandboxPolicy,
-    );
-
-    for original in [
-        Policy(SandboxPolicy::WorkspaceWrite {
-            writable_roots: vec![absolute_non_unicode_path()],
-            network_access: true,
-            exclude_tmpdir_env_var: true,
-            exclude_slash_tmp: false,
-        }),
-        Policy(SandboxPolicy::WorkspaceWrite {
-            writable_roots: vec![],
-            network_access: false,
-            exclude_tmpdir_env_var: false,
-            exclude_slash_tmp: true,
-        }),
-        Policy(SandboxPolicy::DangerFullAccess),
-        Policy(SandboxPolicy::ReadOnly {
-            network_access: false,
-        }),
-        Policy(SandboxPolicy::ExternalSandbox {
-            network_access: NetworkAccess::Enabled,
-        }),
-    ] {
-        let json = serde_json::to_string(&original).expect("sandbox encoding");
-        let restored: Policy = serde_json::from_str(&json).expect("sandbox decoding");
-        assert_eq!(restored, original);
-    }
-}
-
-#[test]
-fn native_path_uri_serde_already_preserves_non_unicode_paths() {
-    let original = codex_utils_path_uri::PathUri::from(absolute_non_unicode_path());
-    let json = serde_json::to_string(&original).expect("URI encoding");
-    let restored: codex_utils_path_uri::PathUri =
-        serde_json::from_str(&json).expect("URI decoding");
-    assert_eq!(restored.to_string(), original.to_string());
 }

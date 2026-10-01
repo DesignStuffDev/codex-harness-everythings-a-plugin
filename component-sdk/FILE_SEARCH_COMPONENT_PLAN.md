@@ -370,6 +370,39 @@ native adapter maps `FileSearchStartError` into this common type, replacing App
 Server's native-specific downcast. The paired process-admission prerequisite
 below supplies the corresponding remote receipt.
 
+### Independent operation result and close receipt
+
+Session close and backend shutdown return a `SearchCloseOutcome` through a
+`SearchCloseFuture`, with no outer error that could discard cleanup evidence:
+
+```rust
+pub struct SearchCloseOutcome {
+    pub operation: Result<(), SearchError>,
+    pub cleanup: CloseCleanup,
+}
+
+pub enum CloseCleanup {
+    Joined,
+    Unconfirmed(SearchError),
+}
+```
+
+A failed search can join successfully. Release its reservation on `Joined`, then
+propagate its retained operation failure. Conversely, `operation == Ok(())` must
+not free an `Unconfirmed` reservation. Overall success requires both successful
+operation and joined cleanup. Keep the first operation failure distinct from a
+later cleanup failure. Forced process termination remains explicitly unconfirmed;
+reaping is not a retroactive clean join. Whole-provider recovery can separately
+prove ownership releasable without rewriting the retained session outcome.
+
+Repeated observers receive the same outcome, and dropped observers do not own
+cleanup work. Converting `CloseCleanup` into `StartCleanup` maps `Joined` to
+`Confirmed` and preserves `Unconfirmed`; accepted close never maps to
+`NotAdmitted`. Runtime and process-adapter tests must cover failed-but-joined
+quota reuse, failed-and-unconfirmed quarantine, repeated/drop close observers,
+and cleanup failure after an otherwise successful operation. API contract tests
+alone do not prove production task or worker ownership.
+
 ### Moving native values without changing algorithm behavior
 
 Move `FileMatch`, `MatchType`, `FileSearchResults`, `FileSearchSnapshot`,
