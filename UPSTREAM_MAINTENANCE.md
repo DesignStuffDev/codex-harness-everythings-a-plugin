@@ -39,6 +39,9 @@ App Server/TUI ownership, foreign Nucleo patch, SDK and additive GUI boundaries 
 78 current symbol anchors, with foreign provenance kept separate. This is a verified
 native prerequisite, **not** installed search or updater execution. Unregistered
 StageB drafts are excluded; each accepted boundary needs its own mapped checkpoint.
+The later [StageB support map](upstream/p02b-contract-lineage.json) records the
+neutral API and path-codec extraction into shared libraries, preserving the
+distinction between support refactoring and installed service replacement.
 
 ## Separately installable maintenance service
 

@@ -182,6 +182,11 @@ no installed search backend is active. StageB must register the neutral contract
 add bounded native/process implementations and replace real composition paths.
 [Lineage](upstream/p02-search-lineage.json) records this distinction.
 
+**StageB support slice:** `98eeb3e1c93b3a856834c57e6c4d57bfa9f8c782` registers
+neutral search/cleanup contracts and the shared lossless path codec.
+[56 focused cases](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md) passed;
+native/process implementations and independent installation remain pending.
+
 **Prerequisites:** P02a search uses contract cards, the accepted process/session
 protocol and existing native authorized root snapshots. P02b filesystem/watch/Git
 and worktree mutation services additionally require P03/P04/P10 authority/config

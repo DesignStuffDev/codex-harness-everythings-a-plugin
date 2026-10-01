@@ -1,0 +1,224 @@
+{
+  "schema_version": 1,
+  "kind": "codex_support_boundary_checkpoint",
+  "source": {
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "import_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "previous_checkpoint": "900337e46bdffdecc9e2dd7d7d832b849ee558ec",
+    "implementation_commit": "98eeb3e1c93b3a856834c57e6c4d57bfa9f8c782",
+    "implementation_tree": "01e5f25c3a40cd90ea4cae430e481a3e40cc9e65",
+    "previous_lineage": "p02-search-lineage.json"
+  },
+  "classification": "support_contract_and_codec_refactor_not_installed_native_extraction",
+  "boundaries": [
+    {
+      "id": "neutral_search_values_and_contracts",
+      "inventory_owners": [
+        "C18"
+      ],
+      "upstream_path": "codex-rs/file-search/src/lib.rs",
+      "upstream_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+      "upstream_symbols": [
+        "FileMatch",
+        "MatchType",
+        "FileSearchOptions",
+        "FileSearchResults",
+        "FileSearchSnapshot",
+        "SessionReporter"
+      ],
+      "current_path": "codex-rs/file-search-api/src/values.rs",
+      "current_blob": "0f20ef03843e509a203715daed7af4dcaf19435a",
+      "intentional_changes": [
+        "Copies value/default/serialization definitions; native consumers have not yet moved to re-exports.",
+        "Adds explicit backend/query/frame/budget/start/close contracts without activating implementation.",
+        "Separates operation result from joined/unconfirmed cleanup and bounds diagnostic text."
+      ]
+    },
+    {
+      "id": "shared_native_path_codec",
+      "inventory_owners": [
+        "C00",
+        "C25"
+      ],
+      "origin": "Custom trusted component codec, not original upstream native service",
+      "previous_path": "codex-rs/component-state-codec/src/wire/paths.rs",
+      "previous_blob": "4eecbe44eb094fc9fbf0a0a6ca6a7f28829ff33e",
+      "current_path": "codex-rs/component-path-codec/src/paths.rs",
+      "current_blob": "47de1c47102a6c2ba9ffd9dd2a01c46c6f8d8158",
+      "intentional_changes": [
+        "Move lossless same-OS codec into neutral crate; state codec retains compatibility exports.",
+        "Retain UnixBytes/WindowsWide tags, foreign-platform rejection and exact normalized absolute path validation.",
+        "Replace private-enum construction in old tests with the same explicit wire bytes."
+      ]
+    }
+  ],
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "mode": "100644",
+      "before_blob": "1e6706ead8f25bb09a1bc3677a6949ff97fad576",
+      "after_blob": "bdb749e1a76e031968361b6af2fc9b721b4e9c94",
+      "sha256": "11c3a35d1025bfa96dba180bfc2008d04a6bb5cb1b3c9afb867360aaf66c075e"
+    },
+    {
+      "path": "codex-rs/Cargo.toml",
+      "mode": "100644",
+      "before_blob": "f4b94a9265b27d9973e52570d7eba3374f750f24",
+      "after_blob": "58498a92254c7399f76c3499d295fa94bb09a7bd",
+      "sha256": "aeb6dfade55178d9c96b538f78d52bc9ae6b716590ca955d380b237276f0aa11"
+    },
+    {
+      "path": "codex-rs/component-path-codec/BUILD.bazel",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "033f00aec6cc8c6be5d20acf6bc865b665337612",
+      "sha256": "49bcaac7d4656109cf1e6ee12132b49e44944c1eed6ee3e7f0be877951b5caf3"
+    },
+    {
+      "path": "codex-rs/component-path-codec/Cargo.toml",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c932477cb568376af124efc920a3bc01614c3476",
+      "sha256": "3dd246d999ddda49a0b2f053fec7d45024c4645cf41dadbe7b3b09fed57be0e0"
+    },
+    {
+      "path": "codex-rs/component-path-codec/src/adapters.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "36f409a5844cbadaafe8aec208537cb16156bca3",
+      "sha256": "b30d479f86c5f7a5a34c64c9f3f2bd2a89e17cb92f8daef812e4c4dfa9af9c90"
+    },
+    {
+      "path": "codex-rs/component-path-codec/src/lib.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "16300be34b49ed5b796085ca0b8bf71bac1c751d",
+      "sha256": "7514a53b0a21e24bd9196ec15aaf8c3ce21b84a0d227bc671cb2b1dbe8e34a35"
+    },
+    {
+      "path": "codex-rs/component-path-codec/src/paths.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "47de1c47102a6c2ba9ffd9dd2a01c46c6f8d8158",
+      "sha256": "25f60dfb45337486a298155cfda2a5e85349bff38218e4ea4c2260d61967b824"
+    },
+    {
+      "path": "codex-rs/component-path-codec/src/paths_tests.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "fd1d0134760e1e476d4246b099b50bde9a642242",
+      "sha256": "0d329e2cbec87c397663e8bce3a5eecdb16c138a11a0bd9e8db70d1bbca1f29c"
+    },
+    {
+      "path": "codex-rs/component-state-codec/Cargo.toml",
+      "mode": "100644",
+      "before_blob": "2baf206cf3f870627d34efc2f9a273f72f6ad4dc",
+      "after_blob": "851a9fe60f147a7abdfde0385f068df57b3f3ffd",
+      "sha256": "825495abe5fafe709a79d110042e2d64e4e99764876b05c9bdd895092e610d65"
+    },
+    {
+      "path": "codex-rs/component-state-codec/src/wire/paths.rs",
+      "mode": "100644",
+      "before_blob": "4eecbe44eb094fc9fbf0a0a6ca6a7f28829ff33e",
+      "after_blob": "36f2c64e86070484a68211fada172dfe4f482fbf",
+      "sha256": "29182b5d58a21e09e68704c6d356ee2c8c2771747742cb9bc8571cc2d606f906"
+    },
+    {
+      "path": "codex-rs/component-state-codec/src/wire/paths_tests.rs",
+      "mode": "100644",
+      "before_blob": "2199aae953012e73fc72b4386f9ac8d048dac92f",
+      "after_blob": "4ce79e6d33845311921134fed20728c72cc0f511",
+      "sha256": "b3a37b75a19d242844d39b82317f7cbeda0452d013e1b227f4f02fb5289a4b82"
+    },
+    {
+      "path": "codex-rs/file-search-api/BUILD.bazel",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "95b583e92478b20f52a12b964aa10811cc82d7cd",
+      "sha256": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a"
+    },
+    {
+      "path": "codex-rs/file-search-api/Cargo.toml",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "6e3eb501fc58c976773e52764749882e2ce07b13",
+      "sha256": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a"
+    },
+    {
+      "path": "codex-rs/file-search-api/README.md",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "5903debb060ca7869f1be9ace7faac97a47a1678",
+      "sha256": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/backend.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197",
+      "sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/budget.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "21dd38cc4e4d8e245ba7da472da3161d5df68338",
+      "sha256": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/close_contract_tests.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "da58e9cfa840dbf900684e933d60aefd6099e353",
+      "sha256": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/contract_tests.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "d33dbc46d10efb5ecc3ef3d7fe3e60379784b70e",
+      "sha256": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/error.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "338b89dec37f5f18036cea8143cfef0e8a85e4e1",
+      "sha256": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/lib.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "9bf377fce12307219a32b47c8701c12ffe606926",
+      "sha256": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/values.rs",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "0f20ef03843e509a203715daed7af4dcaf19435a",
+      "sha256": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa"
+    },
+    {
+      "path": "component-sdk/FILE_SEARCH_COMPONENT_PLAN.md",
+      "mode": "100644",
+      "before_blob": "008436e64c25fb7a9db07bdd808ac3d16b3c4df8",
+      "after_blob": "ca5a98f6ac8a816b4fadd3a6e86da149a5a2c301",
+      "sha256": "4d88dc0fb1fcfdbc135eb35aec05af7542464bb4e548edc34e583f3e6a2e4a89"
+    },
+    {
+      "path": "component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md",
+      "mode": "100644",
+      "before_blob": "c6c75789b3d9a3fabf4b80cda21f8a65ab5c8396",
+      "after_blob": "a4ded934fe7a81cbefa08a9b2e93f98ec2ce76d8",
+      "sha256": "8d41a561c036676dd46c84d4fc276026e18619070c599df66b29ed83074c612f"
+    }
+  ],
+  "evidence": "../verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md",
+  "limits": [
+    "No selected search service or worker package exists at this checkpoint.",
+    "Wire tests do not establish authority, actual worker cleanup or host runtime behavior.",
+    "Maps are exact paths/blobs and selected semantic anchors, not a complete automated symbol graph."
+  ]
+}

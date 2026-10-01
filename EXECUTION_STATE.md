@@ -6,6 +6,12 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
 
 ## Last verified checkpoints
 
+- New support-library source: `98eeb3e1c93b3a856834c57e6c4d57bfa9f8c782`,
+  tree `01e5f25c3a40cd90ea4cae430e481a3e40cc9e65`: neutral search API and shared
+  path codec with old storage exports; [56/56 focused tests](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md),
+  scoped lint/format and Bazel graph gates passed. No new host/runtime claim.
+  StageA below remains the latest complete new-engine/storage/GUI runtime gate.
+
 - P02 StageA source: `25b2c3150879761026086a62e480045fc38d32ff`, tree
   `5ba385b6e7730119b6d5cdca67fba2dc4f5c395d`; its companion documentation commit
   publishes this state and evidence. Revalidate the current remote ref.
@@ -17,9 +23,10 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
   coupled.** Infrastructure, lifecycle repairs and additive UI do not count as its
   extraction. Model/auth remain adapters; loop, context, compaction, native tools,
   policy and auxiliary databases remain coupled.
-- Unregistered StageB API/path-codec drafts: external WIP
+- Historical unregistered StageB API/path-codec drafts: external WIP
   `17c366bb94f77b3d3895acd6f061a5cb308bd384`, branch
-  `wip/p02-search-lifecycle-20261001`. They are excluded from accepted StageA.
+  `wip/p02-search-lifecycle-20261001`. They were excluded from StageA and are now
+  integrated in the support-library checkpoint above.
 - Older isolated WIP: `0b38d5974159ab2a8776200025dbb602e89b8f8f`, branch
   `wip/recovered-next-components-20260930`. Never merge WIP wholesale.
 - Official upstream pin: `d42056091aded7feb1d88ac7e83972108b2aa478`; Apache LICENSE
@@ -63,10 +70,12 @@ preserved all 30 allocated ELF sections; runtime gates used this immutable copy.
 
 1. Re-observe original task environment, repository, actual working files, refs,
    source/index hashes, processes and disk/memory. Read AGENTS and runtime skill.
-2. Register neutral `file-search-api` and `component-path-codec` drafts, add missing
-   Bazel target, apply reviewed state-codec path re-exports. Run API/path/old-codec
-   compatibility tests, scoped lint/format and lock updates. No installed-search
-   claim from this supporting-library step.
+2. Preserve the newer working native queue and paired process-startup changes.
+   Their combined scoped run passed99/99 with one ignored test and unchanged
+   source; they remain outside the support checkpoint pending final checks.
+   An allocation audit found an inherited matcher matrix-slice extent error:
+   retain its safe pre-fix regression and narrow correction separately, then
+   rerun vendor/native gates before broader bounded-allocation work.
 3. Implement bounded native backend, coalesced query admission, honest final
    snapshot/Idle ordering, entry/index/worker budgets and resource errors. See
    [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md).
@@ -119,11 +128,13 @@ Rust1.95/debug0/incremental0. One owner serializes Rust; never kill Rust. Use
 Use `/tmp/run-p02-check.py` for actual source manifests. Never reuse unchanged
 `/tmp/run-component-regression.py`: its source label is obsolete.
 
-Resource limit: 32 GiB overlay, last observed only379 MiB free, /tmp tmpfs1.2 GiB
+Resource limit: 32 GiB overlay, last observed about868 MiB free, /tmp tmpfs1.2 GiB
 free. Recheck before linking; do not use tmpfs without memory accounting. Audited
 cache maps/restoration live in recovery reports `p02-generated-cache-tmpfs-relocation.json`
 and `p02-pre-cli-cache-tmpfs-relocation.json`. Original-path cache symlinks need
-these backing files. Cargo's dangerous hardlink to frozen-v2 was safely detached;
+these backing files. `p02b-reviewed-generated-cache-eviction.json` records
+777,682,944 bytes reclaimed from three completed Cargo executables, preserving
+all aliases/identities and observing no live task-process references. Cargo's dangerous hardlink to frozen-v2 was safely detached;
 **do not restore it**. Completed App Server executable is preserved in the
 checksum-verified `p02-completed-public-app-server.tar.zst`; generated new CLI
 cache was removed after independent immutable candidate verification. Do not remove
