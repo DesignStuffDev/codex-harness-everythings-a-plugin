@@ -65,7 +65,7 @@ pub(super) fn fail(
     runtime: &RuntimeInner,
     error: SearchError,
 ) {
-    let session = {
+    let retired = {
         let mut state = lock(state);
         if !state.same_session(generation) {
             return;
@@ -75,20 +75,16 @@ pub(super) fn fail(
         runtime.failed(error.clone());
         // A's failure retires the whole incarnation, including pending B. A
         // query-id equality check here would leave B stranded on a dead lease.
-        state.session_generation = Arc::new(());
-        state.preparing = false;
-        let session = state.session.take();
+        let retired = state.retire();
         state.delivery = Some(FileSearchDelivery::Failed {
             request: state.request(),
             query: state.latest_query.clone(),
             error,
         });
         wake(&mut state, runtime);
-        session
+        retired
     };
-    if let Some(session) = session {
-        session.request_close();
-    }
+    retired.request_close();
     runtime.signal.send_replace(());
 }
 
@@ -127,21 +123,20 @@ pub(super) fn retry_pending(runtime: &RuntimeInner) -> bool {
         return false;
     };
     let mut state = lock(&manager);
-    if state.delivery.is_none() || state.wake_queued {
-        return false;
-    }
     if state.tx.app_event_tx.is_closed() {
-        let session = state.session.take();
-        state.preparing = false;
-        state.session_generation = Arc::new(());
+        if !state.preparing && state.session.is_none() && state.pending_start.is_none() {
+            return false;
+        }
+        let retired = state.retire();
         runtime.failed(SearchError::new(
             SearchErrorKind::TransportLost,
             "TUI file-search delivery channel is closed",
         ));
         drop(state);
-        if let Some(session) = session {
-            session.request_close();
-        }
+        retired.request_close();
+        return false;
+    }
+    if state.delivery.is_none() || state.wake_queued {
         return false;
     }
     wake(&mut state, runtime);

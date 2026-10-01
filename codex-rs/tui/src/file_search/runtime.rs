@@ -272,10 +272,8 @@ impl FileSearchRuntime {
             previous
         };
         if let Some(previous) = previous {
-            let session = lock(&previous).invalidate();
-            if let Some(session) = session {
-                session.request_close();
-            }
+            let retired = lock(&previous).invalidate();
+            retired.request_close();
         }
         self.wake();
     }
@@ -358,10 +356,8 @@ fn begin_shutdown(
         state.active.upgrade()
     };
     if let Some(active) = active {
-        let session = lock(&active).invalidate();
-        if let Some(session) = session {
-            session.request_close();
-        }
+        let retired = lock(&active).invalidate();
+        retired.request_close();
     }
     inner.scope.request_shutdown();
     if let Some(provider) = &local {

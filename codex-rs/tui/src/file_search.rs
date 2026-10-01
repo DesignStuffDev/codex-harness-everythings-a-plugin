@@ -15,9 +15,11 @@ use crate::app_event_sender::AppEventSender;
 mod coordinator;
 mod reporter;
 mod runtime;
+mod startup;
 mod state;
 pub(crate) use runtime::FileSearchRuntime;
 pub(crate) use runtime::FileSearchSource;
+use state::RetiredSearch;
 use state::SearchState;
 use state::lock;
 
@@ -76,15 +78,13 @@ impl FileSearchManager {
         *self = Self::new(root, tx, self.runtime.clone());
     }
     pub(crate) fn update_search_dir(&mut self, root: PathBuf) {
-        let (intent, session) = {
+        let (intent, retired) = {
             let mut state = lock(&self.state);
             state.root = root;
-            let session = state.invalidate();
-            (state.intent(&self.state), session)
+            let retired = state.invalidate();
+            (state.intent(&self.state), retired)
         };
-        if let Some(session) = session {
-            session.request_close();
-        }
+        retired.request_close();
         self.runtime.enqueue(intent);
     }
     #[cfg(test)]
@@ -119,7 +119,7 @@ impl FileSearchManager {
     }
     pub(crate) fn on_user_query(&self, query: &str) -> Result<(), SearchError> {
         let mut failure = None;
-        let (intent, session) = {
+        let (intent, retired) = {
             let mut state = lock(&self.state);
             if state.exhausted {
                 return Err(SearchError::new(
@@ -133,22 +133,22 @@ impl FileSearchManager {
                 return Ok(());
             }
             if query.len() > self.runtime.max_query_bytes() {
-                let session = state.invalidate();
+                let retired = state.invalidate();
                 failure = Some(SearchError::new(
                     SearchErrorKind::ResourceExhausted,
                     "file search query exceeds the selected provider UTF-8 byte limit",
                 ));
-                (state.intent(&self.state), session)
+                (state.intent(&self.state), retired)
             } else if !state.advance() {
-                let session = state.invalidate();
+                let retired = state.invalidate();
                 failure = Some(SearchError::new(
                     SearchErrorKind::ResourceExhausted,
                     "file search query identity exhausted",
                 ));
-                (state.intent(&self.state), session)
+                (state.intent(&self.state), retired)
             } else if query.is_empty() {
-                let session = state.invalidate();
-                (state.intent(&self.state), session)
+                let retired = state.invalidate();
+                (state.intent(&self.state), retired)
             } else {
                 if state.session.is_none() && !state.preparing {
                     state.session_generation = Arc::new(());
@@ -156,12 +156,10 @@ impl FileSearchManager {
                 }
                 state.latest_query = query.to_owned();
                 state.delivery = None;
-                (state.intent(&self.state), None)
+                (state.intent(&self.state), RetiredSearch::default())
             }
         };
-        if let Some(session) = session {
-            session.request_close();
-        }
+        retired.request_close();
         self.runtime.enqueue(intent);
         if let Some(error) = failure {
             self.runtime.inner().failed(error.clone());
@@ -172,10 +170,8 @@ impl FileSearchManager {
 }
 impl Drop for FileSearchManager {
     fn drop(&mut self) {
-        let session = lock(&self.state).invalidate();
-        if let Some(session) = session {
-            session.request_close();
-        }
+        let retired = lock(&self.state).invalidate();
+        retired.request_close();
         self.runtime.wake();
     }
 }

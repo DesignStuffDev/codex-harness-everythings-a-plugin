@@ -7,6 +7,7 @@ use std::sync::Weak;
 use super::FileSearchDelivery;
 use super::FileSearchRequest;
 use crate::app_event_sender::AppEventSender;
+use codex_file_search_api::SearchStartControl;
 use codex_file_search_runtime::FileSearchSession;
 
 pub(super) fn lock<T>(value: &Mutex<T>) -> MutexGuard<'_, T> {
@@ -22,6 +23,7 @@ pub(super) struct SearchState {
     pub manager_generation: Arc<()>,
     pub session_generation: Arc<()>,
     pub session: Option<FileSearchSession>,
+    pub pending_start: Option<Arc<dyn SearchStartControl>>,
     pub preparing: bool,
     pub exhausted: bool,
     pub tx: AppEventSender,
@@ -40,6 +42,7 @@ impl SearchState {
             manager_generation: Arc::new(()),
             session_generation: Arc::new(()),
             session: None,
+            pending_start: None,
             preparing: false,
             exhausted: false,
             delivery: None,
@@ -72,13 +75,19 @@ impl SearchState {
             false
         }
     }
-    pub fn invalidate(&mut self) -> Option<FileSearchSession> {
+    pub fn invalidate(&mut self) -> RetiredSearch {
         self.advance();
         self.latest_query.clear();
+        self.delivery = None;
+        self.retire()
+    }
+    pub fn retire(&mut self) -> RetiredSearch {
         self.session_generation = Arc::new(());
         self.preparing = false;
-        self.delivery = None;
-        self.session.take()
+        RetiredSearch {
+            pending: self.pending_start.take(),
+            session: self.session.take(),
+        }
     }
     pub fn intent(&self, state: &Arc<Mutex<Self>>) -> Intent {
         Intent {
@@ -86,6 +95,25 @@ impl SearchState {
             request: self.request(),
             root: self.root.clone(),
             query: self.latest_query.clone(),
+        }
+    }
+}
+
+/// Move external cancellation authority out of the manager lock before use.
+/// The coordinator remains the owner of the startup and cleanup observers.
+#[derive(Default)]
+#[must_use = "request retirement after releasing the search-state lock"]
+pub(super) struct RetiredSearch {
+    pending: Option<Arc<dyn SearchStartControl>>,
+    session: Option<FileSearchSession>,
+}
+impl RetiredSearch {
+    pub fn request_close(self) {
+        if let Some(pending) = self.pending {
+            pending.request_cancel();
+        }
+        if let Some(session) = self.session {
+            session.request_close();
         }
     }
 }
