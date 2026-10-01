@@ -78,6 +78,10 @@ implement and independently install the updater, then demonstrate a real later
 upstream candidate, incompatible-candidate rejection and external-bootstrap
 recovery after failed activation. Documentation or native provider prerequisites
 do not satisfy those execution gates or create another VERIFIED_NATIVE subsystem.
+The [read-only index/checker](upstream/CHECKPOINT_LINEAGE_README.md) is now implemented
+as project-authored maintenance support. Its 13 fixtures pass; actual immutable-object
+checks cover the pinned d04 source with no invalid metadata and explicit unresolved
+semantic/acceptance gaps. It is neither an installed updater nor native extraction.
 
 ## Complete explicit workspace package ledger
 

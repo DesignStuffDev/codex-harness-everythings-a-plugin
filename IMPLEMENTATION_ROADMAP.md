@@ -161,6 +161,13 @@ entries remain unresolved; prior runtime results retain their original scope.
 This gate does not claim a complete symbol graph, updater, later-upstream candidate
 or rollback result.
 
+**Implemented metadata checkpoint:** the [pinned index and checker](upstream/CHECKPOINT_LINEAGE_README.md)
+cover all 1,092 changed paths, 28 maps and 27 explicit relationships at `d04d5a7`.
+Thirteen fixtures pass; the actual object check finds no invalid metadata while
+retaining semantic, historical-anchor, unsupported-schema and release gaps.
+[Evidence](verification/2026-10-01/P00M_LINEAGE_EVIDENCE.md). P00M semantic closure
+and P18U execution remain incomplete; this index does not silently advance with main.
+
 ### P01 — Finish native storage maintenance/migration selection
 
 **Checkpoint complete:** source `5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb`.
@@ -334,6 +341,10 @@ including five new local-HTTP cases; lint passed unchanged and test formatting w
 [Evidence](verification/2026-10-01/P03_PROVIDER_ENDPOINT_EVIDENCE.md) retains the initial
 disk-full compilation failure and exact source transitions. This is a compiled native
 prerequisite, not an independently installed catalog/provider or a new full-host/UI gate.
+The subsequent [fresh full-host gate](verification/2026-10-01/P03_PROVIDER_FULL_HOST_EVIDENCE.md)
+now passes on exact published `d04d5a7` source: unchanged installed storage, migration,
+search and two cold GUI/manager-shutdown cycles. It adds consumer regression evidence,
+not a catalog/provider plugin, live-model test or in-app Browser verification.
 
 ### P04 — Configuration, credentials and native authentication
 

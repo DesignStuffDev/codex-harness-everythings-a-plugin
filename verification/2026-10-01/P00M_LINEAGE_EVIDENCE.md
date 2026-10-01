@@ -1,0 +1,11 @@
+# P00M provenance tooling checkpoint
+
+The [checkpoint index](../../upstream/CHECKPOINT_LINEAGE_INDEX.json) accounts for all **1,092 changed paths**, 28 historical lineage maps and 27 explicit source relationships at published `d04d5a77d4dcaf51759666fd042ab65a3597d900`. It distinguishes native derivation/adaptation, original project code and use of existing interfaces. This is read-only maintenance support, not an installed updater or native subsystem extraction.
+
+All **13 corruption/binding fixtures passed** on the adopted source. Actual local-object validation returned the expected unresolved status (exit2): **zero invalid identities or path-coverage records**, with 1,160 explicitly unresolved findings. These comprise 1,092 path semantics, 27 boundary closures, 39 nonliteral/missing historical anchors, one unsupported provider lineage schema and one release/updater gate. Those categories are not 1,160 runtime failures; this check does not validate runtime behavior. Complete current provenance is not claimed.
+
+Both test/object-check source maps were unchanged. The subsequent required `just fmt` passed and formatted only the two new Python files. Their parsed ASTs are identical before/after; all native Rust/SDK and index/receipt bytes remained unchanged. Exact tested/formatted hashes and full formatting diffs are retained in the results JSON. No post-format rerun is claimed. The checker prefers an available local checkpoint commit-to-tree binding and rejects a mismatch even if a receipt agrees with the index. Where that commit object is unavailable, it can use the published, digest-bound historical receipt. It does not contact GitHub, fabricate missing Git objects or grant release approval. The prior 9cf stage and intermediate reviewed drafts remain preserved separately in the cloud-local recovery archive.
+
+The [usage and limits](../../upstream/CHECKPOINT_LINEAGE_README.md) explain input limits, supported schemas and local-object prerequisites. The updater, later-upstream integration, compatible-plugin preservation and failed-update rollback remain required future gates. No polling, active-installation mutation or release activation was added.
+
+[Exact source, command and result bindings](p00m-lineage-results.json).

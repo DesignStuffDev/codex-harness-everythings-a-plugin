@@ -151,6 +151,13 @@ that every consumer has upgraded safely.
 
 Current source mapping is an immediate P00M obligation; the separately installable
 updater and its integration/recovery demonstrations remain P18U implementation.
+The [checkpoint index and read-only validator](upstream/CHECKPOINT_LINEAGE_README.md)
+now provide concrete metadata coverage for published `d04d5a7`: 1,092 changed paths,
+28 historical maps and 27 relationships. [Executed checks](verification/2026-10-01/P00M_LINEAGE_EVIDENCE.md)
+pass 13 fixtures and report zero invalid metadata, retaining all semantic closure
+gaps, 39 historical anchors, one unsupported schema and the updater/release gate.
+This implements the inventory/checking foundation; it does not complete the semantic
+closure work listed below or certify compatibility for an upstream update.
 The original upstream pin is still `d42056091aded7feb1d88ac7e83972108b2aa478`.
 Later project checkpoints, vendored dependency updates and installed worker
 compatibility tests do not advance that official Codex revision.
@@ -173,7 +180,10 @@ The provider-owned endpoint capability has separate
 [native test evidence](verification/2026-10-01/P03_PROVIDER_ENDPOINT_EVIDENCE.md) and
 [original/current symbol mapping](upstream/p03-provider-endpoint-lineage.json).
 Its 160 passing tests establish the compiled native ownership prerequisite only;
-exposing it is not catalog extraction or installed-host/UI proof.
+exposing it is not catalog extraction. The subsequent
+[full-host regression](verification/2026-10-01/P03_PROVIDER_FULL_HOST_EVIDENCE.md)
+separately binds the compiled host and existing installed storage/search/GUI behavior
+to the exact published source; no later official upstream revision was integrated.
 
 The remaining current-provenance work is concrete:
 

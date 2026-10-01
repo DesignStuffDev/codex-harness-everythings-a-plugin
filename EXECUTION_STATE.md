@@ -42,6 +42,13 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   `4de47ce8a643d605b6097c16498f6b292e1f92df`, parent `6c5b232`; eleven paths were
   nonforce-published and remotely verified. Receipt `p03-broker-offer-publication.json`
   records the exact three formatted source paths and separate documentation/evidence.
+- Native provider prerequisite is published and remotely verified at
+  `d04d5a77d4dcaf51759666fd042ab65a3597d900`, tree
+  `8464b8683d1443718f357130b88d4597deb940de`, parent `9cf9002d`.
+  Ten paths include two native source/test files, actual evidence/lineage and maintenance
+  roadmap refinements. Receipt `p03-provider-endpoint-publication.json`; verified archive
+  `p03-provider-endpoint-verified-checkpoint.tar.gz`, SHA256
+  `82ff1a36a05209a2d1b5b4fdb5916781e9da010cdfd5d659aae0b0a16fb504a9`.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
   `147ac2447134294359c4071b0aeb495922760db7`. Retain LICENSE/NOTICE and lineage.
@@ -134,6 +141,33 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
 
 ## Ordered next actions
 
+New full-host checkpoint evidence: [provider host/runtime report](verification/2026-10-01/P03_PROVIDER_FULL_HOST_EVIDENCE.md).
+Frozen CLI `/workspace/component-checkpoint-candidate-p03-provider-full-cli-20261001/codex`,
+SHA256 `70669f0b5b81d5ab14e2093c4eb85d7a9275baaa59e0b0aa2134b3dea6ac4750`,
+634783824 bytes, mode0555/nlink1, original inode retained with no stripping.
+All 8,878 build/runtime source entries match published `d04d5a7`. Existing independent
+storage0.2/contract2 passed13 real commands, migration passed10, and installed search/GUI
+passed two cold launch cycles. First SIGINT to manager exited0 in0.667s/0.216s with tracked
+identities absent. Chromium/Playwright and deterministic inference limitations remain.
+Private GUI URLs/logs stay private; two reviewed screenshots are included in verification.
+
+P00M now has a [pinned metadata index/checker](upstream/CHECKPOINT_LINEAGE_README.md).
+Root ran13 passing fixtures and the real object check: exit2 means explicitly unresolved,
+with0 invalid metadata and1,160 unresolved categories across1,092 paths/28 maps/27edges.
+[Evidence](verification/2026-10-01/P00M_LINEAGE_EVIDENCE.md). This is not full semantic
+closure or updater acceptance. The index names d04; later metadata publication is outside it.
+Prior9cf and refreshedd04 stages are archived as `p00m-lineage-tooling-stages.tar.gz`,
+SHA256 `c1fd16d819361b41f38d2ec5919283ae8d3e469e26819bf063e14278cc825c25`.
+
+Next native policy candidate is frozen, reviewed but unadopted/uncompiled: six paths,
+402 additions/50 removals, seven new tests in
+`/tmp/p03-native-policy-epoch-implementation-stage/FINAL_MANIFEST.json`, SHA256
+`f41a6db2abec6c77ab287967a4332953544ef88aeeef5b760abb09ad3d9ca3a9`.
+Cloud-local archive `p03-native-policy-epoch-staged-source.tar.gz`, SHA256
+`aad6f1776be15251ee53309740c7d1b44abbd2c3a95dbd0c2dbe3d8b99006ac9`, preserves it.
+It adds atomic native policy observations/decisions only; post-await credentials,
+HTTP/cache fencing and independent catalog/auth extraction remain separate prerequisites.
+
 Current verified native prerequisite: the two-file provider-owned model endpoint
 change is adopted from `/tmp/p03-provider-endpoint-stage/FINAL_MANIFEST.json`
 (`22c63961cea9539a2b6ed8031740cd8b74e5ed20d1606ac08f9de8f584907119`).
@@ -163,10 +197,10 @@ write/chmod/utime. This changed storage representation, not historical runtime o
 1. Recheck original environment, source state, remote refs, active work and resource headroom.
    Both wire and declaration checkpoints have durable receipts above; revalidate remote identity
    before new publication. Never infer it from local files or stale local main.
-2. Publish the native provider prerequisite with its actual evidence; maintain the P00M
-   current provenance index/checker alongside extraction. Stage native policy-epoch work
-   separately. A fresh full-host build and UI regression must bind the new source before
-   claiming runtime integration. Follow the agreed [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
+2. Publish the P00M metadata tooling and completed new-host evidence, then verify/adopt the
+   separate native policy-epoch candidate and run its login plus affected App Server gates.
+   Maintain the provenance index and semantic queue alongside extraction. Follow the agreed
+   [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
    [source bindings](upstream/p03-broker-design-bindings.json). The card is a preserved design
    snapshot, not execution proof. Declaration DTOs are accepted; retain the catalog rejection
    until coordinated negotiated activation. Checked limits, handles/grants and the
