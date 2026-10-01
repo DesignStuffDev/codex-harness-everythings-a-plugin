@@ -147,8 +147,8 @@ binaries or caches staged. **Exit:** documentation checkpoint pushed and verifie
 ### P00M — Current provenance closure and ongoing maintenance intake
 
 **Required now and at every extraction checkpoint; updater execution remains P18U.**
-The historical maps retain exact source identities and selected semantic anchors,
-but do not yet form a normalized current ownership/impact index. Close that
+The historical maps and pinned index retain exact source identities and selected
+semantic anchors; current ownership/impact semantics remain incomplete. Close that
 provenance gap alongside implementation, using the
 [current mapping requirements](UPSTREAM_MAINTENANCE.md#current-provenance-closure).
 For each accepted boundary, link the original repository/revision/path/symbol to
@@ -163,9 +163,11 @@ or rollback result.
 
 **Implemented metadata checkpoint:** the [pinned index and checker](upstream/CHECKPOINT_LINEAGE_README.md)
 cover all 1,092 changed paths, 28 maps and 27 explicit relationships at `d04d5a7`.
-Thirteen fixtures pass; the actual object check finds no invalid metadata while
-retaining semantic, historical-anchor, unsupported-schema and release gaps.
-[Evidence](verification/2026-10-01/P00M_LINEAGE_EVIDENCE.md). P00M semantic closure
+The initial thirteen-fixture result is preserved. The explicit provider-schema
+adapter now passes 22 fixtures; the object check recognizes all 28 maps with zero
+invalid metadata and 1,167 unresolved semantic, historical-evidence/anchor and release
+findings. [Supplement](verification/2026-10-01/P00M_PROVIDER_SCHEMA_EVIDENCE.md).
+P00M semantic closure
 and P18U execution remain incomplete; this index does not silently advance with main.
 
 ### P01 — Finish native storage maintenance/migration selection
@@ -632,7 +634,11 @@ and additive plugins still work with their package digests unchanged, without
 rebuilding those plugins; preserve both UI and headless recovery. Exercise both
 rejection of a breaking/incompatible candidate and rollback after a controlled
 failed activation. Recover the prior state/composition through the external
-bootstrap with the candidate host intentionally unavailable.
+bootstrap with the candidate host intentionally unavailable. Where the candidate
+changes persistent schemas, exercise the actual migration on preserved state,
+interrupt or fail it after mutation begins, and prove recovery through a supported
+downgrade or a pre-upgrade snapshot with its compatible host/package/schema tuple.
+Record the no-migration compatibility basis when schemas remain unchanged.
 **Regression:** upstream/fork contract corpus, independent builds, installation/
 upgrade lifecycle, old-data migration, security boundaries and actual GUI/manager
 shutdown. **Exit:** exact provenance, dependency impact and rollback are reproducible;

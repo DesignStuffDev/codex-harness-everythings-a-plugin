@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "classification": "P00M provider-lineage schema adapter: actual root Python fixtures and read-only local-object check; no runtime or updater acceptance",
+  "indexed_commit": "d04d5a77d4dcaf51759666fd042ab65a3597d900",
+  "indexed_tree": "8464b8683d1443718f357130b88d4597deb940de",
+  "adoption": {
+    "receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p00m-provider-schema-adoption.json",
+      "sha256": "68aca41b4a4516f85f661a29963cfbfc819ceb5bfa1b67860ca2520005210540"
+    },
+    "stage_manifest_sha256": "a7bc5dba0593895decf4a6959e9cbe9ce14de384d3efd364ec12b8714f518c9b",
+    "archive": "/workspace/recovery-backups/20260930T165936Z/p00m-provider-schema-stage.tar.gz",
+    "archive_sha256": "9f5f30b5a92c10f44f88a8f971dfd4e342a7123d8f0362d045b1760dc1ce791f",
+    "exact_stage_adoption": true,
+    "durability": "cloud-local archive; no external export or restore test claimed",
+    "root_tests_executed_at_adoption_receipt": 0
+  },
+  "root_checks": {
+    "fixtures": {
+      "source_report": {
+        "path": "/workspace/acceptance/p00m-provider-schema-fixtures.source.json",
+        "sha256": "7ef7c9c0ccfcadfc621c0cfa7acba7217f4e96964f2eeec75bc4f53d3e38d140"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p00m-provider-schema-fixtures.log",
+        "sha256": "c3d689e923f4f468afcebb1c363e07d2e614d912cad1519116c5a5b83922dbd7"
+      },
+      "command": [
+        "python3",
+        "../upstream/test_validate_checkpoint_lineage.py"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "baseline": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+      "started_utc": "2026-10-01T16:02:38Z",
+      "finished_utc": "2026-10-01T16:02:38Z",
+      "returncode": 0,
+      "source_entries": 34,
+      "source_before_equals_after": true
+    },
+    "object-check": {
+      "source_report": {
+        "path": "/workspace/acceptance/p00m-provider-schema-object-check.source.json",
+        "sha256": "cd725274d0eb8623fbca95d9e26bc5eb0c332345aa6139417ee43e2673eb5d4e"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p00m-provider-schema-object-check.log",
+        "sha256": "8ad865f0078615188dda450583813404221cb2705207f7657b745506df529832"
+      },
+      "command": [
+        "python3",
+        "../upstream/validate_checkpoint_lineage.py",
+        "../upstream/CHECKPOINT_LINEAGE_INDEX.json",
+        "--repository",
+        "..",
+        "--publication-receipt",
+        "../upstream/CHECKPOINT_LINEAGE_PUBLICATION_RECEIPT.json"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "baseline": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+      "started_utc": "2026-10-01T16:02:53Z",
+      "finished_utc": "2026-10-01T16:02:57Z",
+      "returncode": 2,
+      "source_entries": 34,
+      "source_before_equals_after": true
+    }
+  },
+  "fixtures": {
+    "executed": 22,
+    "passed": 22,
+    "failed": 0,
+    "errors": 0,
+    "new_provider_fixture_methods": [
+      "test_provider_schema_checks_sources_and_preserves_unresolved_claims",
+      "test_provider_formatted_hash_bytes_and_base_tampering_are_invalid",
+      "test_provider_new_file_absence_requires_available_parent",
+      "test_provider_reference_hash_and_unchanged_claim_are_checked",
+      "test_provider_path_coverage_and_duplicates_are_checked",
+      "test_provider_empty_symbol_lists_do_not_silently_weaken_checks",
+      "test_provider_revision_binding_is_checked",
+      "test_provider_unknown_or_weakened_nested_shapes_are_not_supported",
+      "test_provider_different_tested_bytes_remain_unverified"
+    ],
+    "reruns_in_this_evidence_task": 0
+  },
+  "metadata_check": {
+    "status": "unresolved",
+    "invalid": 0,
+    "unresolved": 1167,
+    "checked_paths": 1092,
+    "supported_historical_maps": 28,
+    "checked_edges": 27,
+    "counts": {
+      "unresolved:boundary_current_closure_pending": 27,
+      "unresolved:historical_nonliteral_or_missing_anchor": 39,
+      "unresolved:path_semantics_unresolved": 1092,
+      "unresolved:provider_historical_evidence_unverified": 1,
+      "unresolved:provider_nonliteral_symbol": 4,
+      "unresolved:provider_parent_tree_unavailable": 1,
+      "unresolved:provider_semantics_unresolved": 1,
+      "unresolved:provider_tested_source_unavailable": 1,
+      "unresolved:release_evidence_and_updater_gates_not_validated": 1
+    }
+  },
+  "tested_source_sha256": {
+    "upstream/CHECKPOINT_LINEAGE_README.md": "cbb2d7d0616c82553d714951a23ef619a49d2574d19f81df94bed2eec73d36e6",
+    "upstream/test_validate_checkpoint_lineage.py": "093c278b56beefaaa9c67642fc764e67fd5dafd11049dcbf7174062593027e89",
+    "upstream/validate_checkpoint_lineage.py": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c",
+    "upstream/CHECKPOINT_LINEAGE_INDEX.json": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+    "upstream/CHECKPOINT_LINEAGE_PUBLICATION_RECEIPT.json": "bdeb54ad3b69ef3d62d486e8c1d56a512dcad87b27c157a69bf0a1cc69b64a30",
+    "upstream/p03-provider-endpoint-lineage.json": "d2a640030ec3f59a0d5a12f0731ab96ae62db6eee17f8bc222968e3ab7cdfb2f"
+  },
+  "source_map_binding": {
+    "entries": 34,
+    "both_reports_before_and_after_identical": true,
+    "canonical_sha256": "b103a8940a51ddcb5d7fac88f4c0529130efc502310ef72e54747dbf71da2d2d",
+    "canonical_encoding": "UTF-8 json.dumps(source_before,sort_keys=True,separators=(comma,colon)); no trailing newline",
+    "current_recording_matches_all_entries": true,
+    "scope": "upstream source files tracked by the root wrapper; not all repository/native runtime sources",
+    "wrapper_baseline_is_metadata_not_clean_commit_proof": true
+  },
+  "preserved_prior_evidence": {
+    "files_sha256": {
+      "verification/2026-10-01/P00M_LINEAGE_EVIDENCE.md": "7c2a2e18a4ab89dcbbbba2c0815c282be518b19437a4bd3b6c9d698a091dedbe",
+      "verification/2026-10-01/p00m-lineage-results.json": "ba9a8e5e8796ad8fdec43910c39de8fd49df1c69e82ff7bcf64c8e84505d0193"
+    },
+    "fixtures": 13,
+    "invalid": 0,
+    "unresolved": 1160,
+    "supported_historical_maps": 27,
+    "status": "unchanged historical record; this supplement does not rewrite the prior run"
+  },
+  "complete_current_provenance": false,
+  "runtime_or_updater_acceptance": false,
+  "limitations": [
+    "One former unsupported-schema item is replaced by eight explicit provider findings: unavailable parent tree1, different tested source1, nonliteral symbols4, historical evidence1, semantics1. Total grows from1160 to1167 without a new runtime failure claim.",
+    "Available current formatted blobs are checked; absent parent commit leaves base/absence/unchanged-reference comparisons unresolved. Parent context is recorded index metadata, not checkpoint-parent ancestry proof.",
+    "Human symbol labels are checked literally; no Rust declaration anchors are invented. Archive/adoption/test/format-equivalence and native origin semantic claims in the historical provider map remain unverified by the validator.",
+    "Root report source hashes match the adopted bytes before and after both commands. Wrapper baseline f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad is context only, not equality between the dirty workspace and a published commit.",
+    "The original13fixture/1160unresolved evidence and pinned d04 index remain unchanged. New adapter support does not re-scope the index to the current checkout.",
+    "No repository-wide formatting result, Rust/native tests, runtime activation, upstream candidate integration, updater implementation, migration or rollback result is asserted by this supplement.",
+    "Raw command/source reports and the adoption archive are identified by hashes and cloud-local paths. This summary does not establish external artifact availability or publisher authenticity."
+  ]
+}

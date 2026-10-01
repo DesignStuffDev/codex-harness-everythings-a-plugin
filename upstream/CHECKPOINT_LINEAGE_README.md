@@ -53,10 +53,24 @@ contains no private VM path or runtime state and removes any need for that VM-on
 receipt path. Artifact retrieval and restore durability remain separate gates.
 
 The validator checks exact immutable changed-path coverage, old/new tree entries,
-map-file blobs/hashes and the unchanged registry of 27 reviewed historical schema
-shapes. The new provider lineage is inventoried and hash-bound, but its unrecognized
-shape remains explicitly `historical_schema_unsupported`; it is not silently added
-to the registry. The historical adapter reads common literal blob/anchor forms;
+map-file blobs/hashes and a registry of 28 reviewed historical schema shapes.
+The provider prerequisite has a separate adapter for its actual nested fields:
+two source paths, their formatted hashes and byte lengths, and 11 unchanged
+references. It checks the recorded upstream revision against the index and the
+parent revision against the index's recorded publication context. Available local
+parent commit/tree objects bind base hashes, new-file absence and unchanged tree
+entries; an unavailable parent leaves those comparisons explicitly unresolved.
+The frozen index's original `unsupported_unresolved` adapter label records what
+was supported when that index was generated; validator dispatch uses its own
+reviewed schema registry. The index and historical map are not rewritten.
+
+Provider symbol labels are checked literally, without inventing Rust declaration
+anchors. Nonliteral labels stay unresolved. The pre-format tested hash is not
+compared to formatted bytes when they differ; the source-chain, local adoption and
+archive receipts, test results, formatting equivalence, native origin semantics and
+runtime claims remain unverified. Those receipt paths are never read or executed.
+Unknown or missing nested fields and wrong types remain unsupported. The older
+historical adapter reads common literal blob/anchor forms;
 nonliteral or absent anchors stay unresolved. It separately checks explicit source origins,
 current destination objects, symbol anchors and mapping pointers. A matching schema
 shape or literal anchor does not validate every historical field, ownership claim,
@@ -77,14 +91,17 @@ wrong hashes, missing native origins, unknown schemas, omitted paths, invented
 anchors, malformed nested documents, unrelated or wrong-revision destination edges,
 current custom code mislabeled as native origin, and absent publication evidence.
 A correctly bound edge, a local checkpoint commit without a receipt, and a local
-commit/tree mismatch despite a matching receipt are also exercised. Fixture success is not native runtime
+commit/tree mismatch despite a matching receipt are also exercised. Provider fixtures
+check source hashes/byte lengths, parent hashes and new-file absence, unchanged
+reference hashes/tree entries, duplicate/missing paths, revision mismatches, strict
+nested shapes, nonliteral symbols and intentionally different tested bytes. Fixture success is not native runtime
 or updater acceptance.
 
-The first reviewed object check reports no invalid metadata while retaining all
-1,092 unresolved path semantics, 27 incomplete boundary closures, 39 nonliteral or
-missing historical anchors, the unsupported provider-lineage format, and the
-unimplemented release/updater gates. Preserve
-those gaps in the maintenance queue. Later official upstream integration still
+The initial object check retained the provider schema as unsupported. The explicit
+adapter removes that one schema gap while preserving all 1,092 unresolved path
+semantics, 27 incomplete boundary closures, 39 earlier historical anchor gaps,
+provider-specific source/evidence/anchor limitations and release/updater gates.
+A recognized schema does not close those gaps. Preserve them in the maintenance queue. Later official upstream integration still
 requires the separately installed updater, coordinated version/state tuple, isolated
 real candidate, unchanged compatible plugins, breaking-candidate refusal and
 external-bootstrap recovery after failed activation described in

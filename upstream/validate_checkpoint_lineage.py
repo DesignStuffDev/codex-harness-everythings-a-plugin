@@ -20,6 +20,7 @@ MAX_INPUT = 8 * 1024 * 1024
 MAX_BLOB = 4 * 1024 * 1024
 # Filled from the reviewed, published historical schema shapes. A new shape is unresolved.
 SCHEMA_SIGNATURES = {
+    "upstream/p03-provider-endpoint-lineage.json": "da3529d82171fc8096a61673511533c00c549d3bfbb8a41afddd0764443a0070",
     "upstream/lineage.json": "f6342a09602cd3aac06401be1bb886221c357706bc1a90e44a4eec1bbbcc68c7",
     "upstream/p01-migration-lineage.json": "120a249bdc4cd1bb01a9a14faa7c36f5f78b511076c9dc7658aab55da1fda986",
     "upstream/p02-search-lineage.json": "f64e85a3a3b1c11447613c71f42ee696ff0fcbb89baff0a3fdff93bc57eb51ff",
@@ -163,6 +164,210 @@ class GitObjects:
         return self.cache[oid]
 
 
+# This adapter describes the published provider prerequisite record, not a new index.
+PROVIDER_MAP = "upstream/p03-provider-endpoint-lineage.json"
+PROVIDER_SOURCE = "codex-rs/model-provider/src/provider.rs"
+PROVIDER_TEST = "codex-rs/model-provider/src/provider_endpoint_tests.rs"
+PROVIDER_REFERENCES = {
+    "AGENTS.md",
+    "codex-rs/models-manager/src/manager.rs",
+    "codex-rs/models-manager/src/cache.rs",
+    "codex-rs/model-provider/Cargo.toml",
+    *[
+        "codex-rs/model-provider/src/" + name
+        for name in (
+            "models_endpoint.rs",
+            "amazon_bedrock/mod.rs",
+            "amazon_bedrock/catalog.rs",
+            "auth.rs",
+            "shared_state_test_support.rs",
+            "models_identity.rs",
+            "lib.rs",
+        )
+    ],
+}
+PROVIDER_SHAPE = {
+    "schema_version": int,
+    "classification": str,
+    "upstream_revision": "oid",
+    "upstream_mapping_basis": str,
+    "publication_parent": "oid",
+    "adoption": {
+        "receipt": {"path": str, "sha256": "hash", "bytes": "uint"},
+        "stage_manifest": {"path": str, "sha256": "hash", "bytes": "uint"},
+        "archive": str,
+        "archive_sha256": "hash",
+        "exact_stage_adoption": bool,
+        "durability": str,
+    },
+    "source_paths": [
+        {
+            "path": "path",
+            "base_sha256": "nullable_hash",
+            "adopted_and_tested_sha256": "hash",
+            "formatted_sha256": "hash",
+            "formatted_bytes": "uint",
+        }
+    ],
+    "symbol_mapping": [
+        {
+            "path": "path",
+            "existing_symbols?": [str],
+            "new_symbols": [str],
+            "change": str,
+        }
+    ],
+    "unchanged_reference_paths": [{"path": "path", "sha256": "hash"}],
+    "intentional_customization": str,
+    "preserved_boundaries": [str],
+    "source_chain": {
+        "source_entries": "uint",
+        "first_before_after_equals_retry_before_after_equals_fix_before_after_equals_format_before": bool,
+        "tested_map_sha256": "hash",
+        "formatted_map_sha256": "hash",
+        "formatted_changed_paths": ["path"],
+        "format_review": str,
+        "retested_after_format": bool,
+    },
+    "test_boundary": str,
+    "limitations": [str],
+}
+
+
+def provider_shape(value, shape):
+    if isinstance(shape, dict):
+        required = {key for key in shape if not key.endswith("?")}
+        allowed = {key.rstrip("?") for key in shape}
+        return (
+            isinstance(value, dict)
+            and required <= value.keys() <= allowed
+            and all(
+                provider_shape(value[key.rstrip("?")], child)
+                for key, child in shape.items()
+                if key.rstrip("?") in value
+            )
+        )
+    if isinstance(shape, list):
+        return isinstance(value, list) and all(
+            provider_shape(v, shape[0]) for v in value
+        )
+    if isinstance(shape, type):
+        return type(value) is shape and (shape is not str or bool(value))
+    if shape == "uint":
+        return type(value) is int and value >= 0
+    if shape == "path":
+        return bool(valid_path(value))
+    if shape == "nullable_hash" and value is None:
+        return True
+    return isinstance(value, str) and bool(
+        re.fullmatch(r"[0-9a-f]{40}" if shape == "oid" else r"[0-9a-f]{64}", value)
+    )
+
+
+def check_provider(value, index, current, objects, report):
+    if not provider_shape(value, PROVIDER_SHAPE):
+        report("unresolved", "provider_schema_unsupported", PROVIDER_MAP)
+        return False
+    if value["classification"] != (
+        "Native compiled provider endpoint authority boundary prerequisite; not independent extraction"
+    ):
+        report("invalid", "provider_classification_mismatch")
+    if value["upstream_revision"] != index["source"]["upstream_revision"]:
+        report("invalid", "provider_upstream_revision_mismatch")
+    expected_parent = (
+        index["source"]
+        .get("publication_normalization", {})
+        .get("source_publication", {})
+        .get("parent")
+    )
+    if expected_parent is None:
+        report("unresolved", "provider_parent_context_unbound")
+    elif expected_parent != value["publication_parent"]:
+        report("invalid", "provider_parent_revision_mismatch")
+    try:
+        parent = objects.tree(objects.commit_tree(value["publication_parent"]))
+    except (KeyError, ValueError, OSError, subprocess.TimeoutExpired):
+        parent = None
+        report("unresolved", "provider_parent_tree_unavailable")
+
+    def unique_rows(rows, expected, code):
+        result = {row["path"]: row for row in rows}
+        if len(result) != len(rows) or set(result) != expected:
+            report("invalid", code)
+        return result
+
+    def content(tree, path):
+        entry = tree.get(path)
+        if entry is None:
+            return None
+        if entry.get("type") != "blob" or entry.get("mode") != "100644":
+            report("invalid", "provider_source_entry_type", path)
+            return None
+        return objects.blob(entry["blob"])
+
+    sources = unique_rows(
+        value["source_paths"],
+        {PROVIDER_SOURCE, PROVIDER_TEST},
+        "provider_source_path_coverage",
+    )
+    refs = unique_rows(
+        value["unchanged_reference_paths"],
+        PROVIDER_REFERENCES,
+        "provider_reference_path_coverage",
+    )
+    try:
+        for path, row in sources.items():
+            data = content(current, path)
+            if (
+                data is None
+                or digest(data) != row["formatted_sha256"]
+                or len(data) != row["formatted_bytes"]
+            ):
+                report("invalid", "provider_formatted_source_mismatch", path)
+            if parent is not None:
+                before = content(parent, path)
+                if (digest(before) if before is not None else None) != row[
+                    "base_sha256"
+                ]:
+                    report("invalid", "provider_base_source_mismatch", path)
+            if row["adopted_and_tested_sha256"] != row["formatted_sha256"]:
+                report("unresolved", "provider_tested_source_unavailable", path)
+        for path, row in refs.items():
+            data = content(current, path)
+            if data is None or digest(data) != row["sha256"]:
+                report("invalid", "provider_reference_hash_mismatch", path)
+            if parent is not None and (
+                path not in parent or parent[path] != current.get(path)
+            ):
+                report("invalid", "provider_reference_changed", path)
+        symbols = unique_rows(
+            value["symbol_mapping"], set(sources), "provider_symbol_path_coverage"
+        )
+        for path, row in symbols.items():
+            if (
+                not row["new_symbols"]
+                or (path == PROVIDER_SOURCE) != ("existing_symbols" in row)
+                or ("existing_symbols" in row and not row["existing_symbols"])
+            ):
+                report("invalid", "provider_symbol_fields_mismatch", path)
+            data = content(current, path)
+            for symbol in row.get("existing_symbols", []) + row["new_symbols"]:
+                if data is None or symbol.encode() not in data:
+                    report("unresolved", "provider_nonliteral_symbol", path)
+    except (KeyError, ValueError, OSError, subprocess.TimeoutExpired):
+        report("unresolved", "provider_source_object_unavailable")
+    changed = value["source_chain"]["formatted_changed_paths"]
+    if len(changed) != len(set(changed)) or set(changed) != {
+        path
+        for path, row in sources.items()
+        if row["adopted_and_tested_sha256"] != row["formatted_sha256"]
+    }:
+        report("invalid", "provider_format_path_mismatch")
+    report("unresolved", "provider_historical_evidence_unverified")
+    report("unresolved", "provider_semantics_unresolved")
+    return True
+
+
 def validate(index, objects, publication=None):
     try:
         return validate_document(index, objects, publication)
@@ -289,8 +494,12 @@ def validate_document(index, objects, publication=None):
             ) != SCHEMA_SIGNATURES.get(path):
                 report("unresolved", "historical_schema_unsupported", path)
                 continue
+            if path == PROVIDER_MAP:
+                if not check_provider(value, index, current, objects, report):
+                    continue
+            else:
+                check_historical(value, objects, report, path)
             maps[path] = value
-            check_historical(value, objects, report, path)
         except (KeyError, TypeError, ValueError, OSError, subprocess.TimeoutExpired):
             report("unresolved", "historical_map_unavailable", path)
     if found_maps != wanted_maps:

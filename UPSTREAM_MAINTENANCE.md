@@ -153,9 +153,12 @@ Current source mapping is an immediate P00M obligation; the separately installab
 updater and its integration/recovery demonstrations remain P18U implementation.
 The [checkpoint index and read-only validator](upstream/CHECKPOINT_LINEAGE_README.md)
 now provide concrete metadata coverage for published `d04d5a7`: 1,092 changed paths,
-28 historical maps and 27 relationships. [Executed checks](verification/2026-10-01/P00M_LINEAGE_EVIDENCE.md)
-pass 13 fixtures and report zero invalid metadata, retaining all semantic closure
-gaps, 39 historical anchors, one unsupported schema and the updater/release gate.
+28 historical maps and 27 relationships. The original 13-fixture evidence is preserved;
+the [provider-schema supplement](verification/2026-10-01/P00M_PROVIDER_SCHEMA_EVIDENCE.md)
+passes 22 fixtures and recognizes all 28 map shapes. It reports zero invalid metadata
+and 1,167 unresolved findings: semantic closure, historical anchors/evidence, unavailable
+parent/tested-source bindings and updater/release gates. Recognizing a schema does not
+verify those claims.
 This implements the inventory/checking foundation; it does not complete the semantic
 closure work listed below or certify compatibility for an upstream update.
 The original upstream pin is still `d42056091aded7feb1d88ac7e83972108b2aa478`.
@@ -187,8 +190,9 @@ to the exact published source; no later official upstream revision was integrate
 
 The remaining current-provenance work is concrete:
 
-1. Produce a checkpoint-scoped ownership index joining every retained lineage
-   snapshot, accepted boundary and full changed-path inventory. Historical
+1. Complete semantic ownership/impact coverage in the existing checkpoint-scoped
+   index, joining every retained lineage snapshot, accepted boundary and full
+   changed-path inventory. Historical
    `current_blob` fields remain bound to their named checkpoints. Add explicit
    supersedes/extends relations instead of relabeling old WIP or failed gates.
 2. Record semantic origin separately from the diff status `added`: native code
@@ -206,11 +210,12 @@ The remaining current-provenance work is concrete:
    contract/capability versions, intentional behavior changes and acceptance scope.
    Preserve semantic unknowns and exclusions rather than inferring equivalence
    from a matching name, directory move or successful build.
-4. Add a read-only validator for supported historical schemas, referenced
-   commit/tree/blob/anchor identities, changed-path coverage, links/licenses and
-   source-to-test-to-export-to-package-to-host evidence. Missing, contradictory or
-   unsupported entries must be reported unresolved. Local-only artifacts need
-   retained digest-bound summaries and an explicit durability limitation.
+4. Extend the existing read-only schema, identity, anchor and path-coverage checker
+   to unverified historical fields/anchors, links/licenses and the complete
+   source-to-test-to-export-to-package-to-host evidence chain. Contradictory evidence
+   is invalid; missing or unsupported entries remain unresolved. Local-only
+   artifacts need retained digest-bound summaries and an explicit durability
+   limitation. Recognized metadata alone does not validate the evidence chain.
 5. Publish the normalized index and its actual validation report with a pinned
    checkpoint before claiming complete current provenance. Resolve affected
    mapping gaps before a later-upstream candidate can pass impact review. Automated
@@ -353,6 +358,13 @@ backend. State upgrade and downgrade support must be explicit per owner.
   their package digests are unchanged and exercise their actual behavior without
   rebuilding them. Rebuilding every plugin with the candidate cannot establish
   this compatibility gate.
+- State migration when persistent schemas change: upgrade preserved realistic
+  state and verify sessions, configuration and custom-component selection. Inject
+  interruption/failure after migration changes state, then prove a supported
+  downgrade or restore of a pre-upgrade snapshot with its compatible host/package/
+  schema tuple. Verify recovered behavior; a failure before mutation does not prove
+  migration recovery. For unchanged schemas, record the no-migration compatibility
+  basis instead of claiming an unexercised migration gate.
 - Actual CLI/engine and GUI: streaming, tool execution, approvals, interruption,
   persistence, cold resume, and manager Launch Ctrl+C cleanup through gateway,
   app-server and storage. Recheck existing UI features each development cycle.
