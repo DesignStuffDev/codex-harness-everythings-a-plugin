@@ -1,8 +1,8 @@
-# P03 offer/acknowledgement contract — accepted design, implementation pending
+# P03 offer/acknowledgement contract — checked API, transport pending
 
-This is the next DTO/validation slice proposal, separate from frozen broker-limit code. It adds no active broker or service call API. Keep the inactive catalog guard until coordinated negotiation and retained lifecycle enforcement pass their later gates. Declaration format version, broker extension version, per-service version and package semver remain distinct.
+The checked handles, grants and offer/acknowledgement API now pass twenty API tests (five offer cases plus fifteen prior cases). See [exact evidence](../verification/2026-10-01/P03_BROKER_OFFER_EVIDENCE.md). This implements data validation, with no active broker or service call API. Keep the inactive catalog guard until coordinated negotiation and retained lifecycle enforcement pass their later gates. Declaration format version, broker extension version, per-service version and package semver remain distinct.
 
-## Proposed types and signatures
+## Checked types and signatures
 
 Use private modules with explicit component-api exports. Every field below is private in the checked public type; signatures expose immutable views. All checked types support Clone and serde; opaque handles have redacted Debug and no Display. No constructor mints authority: live host state must later verify the complete connection/service/operation/handle binding.
 
@@ -61,7 +61,7 @@ impl BrokerAcknowledgementV1 {
 
 No raw-handle string getter is required: handles can be cloned, compared and serialized for exact echo; live authority remains in the host registry. No public mutable fields, Deref or unchecked conversion permits bypassing validation. Handle types must remain distinct so connection IDs cannot be accidentally substituted for service authority handles.
 
-## Exact proposed wire shape
+## Wire shape
 
 Offer and acknowledgement have identical field names and mandatory members:
 
@@ -97,7 +97,9 @@ An acknowledgement may reorder entries but may neither narrow nor widen the offe
 
 `validate_requirements` is separate from parsing/equality. Every offered `(name, version)` must have a matching declaration with exactly the same operation-name set, and every required descriptor must be present. Optional descriptors may be absent, but a present one must be complete. Unexpected services/versions or operation additions fail. This prevents accidentally offering authority the package did not request. Only host composition can choose compatible caps and issue handles; this validator does not select implementations or discover services.
 
-## Review-sized implementation and acceptance order
+## Implementation and acceptance order
+
+The first three API steps are complete in the linked focused evidence. Step four is still required before activation.
 
 1. Add handles/operation/service-grant checked DTOs and strict malformed/duplicate tests. Keep declarations and inactive guard unchanged.
 2. Add checked offer/ack bodies, canonical constructors, requirement matching and complete acknowledgement validation. Reuse the frozen checked connection limits. No runtime linkage.
@@ -106,4 +108,4 @@ An acknowledgement may reorder entries but may neither narrow nor widen the offe
 
 Raw Vec/String input materializes before these constructors run; enclosing frame limits and later ledgers must bound resource use. Canonicalization is validation, not a pre-serde allocation or RSS guarantee. No installed component, worker execution, native catalog extraction or GUI claim arises from this proposal.
 
-Independent design review identified and resolved the optional-only missing-ack wording above. This document is a design contract, not evidence of implemented negotiation, live authority or installed service execution.
+Independent design review identified and resolved the optional-only missing-ack wording above. This document records the checked data contract and remaining transport requirements. API tests do not prove live handshake negotiation, authority or installed service execution.

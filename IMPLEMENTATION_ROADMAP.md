@@ -288,8 +288,9 @@ native extraction. See [current evidence/queue](EXECUTION_STATE.md), the
 [agreed broker design](P03_LEAF_BROKER_DESIGN.md). Checked [limit configuration](component-sdk/BROKER_LIMITS_V1.md)
 passes ten API tests, including six existing declaration cases; it reserves no resources.
 Checked handles/service grants additionally pass fifteen API cases, including prior cases.
-The [offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) is accepted
-design, with runtime negotiation, accounting and lifecycle enforcement still planned. Source
+The [offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) now passes
+twenty API tests, including prior cases. Runtime negotiation, accounting and lifecycle enforcement
+remain planned. Source
 presence does not satisfy activation or full GUI acceptance.
 
 **Prerequisites:** baseline preserved; no domain activation mixed into this change.

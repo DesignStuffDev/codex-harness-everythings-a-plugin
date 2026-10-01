@@ -11,6 +11,7 @@ mod broker_grants;
 mod broker_handles;
 mod broker_limits;
 mod broker_negotiation_error;
+mod broker_offer;
 mod service_requirements;
 
 pub use broker_grants::GrantedOperationV1;
@@ -18,6 +19,9 @@ pub use broker_grants::ServiceGrantV1;
 pub use broker_handles::BrokerConnectionHandle;
 pub use broker_handles::ServiceAuthorityHandle;
 pub use broker_negotiation_error::BrokerNegotiationError;
+pub use broker_offer::BROKER_EXTENSION_VERSION;
+pub use broker_offer::BrokerAcknowledgementV1;
+pub use broker_offer::BrokerOfferV1;
 
 pub use broker_limits::BrokerConnectionLimits;
 pub use broker_limits::BrokerConnectionLimitsSpec;
@@ -102,3 +106,7 @@ mod broker_limits_tests;
 #[cfg(test)]
 #[path = "broker_grants_tests.rs"]
 mod broker_grants_tests;
+
+#[cfg(test)]
+#[path = "broker_offer_tests.rs"]
+mod broker_offer_tests;

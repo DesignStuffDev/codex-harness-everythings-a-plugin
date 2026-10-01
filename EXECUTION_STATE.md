@@ -35,6 +35,9 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   `2ef11a23fd848b4e236186b8518dd5d7c811d2df`, parent `8ee6b667`, nonforce-published
   and remotely verified. Three API source files plus nine documentation/evidence files;
   receipt `p03-broker-limits-publication.json`. No live broker enforcement is activated.
+- Checked grants are published and remotely verified at `6c5b232518ca951ebc80d5199cae01c901f68c85`,
+  tree `7b2c4e0d1332b6cbab75b95e969e061d1307fde7`, parent `5fbe8a7`. Five API source
+  paths plus nine docs/evidence/audit files; receipt `p03-broker-grants-publication.json`.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
   `147ac2447134294359c4071b0aeb495922760db7`. Retain LICENSE/NOTICE and lineage.
@@ -119,6 +122,12 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   [Evidence](verification/2026-10-01/P03_BROKER_GRANTS_EVIDENCE.md) records exact source and scope.
   This validates descriptions only; it issues no authority and activates no service.
 
+- Canonical offers/acknowledgements: **20 API tests passed, zero skipped/retries**
+  (five new offer cases and fifteen previous cases). Lint unchanged; two mechanical format changes.
+  [Evidence](verification/2026-10-01/P03_BROKER_OFFER_EVIDENCE.md) distinguishes the original stage
+  from root integration onto verified grant source. Reordering is accepted; incomplete or changed
+  grants/limits/handles are rejected. No live handshake, service execution or GUI proof is added.
+
 ## Ordered next actions
 
 1. Recheck original environment, source state, remote refs, active work and resource headroom.
@@ -127,9 +136,9 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
 2. Follow the agreed [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
    [source bindings](upstream/p03-broker-design-bindings.json). The card is a preserved design
    snapshot, not execution proof. Declaration DTOs are accepted; retain the catalog rejection
-   until coordinated negotiated activation. Checked budget configuration is verified; implement the
-   [accepted offer/acknowledgement contract](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) next,
-   checked handles/grants now pass their API gate; exact canonical offer/ack matching is next. Missing optional-only
+   until coordinated negotiated activation. Checked limits, handles/grants and the
+   [canonical offer/acknowledgement API](component-sdk/BROKER_NEGOTIATION_V1_DESIGN.md) pass their
+   focused gates. Implement the runtime handshake against these contracts next. Missing optional-only
    acknowledgement disables the broker; required absence or present-invalid acknowledgement fails.
    Keep strict parsing on original bounded handshake bytes, including envelope duplicate fields.
 3. Implement bounded connection/call/decoded-work ownership, exact grant equality, retained

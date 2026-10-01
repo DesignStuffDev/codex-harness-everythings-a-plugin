@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "classification": "new custom offer/ack data and validation; no native source extraction",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "imported_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "original_paths": [],
+    "original_symbols": [],
+    "reason": "New custom component API; no original upstream implementation moved."
+  },
+  "publication_parent": {
+    "commit": "6c5b232518ca951ebc80d5199cae01c901f68c85",
+    "tree": "7b2c4e0d1332b6cbab75b95e969e061d1307fde7",
+    "remote_verified": true,
+    "receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-broker-grants-publication.json",
+      "sha256": "969d2f9c15f3b8ef8ce6b638a61d525766e631335a902915cfb196a2f4e9665d",
+      "bytes": 5407
+    }
+  },
+  "stage_origin": {
+    "original_manifest": {
+      "path": "/tmp/p03-broker-offer-stage/FINAL_MANIFEST.json",
+      "sha256": "6336a7f54c713b6e8d3b420a30af463bfe6fbec89fbcdd6ca90629675cfd59f9",
+      "bytes": 4018
+    },
+    "original_budget_base": {
+      "commit": "5fbe8a7901e1f935c40e969b4bb3cd7811e0d6be",
+      "tree": "2ef11a23fd848b4e236186b8518dd5d7c811d2df",
+      "binding": "Root-reported verified budget publication; lib preimage independently recorded."
+    },
+    "original_lib_reference_sha256": "a335ba9ffe0aed1a7bc83fc4ca9b16c89f126fc421cc3cfb8950b5ca551a6584",
+    "registration_fragment_sha256": "d264899004eaea19d730167321fa9e0f06a70ff9aa16d5725452ba7e7d4f5c04"
+  },
+  "root_integration": {
+    "integrated_manifest": {
+      "path": "/tmp/p03-broker-offer-integrated-stage/FINAL_MANIFEST.json",
+      "sha256": "218c2d1183b67282c58ee166dd2dbf985268f4af52110cd7996adcb2a487ee61",
+      "bytes": 4817
+    },
+    "new_module_bytes_match_original_stage": true,
+    "grant_lib_preimage_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+    "merged_tested_lib_sha256": "4ceaee48795dadb36645d6ce99d1f81916ac41df0616cabe0ac374c1009508d7",
+    "description": "Root merged reviewed registration onto accepted formatted grant lib; original budget lib was not restored."
+  },
+  "adoption": {
+    "receipt": {
+      "path": "/workspace/acceptance/p03-broker-offer-adoption.json",
+      "sha256": "feb55029721ab7aa92ea213aee160fd3e6ba577f3dd8fe108f8fcbdfa72163d3",
+      "bytes": 1287
+    },
+    "archive": "/workspace/recovery-backups/20260930T165936Z/p03-broker-offer-adoption.tar.gz",
+    "archive_sha256": "b49975c969ff0c1513afd5d1f55682cc09a15c16a0c1776fea30bc0da31063ca",
+    "durability": "cloud-local checkpoint; external publication is separate"
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/component-api/src/broker_offer.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "853b3b1642b7688ffec585991bad08b62e37de16eb17cec29e406a5087ab2dac",
+      "formatted_sha256": "d5a46bce0deb506a1aec17e9972e0ea00ebdbbf334b905dd111fb47505af0472",
+      "formatted_bytes": 5658,
+      "format_changed": true
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_offer_tests.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "b60cc147153db3bddb6fb69bb4685749d803c94975ad74bffcbe4e7cdc0ff6de",
+      "formatted_sha256": "0445be7cf679e41b117a8312ff85ce94fe803e0eb57afde9d51dd728a2408a94",
+      "formatted_bytes": 11962,
+      "format_changed": true
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "base_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+      "adopted_and_tested_sha256": "4ceaee48795dadb36645d6ce99d1f81916ac41df0616cabe0ac374c1009508d7",
+      "formatted_sha256": "4ceaee48795dadb36645d6ce99d1f81916ac41df0616cabe0ac374c1009508d7",
+      "formatted_bytes": 4013,
+      "format_changed": false
+    }
+  ],
+  "symbol_mapping": [
+    {
+      "path": "codex-rs/component-api/src/broker_offer.rs",
+      "new_symbols": [
+        "BROKER_EXTENSION_VERSION",
+        "BrokerOfferV1::{new,version,connection,limits,services,validate_requirements,validate_acknowledgement}",
+        "RawBrokerOfferV1",
+        "BrokerAcknowledgementV1::from_offer"
+      ],
+      "origin": "New canonical checked offer and same-shape transparent acknowledgement; reuses existing checked grants, handles, limits and requirements."
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_offer_tests.rs",
+      "new_symbols": [
+        "acknowledgement_must_echo_every_limit_handle_descriptor_operation_and_cap",
+        "offer_and_acknowledgement_parse_original_strict_bytes_through_nested_checks",
+        "offer_rejects_duplicate_services_and_directional_caps_at_connection_boundaries",
+        "reordered_service_and_operation_sets_have_one_offer_and_acknowledgement",
+        "required_and_optional_descriptors_match_exact_versions_and_complete_operations"
+      ],
+      "origin": "Five new focused API tests; no fabricated runtime worker."
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "new_symbols": [
+        "mod broker_offer",
+        "BrokerOfferV1/BrokerAcknowledgementV1/BROKER_EXTENSION_VERSION re-exports",
+        "broker_offer_tests registration"
+      ],
+      "origin": "Root integration preserves grant exports and adds only offer module registration."
+    }
+  ],
+  "behavior": {
+    "canonical_service_identity": [
+      "exact name",
+      "positive service version"
+    ],
+    "operation_set_matching": "Exact names, order-independent, no Unicode/case normalization; optional service may be absent but present service must be complete; required service must be present.",
+    "acknowledgement": "Complete canonical equality: broker version, connection handle, all nine connection limits, complete service set, authority handles, versions, operation names and both directional caps; reordering accepted, narrowing/widening rejected.",
+    "strictness": "Private raw offer deny_unknown_fields + checked constructor; transparent acknowledgement reuses checked offer decoder.",
+    "resource_or_authority_enforcement": false
+  },
+  "source_chain": {
+    "source_entries": 8791,
+    "tests_before_equals_after_equals_fix_before_after_equals_format_before": true,
+    "tested_map_sha256": "d52d60c885a718131add0b7e5ec838b5cc6f632669eb1da1a0886ea00f3cf301",
+    "formatted_map_sha256": "2e160978e92e52eebe2330e4a774b0843641b011a7fe8e8203bf40afc8669a2c",
+    "formatted_changed_paths": [
+      "codex-rs/component-api/src/broker_offer.rs",
+      "codex-rs/component-api/src/broker_offer_tests.rs"
+    ],
+    "format_review": "Independent diff review: only line wrapping, trailing commas and whitespace changed; validation predicates, literals and test assertions are unchanged.",
+    "retested_after_format": false
+  },
+  "limitations": [
+    "Additive custom checked offer/ack data and validation only; no original native Codex subsystem was extracted.",
+    "No active handshake negotiation, installed component execution, live authority issuance/revocation, connection reservation, runtime ledger or quota enforcement is proved. The inactive catalog guard is unchanged.",
+    "Strict duplicate-field rejection requires callers to deserialize original bounded bytes; parsing from an already materialized Value cannot recover erased duplicate keys. Raw serde diagnostics are not a redacted public error contract.",
+    "Vec/String materialization precedes these constructors; no pre-serde allocation or RSS guarantee is claimed.",
+    "Required missing acknowledgement startup failure, optional-only missing acknowledgement plain-mode fallback, host cleanup and cancellation remain later host implementation.",
+    "The 20 API tests used adopted pre-format bytes. Mechanical formatting is separately bound; no post-format rerun is claimed.",
+    "Stage status staged_uncompiled is historical. Source wrapper baseline is metadata, not a clean-checkout commit assertion. Adoption archive is cloud-local until separately published/exported.",
+    "Earlier CLI runtime evidence belongs to its earlier codec source snapshot; this API gate provides no new App Server/full CLI/TUI/GUI runtime evidence."
+  ]
+}

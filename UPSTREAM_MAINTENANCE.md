@@ -377,3 +377,7 @@ unimplemented; future update tooling must preserve these compatibility and autho
 The [grant API lineage](upstream/p03-broker-grants-lineage.json) records checked opaque
 handle representations and canonical service/operation descriptions. This is additive custom
 contract code, with no native upstream symbol movement or authority issued by construction.
+
+The [offer/acknowledgement lineage](upstream/p03-broker-offer-lineage.json) binds exact
+canonical validation and requirement matching to original staged and root-integrated source.
+Its twenty API cases do not activate runtime negotiation or satisfy native extraction/updater gates.

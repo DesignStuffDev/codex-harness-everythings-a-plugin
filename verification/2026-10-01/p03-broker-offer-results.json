@@ -1,0 +1,200 @@
+{
+  "passed": true,
+  "evidence_kind": "p03_checked_broker_offer_ack_api",
+  "publication_parent": {
+    "commit": "6c5b232518ca951ebc80d5199cae01c901f68c85",
+    "tree": "7b2c4e0d1332b6cbab75b95e969e061d1307fde7",
+    "remote_verified": true,
+    "receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-broker-grants-publication.json",
+      "sha256": "969d2f9c15f3b8ef8ce6b638a61d525766e631335a902915cfb196a2f4e9665d",
+      "bytes": 5407
+    }
+  },
+  "reports": {
+    "tests": {
+      "path": "/workspace/acceptance/p03-broker-offer-tests.source.json",
+      "sha256": "269cc4963b864bc6ebff98ad54a918020cb0909d29c22befc2ea2d4440bfcfc5",
+      "bytes": 2431489
+    },
+    "fix": {
+      "path": "/workspace/acceptance/p03-broker-offer-fix.source.json",
+      "sha256": "1da979fd42b55e7ed6ecea45db6e10272d06a79ba973ffe442f992e2c9c0ad3a",
+      "bytes": 2431194
+    },
+    "fmt": {
+      "path": "/workspace/acceptance/p03-broker-offer-fmt.source.json",
+      "sha256": "c6f265ee4a21672d3ff68fee61758b63dbf7a2ec087640ba2f463ea67d7d4db7",
+      "bytes": 2431158
+    },
+    "subreaper": {
+      "path": "/workspace/acceptance/p03-broker-offer-tests.subreaper.json",
+      "sha256": "35a090ed2acdcb52c390871aec864e1ad5a01d38475f2577acb7b6578e1deb03",
+      "bytes": 503
+    },
+    "adoption": {
+      "path": "/workspace/acceptance/p03-broker-offer-adoption.json",
+      "sha256": "feb55029721ab7aa92ea213aee160fd3e6ba577f3dd8fe108f8fcbdfa72163d3",
+      "bytes": 1287
+    },
+    "original_stage_manifest": {
+      "path": "/tmp/p03-broker-offer-stage/FINAL_MANIFEST.json",
+      "sha256": "6336a7f54c713b6e8d3b420a30af463bfe6fbec89fbcdd6ca90629675cfd59f9",
+      "bytes": 4018
+    },
+    "integrated_stage_manifest": {
+      "path": "/tmp/p03-broker-offer-integrated-stage/FINAL_MANIFEST.json",
+      "sha256": "218c2d1183b67282c58ee166dd2dbf985268f4af52110cd7996adcb2a487ee61",
+      "bytes": 4817
+    },
+    "grant_publication": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-broker-grants-publication.json",
+      "sha256": "969d2f9c15f3b8ef8ce6b638a61d525766e631335a902915cfb196a2f4e9665d",
+      "bytes": 5407
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/component-api/src/broker_offer.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "853b3b1642b7688ffec585991bad08b62e37de16eb17cec29e406a5087ab2dac",
+      "formatted_sha256": "d5a46bce0deb506a1aec17e9972e0ea00ebdbbf334b905dd111fb47505af0472",
+      "formatted_bytes": 5658,
+      "format_changed": true
+    },
+    {
+      "path": "codex-rs/component-api/src/broker_offer_tests.rs",
+      "base_sha256": null,
+      "adopted_and_tested_sha256": "b60cc147153db3bddb6fb69bb4685749d803c94975ad74bffcbe4e7cdc0ff6de",
+      "formatted_sha256": "0445be7cf679e41b117a8312ff85ce94fe803e0eb57afde9d51dd728a2408a94",
+      "formatted_bytes": 11962,
+      "format_changed": true
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "base_sha256": "7cd447933f44428ceaaac200385803010376246e83814a44ede20b3f382ee17c",
+      "adopted_and_tested_sha256": "4ceaee48795dadb36645d6ce99d1f81916ac41df0616cabe0ac374c1009508d7",
+      "formatted_sha256": "4ceaee48795dadb36645d6ce99d1f81916ac41df0616cabe0ac374c1009508d7",
+      "formatted_bytes": 4013,
+      "format_changed": false
+    }
+  ],
+  "source_chain": {
+    "source_entries": 8791,
+    "tests_before_equals_after_equals_fix_before_after_equals_format_before": true,
+    "tested_map_sha256": "d52d60c885a718131add0b7e5ec838b5cc6f632669eb1da1a0886ea00f3cf301",
+    "formatted_map_sha256": "2e160978e92e52eebe2330e4a774b0843641b011a7fe8e8203bf40afc8669a2c",
+    "formatted_changed_paths": [
+      "codex-rs/component-api/src/broker_offer.rs",
+      "codex-rs/component-api/src/broker_offer_tests.rs"
+    ],
+    "format_review": "Independent diff review: only line wrapping, trailing commas and whitespace changed; validation predicates, literals and test assertions are unchanged.",
+    "retested_after_format": false
+  },
+  "tests": {
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-broker-offer-tests.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "CARGO_BUILD_JOBS=1",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-component-api"
+    ],
+    "started_utc": "2026-10-01T14:25:28Z",
+    "finished_utc": "2026-10-01T14:25:33Z",
+    "returncode": 0,
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "new_offer_ack_tests": 5,
+    "prior_grant_tests": 5,
+    "prior_limit_tests": 4,
+    "prior_declaration_tests": 6,
+    "binaries": 1,
+    "test_seconds": 0.05,
+    "executed_test_names": [
+      "broker_grants_tests::handles_validate_utf8_bytes_and_redact_debug_without_changing_wire_values",
+      "broker_grants_tests::operations_validate_names_and_finite_positive_caps_through_serde",
+      "broker_grants_tests::raw_grants_reject_duplicate_missing_and_unknown_fields_without_value_roundtrip",
+      "broker_grants_tests::service_grants_canonicalize_operations_without_collapsing_duplicates_or_identity",
+      "broker_grants_tests::service_grants_enforce_descriptor_and_operation_count_boundaries",
+      "broker_limits_tests::invalid_concurrency_and_zero_budgets_are_rejected_during_deserialization",
+      "broker_limits_tests::limit_schema_rejects_raw_duplicates_missing_and_unknown_fields",
+      "broker_limits_tests::limits_round_trip_through_the_checked_wire_shape",
+      "broker_limits_tests::maximum_call_budget_fits_both_request_and_response_without_overflow",
+      "broker_offer_tests::acknowledgement_must_echo_every_limit_handle_descriptor_operation_and_cap",
+      "broker_offer_tests::offer_and_acknowledgement_parse_original_strict_bytes_through_nested_checks",
+      "broker_offer_tests::offer_rejects_duplicate_services_and_directional_caps_at_connection_boundaries",
+      "broker_offer_tests::reordered_service_and_operation_sets_have_one_offer_and_acknowledgement",
+      "broker_offer_tests::required_and_optional_descriptors_match_exact_versions_and_complete_operations",
+      "service_requirements_tests::broker_manifest_is_rejected_by_the_legacy_strict_component_schema",
+      "service_requirements_tests::checked_requirements_preserve_exact_operations_and_presence",
+      "service_requirements_tests::declaration_versions_and_service_count_fail_before_use",
+      "service_requirements_tests::descriptors_enforce_utf8_byte_limits_and_duplicate_operations",
+      "service_requirements_tests::legacy_manifest_round_trip_omits_service_requirements",
+      "service_requirements_tests::raw_duplicates_and_unknown_fields_are_not_erased_by_value_conversion"
+    ],
+    "log_sha256": "3ce871452d50491b237bd9ddea41cc38d1277a058e999870e321375ac1a0c570",
+    "scoped_source_unchanged": true
+  },
+  "lint": {
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-component-api"
+    ],
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "log_sha256": "3671774eb53749fc1f73286910febb7d093cc58f3ee8187a2053d05222e2c791"
+  },
+  "format": {
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "returncode": 0,
+    "scoped_source_unchanged": false,
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "finished_utc": "2026-10-01T14:27:12Z"
+  },
+  "strict_subreaper": {
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 745937,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ],
+    "command_pid": 745937,
+    "command_wait_status": 0,
+    "command_returncode": 0,
+    "runner_error": null,
+    "exit_status": 0,
+    "elapsed_seconds": 3.7794360389962094
+  },
+  "limitations": [
+    "Additive custom checked offer/ack data and validation only; no original native Codex subsystem was extracted.",
+    "No active handshake negotiation, installed component execution, live authority issuance/revocation, connection reservation, runtime ledger or quota enforcement is proved. The inactive catalog guard is unchanged.",
+    "Strict duplicate-field rejection requires callers to deserialize original bounded bytes; parsing from an already materialized Value cannot recover erased duplicate keys. Raw serde diagnostics are not a redacted public error contract.",
+    "Vec/String materialization precedes these constructors; no pre-serde allocation or RSS guarantee is claimed.",
+    "Required missing acknowledgement startup failure, optional-only missing acknowledgement plain-mode fallback, host cleanup and cancellation remain later host implementation.",
+    "The 20 API tests used adopted pre-format bytes. Mechanical formatting is separately bound; no post-format rerun is claimed.",
+    "Stage status staged_uncompiled is historical. Source wrapper baseline is metadata, not a clean-checkout commit assertion. Adoption archive is cloud-local until separately published/exported.",
+    "Earlier CLI runtime evidence belongs to its earlier codec source snapshot; this API gate provides no new App Server/full CLI/TUI/GUI runtime evidence."
+  ]
+}
