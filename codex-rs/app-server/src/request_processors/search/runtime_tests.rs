@@ -12,24 +12,49 @@ use codex_file_search_runtime::FileSearchProvider;
 use codex_file_search_runtime::RuntimePolicy;
 use pretty_assertions::assert_eq;
 use std::num::NonZeroUsize;
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering;
 use std::time::Duration;
 use tokio::sync::Semaphore;
 use tokio::sync::mpsc;
 use tokio::sync::watch;
 use tokio::time::timeout;
 use tokio_util::sync::CancellationToken;
+use tokio_util::task::TaskTracker;
+use tokio_util::task::task_tracker::TaskTrackerToken;
 
-struct Backend(Arc<Session>);
+#[path = "runtime_start_fixture.rs"]
+mod startup;
+
+struct Backend {
+    session: Arc<Session>,
+    admitted: AtomicBool,
+    tasks: TaskTracker,
+}
 impl SearchBackend for Backend {
-    fn open(&self, _: SearchOpen) -> SearchStartFuture<'_> {
-        let session = Arc::clone(&self.0);
-        Box::pin(async move { Ok(session as Arc<dyn SearchBackendSession>) })
+    fn begin_open(&self, _: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        if self.admitted.swap(true, Ordering::AcqRel) || self.session.closing.is_cancelled() {
+            return Err(SearchStartError {
+                operation: SearchError::new(
+                    SearchErrorKind::ResourceExhausted,
+                    "fixture lease already admitted or closed",
+                ),
+                cleanup: StartCleanup::NotAdmitted,
+            });
+        }
+        Ok(startup::begin(self.session.clone()))
     }
     fn request_shutdown(&self) {
-        self.0.request_close();
+        self.session.request_close();
+        self.tasks.close();
     }
     fn shutdown(&self) -> SearchCloseFuture<'_> {
-        self.0.close()
+        self.request_shutdown();
+        Box::pin(async move {
+            let outcome = self.session.close().await;
+            self.tasks.wait().await;
+            outcome
+        })
     }
 }
 
@@ -41,6 +66,7 @@ struct Session {
     entered_close: Semaphore,
     close_gate: watch::Sender<bool>,
     close_outcome: SearchCloseOutcome,
+    closed: watch::Sender<Option<SearchCloseOutcome>>,
 }
 impl Session {
     fn new(update_permits: usize, close_ready: bool) -> Arc<Self> {
@@ -51,6 +77,7 @@ impl Session {
             entered_update: Semaphore::new(0),
             entered_close: Semaphore::new(0),
             close_gate: watch::channel(close_ready).0,
+            closed: watch::channel(None).0,
             close_outcome: SearchCloseOutcome {
                 operation: Ok(()),
                 cleanup: CloseCleanup::Joined,
@@ -95,14 +122,7 @@ impl SearchBackendSession for Session {
     }
     fn close(&self) -> SearchCloseFuture<'_> {
         self.request_close();
-        Box::pin(async move {
-            self.entered_close.add_permits(1);
-            let mut ready = self.close_gate.subscribe();
-            while !*ready.borrow_and_update() {
-                ready.changed().await.expect("retained close gate");
-            }
-            self.close_outcome.clone()
-        })
+        Box::pin(startup::observe_close(self.closed.subscribe()))
     }
 }
 
@@ -131,8 +151,17 @@ fn fixture(
         max_frame_retained_bytes: positive(64 * 1024),
         poll_wait: Duration::from_millis(20),
     };
-    let provider =
-        FileSearchProvider::from_backend(Arc::new(Backend(session)), policy).expect("runtime");
+    let tasks = TaskTracker::new();
+    startup::own_close(session.clone(), tasks.token());
+    let provider = FileSearchProvider::from_backend(
+        Arc::new(Backend {
+            session,
+            admitted: AtomicBool::new(false),
+            tasks,
+        }),
+        policy,
+    )
+    .expect("runtime");
     let context = SearchContext {
         shutdown_requested: tokio_util::sync::CancellationToken::new(),
         factory: provider.scope_factory(),

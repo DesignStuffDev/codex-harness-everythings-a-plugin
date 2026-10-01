@@ -5,6 +5,8 @@
 
 use std::num::NonZeroUsize;
 use std::sync::Arc;
+use std::sync::Mutex;
+use std::sync::OnceLock;
 use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering;
 use std::time::Duration;
@@ -14,38 +16,61 @@ use pretty_assertions::assert_eq;
 use serde::de::DeserializeOwned;
 use serde_json::Value;
 use tokio::sync::Semaphore;
+use tokio::sync::watch;
 
 use crate::service::lock;
 use crate::*;
 
+#[derive(Clone)]
+enum StartPlan {
+    Ready,
+    Fail(SearchStartError),
+    ClosedByCancellation(SearchStartError),
+}
+
 struct Backend {
-    starts: Semaphore,
-    entered: Semaphore,
-    start_failure: Option<SearchStartError>,
+    starts: Arc<Semaphore>,
+    entered: Arc<Semaphore>,
+    begin_calls: AtomicUsize,
+    start_plan: StartPlan,
+    controls: Mutex<Vec<Arc<fixture_start::FixtureStart>>>,
     session: Arc<Session>,
     shutdown_cleanup: CloseCleanup,
 }
 
 impl SearchBackend for Backend {
-    fn open(&self, _: SearchOpen) -> SearchStartFuture<'_> {
-        Box::pin(async move {
-            self.entered.add_permits(1);
-            self.starts.acquire().await.expect("start gate").forget();
-            if let Some(error) = &self.start_failure {
-                return Err(error.clone());
-            }
-            Ok(Arc::clone(&self.session) as Arc<dyn SearchBackendSession>)
-        })
+    fn begin_open(&self, _: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        fixture_start::begin(self)
     }
+
     fn request_shutdown(&self) {
+        let controls = lock(&self.controls).clone();
+        for control in controls {
+            control.request_cancel();
+        }
         self.session.request_close();
     }
+
     fn shutdown(&self) -> SearchCloseFuture<'_> {
+        self.request_shutdown();
+        let controls = lock(&self.controls).clone();
         Box::pin(async move {
-            SearchCloseOutcome {
+            let mut outcome = SearchCloseOutcome {
                 operation: Ok(()),
                 cleanup: self.shutdown_cleanup.clone(),
+            };
+            for control in controls {
+                let receipt = control.cancel_and_wait().await;
+                if outcome.operation.is_ok() {
+                    outcome.operation = receipt.operation;
+                }
+                if outcome.cleanup == CloseCleanup::Joined
+                    && let StartCleanup::Unconfirmed(error) = receipt.cleanup
+                {
+                    outcome.cleanup = CloseCleanup::Unconfirmed(error);
+                }
             }
+            outcome
         })
     }
 }
@@ -56,14 +81,38 @@ struct Session {
     close_calls: AtomicUsize,
     outcome: SearchCloseOutcome,
     snapshot: Option<SearchFrame>,
+    closing: watch::Sender<bool>,
+    closed: OnceLock<SearchCloseOutcome>,
+}
+
+impl Session {
+    fn new(outcome: SearchCloseOutcome, polls: usize, snapshot: Option<SearchFrame>) -> Self {
+        Self {
+            polls: Semaphore::new(polls),
+            entered: Semaphore::new(0),
+            close_calls: AtomicUsize::new(0),
+            outcome,
+            snapshot,
+            closing: watch::channel(false).0,
+            closed: OnceLock::new(),
+        }
+    }
 }
 
 impl SearchBackendSession for Session {
     fn update_query(&self, query: SearchQuery) -> SearchFuture<'_, QueryAccepted> {
-        Box::pin(async move { Ok(QueryAccepted { id: query.id }) })
+        Box::pin(async move {
+            if *self.closing.borrow() {
+                return Err(crate::service::closed_error());
+            }
+            Ok(QueryAccepted { id: query.id })
+        })
     }
     fn next_snapshot(&self, after_revision: u64, _: Duration) -> SearchFuture<'_, SearchPoll> {
         Box::pin(async move {
+            if *self.closing.borrow() {
+                return Err(crate::service::closed_error());
+            }
             self.entered.add_permits(1);
             self.polls.acquire().await.expect("poll gate").forget();
             Ok(match &self.snapshot {
@@ -75,12 +124,19 @@ impl SearchBackendSession for Session {
         })
     }
     fn request_close(&self) {
-        self.polls.add_permits(1);
+        if !self.closing.send_replace(true) {
+            self.polls.add_permits(1);
+        }
     }
     fn close(&self) -> SearchCloseFuture<'_> {
+        self.request_close();
         Box::pin(async move {
-            self.close_calls.fetch_add(1, Ordering::SeqCst);
-            self.outcome.clone()
+            self.closed
+                .get_or_init(|| {
+                    self.close_calls.fetch_add(1, Ordering::SeqCst);
+                    self.outcome.clone()
+                })
+                .clone()
         })
     }
 }
@@ -102,17 +158,15 @@ fn budget() -> SearchBudget {
 
 fn backend(outcome: SearchCloseOutcome, starts: usize) -> Arc<Backend> {
     Arc::new(Backend {
-        starts: Semaphore::new(starts),
-        entered: Semaphore::new(0),
-        start_failure: None,
+        starts: Arc::new(Semaphore::new(starts)),
+        entered: Arc::new(Semaphore::new(0)),
+        begin_calls: AtomicUsize::new(0),
+        start_plan: StartPlan::Ready,
+        controls: Mutex::new(Vec::new()),
         shutdown_cleanup: outcome.cleanup.clone(),
-        session: Arc::new(Session {
-            polls: Semaphore::new(0),
-            entered: Semaphore::new(0),
-            close_calls: AtomicUsize::new(0),
-            outcome,
-            snapshot: None,
-        }),
+        session: Arc::new(Session::new(
+            outcome, /*polls*/ 0, /*snapshot*/ None,
+        )),
     })
 }
 
@@ -199,7 +253,7 @@ fn release(service: &SearchService, identity: &LeaseIdentity) -> PendingServiceR
 }
 
 #[tokio::test]
-async fn release_finds_preparing_before_backend_task_runs_and_joins_late_start() {
+async fn release_before_backend_task_runs_skips_backend_admission() {
     let backend = backend(joined(), 0);
     let (service, provider) = service(Arc::clone(&backend)).await;
     let request = open(&provider, 1);
@@ -209,19 +263,81 @@ async fn release_finds_preparing_before_backend_task_runs_and_joins_late_start()
         .expect("admit open");
     let releasing = release(&service, &identity);
     assert_eq!(lock(&service.inner.state).leases.len(), 1);
+    let opened: WireReply<LeaseIdentity, OpenResponse, SearchStartError> = receive(opening).await;
+    assert_eq!(
+        opened.reply,
+        Reply::Error {
+            error: SearchStartError {
+                operation: crate::service::closed_error(),
+                cleanup: StartCleanup::NotAdmitted,
+            },
+        }
+    );
+    let closed: WireReply<LeaseIdentity, WireCloseOutcome> = receive(releasing).await;
+    assert_eq!(
+        closed.reply,
+        Reply::Ok {
+            result: joined().into()
+        }
+    );
+    let repeated: WireReply<LeaseIdentity, WireCloseOutcome> =
+        receive(release(&service, &identity)).await;
+    assert_eq!(
+        repeated.reply,
+        Reply::Ok {
+            result: joined().into()
+        }
+    );
+    assert_eq!(backend.begin_calls.load(Ordering::SeqCst), 0);
+    assert_eq!(backend.session.close_calls.load(Ordering::SeqCst), 0);
+    assert_eq!(backend.starts.available_permits(), 0);
+    assert_eq!(lock(&service.inner.state).leases.len(), 0);
+    assert_eq!(lock(&service.inner.state).used, [0; 3]);
+    assert_eq!(service.shutdown().await, joined());
+}
+
+#[tokio::test]
+async fn release_after_backend_admission_retains_and_joins_late_start() {
+    let backend = backend(joined(), 0);
+    let (service, provider) = service(Arc::clone(&backend)).await;
+    let request = open(&provider, 1);
+    let identity = request.identity.clone();
+    let opening = service
+        .admit(OPEN_METHOD, ServiceLane::Ordinary, json(request))
+        .expect("admit open");
     backend.entered.acquire().await.expect("entered").forget();
+    let control = Arc::clone(&lock(&backend.controls)[0]);
+    let releasing = release(&service, &identity);
+    assert!(*control.cancelled.borrow());
+    assert_eq!(control.requests.load(Ordering::SeqCst), 1);
+    assert_eq!(backend.starts.available_permits(), 0);
+    assert_eq!(*control.receipt.borrow(), None);
+    assert_eq!(lock(&service.inner.state).leases.len(), 1);
+    assert_eq!(lock(&service.inner.state).used, [100, 100_000, 8]);
     assert_eq!(backend.session.close_calls.load(Ordering::SeqCst), 0);
     backend.starts.add_permits(1);
     let opened: WireReply<LeaseIdentity, OpenResponse, SearchStartError> = receive(opening).await;
-    match opened.reply {
-        Reply::Error { error } => assert_eq!(error.cleanup, StartCleanup::Confirmed),
-        Reply::Ok { .. } => panic!("closed startup was acknowledged ready"),
-    }
+    assert_eq!(
+        opened.reply,
+        Reply::Error {
+            error: SearchStartError {
+                operation: crate::service::closed_error(),
+                cleanup: StartCleanup::Confirmed,
+            },
+        }
+    );
     let closed: WireReply<LeaseIdentity, WireCloseOutcome> = receive(releasing).await;
-    assert!(matches!(closed.reply, Reply::Ok { result } if result.cleanup == CloseCleanup::Joined));
+    assert_eq!(
+        closed.reply,
+        Reply::Ok {
+            result: joined().into()
+        }
+    );
+    assert_eq!(backend.begin_calls.load(Ordering::SeqCst), 1);
     assert_eq!(backend.session.close_calls.load(Ordering::SeqCst), 1);
     assert_eq!(lock(&service.inner.state).leases.len(), 0);
-    assert_eq!(service.shutdown().await.cleanup, CloseCleanup::Joined);
+    assert_eq!(lock(&service.inner.state).used, [0; 3]);
+    assert_eq!(service.shutdown().await, joined());
 }
 
 #[tokio::test]
@@ -347,3 +463,9 @@ mod boundaries;
 
 #[path = "service_startup_tests.rs"]
 mod startup;
+
+#[path = "service_fixture_start.rs"]
+mod fixture_start;
+
+#[path = "service_pending_tests.rs"]
+mod pending;

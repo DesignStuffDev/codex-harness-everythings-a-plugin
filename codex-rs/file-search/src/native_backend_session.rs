@@ -16,6 +16,9 @@ use codex_file_search_api::SearchFuture;
 use codex_file_search_api::SearchPhase;
 use codex_file_search_api::SearchPoll;
 use codex_file_search_api::SearchQuery;
+use codex_file_search_api::SearchStartCancellationOutcome;
+use codex_file_search_api::SearchStartControl;
+use codex_file_search_api::StartCleanup;
 use tokio::sync::watch;
 
 use crate::ManagedFileSearchSession;
@@ -111,6 +114,8 @@ impl SearchBackendSession for NativeLease {
 
 #[cfg(test)]
 type BeforeError = Arc<dyn Fn(&SearchError) + Send + Sync>;
+#[cfg(test)]
+type StartupHook = Arc<dyn Fn() + Send + Sync>;
 
 pub(super) struct NativeSession {
     pub(super) id: u64,
@@ -119,6 +124,11 @@ pub(super) struct NativeSession {
     pub(super) state: Mutex<SessionState>,
     pub(super) changed: watch::Sender<()>,
     pub(super) closed: watch::Sender<Option<SearchCloseOutcome>>,
+    pub(super) cancelled: watch::Sender<Option<SearchStartCancellationOutcome>>,
+    #[cfg(test)]
+    pub(super) before_pending: Mutex<Option<StartupHook>>,
+    #[cfg(test)]
+    pub(super) before_handoff: Mutex<Option<StartupHook>>,
     #[cfg(test)]
     pub(super) before_error: Mutex<Option<BeforeError>>,
 }
@@ -129,6 +139,7 @@ pub(super) struct SessionState {
     pub(super) closing: bool,
     pub(super) poll: Option<crate::native_backend_poll::PendingPoll>,
     native: Option<ManagedFileSearchSession>,
+    pending: Option<Arc<dyn SearchStartControl>>,
     outcome: Option<SearchCloseOutcome>,
 }
 
@@ -136,12 +147,18 @@ impl NativeSession {
     pub(super) fn new(id: u64, allocation: [usize; 3], limits: NativeBackendLimits) -> Self {
         let (changed, _) = watch::channel(());
         let (closed, _) = watch::channel(None);
+        let (cancelled, _) = watch::channel(None);
         Self {
             id,
             allocation,
             limits,
             changed,
             closed,
+            cancelled,
+            #[cfg(test)]
+            before_pending: Mutex::new(None),
+            #[cfg(test)]
+            before_handoff: Mutex::new(None),
             #[cfg(test)]
             before_error: Mutex::new(None),
             state: Mutex::new(SessionState {
@@ -156,17 +173,31 @@ impl NativeSession {
                 closing: false,
                 poll: None,
                 native: None,
+                pending: None,
                 outcome: None,
             }),
         }
     }
 
-    pub(super) fn started(&self, native: ManagedFileSearchSession) {
+    /// Publish control under the same fence as close; invoke it outside the lock.
+    pub(super) fn preparing(&self, control: Arc<dyn SearchStartControl>) {
         let closing = {
             let mut state = lock(&self.state);
-            state.native = Some(native.clone());
+            state.pending = Some(control.clone());
             state.closing
         };
+        if closing {
+            control.request_cancel();
+        }
+    }
+
+    pub(super) fn started(&self, native: ManagedFileSearchSession) {
+        let (closing, pending) = {
+            let mut state = lock(&self.state);
+            state.native = Some(native.clone());
+            (state.closing, state.pending.take())
+        };
+        drop(pending);
         if closing {
             native.request_close();
         }
@@ -184,7 +215,7 @@ impl NativeSession {
     }
 
     pub(super) fn request_close(&self) {
-        let native = {
+        let (native, pending) = {
             let mut state = lock(&self.state);
             if !state.closing {
                 state.closing = true;
@@ -193,8 +224,11 @@ impl NativeSession {
                 }
             }
             crate::native_backend_poll::service(&mut state);
-            state.native.clone()
+            (state.native.clone(), state.pending.clone())
         };
+        if let Some(pending) = pending {
+            pending.request_cancel();
+        }
         if let Some(native) = native {
             native.request_close();
         }
@@ -230,15 +264,37 @@ impl NativeSession {
         }
         state.closing = true;
         state.native = None;
+        let pending = state.pending.take();
         state.outcome = Some(outcome.clone());
         crate::native_backend_poll::service(&mut state);
         drop(state);
+        drop(pending);
         self.changed.send_replace(());
         outcome
     }
 
-    pub(super) fn publish_close(&self, outcome: SearchCloseOutcome) {
-        self.closed.send_replace(Some(outcome));
+    pub(super) fn publish_close(&self, outcome: SearchCloseOutcome, start_cleanup: StartCleanup) {
+        let cleanup = match &outcome.cleanup {
+            CloseCleanup::Unconfirmed(error) => StartCleanup::Unconfirmed(error.clone()),
+            CloseCleanup::Joined => start_cleanup,
+        };
+        self.cancelled.send_if_modified(|retained| {
+            if retained.is_some() {
+                return false;
+            }
+            *retained = Some(SearchStartCancellationOutcome {
+                operation: outcome.operation.clone(),
+                cleanup,
+            });
+            true
+        });
+        self.closed.send_if_modified(|retained| {
+            if retained.is_some() {
+                return false;
+            }
+            *retained = Some(outcome);
+            true
+        });
     }
 }
 

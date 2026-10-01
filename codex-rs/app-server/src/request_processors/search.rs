@@ -3,13 +3,14 @@ use std::panic::AssertUnwindSafe;
 use std::sync::Arc;
 use std::sync::Mutex;
 use std::sync::atomic::AtomicBool;
-use std::sync::atomic::Ordering;
 
 use crate::error_code::internal_error;
 use crate::error_code::invalid_request;
 use crate::file_search_services::SearchContext;
+use crate::fuzzy_file_search::PendingSearchObserver;
 use crate::fuzzy_file_search::PendingSearchSession;
 use crate::fuzzy_file_search::PublisherFailures;
+use crate::fuzzy_file_search::SearchStartCause;
 use crate::fuzzy_file_search::run_fuzzy_file_search;
 use crate::outgoing_message::ConnectionId;
 use crate::outgoing_message::OutgoingMessageSender;
@@ -27,11 +28,14 @@ use tokio::sync::oneshot;
 use tokio::sync::watch;
 
 mod connection;
+mod ingress;
 use connection::OneShotGuard;
 use connection::OneShotWaiter;
 pub(crate) use connection::SearchConnectionState;
 use connection::SessionEntry;
 use connection::StartWaiter;
+use ingress::QueuedSearchStart;
+pub(crate) use ingress::SearchAdmission;
 
 #[derive(Clone)]
 pub(crate) struct SearchRequestProcessor {
@@ -142,11 +146,8 @@ impl SearchRequestProcessor {
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner);
             state.closed = true;
-            let connections = state.connections.values().cloned().collect::<Vec<_>>();
-            for connection in &connections {
-                connection.request_shutdown();
-            }
-            connections
+
+            state.connections.values().cloned().collect::<Vec<_>>()
         };
         for connection in connections {
             if let Err(error) = connection.shutdown().await {
@@ -162,12 +163,15 @@ impl SearchRequestProcessor {
     }
 
     pub(crate) fn request_shutdown(&self) {
-        let mut state = self
-            .state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        state.closed = true;
-        for connection in state.connections.values() {
+        let connections = {
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            state.closed = true;
+            state.connections.values().cloned().collect::<Vec<_>>()
+        };
+        for connection in connections {
             connection.request_shutdown();
         }
     }
@@ -182,7 +186,10 @@ impl SearchRequestProcessor {
             validate_id(token, "cancellationToken")?;
         }
         self.register(connection_id, &connection)?;
-        let cancellation = Arc::new(AtomicBool::new(false));
+        let cancellation = Arc::new(PendingSearchObserver::new(
+            Arc::new(AtomicBool::new(false)),
+            self.context.shutdown_requested.clone(),
+        ));
         let _waiter = OneShotWaiter(Arc::clone(&cancellation));
         let (reply, response) = oneshot::channel();
         let scope = connection
@@ -190,7 +197,7 @@ impl SearchRequestProcessor {
             .get()
             .cloned()
             .ok_or_else(|| internal_error("file search scope missing after registration"))?;
-        {
+        let (admitted, previous) = {
             let mut state = connection
                 .state
                 .lock()
@@ -200,56 +207,67 @@ impl SearchRequestProcessor {
             }
             // Cancellation remains available at capacity. The predecessor keeps
             // its slot until the retained owner observes its cleanup receipt.
-            if let Some(token) = &params.cancellation_token
-                && let Some(previous) = state
-                    .tokens
-                    .get(token)
-                    .and_then(|id| state.one_shots.get(id))
-            {
-                previous.store(true, Ordering::Release);
-            }
-            if params.query.is_empty() || params.roots.is_empty() {
-                return Ok(FuzzyFileSearchResponse { files: Vec::new() });
-            }
-            if params.query.len() > self.context.max_query_bytes.get() {
-                return Err(invalid_request(
-                    "file search query exceeds the UTF-8 byte limit",
-                ));
-            }
-            let id = state.admit().map_err(search_error)?;
-            if let Some(token) = &params.cancellation_token {
-                state.tokens.insert(token.clone(), id);
-            }
-            state.one_shots.insert(id, Arc::clone(&cancellation));
-            let guard = OneShotGuard {
-                connection: Arc::clone(&connection),
-                id,
-                token: params.cancellation_token,
-                cancellation: Arc::clone(&cancellation),
-            };
-            let context = self.context.clone();
-            let failures = connection.failures.clone();
-            connection.startups.spawn(async move {
-                let request_guard = guard;
-                let result = AssertUnwindSafe(run_fuzzy_file_search(
-                    &scope,
-                    &context,
-                    params.query,
-                    params.roots,
-                    cancellation,
-                ))
-                .catch_unwind()
-                .await
-                .unwrap_or_else(|_| {
-                    failures
-                        .record("file search request owner panicked; cleanup was not confirmed");
-                    Err(anyhow::anyhow!(
-                        "file search request owner panicked; cleanup was not confirmed"
+            let previous = params
+                .cancellation_token
+                .as_ref()
+                .and_then(|token| state.tokens.get(token))
+                .and_then(|id| state.one_shots.get(id))
+                .cloned();
+            let admitted: Result<bool, JSONRPCErrorError> = (|| {
+                if params.query.is_empty() || params.roots.is_empty() {
+                    return Ok(false);
+                }
+                if params.query.len() > self.context.max_query_bytes.get() {
+                    return Err(invalid_request(
+                        "file search query exceeds the UTF-8 byte limit",
+                    ));
+                }
+                let id = state.admit().map_err(search_error)?;
+                if let Some(token) = &params.cancellation_token {
+                    state.tokens.insert(token.clone(), id);
+                }
+                state.one_shots.insert(id, Arc::clone(&cancellation));
+                let guard = OneShotGuard {
+                    connection: Arc::clone(&connection),
+                    id,
+                    token: params.cancellation_token,
+                    cancellation: Arc::clone(&cancellation),
+                };
+                let context = self.context.clone();
+                let failures = connection.failures.clone();
+                connection.startups.spawn(async move {
+                    let request_guard = guard;
+                    let result = AssertUnwindSafe(run_fuzzy_file_search(
+                        &scope,
+                        &context,
+                        params.query,
+                        params.roots,
+                        cancellation,
                     ))
+                    .catch_unwind()
+                    .await
+                    .unwrap_or_else(|_| {
+                        failures.record(
+                            "file search request owner panicked; cleanup was not confirmed",
+                        );
+                        Err(anyhow::anyhow!(
+                            "file search request owner panicked; cleanup was not confirmed"
+                        ))
+                    });
+                    drop(request_guard);
+                    let _ = reply.send(result);
                 });
-                drop(request_guard);
-                let _ = reply.send(result);
-            });
+                Ok(true)
+            })();
+            (admitted, previous)
+        };
+        // Cancellation remains synchronous even if replacement admission fails,
+        // but no backend hook executes while the connection fence is held.
+        if let Some(previous) = previous {
+            previous.request_close();
+        }
+        if !admitted? {
+            return Ok(FuzzyFileSearchResponse { files: Vec::new() });
         }
         let files = response
             .await
@@ -258,11 +276,23 @@ impl SearchRequestProcessor {
         Ok(FuzzyFileSearchResponse { files })
     }
 
+    #[cfg(test)]
     pub(crate) async fn fuzzy_file_search_session_start_response(
         &self,
         connection_id: ConnectionId,
         connection: Arc<SearchConnectionState>,
         params: FuzzyFileSearchSessionStartParams,
+    ) -> Result<FuzzyFileSearchSessionStartResponse, JSONRPCErrorError> {
+        self.start_search(connection_id, connection, params, None)
+            .await
+    }
+
+    async fn start_search(
+        &self,
+        connection_id: ConnectionId,
+        connection: Arc<SearchConnectionState>,
+        params: FuzzyFileSearchSessionStartParams,
+        mut ingress: Option<QueuedSearchStart>,
     ) -> Result<FuzzyFileSearchSessionStartResponse, JSONRPCErrorError> {
         validate_id(&params.session_id, "sessionId")?;
         self.register(connection_id, &connection)?;
@@ -291,12 +321,19 @@ impl SearchRequestProcessor {
             }
             // Reserve the replacement identity before releasing the fence. The
             // predecessor stays owned by this single retained task through join.
+            if let Some(ticket) = &mut ingress {
+                ticket.accepted();
+            }
             let previous = state.sessions.remove(&session_id);
             let id = match state.admit() {
                 Ok(id) => id,
                 Err(error) => {
                     if let Some(previous) = previous {
                         state.sessions.insert(session_id, previous);
+                    }
+                    if let Some(ticket) = &mut ingress {
+                        ticket.record_failure(&error);
+                        ticket.restored_without_work();
                     }
                     return Err(search_error(error));
                 }
@@ -325,11 +362,19 @@ impl SearchRequestProcessor {
             // Register while holding admission. Shutdown cannot miss a task
             // whose selected backend constructor has not been polled yet.
             connection.startups.spawn(async move {
+                // The ticket was armed before this task existed. Bind outside
+                // the connection lock before any predecessor or constructor wait.
+                if let Some(ticket) = &ingress {
+                    ticket.bind(pending.observer());
+                }
                 let mut cleanup = Ok(());
                 let operation = async {
                     if let Some(previous) = previous
                         && let Err(error) = previous.close().await
                     {
+                        if let Some(ticket) = &ingress {
+                            ticket.record_failure(&error);
+                        }
                         cleanup = Err(format!("{error:#}"));
                         if let Err(publisher) = pending.close().await {
                             cleanup = Err(format!(
@@ -338,7 +383,11 @@ impl SearchRequestProcessor {
                         }
                         return Err(error);
                     }
-                    let session = match pending.start(&scope, &context, roots).await {
+                    let cause = ingress
+                        .as_ref()
+                        .map(QueuedSearchStart::cause)
+                        .unwrap_or_else(|| Arc::new(SearchStartCause::default()));
+                    let session = match pending.start(&scope, &context, roots, &cause).await {
                         Ok(session) => session,
                         Err(failure) => {
                             cleanup = failure
@@ -375,6 +424,9 @@ impl SearchRequestProcessor {
                     };
                     if let Some(session) = session {
                         if let Err(error) = session.close().await {
+                            if let Some(ticket) = &ingress {
+                                ticket.record_failure(&error);
+                            }
                             cleanup = Err(format!("{error:#}"));
                             return Err(error);
                         }
@@ -414,6 +466,9 @@ impl SearchRequestProcessor {
                 }
                 // Release the pending reservation before acknowledging stop or
                 // start, so a joined restart never races stale bookkeeping.
+                if let Some(ticket) = &mut ingress {
+                    ticket.complete(cleanup.clone());
+                }
                 finished.send_replace(Some(cleanup));
                 let _ = reply.send(result);
             });
@@ -540,3 +595,18 @@ mod tests;
 #[cfg(test)]
 #[path = "search/runtime_tests.rs"]
 mod runtime_tests;
+
+#[cfg(test)]
+#[path = "search/preparing_fixture.rs"]
+mod preparing_fixture;
+#[cfg(test)]
+#[path = "search/preparing_tests.rs"]
+mod preparing_tests;
+
+#[cfg(test)]
+#[path = "search/ingress_tests.rs"]
+mod ingress_tests;
+
+#[cfg(test)]
+#[path = "search/ingress_regression_tests.rs"]
+mod ingress_regression_tests;

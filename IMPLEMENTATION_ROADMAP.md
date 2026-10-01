@@ -233,10 +233,19 @@ TUI production is adopted: first full regression failed at linking with zero tes
 5650 with5633pass/17fail/8skip. Failures include full /tmp tmpfs, inherited NO_COLOR, missing full CLI
 and unresolved I/O/PTY exits; preserve each diagnostic. No original snapshots were accepted/changed.
 Worker04 passes normal installation against unchanged old fullCLI. Reviewed public pending Stop
-reader-intent/retained-receipt source is now locally adopted, uncompiled; the prior460 pass does not
-cover it. Run combined consumer library checks after resource repair, then full integration against
-an explicitly identified new host. Unchanged GUI uses concurrent legacy token calls.
-New-host/installed Preparing and GUI gates remain pending. These strengthen search, not an additional
+reader-intent/retained-receipt source now passes the [combined library gate](verification/2026-10-01/P02B_PUBLIC_STOP_EVIDENCE.md):
+6095passed/4skipped, unchanged source and strict0/null. Initial E0624 compilation failed before
+tests; a parent-only visibility correction precedes the pass. All12 formerly failed library cases
+now pass unchanged; all five prior integration failures now pass in a separate23-pass/4-skip
+gate using frozen CLI1b72. Lint/format and build bindings are recorded separately. Unchanged GUI uses concurrent legacy token calls.
+New fullCLI build and installed legacy/public Stop Preparing gates now pass with exact artifact
+binding; old0.1 and new0.2 search packages both pass unchanged. Normal storage/migration/GUI
+passed separately. TUI integration passed23/4skipped; instrumented GUI Preparing clear-query cancellation passed
+both cold-launch cycles, followed by real manager-only SIGINT shutdown and recovery.
+See [new-host evidence](verification/2026-10-01/P02B_PREPARING_NEWHOST_EVIDENCE.md).
+See [GUI Preparing evidence](verification/2026-10-01/P02B_PREPARING_GUI_HELD_EVIDENCE.md).
+Pending-Open shutdown and other Preparing GUI retirement triggers remain separate future gates.
+These strengthen search, not an additional
 extracted subsystem. The source audits and exact evidence are linked from EXECUTION_STATE.md.
 The native/process audit annexes refine guard, receipt and handoff requirements. Preserve
 old package compatibility and separately build the updated worker before claiming

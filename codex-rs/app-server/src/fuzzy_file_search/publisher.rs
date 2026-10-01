@@ -61,6 +61,7 @@ struct State {
     snapshot: Option<FileSearchSnapshot>,
     complete: bool,
     error: Option<SearchError>,
+    start: Option<Arc<dyn codex_file_search_api::SearchStartControl>>,
 }
 
 pub(crate) struct SearchObserver {
@@ -148,13 +149,55 @@ impl SearchObserver {
     }
 
     pub(crate) fn request_close(&self) {
+        let start = {
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            state.closed = true;
+            self.cancellation.store(true, Ordering::Release);
+            self.stop.cancel();
+            state.start.clone()
+        };
+        if let Some(start) = start {
+            start.request_cancel();
+        }
+    }
+
+    pub(super) fn bind_start(
+        &self,
+        control: Arc<dyn codex_file_search_api::SearchStartControl>,
+    ) -> bool {
         let mut state = self
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        state.closed = true;
-        self.cancellation.store(true, Ordering::Release);
-        self.stop.cancel();
+        state.start = Some(control);
+        state.closed || self.cancellation_requested()
+    }
+
+    pub(super) fn unbind_start(
+        &self,
+        control: &Arc<dyn codex_file_search_api::SearchStartControl>,
+    ) {
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        if state
+            .start
+            .as_ref()
+            .is_some_and(|current| Arc::ptr_eq(current, control))
+        {
+            state.start = None;
+        }
+    }
+
+    pub(super) async fn cancelled(&self) {
+        tokio::select! {
+            _ = self.stop.cancelled() => {},
+            _ = self.shutdown_requested.cancelled() => {},
+        }
     }
 
     pub(crate) fn is_complete(&self) -> bool {

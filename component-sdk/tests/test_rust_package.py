@@ -6,6 +6,9 @@ import io
 import json
 from pathlib import Path
 import tempfile
+import shutil
+import subprocess
+import sys
 import tomllib
 import unittest
 from unittest.mock import patch
@@ -689,6 +692,248 @@ ordinary = { path = "../../../ordinary" }
             (manifest["version"], manifest["components"][0]["contract_version"]),
             ("0.2.0", 2),
         )
+
+    def test_component_metadata_round_trip_and_default_are_independent(self):
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        metadata = {
+            "preparing_cancel_receipt": 1,
+            "details": {"label": 'λ / "quote"', "flags": [True, False, None]},
+            "bounds": [-(2**63), 2**64 - 1, 1.25],
+        }
+        output = self.base / "capable-package"
+        packaging.assemble(
+            self.repo,
+            binary,
+            output,
+            "example.native",
+            "file_search",
+            "default",
+            version="0.2.0",
+            metadata=metadata,
+        )
+        manifest = json.loads((output / "codex-component.json").read_text())
+        self.assertEqual(manifest["version"], "0.2.0")
+        self.assertEqual(
+            manifest["components"][0],
+            {
+                "kind": "file_search",
+                "name": "default",
+                "contract_version": 1,
+                "metadata": metadata,
+            },
+        )
+        detached = packaging.validate_component_metadata(metadata)
+        metadata["details"]["flags"].append("changed")
+        self.assertEqual(detached["details"]["flags"], [True, False, None])
+        legacy = self.base / "legacy-package"
+        packaging.assemble(
+            self.repo, binary, legacy, "example.native", "file_search", "default"
+        )
+        old = json.loads((legacy / "codex-component.json").read_text())
+        self.assertEqual(
+            (old["version"], old["components"][0]["metadata"]), ("0.1.0", {})
+        )
+
+    def test_invalid_component_metadata_rejected_before_any_output_mutation(self):
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        cycle = {}
+        cycle["self"] = cycle
+        deep = 1
+        for _ in range(packaging.MAX_METADATA_DEPTH + 1):
+            deep = [deep]
+        invalid = [
+            [],
+            "object",
+            True,
+            {1: "key"},
+            {"nested": {False: 1}},
+            {"x": float("nan")},
+            {"x": float("inf")},
+            {"x": -float("inf")},
+            {"x": 2**64},
+            {"x": -(2**63) - 1},
+            {"x": (1, 2)},
+            {"x": b"bytes"},
+            {"x": object()},
+            {"x": "x" * packaging.MAX_METADATA_BYTES},
+            {"x": "\x00" * (packaging.MAX_METADATA_BYTES // 2)},
+            {"x": "λ" * packaging.MAX_METADATA_BYTES},
+            {"x": deep},
+            cycle,
+            {"x": [None] * packaging.MAX_METADATA_NODES},
+        ]
+        original = (self.repo / "LICENSE").read_bytes()
+        for index, metadata in enumerate(invalid):
+            with self.subTest(case=index):
+                parent = self.base / f"untouched-{index}"
+                with self.assertRaises(ValueError):
+                    packaging.assemble(
+                        self.repo,
+                        binary,
+                        parent / "package",
+                        "example.native",
+                        "file_search",
+                        "default",
+                        metadata=metadata,
+                    )
+                self.assertFalse(parent.exists())
+                self.assertEqual(binary.read_bytes(), b"native executable fixture")
+                self.assertEqual((self.repo / "LICENSE").read_bytes(), original)
+
+    def test_metadata_exact_size_depth_and_node_boundaries(self):
+        exact = {"x": "a" * (packaging.MAX_METADATA_BYTES - 8)}
+        self.assertEqual(packaging.validate_component_metadata(exact), exact)
+        with self.assertRaisesRegex(ValueError, "UTF-8 bytes"):
+            packaging.validate_component_metadata({"x": exact["x"] + "a"})
+        value = 1
+        for _ in range(packaging.MAX_METADATA_DEPTH - 1):
+            value = [value]
+        self.assertEqual(
+            packaging.validate_component_metadata({"x": value}), {"x": value}
+        )
+        with self.assertRaisesRegex(ValueError, "depth"):
+            packaging.validate_component_metadata({"x": [value]})
+        nodes = {"x": [None] * (packaging.MAX_METADATA_NODES - 2)}
+        self.assertEqual(packaging.validate_component_metadata(nodes), nodes)
+        with self.assertRaisesRegex(ValueError, "node count"):
+            packaging.validate_component_metadata({"x": [*nodes["x"], None]})
+
+    def test_metadata_cli_round_trip_and_duplicate_rejection_before_output(self):
+        binary = self.base / "native-plugin"
+        binary.write_bytes(b"native executable fixture")
+        cases = [
+            ["--metadata", '{"preparing_cancel_receipt":1}'],
+            ["--metadata", '{"x":1,"x":2}'],
+            ["--metadata", '{"nested":{"x":1,"\\u0078":2}}'],
+            ["--metadata", '{"x":NaN}'],
+            ["--metadata", '{"x":1e309}'],
+            ["--metadata", "null"],
+            ["--metadata", "[]"],
+            ["--metadata", "{}", "--metadata", "{}"],
+            ["--metadata", " " * (packaging.MAX_METADATA_BYTES + 1)],
+        ]
+        for index, flags in enumerate(cases):
+            output = self.base / f"metadata-cli-{index}"
+            argv = [
+                str(SCRIPT),
+                "assemble",
+                "--repo",
+                str(self.repo),
+                "--binary",
+                str(binary),
+                "--output",
+                str(output),
+                "--id",
+                "example.native",
+                "--kind",
+                "file_search",
+                "--version",
+                "0.2.0",
+                *flags,
+            ]
+            with (
+                self.subTest(case=index),
+                patch("sys.argv", argv),
+                contextlib.redirect_stdout(io.StringIO()),
+                contextlib.redirect_stderr(io.StringIO()),
+            ):
+                if index == 0:
+                    packaging.main()
+                    manifest = json.loads((output / "codex-component.json").read_text())
+                    self.assertEqual(
+                        manifest["components"][0]["metadata"],
+                        {"preparing_cancel_receipt": 1},
+                    )
+                else:
+                    with self.assertRaises(SystemExit) as failure:
+                        packaging.main()
+                    self.assertEqual(failure.exception.code, 2)
+                    self.assertFalse(output.exists())
+
+    def test_worker_plan_preserves_default_and_explicit_declaration_without_building(
+        self,
+    ):
+        worker = SCRIPT.parent / "tests/file_search/build_worker.py"
+        sdk = self.repo / "component-sdk"
+        sdk.mkdir()
+        shutil.copy2(SCRIPT, sdk / SCRIPT.name)
+        cli = self.base / "frozen-cli"
+        cli.write_bytes(b"host fixture")
+        manager = self.base / "frozen-manager"
+        manager.write_bytes(b"manager fixture")
+        cases = [
+            ([], 0, "0.1.0", {}),
+            (
+                [
+                    "--package-version",
+                    "0.2.0",
+                    "--component-metadata",
+                    '{"preparing_cancel_receipt":1}',
+                ],
+                0,
+                "0.2.0",
+                {"preparing_cancel_receipt": 1},
+            ),
+            (["--component-metadata", '{"x":1,"x":2}'], 2, None, None),
+            (
+                ["--component-metadata", "{}", "--component-metadata", "{}"],
+                2,
+                None,
+                None,
+            ),
+            (["--component-metadata", '{"x":1e309}'], 2, None, None),
+            (["--package-version", "not-semver"], 2, None, None),
+        ]
+        for index, (flags, status, version, metadata) in enumerate(cases):
+            work = self.base / f"worker-work-{index}"
+            target = self.base / f"worker-target-{index}"
+            # Invalid declarations also fail before mutation without --plan.
+            args = [
+                sys.executable,
+                str(worker),
+                "--repo",
+                str(self.repo),
+                "--cli",
+                str(cli),
+                "--manager",
+                str(manager),
+                "--work-dir",
+                str(work),
+                "--target-dir",
+                str(target),
+                *flags,
+            ]
+            if status == 0:
+                args.append("--plan")
+            with self.subTest(case=index):
+                result = subprocess.run(
+                    args, capture_output=True, text=True, timeout=10, check=False
+                )
+                self.assertEqual(result.returncode, status, result.stderr)
+                self.assertFalse(work.exists())
+                self.assertFalse(target.exists())
+                if status == 0:
+                    plan = json.loads(result.stdout)
+                    self.assertEqual(
+                        plan["package_declaration"],
+                        {
+                            "version": version,
+                            "contract_version": 1,
+                            "metadata": metadata,
+                            "capabilities_are_declared_not_runtime_proof": True,
+                        },
+                    )
+                    self.assertEqual(
+                        plan["policy"]["minimum_target_free_bytes"], 2 * 1024**3
+                    )
+                    self.assertEqual(
+                        plan["policy"]["minimum_cgroup_memory_headroom_bytes"],
+                        768 * 1024**2,
+                    )
+                self.assertEqual(cli.read_bytes(), b"host fixture")
+                self.assertEqual(manager.read_bytes(), b"manager fixture")
 
 
 if __name__ == "__main__":

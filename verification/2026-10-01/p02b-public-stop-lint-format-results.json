@@ -1,0 +1,331 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B public Stop/TUI scoped lint and mechanical formatting follow-up",
+  "status": "lint and formatter passed; independent static formatting review found no behavior/assertion change",
+  "previous_frozen_evidence_files": {
+    "upstream/p02b-public-stop-lineage.json": "159396ca2ec599197aa467b74e7c54f1a161fdc0f1cf46d27170ad200764db89",
+    "verification/2026-10-01/P02B_PUBLIC_STOP_EVIDENCE.md": "ec41e8107e60f4660587830f225afc96afaf7746b407902cc334096657fc0136",
+    "verification/2026-10-01/p02b-public-stop-results.json": "7a82aff3ff46e0178ba25541049f9132e27189155f0c9b64539a83ca2c4503ff"
+  },
+  "previous_evidence_untouched_by_this_review": true,
+  "tested_source": {
+    "report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.source.json",
+      "sha256": "6624ca835e70a942cdd817c51fdc2bf41a6e2f78f2419928bf9fc3c87373e2c8"
+    },
+    "result": "6095 library tests passed,4 skipped; AS426/client42/TUI5627. Five prior TUI integration failures remain outside this --lib gate.",
+    "canonical_source_after_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7"
+  },
+  "lint": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-fix.source.json",
+      "sha256": "cf9a932c7d2f803e2b914254a9e0b672572732d187c73a105d36569a04b210cf"
+    },
+    "log": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-fix.log",
+      "sha256": "d3eb0ae259906b6faf1ef55562a47c0dc0ce61662b3618bfc38a518cac1dffc6"
+    },
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-app-server",
+      "-p",
+      "codex-app-server-client",
+      "-p",
+      "codex-tui"
+    ],
+    "started_utc": "2026-10-01T12:09:23Z",
+    "finished_utc": "2026-10-01T12:15:11Z",
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "source_before_equals_tested_source_after": true,
+    "source_after_equals_format_source_before": true,
+    "runtime_tests_executed_by_this_gate": false
+  },
+  "formatter": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-fmt.source.json",
+      "sha256": "b065624f64291ff2787033c6db62161c30e3e449d2a01ca8e7632057d8e2c627"
+    },
+    "log": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "started_utc": "2026-10-01T12:15:28Z",
+    "finished_utc": "2026-10-01T12:15:50Z",
+    "returncode": 0,
+    "scoped_source_unchanged": false,
+    "changed_files_manifest": {
+      "path": "/workspace/acceptance/p02b-public-stop-format-changes.json",
+      "sha256": "bd82728b4b515c5646a1ad41c54dc20a3049d7630a044db119cfe92347df842b"
+    },
+    "changed_files": 10,
+    "app_server_changed_files": 7,
+    "tui_changed_files": 3,
+    "other_scoped_changes": 0,
+    "canonical_source_before_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7",
+    "canonical_source_after_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "runtime_tests_executed_by_this_gate": false
+  },
+  "archive": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T120447Z.tar.gz",
+    "sha256": "2f966b2377cf1e0391189a20c671144d3eda1cdb02f73903233c59579c436a38",
+    "all_ten_original_members_match_tested_and_preformat_hashes": true,
+    "durability": "cloud-local recovery archive; no external export claimed"
+  },
+  "rows": [
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "scope": "App Server",
+      "tested_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "lint_before_after_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "preformat_archive_member_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "formatted_sha256": "b75200b46370624c2b1260c750c79bf98ca208fda318d243f0d1ddb3a916176f",
+      "new_full_cli_build_input_sha256": "b75200b46370624c2b1260c750c79bf98ca208fda318d243f0d1ddb3a916176f",
+      "diff_sha256": "234b6177cf9d54f7700a8f07e28c192a7fc971cb1be13c9c77a27441681dbbfb",
+      "diff_added_lines": 9,
+      "diff_removed_lines": 7,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 11,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor.rs",
+      "scope": "App Server",
+      "tested_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "lint_before_after_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "preformat_archive_member_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "formatted_sha256": "a9fadc0d61e3569e4153b1e727077d8dddf23dd7cb0fecf4d3b61d4b821d48d9",
+      "new_full_cli_build_input_sha256": "a9fadc0d61e3569e4153b1e727077d8dddf23dd7cb0fecf4d3b61d4b821d48d9",
+      "diff_sha256": "eb46149008f903e3d7ae2c91e662d94fad153f63b561d3cd21da34f31feb3d96",
+      "diff_added_lines": 3,
+      "diff_removed_lines": 1,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 24,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor/search_admission.rs",
+      "scope": "App Server",
+      "tested_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+      "lint_before_after_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+      "preformat_archive_member_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+      "formatted_sha256": "9d5b7e33a05948fe6f3861bfba55f3a91c97b263cb30c23b43ff5f75813f4665",
+      "new_full_cli_build_input_sha256": "9d5b7e33a05948fe6f3861bfba55f3a91c97b263cb30c23b43ff5f75813f4665",
+      "diff_sha256": "958f9c686d0e67d25b73001992e1c8374c4777e5f2dc1480f96b29e20046e0ab",
+      "diff_added_lines": 15,
+      "diff_removed_lines": 4,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 1,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "scope": "App Server",
+      "tested_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "lint_before_after_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "preformat_archive_member_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "formatted_sha256": "d471416c6c6663de3e2a4ffcfc1537aeef7ca812dd963c433184933b388afafb",
+      "new_full_cli_build_input_sha256": "d471416c6c6663de3e2a4ffcfc1537aeef7ca812dd963c433184933b388afafb",
+      "diff_sha256": "33c6d841acde47fb4b45719e1d5217eae6f55e1d4159d553fbad9313823fc572",
+      "diff_added_lines": 7,
+      "diff_removed_lines": 4,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 41,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress.rs",
+      "scope": "App Server",
+      "tested_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "lint_before_after_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "preformat_archive_member_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "formatted_sha256": "335e545a9a9886ae4c61c8211f89b796ec7673c6cd8e3c12a61b198096c77897",
+      "new_full_cli_build_input_sha256": "335e545a9a9886ae4c61c8211f89b796ec7673c6cd8e3c12a61b198096c77897",
+      "diff_sha256": "06614b40109c67b6103530a0b5710d818155687923abc56ae8bfdbf96deab81d",
+      "diff_added_lines": 112,
+      "diff_removed_lines": 36,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting; One match arm wraps unchanged Err(format!(...)) in a tail-expression block; the block adds no statement, binding, await or control flow.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 12,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": [
+          "One match arm wraps unchanged Err(format!(...)) in a tail-expression block; the block adds no statement, binding, await or control flow."
+        ]
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+      "scope": "App Server",
+      "tested_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "lint_before_after_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "preformat_archive_member_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "formatted_sha256": "9eb557a5f406b877cd77e4b3090820d8c948818c8bdbbca00ba9e8e9ec1213a8",
+      "new_full_cli_build_input_sha256": "9eb557a5f406b877cd77e4b3090820d8c948818c8bdbbca00ba9e8e9ec1213a8",
+      "diff_sha256": "53a8d6db6a45fa5f7fa023980408a6747617bd006aad545f55e536ee768964b2",
+      "diff_added_lines": 99,
+      "diff_removed_lines": 27,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 24,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "scope": "App Server",
+      "tested_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "lint_before_after_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "preformat_archive_member_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "formatted_sha256": "0706b9f49b4f53f0b45ef3c03f8baa06c0cea9596260d2ae370fc94ec05fc305",
+      "new_full_cli_build_input_sha256": "0706b9f49b4f53f0b45ef3c03f8baa06c0cea9596260d2ae370fc94ec05fc305",
+      "diff_sha256": "6467f8a1b6b69561af1927377996993d513d5f21c4418ad27bb82d3eff7b3024",
+      "diff_added_lines": 438,
+      "diff_removed_lines": 78,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 70,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/coordinator.rs",
+      "scope": "TUI",
+      "tested_sha256": "6631e5a89ae7829322566ea81475bf6f667ef66c5e755937ab9a8e9999a02e8a",
+      "lint_before_after_sha256": "6631e5a89ae7829322566ea81475bf6f667ef66c5e755937ab9a8e9999a02e8a",
+      "preformat_archive_member_sha256": "6631e5a89ae7829322566ea81475bf6f667ef66c5e755937ab9a8e9999a02e8a",
+      "formatted_sha256": "b1c6b218e73e91d1c9a8e78ccf63304d64b202e73a72cfeda02c4d813f92fcf9",
+      "new_full_cli_build_input_sha256": "b1c6b218e73e91d1c9a8e78ccf63304d64b202e73a72cfeda02c4d813f92fcf9",
+      "diff_sha256": "8975b79c68282fdb00a1ddc4f9aa9d1e576253154f26eed02a9b28cd97965064",
+      "diff_added_lines": 1,
+      "diff_removed_lines": 2,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 3,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/pending_tests.rs",
+      "scope": "TUI",
+      "tested_sha256": "46f55ad367dc66e60aa23539e01383d3c743f29c8b522074aa622d63908f419f",
+      "lint_before_after_sha256": "46f55ad367dc66e60aa23539e01383d3c743f29c8b522074aa622d63908f419f",
+      "preformat_archive_member_sha256": "46f55ad367dc66e60aa23539e01383d3c743f29c8b522074aa622d63908f419f",
+      "formatted_sha256": "02aaa7313a2cc6b88713b49b6cb059f0dbe97d85fb1defb565245c05aff8525a",
+      "new_full_cli_build_input_sha256": "02aaa7313a2cc6b88713b49b6cb059f0dbe97d85fb1defb565245c05aff8525a",
+      "diff_sha256": "94a7619a467dbbda102271e5ca4bb559eb10fc2e3a8f8d369fd35b1f98e29361",
+      "diff_added_lines": 173,
+      "diff_removed_lines": 42,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 76,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    },
+    {
+      "path": "codex-rs/tui/src/file_search/startup.rs",
+      "scope": "TUI",
+      "tested_sha256": "f992f7f3848414655b208dfef432f5354141c763be5d17a5f612eeacfa521353",
+      "lint_before_after_sha256": "f992f7f3848414655b208dfef432f5354141c763be5d17a5f612eeacfa521353",
+      "preformat_archive_member_sha256": "f992f7f3848414655b208dfef432f5354141c763be5d17a5f612eeacfa521353",
+      "formatted_sha256": "f0ea32fd4d832fef5fe88049e04be22de29cbead7007ea42a60de6a0026b423b",
+      "new_full_cli_build_input_sha256": "f0ea32fd4d832fef5fe88049e04be22de29cbead7007ea42a60de6a0026b423b",
+      "diff_sha256": "da1236f8ba3ab8bb72754a13e3a0e00f108878b6dfc530badd7adeb007b4eebf",
+      "diff_added_lines": 2,
+      "diff_removed_lines": 3,
+      "manual_review": "Only line wrapping/indentation, unchanged import reordering and optional trailing comma formatting.",
+      "supporting_lexical_check": {
+        "same_import_multiset": true,
+        "same_literal_sequence_including_exact_bytes": true,
+        "same_comment_sequence": true,
+        "same_body_after_documented_formatting_normalizations": true,
+        "literal_count": 0,
+        "normalization_limit": "Supplemental textual check, not a compiler or AST-equivalence proof. Every diff hunk also reviewed.",
+        "explicit_additional_normalizations": []
+      },
+      "assertions_or_expected_values_changed": false
+    }
+  ],
+  "new_host_build_input": {
+    "source_report_path": "/workspace/acceptance/p02b-preparing-full-cli-build.source.json",
+    "observed_status": "running",
+    "started_utc": "2026-10-01T12:17:02Z",
+    "source_before_equals_formatter_source_after": true,
+    "source_before_entries": 10148,
+    "canonical_source_before_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "claim_limit": "Input lineage only. Build is in progress and this follow-up claims no completed host build or runtime result."
+  },
+  "limits": [
+    "Passing tests ran on the recorded pre-format hashes. The ten formatted byte streams differ and are not described as directly tested by that earlier run.",
+    "Review finds mechanical formatting only; no repeat library run is claimed or requested solely for formatting.",
+    "Scoped lint/format are not runtime, complete TUI integration, installed-plugin, native constructor or graphical UI/browser acceptance.",
+    "Full CLI build and later runtime/integration gates must retain their own exact source/artifact evidence.",
+    "Earlier failed compile and failed full-TUI evidence remain intact in separate records."
+  ]
+}

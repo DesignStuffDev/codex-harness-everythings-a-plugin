@@ -324,3 +324,24 @@ The [TUI Preparing failure map](upstream/p02b-preparing-tui-consumer-lineage.jso
 retains both exact failed regression snapshots, the passing controlled lifecycle cases,
 and the later public Stop fix as explicitly outside those tested snapshots. Failed
 acceptance is preserved for maintenance analysis; it is not an accepted host version.
+
+The [public Stop map](upstream/p02b-public-stop-lineage.json) records exact upstream
+paths/symbols, prior adapter ownership, the visibility-only compile correction and
+the combined6095-pass library scope. Upstream session-ID serialization, our earlier
+connection-scoped queue and this new receive-order cancellation are distinct
+customizations. Full host, installed runtime and UI acceptance remain separate gates.
+
+The [new fullCLI/installed evidence](verification/2026-10-01/P02B_PREPARING_NEWHOST_EVIDENCE.md)
+binds all18 public Stop/TUI paths to the formatted CLI artifact and four actual installed-host gates.
+WIP source checkpoint3b8a889 extends the prior9bd3bc30 tree without changing the upstream pin.
+Successful plugin interoperability and cancellation here do not constitute later-upstream integration;
+P18U's real upstream candidate and failed-update recovery acceptance remain required.
+
+The [TUI integration evidence](verification/2026-10-01/P02B_PREPARING_TUI_INTEGRATION_EVIDENCE.md),
+[normal GUI/storage evidence](verification/2026-10-01/P02B_PREPARING_STORAGE_GUI_EVIDENCE.md) and
+[held GUI evidence](verification/2026-10-01/P02B_PREPARING_GUI_HELD_EVIDENCE.md) extend that same
+source/binary tuple. Exact test-only runner sources are preserved in the reviewed
+[source-fixture archive](verification/2026-10-01/fixtures/preparing-runner-sources.tar.gz) with
+[member hashes](verification/2026-10-01/p02b-preparing-source-fixtures.json). Historical stage
+headers and path-bound checks remain unchanged. This supplies reviewable customization evidence
+for future upstream integration; it does not implement or pass the required updater acceptance.

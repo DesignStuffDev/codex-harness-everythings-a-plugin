@@ -57,8 +57,14 @@ membership, worker termination or independent plugin installation.
 The governing contract is
 [`component-sdk/FILE_SEARCH_COMPONENT_PLAN.md`](../../component-sdk/FILE_SEARCH_COMPONENT_PLAN.md).
 
-The additive `PendingSearchStart` and `SearchStartControl` SDK primitives define
-one-start cancellation authority without changing `SearchBackend::open` yet.
+Rust source-contract revision **2** requires
+`SearchBackend::begin_open(SearchOpen) -> Result<PendingSearchStart, SearchStartError>`.
+`open` remains a convenience observer over that required method. It reserves on
+call, and an unpolled dropped observer cancels the same start. Custom Rust backend
+implementers must migrate; this is not source-compatible with revision 1. The
+installed JSON wire contract remains version 1 while its schema is unchanged.
+
+`PendingSearchStart` and `SearchStartControl` define one-start cancellation authority.
 An external backend constructs a ticket only after retaining the actual owner;
 the ticket requests cancellation when abandoned and transfers terminal results
 unchanged. `finish()` preserves that guard even before its first poll. Controls

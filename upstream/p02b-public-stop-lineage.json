@@ -1,0 +1,922 @@
+{
+  "schema_version": 1,
+  "status": "combined_library_gate_passed; full CLI/integration/installed/UI acceptance pending",
+  "milestone": "P02B public session Stop receive-order cancellation admission",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "inspection": "Original source bytes read directly with nonmutating git show from preserved /tmp/codex-upstream-source objects, GIT_OPTIONAL_LOCKS=0; no fetch or checkout writes."
+  },
+  "original_upstream_anchors": [
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+      "sha256": "542eb1e54f23b86c89d86c7a2435c5c426aa236c1274e5f41b50f37737a07282",
+      "symbols": [
+        {
+          "anchor": "pub(crate) async fn run_fuzzy_file_search(",
+          "line": 21,
+          "source_line": "pub(crate) async fn run_fuzzy_file_search("
+        },
+        {
+          "anchor": "pub(crate) fn start_fuzzy_file_search_session(",
+          "line": 118,
+          "source_line": "pub(crate) fn start_fuzzy_file_search_session("
+        },
+        {
+          "anchor": "impl Drop for FuzzyFileSearchSession",
+          "line": 112,
+          "source_line": "impl Drop for FuzzyFileSearchSession {"
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/fuzzy_file_search.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "796ecf2fc86a47c056cb934e6590c120d9836c32",
+      "sha256": "05a397fc4d5e974d35b0b42fdb975196a113990ad56187298916626f8cfc2bf9",
+      "symbols": [
+        {
+          "anchor": "pub(crate) async fn process_request(",
+          "line": 629,
+          "source_line": "pub(crate) async fn process_request("
+        },
+        {
+          "anchor": "pub(crate) async fn process_client_request(",
+          "line": 692,
+          "source_line": "pub(crate) async fn process_client_request("
+        },
+        {
+          "anchor": "async fn dispatch_initialized_client_request(",
+          "line": 968,
+          "source_line": "async fn dispatch_initialized_client_request("
+        },
+        {
+          "anchor": "async fn handle_initialized_client_request(",
+          "line": 1072,
+          "source_line": "async fn handle_initialized_client_request("
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/message_processor.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "38110ec11554de76c9fa494285d2b56b4c6921e5",
+      "sha256": "2bf6a2ca840e77673d206a063d5427e5793aaa6704ee9aa1daba020c620f30bb",
+      "symbols": [
+        {
+          "anchor": "pub(crate) use search::SearchRequestProcessor;",
+          "line": 598,
+          "source_line": "pub(crate) use search::SearchRequestProcessor;"
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/request_processors.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a",
+      "sha256": "bcaabab1344202ec866bc41fa86201a25e9b8149da50cf0f6794fe0a64dba908",
+      "symbols": [
+        {
+          "anchor": "pub(crate) struct SearchRequestProcessor {",
+          "line": 24,
+          "source_line": "pub(crate) struct SearchRequestProcessor {"
+        },
+        {
+          "anchor": "pub(crate) async fn fuzzy_file_search_session_start_response(",
+          "line": 81,
+          "source_line": "pub(crate) async fn fuzzy_file_search_session_start_response("
+        },
+        {
+          "anchor": "pub(crate) async fn fuzzy_file_search_session_update_response(",
+          "line": 102,
+          "source_line": "pub(crate) async fn fuzzy_file_search_session_update_response("
+        },
+        {
+          "anchor": "pub(crate) async fn fuzzy_file_search_session_stop(",
+          "line": 125,
+          "source_line": "pub(crate) async fn fuzzy_file_search_session_stop("
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/request_processors/search.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_serialization.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "390896a6cccf8e3cc0a2f2bbfa6421e72030f4ea",
+      "sha256": "b624a9bac63d16f786939f3e9d2c8916faf5d4bc499af7ed099b1e3803f4632a",
+      "symbols": [
+        {
+          "anchor": "pub(crate) enum RequestSerializationQueueKey",
+          "line": 25,
+          "source_line": "pub(crate) enum RequestSerializationQueueKey {"
+        },
+        {
+          "anchor": "pub(crate) fn from_scope(",
+          "line": 60,
+          "source_line": "pub(crate) fn from_scope("
+        },
+        {
+          "anchor": "Self::FuzzyFileSearchSession { session_id },",
+          "line": 94,
+          "source_line": "Self::FuzzyFileSearchSession { session_id },"
+        },
+        {
+          "anchor": "pub(crate) async fn enqueue(",
+          "line": 194,
+          "source_line": "pub(crate) async fn enqueue("
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/request_serialization.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/connection_rpc_gate.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "46638e585a37de0465c1881b784ea49edb32d9e8",
+      "sha256": "4ae78ab05409d47fbfb74515605ca11af2cb547ddf164240145a9f57606cc81e",
+      "symbols": [
+        {
+          "anchor": "pub(crate) struct ConnectionRpcGate",
+          "line": 16,
+          "source_line": "pub(crate) struct ConnectionRpcGate {"
+        },
+        {
+          "anchor": "pub(crate) async fn run<F>",
+          "line": 32,
+          "source_line": "pub(crate) async fn run<F>(&self, future: F)"
+        },
+        {
+          "anchor": "pub(crate) fn is_closed(",
+          "line": 48,
+          "source_line": "pub(crate) fn is_closed(&self) -> bool {"
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/connection_rpc_gate.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/lib.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+      "sha256": "1591686b49c80c062d2b1ce48e03eb7c95bb872cc57b41e0ecc016ceb42fd6f2",
+      "symbols": [
+        {
+          "anchor": "TransportEvent::IncomingMessage { connection_id, message }",
+          "line": 1179,
+          "source_line": "TransportEvent::IncomingMessage { connection_id, message } => {"
+        },
+        {
+          "anchor": "                                            .process_request(",
+          "line": 1192,
+          "source_line": ".process_request("
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/lib.rs"
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+      "sha256": "72b929dfa4af366237b990814a1699321a3c29e5f328a8588c5853a1f769f4a1",
+      "symbols": [
+        {
+          "anchor": "Some(ProcessorCommand::Request(request, cancellation))",
+          "line": 529,
+          "source_line": "Some(ProcessorCommand::Request(request, cancellation)) => {"
+        },
+        {
+          "anchor": "                                    .process_client_request(",
+          "line": 532,
+          "source_line": ".process_client_request("
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/in_process.rs"
+    },
+    {
+      "path": "codex-rs/app-server-protocol/src/protocol/common.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "blob": "c6d6fad791b8a72d1c12c8c08a0329ea247287c5",
+      "sha256": "56f208350d678f946068a92bd9627fae1578950cd06d5070ece01b327c1e9524",
+      "symbols": [
+        {
+          "anchor": "FuzzyFileSearchSessionStart => \"fuzzyFileSearch/sessionStart\"",
+          "line": 1480,
+          "source_line": "FuzzyFileSearchSessionStart => \"fuzzyFileSearch/sessionStart\" {"
+        },
+        {
+          "anchor": "FuzzyFileSearchSessionUpdate => \"fuzzyFileSearch/sessionUpdate\"",
+          "line": 1486,
+          "source_line": "FuzzyFileSearchSessionUpdate => \"fuzzyFileSearch/sessionUpdate\" {"
+        },
+        {
+          "anchor": "FuzzyFileSearchSessionStop => \"fuzzyFileSearch/sessionStop\"",
+          "line": 1492,
+          "source_line": "FuzzyFileSearchSessionStop => \"fuzzyFileSearch/sessionStop\" {"
+        }
+      ],
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server-protocol/src/protocol/common.rs"
+    }
+  ],
+  "new_native_subsystem_extracted": false,
+  "prior_preparing_lineage": {
+    "path": "/workspace/codex-harness-everythings-a-plugin/upstream/p02b-preparing-app-server-lineage.json",
+    "sha256": "b106fb6f5fec09fb481b77120f7f8b6a35798fe7166689623abf857a50bdfb24"
+  },
+  "initial_eight_consumer_paths": [
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+      "previous_strict_test_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+      "public_stop_preimage_sha256": null,
+      "public_stop_touched": false,
+      "retry02_start_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6"
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/startup.rs",
+      "previous_strict_test_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+      "public_stop_preimage_sha256": null,
+      "public_stop_touched": false,
+      "retry02_start_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327"
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "previous_strict_test_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+      "public_stop_preimage_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+      "public_stop_touched": true,
+      "retry02_start_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+      "previous_strict_test_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+      "public_stop_preimage_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+      "public_stop_touched": true,
+      "retry02_start_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/preparing_fixture.rs",
+      "previous_strict_test_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+      "public_stop_preimage_sha256": null,
+      "public_stop_touched": false,
+      "retry02_start_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/preparing_tests.rs",
+      "previous_strict_test_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+      "public_stop_preimage_sha256": null,
+      "public_stop_touched": false,
+      "retry02_start_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+      "previous_strict_test_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+      "public_stop_preimage_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+      "public_stop_touched": true,
+      "retry02_start_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "previous_strict_test_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+      "public_stop_preimage_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+      "public_stop_touched": true,
+      "retry02_start_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4"
+    }
+  ],
+  "rows": [
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "upstream_path_exists": true,
+      "direct_upstream_path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs"
+      ],
+      "custom_creation": false,
+      "classification": "modified native-consumer path",
+      "custom_symbols": [
+        {
+          "anchor": "pub(crate) struct SearchStartCause",
+          "line": 175,
+          "source_line": "pub(crate) struct SearchStartCause(std::sync::Mutex<Option<String>>);"
+        },
+        {
+          "anchor": "pub(crate) fn record(",
+          "line": 178,
+          "source_line": "pub(crate) fn record(&self, error: &anyhow::Error) {"
+        },
+        {
+          "anchor": "pub(crate) fn operation(",
+          "line": 183,
+          "source_line": "pub(crate) fn operation(&self) -> Result<(), String> {"
+        },
+        {
+          "anchor": "pub(crate) async fn start(",
+          "line": 224,
+          "source_line": "pub(crate) async fn start("
+        }
+      ],
+      "intentional_delta": "Add shared first-operation-cause retention to the existing custom PendingSearchSession adapter before publisher cleanup waits. Intentional retirement records no synthetic operation failure.",
+      "pre_public_stop_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+      "frozen_initial_adopted_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "first_compile_before_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "first_compile_after_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "after_visibility_fix_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "retry02_start_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "retry02_terminal_sha256": "4420ee838b3507c2d7e8d946f74c14732db94ee95cd32677bf9aa6afd3cb4076",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor.rs",
+      "upstream_path_exists": true,
+      "direct_upstream_path": "codex-rs/app-server/src/message_processor.rs",
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/message_processor.rs"
+      ],
+      "custom_creation": false,
+      "classification": "modified native-consumer path",
+      "custom_symbols": [
+        {
+          "anchor": "async fn dispatch_initialized_client_request(",
+          "line": 985,
+          "source_line": "async fn dispatch_initialized_client_request("
+        },
+        {
+          "anchor": "async fn handle_initialized_client_request(",
+          "line": 1091,
+          "source_line": "async fn handle_initialized_client_request("
+        },
+        {
+          "anchor": "self.prepare_search_admission(",
+          "line": 1038,
+          "source_line": "let search_admission = self.prepare_search_admission(connection_id, &session, &codex_request).await?;"
+        },
+        {
+          "anchor": "mod search_admission;",
+          "line": 1940,
+          "source_line": "mod search_admission;"
+        }
+      ],
+      "intentional_delta": "Call receive-order search admission after initialized/experimental validation, carry its ticket through the existing queue, and route Start/Stop to admitted handlers while preserving handler/reply FIFO and execution-time auth checks.",
+      "pre_public_stop_sha256": "70bbd3f88dca7f7cc3f928ef4b168b828e7230db04e4109db192a04076234bdf",
+      "frozen_initial_adopted_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "first_compile_before_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "first_compile_after_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "after_visibility_fix_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "retry02_start_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "retry02_terminal_sha256": "f8d9ce76ab4d46b88455e2769c95c2b943bf657578b0c21f7993ded86126d037",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor/search_admission.rs",
+      "upstream_path_exists": false,
+      "direct_upstream_path": null,
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/message_processor.rs",
+        "codex-rs/app-server/src/connection_rpc_gate.rs"
+      ],
+      "custom_creation": true,
+      "classification": "custom adapter/ownership/test file",
+      "custom_symbols": [
+        {
+          "anchor": "pub(super) async fn prepare_search_admission(",
+          "line": 5,
+          "source_line": "pub(super) async fn prepare_search_admission("
+        }
+      ],
+      "intentional_delta": "New internal adapter executes only Start/Stop intent through the existing current-auth/closed RPC gate. Visibility-only fix permits its parent module to call the helper; no new public method or auth path.",
+      "pre_public_stop_sha256": null,
+      "frozen_initial_adopted_sha256": "ef5e43a3e240aed8a84eede3e6eced29eb98c9416638d88dc08b7f14cdf792ae",
+      "first_compile_before_sha256": "ef5e43a3e240aed8a84eede3e6eced29eb98c9416638d88dc08b7f14cdf792ae",
+      "first_compile_after_sha256": "ef5e43a3e240aed8a84eede3e6eced29eb98c9416638d88dc08b7f14cdf792ae",
+      "after_visibility_fix_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+      "retry02_start_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+      "retry02_terminal_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors.rs",
+      "upstream_path_exists": true,
+      "direct_upstream_path": "codex-rs/app-server/src/request_processors.rs",
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors.rs"
+      ],
+      "custom_creation": false,
+      "classification": "modified native-consumer path",
+      "custom_symbols": [
+        {
+          "anchor": "pub(crate) use search::SearchAdmission;",
+          "line": 597,
+          "source_line": "pub(crate) use search::SearchAdmission;"
+        }
+      ],
+      "intentional_delta": "Re-export the internal admission carrier to the dispatcher.",
+      "pre_public_stop_sha256": "edacdc289aea92a609aea4952fd6f4be390c1a20d0569a6856ebf7325d71047f",
+      "frozen_initial_adopted_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+      "first_compile_before_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+      "first_compile_after_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+      "after_visibility_fix_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+      "retry02_start_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+      "retry02_terminal_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "upstream_path_exists": true,
+      "direct_upstream_path": "codex-rs/app-server/src/request_processors/search.rs",
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs",
+        "codex-rs/app-server/src/fuzzy_file_search.rs"
+      ],
+      "custom_creation": false,
+      "classification": "modified native-consumer path",
+      "custom_symbols": [
+        {
+          "anchor": "async fn start_search(",
+          "line": 289,
+          "source_line": "async fn start_search("
+        },
+        {
+          "anchor": "ticket.accepted();",
+          "line": 324,
+          "source_line": "ticket.accepted();"
+        },
+        {
+          "anchor": "ticket.record_failure(&error);",
+          "line": 334,
+          "source_line": "ticket.record_failure(&error);"
+        },
+        {
+          "anchor": "ticket.record_failure(&error);",
+          "line": 375,
+          "source_line": "ticket.record_failure(&error);"
+        },
+        {
+          "anchor": "ticket.record_failure(&error);",
+          "line": 425,
+          "source_line": "ticket.record_failure(&error);"
+        },
+        {
+          "anchor": "ticket.complete(cleanup.clone());",
+          "line": 467,
+          "source_line": "ticket.complete(cleanup.clone());"
+        }
+      ],
+      "intentional_delta": "Transfer pre-poll ingress ownership into the existing retained startup task; preserve real quota refusal before restoring no-work ownership, bind outside locks, retain genuine startup/observed close errors, then publish exact cleanup receipt before response.",
+      "pre_public_stop_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+      "frozen_initial_adopted_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "first_compile_before_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "first_compile_after_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "after_visibility_fix_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "retry02_start_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "retry02_terminal_sha256": "bbf5029580e7ca394acb9785a82f99a0d8216820f996e7ac17c0f20e54a07ef4",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+      "upstream_path_exists": false,
+      "direct_upstream_path": null,
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "custom_creation": true,
+      "classification": "custom adapter/ownership/test file",
+      "custom_symbols": [
+        {
+          "anchor": "pub(super) const MAX_SEARCHES_PER_CONNECTION",
+          "line": 20,
+          "source_line": "pub(super) const MAX_SEARCHES_PER_CONNECTION: usize = 16;"
+        },
+        {
+          "anchor": "pub(super) incoming_starts:",
+          "line": 59,
+          "source_line": "pub(super) incoming_starts: Vec<std::sync::Weak<super::ingress::SearchStartIntent>>,"
+        }
+      ],
+      "intentional_delta": "Expose the existing custom connection search quota16 to the new front-door intent bound; add a bounded weak startup-intent registry to existing connection-owned state. This is not an upstream connection-state extraction in this slice.",
+      "pre_public_stop_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+      "frozen_initial_adopted_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+      "first_compile_before_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+      "first_compile_after_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+      "after_visibility_fix_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+      "retry02_start_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+      "retry02_terminal_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress.rs",
+      "upstream_path_exists": false,
+      "direct_upstream_path": null,
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs",
+        "codex-rs/app-server/src/message_processor.rs"
+      ],
+      "custom_creation": true,
+      "classification": "custom adapter/ownership/test file",
+      "custom_symbols": [
+        {
+          "anchor": "pub(crate) enum SearchAdmission",
+          "line": 10,
+          "source_line": "pub(crate) enum SearchAdmission {"
+        },
+        {
+          "anchor": "pub(super) struct SearchStartIntent",
+          "line": 16,
+          "source_line": "pub(super) struct SearchStartIntent {"
+        },
+        {
+          "anchor": "pub(crate) struct QueuedSearchStart",
+          "line": 71,
+          "source_line": "pub(crate) struct QueuedSearchStart {"
+        },
+        {
+          "anchor": "impl Drop for QueuedSearchStart",
+          "line": 96,
+          "source_line": "impl Drop for QueuedSearchStart {"
+        },
+        {
+          "anchor": "pub(crate) struct SearchStopIntent",
+          "line": 109,
+          "source_line": "pub(crate) struct SearchStopIntent(Vec<Arc<SearchStartIntent>>);"
+        },
+        {
+          "anchor": "pub(crate) fn admit_search_request(",
+          "line": 113,
+          "source_line": "pub(crate) fn admit_search_request("
+        },
+        {
+          "anchor": "pub(crate) async fn start_search_admitted(",
+          "line": 178,
+          "source_line": "pub(crate) async fn start_search_admitted("
+        },
+        {
+          "anchor": "pub(crate) async fn stop_search_admitted(",
+          "line": 191,
+          "source_line": "pub(crate) async fn stop_search_admitted("
+        }
+      ],
+      "intentional_delta": "New bounded per-connection receive-order intent/ticket/immutable receipt layer. Stop signals only already-received matching starts and exact current session; it later drains passive receipts and ordinary cleanup in existing FIFO. No provider-wide authority, extra owner task, tombstone, or wire method.",
+      "pre_public_stop_sha256": null,
+      "frozen_initial_adopted_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "first_compile_before_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "first_compile_after_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "after_visibility_fix_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "retry02_start_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "retry02_terminal_sha256": "f4653d6c666fce2b9e834a77f390d38bc6f32cac17a14ebe808debd22bae8325",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+      "upstream_path_exists": false,
+      "direct_upstream_path": null,
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "custom_creation": true,
+      "classification": "custom adapter/ownership/test file",
+      "custom_symbols": [
+        {
+          "anchor": "async fn ordinary_start_update_and_later_restart_still_use_fifo_and_real_native_search(",
+          "line": 20,
+          "source_line": "async fn ordinary_start_update_and_later_restart_still_use_fifo_and_real_native_search() {"
+        },
+        {
+          "anchor": "async fn closed_gate_and_wrong_connection_identity_cannot_issue_stop_intent(",
+          "line": 79,
+          "source_line": "async fn closed_gate_and_wrong_connection_identity_cannot_issue_stop_intent() {"
+        }
+      ],
+      "intentional_delta": "New real-native ordinary-query/FIFO/restart and closed-gate/connection-identity regression fixtures. They do not cover current-auth revocation or full public dispatcher transport.",
+      "pre_public_stop_sha256": null,
+      "frozen_initial_adopted_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "first_compile_before_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "first_compile_after_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "after_visibility_fix_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "retry02_start_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "retry02_terminal_sha256": "64c1c0d929e6cb495043f8b15ab50eef8f68cd3877d06bf8b8ec2034322f3888",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "upstream_path_exists": false,
+      "direct_upstream_path": null,
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "custom_creation": true,
+      "classification": "custom adapter/ownership/test file",
+      "custom_symbols": [
+        {
+          "anchor": "async fn stop_retains_real_capacity_refusal_even_though_start_admitted_no_work(",
+          "line": 197,
+          "source_line": "async fn stop_retains_real_capacity_refusal_even_though_start_admitted_no_work() {"
+        },
+        {
+          "anchor": "fn unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop(",
+          "line": 165,
+          "source_line": "fn unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop() {"
+        }
+      ],
+      "intentional_delta": "Six new actual-serialization-queue/controlled-owned-backend tests covering held startup Stop, prior queued starts and later generation, capacity refunds, original failure retention, pre-poll owner loss, and genuine engine quota refusal.",
+      "pre_public_stop_sha256": null,
+      "frozen_initial_adopted_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "first_compile_before_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "first_compile_after_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "after_visibility_fix_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "retry02_start_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "retry02_terminal_sha256": "9b0e91825f285e4aa65458a83e1767c151ac4455e07a1669ca50c3051edee8f2",
+      "tested_passed": true
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+      "upstream_path_exists": false,
+      "direct_upstream_path": null,
+      "related_upstream_anchor_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "custom_creation": true,
+      "classification": "custom adapter/ownership/test file",
+      "custom_symbols": [
+        {
+          "anchor": "pub(super) fn processor(",
+          "line": 21,
+          "source_line": "pub(super) fn processor() -> ("
+        }
+      ],
+      "intentional_delta": "Only widen the existing native fixture helper to its parent module for the new regression module; existing assertions and fixture behavior unchanged.",
+      "pre_public_stop_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+      "frozen_initial_adopted_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+      "first_compile_before_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+      "first_compile_after_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+      "after_visibility_fix_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+      "retry02_start_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+      "retry02_terminal_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+      "tested_passed": true
+    }
+  ],
+  "ownership_boundary": {
+    "host_adapter": "MessageProcessor authenticates ordered intent; serialization queue retains handler/reply ordering. SearchConnectionState owns weak admission registry; each queued Start alone owns its pre-poll completion ticket.",
+    "component_boundary": "Existing FileSearchScope/PendingFileSearchStart and SearchStartControl own exact backend admission/cancellation/cleanup; Stop carries passive receipts/control capabilities, never cleanup authority.",
+    "cancellation_scope": "Exact connection and session ID, covering already received queued/Starting requests plus matching current session; later Starts receive fresh uncancelled tickets.",
+    "bounds": "At most16 live queued/starting intent records per connection and at most16 prior receipts per Stop bundle; IDs use existing256-byte validation. This is new earlier backpressure, separate from engine quota/refund.",
+    "startup_shutdown": "Admission gate/fences precede controls; accepted ticket loss reports Unconfirmed; never-polled/no-work ticket loss does not invent backend admission. Cancellation/control calls happen outside connection mutex.",
+    "errors": "Shared SearchStartCause retains first genuine operation error; immutable receipt separately retains cleanup result. Quota refusal is recorded before restoring known-no-work ownership."
+  },
+  "ordering_provenance": {
+    "upstream": "Start/Update/Stop were experimental RPCs with fuzzy_session_id serialization and Exclusive queue access. Upstream RequestSerializationQueueKey keyed fuzzy sessions by session_id only, without connection_id.",
+    "prior_custom_change": "Earlier App Server extraction added connection identity, connection-owned scopes, bounded backend admission and retained cleanup before this slice.",
+    "new_custom_change": "Receive-order authenticated cancellation intent is added before the existing custom connection/session FIFO queue; ordinary Start/Update/Stop handlers and replies remain FIFO.",
+    "unchanged_wire_paths": [
+      "codex-rs/app-server-protocol/src/protocol/common.rs"
+    ],
+    "reader_context_paths": [
+      "codex-rs/app-server/src/lib.rs",
+      "codex-rs/app-server/src/in_process.rs"
+    ]
+  },
+  "source_artifacts": {
+    "manifest": {
+      "path": "/tmp/p02b-public-search-stop-admission-stage/FINAL_MANIFEST.json",
+      "sha256": "1749f435cd878a0a092e6e08bdd47dbb1e451c8f34ef1c5e41d786b4d955f641"
+    },
+    "adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-public-stop-adoption.json",
+      "sha256": "f4af376d0918d7e6e68d7b9d8554e8b7d1fe55e367c4196b582a0473878c8e7e"
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-public-stop-proposed.tar.gz",
+      "sha256": "64bdf94d64b8cbede8180babe291b210d5e43ebd3a9ade3350ee935993e19ca1"
+    },
+    "all_ten_archive_source_members_independently_verified": true,
+    "independent_static_review": {
+      "path": "/tmp/p02b-public-stop-independent-review.md",
+      "sha256": "e96682749ea28945d2276b98f1dd0faf21e3551f27a9e2bb4c6fa263726c87de"
+    }
+  },
+  "visibility_fix": {
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server/src/message_processor/search_admission.rs",
+    "before_sha256": "ef5e43a3e240aed8a84eede3e6eced29eb98c9416638d88dc08b7f14cdf792ae",
+    "after_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+    "change": "parent-only visibility for prepare_search_admission, fixing compiler E0624; no behavior/assertion change",
+    "failed_report": "/workspace/acceptance/p02b-public-stop-consumer-tests.source.json",
+    "failed_tests_executed": 0,
+    "report": {
+      "path": "/workspace/acceptance/p02b-public-stop-visibility-fix.json",
+      "sha256": "d59c42ebab0334525b3b5daa8b886e19b4bc80a06921abe6b35a22afc39c580e"
+    },
+    "exact_single_visibility_substitution_verified": true
+  },
+  "validation": {
+    "first_compile_source_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests.source.json",
+      "sha256": "62565ce07e3d685fcaedaee9049317ed6f6f3953a5e43569efd7bdbf3fd9dd9b"
+    },
+    "first_compile_log": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests.log",
+      "sha256": "f5ade2c1014730514e8163ff60dfa0e1f2adce9a9fa8e91b9b9e0b345f5a861b"
+    },
+    "first_compile_subreaper": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests.subreaper.json",
+      "sha256": "7a93e91a0033b682d8dcb4f044c34e57689a3a02c1a064f4adc0d399b95477db"
+    },
+    "first_compile_exit_code": 101,
+    "first_compile_tests_executed": 0,
+    "first_compile_source_unchanged": true,
+    "first_compile_reason": "E0624: prepare_search_admission was private to child module; parent dispatcher could not call it.",
+    "retry02": {
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.source.json",
+        "sha256": "6624ca835e70a942cdd817c51fdc2bf41a6e2f78f2419928bf9fc3c87373e2c8"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.log",
+        "sha256": "3cb9a680627bc87e3377152afdfede37c0773bc7206abd8522db801b7d86ee4c"
+      },
+      "subreaper_report": {
+        "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.subreaper.json",
+        "sha256": "1524635d8767ee6305b23d1005451d4ac6d92e0c3d37b12562ce8f1b0cb33391"
+      },
+      "observed_status": "finished",
+      "started_utc": "2026-10-01T11:52:02Z",
+      "finished_utc": "2026-10-01T12:02:46Z",
+      "command": [
+        "python3",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-public-stop-consumer-tests-02.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-app-server-client",
+        "-p",
+        "codex-tui",
+        "--lib"
+      ],
+      "source_before_entries": 10148,
+      "source_before_canonical_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7",
+      "source_after_entries": 10148,
+      "source_after_canonical_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7",
+      "scoped_source_unchanged": true,
+      "terminal_result": {
+        "returncode": 0,
+        "executed": 6095,
+        "passed": 6095,
+        "failed": 0,
+        "skipped": 4,
+        "per_binary": {
+          "codex-app-server": {
+            "pass": 426
+          },
+          "codex-app-server-client": {
+            "pass": 42
+          },
+          "codex-tui": {
+            "pass": 5627
+          }
+        }
+      },
+      "note": "Combined library gate only; excludes the codex-tui::all integration target and does not bind a full Codex CLI artifact."
+    },
+    "runner": {
+      "path": "component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "unchanged_across_first_before_after_and_retry_start": true
+    },
+    "authored_tests": [
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "name": "stop_intent_crosses_held_start_queue_but_its_reply_waits_for_real_cleanup",
+        "line": 53,
+        "status": "PASS",
+        "seconds": 0.018,
+        "ordinal": 264,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_tests::stop_intent_crosses_held_start_queue_but_its_reply_waits_for_real_cleanup",
+        "log_line": 277
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "name": "stop_latches_all_prior_queued_starts_but_never_a_later_start",
+        "line": 90,
+        "status": "PASS",
+        "seconds": 0.019,
+        "ordinal": 265,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_tests::stop_latches_all_prior_queued_starts_but_never_a_later_start",
+        "log_line": 278
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "name": "intent_capacity_refunds_unpolled_requests_and_stop_remains_admissible",
+        "line": 123,
+        "status": "PASS",
+        "seconds": 0.019,
+        "ordinal": 262,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_tests::intent_capacity_refunds_unpolled_requests_and_stop_remains_admissible",
+        "log_line": 275
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "name": "queued_stop_retains_original_failed_start_receipt_after_entry_removal",
+        "line": 143,
+        "status": "PASS",
+        "seconds": 0.018,
+        "ordinal": 263,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_tests::queued_stop_retains_original_failed_start_receipt_after_entry_removal",
+        "log_line": 276
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "name": "unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop",
+        "line": 164,
+        "status": "PASS",
+        "seconds": 0.016,
+        "ordinal": 267,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_tests::unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop",
+        "log_line": 280
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "name": "stop_retains_real_capacity_refusal_even_though_start_admitted_no_work",
+        "line": 196,
+        "status": "PASS",
+        "seconds": 0.02,
+        "ordinal": 266,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_tests::stop_retains_real_capacity_refusal_even_though_start_admitted_no_work",
+        "log_line": 279
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+        "name": "ordinary_start_update_and_later_restart_still_use_fifo_and_real_native_search",
+        "line": 19,
+        "status": "PASS",
+        "seconds": 0.033,
+        "ordinal": 261,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_regression_tests::ordinary_start_update_and_later_restart_still_use_fifo_and_real_native_search",
+        "log_line": 274
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+        "name": "closed_gate_and_wrong_connection_identity_cannot_issue_stop_intent",
+        "line": 78,
+        "status": "PASS",
+        "seconds": 0.022,
+        "ordinal": 260,
+        "reported_total": 6095,
+        "binary": "codex-app-server",
+        "test": "request_processors::search::ingress_regression_tests::closed_gate_and_wrong_connection_identity_cannot_issue_stop_intent",
+        "log_line": 273
+      }
+    ],
+    "between_combined_runs_changes": [
+      {
+        "path": "codex-rs/app-server/src/message_processor/search_admission.rs",
+        "before_sha256": "ef5e43a3e240aed8a84eede3e6eced29eb98c9416638d88dc08b7f14cdf792ae",
+        "after_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95"
+      }
+    ],
+    "prior_failed_library_test_source_unchanged": {
+      "codex-rs/tui/src/app/tests/session_lifecycle_requests.rs": "fd6b3ba9892350d12eddcb83fe77e8886805d3fda17c9d79439d008d5f03e529",
+      "codex-rs/tui/src/app/thread_title_tests.rs": "f80b2de01f47643f88af2a929f3121d42d4b5c09fdba74a7158cddd2132a5fb4",
+      "codex-rs/tui/src/app_server_session.rs": "bce7b8d8a162ea4ef54f7406394b8d14349b9a6e73a2bba7f8e4f053f1a2b7b7",
+      "codex-rs/tui/src/custom_terminal/tests/cursor_tests.rs": "81fa47b9d845d494a7f4c28a48e2ea76d8b22ce2551cfb6a76d5e0ad954b2e6e",
+      "codex-rs/tui/src/status/tests.rs": "3fa6421977e18cf5aedafee6808c2db1b1b9ddc98a5a1c524ff3a5f6c0b85e0e",
+      "codex-rs/tui/src/lib.rs": "47e5a99de4c43f8867081a337c30972918d8cd232dee36519911ea39bc8294ac"
+    }
+  },
+  "limits": [
+    "This is a lifecycle/dispatcher adapter correction on the already selected file-search component, not a newly extracted native subsystem.",
+    "First combined compile failed E0624 with zero tests; corrected combined library gate results are bound to exact source reports below. Full/integration/runtime gates remain separate.",
+    "Earlier460 AS/client tests and TUI retry02 results predate this public Stop change and do not validate it.",
+    "Eight new tests exercised actual serialization queues and controlled backend ownership, with one real-native normal-query case. They do not prove complete public JSON-RPC dispatcher, current-auth revocation, native constructor cancellation, or GUI/browser behavior.",
+    "Known Ready-session nested-close helper owner-loss window remains: first errors inside an existing close helper may be lost before the helper returns. This slice records startup cause before publisher cleanup and close errors only once helpers return.",
+    "GUI legacy one-shot token cancellation is unchanged and requires its separate real-host/browser gate.",
+    "Wire schemas/methods and native worker protocol remain unchanged by these ten files; early Stop intent is not a Joined receipt."
+  ],
+  "publication": {
+    "status": "not published by this draft",
+    "implementation_commit": null
+  },
+  "durability": "Input archive and raw reports are cloud-local; this draft does not claim external archive export."
+}

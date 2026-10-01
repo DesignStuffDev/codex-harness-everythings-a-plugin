@@ -1,0 +1,589 @@
+{
+  "schema_version": 1,
+  "status": "combined_library_gate_passed; full CLI/integration/installed/UI acceptance pending",
+  "first_compile": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests.source.json",
+      "sha256": "62565ce07e3d685fcaedaee9049317ed6f6f3953a5e43569efd7bdbf3fd9dd9b"
+    },
+    "log": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests.log",
+      "sha256": "f5ade2c1014730514e8163ff60dfa0e1f2adce9a9fa8e91b9b9e0b345f5a861b"
+    },
+    "subreaper_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests.subreaper.json",
+      "sha256": "7a93e91a0033b682d8dcb4f044c34e57689a3a02c1a064f4adc0d399b95477db"
+    },
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p02b-public-stop-consumer-tests.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "just",
+      "test",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-app-server",
+      "-p",
+      "codex-app-server-client",
+      "-p",
+      "codex-tui",
+      "--lib"
+    ],
+    "started_utc": "2026-10-01T11:40:55Z",
+    "finished_utc": "2026-10-01T11:45:08Z",
+    "returncode": 101,
+    "executed_tests": 0,
+    "source_unchanged": true,
+    "failure": "E0624 method visibility",
+    "runner": {
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-app-server-client",
+        "-p",
+        "codex-tui",
+        "--lib"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 665242,
+          "wait_status": 25856,
+          "returncode": 101
+        }
+      ],
+      "command_pid": 665242,
+      "command_wait_status": 25856,
+      "command_returncode": 101,
+      "runner_error": null,
+      "exit_status": 101,
+      "elapsed_seconds": 251.3066524020105
+    }
+  },
+  "visibility_fix": {
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server/src/message_processor/search_admission.rs",
+    "before_sha256": "ef5e43a3e240aed8a84eede3e6eced29eb98c9416638d88dc08b7f14cdf792ae",
+    "after_sha256": "7a7e14e6d3fb4a813def10182b76ad7337f3b65860ed8d0049ef14fbd69f5a95",
+    "change": "parent-only visibility for prepare_search_admission, fixing compiler E0624; no behavior/assertion change",
+    "failed_report": "/workspace/acceptance/p02b-public-stop-consumer-tests.source.json",
+    "failed_tests_executed": 0,
+    "report": {
+      "path": "/workspace/acceptance/p02b-public-stop-visibility-fix.json",
+      "sha256": "d59c42ebab0334525b3b5daa8b886e19b4bc80a06921abe6b35a22afc39c580e"
+    },
+    "exact_single_visibility_substitution_verified": true
+  },
+  "retry02": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.source.json",
+      "sha256": "6624ca835e70a942cdd817c51fdc2bf41a6e2f78f2419928bf9fc3c87373e2c8"
+    },
+    "log": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.log",
+      "sha256": "3cb9a680627bc87e3377152afdfede37c0773bc7206abd8522db801b7d86ee4c"
+    },
+    "subreaper_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.subreaper.json",
+      "sha256": "1524635d8767ee6305b23d1005451d4ac6d92e0c3d37b12562ce8f1b0cb33391"
+    },
+    "observed_status": "finished",
+    "started_utc": "2026-10-01T11:52:02Z",
+    "finished_utc": "2026-10-01T12:02:46Z",
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p02b-public-stop-consumer-tests-02.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "just",
+      "test",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-app-server",
+      "-p",
+      "codex-app-server-client",
+      "-p",
+      "codex-tui",
+      "--lib"
+    ],
+    "source_before_entries": 10148,
+    "source_before_canonical_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7",
+    "source_after_entries": 10148,
+    "source_after_canonical_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7",
+    "scoped_source_unchanged": true,
+    "terminal_result": {
+      "returncode": 0,
+      "executed": 6095,
+      "passed": 6095,
+      "failed": 0,
+      "skipped": 4,
+      "per_binary": {
+        "codex-app-server": {
+          "pass": 426
+        },
+        "codex-app-server-client": {
+          "pass": 42
+        },
+        "codex-tui": {
+          "pass": 5627
+        }
+      }
+    },
+    "note": "Combined library gate only; excludes the codex-tui::all integration target and does not bind a full Codex CLI artifact."
+  },
+  "authored_tests": [
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "name": "stop_intent_crosses_held_start_queue_but_its_reply_waits_for_real_cleanup",
+      "line": 53,
+      "status": "PASS",
+      "seconds": 0.018,
+      "ordinal": 264,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_tests::stop_intent_crosses_held_start_queue_but_its_reply_waits_for_real_cleanup",
+      "log_line": 277
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "name": "stop_latches_all_prior_queued_starts_but_never_a_later_start",
+      "line": 90,
+      "status": "PASS",
+      "seconds": 0.019,
+      "ordinal": 265,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_tests::stop_latches_all_prior_queued_starts_but_never_a_later_start",
+      "log_line": 278
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "name": "intent_capacity_refunds_unpolled_requests_and_stop_remains_admissible",
+      "line": 123,
+      "status": "PASS",
+      "seconds": 0.019,
+      "ordinal": 262,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_tests::intent_capacity_refunds_unpolled_requests_and_stop_remains_admissible",
+      "log_line": 275
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "name": "queued_stop_retains_original_failed_start_receipt_after_entry_removal",
+      "line": 143,
+      "status": "PASS",
+      "seconds": 0.018,
+      "ordinal": 263,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_tests::queued_stop_retains_original_failed_start_receipt_after_entry_removal",
+      "log_line": 276
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "name": "unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop",
+      "line": 164,
+      "status": "PASS",
+      "seconds": 0.016,
+      "ordinal": 267,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_tests::unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop",
+      "log_line": 280
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+      "name": "stop_retains_real_capacity_refusal_even_though_start_admitted_no_work",
+      "line": 196,
+      "status": "PASS",
+      "seconds": 0.02,
+      "ordinal": 266,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_tests::stop_retains_real_capacity_refusal_even_though_start_admitted_no_work",
+      "log_line": 279
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+      "name": "ordinary_start_update_and_later_restart_still_use_fifo_and_real_native_search",
+      "line": 19,
+      "status": "PASS",
+      "seconds": 0.033,
+      "ordinal": 261,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_regression_tests::ordinary_start_update_and_later_restart_still_use_fifo_and_real_native_search",
+      "log_line": 274
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+      "name": "closed_gate_and_wrong_connection_identity_cannot_issue_stop_intent",
+      "line": 78,
+      "status": "PASS",
+      "seconds": 0.022,
+      "ordinal": 260,
+      "reported_total": 6095,
+      "binary": "codex-app-server",
+      "test": "request_processors::search::ingress_regression_tests::closed_gate_and_wrong_connection_identity_cannot_issue_stop_intent",
+      "log_line": 273
+    }
+  ],
+  "limits": [
+    "This is a lifecycle/dispatcher adapter correction on the already selected file-search component, not a newly extracted native subsystem.",
+    "First combined compile failed E0624 with zero tests; corrected combined library gate results are bound to exact source reports below. Full/integration/runtime gates remain separate.",
+    "Earlier460 AS/client tests and TUI retry02 results predate this public Stop change and do not validate it.",
+    "Eight new tests exercised actual serialization queues and controlled backend ownership, with one real-native normal-query case. They do not prove complete public JSON-RPC dispatcher, current-auth revocation, native constructor cancellation, or GUI/browser behavior.",
+    "Known Ready-session nested-close helper owner-loss window remains: first errors inside an existing close helper may be lost before the helper returns. This slice records startup cause before publisher cleanup and close errors only once helpers return.",
+    "GUI legacy one-shot token cancellation is unchanged and requires its separate real-host/browser gate.",
+    "Wire schemas/methods and native worker protocol remain unchanged by these ten files; early Stop intent is not a Joined receipt."
+  ],
+  "required_before_acceptance": [
+    "Preserve this combined library result separately from prior failed full-TUI evidence.",
+    "Record scoped lint/format as separate gates and any source differences.",
+    "Build and hash new full host; bind CARGO_BIN_EXE_codex and rerun complete TUI integration/full gate, including all5 prior integration failures.",
+    "Run actual installed-worker public Start/Stop/sibling/error/uncertainty acceptance.",
+    "Keep native constructor cancellation and graphical GUI/browser proof separate."
+  ],
+  "retry02_runner": {
+    "subreaper": true,
+    "command_pid": 666151,
+    "command_returncode": 0,
+    "exit_status": 0,
+    "runner_error": null,
+    "elapsed_seconds": 641.8971776179969,
+    "reaped_entries": 621,
+    "adopted_descendant_entries": 620,
+    "returncode_histogram": {
+      "-13": 302,
+      "-9": 1,
+      "0": 156,
+      "128": 139,
+      "141": 23
+    },
+    "claim_limit": "Recorded reaping and test result; do not describe nonzero descendant statuses as all-zero lifecycle proof."
+  },
+  "environment_context": {
+    "preflight": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.preflight.json",
+      "sha256": "167f552a48257a933346e666dc1a68a0c174c45105f0eeb90ef586e73c76fe7d"
+    },
+    "observed": {
+      "free_bytes": {
+        "/workspace": 1974398976,
+        "/tmp": 2886619136,
+        "/dev/shm": 8905162752
+      },
+      "memory": {
+        "anon": 441241600,
+        "shmem": 7113482240,
+        "kernel": 1351208960,
+        "inactive_file": 1521217536,
+        "active_file": 4248494080
+      },
+      "preparing_visibility_fix": "p02b-public-stop-visibility-fix.json",
+      "NO_COLOR": "unset",
+      "build_jobs": 1,
+      "test_threads": 2,
+      "strict_runner_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+    },
+    "earlier_tui_context": "Prior TUI retry02 observed NO_COLOR=1, TERM=dumb and resource failures. This combined gate uses env -u NO_COLOR and recovered temporary space; test-source hash checks show the12 formerly failed library assertions were not changed."
+  },
+  "prior_17_tui_failures": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.source.json",
+      "sha256": "d687c38619c699ffd242da2da3a8705b2007efc7388ed81ea94d356dcfa66545"
+    },
+    "mapping": [
+      {
+        "test": "app::tests::session_lifecycle_requests::remote_legacy_history_start_retries_unsupported_paginated_variant",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 888,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.332,
+          "ordinal": 1282,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "app::tests::session_lifecycle_requests::remote_legacy_history_start_retries_unsupported_paginated_variant",
+          "log_line": 1296
+        }
+      },
+      {
+        "test": "app::tests::session_lifecycle_requests::remote_legacy_history_start_negotiates_once_for_resume_and_fork",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 907,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.712,
+          "ordinal": 1283,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "app::tests::session_lifecycle_requests::remote_legacy_history_start_negotiates_once_for_resume_and_fork",
+          "log_line": 1297
+        }
+      },
+      {
+        "test": "app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 1085,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.492,
+          "ordinal": 1439,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server",
+          "log_line": 1453
+        }
+      },
+      {
+        "test": "app_server_session::tests::connected_thread_start_preserves_flex_without_catalog_support",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 1184,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.601,
+          "ordinal": 1517,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "app_server_session::tests::connected_thread_start_preserves_flex_without_catalog_support",
+          "log_line": 1531
+        }
+      },
+      {
+        "test": "custom_terminal::tests::cursor::terminal_draw_omits_cursor_style_without_an_owned_glyph",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 3615,
+        "previous_diagnostic_category": "terminal_render_assertion",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.037,
+          "ordinal": 3932,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "custom_terminal::tests::cursor::terminal_draw_omits_cursor_style_without_an_owned_glyph",
+          "log_line": 3946
+        }
+      },
+      {
+        "test": "custom_terminal::tests::cursor::terminal_draw_repairs_styled_anchor_on_cursor_only_frames",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 3641,
+        "previous_diagnostic_category": "terminal_render_assertion",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.033,
+          "ordinal": 3936,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "custom_terminal::tests::cursor::terminal_draw_repairs_styled_anchor_on_cursor_only_frames",
+          "log_line": 3950
+        }
+      },
+      {
+        "test": "custom_terminal::tests::cursor::terminal_draw_repairs_single_column_without_scrolling",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 3671,
+        "previous_diagnostic_category": "terminal_render_assertion",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.049,
+          "ordinal": 3935,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "custom_terminal::tests::cursor::terminal_draw_repairs_single_column_without_scrolling",
+          "log_line": 3949
+        }
+      },
+      {
+        "test": "custom_terminal::tests::cursor::terminal_draw_repairs_owned_wide_hyperlink_after_skipped_glyphs",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 3710,
+        "previous_diagnostic_category": "terminal_render_assertion",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.044,
+          "ordinal": 3934,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "custom_terminal::tests::cursor::terminal_draw_repairs_owned_wide_hyperlink_after_skipped_glyphs",
+          "log_line": 3948
+        }
+      },
+      {
+        "test": "status::tests::status_snapshot_shows_chatgpt_plan_without_email",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 5151,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.3,
+          "ordinal": 5353,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "status::tests::status_snapshot_shows_chatgpt_plan_without_email",
+          "log_line": 5367
+        }
+      },
+      {
+        "test": "tests::latest_session_lookup_falls_back_for_rollout_missing_from_state_db",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 5439,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.185,
+          "ordinal": 5619,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "tests::latest_session_lookup_falls_back_for_rollout_missing_from_state_db",
+          "log_line": 5633
+        }
+      },
+      {
+        "test": "tests::startup_resume_and_fork_use_configured_or_explicit_cwd",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 5475,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 1.701,
+          "ordinal": 5671,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "tests::startup_resume_and_fork_use_configured_or_explicit_cwd",
+          "log_line": 5685
+        }
+      },
+      {
+        "test": "tests::server_account_requirement_controls_login_screen",
+        "previous_binary": "codex-tui",
+        "previous_status": "FAIL",
+        "previous_log_line": 5496,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "combined --lib, executed",
+        "current": {
+          "status": "PASS",
+          "seconds": 0.367,
+          "ordinal": 5627,
+          "reported_total": 6095,
+          "binary": "codex-tui",
+          "test": "tests::server_account_requirement_controls_login_screen",
+          "log_line": 5641
+        }
+      },
+      {
+        "test": "suite::focus_palette::external_editor::external_editors_keep_the_screen_and_return_the_draft",
+        "previous_binary": "codex-tui::all",
+        "previous_status": "FAIL",
+        "previous_log_line": 5978,
+        "previous_diagnostic_category": "child_exit_1",
+        "current_scope": "integration target excluded by --lib",
+        "current_status": "NOT_EXECUTED",
+        "next_gate": "New full Codex CLI bound through CARGO_BIN_EXE_codex, then complete TUI integration/full gate."
+      },
+      {
+        "test": "suite::daemon_compatibility::incompatible_daemon_falls_back_for_default_and_explicit_features",
+        "previous_binary": "codex-tui::all",
+        "previous_status": "FAIL",
+        "previous_log_line": 5995,
+        "previous_diagnostic_category": "child_exit_1",
+        "current_scope": "integration target excluded by --lib",
+        "current_status": "NOT_EXECUTED",
+        "next_gate": "New full Codex CLI bound through CARGO_BIN_EXE_codex, then complete TUI integration/full gate."
+      },
+      {
+        "test": "suite::focus_palette::no_daemon_skips_startup_and_discovery",
+        "previous_binary": "codex-tui::all",
+        "previous_status": "FAIL",
+        "previous_log_line": 6012,
+        "previous_diagnostic_category": "child_exit_1",
+        "current_scope": "integration target excluded by --lib",
+        "current_status": "NOT_EXECUTED",
+        "next_gate": "New full Codex CLI bound through CARGO_BIN_EXE_codex, then complete TUI integration/full gate."
+      },
+      {
+        "test": "suite::provider_defaults::history_lookup_uses_server_provider_with_local_and_embedded_servers",
+        "previous_binary": "codex-tui::all",
+        "previous_status": "FAIL",
+        "previous_log_line": 6028,
+        "previous_diagnostic_category": "missing_cli_fixture",
+        "current_scope": "integration target excluded by --lib",
+        "current_status": "NOT_EXECUTED",
+        "next_gate": "New full Codex CLI bound through CARGO_BIN_EXE_codex, then complete TUI integration/full gate."
+      },
+      {
+        "test": "suite::worktree_stack::picker_side_worktree_fork_and_cd_run_on_the_production_stack",
+        "previous_binary": "codex-tui::all",
+        "previous_status": "FAIL",
+        "previous_log_line": 6062,
+        "previous_diagnostic_category": "storage_or_io_error",
+        "current_scope": "integration target excluded by --lib",
+        "current_status": "NOT_EXECUTED",
+        "next_gate": "New full Codex CLI bound through CARGO_BIN_EXE_codex, then complete TUI integration/full gate."
+      }
+    ],
+    "executed_library_cases": 12,
+    "excluded_integration_cases": 5,
+    "unchanged_library_test_file_hashes": {
+      "codex-rs/tui/src/app/tests/session_lifecycle_requests.rs": "fd6b3ba9892350d12eddcb83fe77e8886805d3fda17c9d79439d008d5f03e529",
+      "codex-rs/tui/src/app/thread_title_tests.rs": "f80b2de01f47643f88af2a929f3121d42d4b5c09fdba74a7158cddd2132a5fb4",
+      "codex-rs/tui/src/app_server_session.rs": "bce7b8d8a162ea4ef54f7406394b8d14349b9a6e73a2bba7f8e4f053f1a2b7b7",
+      "codex-rs/tui/src/custom_terminal/tests/cursor_tests.rs": "81fa47b9d845d494a7f4c28a48e2ea76d8b22ce2551cfb6a76d5e0ad954b2e6e",
+      "codex-rs/tui/src/status/tests.rs": "3fa6421977e18cf5aedafee6808c2db1b1b9ddc98a5a1c524ff3a5f6c0b85e0e",
+      "codex-rs/tui/src/lib.rs": "47e5a99de4c43f8867081a337c30972918d8cd232dee36519911ea39bc8294ac"
+    },
+    "summary": "Only the12 library cases are exercised by this command. The5 integration failures remain pending the full CLI/integration gate."
+  }
+}

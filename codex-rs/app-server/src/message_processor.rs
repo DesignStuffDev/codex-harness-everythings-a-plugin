@@ -42,6 +42,7 @@ use crate::request_processors::PluginRequestProcessor;
 use crate::request_processors::ProcessExecRequestProcessor;
 use crate::request_processors::ProjectRequestProcessor;
 use crate::request_processors::RemoteControlRequestProcessor;
+use crate::request_processors::SearchAdmission;
 use crate::request_processors::SearchConnectionState;
 use crate::request_processors::SearchRequestProcessor;
 use crate::request_processors::ThreadGoalRequestProcessor;
@@ -1034,6 +1035,9 @@ impl MessageProcessor {
             ),
             _ => None,
         };
+        let search_admission = self
+            .prepare_search_admission(connection_id, &session, &codex_request)
+            .await?;
         let serialization_scope = codex_request.serialization_scope();
         let error_request_id = connection_request_id.clone();
         let rpc_gate = Arc::clone(&session.rpc_gate);
@@ -1062,6 +1066,7 @@ impl MessageProcessor {
                             request_context,
                             session,
                             event_stream_ready,
+                            search_admission,
                         ),
                     ))
                     .await;
@@ -1092,6 +1097,7 @@ impl MessageProcessor {
         request_context: RequestContext,
         session: Arc<ConnectionSessionState>,
         event_stream_ready: Option<McpEventStreamReady>,
+        search_admission: SearchAdmission,
     ) -> Result<(), JSONRPCErrorError> {
         let connection_id = connection_request_id.connection_id;
         let app_server_client_name = session.app_server_client_name().map(str::to_string);
@@ -1837,10 +1843,11 @@ impl MessageProcessor {
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionStart { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_start_response(
+                .start_search_admitted(
                     connection_id,
                     Arc::clone(&session.searches),
                     params,
+                    search_admission,
                 )
                 .await
                 .map(|response| Some(response.into())),
@@ -1855,10 +1862,11 @@ impl MessageProcessor {
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionStop { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_stop(
+                .stop_search_admitted(
                     connection_id,
                     Arc::clone(&session.searches),
                     params,
+                    search_admission,
                 )
                 .await
                 .map(|response| Some(response.into())),
@@ -1929,3 +1937,6 @@ mod message_processor_tracing_tests;
 #[cfg(test)]
 #[path = "message_processor_gateway_oauth_tests.rs"]
 mod gateway_oauth_tests;
+
+#[path = "message_processor/search_admission.rs"]
+mod search_admission;

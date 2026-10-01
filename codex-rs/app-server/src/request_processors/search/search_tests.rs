@@ -13,11 +13,12 @@ use codex_file_search_runtime::FileSearchProvider;
 use codex_file_search_runtime::RuntimePolicy;
 use pretty_assertions::assert_eq;
 use std::num::NonZeroUsize;
+use std::sync::atomic::Ordering;
 use tokio::sync::mpsc;
 use tokio::time::Duration;
 use tokio::time::timeout;
 
-fn processor() -> (
+pub(super) fn processor() -> (
     SearchRequestProcessor,
     mpsc::Receiver<OutgoingEnvelope>,
     FileSearchProvider,
@@ -283,7 +284,10 @@ async fn same_token_cancels_only_its_connection_and_old_guard_cannot_remove_new_
     // not depend on whether a tiny filesystem traversal wins a timing race.
     let mut guards = Vec::new();
     for connection in [&first, &second] {
-        let flag = Arc::new(AtomicBool::new(false));
+        let flag = Arc::new(PendingSearchObserver::new(
+            Arc::new(AtomicBool::new(false)),
+            tokio_util::sync::CancellationToken::new(),
+        ));
         let id = {
             let mut state = connection.state.lock().expect("state");
             let id = state.admit().expect("admission");
@@ -311,13 +315,19 @@ async fn same_token_cancels_only_its_connection_and_old_guard_cannot_remove_new_
         .await
         .expect("empty search cancels its token without another slot");
     assert_eq!(response, FuzzyFileSearchResponse { files: Vec::new() });
-    assert!(guards[0].cancellation.load(Ordering::Acquire));
-    assert!(!guards[1].cancellation.load(Ordering::Acquire));
+    assert!(guards[0].cancellation.cancellation_requested());
+    assert!(!guards[1].cancellation.cancellation_requested());
     let successor = {
         let mut state = first.state.lock().expect("state");
         let id = state.admit().expect("successor admission");
         state.tokens.insert("same-token".into(), id);
-        state.one_shots.insert(id, Arc::new(AtomicBool::new(false)));
+        state.one_shots.insert(
+            id,
+            Arc::new(PendingSearchObserver::new(
+                Arc::new(AtomicBool::new(false)),
+                tokio_util::sync::CancellationToken::new(),
+            )),
+        );
         id
     };
     drop(guards.remove(0));
@@ -407,12 +417,30 @@ async fn cancellation_remains_available_at_capacity_without_releasing_existing_l
         let mut state = connection.state.lock().expect("state");
         let first_id = state.admit().expect("predecessor admission");
         state.tokens.insert("same-token".into(), first_id);
-        state.one_shots.insert(first_id, Arc::clone(&predecessor));
+        state.one_shots.insert(
+            first_id,
+            Arc::new(PendingSearchObserver::new(
+                Arc::clone(&predecessor),
+                tokio_util::sync::CancellationToken::new(),
+            )),
+        );
         let unrelated_id = state.admit().expect("unrelated admission");
         state.tokens.insert("other-token".into(), unrelated_id);
-        state.one_shots.insert(unrelated_id, Arc::clone(&unrelated));
+        state.one_shots.insert(
+            unrelated_id,
+            Arc::new(PendingSearchObserver::new(
+                Arc::clone(&unrelated),
+                tokio_util::sync::CancellationToken::new(),
+            )),
+        );
         while let Ok(id) = state.admit() {
-            state.one_shots.insert(id, Arc::new(AtomicBool::new(false)));
+            state.one_shots.insert(
+                id,
+                Arc::new(PendingSearchObserver::new(
+                    Arc::new(AtomicBool::new(false)),
+                    tokio_util::sync::CancellationToken::new(),
+                )),
+            );
         }
         (first_id, state.one_shots.len())
     };

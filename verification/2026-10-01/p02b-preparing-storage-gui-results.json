@@ -1,0 +1,1036 @@
+{
+  "schema": "codex-component-new-host-storage-gui-evidence-v1",
+  "status": "Passed: reused storage, manual migration, and normal selected-search GUI with two real launcher SIGINT cycles",
+  "created_utc": "2026-10-01T12:44:16.902097+00:00",
+  "privacy": "Selected result fields, hashes, numeric process identities and raw wait statuses only. Private launch URLs, credentials, config, argv, environment, stdout/stderr and complete protocol transcripts omitted. Screenshots audited without copying/publishing.",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "source_binding": {
+    "build_report": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-build.source.json",
+      "sha256": "07cb4d4cd885e04b23b5f91254014e69409e2d8895118d0ca2b28692f148bdb6",
+      "bytes": 2822507
+    },
+    "artifact_binding": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-artifact.json",
+      "sha256": "deebb4edf5c62ee290fc9252a08c27d96c8a4353d576c07324e1c753620e4cca",
+      "bytes": 1141
+    },
+    "source_entries": 10148,
+    "canonical_source_map_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "canonical_map_serialization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True), UTF-8",
+    "all_three_before_after_source_maps_equal_formatted_build": true,
+    "source_publication": {
+      "commit": "3b8a889738d27eb1edc95e3f63891ab9cf0b6017",
+      "tree": "8f64a2b3b70cbf52bfb89a065f2bf791b214cc2a",
+      "receipt": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-tui-public-stop-source-publication.json",
+        "sha256": "ffddf906cd9f51fef8605eb3dd847268a9cd67173eaf83f9348eef83b70411e4",
+        "bytes": 2514
+      },
+      "remote_verification_authority": "Root preservation receipt; no network request by this evidence audit."
+    },
+    "prior_lineage_document": "verification/2026-10-01/P02B_PREPARING_NEWHOST_EVIDENCE.md"
+  },
+  "binaries": {
+    "host": {
+      "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+      "bytes": 6575272
+    },
+    "codex": {
+      "sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "bytes": 634578704
+    }
+  },
+  "gate_wrappers": {
+    "p02b-preparing-newhost-storage": {
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-storage.source.json",
+        "sha256": "8ceef40d7fe503bc48a7e8e74cd3aedc1a0a201e984f704ab8da1057aecb3f62",
+        "bytes": 2823053
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-storage.subreaper.json",
+        "sha256": "36a52a7d849494735366abd0a505d40911a3c1e3df8d1175706ce345222cdf43",
+        "bytes": 1237
+      },
+      "started_utc": "2026-10-01T12:31:58Z",
+      "finished_utc": "2026-10-01T12:32:06Z",
+      "returncode": 0,
+      "source_unchanged_and_equal_frozen_host_build": true,
+      "log_sha256": "e880153c3d328c045d176de5be606ae1ed7e2b461abb5120169b0bf09ec845c0",
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 719756,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 6.615776276012184,
+        "reaped": [
+          {
+            "pid": 719914,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719871,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720099,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720086,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 719756,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720053,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720147,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "-13": 1,
+        "0": 6
+      }
+    },
+    "p02b-preparing-migration-01": {
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-migration-01.source.json",
+        "sha256": "76da4d4283e24e48bcb66722c135fa20c4e96d02a9d34a70e2911044c0510d03",
+        "bytes": 2823040
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-migration-01.subreaper.json",
+        "sha256": "34f463589ae5196fc69ec763b9d1fee98ccc8fc1b22a8bff2b904c6b6e5e354c",
+        "bytes": 1064
+      },
+      "started_utc": "2026-10-01T12:32:31Z",
+      "finished_utc": "2026-10-01T12:32:39Z",
+      "returncode": 0,
+      "source_unchanged_and_equal_frozen_host_build": true,
+      "log_sha256": "06cae44fa690ff9eee22f92f281f58ea09304a3e6a1e6582e67909b209f758e9",
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 720157,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 6.338740253995638,
+        "reaped": [
+          {
+            "pid": 720270,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720538,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720157,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720447,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 720580,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "0": 5
+      }
+    },
+    "p02b-preparing-gui-normal-01": {
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-gui-normal-01.source.json",
+        "sha256": "f1983bdf92c07403ad7f18285eb293dd049ff302da81e935d4de7cfe5792364a",
+        "bytes": 2823178
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-gui-normal-01.subreaper.json",
+        "sha256": "3d3e4f770c007e293ed941af287761236fd7710d4656cdb08ae9240ac5e317ad",
+        "bytes": 881
+      },
+      "started_utc": "2026-10-01T12:32:52Z",
+      "finished_utc": "2026-10-01T12:33:14Z",
+      "returncode": 0,
+      "source_unchanged_and_equal_frozen_host_build": true,
+      "log_sha256": "8fd79fa1f146d941e1970f380e28cae302141e2644e38b13ace14d6affe6f5a5",
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 720600,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 20.46204189999844,
+        "reaped": [
+          {
+            "pid": 720600,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "0": 1
+      }
+    }
+  },
+  "storage": {
+    "report": {
+      "path": "/tmp/p02b-preparing-newhost-storage/independent-report.json",
+      "sha256": "b4071b1a70ecf358ded0a9b6d6eb35a416a7cb3ff1fe8d33ac86554a0777cf8f",
+      "bytes": 5838
+    },
+    "runtime_report": {
+      "path": "/tmp/p02b-preparing-newhost-storage/runtime/acceptance.json",
+      "sha256": "ea9a81c02c0bcb3cbc4c7d77e47cbc6d46080b05f2af4abfe41b8fa42494ad4a",
+      "bytes": 2380
+    },
+    "passed": true,
+    "evidence_kind": "reused_package_new_host",
+    "new_independent_rust_build": false,
+    "original_build_receipt": {
+      "path": "/workspace/acceptance/thread-store-p01-0.2.0/independent-report.json",
+      "sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e",
+      "bytes": 8530
+    },
+    "contract_version": 2,
+    "package_version": "0.2.0",
+    "native_worker": {
+      "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+      "bytes": 71203368
+    },
+    "package_files": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "codex-component.json": {
+        "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48",
+        "bytes": 309
+      },
+      "codex-thread-store-local-plugin": {
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "bytes": 71203368
+      }
+    },
+    "original_export_absent_before_and_after": true,
+    "package_and_binaries_unchanged": true,
+    "runtime_commands_report": {
+      "path": "/tmp/p02b-preparing-newhost-storage/runtime/commands.json",
+      "sha256": "ab068baff5ea855a043ca9fcfe7e9bb4050ac0a9902d05012062eb280d4265a2",
+      "bytes": 8079
+    },
+    "runtime_command_statuses": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "inference": "deterministic external process + loopback native fixture; no live model",
+    "runtime_checks": [
+      "real CLI turn",
+      "external tool execution",
+      "context contribution",
+      "model event streaming",
+      "persisted session resume",
+      "zero native inference while replacement selected",
+      "native restoration with retained history",
+      "selected native storage process",
+      "cold storage process restart and resume",
+      "storage child termination after each CLI process",
+      "native storage restoration with retained history"
+    ],
+    "historical_build_scope": "Native Rust package was built earlier and reused unchanged. This runtime builds small Python fixture plugins; it performs no Rust export/build.",
+    "storage_children": [
+      {
+        "pid": 719806,
+        "reported_terminated": true
+      },
+      {
+        "pid": 719895,
+        "reported_terminated": true
+      },
+      {
+        "pid": 719988,
+        "reported_terminated": true
+      }
+    ],
+    "termination_assertion": "Runtime checks /proc/PID/exe disappearance; this alone does not exclude a zombie PID entry. The unchanged outer strict subreaper result is recorded separately.",
+    "integrity_errors": []
+  },
+  "manual_migration": {
+    "report": {
+      "path": "/tmp/p02b-preparing-migration-01/manual-migration-report.json",
+      "sha256": "763095e80a9df96016949fd18a4cdd5f534050efb8e9eaaea74ab60d58ae9ddf",
+      "bytes": 8410
+    },
+    "passed": true,
+    "inference": "deterministic external GUI fixture, not a live provider",
+    "commands": [
+      {
+        "label": "prepare-gui",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "install-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "select-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "selected-dry-run",
+        "status": 0,
+        "storage_pids": [
+          720284
+        ]
+      },
+      {
+        "label": "reset-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "native-dry-run",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "reselect-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "selected-apply",
+        "status": 0,
+        "storage_pids": [
+          720321
+        ]
+      },
+      {
+        "label": "selected-repeated",
+        "status": 0,
+        "storage_pids": [
+          720350
+        ]
+      },
+      {
+        "label": "cli-resume",
+        "status": 0,
+        "storage_pids": [
+          720383
+        ]
+      }
+    ],
+    "verified": [
+      "matching independent-source package and unchanged host",
+      "real legacy App Server conversation",
+      "native/selected dry-run parity and unchanged storage bytes",
+      "selected CLI migration and idempotent repeated apply",
+      "cold CLI resume retains user/assistant history",
+      "cold App Server paginated history",
+      "post-migration turn cancellation and process reaping"
+    ],
+    "storage_pids": [
+      720206,
+      720284,
+      720321,
+      720350,
+      720383,
+      720469
+    ],
+    "storage_cleanup_assertion": "The migration runner requires /proc/PID itself to be absent, rejecting live or unreaped storage children.",
+    "gui_approval_policy": {
+      "value": "on-request",
+      "set_by": "public thread/resume after noninteractive CLI resume"
+    },
+    "historical_pending_field": "pending; use the retained GUI fixture and runbook",
+    "pending_field_resolution": "The later normal GUI report below separately completes that retained fixture browser/manager regression; the original manual report remains unchanged."
+  },
+  "gui": {
+    "private_report_fingerprint": {
+      "path": "/tmp/p02b-preparing-gui-normal-01/acceptance-private.json",
+      "sha256": "51a9c19cd0ca04d7e8f481470134ddc6609f5362a6246268847ae6430d16d6a5",
+      "bytes": 34513
+    },
+    "passed": true,
+    "browser": "Chromium through Playwright; not in-app Browser",
+    "inference": "deterministic fixture; no live provider",
+    "tracking_scope": "observed descendant identities plus child-subreaper drain; scans can miss short-lived descendants",
+    "same_migrated_thread_reopened": true,
+    "new_cold_manager_and_app_server_per_cycle": true,
+    "cycle2_restored_interrupted_turn_and_history": true,
+    "selected_search": {
+      "backend": "selected external native.file-search-local through real App Server fuzzyFileSearch",
+      "worker_build_report": {
+        "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+        "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+        "bytes": 81383
+      },
+      "worker": {
+        "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+        "bytes": 10362672
+      },
+      "frozen_manager": {
+        "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+        "bytes": 6575272
+      },
+      "full_cli_binding_authority": "current manual-migration proof; not the standalone search CLI from the worker build",
+      "original_components_preserved": true,
+      "install_input_parked": true,
+      "installation_command_statuses": [
+        0,
+        0,
+        0
+      ]
+    },
+    "runs": [
+      {
+        "cycle": 1,
+        "passed": true,
+        "streamed_partial_text_before_completion": true,
+        "approval_and_native_command_completed": true,
+        "explicit_stop_and_model_reaping_exercised": true,
+        "shutdown_while_model_turn_active": true,
+        "manager_received_first_SIGINT": true,
+        "manager_exit_status": 0,
+        "shutdown_seconds": 0.2661740690091392,
+        "tracked_processes_absent": true,
+        "selected_search_workers_absent": true,
+        "tracked_process_identities": [
+          {
+            "pid": 720620,
+            "ppid": 720600,
+            "group": 720620,
+            "start_ticks": "9689452"
+          },
+          {
+            "pid": 720627,
+            "ppid": 720620,
+            "group": 720627,
+            "start_ticks": "9689452"
+          },
+          {
+            "pid": 720628,
+            "ppid": 720627,
+            "group": 720627,
+            "start_ticks": "9689458"
+          },
+          {
+            "pid": 720647,
+            "ppid": 720628,
+            "group": 720647,
+            "start_ticks": "9689463"
+          },
+          {
+            "pid": 720661,
+            "ppid": 720628,
+            "group": 720661,
+            "start_ticks": "9689465"
+          },
+          {
+            "pid": 720667,
+            "ppid": 720628,
+            "group": 720627,
+            "start_ticks": "9689466"
+          },
+          {
+            "pid": 720675,
+            "ppid": 720628,
+            "group": 720627,
+            "start_ticks": "9689472"
+          },
+          {
+            "pid": 720680,
+            "ppid": 720675,
+            "group": 720627,
+            "start_ticks": "9689472"
+          },
+          {
+            "pid": 720682,
+            "ppid": 720680,
+            "group": 720627,
+            "start_ticks": "9689472"
+          },
+          {
+            "pid": 720817,
+            "ppid": 720628,
+            "group": 720627,
+            "start_ticks": "9689532"
+          },
+          {
+            "pid": 720828,
+            "ppid": 720628,
+            "group": 720627,
+            "start_ticks": "9689543"
+          },
+          {
+            "pid": 720829,
+            "ppid": 720828,
+            "group": 720627,
+            "start_ticks": "9689543"
+          },
+          {
+            "pid": 720830,
+            "ppid": 720829,
+            "group": 720627,
+            "start_ticks": "9689543"
+          },
+          {
+            "pid": 720839,
+            "ppid": 720628,
+            "group": 720839,
+            "start_ticks": "9689586"
+          },
+          {
+            "pid": 720867,
+            "ppid": 720828,
+            "group": 720627,
+            "start_ticks": "9689592"
+          },
+          {
+            "pid": 720918,
+            "ppid": 720628,
+            "group": 720627,
+            "start_ticks": "9689733"
+          },
+          {
+            "pid": 720930,
+            "ppid": 720628,
+            "group": 720627,
+            "start_ticks": "9689763"
+          },
+          {
+            "pid": 720989,
+            "ppid": 720628,
+            "group": 720989,
+            "start_ticks": "9689937"
+          },
+          {
+            "pid": 720997,
+            "ppid": 720628,
+            "group": 720997,
+            "start_ticks": "9690033"
+          },
+          {
+            "pid": 721004,
+            "ppid": 720628,
+            "group": 721004,
+            "start_ticks": "9690203"
+          },
+          {
+            "pid": 721009,
+            "ppid": 720628,
+            "group": 721009,
+            "start_ticks": "9690245"
+          },
+          {
+            "pid": 721014,
+            "ppid": 720628,
+            "group": 721014,
+            "start_ticks": "9690318"
+          },
+          {
+            "pid": 721031,
+            "ppid": 720628,
+            "group": 721031,
+            "start_ticks": "9690377"
+          },
+          {
+            "pid": 721040,
+            "ppid": 720628,
+            "group": 721040,
+            "start_ticks": "9690431"
+          }
+        ],
+        "browser_process_identities": [
+          {
+            "pid": 720687,
+            "ppid": 720600,
+            "group": 720687,
+            "start_ticks": "9689475"
+          },
+          {
+            "pid": 720701,
+            "ppid": 720687,
+            "group": 720701,
+            "start_ticks": "9689500"
+          },
+          {
+            "pid": 720721,
+            "ppid": 720600,
+            "group": 720701,
+            "start_ticks": "9689507"
+          },
+          {
+            "pid": 720722,
+            "ppid": 720600,
+            "group": 720701,
+            "start_ticks": "9689507"
+          },
+          {
+            "pid": 720743,
+            "ppid": 720721,
+            "group": 720701,
+            "start_ticks": "9689514"
+          },
+          {
+            "pid": 720758,
+            "ppid": 720701,
+            "group": 720701,
+            "start_ticks": "9689515"
+          },
+          {
+            "pid": 720759,
+            "ppid": 720722,
+            "group": 720701,
+            "start_ticks": "9689518"
+          },
+          {
+            "pid": 720789,
+            "ppid": 720722,
+            "group": 720701,
+            "start_ticks": "9689527"
+          },
+          {
+            "pid": 720804,
+            "ppid": 720722,
+            "group": 720701,
+            "start_ticks": "9689530"
+          },
+          {
+            "pid": 720798,
+            "ppid": 720722,
+            "group": 720701,
+            "start_ticks": "9689529"
+          }
+        ],
+        "selected_search_worker_identities": [
+          {
+            "pid": 720661,
+            "ppid": 720628,
+            "group": 720661,
+            "start_ticks": "9689465"
+          }
+        ],
+        "storage_sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "search_checks": [
+          "real filesystem results",
+          "relative root rejected without RPC or draft/input changes",
+          "click insertion with spaces/quotes/backslash",
+          "keyboard insertion without submitting",
+          "draft preservation",
+          "A-B-A query fence",
+          "root replacement fence",
+          "explicit close fence",
+          "task replacement fence"
+        ],
+        "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged",
+        "reference_turn_completed": true,
+        "runner_reaped_manager_orphans": [],
+        "runner_reaped_browser_orphans": [
+          {
+            "pid": 720721,
+            "returncode": 0
+          },
+          {
+            "pid": 720722,
+            "returncode": 0
+          }
+        ],
+        "subreaper_drain": {
+          "passed": true,
+          "reaped": [
+            {
+              "pid": 720717,
+              "returncode": 0
+            },
+            {
+              "pid": 720720,
+              "returncode": 0
+            },
+            {
+              "pid": 720917,
+              "returncode": 0
+            }
+          ]
+        }
+      },
+      {
+        "cycle": 2,
+        "passed": true,
+        "streamed_partial_text_before_completion": true,
+        "approval_and_native_command_completed": false,
+        "explicit_stop_and_model_reaping_exercised": false,
+        "shutdown_while_model_turn_active": true,
+        "manager_received_first_SIGINT": true,
+        "manager_exit_status": 0,
+        "shutdown_seconds": 0.2648169890017016,
+        "tracked_processes_absent": true,
+        "selected_search_workers_absent": true,
+        "tracked_process_identities": [
+          {
+            "pid": 721043,
+            "ppid": 720600,
+            "group": 721043,
+            "start_ticks": "9690478"
+          },
+          {
+            "pid": 721050,
+            "ppid": 721043,
+            "group": 721050,
+            "start_ticks": "9690478"
+          },
+          {
+            "pid": 721051,
+            "ppid": 721050,
+            "group": 721050,
+            "start_ticks": "9690484"
+          },
+          {
+            "pid": 721070,
+            "ppid": 721051,
+            "group": 721070,
+            "start_ticks": "9690489"
+          },
+          {
+            "pid": 721085,
+            "ppid": 721051,
+            "group": 721085,
+            "start_ticks": "9690491"
+          },
+          {
+            "pid": 721090,
+            "ppid": 721051,
+            "group": 721050,
+            "start_ticks": "9690493"
+          },
+          {
+            "pid": 721098,
+            "ppid": 721051,
+            "group": 721050,
+            "start_ticks": "9690498"
+          },
+          {
+            "pid": 721102,
+            "ppid": 721098,
+            "group": 721050,
+            "start_ticks": "9690499"
+          },
+          {
+            "pid": 721105,
+            "ppid": 721102,
+            "group": 721050,
+            "start_ticks": "9690499"
+          },
+          {
+            "pid": 721401,
+            "ppid": 721051,
+            "group": 721401,
+            "start_ticks": "9690989"
+          },
+          {
+            "pid": 721408,
+            "ppid": 721051,
+            "group": 721408,
+            "start_ticks": "9691085"
+          },
+          {
+            "pid": 721420,
+            "ppid": 721051,
+            "group": 721420,
+            "start_ticks": "9691257"
+          }
+        ],
+        "browser_process_identities": [
+          {
+            "pid": 721109,
+            "ppid": 720600,
+            "group": 721109,
+            "start_ticks": "9690500"
+          },
+          {
+            "pid": 721127,
+            "ppid": 721109,
+            "group": 721127,
+            "start_ticks": "9690528"
+          },
+          {
+            "pid": 721146,
+            "ppid": 720600,
+            "group": 721127,
+            "start_ticks": "9690533"
+          },
+          {
+            "pid": 721148,
+            "ppid": 720600,
+            "group": 721127,
+            "start_ticks": "9690533"
+          },
+          {
+            "pid": 721171,
+            "ppid": 721146,
+            "group": 721127,
+            "start_ticks": "9690538"
+          },
+          {
+            "pid": 721174,
+            "ppid": 721127,
+            "group": 721127,
+            "start_ticks": "9690539"
+          },
+          {
+            "pid": 721188,
+            "ppid": 721148,
+            "group": 721127,
+            "start_ticks": "9690543"
+          },
+          {
+            "pid": 721216,
+            "ppid": 721148,
+            "group": 721127,
+            "start_ticks": "9690550"
+          },
+          {
+            "pid": 721225,
+            "ppid": 721148,
+            "group": 721127,
+            "start_ticks": "9690553"
+          },
+          {
+            "pid": 721227,
+            "ppid": 721148,
+            "group": 721127,
+            "start_ticks": "9690554"
+          }
+        ],
+        "selected_search_worker_identities": [
+          {
+            "pid": 721085,
+            "ppid": 721051,
+            "group": 721085,
+            "start_ticks": "9690491"
+          }
+        ],
+        "storage_sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "search_checks": [
+          "real filesystem results",
+          "relative root rejected without RPC or draft/input changes",
+          "click insertion with spaces/quotes/backslash",
+          "keyboard insertion without submitting",
+          "draft preservation",
+          "A-B-A query fence",
+          "root replacement fence",
+          "explicit close fence",
+          "task replacement fence"
+        ],
+        "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged",
+        "reference_turn_completed": true,
+        "runner_reaped_manager_orphans": [],
+        "runner_reaped_browser_orphans": [
+          {
+            "pid": 721146,
+            "returncode": 0
+          },
+          {
+            "pid": 721148,
+            "returncode": 0
+          }
+        ],
+        "subreaper_drain": {
+          "passed": true,
+          "reaped": [
+            {
+              "pid": 721143,
+              "returncode": 0
+            },
+            {
+              "pid": 721147,
+              "returncode": 0
+            }
+          ]
+        }
+      }
+    ],
+    "installed_packages_unchanged": true,
+    "internal_subreaper": {
+      "passed": true,
+      "reaped": []
+    },
+    "final_drain": {
+      "passed": true,
+      "reaped": []
+    },
+    "forced_cleanup_reported": false,
+    "screenshots": [
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/approval.png",
+        "sha256": "552066cc9a30ec9678b9aedf8711fd65aeff266d6d702e5e7648a9fc5cf5597a",
+        "bytes": 129274,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      },
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/recovered-1.png",
+        "sha256": "b1383a5cfb08af401c78bf0bab018c0a5a56be183ee179b0f51c4addd69b1486",
+        "bytes": 97149,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      },
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/recovered-2.png",
+        "sha256": "8d41c2f1af8de9391d2b2d9fce095189fdc38f6a19f2c99a73bb98eb8349e851",
+        "bytes": 136939,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      },
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/search-inserted-1.png",
+        "sha256": "01499ac38e3b637f32b828a8c4247b2c4f906493eb18415918c168bb5f823725",
+        "bytes": 78032,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      },
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/search-inserted-2.png",
+        "sha256": "27b671904060a8b4ea8a5f6c42f0c0d77e15455dd2be30981954ceea09e0958f",
+        "bytes": 108925,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      },
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/search-results-1.png",
+        "sha256": "12afa3e8e8c13ac4909c95946bfd65ddf49f775aab9a13a6e5a253e3a0446f85",
+        "bytes": 77830,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      },
+      {
+        "path": "/tmp/p02b-preparing-gui-normal-01/search-results-2.png",
+        "sha256": "540c8f4c13bbf26b95aecc84583c562fe3070b95f0cbbf5793641f4c64aa52ae",
+        "bytes": 84389,
+        "width": 1440,
+        "height": 960,
+        "visually_reviewed": true,
+        "audit": "Synthetic fixture UI only; no visible credentials or browser address bar. Capture helper checked URL hash/body token patterns before capture.",
+        "publication": "Reference audit only; image not copied or published by this task."
+      }
+    ]
+  },
+  "tooling": {
+    "tests/subreaper_runner.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    },
+    "tests/reused_storage_acceptance.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/reused_storage_acceptance.py",
+      "sha256": "a943c1aa37dccc15ca0549845194fcfe49193eb25f7c9cb1bde3af7d7f791c30",
+      "bytes": 15078
+    },
+    "tests/harness_acceptance.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/harness_acceptance.py",
+      "sha256": "ebe9d535ac826aa09a181b8ffbfe93910a4663e94f9dd4eae666fe309f385d39",
+      "bytes": 15536
+    },
+    "tests/manual_migration_acceptance.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/manual_migration_acceptance.py",
+      "sha256": "fffd7249efbfbc18c8a31a86a4da1212eb35739942f49f10f9d1a61eeaade485",
+      "bytes": 15407
+    },
+    "tests/p01_gui_acceptance.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/p01_gui_acceptance.py",
+      "sha256": "08613df9d7347a42dfe98dc67f4d36b6190e77110acc48ef2b7cfdc6d0e0caaa",
+      "bytes": 34583
+    },
+    "tests/gui_browser_driver.cjs": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/gui_browser_driver.cjs",
+      "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+      "bytes": 2800
+    },
+    "tests/gui_selected_search_acceptance.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/gui_selected_search_acceptance.py",
+      "sha256": "022ba819b9ec4754524be4136d243d68dc97488a28e49769d120ffb018d33161",
+      "bytes": 11929
+    },
+    "tests/desktop_search_acceptance.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/desktop_search_acceptance.py",
+      "sha256": "4160534bb14040f766175e91ef7fe51a3ef4d24269cf9062c90c369237a2542d",
+      "bytes": 10241
+    }
+  },
+  "limits": [
+    "Browser automation used Chromium through Playwright, not the requested Codex in-app Browser; no user-accessible cloud forwarding/viewer is established.",
+    "Inference uses deterministic process and loopback fixtures, not a live model provider. The approved shell command and native storage/search run in the real host.",
+    "Normal GUI selected-search checks delay actual fetched response bodies without rewriting results; this gate does not instrument native construction or prove Preparing cancellation. Upcoming instrumented GUI work is separate.",
+    "The storage runtime historical independent-build labels include Python fixtures; the native Rust storage worker here is an existing unchanged package, not newly rebuilt.",
+    "The storage child executable-link check is weaker than migration and GUI PID-absence checks; do not substitute one assertion for another.",
+    "Process scans can miss short-lived descendants; raw internal and outer subreaper drain results are preserved separately.",
+    "No new attachment-payload roundtrip, native-constructor cancellation, multiple-connection/auth-revocation scenario, full security review, or whole-harness extraction completion is claimed.",
+    "Screenshots are audited cloud-local artifacts; they were not uploaded or made externally durable by this evidence task.",
+    "TUI integration acceptance and earlier library scopes are documented separately; these three gates are not those tests."
+  ]
+}

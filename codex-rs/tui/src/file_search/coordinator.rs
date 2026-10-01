@@ -8,9 +8,7 @@ use codex_file_search_api::CloseCleanup;
 use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchErrorKind;
-use codex_file_search_api::SearchOpen;
 use codex_file_search_api::SearchQuery;
-use codex_file_search_api::StartCleanup;
 use codex_file_search_runtime::FileSearchSession;
 
 use super::FileSearchRequest;
@@ -108,63 +106,16 @@ async fn run(inner: Arc<RuntimeInner>) {
                 runtime: Arc::downgrade(&inner),
                 generation: intent.request.clone(),
             });
-            // No task per keystroke/reconnect: one accepted startup is retained
-            // while newer intent replaces the bounded slot. Pending-open scoped
-            // cancellation remains limited by the facade's current API.
-            let opened = observe(
-                &inner,
-                inner.scope.open(
-                    SearchOpen {
-                        roots: vec![intent.root.clone()],
-                        options: inner.options.clone(),
-                        budget: inner.budget,
-                    },
-                    reporter.clone(),
-                ),
-            )
-            .await;
-            match opened {
-                Ok(session) => {
-                    let current = intent.state.upgrade().is_some_and(|state| {
-                        let mut state = lock(&state);
-                        if !state.same_session(&intent.request) || !state.preparing {
-                            return false;
-                        }
-                        state.preparing = false;
-                        state.session = Some(session.clone());
-                        true
-                    });
-                    let lease = Lease {
-                        session,
-                        reporter,
-                        generation: intent.request.clone(),
-                    };
-                    if !current || inner.closing() {
-                        lease.close(&inner).await;
-                        continue;
-                    }
-                    active = Some(lease);
-                    // Resample after startup. Requeue old intent only if no newer
-                    // query arrived; never replay the pre-await query over B/C.
-                    inner.requeue(intent);
-                }
-                Err(error) => {
-                    let requested_joined_close = inner.closing()
-                        && error.operation.kind() == SearchErrorKind::ClosedLease
-                        && matches!(
-                            &error.cleanup,
-                            StartCleanup::NotAdmitted | StartCleanup::Confirmed
-                        );
-                    if !requested_joined_close {
-                        inner.failed(error.operation.clone());
-                    }
-                    if let StartCleanup::Unconfirmed(cleanup) = &error.cleanup {
-                        inner.unconfirmed(cleanup.clone());
-                    }
-                    if !inner.closing() {
-                        reporter.fail(error.operation);
-                    }
-                }
+            // One owner retains the pending result and its cancellation receipt;
+            // newer query intent replaces only the bounded presentation slot.
+            if let Some(session) = super::startup::open(&inner, &intent, reporter.clone()).await {
+                active = Some(Lease {
+                    session,
+                    reporter,
+                    generation: intent.request.clone(),
+                });
+                // Resample after startup. Never replay A over newer B/C intent.
+                inner.requeue(intent);
             }
             continue;
         }
@@ -208,22 +159,34 @@ async fn run(inner: Arc<RuntimeInner>) {
 /// Keep one accepted observer pinned while retrying presentation admission. A
 /// filtered or capacity-blocked wake must not wait for the backend's next ack.
 /// Signals only service delivery; newer query intent remains in its bounded slot.
-async fn observe<T>(runtime: &RuntimeInner, receipt: impl Future<Output = T>) -> T {
+pub(super) async fn observe<T>(runtime: &RuntimeInner, receipt: impl Future<Output = T>) -> T {
     let mut changed = runtime.signal.subscribe();
     tokio::pin!(receipt);
     loop {
         changed.borrow_and_update();
         let retry = !runtime.closing() && super::reporter::retry_pending(runtime);
+        let active = lock(&runtime.state).active.upgrade();
+        let channel = active.and_then(|state| {
+            let state = lock(&state);
+            (state.preparing || state.session.is_some()).then(|| state.tx.app_event_tx.clone())
+        });
+        let disconnected = async {
+            match channel {
+                Some(channel) => channel.closed().await,
+                None => std::future::pending::<()>().await,
+            }
+        };
         tokio::select! {
             biased;
             outcome = &mut receipt => return outcome,
+            _ = disconnected => { super::reporter::retry_pending(runtime); },
             _ = changed.changed() => {},
             _ = tokio::time::sleep(Duration::from_millis(20)), if retry => {},
         }
     }
 }
 
-fn retain(runtime: &RuntimeInner, outcome: &SearchCloseOutcome) {
+pub(super) fn retain(runtime: &RuntimeInner, outcome: &SearchCloseOutcome) {
     if let Err(error) = &outcome.operation {
         runtime.failed(error.clone());
     }

@@ -1,11 +1,14 @@
 # P02 narrow follow-on: owned cancellation during Preparing
 
-Status: source-grounded execution queue with partial implementation, not an API freeze.
-Main SDK primitives passed19. Separate cancellation WIP6547a8bd contains tested process42,
-native owner88 and native backend96 gates (native scopes overlap). See EXECUTION_STATE.md
-and linked evidence for exact revisions. Required trait/service/runtime/consumer adoption,
-new independent worker and real-host/UI Preparing acceptance are still pending.
-The original audit below remains historical context; completed source must not be reimplemented.
+Status: the first native/process/service/runtime/AS/TUI Preparing milestone is implemented
+and verified; this is not an API freeze or whole-search completion. Required source API2,
+worker0.2/wire1, public Stop admission, installed legacy/session Stop and GUI clear-query
+cancellation now have separate accepted evidence. Normal native/search/storage/GUI regression
+and real manager-only SIGINT after unhold passed. Exact counts, versions and retained failures
+are in [EXECUTION_STATE.md](../EXECUTION_STATE.md). Additional GUI retirement triggers,
+pending-Open launcher shutdown, private storage search and the wider P02 services remain queued.
+The original audit below is historical context; do not reimplement completed source.
+
 Prepared after parent reported TUI focused23 and full5620 passes (4 ignored),
 unchanged source and subreaper0; those are parent-owned results, not new tests run
 by this audit. The current run is finishing full-CLI/installed TUI and GUI checkpoint first.

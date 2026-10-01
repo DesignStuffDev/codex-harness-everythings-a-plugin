@@ -106,8 +106,33 @@ def main():
     parser.add_argument("--work-dir", type=Path, required=True)
     parser.add_argument("--target-dir", type=Path, required=True)
     parser.add_argument("--plan", action="store_true")
+    parser.add_argument("--package-version", default="0.1.0")
+    parser.add_argument(
+        "--component-metadata",
+        action="append",
+        default=[],
+        help="Bounded inline component JSON object; declaration is not runtime proof",
+    )
     args = parser.parse_args()
     repo = args.repo.resolve(strict=True)
+    packager = runpy.run_path(str(repo / "component-sdk/rust_component_package.py"))
+    if len(args.component_metadata) > 1:
+        parser.error("component metadata may be supplied only once")
+    try:
+        version = packager["validate_package_version"](args.package_version)
+        component_metadata = (
+            packager["parse_component_metadata"](args.component_metadata[0])
+            if args.component_metadata
+            else {}
+        )
+    except ValueError as error:
+        parser.error(str(error))
+    declaration = {
+        "version": version,
+        "contract_version": 1,
+        "metadata": component_metadata,
+        "capabilities_are_declared_not_runtime_proof": True,
+    }
     cli, manager = args.cli.resolve(strict=True), args.manager.resolve(strict=True)
     work, target = args.work_dir.resolve(), args.target_dir.resolve()
     for directory in (work, target):
@@ -121,6 +146,7 @@ def main():
         "work directory and independent target must be disjoint",
     )
     plan = resources(work, target)
+    plan["package_declaration"] = declaration
     plan["commands"] = {
         "export": [
             sys.executable,
@@ -188,6 +214,7 @@ def main():
         "artifact_directory": str(work),
         "target_directory": str(target),
         "resources_before": plan,
+        "package_declaration": declaration,
         "commands": [],
         "frozen_binaries_before": {
             "cli": fingerprint(cli),
@@ -374,7 +401,14 @@ def main():
                 "--contract-version",
                 "1",
                 "--version",
-                "0.1.0",
+                version,
+                "--metadata",
+                json.dumps(
+                    component_metadata,
+                    ensure_ascii=False,
+                    allow_nan=False,
+                    separators=(",", ":"),
+                ),
             ],
             cwd=repo,
         )

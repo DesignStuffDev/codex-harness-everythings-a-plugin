@@ -1,0 +1,1058 @@
+{
+  "schema": "codex-component-instrumented-gui-preparing-evidence-v1",
+  "status": "Passed: actual browser clear-query cancellation while host/process Preparing in two cold GUI cycles",
+  "created_utc": "2026-10-01T12:51:05.376860+00:00",
+  "privacy": "Selected result fields, numeric process identities, hashes and raw wait statuses only. No private URLs, tokens, config, environment, complete marker inventories or raw GUI logs published.",
+  "scope": "Actual browser clear cancels legacy one-shot while native Ready/host Preparing. No native-constructor, sessionStop, root/task/Escape Preparing or pending-Open launcher-shutdown claim.",
+  "browser": "Chromium through Playwright; not in-app Browser",
+  "inference": "deterministic fixture; no live provider",
+  "private_report_fingerprint": {
+    "path": "/tmp/p02b-preparing-gui-held-01/acceptance-private.json",
+    "sha256": "9c123c7eb85ccc15d0d6f761fec7604476d769663203d142055f01c8d7dfb374",
+    "bytes": 157826
+  },
+  "source_binding": {
+    "build_report": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-build.source.json",
+      "sha256": "07cb4d4cd885e04b23b5f91254014e69409e2d8895118d0ca2b28692f148bdb6",
+      "bytes": 2822507
+    },
+    "artifact_binding": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-artifact.json",
+      "sha256": "deebb4edf5c62ee290fc9252a08c27d96c8a4353d576c07324e1c753620e4cca",
+      "bytes": 1141
+    },
+    "source_entries": 10148,
+    "canonical_source_map_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "canonical_map_serialization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True), UTF-8",
+    "both_wrappers_before_after_equal_formatted_build": true,
+    "authority": "Caller-verified frozen build/artifact lineage; exact supplied binary/build receipts and normal same-host GUI tuple checked, compiler provenance not reconstructed"
+  },
+  "binaries": {
+    "host": {
+      "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+      "bytes": 6575272
+    },
+    "codex": {
+      "sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "bytes": 634578704
+    }
+  },
+  "normal_gui_prerequisite_scope": "Unchanged installed native package; instrumented run is a separate test-only relay claim",
+  "input_receipts": {
+    "codex_build": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-build.source.json",
+      "sha256": "07cb4d4cd885e04b23b5f91254014e69409e2d8895118d0ca2b28692f148bdb6",
+      "bytes": 2822507
+    },
+    "normal_gui": {
+      "path": "/tmp/p02b-preparing-gui-normal-01/acceptance-private.json",
+      "sha256": "51a9c19cd0ca04d7e8f481470134ddc6609f5362a6246268847ae6430d16d6a5",
+      "bytes": 34513
+    },
+    "normal_subreaper": {
+      "path": "/workspace/acceptance/p02b-preparing-gui-normal-01.subreaper.json",
+      "sha256": "3d3e4f770c007e293ed941af287761236fd7710d4656cdb08ae9240ac5e317ad",
+      "bytes": 881
+    },
+    "worker_build": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+      "bytes": 81383
+    }
+  },
+  "fresh_manual_migration": {
+    "report": {
+      "path": "/tmp/p02b-preparing-migration-02/manual-migration-report.json",
+      "sha256": "11724a253b30d2917b86ce871b23a4434c0184e9daf7c76c1edce57df6e1e695",
+      "bytes": 8410
+    },
+    "passed": true,
+    "separate_from_normal_gui_fixture": true,
+    "commands": [
+      {
+        "label": "prepare-gui",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "install-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "select-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "selected-dry-run",
+        "status": 0,
+        "storage_pids": [
+          724999
+        ]
+      },
+      {
+        "label": "reset-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "native-dry-run",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "reselect-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "selected-apply",
+        "status": 0,
+        "storage_pids": [
+          725042
+        ]
+      },
+      {
+        "label": "selected-repeated",
+        "status": 0,
+        "storage_pids": [
+          725078
+        ]
+      },
+      {
+        "label": "cli-resume",
+        "status": 0,
+        "storage_pids": [
+          725111
+        ]
+      }
+    ],
+    "verified": [
+      "matching independent-source package and unchanged host",
+      "real legacy App Server conversation",
+      "native/selected dry-run parity and unchanged storage bytes",
+      "selected CLI migration and idempotent repeated apply",
+      "cold CLI resume retains user/assistant history",
+      "cold App Server paginated history",
+      "post-migration turn cancellation and process reaping"
+    ],
+    "storage_pids": [
+      724919,
+      724999,
+      725042,
+      725078,
+      725111,
+      725200
+    ],
+    "same_migrated_thread_opened_in_gui": true,
+    "inference": "deterministic external GUI fixture, not a live provider"
+  },
+  "gate_wrappers": {
+    "p02b-preparing-migration-02": {
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-migration-02.source.json",
+        "sha256": "8026d6132f537596d24dad82d90cb7a9f13f7847bebab3fe350eaee539496210",
+        "bytes": 2823040
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-migration-02.subreaper.json",
+        "sha256": "4b9e00dd1c5fa1069f0bf74e394abe026b28af9ab01a7fe5b993dc39f177f2a0",
+        "bytes": 1224
+      },
+      "started_utc": "2026-10-01T12:40:35Z",
+      "finished_utc": "2026-10-01T12:40:43Z",
+      "returncode": 0,
+      "source_unchanged_and_equal_formatted_build": true,
+      "log_sha256": "0e6ae9030df3c1cafa526a3780d3ae7cd3760ea09f8173cd1b3d30dcfe4f1573",
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 724872,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 6.967713534992072,
+        "reaped": [
+          {
+            "pid": 724984,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 725184,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 724872,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 725175,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 725287,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 725272,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 725293,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "0": 7
+      }
+    },
+    "p02b-preparing-gui-held-01": {
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-gui-held-01.source.json",
+        "sha256": "bd3bda32247c576887004ca9b8414560e0f1c53ba29afe57272768e6fc5a1263",
+        "bytes": 2823682
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-gui-held-01.subreaper.json",
+        "sha256": "15b3cbcfaf11d236a9bfd6044663582c9b1670f0a2968be23a50adc4b4a616d6",
+        "bytes": 1386
+      },
+      "started_utc": "2026-10-01T12:41:09Z",
+      "finished_utc": "2026-10-01T12:41:39Z",
+      "returncode": 0,
+      "source_unchanged_and_equal_formatted_build": true,
+      "log_sha256": "e035940341097487eae76e26aafff8d92d9626d9ee4fa2c701cafbcb675546f7",
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 725304,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 29.1291614369984,
+        "reaped": [
+          {
+            "pid": 725304,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "0": 1
+      }
+    }
+  },
+  "test_instrumentation": {
+    "stage_python": {
+      "preparing_relay.py": {
+        "path": "/tmp/p02b-gui-preparing-stage-02/preparing_relay.py",
+        "sha256": "ae1b829f29d1f86b2f934bf009ab657ccd4972f89b70c2da4652d097d12f373e",
+        "bytes": 18253
+      },
+      "gui_preparing_install.py": {
+        "path": "/tmp/p02b-gui-preparing-stage-02/gui_preparing_install.py",
+        "sha256": "8a3996ed47286a3b47bae8a9047b66277769f05cd78c5dc781e45334d05df151",
+        "bytes": 7534
+      },
+      "gui_preparing_gate.py": {
+        "path": "/tmp/p02b-gui-preparing-stage-02/gui_preparing_gate.py",
+        "sha256": "3e504e6a3f02d5f4dd30da64a243c78eb8cd1f5d739b1805ebecb084d3cc3f56",
+        "bytes": 14202
+      },
+      "gui_preparing_provenance.py": {
+        "path": "/tmp/p02b-gui-preparing-stage-02/gui_preparing_provenance.py",
+        "sha256": "0209fafb18fc288e24b9143c02021c3eff15322cb25b1a73bef0ca23210e22f2",
+        "bytes": 5744
+      },
+      "p01_gui_preparing_acceptance.py": {
+        "path": "/tmp/p02b-gui-preparing-stage-02/p01_gui_preparing_acceptance.py",
+        "sha256": "7b227c0d9a0e4545f21a419830d3d2b6f2b2988b9fb03668d8074e4934f4f7c9",
+        "bytes": 36711
+      }
+    },
+    "sdk_preimages": {
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/p01_gui_acceptance.py": {
+        "sha256": "08613df9d7347a42dfe98dc67f4d36b6190e77110acc48ef2b7cfdc6d0e0caaa",
+        "bytes": 34583
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/gui_selected_search_acceptance.py": {
+        "sha256": "022ba819b9ec4754524be4136d243d68dc97488a28e49769d120ffb018d33161",
+        "bytes": 11929
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/desktop_search_acceptance.py": {
+        "sha256": "4160534bb14040f766175e91ef7fe51a3ef4d24269cf9062c90c369237a2542d",
+        "bytes": 10241
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/gui_browser_driver.cjs": {
+        "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+        "bytes": 2800
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py": {
+        "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "bytes": 4645
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/harness_acceptance.py": {
+        "sha256": "ebe9d535ac826aa09a181b8ffbfe93910a4663e94f9dd4eae666fe309f385d39",
+        "bytes": 15536
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/acceptance_support.py": {
+        "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+        "bytes": 9352
+      },
+      "/tmp/p02b-installed-preparing-runner-stage/preparing_relay.py": {
+        "sha256": "ae1b829f29d1f86b2f934bf009ab657ccd4972f89b70c2da4652d097d12f373e",
+        "bytes": 18253
+      },
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/examples/desktop/desktop_ui/static/app.js": {
+        "sha256": "26a05ef49118a1283c158c19b6ef48482bdca4aeb21d0024b910b3f3cbd41c98",
+        "bytes": 16040
+      }
+    },
+    "stage_final_manifest": {
+      "path": "/tmp/p02b-gui-preparing-stage-02/FINAL_MANIFEST.json",
+      "sha256": "0b6bcf072fb3c609ba761707781df67267ecd73c639eaeec58c8befd0cc3de13",
+      "bytes": 3266
+    },
+    "stage_preimage_manifest": {
+      "path": "/tmp/p02b-gui-preparing-stage-02/PREIMAGE_MANIFEST.json",
+      "sha256": "b3679071a14551243db845a63dcad7beee3785f7b50f8202b21dfa4cb44b173e",
+      "bytes": 2052
+    },
+    "worker": {
+      "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "bytes": 10362672
+    },
+    "installed_package_unchanged": true,
+    "provenance_unchanged": true,
+    "native_worker_rebuilt": false,
+    "host_rebuilt_for_instrumentation": false,
+    "package_scope": "Test-only relay entrypoint around byte-identical independently built native worker; genuine Open reply frames held and forwarded unchanged.",
+    "historical_stage_headers": "Original stage README/manifests remain unexecuted at freeze; this later runtime evidence is separate."
+  },
+  "tracking_scope": "observed descendant identities plus child-subreaper drain; scans can miss short-lived descendants",
+  "runs": [
+    {
+      "cycle": 1,
+      "passed": true,
+      "trigger": "actual browser clear query",
+      "scope": "Native already Ready; host/process Preparing; genuine native Open bytes held by test-only relay",
+      "native_already_ready": true,
+      "host_open_reply_bytes_delivered_before_cancellation": 0,
+      "original_and_exact_token_cancel_completed_before_unhold": true,
+      "same_exact_lease_and_native_pid_for_held_open_and_release": true,
+      "native_pid": 725368,
+      "relay_pid": 725367,
+      "held_reply_bytes": 787,
+      "held_reply_sha256": "1eb7250101a5597a232be4d3035f2f2594ca671e0f115346e101a5af388b164d",
+      "original_reply_forwarded_byte_identically": true,
+      "release_receipt": {
+        "operation": "ok",
+        "cleanup": "joined",
+        "open_reply_still_held": true
+      },
+      "sibling_scope": "actual second GUI tab; independent one-shot searches via same gateway/native PID, not one retained sibling lease",
+      "replacement_after_original_reply_forwarded": true,
+      "marker_order": [
+        {
+          "event": "held-open-ready",
+          "sequence": 114,
+          "monotonic_ns": 97400215977283,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-1/held-open-ready.json",
+            "sha256": "b8f6948a079345b2b711aa9ef8f9450bca3a00c90205cb8403a51a1b3987e146",
+            "bytes": 439
+          }
+        },
+        {
+          "event": "target-release-joined",
+          "sequence": 130,
+          "monotonic_ns": 97400782635286,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-1/target-release-joined.json",
+            "sha256": "66686215fed0679e6b792eb5e7664bb487c799da7c5978fcfb68937e1b2ab494",
+            "bytes": 357
+          }
+        },
+        {
+          "event": "held-open-forwarded",
+          "sequence": 143,
+          "monotonic_ns": 97401026582377,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-1/held-open-forwarded.json",
+            "sha256": "17efd0e547aba04cf6d16adbab4eae36e1b319b317fdeb95a48c8c03b84b1076",
+            "bytes": 242
+          }
+        },
+        {
+          "event": "physical-shutdown",
+          "sequence": 158,
+          "monotonic_ns": 97405701798387,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-1/physical-shutdown.json",
+            "sha256": "6c0738df7c607df85331f029411de606b89c4b61c5badefe493cdfcae6d66496",
+            "bytes": 123
+          }
+        },
+        {
+          "event": "physical-shutdown-complete",
+          "sequence": 159,
+          "monotonic_ns": 97405706371162,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-1/physical-shutdown-complete.json",
+            "sha256": "eb97b27e767df609dbf615bad2ea69cda12ef37081fe588e5dc6df5d8b2becb6",
+            "bytes": 132
+          }
+        },
+        {
+          "event": "relay-complete",
+          "sequence": 160,
+          "monotonic_ns": 97405708541734,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-1/relay-complete.json",
+            "sha256": "9577c679aaefb56e313254fccef5f88cac39fb3a748d77d65db4b8102f4d3178",
+            "bytes": 163
+          }
+        }
+      ],
+      "manager_first_SIGINT": true,
+      "manager_exit_status": 0,
+      "shutdown_seconds": 0.7188666220026789,
+      "physical_shutdown_after_original_reply_forwarded": true,
+      "native_exit_status": 0,
+      "relay_forced_cleanup": false,
+      "tracked_manager_descendants_absent": true,
+      "selected_search_workers_absent": true,
+      "tracked_process_identities": [
+        {
+          "pid": 725323,
+          "ppid": 725304,
+          "group": 725323,
+          "start_ticks": "9739235"
+        },
+        {
+          "pid": 725330,
+          "ppid": 725323,
+          "group": 725330,
+          "start_ticks": "9739235"
+        },
+        {
+          "pid": 725331,
+          "ppid": 725330,
+          "group": 725330,
+          "start_ticks": "9739241"
+        },
+        {
+          "pid": 725350,
+          "ppid": 725331,
+          "group": 725350,
+          "start_ticks": "9739248"
+        },
+        {
+          "pid": 725367,
+          "ppid": 725331,
+          "group": 725367,
+          "start_ticks": "9739250"
+        },
+        {
+          "pid": 725368,
+          "ppid": 725367,
+          "group": 725367,
+          "start_ticks": "9739254"
+        },
+        {
+          "pid": 725373,
+          "ppid": 725331,
+          "group": 725330,
+          "start_ticks": "9739255"
+        },
+        {
+          "pid": 725382,
+          "ppid": 725331,
+          "group": 725330,
+          "start_ticks": "9739261"
+        },
+        {
+          "pid": 725386,
+          "ppid": 725382,
+          "group": 725330,
+          "start_ticks": "9739261"
+        },
+        {
+          "pid": 725388,
+          "ppid": 725386,
+          "group": 725330,
+          "start_ticks": "9739261"
+        },
+        {
+          "pid": 725521,
+          "ppid": 725331,
+          "group": 725330,
+          "start_ticks": "9739321"
+        },
+        {
+          "pid": 725536,
+          "ppid": 725535,
+          "group": 725330,
+          "start_ticks": "9739332"
+        },
+        {
+          "pid": 725537,
+          "ppid": 725536,
+          "group": 725330,
+          "start_ticks": "9739332"
+        },
+        {
+          "pid": 725535,
+          "ppid": 725331,
+          "group": 725330,
+          "start_ticks": "9739331"
+        },
+        {
+          "pid": 725574,
+          "ppid": 725535,
+          "group": 725330,
+          "start_ticks": "9739391"
+        },
+        {
+          "pid": 725618,
+          "ppid": 725331,
+          "group": 725330,
+          "start_ticks": "9739522"
+        },
+        {
+          "pid": 725620,
+          "ppid": 725331,
+          "group": 725330,
+          "start_ticks": "9739552"
+        },
+        {
+          "pid": 725687,
+          "ppid": 725331,
+          "group": 725687,
+          "start_ticks": "9739743"
+        },
+        {
+          "pid": 725763,
+          "ppid": 725331,
+          "group": 725763,
+          "start_ticks": "9740162"
+        },
+        {
+          "pid": 725772,
+          "ppid": 725331,
+          "group": 725772,
+          "start_ticks": "9740330"
+        },
+        {
+          "pid": 725777,
+          "ppid": 725331,
+          "group": 725777,
+          "start_ticks": "9740370"
+        },
+        {
+          "pid": 725782,
+          "ppid": 725331,
+          "group": 725782,
+          "start_ticks": "9740437"
+        },
+        {
+          "pid": 725799,
+          "ppid": 725331,
+          "group": 725799,
+          "start_ticks": "9740496"
+        },
+        {
+          "pid": 725813,
+          "ppid": 725331,
+          "group": 725813,
+          "start_ticks": "9740552"
+        }
+      ],
+      "browser_process_identities": [
+        {
+          "pid": 725392,
+          "ppid": 725304,
+          "group": 725392,
+          "start_ticks": "9739262"
+        },
+        {
+          "pid": 725406,
+          "ppid": 725392,
+          "group": 725406,
+          "start_ticks": "9739290"
+        },
+        {
+          "pid": 725426,
+          "ppid": 725304,
+          "group": 725406,
+          "start_ticks": "9739297"
+        },
+        {
+          "pid": 725428,
+          "ppid": 725304,
+          "group": 725406,
+          "start_ticks": "9739297"
+        },
+        {
+          "pid": 725448,
+          "ppid": 725426,
+          "group": 725406,
+          "start_ticks": "9739303"
+        },
+        {
+          "pid": 725451,
+          "ppid": 725406,
+          "group": 725406,
+          "start_ticks": "9739305"
+        },
+        {
+          "pid": 725464,
+          "ppid": 725428,
+          "group": 725406,
+          "start_ticks": "9739308"
+        },
+        {
+          "pid": 725495,
+          "ppid": 725428,
+          "group": 725406,
+          "start_ticks": "9739316"
+        },
+        {
+          "pid": 725502,
+          "ppid": 725428,
+          "group": 725406,
+          "start_ticks": "9739318"
+        },
+        {
+          "pid": 725503,
+          "ppid": 725428,
+          "group": 725406,
+          "start_ticks": "9739318"
+        }
+      ],
+      "selected_worker_identities": [
+        {
+          "pid": 725368,
+          "ppid": 725367,
+          "group": 725367,
+          "start_ticks": "9739254"
+        }
+      ],
+      "normal_gui_regressions": {
+        "search_checks": [
+          "real filesystem results",
+          "relative root rejected without RPC or draft/input changes",
+          "click insertion with spaces/quotes/backslash",
+          "keyboard insertion without submitting",
+          "draft preservation",
+          "A-B-A query fence",
+          "root replacement fence",
+          "explicit close fence",
+          "task replacement fence"
+        ],
+        "partial_streaming": true,
+        "approved_native_command": true,
+        "explicit_stop": true,
+        "blocked_model_turn_at_launcher_shutdown": true
+      },
+      "storage_fingerprint": {
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "bytes": 71203368
+      },
+      "runner_reaped_manager_orphans": [],
+      "runner_reaped_browser_orphans": [
+        {
+          "pid": 725426,
+          "returncode": 0
+        },
+        {
+          "pid": 725428,
+          "returncode": 0
+        }
+      ],
+      "inner_subreaper_drain": {
+        "passed": true,
+        "reaped": [
+          {
+            "pid": 725422,
+            "returncode": 0
+          },
+          {
+            "pid": 725425,
+            "returncode": 0
+          },
+          {
+            "pid": 725606,
+            "returncode": 0
+          }
+        ]
+      }
+    },
+    {
+      "cycle": 2,
+      "passed": true,
+      "trigger": "actual browser clear query",
+      "scope": "Native already Ready; host/process Preparing; genuine native Open bytes held by test-only relay",
+      "native_already_ready": true,
+      "host_open_reply_bytes_delivered_before_cancellation": 0,
+      "original_and_exact_token_cancel_completed_before_unhold": true,
+      "same_exact_lease_and_native_pid_for_held_open_and_release": true,
+      "native_pid": 725858,
+      "relay_pid": 725857,
+      "held_reply_bytes": 787,
+      "held_reply_sha256": "680bc7daffb905fc3b8c21d54fbd454d660a794e020b52616205558d3b067ab8",
+      "original_reply_forwarded_byte_identically": true,
+      "release_receipt": {
+        "operation": "ok",
+        "cleanup": "joined",
+        "open_reply_still_held": true
+      },
+      "sibling_scope": "actual second GUI tab; independent one-shot searches via same gateway/native PID, not one retained sibling lease",
+      "replacement_after_original_reply_forwarded": true,
+      "marker_order": [
+        {
+          "event": "held-open-ready",
+          "sequence": 116,
+          "monotonic_ns": 97413299263106,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-2/held-open-ready.json",
+            "sha256": "d07a93b86d257f296876009394157933e5fe1e56a35be30a7878a429f97d289d",
+            "bytes": 439
+          }
+        },
+        {
+          "event": "target-release-joined",
+          "sequence": 132,
+          "monotonic_ns": 97414500721993,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-2/target-release-joined.json",
+            "sha256": "06b3ffa393728550dd914c03b18102c93bbe3032a3b7c20b7c3d40329fcbab45",
+            "bytes": 357
+          }
+        },
+        {
+          "event": "held-open-forwarded",
+          "sequence": 145,
+          "monotonic_ns": 97414780474497,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-2/held-open-forwarded.json",
+            "sha256": "4cf4b468d909fa64355d92f3237ca352c54dd64b19eb1a008948e8ad097165ec",
+            "bytes": 242
+          }
+        },
+        {
+          "event": "physical-shutdown",
+          "sequence": 160,
+          "monotonic_ns": 97417412952721,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-2/physical-shutdown.json",
+            "sha256": "d9f8f9e074e382636c188e48995e339248f406f8789d39e7812bd85f8608e5c9",
+            "bytes": 123
+          }
+        },
+        {
+          "event": "physical-shutdown-complete",
+          "sequence": 161,
+          "monotonic_ns": 97417413489723,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-2/physical-shutdown-complete.json",
+            "sha256": "87e9ab681aeba79d039a8ab37483b3c3b9174f9f6a56e774c8d6d3195bea3196",
+            "bytes": 132
+          }
+        },
+        {
+          "event": "relay-complete",
+          "sequence": 162,
+          "monotonic_ns": 97417415203321,
+          "record": {
+            "path": "/tmp/p02b-preparing-gui-held-01/preparing-relay-cycle-2/relay-complete.json",
+            "sha256": "429738898b5dfa2288e256801f7913714ea7c8a4d1eafff9b4fc9d1b26dce7ec",
+            "bytes": 163
+          }
+        }
+      ],
+      "manager_first_SIGINT": true,
+      "manager_exit_status": 0,
+      "shutdown_seconds": 0.21503455299534835,
+      "physical_shutdown_after_original_reply_forwarded": true,
+      "native_exit_status": 0,
+      "relay_forced_cleanup": false,
+      "tracked_manager_descendants_absent": true,
+      "selected_search_workers_absent": true,
+      "tracked_process_identities": [
+        {
+          "pid": 725816,
+          "ppid": 725304,
+          "group": 725816,
+          "start_ticks": "9740665"
+        },
+        {
+          "pid": 725823,
+          "ppid": 725816,
+          "group": 725823,
+          "start_ticks": "9740665"
+        },
+        {
+          "pid": 725824,
+          "ppid": 725823,
+          "group": 725823,
+          "start_ticks": "9740672"
+        },
+        {
+          "pid": 725843,
+          "ppid": 725824,
+          "group": 725843,
+          "start_ticks": "9740678"
+        },
+        {
+          "pid": 725857,
+          "ppid": 725824,
+          "group": 725857,
+          "start_ticks": "9740680"
+        },
+        {
+          "pid": 725858,
+          "ppid": 725857,
+          "group": 725857,
+          "start_ticks": "9740683"
+        },
+        {
+          "pid": 725864,
+          "ppid": 725824,
+          "group": 725823,
+          "start_ticks": "9740683"
+        },
+        {
+          "pid": 725873,
+          "ppid": 725824,
+          "group": 725823,
+          "start_ticks": "9740689"
+        },
+        {
+          "pid": 725878,
+          "ppid": 725873,
+          "group": 725823,
+          "start_ticks": "9740690"
+        },
+        {
+          "pid": 725879,
+          "ppid": 725878,
+          "group": 725823,
+          "start_ticks": "9740690"
+        },
+        {
+          "pid": 726167,
+          "ppid": 725824,
+          "group": 726167,
+          "start_ticks": "9741180"
+        },
+        {
+          "pid": 726270,
+          "ppid": 725824,
+          "group": 726270,
+          "start_ticks": "9741542"
+        },
+        {
+          "pid": 726275,
+          "ppid": 725824,
+          "group": 726275,
+          "start_ticks": "9741723"
+        }
+      ],
+      "browser_process_identities": [
+        {
+          "pid": 725882,
+          "ppid": 725304,
+          "group": 725882,
+          "start_ticks": "9740690"
+        },
+        {
+          "pid": 725897,
+          "ppid": 725882,
+          "group": 725897,
+          "start_ticks": "9740719"
+        },
+        {
+          "pid": 725915,
+          "ppid": 725304,
+          "group": 725897,
+          "start_ticks": "9740725"
+        },
+        {
+          "pid": 725916,
+          "ppid": 725304,
+          "group": 725897,
+          "start_ticks": "9740725"
+        },
+        {
+          "pid": 725939,
+          "ppid": 725915,
+          "group": 725897,
+          "start_ticks": "9740729"
+        },
+        {
+          "pid": 725943,
+          "ppid": 725897,
+          "group": 725897,
+          "start_ticks": "9740730"
+        },
+        {
+          "pid": 725956,
+          "ppid": 725916,
+          "group": 725897,
+          "start_ticks": "9740735"
+        },
+        {
+          "pid": 725987,
+          "ppid": 725916,
+          "group": 725897,
+          "start_ticks": "9740742"
+        },
+        {
+          "pid": 725996,
+          "ppid": 725916,
+          "group": 725897,
+          "start_ticks": "9740745"
+        },
+        {
+          "pid": 725998,
+          "ppid": 725916,
+          "group": 725897,
+          "start_ticks": "9740745"
+        }
+      ],
+      "selected_worker_identities": [
+        {
+          "pid": 725858,
+          "ppid": 725857,
+          "group": 725857,
+          "start_ticks": "9740683"
+        }
+      ],
+      "normal_gui_regressions": {
+        "search_checks": [
+          "real filesystem results",
+          "relative root rejected without RPC or draft/input changes",
+          "click insertion with spaces/quotes/backslash",
+          "keyboard insertion without submitting",
+          "draft preservation",
+          "A-B-A query fence",
+          "root replacement fence",
+          "explicit close fence",
+          "task replacement fence"
+        ],
+        "partial_streaming": true,
+        "approved_native_command": false,
+        "explicit_stop": false,
+        "blocked_model_turn_at_launcher_shutdown": true
+      },
+      "storage_fingerprint": {
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "bytes": 71203368
+      },
+      "runner_reaped_manager_orphans": [],
+      "runner_reaped_browser_orphans": [
+        {
+          "pid": 725915,
+          "returncode": 0
+        },
+        {
+          "pid": 725916,
+          "returncode": 0
+        }
+      ],
+      "inner_subreaper_drain": {
+        "passed": true,
+        "reaped": [
+          {
+            "pid": 725913,
+            "returncode": 0
+          },
+          {
+            "pid": 725918,
+            "returncode": 0
+          }
+        ]
+      }
+    }
+  ],
+  "internal_final_subreaper": {
+    "passed": true,
+    "reaped": []
+  },
+  "final_drain": {
+    "passed": true,
+    "reaped": []
+  },
+  "forced_cleanup_reported": false,
+  "reviewed_screenshots": [
+    {
+      "source": "/tmp/p02b-preparing-gui-held-01/preparing-held-1.png",
+      "recommended_repo_path": "verification/2026-10-01/screenshots/p02b-held-preparing-held-1.png",
+      "sha256": "7614d01c5372ee209e51aca0e4bebdc97abc35f21875546174fedda3fa216181",
+      "bytes": 91330,
+      "width": 1440,
+      "height": 960,
+      "visual_review": "Reviewed actual screenshot: synthetic fixture UI only; no visible authentication material or browser address bar.",
+      "claim_limit": "Static screenshot is not causal cancellation or lifecycle proof; accompanying reports supply those checks."
+    },
+    {
+      "source": "/tmp/p02b-preparing-gui-held-01/preparing-held-2.png",
+      "recommended_repo_path": "verification/2026-10-01/screenshots/p02b-held-preparing-held-2.png",
+      "sha256": "bd7abc89286d408eadd42e7540ee80f36f7147f2ac05748fa223e192b787342d",
+      "bytes": 86701,
+      "width": 1440,
+      "height": 960,
+      "visual_review": "Reviewed actual screenshot: synthetic fixture UI only; no visible authentication material or browser address bar.",
+      "claim_limit": "Static screenshot is not causal cancellation or lifecycle proof; accompanying reports supply those checks."
+    },
+    {
+      "source": "/tmp/p02b-preparing-gui-held-01/preparing-cleared-1.png",
+      "recommended_repo_path": "verification/2026-10-01/screenshots/p02b-held-preparing-cleared-1.png",
+      "sha256": "987ba452bdef07673909af5a7031f522dc52a61bbd763a1f6803b319ec6caed4",
+      "bytes": 99123,
+      "width": 1440,
+      "height": 960,
+      "visual_review": "Reviewed actual screenshot: synthetic fixture UI only; no visible authentication material or browser address bar.",
+      "claim_limit": "Static screenshot is not causal cancellation or lifecycle proof; accompanying reports supply those checks."
+    },
+    {
+      "source": "/tmp/p02b-preparing-gui-held-01/preparing-cleared-2.png",
+      "recommended_repo_path": "verification/2026-10-01/screenshots/p02b-held-preparing-cleared-2.png",
+      "sha256": "b93a97e65199e4924ba385be00f2d6d5c9130ee2cfc3673e95a47a95b9cf236b",
+      "bytes": 95513,
+      "width": 1440,
+      "height": 960,
+      "visual_review": "Reviewed actual screenshot: synthetic fixture UI only; no visible authentication material or browser address bar.",
+      "claim_limit": "Static screenshot is not causal cancellation or lifecycle proof; accompanying reports supply those checks."
+    }
+  ],
+  "source_fixture_preservation_review": {
+    "path": "/tmp/p02b-preparing-source-fixture-publication-whitelist.json",
+    "sha256": "f0639387449b17b0e1188cceb55ecb7e35ea252146a6260c38ce8e32a9c59fec",
+    "bytes": 13674
+  },
+  "limits": [
+    "Only actual clear-query Preparing retirement is exercised. Root edit, task switch, Escape/close, pagehide, reconnect, and earlier HTTP pre-admission races require separate causal gates.",
+    "Native was already Ready; this does not exercise cancellation during the native constructor.",
+    "The sibling is an actual second GUI tab making separate one-shot requests on the same worker, not one continuously retained sibling search lease.",
+    "Original reply bytes were unheld and forwarded before manager SIGINT. This is not a pending-Open launcher shutdown test.",
+    "Manager-first SIGINT and physical backend shutdown are real, with tracked PID absence; process scans can miss short-lived descendants, so raw inner/outer reaps remain separate evidence.",
+    "Chromium through Playwright is not Codex in-app Browser and does not provide a locally reachable cloud preview.",
+    "Inference is deterministic fixture output, not a live model provider.",
+    "Public sessionStart/sessionStop Preparing is separately covered headlessly; it is not a GUI protocol or scope claim here.",
+    "The staged helper source was actually executed from /tmp, not compiled or installed as a new portable SDK command. Preserve original path-bound provenance guards when archiving; replay elsewhere needs reviewed restaging.",
+    "Screenshot publication and source-only archive publication remain separate root actions; this evidence task creates selected text/JSON only."
+  ]
+}

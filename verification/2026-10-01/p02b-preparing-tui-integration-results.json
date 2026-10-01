@@ -1,0 +1,842 @@
+{
+  "schema": "codex-component-tui-integration-evidence-v1",
+  "status": "passed selected TUI integration targets; separate from the earlier library run",
+  "privacy": "Selected source, test, artifact and process evidence; no environment dump, raw config or RPC streams.",
+  "run": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-integration.source.json",
+      "sha256": "b647dc43dcbff81f66fb0aed4a2cae384b4168bec6702d6eece4307484b816cd",
+      "bytes": 2822825
+    },
+    "log": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-integration.log",
+      "sha256": "51dbc18864534f7957daf827bcf90cb881bc4802d39f7d0a6d4d0709c3360593",
+      "bytes": 3440
+    },
+    "strict_subreaper_report": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-integration.subreaper.json",
+      "sha256": "692f045f1a2f0dba0a7b40686c65c9d6818f3b849ba1d66b9e00bdb634f06134",
+      "bytes": 3696
+    },
+    "preflight": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-integration.preflight.json",
+      "sha256": "94e940f846049aae8ce8bc56782e98ad776c03c4ddb05006754e0550529af70d",
+      "bytes": 500
+    },
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p02b-preparing-tui-integration.subreaper.json",
+      "--",
+      "env",
+      "-u",
+      "NO_COLOR",
+      "just",
+      "test",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-tui",
+      "--test",
+      "all",
+      "--test",
+      "manager_dependency_regression"
+    ],
+    "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+    "started_utc": "2026-10-01T12:38:12Z",
+    "finished_utc": "2026-10-01T12:40:35Z",
+    "returncode": 0,
+    "retries": 0,
+    "test_threads": 2,
+    "NO_COLOR": "explicitly unset by command",
+    "nextest_profile": "local",
+    "nextest_run_id": "c8ac9007-18b9-40d8-82ff-406ae6f9a2ba",
+    "selected_targets": [
+      "codex-tui::all",
+      "codex-tui::manager_dependency_regression"
+    ],
+    "executed": 23,
+    "passed": 23,
+    "failed": 0,
+    "skipped": 4,
+    "binaries": 2,
+    "per_binary": {
+      "codex-tui::all": 22,
+      "codex-tui::manager_dependency_regression": 1
+    },
+    "test_execution_elapsed_seconds": 34.983,
+    "log_summary": "Summary [  34.983s] 23 tests run: 23 passed, 4 skipped",
+    "tests": [
+      {
+        "status": "PASS",
+        "seconds": 6.099,
+        "ordinal": 1,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::directory_trust::connected_trust_cancellation_and_acceptance_control_task_creation",
+        "log_line": 9
+      },
+      {
+        "status": "PASS",
+        "seconds": 6.172,
+        "ordinal": 2,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::daemon_compatibility::incompatible_daemon_falls_back_for_default_and_explicit_features",
+        "log_line": 10
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.243,
+        "ordinal": 3,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::auto_daemon_start_failure_exits_with_manual_fallback_hint",
+        "log_line": 11
+      },
+      {
+        "status": "PASS",
+        "seconds": 1.002,
+        "ordinal": 4,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::default_owned_screen_entry_paints_before_sync_ends_and_exit_clears_inline_draft",
+        "log_line": 12
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.182,
+        "ordinal": 5,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::focus_gained_with_unanswered_palette_queries_preserves_immediate_input",
+        "log_line": 13
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.448,
+        "ordinal": 6,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::fullscreen_transcript_can_opt_out_to_terminal_scrollback",
+        "log_line": 14
+      },
+      {
+        "status": "PASS",
+        "seconds": 1.169,
+        "ordinal": 7,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::no_daemon_skips_startup_and_discovery",
+        "log_line": 15
+      },
+      {
+        "status": "PASS",
+        "seconds": 2.135,
+        "ordinal": 8,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::tui_mode_picker::tui_mode_picker_applies_only_after_restart",
+        "log_line": 16
+      },
+      {
+        "status": "PASS",
+        "seconds": 5.276,
+        "ordinal": 9,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::focus_palette::external_editor::external_editors_keep_the_screen_and_return_the_draft",
+        "log_line": 17
+      },
+      {
+        "status": "PASS",
+        "seconds": 8.223,
+        "ordinal": 10,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::provider_defaults::history_lookup_uses_server_provider_with_local_and_embedded_servers",
+        "log_line": 18
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.145,
+        "ordinal": 11,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::screen_reader::startup_records_screen_reader_detection",
+        "log_line": 19
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.008,
+        "ordinal": 12,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::status_indicator::ansi_escape_line_strips_escape_sequences",
+        "log_line": 20
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.01,
+        "ordinal": 13,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::basic_insertion_no_wrap",
+        "log_line": 21
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.008,
+        "ordinal": 14,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::cursor_restoration",
+        "log_line": 22
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.008,
+        "ordinal": 15,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::em_dash_and_space_word_wrap",
+        "log_line": 23
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.009,
+        "ordinal": 16,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::emoji_and_cjk",
+        "log_line": 24
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.008,
+        "ordinal": 17,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::long_token_wraps",
+        "log_line": 25
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.007,
+        "ordinal": 18,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::mixed_ansi_spans",
+        "log_line": 26
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.009,
+        "ordinal": 19,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_history::word_wrap_no_mid_word_split",
+        "log_line": 27
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.009,
+        "ordinal": 20,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::vt100_live_commit::live_001_commit_on_overflow",
+        "log_line": 28
+      },
+      {
+        "status": "PASS",
+        "seconds": 4.648,
+        "ordinal": 21,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::worktree_stack::picker_side_worktree_fork_and_cd_run_on_the_production_stack",
+        "log_line": 29
+      },
+      {
+        "status": "PASS",
+        "seconds": 0.316,
+        "ordinal": 22,
+        "reported_total": 23,
+        "binary": "codex-tui::manager_dependency_regression",
+        "test": "tui_runtime_source_does_not_depend_on_manager_escape_hatches",
+        "log_line": 30
+      },
+      {
+        "status": "PASS",
+        "seconds": 23.363,
+        "ordinal": 23,
+        "reported_total": 23,
+        "binary": "codex-tui::all",
+        "test": "suite::reconnect::automatic_reconnect_restores_draft_and_routes_new_notifications",
+        "log_line": 31
+      }
+    ],
+    "skipped_test_names_recorded_by_log": false,
+    "skipped_claim_limit": "The terminal log reports four skipped tests without listing their names; skipped cases are not counted as passes."
+  },
+  "source_binding": {
+    "authority": "Exact scoped source maps, not the historical wrapper baseline label.",
+    "historical_wrapper_baseline_label": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "entries": 10148,
+    "scoped_source_unchanged": true,
+    "canonical_map_serialization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True), UTF-8",
+    "source_before_canonical_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "source_after_canonical_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "equals_full_cli_build_before_and_after": true,
+    "build_report": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-build.source.json",
+      "sha256": "07cb4d4cd885e04b23b5f91254014e69409e2d8895118d0ca2b28692f148bdb6",
+      "bytes": 2822507
+    },
+    "artifact_receipt": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-artifact.json",
+      "sha256": "deebb4edf5c62ee290fc9252a08c27d96c8a4353d576c07324e1c753620e4cca",
+      "bytes": 1141
+    },
+    "host": {
+      "artifact": "/workspace/component-checkpoint-candidate-p02b-preparing-full-cli-20261001/codex",
+      "sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "bytes": 634578704,
+      "mode": "0o555",
+      "nlink": 1,
+      "original_inode": 1237129,
+      "inode_preserved": true,
+      "byte_transformation": "none"
+    },
+    "host_digest_matches_preflight_and_current_frozen_artifact": true,
+    "CARGO_BIN_EXE_codex": {
+      "value": "/workspace/component-checkpoint-candidate-p02b-preparing-full-cli-20261001/codex",
+      "launch_authority": "Retrospective transcription by the root of its shell tool invocation. It records the exported CARGO_BIN_EXE_codex value and rechecked frozen digest; the original wrapper did not capture this inherited variable.",
+      "scope": "Helpers resolving codex can use this binding; some TUI helpers prefer a dedicated codex-tui executable. No claim that every test child was the frozen CLI.",
+      "launch_assertion_record": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-integration.launch-binding.json",
+        "sha256": "04ab8ed67fe87fbd442c36b1431994498e58bd7872de6eb5d95c74470b0fbee1",
+        "bytes": 1036
+      },
+      "record_kind": "retrospective_transcription_of_root_tool_invocation",
+      "not_captured_by_wrapper": true,
+      "execution_session_id": 45024
+    }
+  },
+  "preflight_observations": {
+    "memory": {
+      "anon": 443179008,
+      "kernel": 786518016,
+      "shmem": 10325778432,
+      "inactive_file": 622891008,
+      "active_file": 4816863232
+    },
+    "memory_max": "17179869184",
+    "free_bytes": {
+      "/workspace": 1742012416,
+      "/tmp": 1152299008,
+      "/dev/shm": 7427186688
+    },
+    "cli_sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+    "jobs": 1,
+    "test_threads": 2,
+    "scope": "previously unrun integration test targets; not a format-only library rerun"
+  },
+  "runner": {
+    "source_path": "component-sdk/tests/subreaper_runner.py",
+    "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+    "bytes": 4645,
+    "unchanged_in_run_source_maps": true,
+    "raw_report": {
+      "command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-tui",
+        "--test",
+        "all",
+        "--test",
+        "manager_dependency_regression"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 722222,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 722292,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 722322,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 722424,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 722602,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 722543,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 722544,
+          "wait_status": 36096,
+          "returncode": 141
+        },
+        {
+          "pid": 722576,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 722665,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 722650,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 722746,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 722747,
+          "wait_status": 36096,
+          "returncode": 141
+        },
+        {
+          "pid": 722753,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 722853,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 722946,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 722947,
+          "wait_status": 36096,
+          "returncode": 141
+        },
+        {
+          "pid": 723065,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 723013,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 723141,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723233,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723334,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723385,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723450,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723632,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 723631,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 723751,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 723752,
+          "wait_status": 36096,
+          "returncode": 141
+        },
+        {
+          "pid": 723779,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723833,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 723885,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 724035,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 724172,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 724171,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 724302,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 724303,
+          "wait_status": 36096,
+          "returncode": 141
+        },
+        {
+          "pid": 724330,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 724398,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 724485,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 721840,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 721840,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 141.58259901400015
+    },
+    "reaped_entries": 39,
+    "adopted_descendant_entries": 38,
+    "returncode_histogram": {
+      "-13": 15,
+      "0": 10,
+      "128": 9,
+      "141": 5
+    },
+    "claim_limit": "Raw reaping records include nonzero and signal exits. Exit 0 of the runner and test command is not a claim that every child exited zero or a diagnosis of nonzero child exits."
+  },
+  "prior_failed_gate": {
+    "results_record": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02b-preparing-tui-consumer-results.json",
+      "sha256": "1e2abcc8b923c973a3676a264077bb7f8ad785bd5cdd885452087b56b1c5d923",
+      "bytes": 17534
+    },
+    "original_artifacts": {
+      "p02b-preparing-tui-tests.source.json": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-tests.source.json",
+        "sha256": "d8c8c7963f068cb1121e13e978e02aac3b77c477a4226dbddfce862a1edff10b"
+      },
+      "p02b-preparing-tui-tests.log": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-tests.log",
+        "sha256": "c2e239c82b72a8716d570f777965418d45746b5e1f93bcd22ee13fb4b157580e"
+      },
+      "p02b-preparing-tui-tests.subreaper.json": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-tests.subreaper.json",
+        "sha256": "a4594150297b801ca0e0d3314373bcaa9b1cd9e1b2a8f8797626fecf7bc851a1"
+      },
+      "p02b-preparing-tui-tests-02.source.json": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.source.json",
+        "sha256": "d687c38619c699ffd242da2da3a8705b2007efc7388ed81ea94d356dcfa66545"
+      },
+      "p02b-preparing-tui-tests-02.log": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.log",
+        "sha256": "a6115499b9bac55101ae975e99cdb7944d16008f3678db05bc991eeda6d93bb7"
+      },
+      "p02b-preparing-tui-tests-02.subreaper.json": {
+        "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.subreaper.json",
+        "sha256": "32c05f40bec42238b2b55e2b3ce758c316f6568e76a63acfea0047958680ec31"
+      }
+    },
+    "retry02_summary": {
+      "exit_code": 100,
+      "binaries": 6,
+      "executed": 5650,
+      "passed": 5633,
+      "failed": 17,
+      "skipped": 8
+    },
+    "all_original_artifact_hashes_verified": true,
+    "prior_first_attempt": "Linker SIGBUS; exit 101, zero tests. Preserved without replacement.",
+    "source_report_for_preservation": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.source.json",
+      "sha256": "d687c38619c699ffd242da2da3a8705b2007efc7388ed81ea94d356dcfa66545",
+      "bytes": 2822005
+    },
+    "five_previous_integration_failures_now_pass": [
+      {
+        "test": "suite::focus_palette::external_editor::external_editors_keep_the_screen_and_return_the_draft",
+        "source_path": "codex-rs/tui/tests/suite/external_editor_tests.rs",
+        "unchanged_source_sha256": "80610f6d62fba06a82b641e543d8b9f623053ce354da4f346213121b3e072a3c",
+        "prior": {
+          "status": "FAIL",
+          "seconds": 0.347,
+          "ordinal": 5629,
+          "binary": "codex-tui::all",
+          "log_line": 5978,
+          "observed_diagnostic_category": "child_exit_1"
+        },
+        "current": {
+          "status": "PASS",
+          "seconds": 5.276,
+          "ordinal": 9,
+          "reported_total": 23,
+          "binary": "codex-tui::all",
+          "test": "suite::focus_palette::external_editor::external_editors_keep_the_screen_and_return_the_draft",
+          "log_line": 17
+        }
+      },
+      {
+        "test": "suite::daemon_compatibility::incompatible_daemon_falls_back_for_default_and_explicit_features",
+        "source_path": "codex-rs/tui/tests/suite/daemon_compatibility.rs",
+        "unchanged_source_sha256": "83880ad4156eceb527711558186fdb585f658e2022c7cd3796f5d93815c7add5",
+        "prior": {
+          "status": "FAIL",
+          "seconds": 1.366,
+          "ordinal": 5631,
+          "binary": "codex-tui::all",
+          "log_line": 5995,
+          "observed_diagnostic_category": "child_exit_1"
+        },
+        "current": {
+          "status": "PASS",
+          "seconds": 6.172,
+          "ordinal": 2,
+          "reported_total": 23,
+          "binary": "codex-tui::all",
+          "test": "suite::daemon_compatibility::incompatible_daemon_falls_back_for_default_and_explicit_features",
+          "log_line": 10
+        }
+      },
+      {
+        "test": "suite::focus_palette::no_daemon_skips_startup_and_discovery",
+        "source_path": "codex-rs/tui/tests/suite/focus_palette.rs",
+        "unchanged_source_sha256": "e67616d30c480854808b25dbb49ce0dea79c42a050c6a83cb422515b515995f9",
+        "prior": {
+          "status": "FAIL",
+          "seconds": 0.189,
+          "ordinal": 5633,
+          "binary": "codex-tui::all",
+          "log_line": 6012,
+          "observed_diagnostic_category": "child_exit_1"
+        },
+        "current": {
+          "status": "PASS",
+          "seconds": 1.169,
+          "ordinal": 7,
+          "reported_total": 23,
+          "binary": "codex-tui::all",
+          "test": "suite::focus_palette::no_daemon_skips_startup_and_discovery",
+          "log_line": 15
+        }
+      },
+      {
+        "test": "suite::provider_defaults::history_lookup_uses_server_provider_with_local_and_embedded_servers",
+        "source_path": "codex-rs/tui/tests/suite/provider_defaults.rs",
+        "unchanged_source_sha256": "d7850d9870032b8623f9d5d56a59762e1878843b61d49392c596b16a16c2f9f9",
+        "prior": {
+          "status": "FAIL",
+          "seconds": 0.011,
+          "ordinal": 5634,
+          "binary": "codex-tui::all",
+          "log_line": 6028,
+          "observed_diagnostic_category": "missing_cli_fixture"
+        },
+        "current": {
+          "status": "PASS",
+          "seconds": 8.223,
+          "ordinal": 10,
+          "reported_total": 23,
+          "binary": "codex-tui::all",
+          "test": "suite::provider_defaults::history_lookup_uses_server_provider_with_local_and_embedded_servers",
+          "log_line": 18
+        }
+      },
+      {
+        "test": "suite::worktree_stack::picker_side_worktree_fork_and_cd_run_on_the_production_stack",
+        "source_path": "codex-rs/tui/tests/suite/worktree_stack.rs",
+        "unchanged_source_sha256": "71563ab0fffd83d269a341628cccc342cbf0cebbfcfee09802aaf7b8c995b893",
+        "prior": {
+          "status": "FAIL",
+          "seconds": 33.714,
+          "ordinal": 5650,
+          "binary": "codex-tui::all",
+          "log_line": 6062,
+          "observed_diagnostic_category": "storage_or_io_error"
+        },
+        "current": {
+          "status": "PASS",
+          "seconds": 4.648,
+          "ordinal": 21,
+          "reported_total": 23,
+          "binary": "codex-tui::all",
+          "test": "suite::worktree_stack::picker_side_worktree_fork_and_cd_run_on_the_production_stack",
+          "log_line": 29
+        }
+      }
+    ],
+    "test_and_snapshot_preservation": [
+      {
+        "scope": "integration_test_tree",
+        "entries": 23,
+        "all_four_maps_equal": true,
+        "canonical_subset_sha256": "27de5123d35ed0d79be360937302fbbd9df991cba024e6dcd7850678adabf8d6",
+        "files": {
+          "codex-rs/tui/tests/all.rs": "e25d4b9720545a6bc807a9daa04b2b8b87b698a4f72f4a6e4ae9b6fe61f7e7b6",
+          "codex-rs/tui/tests/fixtures/oss-story.jsonl": "99cafecd5cbed5efd3259a288cc2a5fd824ea89adae3c76d1244d5cc766b41ce",
+          "codex-rs/tui/tests/manager_dependency_regression.rs": "ff051c3dcc85a55ee0e75fbabeea76caff94ba402c9af9fb5f44192ff6cda51a",
+          "codex-rs/tui/tests/suite/daemon_compatibility.rs": "83880ad4156eceb527711558186fdb585f658e2022c7cd3796f5d93815c7add5",
+          "codex-rs/tui/tests/suite/directory_trust.rs": "38070a7a96ec2fd4a09c4e0e8473bb94f964024c9b26699adddf18c16f6193b2",
+          "codex-rs/tui/tests/suite/external_editor_tests.rs": "80610f6d62fba06a82b641e543d8b9f623053ce354da4f346213121b3e072a3c",
+          "codex-rs/tui/tests/suite/focus_palette.rs": "e67616d30c480854808b25dbb49ce0dea79c42a050c6a83cb422515b515995f9",
+          "codex-rs/tui/tests/suite/mod.rs": "c6f68b101f96e4f5da81094351e8b0fe722362c4f818bbfc3f84414720fada6e",
+          "codex-rs/tui/tests/suite/provider_defaults.rs": "d7850d9870032b8623f9d5d56a59762e1878843b61d49392c596b16a16c2f9f9",
+          "codex-rs/tui/tests/suite/reconnect.rs": "90bc1f156afd8d4525fff7ed632facb71616fc0464f68c2ec0e60a4c6e3aa5e5",
+          "codex-rs/tui/tests/suite/resize_reflow.rs": "e952369e3bf168fa1b77e876c93d9e26058bbcb32acb9c8ebf75d0ff74ad0dc7",
+          "codex-rs/tui/tests/suite/screen_reader.rs": "b69d25404298a81ca8971bc3848b6d873aef995b2aa7fea68eceb1e425d1ecde",
+          "codex-rs/tui/tests/suite/snapshots/all__suite__daemon_compatibility__daemon_feature_mismatch.snap": "e13e90423dff13f59ebbe87415b92e852d2125be49d01cfba54ab3b9f39520a7",
+          "codex-rs/tui/tests/suite/snapshots/all__suite__daemon_compatibility__daemon_host_policy_mismatch.snap": "1cea21168d5539c28a57f934fd54e778c4ec558959e998a09112e32258bd2c9a",
+          "codex-rs/tui/tests/suite/snapshots/all__suite__daemon_compatibility__daemon_override_mismatch.snap": "62b2e996acfb4f8ce056469ea4ba1e583c280557c54eb765707a4ef3210d6383",
+          "codex-rs/tui/tests/suite/snapshots/all__suite__focus_palette__daemon_auto_start_failure.snap": "48536d4caba0ee727975c7fe56ea835ad63487b3a4c40657696cbcd40499b8e0",
+          "codex-rs/tui/tests/suite/snapshots/all__suite__focus_palette__external_editor__external_editor_visible_handoff.snap": "8bb91a1f555d2313fc6db52ffd7aca3d865721cbfbf338c2196264ee24e8857c",
+          "codex-rs/tui/tests/suite/status_indicator.rs": "daa04b9cbb327c25817de37283d80750d6cd46f415945efb64203a8d6236dfb7",
+          "codex-rs/tui/tests/suite/tui_mode_picker_tests.rs": "779a202b5d963a70b6af43d84692a4e2a56fb5204e901d37863e682101c8a488",
+          "codex-rs/tui/tests/suite/vt100_history.rs": "84737ddc2b991e1c69a3c4eb3d08bcb48653828c361060c8cbb7569dbcce4ff7",
+          "codex-rs/tui/tests/suite/vt100_live_commit.rs": "4d40d05fbab6fb3e2a2e5b180f67fb599c8667f5e2566702dc483a9bcdc55224",
+          "codex-rs/tui/tests/suite/worktree_stack.rs": "71563ab0fffd83d269a341628cccc342cbf0cebbfcfee09802aaf7b8c995b893",
+          "codex-rs/tui/tests/test_backend.rs": "502b7e0b4d7705eeceb06c865872cfc0f562a6c7e8695ae361b14faf864779ec"
+        }
+      },
+      {
+        "scope": "expected_tui_snapshots",
+        "entries": 1366,
+        "all_four_maps_equal": true,
+        "canonical_subset_sha256": "66b1a6c53a1214f5094e69753fd4398117854ad96bfdd6c432a833c5b9618926"
+      },
+      {
+        "scope": "integration_manifest_and_nextest_configuration",
+        "entries": 2,
+        "all_four_maps_equal": true,
+        "canonical_subset_sha256": "8ea418066097b37fb4b471d54c6786922bbb3ff025e8eedc0aaa0bcc17e3fca2",
+        "files": {
+          "codex-rs/.config/nextest.toml": "d1e6a97e6448ec56a91c745bfe63b91d2bcfd51b30e15de81a69558c73734fdd",
+          "codex-rs/tui/Cargo.toml": "e0e28fef464c0952a9e2160b84aa0fee8eb1b4509cd54865b3aa599623826265"
+        }
+      }
+    ],
+    "failed_generated_snapshots": {
+      "gate": "/workspace/acceptance/p02b-preparing-tui-tests-02.source.json",
+      "gate_sha256": "d687c38619c699ffd242da2da3a8705b2007efc7388ed81ea94d356dcfa66545",
+      "archive": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-tui-tests-02-generated-snapshots.tar.gz",
+      "archive_sha256": "27cf4e34f6c1e5ac27873f616d8643209dc535642547de506eab93f5b3f5362e",
+      "files": {
+        "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_single_column_frames.snap.new": "bbc87c9d9a6da0bc01e68ae5e4c9ec8206b570cf855e09e7ca48ff228966ea09",
+        "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_owned_wide_frames.snap.new": "9410fcdbfb557e64d6eb65a0f5eaadbe39cb59d3bd8af5c3c0b077446d1bc283"
+      },
+      "action": "only newly generated failed-run .snap.new files archived byte-exact then removed; original snapshots/source untouched; no snapshot acceptance",
+      "safe_color_environment_observed": {
+        "NO_COLOR": "1",
+        "TERM": "dumb"
+      },
+      "prior_color_probe": "/workspace/acceptance/p02-tui-cursor-color-env.source.json",
+      "durability": "cloud-local counterevidence",
+      "report": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-tui-tests-02-generated-snapshots.tar.json",
+        "sha256": "916b0f82ebb3d1a74a1eda89bd4260c63032cf0e24d0e5a9608b336dd217300a"
+      },
+      "independently_verified_archive_hash_and_member_bytes": true,
+      "original_expected_snapshots_unchanged_during_test": true,
+      "accepted": false
+    },
+    "original_failed_results_remain_historical_failures": true
+  },
+  "relationship_to_library_gate": {
+    "source_report": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.source.json",
+      "sha256": "6624ca835e70a942cdd817c51fdc2bf41a6e2f78f2419928bf9fc3c87373e2c8",
+      "bytes": 2822884
+    },
+    "executed": 6095,
+    "passed": 6095,
+    "failed": 0,
+    "skipped": 4,
+    "scope": "Earlier AS/client/TUI --lib run on preformat bytes. Twelve former TUI library failures passed there.",
+    "separate_execution": true,
+    "no_combined_single_run_total_claim": true
+  },
+  "limits": [
+    "This command selected two TUI integration targets, not a new complete codex-tui package run or a repeat of the 6095-test library execution.",
+    "All five previously failing integration cases passed in this run. Four skipped integration cases remain skipped.",
+    "The integration test tree, expected TUI snapshots, Cargo manifest and nextest configuration match the earlier failed run exactly; production source and executable inputs changed separately as documented.",
+    "The passing cases include production-stack terminal integration/PTY scenarios, but do not independently establish installed file-search Preparing cancellation, native-constructor interruption, graphical GUI/browser behavior, live-provider inference or whole-harness extraction completion.",
+    "CARGO_BIN_EXE_codex launch binding is attributed to the root execution account; the wrapper source report itself does not record inherited environment values.",
+    "Source maps and artifact receipts are cloud-local evidence. Publishing these summaries does not export raw reports or binaries."
+  ],
+  "preflight_scope_interpretation": "The preflight scope text says previously unrun integration test targets. These targets had run in the historical failed retry02; here that wording refers to the newer formatted-source/frozen-CLI checkpoint, not never-run tests."
+}

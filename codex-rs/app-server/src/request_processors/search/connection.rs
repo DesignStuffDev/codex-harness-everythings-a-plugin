@@ -4,8 +4,6 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::sync::Mutex;
 use std::sync::OnceLock;
-use std::sync::atomic::AtomicBool;
-use std::sync::atomic::Ordering;
 
 use codex_file_search_runtime::FileSearchScope;
 
@@ -17,8 +15,9 @@ use tokio_util::task::TaskTracker;
 use crate::fuzzy_file_search::FuzzyFileSearchSession;
 use crate::fuzzy_file_search::PendingSearchObserver;
 use crate::fuzzy_file_search::PublisherFailures;
+use crate::fuzzy_file_search::SearchCloseControl;
 
-const MAX_SEARCHES_PER_CONNECTION: usize = 16;
+pub(super) const MAX_SEARCHES_PER_CONNECTION: usize = 16;
 
 pub(crate) struct SearchConnectionState {
     pub(super) scope: OnceLock<FileSearchScope>,
@@ -55,8 +54,9 @@ pub(super) struct State {
     next_id: u64,
     pub(super) sessions: HashMap<String, SessionEntry>,
     pub(super) pending: HashMap<String, u64>,
-    pub(super) one_shots: HashMap<u64, Arc<AtomicBool>>,
+    pub(super) one_shots: HashMap<u64, Arc<PendingSearchObserver>>,
     pub(super) tokens: HashMap<String, u64>,
+    pub(super) incoming_starts: Vec<std::sync::Weak<super::ingress::SearchStartIntent>>,
 }
 
 impl State {
@@ -100,11 +100,15 @@ impl SessionEntry {
         }
     }
 
-    pub(super) fn request_close(&self) {
+    pub(super) fn close_control(&self) -> SearchCloseControl {
         match self {
-            Self::Starting { observer, .. } => observer.request_close(),
-            Self::Ready { session, .. } => session.request_close(),
+            Self::Starting { observer, .. } => SearchCloseControl::starting(observer.clone()),
+            Self::Ready { session, .. } => session.close_control(),
         }
+    }
+
+    pub(super) fn request_close(&self) {
+        self.close_control().request_close();
     }
 
     pub(super) async fn close(self) -> anyhow::Result<()> {
@@ -127,15 +131,25 @@ impl SessionEntry {
 impl SearchConnectionState {
     /// Fence before waiting for connection RPCs; startup and callbacks share it.
     pub(crate) fn request_shutdown(&self) {
-        let mut state = self
-            .state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        state.closed = true;
-        for cancellation in state.one_shots.values() {
-            cancellation.store(true, Ordering::Release);
+        let (one_shots, sessions) = {
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            state.closed = true;
+            (
+                state.one_shots.values().cloned().collect::<Vec<_>>(),
+                state
+                    .sessions
+                    .values()
+                    .map(SessionEntry::close_control)
+                    .collect::<Vec<_>>(),
+            )
+        };
+        for cancellation in one_shots {
+            cancellation.request_close();
         }
-        for session in state.sessions.values() {
+        for session in sessions {
             session.request_close();
         }
         if let Some(scope) = self.scope.get() {
@@ -181,12 +195,12 @@ pub(super) struct OneShotGuard {
     pub(super) connection: Arc<SearchConnectionState>,
     pub(super) id: u64,
     pub(super) token: Option<String>,
-    pub(super) cancellation: Arc<AtomicBool>,
+    pub(super) cancellation: Arc<PendingSearchObserver>,
 }
 
 impl Drop for OneShotGuard {
     fn drop(&mut self) {
-        self.cancellation.store(true, Ordering::Release);
+        self.cancellation.request_close();
         let mut state = self
             .connection
             .state
@@ -214,17 +228,23 @@ impl Drop for StartWaiter {
         if !self.armed {
             return;
         }
-        let mut state = self
-            .connection
-            .state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if state
-            .sessions
-            .get(&self.session_id)
-            .is_some_and(|entry| entry.id() == self.id)
-            && let Some(entry) = state.sessions.remove(&self.session_id)
-        {
+        let entry = {
+            let mut state = self
+                .connection
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            if state
+                .sessions
+                .get(&self.session_id)
+                .is_some_and(|entry| entry.id() == self.id)
+            {
+                state.sessions.remove(&self.session_id)
+            } else {
+                None
+            }
+        };
+        if let Some(entry) = entry {
             entry.request_close();
             // Runtime and publisher owners retain cleanup on drop.
         }
@@ -234,10 +254,10 @@ impl Drop for StartWaiter {
 /// Dropping an RPC observation requests cancellation without releasing its
 /// admitted slot; the retained task owns OneShotGuard until a cleanup receipt.
 /// Unconfirmed remains quarantined by the runtime scope after this guard ends.
-pub(super) struct OneShotWaiter(pub(super) Arc<AtomicBool>);
+pub(super) struct OneShotWaiter(pub(super) Arc<PendingSearchObserver>);
 
 impl Drop for OneShotWaiter {
     fn drop(&mut self) {
-        self.0.store(true, Ordering::Release);
+        self.0.request_close();
     }
 }

@@ -2,6 +2,8 @@
 use std::collections::VecDeque;
 use std::sync::Arc;
 use std::sync::Mutex;
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering;
 use std::time::Duration;
 
 use codex_file_search_api::*;
@@ -10,46 +12,70 @@ use codex_file_search_runtime::interactive_policy;
 use tokio::sync::Semaphore;
 use tokio::sync::watch;
 use tokio_util::sync::CancellationToken;
+use tokio_util::task::TaskTracker;
+use tokio_util::task::task_tracker::TaskTrackerToken;
 
 use super::FileSearchRuntime;
 use super::FileSearchSource;
 use super::state::lock;
 
+#[path = "test_start.rs"]
+mod startup;
+
+#[path = "test_start_tests.rs"]
+mod startup_tests;
+
 pub(super) struct Backend {
     pub pending: Mutex<VecDeque<Arc<Session>>>,
     pub all: Vec<Arc<Session>>,
     pub opened: Mutex<Vec<SearchOpen>>,
-    pub open_entered: Semaphore,
+    pub open_entered: Arc<Semaphore>,
+    stopping: AtomicBool,
+    starts: Mutex<Vec<Arc<dyn SearchStartControl>>>,
+    tasks: TaskTracker,
     pub open_ready: watch::Sender<bool>,
 }
 impl SearchBackend for Backend {
-    fn open(&self, request: SearchOpen) -> SearchStartFuture<'_> {
+    fn begin_open(&self, request: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
         lock(&self.opened).push(request);
-        Box::pin(async move {
-            self.open_entered.add_permits(1);
-            let mut ready = self.open_ready.subscribe();
-            while !*ready.borrow_and_update() {
-                ready.changed().await.expect("open gate");
-            }
-            lock(&self.pending)
-                .pop_front()
-                .map(|session| session as Arc<dyn SearchBackendSession>)
-                .ok_or_else(|| SearchStartError {
-                    operation: SearchError::new(
-                        SearchErrorKind::ResourceExhausted,
-                        "fixture leases exhausted",
-                    ),
-                    cleanup: StartCleanup::NotAdmitted,
-                })
-        })
+        let mut pending = lock(&self.pending);
+        if self.stopping.load(Ordering::Acquire) {
+            return Err(SearchStartError {
+                operation: SearchError::new(SearchErrorKind::ClosedLease, "fixture backend closed"),
+                cleanup: StartCleanup::NotAdmitted,
+            });
+        }
+        let session = pending.pop_front().ok_or_else(|| SearchStartError {
+            operation: SearchError::new(
+                SearchErrorKind::ResourceExhausted,
+                "fixture leases exhausted",
+            ),
+            cleanup: StartCleanup::NotAdmitted,
+        })?;
+        let ticket = startup::begin(
+            session,
+            self.open_ready.subscribe(),
+            self.open_entered.clone(),
+            self.tasks.token(),
+        );
+        // The finite queue bounds this ledger. Publication shares the admission
+        // fence, so shutdown cannot miss a startup owner it must drain.
+        lock(&self.starts).push(ticket.control());
+        Ok(ticket)
     }
     fn request_shutdown(&self) {
+        {
+            let _admission = lock(&self.pending);
+            self.stopping.store(true, Ordering::Release);
+            self.tasks.close();
+        }
         for session in &self.all {
             session.request_close();
         }
     }
     fn shutdown(&self) -> SearchCloseFuture<'_> {
         self.request_shutdown();
+        let starts = lock(&self.starts).clone();
         Box::pin(async move {
             let mut outcome = joined();
             for session in &self.all {
@@ -61,6 +87,16 @@ impl SearchBackend for Backend {
                     outcome.cleanup = CloseCleanup::Unconfirmed(error);
                 }
             }
+            for start in starts {
+                let cancelled = start.cancel_and_wait().await;
+                if outcome.operation.is_ok() {
+                    outcome.operation = cancelled.operation;
+                }
+                if let StartCleanup::Unconfirmed(error) = cancelled.cleanup {
+                    outcome.cleanup = CloseCleanup::Unconfirmed(error);
+                }
+            }
+            self.tasks.wait().await;
             outcome
         })
     }
@@ -76,6 +112,7 @@ pub(super) struct Session {
     pub close_entered: Semaphore,
     pub close_ready: watch::Sender<bool>,
     pub outcome: SearchCloseOutcome,
+    closed: watch::Sender<Option<SearchCloseOutcome>>,
 }
 impl Session {
     pub fn new(acknowledgements: usize) -> Arc<Self> {
@@ -92,6 +129,7 @@ impl Session {
             close_entered: Semaphore::new(0),
             close_ready: watch::channel(true).0,
             outcome,
+            closed: watch::channel(None).0,
         })
     }
     pub fn emit(&self, phase: SearchPhase) {
@@ -152,14 +190,7 @@ impl SearchBackendSession for Session {
     }
     fn close(&self) -> SearchCloseFuture<'_> {
         self.request_close();
-        Box::pin(async move {
-            self.close_entered.add_permits(1);
-            let mut ready = self.close_ready.subscribe();
-            while !*ready.borrow_and_update() {
-                ready.changed().await.expect("close gate");
-            }
-            self.outcome.clone()
-        })
+        Box::pin(startup::observe_close(self.closed.subscribe()))
     }
 }
 
@@ -172,11 +203,18 @@ pub(super) fn joined() -> SearchCloseOutcome {
 pub(super) async fn fixture(
     sessions: Vec<Arc<Session>>,
 ) -> (FileSearchRuntime, FileSearchProvider, Arc<Backend>) {
+    let tasks = TaskTracker::new();
+    for session in &sessions {
+        startup::own_close(session.clone(), tasks.token());
+    }
     let backend = Arc::new(Backend {
         pending: Mutex::new(sessions.iter().cloned().collect()),
         all: sessions,
         opened: Mutex::new(Vec::new()),
-        open_entered: Semaphore::new(0),
+        open_entered: Arc::new(Semaphore::new(0)),
+        stopping: AtomicBool::new(false),
+        starts: Mutex::new(Vec::new()),
+        tasks,
         open_ready: watch::channel(true).0,
     });
     let policy = interactive_policy().expect("explicit fixture profile");

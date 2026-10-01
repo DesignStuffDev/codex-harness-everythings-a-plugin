@@ -38,6 +38,8 @@ fn query(id: u64, text: &str) -> SearchQuery {
     }
 }
 
+#[path = "process_pending_tests.rs"]
+mod pending;
 #[path = "process_startup_tests.rs"]
 mod startup;
 

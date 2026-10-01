@@ -1,0 +1,22 @@
+# New full CLI: installed search and public Preparing cancellation
+
+The full `codex` CLI built successfully from the formatted component source, then passed four App Server stdio acceptance gates. This checkpoint exercises a real separately built native search worker through installation and the new host. It does not complete the whole-harness extraction.
+
+The frozen host SHA-256 is `1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7` (634,578,704 bytes, mode 0555). `cargo build --locked -p codex-cli` exited 0 with all 10,148 scoped source fingerprints unchanged. The artifact receipt binds those build inputs to the preserved executable; every runtime report verifies the same before/after executable digest. The historical wrapper baseline label is not a claim that the dirty source equals that commit.
+
+| Gate | Result | What the actual runtime establishes |
+|---|---|---|
+| Native worker04, package 0.2.0 | Passed | Install/select, seven exact native-parity cases, concurrent streamed sessions, sibling isolation after joined Stop, retained genuine `resourceExhausted`, selected failure without fallback, removal and native restoration. |
+| Legacy public cancellation | Passed | With a real installed worker and its Ready reply held by the test relay, public token retirement releases only the pending host lease; joined cleanup occurs before the identical reply is forwarded. The sibling and replacement remain usable. |
+| Public session Stop | Passed | Same-ID Start/Stop/later-Start replies remain ordered: cancelled Start 10, joined Stop 11, successor Start 12. The successor remains usable before and after the late original reply. |
+| Existing worker03, package 0.1.0 | Passed | The unchanged older package passes the same normal parity, streams, failure, removal and restoration gate on the new host. This is backward runtime compatibility. |
+
+Worker04's native executable remains `a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1`; worker03 remains `7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf`. Both were built from separately exported source and preserved before these runs; these gates perform no host rebuild or worker rebuild. Installed inputs are parked before execution, so the tests use installed packages. The relay scenarios use a clearly identified test package with only selection/entrypoint/arguments plus the relay changed; native worker bytes and licenses stay unchanged.
+
+The two cancellation gates deliberately hold the open acknowledgement **after the native backend is Ready**. Their proof concerns public RPC and host/process Preparing. They do not prove interruption inside native construction. The real-worker session Stop gate explicitly leaves its error/Unconfirmed Stop branch unexercised; controlled tests cover different failure cases separately. The legacy RPC is used by the GUI, but testing that protocol is not graphical UI verification.
+
+All four outer commands and strict subreapers exited 0 with no runner error. Each runtime checks normal stdin-EOF shutdown, exact observed PID absence including zombies, and no forced cleanup. Normal-package gates also expect exit 1 for deliberate selected-worker startup failure and for shutdown retaining a real operation failure. Raw reap records are retained in the JSON: worker04 six reaps `{−13:2, 0:4}`, legacy and session Stop each six `{−13:1, 0:5}`, worker03 eight `{−13:1, 0:7}`. These records do not imply that every descendant exited zero.
+
+The source chain remains explicit: the earlier 6,095 App Server/client/TUI **library** tests passed on preformat bytes; scoped lint changed no source; ten mechanically formatted paths link to the full CLI build. Entire source maps match through formatting → build → all four runtime gates. The JSON includes the 18 current consumer hashes, original visibility correction, report hashes, both package identities, SDK and staged runner hashes, selected causal markers, and raw process wait statuses. Earlier failed compilation and full-TUI runs remain preserved in their own evidence. Proposed publication subdivisions were not separately compiled or tested.
+
+No model turn, TUI PTY, graphical GUI/Browser interaction, multiple-connection or revoked-auth behavior is established here. Five earlier full-TUI integration failures remain outside these gates. Raw cloud-local reports/binaries are not externally durable merely because this summary is published.

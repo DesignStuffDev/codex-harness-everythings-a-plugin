@@ -139,8 +139,12 @@ The subsequent worker04 package is independently built at version 0.2.0 with
 unchanged wire contract 1. Its [installed old-host compatibility gate](verification/2026-10-01/P02B_WORKER04_OLD_HOST_COMPAT_EVIDENCE.md)
 passed without rebuilding the accepted full CLI. New required Rust source API2,
 native/process/runtime pending controls and App Server consumer changes have
-separate focused evidence; the new full-host/TUI/GUI Preparing gates remain
-pending in [EXECUTION_STATE.md](EXECUTION_STATE.md). Package capability metadata
+separate focused evidence. Public Stop and TUI consumer libraries now pass6095 combined tests
+(4skipped). The new fullCLI build and installed legacy/public sessionStop Preparing gates pass;
+old0.1 and new0.2 worker packages remain unchanged. Normal storage/migration/GUI also passed
+separately. TUI integration passed23/4skipped; instrumented GUI clear-query Preparing passed
+both cold-launch cycles and subsequent manager shutdown. Exact limits remain in
+[EXECUTION_STATE.md](EXECUTION_STATE.md). Package capability metadata
 is a declaration, not proof of those new host behaviors. Preserve the accepted
 0.1.0 package and its original runtime evidence independently.
 

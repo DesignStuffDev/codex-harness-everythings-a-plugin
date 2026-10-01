@@ -1,0 +1,1326 @@
+{
+  "schema": "codex-component-new-host-runtime-evidence-v1",
+  "status": "Successful full CLI build plus four completed real App Server gates; scoped evidence only",
+  "created_utc": "2026-10-01T12:36:01.585108+00:00",
+  "privacy": "Selected proof fields and hashes only; no credentials, environment dumps, raw config, stdout/stderr, or complete RPC streams. Raw process wait statuses deliberately preserved.",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "published_base_tree": "0065b61fb7058cc014f795e29f8b1d2028fdbea1",
+  "published_base_commit": "9bd3bc30f4259245b3e4c769840289fcda0d2dcd",
+  "source_binding": {
+    "authoritative_source": "Full before/after fingerprints in build and gate reports, not the wrapper baseline label or proposed intermediate commits.",
+    "historical_wrapper_baseline_label": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "source_entries": 10148,
+    "canonical_map_serialization": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True), UTF-8",
+    "preformat_tested_source_map_sha256": "78eb55303f8bbe60c715801e86f328c9cd9f83c43bfaf9f7cc716c16209798e7",
+    "formatted_built_and_runtime_source_map_sha256": "28cf7c0ad6b0ce303ec814e77049b8de00d0bf4294380a5f43c6845532da093b",
+    "entire_maps_equal_tests_after_lint_before_lint_after_format_before": true,
+    "entire_maps_equal_format_after_build_before_build_after_all_four_runtime_before_after": true,
+    "source_paths": [
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "current_sha256": "b75200b46370624c2b1260c750c79bf98ca208fda318d243f0d1ddb3a916176f",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/message_processor.rs",
+        "current_sha256": "a9fadc0d61e3569e4153b1e727077d8dddf23dd7cb0fecf4d3b61d4b821d48d9",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/message_processor/search_admission.rs",
+        "current_sha256": "9d5b7e33a05948fe6f3861bfba55f3a91c97b263cb30c23b43ff5f75813f4665",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors.rs",
+        "current_sha256": "b5a4d59e1bf61945a5ac257e3de9927c7bfa4cd7ecc303b554ffab7166b7314d",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search.rs",
+        "current_sha256": "d471416c6c6663de3e2a4ffcfc1537aeef7ca812dd963c433184933b388afafb",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+        "current_sha256": "4d8214269f60a18bfec9d2387f0ed4843c1203d6538b5380eb4439bd9835eee4",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress.rs",
+        "current_sha256": "335e545a9a9886ae4c61c8211f89b796ec7673c6cd8e3c12a61b198096c77897",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_regression_tests.rs",
+        "current_sha256": "9eb557a5f406b877cd77e4b3090820d8c948818c8bdbbca00ba9e8e9ec1213a8",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/ingress_tests.rs",
+        "current_sha256": "0706b9f49b4f53f0b45ef3c03f8baa06c0cea9596260d2ae370fc94ec05fc305",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+        "current_sha256": "6841479e99054a2aba3ac2e876510ca6ab7d1ece28b1259af305b27928810fe8",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search.rs",
+        "current_sha256": "f96296915dbbfab4f6891a910a5f89ce030ec1f9cac790dfd10cf7d9bc6394c7",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/coordinator.rs",
+        "current_sha256": "b1c6b218e73e91d1c9a8e78ccf63304d64b202e73a72cfeda02c4d813f92fcf9",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/pending_tests.rs",
+        "current_sha256": "02aaa7313a2cc6b88713b49b6cb059f0dbe97d85fb1defb565245c05aff8525a",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/reporter.rs",
+        "current_sha256": "60c81d5018111ad3516a327bcd57aa4a1b0e17775554fd426cfea15ff8cd2b21",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/runtime.rs",
+        "current_sha256": "478bceee21322a006ab201e5c7f6643c5ddd695b71e00bd09154c561c053c548",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/startup.rs",
+        "current_sha256": "f0ea32fd4d832fef5fe88049e04be22de29cbead7007ea42a60de6a0026b423b",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/state.rs",
+        "current_sha256": "8c01aa34860afd58acb356a173e8805787c955a3d266bc94a46ffa0594ade9c8",
+        "publication_mode": "100644"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/test_start_tests.rs",
+        "current_sha256": "1e92bbc3c4a4de256620f4c09409728888327aa1d69538f76ec950bcd5d541d9",
+        "publication_mode": "100644"
+      }
+    ],
+    "original_public_stop_initial_visibility_failure_preserved": true,
+    "public_stop_pub_super_correction": {
+      "path": "/workspace/acceptance/p02b-public-stop-visibility-fix.json",
+      "sha256": "d59c42ebab0334525b3b5daa8b886e19b4bc80a06921abe6b35a22afc39c580e",
+      "bytes": 535
+    },
+    "prior_library_gate": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-tests-02.source.json",
+      "sha256": "6624ca835e70a942cdd817c51fdc2bf41a6e2f78f2419928bf9fc3c87373e2c8",
+      "bytes": 2822884
+    },
+    "lint_gate": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-fix.source.json",
+      "sha256": "cf9a932c7d2f803e2b914254a9e0b672572732d187c73a105d36569a04b210cf",
+      "bytes": 2822563
+    },
+    "format_gate": {
+      "path": "/workspace/acceptance/p02b-public-stop-consumer-fmt.source.json",
+      "sha256": "b065624f64291ff2787033c6db62161c30e3e449d2a01ca8e7632057d8e2c627",
+      "bytes": 2822462
+    },
+    "format_delta": {
+      "path": "/workspace/acceptance/p02b-public-stop-format-changes.json",
+      "sha256": "bd82728b4b515c5646a1ad41c54dc20a3049d7630a044db119cfe92347df842b",
+      "bytes": 2404
+    },
+    "source_lineage_docs": [
+      "upstream/p02b-public-stop-lineage.json",
+      "verification/2026-10-01/P02B_PUBLIC_STOP_EVIDENCE.md",
+      "verification/2026-10-01/P02B_PUBLIC_STOP_LINT_FORMAT_EVIDENCE.md"
+    ]
+  },
+  "build": {
+    "report": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-build.source.json",
+      "sha256": "07cb4d4cd885e04b23b5f91254014e69409e2d8895118d0ca2b28692f148bdb6",
+      "bytes": 2822507
+    },
+    "artifact_binding": {
+      "path": "/workspace/acceptance/p02b-preparing-full-cli-artifact.json",
+      "sha256": "deebb4edf5c62ee290fc9252a08c27d96c8a4353d576c07324e1c753620e4cca",
+      "bytes": 1141
+    },
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "-p",
+      "codex-cli"
+    ],
+    "started_utc": "2026-10-01T12:17:02Z",
+    "finished_utc": "2026-10-01T12:23:21Z",
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "log_sha256": "03cf30dbb836f2cfaf6ce74d8fa7f85d829afd45378dc8dd1a56303886c27cba",
+    "host": {
+      "artifact": "/workspace/component-checkpoint-candidate-p02b-preparing-full-cli-20261001/codex",
+      "sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "bytes": 634578704,
+      "original_inode": 1237129,
+      "nlink": 1,
+      "mode": "0o555",
+      "inode_preserved": true,
+      "byte_transformation": "none"
+    },
+    "frozen_bytes_verified_again_by_runtime_reports": true
+  },
+  "manager": {
+    "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+    "bytes": 6575272
+  },
+  "worker_packages": {
+    "04": {
+      "build_report": {
+        "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+        "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+        "bytes": 81383
+      },
+      "component_id": "native.file-search-local",
+      "version": "0.2.0",
+      "api_version": 1,
+      "component": {
+        "kind": "file_search",
+        "name": "default",
+        "contract_version": 1,
+        "metadata": {
+          "preparing_cancel_receipt": 1
+        }
+      },
+      "native_binary_sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "native_binary_bytes": 10362672,
+      "separate_source_parked_before_runtime": true,
+      "manifest_declares_capability_not_proof": true
+    },
+    "03": {
+      "build_report": {
+        "path": "/workspace/acceptance/p02b-search-independent-03/independent-build.json",
+        "sha256": "7e83a944ed5ecbcd304a9d806cf824cccb50172f0dbbc74ee75ae3a8cf68ce6a",
+        "bytes": 83342
+      },
+      "component_id": "native.file-search-local",
+      "version": "0.1.0",
+      "api_version": 1,
+      "component": {
+        "kind": "file_search",
+        "name": "default",
+        "contract_version": 1,
+        "metadata": {}
+      },
+      "native_binary_sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+      "native_binary_bytes": 10276816,
+      "separate_source_parked_before_runtime": true,
+      "manifest_declares_capability_not_proof": true
+    }
+  },
+  "runner_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+  "tooling_sha256_and_bytes": {
+    "sdk/cli_acceptance.py": {
+      "sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+      "bytes": 16077
+    },
+    "sdk/app_server_acceptance.py": {
+      "sha256": "69d019bd0ce15c4a89c7cf8a5e17ca3233e343d79a2e668b63f841e3d9d10771",
+      "bytes": 14232
+    },
+    "sdk/tui_acceptance.py": {
+      "sha256": "15e0943da6137bde09818969c4f7ec91b5d36314fda7970add1e2da24c71c674",
+      "bytes": 20937
+    },
+    "sdk/test_lock_patch_normalization.py": {
+      "sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6",
+      "bytes": 6554
+    },
+    "sdk/pty_case.py": {
+      "sha256": "b44ed0fd1b488335c09aa9681728f0f83bf283540a8b409a0019c543f17e095f",
+      "bytes": 11420
+    },
+    "sdk/lock_patch_normalization.py": {
+      "sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+      "bytes": 5789
+    },
+    "sdk/acceptance_support.py": {
+      "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+      "bytes": 9352
+    },
+    "sdk/test_terminal.py": {
+      "sha256": "7a595700cc51fc8617bd557a40b624d044d7efc2bac61d5f4ba47f21fb339c80",
+      "bytes": 2109
+    },
+    "sdk/rpc_support.py": {
+      "sha256": "6c725095da72f71cbaa2139e64e9d86496764687a1b75788987df788aa839c15",
+      "bytes": 14505
+    },
+    "sdk/search_cases.py": {
+      "sha256": "07aa1032ad41808c2537c30536a8f446e32ad5e9c2c1f62c17d2c0c0f08b3460",
+      "bytes": 11952
+    },
+    "sdk/terminal.py": {
+      "sha256": "f6c10878960e27c50a5b2b95fd1f127e0ed6450a8155e1ee38a5adddb0e734ab",
+      "bytes": 8908
+    },
+    "sdk/build_worker.py": {
+      "sha256": "10ad1202857a4a7950d1ed81d85c7e57761b0eb707d267ee3e4a31ee6cd85ed9",
+      "bytes": 16284
+    },
+    "staged/public_session_stop_gate.py": {
+      "sha256": "5bd67b606680dc56561a4fe61b023e6e3bcf3703f93ad9faa7f7b767d9f89a6f",
+      "bytes": 6401
+    },
+    "staged/public_rpc_gate.py": {
+      "sha256": "beea45574eb7fd6481135d1456c0055b731aa0c1fe27eee49f17fc1dfb550a56",
+      "bytes": 5967
+    },
+    "staged/preparing_relay.py": {
+      "sha256": "ae1b829f29d1f86b2f934bf009ab657ccd4972f89b70c2da4652d097d12f373e",
+      "bytes": 18253
+    },
+    "staged/installed_preparing_acceptance.py": {
+      "sha256": "0f3b4f9f47d00b9707ddf476269498a2a7e13fd282fafbcb000b29475729995e",
+      "bytes": 16413
+    }
+  },
+  "runtime_gates": [
+    {
+      "name": "p02b-preparing-newhost-worker04",
+      "passed": true,
+      "acceptance_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-worker04/app-server-acceptance.json",
+        "sha256": "acc3017179fa47aa5b99480fad84518a98e2b4819e8b43c581294216df363b8f",
+        "bytes": 87940
+      },
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-worker04.source.json",
+        "sha256": "5a374e83fd2af7d9fa9e93941c811a0216729356d02174263b3a4561791dd474",
+        "bytes": 2823377
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-worker04.subreaper.json",
+        "sha256": "e6a125f2cc5ba0c4fd9d8d12213271ea9f91f6997e4e8db30df79edfa35a7c0f",
+        "bytes": 1483
+      },
+      "started_utc": "2026-10-01T12:27:41.552758+00:00",
+      "finished_utc": "2026-10-01T12:27:47.165640+00:00",
+      "scope": "Real App Server stdio search with installed native worker. No model turns, TUI, GUI, Browser, or multiple-connection proof.",
+      "source_map_equals_build": true,
+      "source_unchanged": true,
+      "host_sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "worker_package": "04",
+      "native_binary_sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "commands": 6,
+      "rpc_processes": 4,
+      "process_runs": [
+        {
+          "kind": "command",
+          "label": "install",
+          "exit_status": 0,
+          "observed_pids": [
+            718060
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "select",
+          "exit_status": 0,
+          "observed_pids": [
+            718065
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-selected",
+          "exit_status": 0,
+          "observed_pids": [
+            718070
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "selected-failure-no-fallback",
+          "exit_status": 1,
+          "observed_pids": [
+            718274
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "remove",
+          "exit_status": 0,
+          "observed_pids": [
+            718298
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-removed",
+          "exit_status": 0,
+          "observed_pids": [
+            718303
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "rpc",
+          "label": "native-baseline",
+          "exit_status": 0,
+          "observed_pids": [
+            717964,
+            717982,
+            717996,
+            717991,
+            717997
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "installed-parity-and-streams",
+          "exit_status": 0,
+          "observed_pids": [
+            718075,
+            718098,
+            718093,
+            718108,
+            718112,
+            718113,
+            718197,
+            718198,
+            718199,
+            718200
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "installed-resource-failure",
+          "exit_status": 1,
+          "observed_pids": [
+            718211,
+            718235,
+            718229,
+            718244,
+            718245,
+            718248
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "removed-native-restored",
+          "exit_status": 0,
+          "observed_pids": [
+            718308,
+            718326,
+            718339,
+            718341,
+            718335,
+            718423
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        }
+      ],
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 717963,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 6.719804844004102,
+        "reaped": [
+          {
+            "pid": 717991,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 718198,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718210,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718244,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 718423,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 717963,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "-13": 2,
+        "0": 4
+      },
+      "preservation_checks": {
+        "frozen_binaries_unchanged": true,
+        "independent_package_unchanged": true,
+        "build_proof_unchanged": true,
+        "server_proof_unchanged": true,
+        "tooling_unchanged": true,
+        "subreaper_unchanged": true,
+        "installed_package_unchanged": true
+      },
+      "proof": {
+        "one_shot_exact_cases": [
+          "lexical-alpha",
+          "unicode",
+          "beta",
+          "no-match",
+          "empty",
+          "limit50",
+          "multi-root"
+        ],
+        "parity": "Exact ordered JSON values including root/path/file_name/match_type/score/highlight indices; no normalization.",
+        "install_input_parked_before_execution": true,
+        "selected_failure_no_fallback": {
+          "status": 1,
+          "before_initialize": true
+        },
+        "stream_and_failure_checks": [
+          {
+            "concurrent_sessions": 2,
+            "concurrent_updates": true,
+            "sibling_after_joined_stop": true,
+            "aba_query_cycles": true,
+            "explicit_empty_query_clear": true,
+            "no_match_completion": true,
+            "notifications_after_stop_ack": 0,
+            "active_session_left_for_eof_shutdown": "sibling"
+          },
+          {
+            "real_native_snapshot_exhaustion": true,
+            "native_snapshot_bytes": 65536,
+            "query_utf8_bytes": 65536,
+            "query_sha256": "0beca823b527427c6f6abccba22309ee6137100421b0037578e4521d5f2b7302",
+            "failure_kind": "resourceExhausted",
+            "sibling_after_failure": true,
+            "stop_retained_operation_error": true,
+            "expected_eof_exit": "positive nonzero: retained operation failure; cleanup checked separately"
+          },
+          {
+            "concurrent_sessions": 2,
+            "concurrent_updates": true,
+            "sibling_after_joined_stop": true,
+            "aba_query_cycles": true,
+            "explicit_empty_query_clear": true,
+            "no_match_completion": true,
+            "notifications_after_stop_ack": 0,
+            "active_session_left_for_eof_shutdown": "sibling"
+          }
+        ],
+        "removal_restores_native": true
+      }
+    },
+    {
+      "name": "p02b-preparing-legacy-01",
+      "passed": true,
+      "acceptance_report": {
+        "path": "/workspace/acceptance/p02b-preparing-legacy-01/installed-preparing-acceptance.json",
+        "sha256": "3073772ec7cca55fe206acc2335fb14c301b43193ac1deedefd71e8f06602f87",
+        "bytes": 114130
+      },
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-legacy-01.source.json",
+        "sha256": "10c6d39368bb8a73da68dc7101432e68a1354dbfe6f622892b50a00342a0a48a",
+        "bytes": 2823646
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-legacy-01.subreaper.json",
+        "sha256": "a851728b8e5962fca7d1b3d51e941677cfbbafabf1846fde406e1387c6dd4f08",
+        "bytes": 1757
+      },
+      "started_utc": "2026-10-01T12:28:22.313898+00:00",
+      "finished_utc": "2026-10-01T12:28:28.427531+00:00",
+      "scope": "Real public RPC cancellation with host/process Preparing; native already Ready. Test-only byte-preserving transport relay. No GUI or native-constructor Preparing proof.",
+      "source_map_equals_build": true,
+      "source_unchanged": true,
+      "host_sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "worker_package": "04",
+      "native_binary_sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "commands": 5,
+      "rpc_processes": 3,
+      "process_runs": [
+        {
+          "kind": "command",
+          "label": "install",
+          "exit_status": 0,
+          "observed_pids": [
+            718555
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "select",
+          "exit_status": 0,
+          "observed_pids": [
+            718560
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-selected",
+          "exit_status": 0,
+          "observed_pids": [
+            718565
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "remove",
+          "exit_status": 0,
+          "observed_pids": [
+            718657
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-removed",
+          "exit_status": 0,
+          "observed_pids": [
+            718662
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "rpc",
+          "label": "native-baseline",
+          "exit_status": 0,
+          "observed_pids": [
+            718458,
+            718477,
+            718486,
+            718490,
+            718489
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "installed-host-preparing",
+          "exit_status": 0,
+          "observed_pids": [
+            718570,
+            718588,
+            718589,
+            718594,
+            718602,
+            718608,
+            718609,
+            718643,
+            718644,
+            718645,
+            718646
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "removed-native-restored",
+          "exit_status": 0,
+          "observed_pids": [
+            718667,
+            718685,
+            718695,
+            718698,
+            718700,
+            718788,
+            718789,
+            718790,
+            718791
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        }
+      ],
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 718452,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 7.1905370879976545,
+        "reaped": [
+          {
+            "pid": 718486,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 718644,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718656,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718789,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718801,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718452,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "-13": 1,
+        "0": 5
+      },
+      "preservation_checks": {
+        "frozen_binaries_unchanged": true,
+        "original_package_unchanged": true,
+        "source_inventory_unchanged": true,
+        "input_proofs_unchanged": true,
+        "stage_tooling_unchanged": true,
+        "sdk_tooling_unchanged": true,
+        "subreaper_unchanged": true,
+        "installed_package_unchanged": true
+      },
+      "proof": {
+        "claim": "public legacy cancellation while installed host/process Preparing; native Ready",
+        "original_request_id": 4,
+        "cancel_request_id": 6,
+        "sibling_same_worker": true,
+        "original_and_cancel_files": [],
+        "replacement_exact": true,
+        "host_open_reply_bytes_delivered_before_cancellation": 0,
+        "native_already_ready": true,
+        "held_reply_sha256": "48b0d0bbb004716d6bb742bc4a20810354b9ec1e4196284255b55d9d16138a5d",
+        "held_reply_bytes": 780,
+        "held_release_forward_sequences": [
+          17,
+          27,
+          34
+        ],
+        "release_operation": "ok",
+        "release_cleanup": "joined",
+        "original_reply_forwarded_byte_identically": true,
+        "native_exit": 0,
+        "relay_forced_cleanup": false,
+        "instrumented_input_parked_before_runtime": true,
+        "instrumentation_scope": "Only manifest selection/entrypoint/args and added relay differ; worker/licenses/sources unchanged.",
+        "installed_component_id": "test.file-search-preparing-relay"
+      }
+    },
+    {
+      "name": "p02b-preparing-session-stop-01",
+      "passed": true,
+      "acceptance_report": {
+        "path": "/workspace/acceptance/p02b-preparing-session-stop-01/installed-preparing-acceptance.json",
+        "sha256": "9d93bbdf69b152daf6fb25230fddc149e48f3b7f3ec033db37b9dcebade5a3eb",
+        "bytes": 118965
+      },
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-session-stop-01.source.json",
+        "sha256": "f95b68d637b7d81e57e8ce1113a48c5c7974b6c75801eef7fea8f0de0f85c5cf",
+        "bytes": 2823664
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-session-stop-01.subreaper.json",
+        "sha256": "545cfe2c0f6b60a3687f08be43af22fada8d07a2fa9c36f0a1adeffe7ca139ba",
+        "bytes": 1768
+      },
+      "started_utc": "2026-10-01T12:28:49.315226+00:00",
+      "finished_utc": "2026-10-01T12:28:55.623395+00:00",
+      "scope": "Real public RPC cancellation with host/process Preparing; native already Ready. Test-only byte-preserving transport relay. No GUI or native-constructor Preparing proof.",
+      "source_map_equals_build": true,
+      "source_unchanged": true,
+      "host_sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "worker_package": "04",
+      "native_binary_sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "commands": 5,
+      "rpc_processes": 3,
+      "process_runs": [
+        {
+          "kind": "command",
+          "label": "install",
+          "exit_status": 0,
+          "observed_pids": [
+            718909
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "select",
+          "exit_status": 0,
+          "observed_pids": [
+            718914
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-selected",
+          "exit_status": 0,
+          "observed_pids": [
+            718919
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "remove",
+          "exit_status": 0,
+          "observed_pids": [
+            719013
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-removed",
+          "exit_status": 0,
+          "observed_pids": [
+            719018
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "rpc",
+          "label": "native-baseline",
+          "exit_status": 0,
+          "observed_pids": [
+            718812,
+            718829,
+            718839,
+            718843,
+            718845
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "installed-host-preparing",
+          "exit_status": 0,
+          "observed_pids": [
+            718924,
+            718942,
+            718950,
+            718943,
+            718960,
+            718964,
+            718965,
+            718999,
+            719000,
+            719001,
+            719002,
+            719005
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "removed-native-restored",
+          "exit_status": 0,
+          "observed_pids": [
+            719023,
+            719041,
+            719056,
+            719055,
+            719050,
+            719138,
+            719139,
+            719140,
+            719141
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        }
+      ],
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 718811,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 7.371909163004602,
+        "reaped": [
+          {
+            "pid": 718839,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 719000,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719012,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719139,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719152,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 718811,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "-13": 1,
+        "0": 5
+      },
+      "preservation_checks": {
+        "frozen_binaries_unchanged": true,
+        "original_package_unchanged": true,
+        "source_inventory_unchanged": true,
+        "input_proofs_unchanged": true,
+        "stage_tooling_unchanged": true,
+        "sdk_tooling_unchanged": true,
+        "subreaper_unchanged": true,
+        "installed_package_unchanged": true
+      },
+      "proof": {
+        "claim": "public sessionStart/Stop FIFO intent while installed host/process Preparing; native Ready",
+        "original_start_request_id": 4,
+        "stop_request_id": 6,
+        "successor_start_request_id": 7,
+        "reply_sequences": {
+          "cancelled_start": 10,
+          "joined_stop": 11,
+          "successor_start": 12
+        },
+        "cancelled_start_error": {
+          "code": -32603,
+          "message": "fuzzy file search failed: file search start was released before acknowledgement"
+        },
+        "clean_stop_result": {},
+        "sibling_same_worker": true,
+        "later_same_id_received_after_stop_remains_usable": true,
+        "later_same_id_usable_before_and_after_late_original_reply": true,
+        "error_or_unconfirmed_stop_branch": "not exercised by this real-worker gate; focused tests remain separate",
+        "host_open_reply_bytes_delivered_before_cancellation": 0,
+        "native_already_ready": true,
+        "held_reply_sha256": "8ec3717026162ea1bdb4e90ba67ec3149aa89dab08d83832c7683dcad17eb0e0",
+        "held_reply_bytes": 780,
+        "held_release_forward_sequences": [
+          19,
+          29,
+          47
+        ],
+        "release_operation": "ok",
+        "release_cleanup": "joined",
+        "original_reply_forwarded_byte_identically": true,
+        "native_exit": 0,
+        "relay_forced_cleanup": false,
+        "instrumented_input_parked_before_runtime": true,
+        "instrumentation_scope": "Only manifest selection/entrypoint/args and added relay differ; worker/licenses/sources unchanged.",
+        "installed_component_id": "test.file-search-preparing-relay"
+      }
+    },
+    {
+      "name": "p02b-preparing-newhost-worker03",
+      "passed": true,
+      "acceptance_report": {
+        "path": "/tmp/p02b-preparing-newhost-worker03/app-server-acceptance.json",
+        "sha256": "18c313500988d94f7f7e7fc0e30f1a7381ec9145850db45138ecca77884b8924",
+        "bytes": 88653
+      },
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-worker03.source.json",
+        "sha256": "b00916e72ae9791d0b83692e940e69f1a90c9dee68e1404d3bc459318b4a1aeb",
+        "bytes": 2823360
+      },
+      "strict_runner_report": {
+        "path": "/workspace/acceptance/p02b-preparing-newhost-worker03.subreaper.json",
+        "sha256": "82376dadbda46006daa3a9daa386b097a55d799ac6a21c11f2b354876673c4c0",
+        "bytes": 1624
+      },
+      "started_utc": "2026-10-01T12:29:36.955288+00:00",
+      "finished_utc": "2026-10-01T12:29:46.793053+00:00",
+      "scope": "Real App Server stdio search with installed native worker. No model turns, TUI, GUI, Browser, or multiple-connection proof.",
+      "source_map_equals_build": true,
+      "source_unchanged": true,
+      "host_sha256": "1b72a190ba6ebcca68c4f0d4145f4ec129b975e0e18fcddfab322f8e7f9165e7",
+      "worker_package": "03",
+      "native_binary_sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+      "commands": 6,
+      "rpc_processes": 4,
+      "process_runs": [
+        {
+          "kind": "command",
+          "label": "install",
+          "exit_status": 0,
+          "observed_pids": [
+            719261
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "select",
+          "exit_status": 0,
+          "observed_pids": [
+            719266
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-selected",
+          "exit_status": 0,
+          "observed_pids": [
+            719271
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "selected-failure-no-fallback",
+          "exit_status": 1,
+          "observed_pids": [
+            719487
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "remove",
+          "exit_status": 0,
+          "observed_pids": [
+            719510
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "command",
+          "label": "list-removed",
+          "exit_status": 0,
+          "observed_pids": [
+            719515
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false
+        },
+        {
+          "kind": "rpc",
+          "label": "native-baseline",
+          "exit_status": 0,
+          "observed_pids": [
+            719165,
+            719183,
+            719192,
+            719197,
+            719198
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "installed-parity-and-streams",
+          "exit_status": 0,
+          "observed_pids": [
+            719276,
+            719292,
+            719298,
+            719307,
+            719310,
+            719313,
+            719397,
+            719398,
+            719399,
+            719400
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "installed-resource-failure",
+          "exit_status": 1,
+          "observed_pids": [
+            719412,
+            719435,
+            719429,
+            719444,
+            719448,
+            719450,
+            719473,
+            719474,
+            719475,
+            719476
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        },
+        {
+          "kind": "rpc",
+          "label": "removed-native-restored",
+          "exit_status": 0,
+          "observed_pids": [
+            719520,
+            719537,
+            719552,
+            719548,
+            719551,
+            719639,
+            719640,
+            719641,
+            719642
+          ],
+          "remaining_pids": [],
+          "all_observed_pids_absent": true,
+          "forced_cleanup": false,
+          "normal_shutdown": "stdin EOF"
+        }
+      ],
+      "strict_runner": {
+        "subreaper": true,
+        "command_pid": 719164,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 10.869216954000876,
+        "reaped": [
+          {
+            "pid": 719192,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 719398,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719411,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719474,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719486,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719640,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719652,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 719164,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "reap_returncode_histogram": {
+        "-13": 1,
+        "0": 7
+      },
+      "preservation_checks": {
+        "frozen_binaries_unchanged": true,
+        "independent_package_unchanged": true,
+        "build_proof_unchanged": true,
+        "server_proof_unchanged": true,
+        "tooling_unchanged": true,
+        "subreaper_unchanged": true,
+        "installed_package_unchanged": true
+      },
+      "proof": {
+        "one_shot_exact_cases": [
+          "lexical-alpha",
+          "unicode",
+          "beta",
+          "no-match",
+          "empty",
+          "limit50",
+          "multi-root"
+        ],
+        "parity": "Exact ordered JSON values including root/path/file_name/match_type/score/highlight indices; no normalization.",
+        "install_input_parked_before_execution": true,
+        "selected_failure_no_fallback": {
+          "status": 1,
+          "before_initialize": true
+        },
+        "stream_and_failure_checks": [
+          {
+            "concurrent_sessions": 2,
+            "concurrent_updates": true,
+            "sibling_after_joined_stop": true,
+            "aba_query_cycles": true,
+            "explicit_empty_query_clear": true,
+            "no_match_completion": true,
+            "notifications_after_stop_ack": 0,
+            "active_session_left_for_eof_shutdown": "sibling"
+          },
+          {
+            "real_native_snapshot_exhaustion": true,
+            "native_snapshot_bytes": 65536,
+            "query_utf8_bytes": 65536,
+            "query_sha256": "0beca823b527427c6f6abccba22309ee6137100421b0037578e4521d5f2b7302",
+            "failure_kind": "resourceExhausted",
+            "sibling_after_failure": true,
+            "stop_retained_operation_error": true,
+            "expected_eof_exit": "positive nonzero: retained operation failure; cleanup checked separately"
+          },
+          {
+            "concurrent_sessions": 2,
+            "concurrent_updates": true,
+            "sibling_after_joined_stop": true,
+            "aba_query_cycles": true,
+            "explicit_empty_query_clear": true,
+            "no_match_completion": true,
+            "notifications_after_stop_ack": 0,
+            "active_session_left_for_eof_shutdown": "sibling"
+          }
+        ],
+        "removal_restores_native": true
+      }
+    }
+  ],
+  "limits": [
+    "Normal worker03 is backward runtime compatibility with existing 0.1.0 package; a newer host does not grant that old worker native-constructor Preparing cancellation.",
+    "Relay gates forward genuine native responses byte-identically but intentionally hold Ready acknowledgements: they prove public RPC and host/process Preparing, not native-constructor Preparing.",
+    "Session Stop success is proven; that real-worker scenario explicitly does not exercise an error/Unconfirmed Stop receipt. Controlled library tests are separate evidence.",
+    "No model turns, graphical GUI, Browser, TUI PTY, multiple-connection isolation, revoked-auth scenario, or whole-harness extraction completion is established by these four gates.",
+    "The earlier 6095 library tests directly tested preformat bytes; these real-host runtime gates execute the subsequent formatted build. No repeat of the entire library suite is claimed.",
+    "Five earlier full-TUI integration failures were excluded from the successful combined library rerun; none is declared fixed by App Server stdio gates.",
+    "Reports and executable checkpoints referenced by absolute cloud paths are local recovery evidence. Publication of this summary does not export those raw artifacts or binaries.",
+    "Reaped return codes include negative signal values; they are preserved without labeling every child successful or asserting a cause unsupported by raw evidence."
+  ]
+}
