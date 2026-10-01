@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B runtime owned Preparing startup and cancellation",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "publication": {
+    "status": "WIP source published and remote verified; accepted main runtime unchanged",
+    "commit": "272993ff0e6376e7ba52403e3b52d7f16449cd16",
+    "tree": "93201cd97a14b351edda30d35318a80a8402db64",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "note": "Validation applies to exact recorded scopes. Source checkpoint includes still-untested consumer fixtures. Intermediate review slices were not separately built."
+  },
+  "results_file": "p02b-runtime-preparing-results.json",
+  "new_native_subsystem_extracted": false,
+  "rows": [
+    {
+      "path": "codex-rs/file-search-runtime/src/lib.rs",
+      "preimage_sha256": "21d3f5667f27d6035220888bf0d9ca62bc6ae453af72577e80f05cc2a103ed8f",
+      "adopted_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+      "failing_compiled_test_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+      "passing_test_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+      "post_format_sha256": "cff902f44c76de53e631990dc9fd52e69f6747579126724a2728da1498e6b54c",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/pending.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "5c4a9a7a682857cabbf823582c33cf2a56fe9fcda5529b4b56a888364fe226bb",
+      "failing_compiled_test_sha256": "5c4a9a7a682857cabbf823582c33cf2a56fe9fcda5529b4b56a888364fe226bb",
+      "passing_test_sha256": "d8a815a3d3df4a05a89f4c9301c264368547835a6d6319c3bc745986aef77cbf",
+      "post_format_sha256": "8947c53b72708792e4fdcc810c1fa95041f62c8f08bc0a3c46dc444487589db8",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/pending_failure_tests.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "df9841fd5e5fcddaafa2657b6fd16b5ce9d2901c503133346af62445509222f9",
+      "failing_compiled_test_sha256": "294ea98fdad731577565d799b76b49fcf90d94098877dab40167112a636b24a2",
+      "passing_test_sha256": "294ea98fdad731577565d799b76b49fcf90d94098877dab40167112a636b24a2",
+      "post_format_sha256": "1db67e8175d4ee8ad92a3b020ca2e2d69d287e9e4d5f1611a57b28ce7bb5d08d",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/pending_publication_tests.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "bdcf4572492f15c60c941df3387e78d806fe6ff55129ed29588c5d5854a1a31c",
+      "failing_compiled_test_sha256": "a3e7721e987de0a983e7192df9bbffb6f6edfb1706e23421c8ccfbae5920f23f",
+      "passing_test_sha256": "a3e7721e987de0a983e7192df9bbffb6f6edfb1706e23421c8ccfbae5920f23f",
+      "post_format_sha256": "fb5c98cd66e8e59e6fab21cfd40206d39c43bfc11b154f25d7a234f8df8b6b49",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/pending_start_tests.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+      "failing_compiled_test_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+      "passing_test_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+      "post_format_sha256": "709a6c3aaa7b106141e88631ef918dbb1723cf6cfa5e1a522c61e626e91faa71",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/scope.rs",
+      "preimage_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+      "adopted_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+      "failing_compiled_test_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+      "passing_test_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+      "post_format_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/session.rs",
+      "preimage_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+      "adopted_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+      "failing_compiled_test_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+      "passing_test_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+      "post_format_sha256": "2947a03db940b92e72b03bc640b51c29ad8eaec548b9263dc2169b3577ea3f04",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/startup.rs",
+      "preimage_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+      "adopted_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+      "failing_compiled_test_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+      "passing_test_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+      "post_format_sha256": "108da058d52eb9093117cf71cfde4d0bec6295b7df78dab8262671b1d4cb67ee",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/state.rs",
+      "preimage_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+      "adopted_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+      "failing_compiled_test_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+      "passing_test_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+      "post_format_sha256": "a891f300e2425cb25990db76c42b271904b44195e334212ecdb6413a49382dde",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/cause_race_tests.rs",
+      "preimage_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+      "adopted_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+      "failing_compiled_test_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+      "passing_test_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+      "post_format_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs",
+      "preimage_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+      "adopted_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+      "failing_compiled_test_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+      "passing_test_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+      "post_format_sha256": "ca47bcbfe08fdd49aee0d74475e67e00788437aaea0f908d362c5db38c4e6285",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/pending_fixture.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "2ed9264e1f668367096244f3835b19733b1537648953318039a1906b507559d2",
+      "failing_compiled_test_sha256": "c149962764decf1f41d4cd7aca14d009750011984ff7d1d64a1eea8cf80faea9",
+      "passing_test_sha256": "c149962764decf1f41d4cd7aca14d009750011984ff7d1d64a1eea8cf80faea9",
+      "post_format_sha256": "8a0fb1758fd8b9e60f61608d1e30434af01e36c128730d6cc73721edd6536b98",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/startup_cancel_tests.rs",
+      "preimage_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+      "adopted_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+      "failing_compiled_test_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+      "passing_test_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+      "post_format_sha256": "fbc96106ee141164a176f55be2420ebe5a108f27830551eb76239f792a69de08",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/test_support.rs",
+      "preimage_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+      "adopted_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+      "failing_compiled_test_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+      "passing_test_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+      "post_format_sha256": "1bcc1de3825f060651ad655108f33213165e5711d57abb7eee98da399030058a",
+      "classification": "custom backend-neutral runtime ownership or its regression fixture",
+      "original_upstream_paths": [],
+      "intentional_delta": "Synchronous owned begin_open ticket, typed same-lease cancellation, retained startup and close guards, failure ordering, or fixture/test adaptation."
+    }
+  ]
+}

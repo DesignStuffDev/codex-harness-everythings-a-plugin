@@ -6,12 +6,15 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
 
 ## Published checkpoint
 
-- Main evidence/SDK checkpoint `4ce3e7057cf5afbe43491a4293b6368b0da98379` precedes this documentation update.
-  Latest separately preserved cancellation WIP is `6547a8bdbc2caae68a63c0cc98dfe52cd3cc264f`, tree
-  `595d5d5c27b809d6ffa595e0a2d3c2e9ac8fe408`, on `wip/p02b-preparing-cancellation-20261001`.
-  It includes process ticket control (`e189a695`), native owner (`a79072a3`) and native backend bridging.
-  Their focused gates passed; worker/runtime/consumer integration and installed Preparing proof remain pending.
-  Main runtime is still the previously accepted a469cf4 source, plus additive SDK support.
+- Main evidence checkpoint `052f9f5cce8da85bc5904201d83283daf10b68d2` precedes this documentation update.
+  Latest cancellation WIP is `272993ff0e6376e7ba52403e3b52d7f16449cd16`, tree
+  `93201cd97a14b351edda30d35318a80a8402db64`, on `wip/p02b-preparing-cancellation-20261001`.
+  It adds required SDK source revision2, worker service and runtime pending controls, all nine original
+  fixture implementer migrations, and explicit package metadata. API/native/worker169 and runtime55
+  focused tests passed on recorded scopes; AS/TUI fixtures await consumer package gates.
+  Nine review-sized historical commits are not nine independently compiled milestones.
+  Main runtime is still accepted a469cf4 plus additive SDK support. AS production adoption is now
+  in the original checkout under test; TUI production remains staged. Installed new Preparing proof pending.
 
 - Latest additive SDK source `d22cea88aa23e35a619d996fc731122450e51313`, tree
   `fbf28305751239cd376cefaec0ea970048096e08`, follows reviewed evidence/roadmap `789be2e7`.
@@ -33,6 +36,21 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
   GUI presentation is additive; model/auth remain adapters. Loop/context/tools/policy are still coupled.
 
 ## Latest verification — separate scopes, no invented total
+
+- [Required startup/service](verification/2026-10-01/P02B_REQUIRED_START_SERVICE_EVIDENCE.md):
+  169/169 passed (96 native,52 component,21 API), no retries/skips; initial compile101 preserved.
+  [Runtime Preparing](verification/2026-10-01/P02B_RUNTIME_PREPARING_EVIDENCE.md): 55/55 passed
+  (44 runtime,5 plugin-library,6 actual worker-process cases). Initial compile101 and 53/55 regression
+  preserved. Only production observer fallback changed for the final pass; assertions unchanged.
+  Both scoped lint/format passed; exact pre/post maps distinguish tested and formatted source.
+- Independent worker04 build succeeded from new exported source and initially empty external target,
+  seven commands0, strict subreaper0/null, source parked. Worker SHA
+  `a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1`, 10,362,672 bytes,
+  package0.2.0/wire1/metadata `preparing_cancel_receipt:1`. This declaration is not installed-runtime proof.
+  Frozen fullCLI7a63 and original manager eb969 fingerprints unchanged. Report:
+  `/workspace/acceptance/p02b-search-independent-04/independent-build.json`.
+  Package tooling24 tests passed in an exact unchanged staged scope. Original0.1 package retained.
+
 
 - [Process pending control](verification/2026-10-01/P02B_PREPARING_PROCESS_EVIDENCE.md): 42/42,
   11 new cases with real stdio peer, unchanged source, unchanged subreaper0/null. This is not the native worker.
@@ -86,15 +104,18 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
    repository/worktrees, remote refs, preserved index/source, active processes, memory and disk.
 2. This documentation checkpoint records reviewed evidence/lineage/state for source a469cf4.
    Verify the latest remote ref/publication receipt before new work; do not repeat publication blindly.
-3. Require begin_open on SearchBackend and migrate both production implementers plus nine fixture
-   implementers together. Neutral API change is staged at `/tmp/p02b-required-start-api-stage`;
-   worker `/tmp/p02b-service-preparing-stage`, runtime `/tmp/p02b-runtime-preparing-stage`, consumer
-   `/tmp/p02b-consumer-fixtures-preparing-stage` and runtime-fixture stages remain uncompiled work.
-   Preserve these drafts and inspect their latest manifests before adoption; do not label them accepted.
-   Native owner/backend and process source are already tested/preserved on the WIP branch above.
-   Then wire production AS/TUI startup cancellation, separately build updated0.2 worker, freeze host,
-   run old0.1 compatibility plus installed cancellation with sibling, UI/manager shutdown and regression.
-   Preserve first cause, NotAdmitted, pre-spawn result guards, actual join and same-lease handoff fences.
+3. Required begin_open, both production backends, worker service and runtime are implemented/tested
+   in the WIP checkpoint above. Do not redo them. Independent worker04 is built and parked; preserve it.
+   AS production stage `/tmp/p02b-preparing-consumers-stage` is adopted (8 files), under serialized
+   AS/client library regression `p02b-preparing-app-server-tests`; inspect completion before edits.
+   TUI production `/tmp/p02b-preparing-tui-consumers-stage` and tests `/tmp/p02b-tui-pending-tests-stage`
+   remain staged only; inspect final combined manifest/review before adoption, then run full TUI gate.
+   Complete scoped lint/format, freeze rebuilt full host, test old0.1 and new0.2 installation,
+   cancellation while Preparing with sibling, GUI and manager-only SIGINT/cleanup regression.
+   Preserve first cause, NotAdmitted, pre-spawn guards, actual join and same-lease handoff fences.
+   Worker04 can test backward compatibility using app_server_acceptance.py with frozen fullCLI7a63
+   and server-mode codex; standalone CLI harness expects the distinct CLI02 and would fail fingerprint binding.
+
 4. Complete supported replacement/upgrade/rejection/removal and remaining consumer gates; retain
    remote reconnect/daemon and private rollout lookup as explicit gaps. Move shared ownership into P03.
 5. Follow P03 broker/transport/dependency ownership, then model/provider/auth, turn/agent orchestration,

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B required Preparing startup contract and worker service cancellation",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "publication": {
+    "status": "WIP source published and remote verified; accepted main runtime unchanged",
+    "commit": "272993ff0e6376e7ba52403e3b52d7f16449cd16",
+    "tree": "93201cd97a14b351edda30d35318a80a8402db64",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "note": "Validation applies to exact recorded scopes. Source checkpoint includes still-untested consumer fixtures. Intermediate review slices were not separately built."
+  },
+  "results_file": "p02b-required-start-service-results.json",
+  "rows": [
+    {
+      "path": "codex-rs/file-search-api/src/backend.rs",
+      "preimage_sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+      "adopted_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434",
+      "passing_test_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434",
+      "post_lint_format_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434",
+      "classification": "custom_contract_or_adapter",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-api/src/lib.rs",
+      "preimage_sha256": "90552f45b3be4e59590b5c3cc3ea135f21da1e214855ef1c97753faed67b2d6a",
+      "adopted_sha256": "a6837dcb70d4481198fe9410d36f7ba16d3764114e39d75e18cf9e11d47b8988",
+      "passing_test_sha256": "a6837dcb70d4481198fe9410d36f7ba16d3764114e39d75e18cf9e11d47b8988",
+      "post_lint_format_sha256": "a6837dcb70d4481198fe9410d36f7ba16d3764114e39d75e18cf9e11d47b8988",
+      "classification": "custom_contract_or_adapter",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-api/README.md",
+      "preimage_sha256": "0eaa0f7fdf54272e4fb57ff8e74fccebbae8a5ebc64a20aa68a25f46fadd7a9a",
+      "adopted_sha256": "360d5152bceebf724c402afb1cbc4bc601235c0cfc82d70b69c58b7dbc430900",
+      "passing_test_sha256": "360d5152bceebf724c402afb1cbc4bc601235c0cfc82d70b69c58b7dbc430900",
+      "post_lint_format_sha256": "360d5152bceebf724c402afb1cbc4bc601235c0cfc82d70b69c58b7dbc430900",
+      "classification": "custom_contract_or_adapter",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process.rs",
+      "preimage_sha256": "cff5439b90c49bd7a7ee1cbc9de305a93ba5fc6948af32f5b2b3122e770d403f",
+      "adopted_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975",
+      "passing_test_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975",
+      "post_lint_format_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975",
+      "classification": "custom_contract_or_adapter",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "preimage_sha256": "b57b4f97a5f6d6b39c5c56769278dbb262bbff1503e6b9f30217c23f5f3a8774",
+      "adopted_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039",
+      "passing_test_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039",
+      "post_lint_format_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039",
+      "classification": "native_adapter_trait_delegation",
+      "upstream_original_paths": [
+        "codex-rs/file-search/src/lib.rs (upstream native search engine; actual extraction and allocation changes predate this slice)"
+      ],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-api/tests/startup.rs",
+      "preimage_sha256": "485dbe791233164a7700b5a126392d3f31d3ed1f1af016b7242488cac59e9277",
+      "adopted_sha256": "6ee7e86fe42e2ab3f674d3061b4c39d054f574c7744278d0c20cbc559ffb9bba",
+      "passing_test_sha256": "6ee7e86fe42e2ab3f674d3061b4c39d054f574c7744278d0c20cbc559ffb9bba",
+      "post_lint_format_sha256": "0907a127a487e6a16a46cf1b9e05b2f49856617557de6e465b119f39877413e8",
+      "classification": "custom_contract_or_adapter",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+      "preimage_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+      "adopted_sha256": "3f01df12b8a5ef0d06f009cd4cc70befa3fbc58fe7264686ef2157067fffa71a",
+      "passing_test_sha256": "3f01df12b8a5ef0d06f009cd4cc70befa3fbc58fe7264686ef2157067fffa71a",
+      "post_lint_format_sha256": "3f01df12b8a5ef0d06f009cd4cc70befa3fbc58fe7264686ef2157067fffa71a",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_fixture_start.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "58313490622de647c5d0a2c42c23c908ca247b518cdd5b1f252866e9c01ab0ea",
+      "passing_test_sha256": "d737b6514de1305568ebae8ba80dcf84cb92f7552e1617088f62fd38df640362",
+      "post_lint_format_sha256": "d737b6514de1305568ebae8ba80dcf84cb92f7552e1617088f62fd38df640362",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_lease.rs",
+      "preimage_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+      "adopted_sha256": "62449e4e01e030f72896d5c876ecf1cdd2d947ef518808eb4ef27e591e1a325a",
+      "passing_test_sha256": "62449e4e01e030f72896d5c876ecf1cdd2d947ef518808eb4ef27e591e1a325a",
+      "post_lint_format_sha256": "c4c67d94ce81f0d61f5a3edf50ce3ff76124526c3949c195c93085da733776ba",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_open.rs",
+      "preimage_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+      "adopted_sha256": "cad018486d37a1036cc8942e54075dd80657b8edf4df7358b6b752ea75e79f0d",
+      "passing_test_sha256": "cad018486d37a1036cc8942e54075dd80657b8edf4df7358b6b752ea75e79f0d",
+      "post_lint_format_sha256": "3f8b4d5de9a494def2a7c45f15f9830b32e4811f44c8c6826b8357e23ca5a61e",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_pending_tests.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "02f59d9438a66f3821de0959e607b830426ccfc2c376078735b389ad1d52eeeb",
+      "passing_test_sha256": "016bdc6f3a4834a47a0535ee425d3dac7f8a690e2cce736958b2159853de51d3",
+      "post_lint_format_sha256": "2453c787989b03cba6cf53e516c65cd9989c8b1a1ee59d6acb7e02970cdc78d9",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_startup_tests.rs",
+      "preimage_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+      "adopted_sha256": "a692bf58adbe74fcba6593edd768a8362ef29033021b4053abb9a70fe52a7412",
+      "passing_test_sha256": "a692bf58adbe74fcba6593edd768a8362ef29033021b4053abb9a70fe52a7412",
+      "post_lint_format_sha256": "a692bf58adbe74fcba6593edd768a8362ef29033021b4053abb9a70fe52a7412",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_tests.rs",
+      "preimage_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+      "adopted_sha256": "f551660007363c29267f8805b1614725bb324674f1eff7645f4ed566b8a1c557",
+      "passing_test_sha256": "f551660007363c29267f8805b1614725bb324674f1eff7645f4ed566b8a1c557",
+      "post_lint_format_sha256": "934f085c61feaccdcc3782bb2e78fc69c174f942d236fdc954c658950df5a0ad",
+      "classification": "custom_worker_service_or_fixture",
+      "upstream_original_paths": [],
+      "intentional_delta": "Required owned begin_open delegation/contract or Preparing service ownership and tests; see evidence for scope.",
+      "new_native_subsystem_extracted": false
+    }
+  ]
+}

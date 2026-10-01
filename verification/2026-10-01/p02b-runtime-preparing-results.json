@@ -1,0 +1,646 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B runtime owned Preparing startup and cancellation",
+  "publication": {
+    "status": "WIP source published and remote verified; accepted main runtime unchanged",
+    "commit": "272993ff0e6376e7ba52403e3b52d7f16449cd16",
+    "tree": "93201cd97a14b351edda30d35318a80a8402db64",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "note": "Validation applies to exact recorded scopes. Source checkpoint includes still-untested consumer fixtures. Intermediate review slices were not separately built."
+  },
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "source_identity": {
+    "scope": "Nine runtime production/new-test paths plus five runtime fixture paths; report scope has 10139 fingerprints.",
+    "runner_baseline_annotation": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "baseline_annotation_is_tested_commit": false,
+    "map_hash_format": "SHA256 of UTF-8 JSON with sorted keys, compact separators. Full exact maps remain in hashed source reports.",
+    "files": [
+      {
+        "path": "codex-rs/file-search-runtime/src/lib.rs",
+        "preimage_sha256": "21d3f5667f27d6035220888bf0d9ca62bc6ae453af72577e80f05cc2a103ed8f",
+        "adopted_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+        "failing_compiled_test_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+        "passing_test_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+        "post_format_sha256": "cff902f44c76de53e631990dc9fd52e69f6747579126724a2728da1498e6b54c"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/pending.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "5c4a9a7a682857cabbf823582c33cf2a56fe9fcda5529b4b56a888364fe226bb",
+        "failing_compiled_test_sha256": "5c4a9a7a682857cabbf823582c33cf2a56fe9fcda5529b4b56a888364fe226bb",
+        "passing_test_sha256": "d8a815a3d3df4a05a89f4c9301c264368547835a6d6319c3bc745986aef77cbf",
+        "post_format_sha256": "8947c53b72708792e4fdcc810c1fa95041f62c8f08bc0a3c46dc444487589db8"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/pending_failure_tests.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "df9841fd5e5fcddaafa2657b6fd16b5ce9d2901c503133346af62445509222f9",
+        "failing_compiled_test_sha256": "294ea98fdad731577565d799b76b49fcf90d94098877dab40167112a636b24a2",
+        "passing_test_sha256": "294ea98fdad731577565d799b76b49fcf90d94098877dab40167112a636b24a2",
+        "post_format_sha256": "1db67e8175d4ee8ad92a3b020ca2e2d69d287e9e4d5f1611a57b28ce7bb5d08d"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/pending_publication_tests.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "bdcf4572492f15c60c941df3387e78d806fe6ff55129ed29588c5d5854a1a31c",
+        "failing_compiled_test_sha256": "a3e7721e987de0a983e7192df9bbffb6f6edfb1706e23421c8ccfbae5920f23f",
+        "passing_test_sha256": "a3e7721e987de0a983e7192df9bbffb6f6edfb1706e23421c8ccfbae5920f23f",
+        "post_format_sha256": "fb5c98cd66e8e59e6fab21cfd40206d39c43bfc11b154f25d7a234f8df8b6b49"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/pending_start_tests.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+        "failing_compiled_test_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+        "passing_test_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+        "post_format_sha256": "709a6c3aaa7b106141e88631ef918dbb1723cf6cfa5e1a522c61e626e91faa71"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/scope.rs",
+        "preimage_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "adopted_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+        "failing_compiled_test_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+        "passing_test_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a",
+        "post_format_sha256": "e2bd1728d1746871ff8691d4e4d83efb50dcdc362c118817075d1c2c74fffc3a"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/session.rs",
+        "preimage_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "adopted_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+        "failing_compiled_test_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+        "passing_test_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+        "post_format_sha256": "2947a03db940b92e72b03bc640b51c29ad8eaec548b9263dc2169b3577ea3f04"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/startup.rs",
+        "preimage_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "adopted_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+        "failing_compiled_test_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+        "passing_test_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+        "post_format_sha256": "108da058d52eb9093117cf71cfde4d0bec6295b7df78dab8262671b1d4cb67ee"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/state.rs",
+        "preimage_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "adopted_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+        "failing_compiled_test_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+        "passing_test_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+        "post_format_sha256": "a891f300e2425cb25990db76c42b271904b44195e334212ecdb6413a49382dde"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cause_race_tests.rs",
+        "preimage_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "adopted_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+        "failing_compiled_test_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+        "passing_test_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b",
+        "post_format_sha256": "7f9d5fa6902515b201e0b44bf447a05b7e38cb40163c4e6cd0a63bdd3e20257b"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs",
+        "preimage_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "adopted_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+        "failing_compiled_test_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+        "passing_test_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+        "post_format_sha256": "ca47bcbfe08fdd49aee0d74475e67e00788437aaea0f908d362c5db38c4e6285"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/pending_fixture.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "2ed9264e1f668367096244f3835b19733b1537648953318039a1906b507559d2",
+        "failing_compiled_test_sha256": "c149962764decf1f41d4cd7aca14d009750011984ff7d1d64a1eea8cf80faea9",
+        "passing_test_sha256": "c149962764decf1f41d4cd7aca14d009750011984ff7d1d64a1eea8cf80faea9",
+        "post_format_sha256": "8a0fb1758fd8b9e60f61608d1e30434af01e36c128730d6cc73721edd6536b98"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/startup_cancel_tests.rs",
+        "preimage_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+        "adopted_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+        "failing_compiled_test_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+        "passing_test_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+        "post_format_sha256": "fbc96106ee141164a176f55be2420ebe5a108f27830551eb76239f792a69de08"
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/test_support.rs",
+        "preimage_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "adopted_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+        "failing_compiled_test_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+        "passing_test_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+        "post_format_sha256": "1bcc1de3825f060651ad655108f33213165e5711d57abb7eee98da399030058a"
+      }
+    ],
+    "adopted_other_consumer_fixture_paths": [
+      {
+        "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+        "adopted_sha256": "6617e8567b89a984d6ba06135924635eee18d7f3e9b71eedae1f28cf124b191d",
+        "post_format_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/runtime_start_fixture.rs",
+        "adopted_sha256": "34780e278b8de100dc42dc88e3e0bd1e1c296e6b81bc839085923bd84e3e5c25",
+        "post_format_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+        "adopted_sha256": "a72d0ad882fdeb23d1bb259b7abd171a474d5e0c2fa2a5709dcc1b7d72e95eeb",
+        "post_format_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      },
+      {
+        "path": "codex-rs/app-server-client/src/file_search_tests.rs",
+        "adopted_sha256": "b95ff367b92c96c6df0314aef238e66fe7cb9ae04327edcadd16d966eab6ab3c",
+        "post_format_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/test_start.rs",
+        "adopted_sha256": "0cf8b41fec5829dfb1466a2ea9ae2459912b09eb3b5d684ff6e0eb63aed0e378",
+        "post_format_sha256": "d55989d40351a906442179280f279a39f0b791317bd3f20352fe2fa3166f7b90",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/test_start_tests.rs",
+        "adopted_sha256": "df551bc3464b742c61d255a82eec1fce34ae837c42c80387c75c1a11063ae978",
+        "post_format_sha256": "55eee3f8a332c94825447b71ebaf478f60743456f70cab3a6184bd6002b8c752",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      },
+      {
+        "path": "codex-rs/tui/src/file_search/test_support.rs",
+        "adopted_sha256": "f1ae6193d8ec7d0fb8c1ab9253045b32df6a8c9631107a8b6e3ab2f3076d624e",
+        "post_format_sha256": "bd8b070e35fefd09bf668d3cb8b822d094d9974207c46584cbcb23d7ba15df58",
+        "coverage": "Not compiled/tested by these runtime/plugin commands."
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "p02b-runtime-preparing-tests",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests.source.json",
+        "sha256": "c710846f1b38d1737333e618582545a1e161ec8b1584fc159968a5e4d23f06c2",
+        "bytes": 2820343
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests.log",
+        "sha256": "c711c7af452c8c7765671f97b764167a35f9af0dff67fee8c9a842a9c5f2ca0a",
+        "bytes": 15975
+      },
+      "command": [
+        "python",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-runtime-preparing-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search-local-plugin"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:58:52Z",
+      "finished_utc": "2026-10-01T09:59:04Z",
+      "exit_status": 101,
+      "source_count": 10139,
+      "source_before_map_sha256": "fece3ef2aa6c0f78132bdec17e94a887d05c5cba6db09985487e60c05bb2f09a",
+      "source_after_map_sha256": "fece3ef2aa6c0f78132bdec17e94a887d05c5cba6db09985487e60c05bb2f09a",
+      "scoped_source_unchanged": true,
+      "changed_source": [],
+      "subreaper": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests.subreaper.json",
+        "sha256": "28b42b3bd1ebaa5bebd50ecc5505fb08af5a888d4a7256613047c437f2092ee0",
+        "bytes": 461,
+        "enabled": true,
+        "command_returncode": 101,
+        "exit_status": 101,
+        "runner_error": null,
+        "reaped": [
+          {
+            "pid": 599973,
+            "wait_status": 25856,
+            "returncode": 101
+          }
+        ]
+      },
+      "result": {
+        "executed": 0,
+        "compiled": false,
+        "diagnostics": {
+          "E0659_ambiguous_assert_eq": 15
+        },
+        "warnings": [
+          "Two test-only guard.0 assignments were unused."
+        ],
+        "retry": false
+      }
+    },
+    {
+      "id": "p02b-runtime-preparing-tests-02",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests-02.source.json",
+        "sha256": "e10b240ffe9ed40b1434d5c0e1e97281e14cd66b2b87576d4e9fae58f59177e7",
+        "bytes": 2820346
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests-02.log",
+        "sha256": "7739a76efbdb9bae54ee2707e432c0b48ed111eb7120fc03d13f265df1d970f5",
+        "bytes": 11334
+      },
+      "command": [
+        "python",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-runtime-preparing-tests-02.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search-local-plugin"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:59:43Z",
+      "finished_utc": "2026-10-01T09:59:51Z",
+      "exit_status": 100,
+      "source_count": 10139,
+      "source_before_map_sha256": "4a361866d44b3ce3d7c7d094c82b729e0fe99f0ec6d6e5f7f0088c9b06f40506",
+      "source_after_map_sha256": "4a361866d44b3ce3d7c7d094c82b729e0fe99f0ec6d6e5f7f0088c9b06f40506",
+      "scoped_source_unchanged": true,
+      "changed_source": [],
+      "subreaper": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests-02.subreaper.json",
+        "sha256": "4e27939f3920c0ede48da4c7ffc00751fe6b995dfb064a073d56640ce6e42654",
+        "bytes": 460,
+        "enabled": true,
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null,
+        "reaped": [
+          {
+            "pid": 600255,
+            "wait_status": 25600,
+            "returncode": 100
+          }
+        ]
+      },
+      "result": {
+        "executed": 55,
+        "passed": 53,
+        "failed": 2,
+        "skipped": 0,
+        "retries": 0,
+        "failed_tests": [
+          "tests::cause_races::close_before_startup_observer_resumes_preserves_the_cleanup_cause",
+          "tests::cause_races::close_during_pending_startup_preserves_the_cleanup_cause"
+        ],
+        "failure": "Original cleanup-cause assertions expected TransportLost for operation Ok with Unconfirmed cleanup; pending observer incorrectly synthesized ClosedLease."
+      }
+    },
+    {
+      "id": "p02b-runtime-preparing-tests-03",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests-03.source.json",
+        "sha256": "2063d7494219b7eb1b4c66f009ced3417a78e2c4735984ab5a9ffa7f1346283c",
+        "bytes": 2820344
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests-03.log",
+        "sha256": "11e087839353245d45bd49f9dfaa31c45cf53205de1cafc9dda550ebe98c5726",
+        "bytes": 8574
+      },
+      "command": [
+        "python",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-runtime-preparing-tests-03.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search-local-plugin"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:01:31Z",
+      "finished_utc": "2026-10-01T10:01:40Z",
+      "exit_status": 0,
+      "source_count": 10139,
+      "source_before_map_sha256": "9a60e28d506d73f9e4036920017bfd3df108bdbce6dab14c9117cd72796306c0",
+      "source_after_map_sha256": "9a60e28d506d73f9e4036920017bfd3df108bdbce6dab14c9117cd72796306c0",
+      "scoped_source_unchanged": true,
+      "changed_source": [],
+      "subreaper": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-tests-03.subreaper.json",
+        "sha256": "5134b1865370a9e465a14f615661bd1a17ad9ff708eb8813d73633ffd590250c",
+        "bytes": 447,
+        "enabled": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "reaped": [
+          {
+            "pid": 600715,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ]
+      },
+      "result": {
+        "executed": 55,
+        "passed": 55,
+        "failed": 0,
+        "skipped": 0,
+        "retries": 0,
+        "by_test_binary": {
+          "codex-file-search-local-plugin": 5,
+          "codex-file-search-local-plugin::native_process": 6,
+          "codex-file-search-runtime": 44
+        }
+      }
+    },
+    {
+      "id": "p02b-runtime-preparing-fix",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-fix.source.json",
+        "sha256": "2c10cdce53181387dc9b6f0c636dd89cccad37ee32e90fcde1321287e93d21bd",
+        "bytes": 2820108
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-fix.log",
+        "sha256": "e1d21e9f80ad6408d04fec6e8a7f215ad69455e240b862767c067115eb5915ca",
+        "bytes": 598
+      },
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search-local-plugin"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:07:32Z",
+      "finished_utc": "2026-10-01T10:07:38Z",
+      "exit_status": 0,
+      "source_count": 10139,
+      "source_before_map_sha256": "9a60e28d506d73f9e4036920017bfd3df108bdbce6dab14c9117cd72796306c0",
+      "source_after_map_sha256": "9a60e28d506d73f9e4036920017bfd3df108bdbce6dab14c9117cd72796306c0",
+      "scoped_source_unchanged": true,
+      "changed_source": [],
+      "result": {
+        "warnings": 0,
+        "description": "Scoped lint clean; no source changes."
+      }
+    },
+    {
+      "id": "p02b-runtime-preparing-format",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-format.source.json",
+        "sha256": "77eb18bc6d423b8a1af1b8f649fb0b1cb666c23ea9b8dd01fed0722ebf059b18",
+        "bytes": 2820018
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-runtime-preparing-format.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:07:59Z",
+      "finished_utc": "2026-10-01T10:08:21Z",
+      "exit_status": 0,
+      "source_count": 10139,
+      "source_before_map_sha256": "9a60e28d506d73f9e4036920017bfd3df108bdbce6dab14c9117cd72796306c0",
+      "source_after_map_sha256": "f1265f57ff5209e4080dad73c025eea3ee25eb78117b0bfe4251ef3136962ad8",
+      "scoped_source_unchanged": false,
+      "changed_source": [
+        {
+          "path": "codex-rs/app-server-client/src/file_search_tests.rs",
+          "before_sha256": "b95ff367b92c96c6df0314aef238e66fe7cb9ae04327edcadd16d966eab6ab3c",
+          "after_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4"
+        },
+        {
+          "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+          "before_sha256": "6617e8567b89a984d6ba06135924635eee18d7f3e9b71eedae1f28cf124b191d",
+          "after_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/runtime_start_fixture.rs",
+          "before_sha256": "34780e278b8de100dc42dc88e3e0bd1e1c296e6b81bc839085923bd84e3e5c25",
+          "after_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+          "before_sha256": "a72d0ad882fdeb23d1bb259b7abd171a474d5e0c2fa2a5709dcc1b7d72e95eeb",
+          "after_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs",
+          "before_sha256": "f9e662697b5b84910a5eac793bc94292cf83a77d1b66a38caabcfe6dfcb17c02",
+          "after_sha256": "ca47bcbfe08fdd49aee0d74475e67e00788437aaea0f908d362c5db38c4e6285"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/lib.rs",
+          "before_sha256": "9b1c29e7017f7d946a46e168f1da68544f4399dadd8c29b114f5e33bdbb07178",
+          "after_sha256": "cff902f44c76de53e631990dc9fd52e69f6747579126724a2728da1498e6b54c"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending.rs",
+          "before_sha256": "d8a815a3d3df4a05a89f4c9301c264368547835a6d6319c3bc745986aef77cbf",
+          "after_sha256": "8947c53b72708792e4fdcc810c1fa95041f62c8f08bc0a3c46dc444487589db8"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_failure_tests.rs",
+          "before_sha256": "294ea98fdad731577565d799b76b49fcf90d94098877dab40167112a636b24a2",
+          "after_sha256": "1db67e8175d4ee8ad92a3b020ca2e2d69d287e9e4d5f1611a57b28ce7bb5d08d"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_fixture.rs",
+          "before_sha256": "c149962764decf1f41d4cd7aca14d009750011984ff7d1d64a1eea8cf80faea9",
+          "after_sha256": "8a0fb1758fd8b9e60f61608d1e30434af01e36c128730d6cc73721edd6536b98"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_publication_tests.rs",
+          "before_sha256": "a3e7721e987de0a983e7192df9bbffb6f6edfb1706e23421c8ccfbae5920f23f",
+          "after_sha256": "fb5c98cd66e8e59e6fab21cfd40206d39c43bfc11b154f25d7a234f8df8b6b49"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_start_tests.rs",
+          "before_sha256": "79b07f24debf5815e5bcad09d397781c91516f4e2806d196b23edbd68cde18ec",
+          "after_sha256": "709a6c3aaa7b106141e88631ef918dbb1723cf6cfa5e1a522c61e626e91faa71"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/session.rs",
+          "before_sha256": "0fe3d76841834b191deb4987bfc2ce6648638b8b459bce3cb0298c8e9f2e3484",
+          "after_sha256": "2947a03db940b92e72b03bc640b51c29ad8eaec548b9263dc2169b3577ea3f04"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/startup.rs",
+          "before_sha256": "e3c2e3b9f450961bd7e04b7db7055ce9921ffcd76de1ffbea80a3c2fc7ec1ded",
+          "after_sha256": "108da058d52eb9093117cf71cfde4d0bec6295b7df78dab8262671b1d4cb67ee"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/startup_cancel_tests.rs",
+          "before_sha256": "cef96d77f1b15cd3125d93117d00caabb1dea6f1fcc2d245e3812a955d99cff1",
+          "after_sha256": "fbc96106ee141164a176f55be2420ebe5a108f27830551eb76239f792a69de08"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/state.rs",
+          "before_sha256": "1032a02849a44f4f0290ec46558673cf460ee52fea6ea6ffdc5f995b019d9a85",
+          "after_sha256": "a891f300e2425cb25990db76c42b271904b44195e334212ecdb6413a49382dde"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/test_support.rs",
+          "before_sha256": "e3c04b1181b071a8901a4f2dee019860b9715672b9aed54155f81f92bef2e116",
+          "after_sha256": "1bcc1de3825f060651ad655108f33213165e5711d57abb7eee98da399030058a"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search/test_start.rs",
+          "before_sha256": "0cf8b41fec5829dfb1466a2ea9ae2459912b09eb3b5d684ff6e0eb63aed0e378",
+          "after_sha256": "d55989d40351a906442179280f279a39f0b791317bd3f20352fe2fa3166f7b90"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search/test_start_tests.rs",
+          "before_sha256": "df551bc3464b742c61d255a82eec1fce34ae837c42c80387c75c1a11063ae978",
+          "after_sha256": "55eee3f8a332c94825447b71ebaf478f60743456f70cab3a6184bd6002b8c752"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search/test_support.rs",
+          "before_sha256": "f1ae6193d8ec7d0fb8c1ab9253045b32df6a8c9631107a8b6e3ab2f3076d624e",
+          "after_sha256": "bd8b070e35fefd09bf668d3cb8b822d094d9974207c46584cbcb23d7ba15df58"
+        }
+      ],
+      "result": {
+        "changed_paths": 19,
+        "runtime_paths": 12,
+        "other_consumer_fixture_paths": 7,
+        "description": "Mechanical formatting; consumer fixture formatting does not establish their compilation/test coverage. No rerun solely for formatting."
+      }
+    }
+  ],
+  "between_run_transitions": [
+    {
+      "from": "tests",
+      "to": "tests-02",
+      "changed_source": [
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_failure_tests.rs",
+          "before_sha256": "df9841fd5e5fcddaafa2657b6fd16b5ce9d2901c503133346af62445509222f9",
+          "after_sha256": "294ea98fdad731577565d799b76b49fcf90d94098877dab40167112a636b24a2"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_fixture.rs",
+          "before_sha256": "2ed9264e1f668367096244f3835b19733b1537648953318039a1906b507559d2",
+          "after_sha256": "c149962764decf1f41d4cd7aca14d009750011984ff7d1d64a1eea8cf80faea9"
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/pending_publication_tests.rs",
+          "before_sha256": "bdcf4572492f15c60c941df3387e78d806fe6ff55129ed29588c5d5854a1a31c",
+          "after_sha256": "a3e7721e987de0a983e7192df9bbffb6f6edfb1706e23421c8ccfbae5920f23f"
+        }
+      ]
+    },
+    {
+      "from": "tests-02",
+      "to": "tests-03",
+      "changed_source": [
+        {
+          "path": "codex-rs/file-search-runtime/src/pending.rs",
+          "before_sha256": "5c4a9a7a682857cabbf823582c33cf2a56fe9fcda5529b4b56a888364fe226bb",
+          "after_sha256": "d8a815a3d3df4a05a89f4c9301c264368547835a6d6319c3bc745986aef77cbf"
+        }
+      ]
+    },
+    {
+      "from": "tests-03",
+      "to": "fix",
+      "changed_source": []
+    },
+    {
+      "from": "fix",
+      "to": "format",
+      "changed_source": []
+    }
+  ],
+  "preservation": {
+    "adoption_report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-runtime-and-fixtures-adoption.json",
+      "sha256": "1228b9fcfd7a9b320dd92e5e6f2296e9c5d537bc85faa5caf4426e28f809f2d9",
+      "bytes": 5901
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-runtime-and-fixtures-proposed.tar.gz",
+      "sha256": "7d1de79cee23f4de26a4939da5f00ba961cc8ab6c05d56ff325ab90e2d15c424",
+      "bytes": 117133
+    },
+    "all_21_adopted_source_members_hash_verified": true,
+    "durability": "Verified archive inside existing cloud filesystem; publication binding not supplied yet."
+  },
+  "independent_review": {
+    "original_manifest": {
+      "path": "/tmp/p02b-runtime-preparing-stage/FINAL_MANIFEST.json",
+      "sha256": "a4398bffa6f8c3f334266663c733d2ae83239f9c7eefcb6b17a63f1981e02040",
+      "bytes": 4277
+    },
+    "review_report": {
+      "path": "/tmp/p02b-runtime-preparing-independent-review.md",
+      "sha256": "d8eb526d8c4924d6a1332963a86500c9cd2888a15dd477808c71f335790314f7",
+      "bytes": 6119
+    },
+    "limitation": "Independent source review covered authored stage. Later executed cause-race tests found an observer fallback defect; static review did not prove behavior."
+  },
+  "corrections": {
+    "compile": "Two explicit pretty_assertions::assert_eq imports resolve15 new-test ambiguities; test-only pending_fixture uses drop(guard.0.take()) twice to consume armed guard state. No production changes between compile101 and53/55.",
+    "production": "The only source change from53/55 to55/55 was pending.rs: error selection remains retained operation first, then original startup error; when neither exists it returns Unconfirmed cleanup cause, otherwise synthetic ClosedLease for known cleanup. This preserves operation Ok in the canonical close receipt.",
+    "assertions": "No test/assertion source changed between53/55 and55/55. Original cause_races test file hash unchanged across both runs."
+  },
+  "new_test_coverage": {
+    "tests": [
+      "pending_start_tests::actual_runtime_loss_before_first_start_poll_retains_uncertainty_and_quota",
+      "pending_start_tests::failures::known_resource_startup_failure_precedes_panicking_hook_in_all_ledgers",
+      "pending_start_tests::failures::spontaneous_closed_startup_survives_a_distinct_delayed_cancellation_failure",
+      "pending_start_tests::real_native_snapshot_failure_survives_cancel_and_is_joined_before_runtime_refund",
+      "pending_start_tests::ready_before_public_observation_cancellation_preserves_real_sibling_and_replacement",
+      "pending_start_tests::unpolled_runtime_finish_skips_backend_and_reuses_quota_for_real_matching",
+      "pending_start_tests::unpolled_runtime_ticket_skips_backend_and_reuses_quota_for_real_matching",
+      "pending_start_tests::publication::cancellation_before_control_publication_forwards_to_real_native_and_keeps_sibling"
+    ],
+    "count": 8,
+    "composition": "Six native-backed setups: four exercise real matching, one real snapshot-budget failure, one actual Tokio runtime loss before native admission. Two controlled error-boundary fixtures cover ordering; they do not own native work."
+  },
+  "real_worker_integration_cases": [
+    "exhausted_native_index_is_failure_with_joined_cleanup_not_a_partial_idle",
+    "removal_affects_future_selection_while_existing_provider_remains_owned",
+    "process_results_match_existing_native_scoring_ignore_and_highlights",
+    "unsupported_plugin_configuration_fails_without_native_fallback",
+    "one_session_close_does_not_cancel_siblings_and_joins_before_quota_reuse",
+    "separate_provider_cwds_preserve_relative_roots_without_changing_host_cwd"
+  ],
+  "limits": [
+    "No new subsystem extraction: this adds Preparing control to the existing backend-neutral file-search runtime.",
+    "New API/service and native pending owner gates are separate evidence; do not add their counts to these 55 tests.",
+    "Six native_process integration cases launch the real package worker through the existing test fixture; this is not a fresh outside-harness build with a frozen full host.",
+    "Seven coordinated AS/client/TUI fixture files were adopted and formatted but are outside these commands test/compile scope. AS/TUI production consumer stages remain separate.",
+    "No new full CLI/App Server/TUI executable, GUI cycle or in-app Browser check was run by these commands.",
+    "Lease startup/close guards are covered; scope/provider completion-guard generic owner-loss cause fallback remains outside this slice.",
+    "There is no dedicated exact scheduled test of runtime loss after completed local skip but before the first close-task poll.",
+    "Native publication-race test permits NotAdmitted or Confirmed according to actual native admission timing; it does not claim a native worker was created in every schedule.",
+    "No upstream updater completion, release packaging or whole-harness transformation claim."
+  ]
+}

@@ -224,8 +224,12 @@ carrier ownership and handoff, not active native/process Preparing cancellation.
 The [process control gate](verification/2026-10-01/P02B_PREPARING_PROCESS_EVIDENCE.md) passed42,
 the [native owner gate](verification/2026-10-01/P02B_PREPARING_NATIVE_OWNER_EVIDENCE.md) passed88,
 and [native backend gate](verification/2026-10-01/P02B_PREPARING_NATIVE_BACKEND_EVIDENCE.md) passed96
-(overlapping scopes, not a sum). Source is externally preserved on cancellation WIP `6547a8bd`.
-Required trait, worker/runtime and consumer adoption plus new installed-host/UI gates remain pending.
+(overlapping scopes, not a sum). Source is externally preserved on cancellation WIP `272993ff`. Required SDK revision2 and worker
+service now pass [169 focused tests](verification/2026-10-01/P02B_REQUIRED_START_SERVICE_EVIDENCE.md);
+runtime pending control passes [55](verification/2026-10-01/P02B_RUNTIME_PREPARING_EVIDENCE.md),
+including six real worker-process cases. New0.2 worker built separately against unchanged frozen
+host fingerprints; metadata alone is not proof. AS/TUI production adoption and installed-host/UI
+Preparing gates remain pending. These strengthen search, not an additional extracted subsystem.
 The native/process audit annexes refine guard, receipt and handoff requirements. Preserve
 old package compatibility and separately build the updated worker before claiming
 its stronger cancellation behavior.
