@@ -84,6 +84,12 @@ the plugin compiles or functions.
 
 ## Assemble and install
 
+`assemble --version` sets the package's semantic version (default `0.1.0`).
+Package version and component contract version are independent. The P01 native
+store package uses `--version 0.2.0 --contract-version 2` and advertises optional
+manual-migration contract 1 at runtime; see [the contract](MIGRATION_COMPONENT_PLAN.md).
+The assembler validates the package version before creating the output directory.
+
 After the independent build, set `BINARY` to that build's executable and `PACKAGE`
 to another new directory:
 

@@ -1,0 +1,225 @@
+{
+  "passed": true,
+  "started_utc": "2026-10-01T01:04:29.577871+00:00",
+  "contract_version": 2,
+  "package_version": "0.2.0",
+  "commands": [
+    {
+      "argv": [
+        "python3",
+        "<repository>/component-sdk/rust_component_package.py",
+        "export",
+        "--repo",
+        "<repository>",
+        "--package",
+        "codex-thread-store-local-plugin",
+        "--output",
+        "<independent-build-root>/source"
+      ],
+      "cwd": "<repository>",
+      "status": 0,
+      "elapsed_seconds": 2.391913655999815
+    },
+    {
+      "argv": [
+        "rustc",
+        "-vV"
+      ],
+      "cwd": "<independent-build-root>/source/codex-rs",
+      "status": 0,
+      "elapsed_seconds": 0.04997625199757749
+    },
+    {
+      "argv": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--filter-platform",
+        "x86_64-unknown-linux-gnu",
+        "--format-version",
+        "1"
+      ],
+      "cwd": "<independent-build-root>/source/codex-rs",
+      "status": 0,
+      "elapsed_seconds": 0.7259128000005148
+    },
+    {
+      "argv": [
+        "cargo",
+        "build",
+        "--offline",
+        "--locked",
+        "-j",
+        "1",
+        "-p",
+        "codex-thread-store-local-plugin",
+        "--bin",
+        "codex-thread-store-local-plugin",
+        "--message-format=json-render-diagnostics"
+      ],
+      "cwd": "<independent-build-root>/source/codex-rs",
+      "status": 0,
+      "elapsed_seconds": 59.42464387400105
+    },
+    {
+      "argv": [
+        "python3",
+        "<repository>/component-sdk/rust_component_package.py",
+        "assemble",
+        "--repo",
+        "<independent-build-root>/source",
+        "--binary",
+        "<repository>/codex-rs/target/debug/codex-thread-store-local-plugin",
+        "--output",
+        "<independent-build-root>/package",
+        "--id",
+        "native.thread-store-local",
+        "--kind",
+        "thread_store",
+        "--name",
+        "default",
+        "--contract-version",
+        "2",
+        "--version",
+        "0.2.0"
+      ],
+      "cwd": "<repository>",
+      "status": 0,
+      "elapsed_seconds": 0.06691442299779737
+    },
+    {
+      "argv": [
+        "strip",
+        "--strip-unneeded",
+        "<independent-build-root>/package/codex-thread-store-local-plugin"
+      ],
+      "cwd": "<repository>",
+      "status": 0,
+      "elapsed_seconds": 0.15916905899939593
+    },
+    {
+      "argv": [
+        "ldd",
+        "<independent-build-root>/package/codex-thread-store-local-plugin"
+      ],
+      "cwd": "<repository>",
+      "status": 0,
+      "elapsed_seconds": 0.006408679000742268
+    },
+    {
+      "argv": [
+        "python3",
+        "<repository>/component-sdk/tests/harness_acceptance.py",
+        "--host",
+        "<host-checkpoint>/codex-component",
+        "--codex",
+        "<host-checkpoint>/codex",
+        "--work-dir",
+        "<independent-build-root>/runtime",
+        "--thread-store-package",
+        "<independent-build-root>/package"
+      ],
+      "cwd": "<repository>",
+      "status": 0,
+      "elapsed_seconds": 3.2693477569991956
+    }
+  ],
+  "binaries_before": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "artifact_directory": "<independent-build-root>",
+  "build_target": "x86_64-unknown-linux-gnu",
+  "source_export": {
+    "local_crates": 81,
+    "resolved_packages": 917,
+    "all_local_paths_inside_export": true,
+    "lock_identities_before": 1482,
+    "lock_identities_after": 1071,
+    "lock_new_identities": 0,
+    "excluded_engines": [
+      "codex-app-server",
+      "codex-cli",
+      "codex-core",
+      "codex-tui",
+      "core_test_support"
+    ],
+    "inventory": {
+      "sha256": "e90f4a0df9b7b3020f507ab53c15db3f9ec369f33dad09b67b5e098af9ed7c17",
+      "mtime_ns": 1790816672268035406,
+      "bytes": 914345
+    },
+    "warnings": [
+      "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+    ]
+  },
+  "build_artifact": {
+    "package_id": "path+file://<independent-build-root>/source/codex-rs/thread-store-local-plugin#codex-thread-store-local-plugin@0.0.0",
+    "target_source": "<independent-build-root>/source/codex-rs/thread-store-local-plugin/src/main.rs",
+    "fresh": false,
+    "fingerprint": {
+      "sha256": "6a8f55cd9da562fda0b83e18bdfe88b86e561a771c8a315d6d529e94af752e81",
+      "mtime_ns": 1790816732469029397,
+      "bytes": 110063816
+    },
+    "shared_target": "<repository>/codex-rs/target",
+    "third_party_cache_reused": true
+  },
+  "runtime_libraries": "\tlinux-vdso.so.1 (0x00007f6f75db0000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007f6f7196b000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x00007f6f7187b000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007f6f71687000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007f6f75db2000)\n",
+  "package_files": {
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mtime_ns": 1790816732780801252,
+      "bytes": 10926
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mtime_ns": 1790816732780865717,
+      "bytes": 242
+    },
+    "codex-component.json": {
+      "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48",
+      "mtime_ns": 1790816732780996350,
+      "bytes": 309
+    },
+    "codex-thread-store-local-plugin": {
+      "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+      "mtime_ns": 1790816732933022938,
+      "bytes": 71203368
+    }
+  },
+  "source_removed_before_install": true,
+  "runtime_report": "<independent-build-root>/runtime/acceptance.json",
+  "binaries_after": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "public_evidence": {
+    "kind": "independent native package build/install acceptance",
+    "source_report_sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e",
+    "source_report_bytes": 8530,
+    "sanitization": "Normalized cloud-specific paths; omitted log/ready-file locations, ephemeral process/thread identifiers and synthetic prompt text where present. No raw logs or bearer URLs copied.",
+    "path_placeholders": {
+      "<repository>": "harness source checkout",
+      "<independent-build-root>": "external exported source/build/package workspace",
+      "<migration-runtime-root>": "fresh migration acceptance workspace",
+      "<host-checkpoint>": "frozen CLI and component-manager binaries"
+    }
+  }
+}

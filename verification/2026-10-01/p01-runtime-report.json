@@ -1,0 +1,194 @@
+{
+  "passed": true,
+  "started_utc": "2026-10-01T01:06:06.878606+00:00",
+  "independent_report": "<independent-build-root>/independent-report.json",
+  "independent_report_fingerprint": {
+    "sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e",
+    "mtime_ns": 1790816736909030006,
+    "bytes": 8530
+  },
+  "binaries_before": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "inference": "deterministic external GUI fixture, not a live provider",
+  "commands": [
+    {
+      "label": "prepare-gui",
+      "argv": [
+        "python3",
+        "<repository>/component-sdk/tests/gui_harness_fixture.py",
+        "--host",
+        "<host-checkpoint>/codex-component",
+        "--codex",
+        "<host-checkpoint>/codex",
+        "--work-dir",
+        "<migration-runtime-root>/gui"
+      ],
+      "status": 0,
+      "storage_process_count": 0
+    },
+    {
+      "label": "install-native",
+      "argv": [
+        "<host-checkpoint>/codex-component",
+        "--codex-home",
+        "<migration-runtime-root>/gui/codex-home",
+        "install",
+        "<independent-build-root>/package"
+      ],
+      "status": 0,
+      "storage_process_count": 0
+    },
+    {
+      "label": "select-native",
+      "argv": [
+        "<host-checkpoint>/codex-component",
+        "--codex-home",
+        "<migration-runtime-root>/gui/codex-home",
+        "select",
+        "thread_store",
+        "default",
+        "native.thread-store-local"
+      ],
+      "status": 0,
+      "storage_process_count": 0
+    },
+    {
+      "label": "selected-dry-run",
+      "argv": [
+        "<host-checkpoint>/codex",
+        "migrate-rollouts",
+        "--json",
+        "--thread",
+        "<synthetic-thread-id>"
+      ],
+      "status": 0,
+      "storage_process_count": 1
+    },
+    {
+      "label": "reset-native",
+      "argv": [
+        "<host-checkpoint>/codex-component",
+        "--codex-home",
+        "<migration-runtime-root>/gui/codex-home",
+        "reset",
+        "thread_store",
+        "default"
+      ],
+      "status": 0,
+      "storage_process_count": 0
+    },
+    {
+      "label": "native-dry-run",
+      "argv": [
+        "<host-checkpoint>/codex",
+        "migrate-rollouts",
+        "--json",
+        "--thread",
+        "<synthetic-thread-id>"
+      ],
+      "status": 0,
+      "storage_process_count": 0
+    },
+    {
+      "label": "reselect-native",
+      "argv": [
+        "<host-checkpoint>/codex-component",
+        "--codex-home",
+        "<migration-runtime-root>/gui/codex-home",
+        "select",
+        "thread_store",
+        "default",
+        "native.thread-store-local"
+      ],
+      "status": 0,
+      "storage_process_count": 0
+    },
+    {
+      "label": "selected-apply",
+      "argv": [
+        "<host-checkpoint>/codex",
+        "migrate-rollouts",
+        "--json",
+        "--thread",
+        "<synthetic-thread-id>",
+        "--apply"
+      ],
+      "status": 0,
+      "storage_process_count": 1
+    },
+    {
+      "label": "selected-repeated",
+      "argv": [
+        "<host-checkpoint>/codex",
+        "migrate-rollouts",
+        "--json",
+        "--thread",
+        "<synthetic-thread-id>",
+        "--apply"
+      ],
+      "status": 0,
+      "storage_process_count": 1
+    },
+    {
+      "label": "cli-resume",
+      "argv": [
+        "<host-checkpoint>/codex",
+        "exec",
+        "resume",
+        "--skip-git-repo-check",
+        "--json",
+        "<synthetic-thread-id>",
+        "<synthetic follow-up prompt>"
+      ],
+      "status": 0,
+      "storage_process_count": 1
+    }
+  ],
+  "browser_manager_regression": "pending; use the retained GUI fixture and runbook",
+  "verified": [
+    "matching independent-source package and unchanged host",
+    "real legacy App Server conversation",
+    "native/selected dry-run parity and unchanged storage bytes",
+    "selected CLI migration and idempotent repeated apply",
+    "cold CLI resume retains user/assistant history",
+    "cold App Server paginated history",
+    "post-migration turn cancellation and process reaping"
+  ],
+  "binaries_after": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "host_unchanged": true,
+  "finished_utc": "2026-10-01T01:06:11.484315+00:00",
+  "storage_process_count": 6,
+  "public_evidence": {
+    "kind": "real legacy migration and cold resume acceptance",
+    "source_report_sha256": "efe258e697b1e770d4804f76065f21a1a24014e35963493e69b3b064a54cd2c9",
+    "source_report_bytes": 8405,
+    "sanitization": "Normalized cloud-specific paths; omitted log/ready-file locations, ephemeral process/thread identifiers and synthetic prompt text where present. No raw logs or bearer URLs copied.",
+    "path_placeholders": {
+      "<repository>": "harness source checkout",
+      "<independent-build-root>": "external exported source/build/package workspace",
+      "<migration-runtime-root>": "fresh migration acceptance workspace",
+      "<host-checkpoint>": "frozen CLI and component-manager binaries"
+    }
+  }
+}

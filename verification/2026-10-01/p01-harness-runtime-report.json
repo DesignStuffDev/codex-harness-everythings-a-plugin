@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "inference": "deterministic external process + loopback native fixture; no live model",
+  "verified": [
+    "independent builds",
+    "source removed",
+    "real CLI turn",
+    "external tool execution",
+    "context contribution",
+    "model event streaming",
+    "persisted session resume",
+    "zero native inference while replacement selected",
+    "native restoration with retained history",
+    "selected native storage process",
+    "cold storage process restart and resume",
+    "storage child termination after each CLI process",
+    "native storage restoration with retained history"
+  ],
+  "binaries_before": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "binaries_after": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "thread_store_plugin": "native.thread-store-local",
+  "storage_children_summary": {
+    "observed": 3,
+    "terminated": 3
+  },
+  "public_evidence": {
+    "kind": "existing headless harness behavior with independent native package",
+    "source_report_sha256": "5b3cecea1a261393cae6e60b2cb8632789e26715ad9072b1ad77d2e9bee9f470",
+    "source_report_bytes": 2425,
+    "sanitization": "Normalized cloud-specific paths; omitted log/ready-file locations, ephemeral process/thread identifiers and synthetic prompt text where present. No raw logs or bearer URLs copied.",
+    "path_placeholders": {
+      "<repository>": "harness source checkout",
+      "<independent-build-root>": "external exported source/build/package workspace",
+      "<migration-runtime-root>": "fresh migration acceptance workspace",
+      "<host-checkpoint>": "frozen CLI and component-manager binaries"
+    }
+  }
+}

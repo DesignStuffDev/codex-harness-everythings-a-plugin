@@ -1,0 +1,343 @@
+{
+  "passed": true,
+  "started_utc": "2026-10-01T01:06:41.736583+00:00",
+  "inference": "deterministic fixtures; real CLI, engine and installed old worker",
+  "candidate_record": "<host-checkpoint>/candidate.json",
+  "candidate_record_fingerprint": {
+    "sha256": "18eb27ffe8f98054676b67cc4c36184dd76a43d0b129c8d46be5d2b1184b96e9",
+    "mtime_ns": 1790816652821355245,
+    "bytes": 1052
+  },
+  "binaries_before": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "old_package": "<previous-0.1.0-package>",
+  "old_package_manifest": {
+    "api_version": 1,
+    "id": "native.thread-store-local",
+    "version": "0.1.0",
+    "entrypoint": "codex-thread-store-local-plugin",
+    "args": [],
+    "dependencies": {},
+    "components": [
+      {
+        "kind": "thread_store",
+        "name": "default",
+        "contract_version": 2,
+        "metadata": {}
+      }
+    ]
+  },
+  "old_package_files_before": {
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mtime_ns": 1790778674982996388,
+      "bytes": 10926
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mtime_ns": 1790778674983069836,
+      "bytes": 242
+    },
+    "codex-component.json": {
+      "sha256": "9df98a6ea35767a0e26585210b257ef5404cbe8c209432b3ec2dce793fc4ae94",
+      "mtime_ns": 1790778674983204304,
+      "bytes": 309
+    },
+    "codex-thread-store-local-plugin": {
+      "sha256": "0b5c433e116cf9b542697dbc80475f557c152ae2a4e0a1c8a99666c5ed2cc723",
+      "mtime_ns": 1790778675138587483,
+      "bytes": 70824776
+    }
+  },
+  "runner_fingerprint": {
+    "sha256": "e62151a847b02940119428bdd31abef3e0907687f8a05bb2370855e0b250db6a",
+    "mtime_ns": 1790816792468186648,
+    "bytes": 8280
+  },
+  "subreaper_fingerprint": {
+    "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+    "mtime_ns": 1790788319741997220,
+    "bytes": 4645
+  },
+  "harness_helper_fingerprint": {
+    "sha256": "ebe9d535ac826aa09a181b8ffbfe93910a4663e94f9dd4eae666fe309f385d39",
+    "mtime_ns": 1790769116031996662,
+    "bytes": 15536
+  },
+  "storage_snapshot_helper_fingerprint": {
+    "sha256": "49bb2cabbb13a2317ca9ae1f88d502329abc0da69a02c9a8fd619f318ce0b282",
+    "mtime_ns": 1790816287483086211,
+    "bytes": 14761
+  },
+  "commands": [
+    {
+      "label": "ordinary-host",
+      "argv": [
+        "python3",
+        "<repository>/component-sdk/tests/harness_acceptance.py",
+        "--host",
+        "<host-checkpoint>/codex-component",
+        "--codex",
+        "<host-checkpoint>/codex",
+        "--thread-store-package",
+        "<previous-0.1.0-package>",
+        "--work-dir",
+        "<compatibility-root>/ordinary"
+      ],
+      "exit_status": 0
+    },
+    {
+      "label": "reselect-old-storage",
+      "argv": [
+        "<host-checkpoint>/codex-component",
+        "--codex-home",
+        "<compatibility-root>/ordinary/codex-home",
+        "select",
+        "thread_store",
+        "default",
+        "native.thread-store-local"
+      ],
+      "exit_status": 0
+    },
+    {
+      "label": "unsupported-dry-run",
+      "argv": [
+        "<host-checkpoint>/codex",
+        "migrate-rollouts",
+        "--json"
+      ],
+      "exit_status": 1
+    }
+  ],
+  "ordinary_acceptance": {
+    "path": "<compatibility-root>/ordinary/acceptance.json",
+    "fingerprint": {
+      "sha256": "b0523d2c6408c16fb485fc745244832e2b923cd36668efe68872d815b3e020d0",
+      "mtime_ns": 1790816805465304241,
+      "bytes": 2425
+    },
+    "passed": true,
+    "verified": [
+      "independent builds",
+      "source removed",
+      "real CLI turn",
+      "external tool execution",
+      "context contribution",
+      "model event streaming",
+      "persisted session resume",
+      "zero native inference while replacement selected",
+      "native restoration with retained history",
+      "selected native storage process",
+      "cold storage process restart and resume",
+      "storage child termination after each CLI process",
+      "native storage restoration with retained history"
+    ],
+    "all_storage_pids_absent": true,
+    "observed_storage_process_count": 3
+  },
+  "storage_before": {
+    "goals_1.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802373148740,
+      "bytes": 4096
+    },
+    "goals_1.sqlite-shm": {
+      "sha256": "81f2e9ba097d5f6ea13b64a98b8cac30956292dd61957e20e6b74bb53dcc3011",
+      "mtime_ns": 1790816804716082973,
+      "bytes": 32768
+    },
+    "goals_1.sqlite-wal": {
+      "sha256": "d5d310d72d30c876539bcdc5505cd86272bce152f5c92d221a12a2c58e93e579",
+      "mtime_ns": 1790816802374082607,
+      "bytes": 74192
+    },
+    "memories_1.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802381308953,
+      "bytes": 4096
+    },
+    "memories_1.sqlite-shm": {
+      "sha256": "87e406dec1477b69f9353daedfaa1a46a38c6e02c0a03341610ac4695f99d850",
+      "mtime_ns": 1790816804717491445,
+      "bytes": 32768
+    },
+    "memories_1.sqlite-wal": {
+      "sha256": "e67d3e9f67f22c9c4cf215a70a677dfd1687120a465bdcd84ee4909a04f61c53",
+      "mtime_ns": 1790816802384048270,
+      "bytes": 86552
+    },
+    "queue_1.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802386514759,
+      "bytes": 4096
+    },
+    "queue_1.sqlite-shm": {
+      "sha256": "d061f1b6083f884cf95a32e5835cf99617d32a04ca155f4ebd85f46685814e28",
+      "mtime_ns": 1790816804718762875,
+      "bytes": 32768
+    },
+    "queue_1.sqlite-wal": {
+      "sha256": "936e8f0645eb0d8ba40e7c871a5641e234c268b808e0bb33ef3d0535230d24c7",
+      "mtime_ns": 1790816802388048214,
+      "bytes": 82432
+    },
+    "sessions/2026/10/01/<synthetic-rollout>.jsonl": {
+      "sha256": "30f609114020a638af548280e0a1d1321278acfa6db48926b5f8707a2e2d739a",
+      "mtime_ns": 1790816805116010049,
+      "bytes": 55292
+    },
+    "state_5.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802295379045,
+      "bytes": 4096
+    },
+    "state_5.sqlite-shm": {
+      "sha256": "41f204ca71d11fbe81cde74c0deeb7e5e79fb9336d0da7770eb4271aeed9b05f",
+      "mtime_ns": 1790816804708733607,
+      "bytes": 32768
+    },
+    "state_5.sqlite-wal": {
+      "sha256": "028676accccdc98227f3b6cf6306bfa91301c9f8a024f80dbb042e45bc71d056",
+      "mtime_ns": 1790816805124009937,
+      "bytes": 3296032
+    },
+    "thread_history_1.sqlite": {
+      "sha256": "c3ba54cefccf51d135281f761da3a5d84da4f77fba9326751223f29e750b808f",
+      "mtime_ns": 1790816805144009657,
+      "bytes": 90112
+    }
+  },
+  "storage_after": {
+    "goals_1.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802373148740,
+      "bytes": 4096
+    },
+    "goals_1.sqlite-shm": {
+      "sha256": "81f2e9ba097d5f6ea13b64a98b8cac30956292dd61957e20e6b74bb53dcc3011",
+      "mtime_ns": 1790816804716082973,
+      "bytes": 32768
+    },
+    "goals_1.sqlite-wal": {
+      "sha256": "d5d310d72d30c876539bcdc5505cd86272bce152f5c92d221a12a2c58e93e579",
+      "mtime_ns": 1790816802374082607,
+      "bytes": 74192
+    },
+    "memories_1.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802381308953,
+      "bytes": 4096
+    },
+    "memories_1.sqlite-shm": {
+      "sha256": "87e406dec1477b69f9353daedfaa1a46a38c6e02c0a03341610ac4695f99d850",
+      "mtime_ns": 1790816804717491445,
+      "bytes": 32768
+    },
+    "memories_1.sqlite-wal": {
+      "sha256": "e67d3e9f67f22c9c4cf215a70a677dfd1687120a465bdcd84ee4909a04f61c53",
+      "mtime_ns": 1790816802384048270,
+      "bytes": 86552
+    },
+    "queue_1.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802386514759,
+      "bytes": 4096
+    },
+    "queue_1.sqlite-shm": {
+      "sha256": "d061f1b6083f884cf95a32e5835cf99617d32a04ca155f4ebd85f46685814e28",
+      "mtime_ns": 1790816804718762875,
+      "bytes": 32768
+    },
+    "queue_1.sqlite-wal": {
+      "sha256": "936e8f0645eb0d8ba40e7c871a5641e234c268b808e0bb33ef3d0535230d24c7",
+      "mtime_ns": 1790816802388048214,
+      "bytes": 82432
+    },
+    "sessions/2026/10/01/<synthetic-rollout>.jsonl": {
+      "sha256": "30f609114020a638af548280e0a1d1321278acfa6db48926b5f8707a2e2d739a",
+      "mtime_ns": 1790816805116010049,
+      "bytes": 55292
+    },
+    "state_5.sqlite": {
+      "sha256": "4eeb710c739848e62f0d53d04057e17375b4af741c9b441f2a546f6ed860c79f",
+      "mtime_ns": 1790816802295379045,
+      "bytes": 4096
+    },
+    "state_5.sqlite-shm": {
+      "sha256": "41f204ca71d11fbe81cde74c0deeb7e5e79fb9336d0da7770eb4271aeed9b05f",
+      "mtime_ns": 1790816804708733607,
+      "bytes": 32768
+    },
+    "state_5.sqlite-wal": {
+      "sha256": "028676accccdc98227f3b6cf6306bfa91301c9f8a024f80dbb042e45bc71d056",
+      "mtime_ns": 1790816805124009937,
+      "bytes": 3296032
+    },
+    "thread_history_1.sqlite": {
+      "sha256": "c3ba54cefccf51d135281f761da3a5d84da4f77fba9326751223f29e750b808f",
+      "mtime_ns": 1790816805144009657,
+      "bytes": 90112
+    }
+  },
+  "unsupported_migration": {
+    "exit_status": 1,
+    "stdout_empty": true,
+    "stable_operation": "manual_rollout_migration",
+    "explicit_unsupported": true,
+    "storage_unchanged": true,
+    "all_storage_pids_absent": true,
+    "no_cleanup_failure": true
+  },
+  "binaries_after": {
+    "host": {
+      "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+      "mtime_ns": 1790778198616991936,
+      "bytes": 7092568
+    },
+    "codex": {
+      "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+      "mtime_ns": 1790816651966152497,
+      "bytes": 426580864
+    }
+  },
+  "old_package_files_after": {
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mtime_ns": 1790778674982996388,
+      "bytes": 10926
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mtime_ns": 1790778674983069836,
+      "bytes": 242
+    },
+    "codex-component.json": {
+      "sha256": "9df98a6ea35767a0e26585210b257ef5404cbe8c209432b3ec2dce793fc4ae94",
+      "mtime_ns": 1790778674983204304,
+      "bytes": 309
+    },
+    "codex-thread-store-local-plugin": {
+      "sha256": "0b5c433e116cf9b542697dbc80475f557c152ae2a4e0a1c8a99666c5ed2cc723",
+      "mtime_ns": 1790778675138587483,
+      "bytes": 70824776
+    }
+  },
+  "finished_utc": "2026-10-01T01:06:46.069661+00:00",
+  "unsupported_storage_process_count": 1,
+  "compatibility_build_scope": "The previously accepted native 0.1.0 storage package was reused unchanged. The harness helper independently built its additive model/tool/context fixtures; this compatibility gate does not claim a new native package build.",
+  "public_evidence": {
+    "source_report_sha256": "7e1d74c9a376b36b2f2ec446cc1f5931ff8c3f06e64fd8f9a6513b2270a2126c",
+    "source_report_bytes": 12303,
+    "sanitization": "Normalized cloud paths; omitted raw log paths/process IDs and replaced the synthetic rollout filename. Preserved storage fingerprints and asserted outcomes."
+  }
+}

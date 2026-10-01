@@ -146,6 +146,13 @@ binaries or caches staged. **Exit:** documentation checkpoint pushed and verifie
 
 ### P01 — Finish native storage maintenance/migration selection
 
+**Checkpoint complete:** source `5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb`.
+[Exact validation and retained failures](verification/2026-10-01/P01_TEST_EVIDENCE.md)
+cover native/selected parity, independently built package 0.2.0, unchanged host,
+old storage2 compatibility, real migration/cold recovery, GUI approval/Stop and
+actual manager Launch SIGINT. Focused native state/rollout integration passed;
+this does not claim complete standalone state/rollout or workspace suites.
+
 **Prerequisites:** accepted storage2 and persistent transport.
 **Deliver:** route the pre-existing manual rollout-migration CLI through selected
 storage capabilities instead of constructing `LocalThreadStore` directly. Reuse
@@ -162,6 +169,9 @@ session history. **Exit:** selected/default parity and truthful forced-shutdown
 durability result, package compatibility tests, SDK/native package docs and evidence.
 
 ### P02 — Native search and workspace services
+
+Detailed P02a audit, staged contract proposal and pending consumers:
+[file-search component plan](component-sdk/FILE_SEARCH_COMPONENT_PLAN.md).
 
 **Prerequisites:** P02a search uses contract cards, the accepted process/session
 protocol and existing native authorized root snapshots. P02b filesystem/watch/Git

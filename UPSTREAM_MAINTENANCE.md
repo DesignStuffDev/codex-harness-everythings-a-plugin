@@ -28,6 +28,13 @@ not necessarily an extracted component. The map records exact Git objects,
 areas, selected boundary symbols, extraction status and unknown semantics.
 `current_blob` means that immutable verified checkpoint, not today's dirty file.
 
+The subsequent [P01 lineage](upstream/p01-migration-lineage.json) maps native manual
+rollout migration to its optional storage capability, retained worker lifecycle,
+selected CLI composition and shared telemetry. It records exact upstream symbols,
+the immutable P01 implementation commit, all changed blobs and the complete diff
+from the import. The initial snapshot above remains historical. Unverified P02
+work is not promoted by this mapping; each accepted extraction needs its own entry.
+
 ## Separately installable maintenance service
 
 Proposed selector: `maintenance:upstream`, contract version 1. This kind is not

@@ -1,4 +1,4 @@
-# Validation record — 2026-09-30
+# Validation record — through 2026-10-01
 
 The installable component foundation, selected model transport, tool/context
 adapters, native storage packages, and an independent GUI have working runtime evidence. This is a
@@ -6,7 +6,24 @@ partial compartmentalization of the actual Codex engine. It does not establish
 replacement of every provider or functional subsystem; the remaining contracts
 are listed in [COMPONENTS.md](COMPONENTS.md).
 
-**Current source checkpoint:** storage contract 2 corrects the confirmed
+**P01 manual-migration checkpoint:** source
+`5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb` adds independently selected native
+manual rollout migration. [P01 evidence](verification/2026-10-01/P01_TEST_EVIDENCE.md)
+records 625 distinct passing focused Rust cases (across runs), clean scoped lint,
+independent storage package 0.2.0 built outside the checkout, old-package
+compatibility, actual legacy-to-paginated migration, cold engine recovery and
+Chromium GUI checks. Two actual manager Launch SIGINT cycles during blocked turns
+exited zero with all tracked processes absent. Host fingerprints stayed unchanged
+through installation and runtime acceptance. Original fixture failures remain
+recorded; the corrected GUI fixture explicitly restores on-request approvals via
+public App Server API after noninteractive CLI resume persisted Never.
+
+This extends the existing thread-storage component; it does not establish full
+auxiliary storage, engine-loop, model/provider, context or tool extraction. The
+inference fixture is deterministic, and the requested in-app Browser is unavailable.
+Older evidence below retains its original source, count and scope.
+
+**Previous storage-v2 checkpoint:** storage contract 2 corrects the confirmed
 version-one state-fidelity defect: the native-versus-installed-process raw
 persistence comparison now passes in Legacy and Paginated modes. The
 [original failing regression](verification/2026-09-30/storage-wire-fidelity-before.json)

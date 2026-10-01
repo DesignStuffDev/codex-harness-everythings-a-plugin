@@ -1,0 +1,3627 @@
+{
+  "schema_version": 1,
+  "phase": "P01 manual rollout migration",
+  "updated_at_utc": "2026-10-01T01:14:01.601030+00:00",
+  "status": "focused_rust_external_package_runtime_compatibility_and_playwright_gui_passed",
+  "source": {
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "comparison_base": "83364aa63526d75840d4149f4598ba1aeed02a06",
+    "checkpoint": {
+      "manifest": "p01-source-20261001T005826Z.json",
+      "manifest_sha256": "6f088fd73a19d266c32a6b943d12bfdee8b11a55539cfd83dc1976923c9bd14e",
+      "archive": "p01-source-20261001T005826Z.tar.gz",
+      "archive_sha256": "1b6b460943826303bc5238cebf88ed972c6b882e4cdf4d228fb82ed322158f68",
+      "base_commit": "83364aa63526d75840d4149f4598ba1aeed02a06",
+      "declared_status": "unverified_in_progress_source_snapshot",
+      "changed_paths": 47
+    },
+    "checkpoint_files": [
+      {
+        "path": "EXECUTION_STATE.md",
+        "mode": "100644",
+        "base_blob": "cf03029b474527fbb250a7cbee2e1bad51cc97fa",
+        "git_blob": "4d0b6f5ef6e8cdc4fe52c7542f302e4fadfbe3ab",
+        "sha256": "1e20011a2480a4cb766dac703bdcbb3b48528b864a0058c2db8ccdb7f3d06c28",
+        "bytes": 12947
+      },
+      {
+        "path": "IMPLEMENTATION_ROADMAP.md",
+        "mode": "100644",
+        "base_blob": "91c6d4cbb449021dcb57a1e305eb05a043adb328",
+        "git_blob": "69f936f8a6e0eb7aeeca9d55d956a318061b39f0",
+        "sha256": "dcd1eaedd2cb5c3cb148e0085eca4881b3706ce974556dc1b207b7f20486313e",
+        "bytes": 41418
+      },
+      {
+        "path": "codex-rs/Cargo.lock",
+        "mode": "100644",
+        "base_blob": "702b3570320a72d990b153f3b79201f54c2e80b2",
+        "git_blob": "56efd60d8f8089ab68164abd59a93fa5e6691bf0",
+        "sha256": "ae96b4da6fea3bad2b20da6da8e02c0bf7ee3770886841898d78f67a3dea7fad",
+        "bytes": 409666
+      },
+      {
+        "path": "codex-rs/cli/BUILD.bazel",
+        "mode": "100644",
+        "base_blob": "41fbbb78ba3aeac02701c7a54b2c8d00ec57c817",
+        "git_blob": "335d9fec21874088401bff3f875958b15694e2ef",
+        "sha256": "183e7f4f6901eeb66792e3b172f7e46be19661e462636a6b8c732156f66b69c9",
+        "bytes": 697
+      },
+      {
+        "path": "codex-rs/cli/Cargo.toml",
+        "mode": "100644",
+        "base_blob": "399230d3f4d15f7983b642cc7aa2515b00eae35a",
+        "git_blob": "b7d871d3635100ee07fea168d9f4491fe9d4dd2d",
+        "sha256": "ce556a03ddb9317aa49e51e284c659fe830295cf999d7783f4bf6810a15feda5",
+        "bytes": 4772
+      },
+      {
+        "path": "codex-rs/cli/src/migrate_rollouts.rs",
+        "mode": "100644",
+        "base_blob": "f7f695b73260fb661dcb4906e3bf38a805475022",
+        "git_blob": "f7d8c108f45332df4ed5efc410c4e49ce6672aaf",
+        "sha256": "95263a63398802df2eed27e24873925b3f48c32264b3f103fc418c24b36c231f",
+        "bytes": 16283
+      },
+      {
+        "path": "codex-rs/cli/src/migrate_rollouts/progress_tests.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "10443b9c8b6ea84a61f1e40dbf8c2f0e757d8801",
+        "sha256": "796ba84d9f4e4b1bbde403f815d2d36e8b31fb6692e8c93ea6cb15f6b7db61b4",
+        "bytes": 1481
+      },
+      {
+        "path": "codex-rs/cli/src/migrate_rollouts/runtime.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "9b4959106d52efcd7223b254a56dc2946b476c7a",
+        "sha256": "7204b86422ddb8eace4b4ce4d791fb5173fa414dfb05e021a073c53976846fc1",
+        "bytes": 10909
+      },
+      {
+        "path": "codex-rs/cli/tests/migrate_rollouts.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "65a4f7e5085f43253eed9d91c01208668fba47ee",
+        "sha256": "70b38c3b3b8f401460b7c445fc9f315319e88d89f68e769d1878d8e41d855b57",
+        "bytes": 6750
+      },
+      {
+        "path": "codex-rs/cli/tests/migrate_rollouts/lifecycle_tests.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "562d5802aa14e04ddc39ff879d91d94a621a080f",
+        "sha256": "bd0d8cdabb6d29b5229f365d632f00b82ec10ba72d56e41e993025b020827a05",
+        "bytes": 9424
+      },
+      {
+        "path": "codex-rs/cli/tests/migrate_rollouts/support.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "e37e29ad5019c9935a55772d8d693e0811b14720",
+        "sha256": "f4ba3e95cc8a2b23fa80b18a4007488c04ece9f4f90b7eead7bbc841bf4d7e36",
+        "bytes": 10133
+      },
+      {
+        "path": "codex-rs/cli/tests/migrate_rollouts_metrics.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "869769b53aff3b4dcbb3866d14e4198f33710c9b",
+        "sha256": "643682808de1c8d599b6d439fda9bbe04ff18b592c4230ebd4101d4fe3154006",
+        "bytes": 11007
+      },
+      {
+        "path": "codex-rs/thread-store-component/Cargo.toml",
+        "mode": "100644",
+        "base_blob": "f09ad06aa4dbb1e675b91208eaaadd7a24a5886b",
+        "git_blob": "932a0d3a26ae2137d572c39fa5a3927e165836d2",
+        "sha256": "d57c14dce35d43b0717a9acffb16123d9e4b7809a2db4918e426551051f80311",
+        "bytes": 1100
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/adapter.rs",
+        "mode": "100644",
+        "base_blob": "43657fa7733b5ce7462b8e2a6c29c6e39b83d6c4",
+        "git_blob": "187fdbe41107f399209b6cf8ced7cacfcbf32954",
+        "sha256": "48e16b94cceda46c0c38723fc577c49ad6a143d04dd396f1f8d15acf047db8d6",
+        "bytes": 17312
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/adapter_tests.rs",
+        "mode": "100644",
+        "base_blob": "8bdc2ab58cad324e27bcf365989b9b6f1b084317",
+        "git_blob": "12582375d2acc4e8ee8b6daa73d4e516428795f5",
+        "sha256": "4cd344fcf282e17b48bda1832b07f312e9156f6ca80bdc04de1a23d51c7dba7b",
+        "bytes": 10557
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/contract.rs",
+        "mode": "100644",
+        "base_blob": "5841b37ff5669207620116e34ecbf925074eb161",
+        "git_blob": "c4951a555dc979aaf25b36142040ceae65888af8",
+        "sha256": "2049f0091b3d2545358e6f03119d139880084ca870dd2aab8de5652bbda84586",
+        "bytes": 5245
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/dispatch.rs",
+        "mode": "100644",
+        "base_blob": "0ce7bb2227ecca1b0381447a3b807532b26a6b11",
+        "git_blob": "ef91a5c8776ee72be78a66906bc98beb69bb758d",
+        "sha256": "3117ffa5fa4106454ea2dc1676083da5b43d3e527963d5df6263cda82eb425f3",
+        "bytes": 11152
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/error.rs",
+        "mode": "100644",
+        "base_blob": "159eda7e205c95e893e8904155cf75f688cd0de2",
+        "git_blob": "8590838a586369481753a5a7840c1536009f6733",
+        "sha256": "914298ac5e6f9c0395e1ca2b5c4ce593ff1cd82732c4626a710eda60a44a63a4",
+        "bytes": 3655
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/lib.rs",
+        "mode": "100644",
+        "base_blob": "150361705de7f092b66893dec01fff29a04dcc5d",
+        "git_blob": "1174567489f890ae2f553c108515e1b26d714c26",
+        "sha256": "8576599108f1ac2f8d5e39063e9a37710b88d3331973cabfc7d0d63f106c9652",
+        "bytes": 1273
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/migration_adapter.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "f659f2ec7f3af9e341ad93900539c608e7f9a303",
+        "sha256": "6930ed9b2cb06b5cd48396fc3e3ff4327f2156c70fad64b98b292de98d727d14",
+        "bytes": 4378
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/migration_service.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "c61a82284687106dd42bf3fc4f513b343866c7ed",
+        "sha256": "bbe9eded0ac4458d0a1adcb89de7382cf8ee79546ca76c9b631fa635e8ad16e9",
+        "bytes": 18796
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/migration_service_tests.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "7b5a067288bc0986d0273b62ad16926f4121735d",
+        "sha256": "d9471d18a714687c36b17496a520c5a64d752928a14f2ce3878fcea72fc005ac",
+        "bytes": 15241
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/remote/migration.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "12d7c877a8387494bb2fb08286f4decd51d8edd5",
+        "sha256": "27de77618224aec8a62dd81098cd220e9a690c6bcc3509f53728825f1de6f200",
+        "bytes": 2441
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/remote/migration_tests.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "0c7349d7b6ab360539cd09925fe69f6b0571b705",
+        "sha256": "8fc8a6b13bfa673538c9b6f0c11fcc18baf1ce48aa8c66f2260f98b41295304d",
+        "bytes": 4130
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/remote/mod.rs",
+        "mode": "100644",
+        "base_blob": "c060c8d75e4890637c4fdca4149459dde26d8882",
+        "git_blob": "1cebaec1c615f166f597a140f81c86c303ca8418",
+        "sha256": "739e141d083732c2d3011329f8cc2787103e902166e3d79f59078763905ca315",
+        "bytes": 3503
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/service.rs",
+        "mode": "100644",
+        "base_blob": "36f2dd43d56642636a29d8dd6300015284f431b8",
+        "git_blob": "bf8574e1bab2917947c40a02e35321fd8b920a05",
+        "sha256": "e6395e7ffbdac1e9490502037e74442f13724583296379f0e09a4fdd6eba610b",
+        "bytes": 8142
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/wire.rs",
+        "mode": "100644",
+        "base_blob": "4bf9ef1690b20b2deefc5dd757855144b331b444",
+        "git_blob": "46b1db1c0a6a39b98b89168562b989d351c5ebba",
+        "sha256": "67f3864c5619f78e00124be1738c8a3bee0e0ee4904c6aff90f87bb541f4586d",
+        "bytes": 8857
+      },
+      {
+        "path": "codex-rs/thread-store-local-plugin/src/lib.rs",
+        "mode": "100644",
+        "base_blob": "58cc024a516fdffff8f4e741ccbd4341723dfbcb",
+        "git_blob": "cb1ea1b776b6bee5494da37434c9b411f1edea20",
+        "sha256": "d2a86db9ed9add78c0c8830ed20e5f136c6aa57923b296b3369dac6a821ec6c1",
+        "bytes": 4958
+      },
+      {
+        "path": "codex-rs/thread-store-local-plugin/tests/cases/migration.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "1ed31275fa284ae7acc8c860a4073f155ea4f487",
+        "sha256": "54a5fb99ec1686892d8e8b4b1753a0d5d0b61a797fe52677e8b14139e8d048c9",
+        "bytes": 14722
+      },
+      {
+        "path": "codex-rs/thread-store-local-plugin/tests/process_storage.rs",
+        "mode": "100644",
+        "base_blob": "d857afaf6110acddf9a9d674b51317cd3f68d7e6",
+        "git_blob": "f53c02ef928062ceafc5f395e24c4003b864e1b9",
+        "sha256": "4d724881cb84a45a6ac7d6d484b7cf20efaa0e7e48fd6b4c9a2e6ac76e57880f",
+        "bytes": 300
+      },
+      {
+        "path": "codex-rs/thread-store/src/error.rs",
+        "mode": "100644",
+        "base_blob": "bc5e8ed7c4f9c8692fb19f6d94c623f6bc0f3335",
+        "git_blob": "2445b07aa2e86921e87fe3536f88e7876940a605",
+        "sha256": "81cb520cb24008209cb8092de63e24f76bd7222f9ddaf090eda16cdcae0f7452",
+        "bytes": 1797
+      },
+      {
+        "path": "codex-rs/thread-store/src/lib.rs",
+        "mode": "100644",
+        "base_blob": "4f89f8bc539777c7a598e26bfb2161285e382a6c",
+        "git_blob": "48d02026218c32497ff45af885c056165c535175",
+        "sha256": "d511487187f83cc7c58c6746a673fa2e6b2cad7409b0df14e36bec913d1591b7",
+        "bytes": 4577
+      },
+      {
+        "path": "codex-rs/thread-store/src/local/maintenance.rs",
+        "mode": "100644",
+        "base_blob": "d7441d092a703a597c9e74b211482d145449cb64",
+        "git_blob": "8a0fba5e080745b2c0277a3606845a5301dcc605",
+        "sha256": "00d5c651faad072822e8baba104e0538a7fa4861356a317c3cdcfc3684296c19",
+        "bytes": 9566
+      },
+      {
+        "path": "codex-rs/thread-store/src/local/mod.rs",
+        "mode": "100644",
+        "base_blob": "9c4a00bed82c68636cd06b088c31cac04350d313",
+        "git_blob": "2e093291363ad9b9bef0d13a48da74845c05c7f6",
+        "sha256": "ca8c663b92e2d267b830a1bc834b13d50909dfa6212f120977889ed0a1af6db9",
+        "bytes": 80356
+      },
+      {
+        "path": "codex-rs/thread-store/src/local/rollout_migration.rs",
+        "mode": "100644",
+        "base_blob": "9443d625d7f0bcf58e19911fb25d64c27efe4b64",
+        "git_blob": "3466ba5802e0530161bd3eba0d57d26c358b24aa",
+        "sha256": "4283fb9a6f0120e61fdd814e053bdb9c63aba6535482155ae31bd8ebd66cfff5",
+        "bytes": 55761
+      },
+      {
+        "path": "codex-rs/thread-store/src/local/rollout_migration/manual.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "71ca523dff6c47f3aed9930dccbc4fe2fe95dbee",
+        "sha256": "e56f44f35a909096b04a73fdd3ca73a9e547b774358117d19cb4526763dfd69c",
+        "bytes": 6870
+      },
+      {
+        "path": "codex-rs/thread-store/src/local/rollout_migration/manual_tests.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "463a2d1924f62c89db450fad8c748d21c0184f9d",
+        "sha256": "46cfb12c6f246762ce1c6bec062a8ae78b4b92edd0184077234841fafe6b1311",
+        "bytes": 15448
+      },
+      {
+        "path": "codex-rs/thread-store/src/local/rollout_migration/telemetry.rs",
+        "mode": "100644",
+        "base_blob": "487b385a4a47dfc271430b71da254d3310616f6e",
+        "git_blob": "ae4c6803426064d9512c76e92cdf7df28dceb938",
+        "sha256": "7a6abbfda18e2a62f47f65c5542f5359a194b7f8822d7af927aee2be1f72274d",
+        "bytes": 6461
+      },
+      {
+        "path": "codex-rs/thread-store/src/migration_run.rs",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "02a0567cbeef8a69980d0044c3ce0b9a2bfaba23",
+        "sha256": "788101b21ebb98b43eec4f5a98eab8c6ac8d6ff3a27d98bc6ab91ab5d1fa144f",
+        "bytes": 2925
+      },
+      {
+        "path": "codex-rs/thread-store/src/store.rs",
+        "mode": "100644",
+        "base_blob": "505b8560e7311b0ff749462fb3934a3d3452a9af",
+        "git_blob": "f955d220a087cdd453c1abe22424f41b0b99318a",
+        "sha256": "930e45cac2fc58554080d529a9a6f0cb13281950811570866fe2f591b553de21",
+        "bytes": 23299
+      },
+      {
+        "path": "component-sdk/FILE_SEARCH_COMPONENT_PLAN.md",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "463a829355f9f971e253e1b371250d8ad2abfab5",
+        "sha256": "56484c5286831ba8e18a94c347f5037db69d379ca00503172a7108c0ba8becde",
+        "bytes": 18790
+      },
+      {
+        "path": "component-sdk/MIGRATION_COMPONENT_PLAN.md",
+        "mode": "100644",
+        "base_blob": "3cefe278cac83c90745eb48d7f3914859eccfa93",
+        "git_blob": "6d4cc66addb1fb70eadda2482e0aaab878c693df",
+        "sha256": "287e5dd167288fb82fbe529c480d555a64ec8cf85d3a5aa1b3dc240f9449fdc7",
+        "bytes": 13748
+      },
+      {
+        "path": "component-sdk/rust_component_package.py",
+        "mode": "100644",
+        "base_blob": "d7bf91b7ddbec481ea1b28fb559afecd9fe15b19",
+        "git_blob": "d9f4dd96089e4ba8c3fea3919c820d0932ddda78",
+        "sha256": "ffee18e97c1e79145f46e87d76e6eb57a7a309ae3569d00f92b41269958ce475",
+        "bytes": 18593
+      },
+      {
+        "path": "component-sdk/tests/P01_GUI_RUNBOOK.md",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "02e5f011d8bf445a1ac6ce5a7d55217d7b3fcf9e",
+        "sha256": "10afa259e177cd3e01f859359140e00172abd89bd62b1d24fa69cb141a7de37a",
+        "bytes": 15991
+      },
+      {
+        "path": "component-sdk/tests/manual_migration_acceptance.py",
+        "mode": "100644",
+        "base_blob": null,
+        "git_blob": "c4f4411d2ef10cb6991cada50ed951d712d2bd77",
+        "sha256": "49bb2cabbb13a2317ca9ae1f88d502329abc0da69a02c9a8fd619f318ce0b282",
+        "bytes": 14761
+      },
+      {
+        "path": "component-sdk/tests/native_storage_acceptance.py",
+        "mode": "100644",
+        "base_blob": "bc9b4b7964409aeacb0501dfccfb0eb532b57c1a",
+        "git_blob": "87f943b5a7d1ba2bceeeb56b38adcad4ee6a6807",
+        "sha256": "358883b7ea7462a103fcf6d477b3459ebb501e98f8b13bc6222146d3f9941f6f",
+        "bytes": 9576
+      },
+      {
+        "path": "component-sdk/tests/test_rust_package.py",
+        "mode": "100644",
+        "base_blob": "0add0738f39ec8a9d65ac569c0e9e344d092a420",
+        "git_blob": "da90648c9de9fb166539b5d2cd9ffd42de7adb75",
+        "sha256": "77b75a117685fa5513665c73760b8601afbd42d4209a091803f5b32ad1be8afd",
+        "bytes": 11328
+      }
+    ],
+    "earlier_checkpoints": [
+      {
+        "manifest": "p01-source-20261001T003230Z.json",
+        "manifest_sha256": "0272738823f4fb41bc212a17be0f117b4f97e230b908301c0317852eaa0a4d75",
+        "archive": "p01-source-20261001T003230Z.tar.gz",
+        "archive_sha256": "968015265d31525bfd4798c0bb263fd4c0221c93cb5a2c13daaf39009367f146",
+        "base_commit": "83364aa63526d75840d4149f4598ba1aeed02a06",
+        "declared_status": "unverified_in_progress_source_snapshot",
+        "changed_paths": 45
+      },
+      {
+        "manifest": "p01-source-20261001T003745Z.json",
+        "manifest_sha256": "6371aaa9655ff2ee4ad8243711b5859fd113ba7e96b5168da3d8f06086f3f589",
+        "archive": "p01-source-20261001T003745Z.tar.gz",
+        "archive_sha256": "9de414a990952d737868e5e830fe709228c7ede98176a1a0c4665781f4c5a82c",
+        "base_commit": "83364aa63526d75840d4149f4598ba1aeed02a06",
+        "declared_status": "unverified_in_progress_source_snapshot",
+        "changed_paths": 46
+      },
+      {
+        "manifest": "p01-source-20261001T004030Z.json",
+        "manifest_sha256": "86ea267d6dabfea0c7d6d0279f4c5943f9b8c3e58b5e500c409bdb8fb9897930",
+        "archive": "p01-source-20261001T004030Z.tar.gz",
+        "archive_sha256": "5c33ebbc16107abefa266e20ab0ead82897ed261fea8efa0071c590afa78bbfb",
+        "base_commit": "83364aa63526d75840d4149f4598ba1aeed02a06",
+        "declared_status": "unverified_in_progress_source_snapshot",
+        "changed_paths": 46
+      },
+      {
+        "manifest": "p01-source-20261001T004208Z.json",
+        "manifest_sha256": "2497968fd95578e0a3d95ffc6821f88157ab83b237ac95270cc8ec84a84eb097",
+        "archive": "p01-source-20261001T004208Z.tar.gz",
+        "archive_sha256": "60a0117bc0303eee74b431c4456ad26190dc76e98c779911b05f851a09d464a3",
+        "base_commit": "83364aa63526d75840d4149f4598ba1aeed02a06",
+        "declared_status": "unverified_in_progress_source_snapshot",
+        "changed_paths": 46
+      },
+      {
+        "manifest": "p01-source-20261001T004343Z.json",
+        "manifest_sha256": "d5e33636bd7d09bbe1edf36f5db115e847e05095aa8994f3c37b0a1cdb18cd13",
+        "archive": "p01-source-20261001T004343Z.tar.gz",
+        "archive_sha256": "63e70675057e9d8071cdfb9945fb4d481a4a79fc8173499e65d4ed368b0a5da5",
+        "base_commit": "83364aa63526d75840d4149f4598ba1aeed02a06",
+        "declared_status": "unverified_in_progress_source_snapshot",
+        "changed_paths": 46
+      }
+    ],
+    "provenance_note": "Source attribution uses these actual manifests, not legacy wrapper-script source labels. The checkpoint was captured after the scoped fixes and formatting. Runs below occurred during incremental development; this is not one aggregate run against a single immutable commit.",
+    "post_checkpoint_fixture_changes": [
+      {
+        "path": "component-sdk/tests/manual_migration_acceptance.py",
+        "sha256": "fffd7249efbfbc18c8a31a86a4da1212eb35739942f49f10f9d1a61eeaade485",
+        "purpose": "Explicit approval policy on cold App Server resume in runtime acceptance fixture; no Rust/binary change."
+      },
+      {
+        "path": "component-sdk/tests/p01_gui_acceptance.py",
+        "sha256": "8a69d3334816954950c5525af4ac4fd6d3b1536785dac79ecc8cff557476eacf",
+        "purpose": "Current GUI acceptance source after final formatter; executed fingerprint retained separately."
+      },
+      {
+        "path": "component-sdk/tests/gui_browser_driver.cjs",
+        "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+        "purpose": "Current browser driver source; executed fingerprint retained in GUI report."
+      }
+    ],
+    "post_gui_format_note": "Root reported just fmt after successful corrected GUI. Current/executed GUI script differences are formatting only; tests not rerun solely for formatting under AGENTS.md."
+  },
+  "evidence_directory": "/workspace/recovery-backups/20260930T165936Z",
+  "counting": {
+    "distinct_passing_cases": 625,
+    "suite_count_with_passing_cases": 6,
+    "identity": [
+      "nextest_binary_id",
+      "test_case_name"
+    ],
+    "last_observed_failures": 0,
+    "aggregate_625_case_run": false,
+    "retries_or_repeated_runs_add_cases": false,
+    "ignored_helper": "codex-cli::bin/codex doctor::filesystem_paths::tests::blocked_probe_fixture",
+    "ignored_helper_reason": "Subprocess fixture for the bounded filesystem probe test; excluded from distinct passes.",
+    "internal_metrics_scenarios": "Ten native/selected CLI executions across two Rust tests, not ten additional test cases."
+  },
+  "suites": [
+    {
+      "binary_id": "codex-cli::bin/codex",
+      "distinct_passed": 295,
+      "cases": [
+        {
+          "name": "daemon_install::tests::running_daemon_replacement_prompt",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "daemon_update_tests::daemon_handoff_uses_selected_executable_and_propagates_failure",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::background::tests::configured_updates_and_missing_updater_record_are_visible",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::background::tests::failed_version_probe_reports_unavailable",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::background::tests::invalid_settings_are_not_reported_as_effective",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::background::tests::not_running_background_server_stays_ok_without_version",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::background::tests::running_background_server_reports_app_server_version",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop::windows_security::tests::an_unavailable_reader_is_not_reported_as_clean",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop::windows_security::tests::defender_distinguishes_detection_and_remediation",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop::windows_security::tests::every_source_distinguishes_audits_from_blocks",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop::windows_security::tests::evidence_is_bounded_redacted_and_correctly_classified",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop::windows_security::tests::only_trusted_codex_executables_are_reported",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop_tests::current_desktop_session_reports_the_latest_local_handshake",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop_tests::failed_handshake_does_not_expose_sensitive_log_fields",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop_tests::handshake_failure_in_the_middle_of_a_log_segment_is_detected",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::desktop_tests::stopped_desktop_does_not_report_a_failure",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::disk::tests::disk_capacity_is_reported_without_loaded_configuration",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::disk::tests::disk_capacity_thresholds_produce_complete_diagnostics",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::disk::tests::disk_measurement_errors_produce_complete_warning_diagnostics",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::disk::tests::nonexistent_relative_codex_home_uses_current_directory_capacity",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::filesystem_paths::tests::attributes_home_relative_subtree_paths_to_their_config_layer",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::filesystem_paths::tests::attributes_paths_inherited_through_managed_profiles_to_their_config_layer",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::filesystem_paths::tests::deduplicates_literal_paths_without_expanding_globs_or_special_paths",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::filesystem_paths::tests::excludes_scoped_origins_replaced_by_a_scalar_grant",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::filesystem_paths::tests::returns_when_a_probe_process_does_not_exit",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::git::tests::reports_git_candidates_and_repo_metadata",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::git::tests::warns_when_git_repo_has_no_git_executable",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::network::tests::provider_reachability_rejects_proxy_authentication_challenges",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::copyable_items_use_check_status",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::detail_value_colors_inline_statuses_and_low_signal_values",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::missing_env_diagnostics_in_json_and_text",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::redact_detail_distinguishes_database_paths_from_field_labels",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::redact_detail_preserves_env_var_names",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::redact_detail_preserves_missing_env_diagnostics",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::redact_detail_preserves_secret_presence_booleans",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::redact_detail_sanitizes_secret_url_path_segments",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::redact_detail_sanitizes_urls",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_can_emit_color",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_expands_feature_flags_with_all",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_explains_terminal_warning_issue",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_includes_details_by_default_without_color",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_includes_memories_db_in_state_health_summary",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_includes_redacted_details",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_includes_threads_row_in_environment",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_promotes_notes_without_changing_statuses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_snapshot_covers_environment_rows",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_supports_ascii_output",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::render_human_report_supports_summary_output_without_color",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::output::tests::update_note_emphasizes_available_version_and_dims_context",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::progress::tests::progress_is_quiet_for_dumb_terminal",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::progress::tests::progress_is_quiet_for_json",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::progress::tests::progress_is_quiet_for_non_tty",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::progress::tests::progress_is_shown_for_human_tty_output",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::sandbox::tests::reports_missing_linux_sandbox_helper",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::security::tests::detected_products_preserve_partial_inspection_visibility",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::security::tests::each_endpoint_product_requires_vendor_specific_app_exclusions",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::security::tests::endpoint_product_guidance_preserves_structured_json_contract",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::security::tests::multiple_endpoint_products_each_get_distinct_guidance",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::security::tests::no_endpoint_products_require_no_remediation",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::security::tests::unavailable_endpoint_inspection_does_not_require_remediation",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::system::tests::system_check_handles_missing_os_language",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::system::tests::system_check_reports_os_language_locale_editor_and_pager_env",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::collect_rollout_stats_counts_nested_rollout_files",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::color_output_summary_reports_disabled_reasons",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::config_overrides_from_interactive_preserves_global_options",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::executable_path_exists_rejects_non_executable_file",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::http_probe_treats_http_status_as_reachable",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_does_not_probe_environment_stdio_on_the_host",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_fails_required_missing_stdio_command",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_fails_required_remote_stdio_env_var",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_ignores_disabled_servers",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_skips_host_path_checks_for_remote_stdio",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_validates_remote_stdio_cwd",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_check_warns_for_optional_http_reachability",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::mcp_http_probe_falls_back_to_get_when_head_times_out",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::overall_status_prefers_fail",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_adds_models_route_probe_for_openai_compatible_base_urls",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_api_key_does_not_require_chatgpt",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_chatgpt_uses_inference_endpoint",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_mode_uses_api_key_auth",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_outcome_reports_required_failures",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_route_401_keeps_reachability_ok",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_route_404_fails_bad_base_url_path",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_skips_route_probe_for_bedrock",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_reachability_uses_active_provider_endpoint",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_specific_auth_allows_non_openai_provider_without_env_key",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::provider_specific_auth_fails_when_provider_env_key_is_missing",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::read_probe_file_rejects_unreadable_file",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::redacted_json_report_structures_and_sanitizes_details",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::run_async_check_notifies_progress",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::run_sync_check_notifies_progress",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::should_enable_color_respects_terminal_inputs",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::startup_warning_counts_group_known_sources",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::stored_auth_validation_handles_personal_access_token",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::stored_auth_validation_rejects_missing_api_key",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::stored_auth_validation_rejects_missing_chatgpt_tokens",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_allows_missing_tmux_details",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_dumb_requires_interactive_stream",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_includes_windows_console_details",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_prioritizes_unreadable_terminfo_over_warnings",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_reports_remote_indicators_as_present_only",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_warns_for_declared_narrow_terminal",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_warns_for_narrow_terminal",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::tests::terminal_check_warns_for_non_utf8_locale",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::count_summary_caps_distinct_values",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::source_category_coarsens_structured_sources",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_id_from_rollout_falls_back_for_legacy_non_meta_record",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_id_from_rollout_rejects_unusable_headers",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_id_from_rollout_stops_after_legacy_header_line_limit",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_id_from_rollout_uses_metadata_after_pre_header_record",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_id_from_rollout_uses_metadata_at_header_line_limit",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_ignores_compression_temp_files",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_ignores_invalid_utf8_after_session_metadata",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_matches_compressed_rollouts_to_canonical_db_paths",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_ok_when_rollouts_match_db",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_prefers_plain_rollout_over_compressed_sibling",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_reports_corrupt_compressed_rollout_without_stale_row",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_uses_compressed_metadata_id_and_legacy_filename_fallback",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_uses_metadata_id_when_filename_and_db_disagree",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::thread_inventory::tests::thread_inventory_check_warns_for_missing_stale_and_mismatched_rows",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_accepts_thread_usage_items",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_omits_project_when_project_item_is_not_selected",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_project_value_uses_tui_truncation_shape",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_reports_default_items_and_git_project_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_reports_disabled_configuration",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_reports_project_config_fallback",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_warns_for_invalid_configured_items",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::title::tests::terminal_title_warns_when_all_configured_items_are_invalid",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::updates::tests::is_newer_compares_plain_semver",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::updates::tests::update_action_labels_install_contexts",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::updates::tests::version_http_probe_decodes_json_and_rejects_invalid_responses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "doctor::updates::tests::windows_store_updates_compare_all_four_production_build_components",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_defaults_preserve_local_and_noise_modes",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_direct_forwarding_remains_rejected",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_help_documents_remote_options",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_parses_direct_aws_options",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_rejects_missing_or_conflicting_remote_options",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_sigv4_does_not_enable_aws_auth_for_noise",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_args_tests::exec_server_transport_and_aws_options_require_registration_arguments",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_auth::tests::invalid_signing_configuration_is_rejected",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_auth::tests::invalid_signing_request_is_a_permanent_auth_error",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_auth::tests::signs_requests_without_changing_payload_or_metadata",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "exec_server_telemetry::tests::parent_disconnect_still_stops_executor_after_signal_listener_error",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "marketplace_cmd::tests::remove_subcommand_parses_marketplace_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "marketplace_cmd::tests::sparse_paths_parse_before_or_after_source",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "marketplace_cmd::tests::upgrade_subcommand_parses_optional_marketplace_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "mcp_cmd::tests::oauth_client_secret_is_redacted_in_parsed_command_debug",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "mcp_cmd::tests::oauth_client_secret_requires_url_and_client_id_without_disclosure",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "mcp_login::tests::callback_line_accepts_crlf_and_eof_after_input",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "mcp_login::tests::callback_line_is_bounded_and_does_not_expose_input_in_errors",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "migrate_rollouts::tests::coalesced_snapshots_render_cumulative_counts_without_double_counting",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::daemon_app_server_human_lines_include_path_and_version",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::foreground_start_wait_reports_app_server_exit_before_ready",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::foreground_start_wait_stops_before_ready",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::foreground_wait_aborts_app_server_on_stop_signal",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_daemon_json_rejects_unstartable_status",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_human_lines_include_foreground_stop_hint_only",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_human_start_messages_use_server_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_json_output_marks_foreground_or_daemon",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_pairing_human_output_labels_the_manual_code",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_pairing_human_output_requires_manual_code",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "remote_control_cmd::tests::remote_control_pairing_json_output_preserves_pairing_artifacts",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "state_db_recovery::tests::backup_backs_up_only_failed_database_file",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "state_db_recovery::tests::backup_folder_uses_parent_of_first_backup_path",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "state_db_recovery::tests::backup_replaces_blocking_sqlite_home_file",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::agents_subcommand_accepts_remote_session_options",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_analytics_default_disabled_without_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_analytics_default_enabled_with_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_capability_token_flags_parse",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_daemon_subcommands_parse",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_grpc_code_mode_host_url_parses_independently_of_listen_transport",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_listen_invalid_url_fails_to_parse",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_listen_off_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_listen_stdio_url_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_listen_unix_socket_path_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_listen_unix_socket_url_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_listen_websocket_url_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_proxy_sock_path_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_proxy_subcommand_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_rejects_invalid_code_mode_host_urls",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_rejects_removed_insecure_non_loopback_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_remote_control_startup_flag_enables_remote_control",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_signed_bearer_flags_parse",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_stdio_flag_conflicts_with_listen",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_stdio_flag_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::app_server_subcommands_reject_strict_config",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::approve_for_me_configures_interactive_mode",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::approve_for_me_conflicts_with_explicit_interactive_permissions",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::approve_for_me_defaults_propagate_from_root_to_exec",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::archive_merges_scoped_tui_flags",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::dangerous_bypass_conflicts_with_approval_policy",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::debug_models_parses_bundled_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::debug_prompt_input_parses_prompt_and_images",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::delete_force_requires_uuid",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_resume_accepts_output_flags_after_subcommand",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_resume_last_accepts_prompt_positional",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_forward_parses_shared_remote_options",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_forward_requires_registration_and_destination",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_remote_api_key_auth_accepts_http_loopback",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_remote_api_key_auth_accepts_https_openai_domains",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_remote_api_key_auth_rejects_http_openai_domain",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_remote_api_key_auth_rejects_suffix_spoof",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::exec_server_remote_auth_accepts_api_key_auth",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::feature_toggles_accept_legacy_linux_sandbox_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::feature_toggles_accept_removed_enable_fanout_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::feature_toggles_accept_removed_image_detail_original_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::feature_toggles_accept_removed_item_ids_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::feature_toggles_known_features_generate_overrides",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::feature_toggles_unknown_feature_errors",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::features_disable_parses_feature_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::features_enable_parses_feature_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_all_flag_sets_show_all",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_last_accepts_prompt_positional",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_last_rejects_explicit_session_and_prompt",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_picker_logic_last",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_picker_logic_none_and_not_last",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_picker_logic_with_session_id",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::fork_with_session_id_accepts_prompt_positional",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_applies_color_when_enabled",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_colors_commands_and_thread_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_confirms_archive",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_includes_resume_hint_for_fatal_exit",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_includes_resume_hint_without_color",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_includes_session_id_for_fatal_exit_without_resume_hint",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_includes_session_id_without_resume_hint",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_names_picker_item_when_thread_has_name",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_preserves_auth_env_through_tui_runner",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::format_exit_messages_skips_zero_usage",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::import_remains_an_interactive_prompt",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::interactive_tui_future_stays_bounded",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::later_approve_for_me_overrides_root_exec_sandbox",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::later_approve_for_me_overrides_root_tui_approval_policy",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::later_exec_sandbox_partially_overrides_approve_for_me",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::later_resume_approval_policy_partially_overrides_approve_for_me",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::marketplace_no_longer_parses_at_top_level",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::not_so_yolo_alias_is_hidden_from_help",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_add_parses_under_plugin",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_list_parses_under_plugin",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_marketplace_add_parses_under_plugin",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_marketplace_help_uses_plugin_namespace",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_marketplace_remove_parses_under_plugin",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_marketplace_upgrade_parses_under_plugin",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::plugin_remove_parses_under_plugin",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::profile_loader_overrides_use_explicit_codex_home",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::profile_v2_is_allowed_for_runtime_subcommands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::profile_v2_is_rejected_for_config_management_subcommands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::profile_v2_rejects_non_plain_names_at_parse_time",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::read_remote_auth_token_from_env_var_rejects_empty_values",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::read_remote_auth_token_from_env_var_reports_missing_values",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::read_remote_auth_token_from_env_var_trims_values",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::reject_remote_auth_token_env_for_app_server_generate_internal_json_schema",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::reject_remote_auth_token_env_for_app_server_proxy",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::reject_remote_auth_token_env_for_app_server_version",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::reject_remote_auth_token_env_for_non_interactive_subcommands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::reject_remote_flag_for_remote_control",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::reject_remote_mode_for_non_interactive_subcommands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::remote_auth_token_env_flag_parses_for_interactive_root",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::remote_control_pair_parses",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::remote_flag_parses_for_interactive_root",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::remote_flag_parses_for_resume_subcommand",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::responses_subcommand_is_not_registered",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_all_flag_sets_show_all",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_and_fork_preserve_no_alt_screen",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_and_fork_preserve_no_daemon",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_include_non_interactive_flag_sets_source_filter_override",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_last_accepts_prompt_positional",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_last_rejects_explicit_session_and_prompt",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_merges_bypass_hook_trust_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_merges_dangerously_bypass_flag",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_merges_option_flags",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_model_flag_applies_when_no_root_flags",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_picker_logic_last",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_picker_logic_none_and_not_last",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_picker_logic_with_session_id",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::resume_with_session_id_accepts_prompt_positional",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::root_strict_config_is_rejected_for_unsupported_subcommands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::root_strict_config_is_supported_for_exec_server",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::sandbox_help_only_shows_singular_permission_profile",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::sandbox_parses_config_profile",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::sandbox_parses_legacy_permissions_profile_alias",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::sandbox_parses_permission_profile",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::sandbox_parses_permissions_profile_short_alias",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::sandbox_rejects_explicit_profile_controls_without_profile",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::strict_config_parses_for_supported_commands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::strict_config_with_compound_enable_errors",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::strict_config_with_unknown_disable_errors",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::strict_config_with_unknown_enable_errors",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::tcp_tunnel_is_hidden_and_accepts_its_control_input_contract",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::update_parses_as_update_subcommand",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::updater_http_client_factory_falls_back_when_config_load_fails",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::updater_http_client_factory_honors_respect_system_proxy",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::worktree_flag_rejects_unsupported_session_and_management_commands",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "tests::worktree_flag_supports_interactive_exec_and_explicit_fork_positions",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "wsl_paths::tests::normalize_is_noop_on_unix_paths",
+          "last_pass_log": "p01-cli-corrected.log"
+        },
+        {
+          "name": "wsl_paths::tests::win_to_wsl_basic",
+          "last_pass_log": "p01-cli-corrected.log"
+        }
+      ]
+    },
+    {
+      "binary_id": "codex-cli::migrate_rollouts",
+      "distinct_passed": 5,
+      "cases": [
+        {
+          "name": "lifecycle_tests::first_interrupt_joins_native_and_selected_inflight_publication",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        },
+        {
+          "name": "lifecycle_tests::repeated_interrupt_reports_uncertainty_and_selected_store_can_recover",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        },
+        {
+          "name": "lifecycle_tests::unsupported_selected_storage_never_falls_back_or_initializes_native_metadata",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        },
+        {
+          "name": "selected_native_apply_matches_native_filter_and_cold_readback",
+          "last_pass_log": "p01-cli-cold-final.log"
+        },
+        {
+          "name": "selected_native_dry_run_matches_native_failures_without_storage_mutation",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        }
+      ]
+    },
+    {
+      "binary_id": "codex-cli::migrate_rollouts_metrics",
+      "distinct_passed": 2,
+      "cases": [
+        {
+          "name": "cancelled_native_and_selected_runs_export_matching_completion",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        },
+        {
+          "name": "native_and_selected_export_one_run_and_matching_thread_outcomes",
+          "last_pass_log": "p01-cli-fixture-final.log"
+        }
+      ]
+    },
+    {
+      "binary_id": "codex-thread-store",
+      "distinct_passed": 279,
+      "cases": [
+        {
+          "name": "in_memory::tests::default_turn_pagination_methods_return_unsupported",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "in_memory::tests::deletion_cleans_associated_sqlite_and_shared_memory",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "in_memory::tests::list_threads_filters_by_spawn_relationship",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "in_memory::tests::metadata_update_returns_the_materialized_thread",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "in_memory::tests::paginated_threads_allow_metadata_reads_and_resume_but_reject_legacy_history_paths",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::archive_thread::tests::archive_thread_deduplicates_rollout_paths_and_updates_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::archive_thread::tests::archive_thread_moves_rollout_to_archived_collection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::archive_thread::tests::archive_threads_rejects_owned_descendants_before_archiving_anything",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::archive_thread::tests::archive_waits_for_fork_reservation_without_holding_writer_lock",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::compression_writer_tests::idle_recorder_retains_stable_thread_ownership_after_store_drop",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::compression_writer_tests::metadata_updates_share_ownership_and_resume_compressed_rollouts",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::daybreak_metadata_tests::daybreak_preference_requires_sqlite",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::daybreak_metadata_tests::daybreak_preference_survives_reconciliation_and_cold_reads",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_rollout_file_treats_vanished_path_as_already_deleted",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_ignores_unreadable_reference_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_rejects_reference_to_reverted_rollout",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_rejects_referenced_paginated_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_removes_active_and_archived_rollouts",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_removes_materialized_thread_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_reports_missing_thread",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_thread_without_state_db_preserves_materialized_thread_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_threads_allows_internal_history_references",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_threads_rejects_owned_descendants_before_deleting_anything",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_threads_rejects_owned_thread_before_rollout_materializes",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::delete_thread::tests::delete_threads_removes_rollout_with_unreadable_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::helpers::tests::guardian_rollout_conversion_preserves_name_and_logical_path",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::list_paginated_threads_uses_sqlite_name_over_legacy_compatibility",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::list_threads_preserves_sqlite_title_search_results",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::list_threads_rejects_invalid_cursor",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::list_threads_returns_local_rollout_summary",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::list_threads_selects_active_or_archived_collection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::list_threads_uses_default_provider_when_rollout_omits_provider",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::list_threads::tests::section_listing_uses_sqlite_metadata_without_reading_rollouts",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::maintenance::tests::local_store_clones_share_maintenance_admission_and_completion",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::maintenance::tests::local_store_pool_close_survives_an_unpolled_shutdown_waiter",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::maintenance::tests::maintenance_admission_racing_shutdown_never_loses_an_accepted_job",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::maintenance::tests::maintenance_failed_nested_join_is_retained_when_reaping_completed_jobs",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::maintenance::tests::maintenance_shutdown_retains_owned_jobs_after_waiter_is_abandoned",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::maintenance::tests::maintenance_worker_panic_fails_close_only_after_other_jobs_are_joined",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::fork_context_excludes_items_after_frozen_cutoff",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::fork_version_respects_inherited_segment_cutoffs",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::fork_version_stops_before_older_segments_once_resolved",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::loads_recent_context_after_many_empty_wake_turns",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::replays_nested_archived_lineage_from_frozen_prefix",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::returns_scanned_full_history_at_bof_without_checkpoint",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::returns_scanned_full_history_for_unsupported_compaction",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::model_context::tests::stops_at_newest_usable_compaction_and_keeps_companions",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::discarding_live_thread_clears_pending_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::idle_shutdown_clears_pending_thread_metadata_without_materializing",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::pending_rollout_compatible_metadata_does_not_deadlock",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::pending_rollout_compatible_metadata_is_written_with_observed_update",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::pending_thread_metadata_is_consumed_by_first_metadata_update",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::pending_thread_metadata_rejects_rollout_path",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::pending_thread_metadata_tests::pending_thread_metadata_requires_state_db",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_paginated_thread_prefers_sqlite_display_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_accepts_legacy_sandbox_policy_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_applies_sqlite_thread_name",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_by_rollout_path_preserves_legacy_name_and_sqlite_git_info",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_fails_without_rollout",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_falls_back_to_rollout_search_when_sqlite_path_is_stale",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_falls_back_to_sqlite_summary",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_falls_back_when_sqlite_path_points_to_another_thread",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_prefers_active_rollout_over_archived",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_preserves_sqlite_cwd_when_rollout_metadata_is_stale",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_returns_active_rollout_summary",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_returns_archived_rollout_when_requested",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_returns_forked_from_id",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_returns_permission_profile_from_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_returns_rollout_path_summary",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_sqlite_fallback_loads_archived_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_sqlite_fallback_respects_include_archived",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_uses_legacy_thread_name_when_sqlite_title_is_missing",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_uses_session_meta_for_rollout_without_user_preview_or_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread::tests::read_thread_uses_sqlite_metadata_for_rollout_without_user_preview",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::read_thread_tests::empty_archived_reads_without_sqlite_preserve_source_and_file_time",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::revert_thread::tests::revert_keeps_thread_id_and_hides_suffix_across_repeated_reverts",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::revert_thread::tests::revert_preserves_resolved_multi_agent_version_in_session_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_lineage::tests::rejects_missing_cycles_and_out_of_bounds_offsets",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_lineage::tests::rejects_reference_lineage_escaping_symlinked_sessions_root",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_lineage::tests::resolves_archived_ancestors",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_lineage::tests::resolves_lineage_at_explicit_history_position",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_lineage::tests::resolves_nested_lineage_with_empty_intermediate_segments",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::normalizes_legacy_plain_command_cwd",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::normalizes_legacy_rate_limit_reset_timestamps",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::normalizes_legacy_review_entry_prompt",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::normalizes_legacy_turn_context_collaboration_mode",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::normalizes_legacy_turn_context_sandbox_policy",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::parses_legacy_numeric_event_payloads_through_value",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::skips_legacy_ghost_snapshots",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::line_parser::tests::skips_only_known_retired_events",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::abandoned_close_keeps_publication_owned_until_store_shutdown_joins",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::busy_operation_reports_error_but_release_joins_and_preserves_healthy_store",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::cancelled_before_worker_admission_retains_empty_prefix_without_mutation",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::cancelling_manual_run_joins_current_path_without_setting_startup_cursor",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::dry_run_preserves_storage_and_coalesced_progress_matches_native_report",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::per_path_failure_and_filter_preserve_native_report_and_counts",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::manual::tests::zero_path_run_finishes_explicitly_and_invalid_limits_do_not_poison_admission",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::checks_rollouts_within_the_cursor_lookback",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::lifecycle::cooperative_startup_wakes_from_maintenance_contention_without_advancing_cursor",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::permanently_skips_failed_rollouts_without_blocking_the_cursor",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::records_and_advances_checked_thread",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::recovers_pending_migrations_after_retrying_busy_rollouts",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::retries_busy_rollouts_after_archive_and_compression_move",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::treats_writer_owned_empty_rollouts_as_busy",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::waits_for_a_live_writer_before_migrating",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::startup::tests::waits_for_rollout_maintenance_before_migrating",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::decompression_temporaries_are_owner_only",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::dry_run_reports_migration_order",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::lifecycle::cooperative_migration_stops_between_paths_after_publishing_current_path",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_applies_cumulative_and_overflowing_rollbacks",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_applies_historical_rollbacks_before_sqlite_projection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_apply_conflicts_with_rollout_maintenance",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_coalesces_response_first_user_message_rollback_boundary",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_compacts_subagent_prefix_and_does_not_project_it",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_does_not_coalesce_distinct_adjacent_user_records",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_drops_copied_user_fork_metadata_without_creating_a_history_base",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_drops_trailing_context_when_rollback_arrives_before_next_turn",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_hoists_delayed_session_meta_before_paginated_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_keeps_delivery_before_newer_unsequenced_communication",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_keeps_downgraded_delivery_before_later_same_turn_steer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_keeps_empty_replay_anchor_from_rolled_back_turn",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_keeps_late_completions_for_surviving_turns_across_rollback",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_keeps_late_completions_in_their_original_turn",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_keeps_small_uncompacted_subagent_replay_as_prefix",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_migrates_archived_rollouts_without_unarchiving_them",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_answers_before_a_rolled_back_steer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_compressed_rollouts_during_publish_and_recovery",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_image_generation_failure_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_legacy_displayed_thread_names",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_reverse_replay_anchor_after_pre_compaction_rollback",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_same_turn_evidence_across_rollback_checkpoints",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_preserves_valid_final_record_without_newline",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_projects_explicit_and_implicit_legacy_completed_items",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_projects_memory_consolidation_as_ordinary_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_publishes_canonical_projected_history_and_is_idempotent",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_recovers_a_compressed_published_rollout",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_recovers_a_published_rollout_with_missing_projection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_recovers_pending_rollouts_before_new_work",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_removes_answers_accepted_after_a_queued_steer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_removes_delivery_from_rolled_back_communication_turn",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_removes_delivery_with_only_legacy_unsequenced_instruction",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_repairs_a_missing_paginated_name_when_rerun",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_reports_invalid_session_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_reports_missing_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_retries_a_rollout_moved_after_path_discovery",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_rolls_back_inter_agent_metadata_with_its_delivery",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_rolls_back_nested_deliveries_by_acceptance_order",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_rolls_back_pre_compaction_turns_from_sqlite_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_rolls_back_response_and_inter_agent_user_boundaries",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_skips_empty_rollout_files",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_skips_malformed_lines_and_trailing_partial_tail",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_skips_oversized_jsonl_records",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_skips_threads_with_an_active_writer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::rollout_migration::tests::migration_uses_turn_context_to_select_reverse_replay_anchor",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::search_threads::tests::recency_cursor_includes_thread_id_tie_breaker",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::search_threads::tests::search_matches_selected_rollout_across_path_spellings_and_compression",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::acquisition_tests::cancelled_acquisition_waits_for_writer_handoff_before_discarding",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::create_thread_rejects_duplicate_live_writer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::create_thread_rejects_missing_cwd",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::discard_thread_drops_unmaterialized_live_writer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_does_not_derive_metadata_from_inherited_items",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_memory_mode_update_before_rollout_materializes_keeps_history_mode",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_observes_appended_items_into_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_output_advances_updated_at_but_not_recency_at",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_resume_loads_history_before_observing_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_resume_loads_history_from_explicit_external_rollout_path",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_shutdown_does_not_materialize_empty_thread_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_thread_shutdown_with_buffered_items_materializes_before_metadata_read",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_writer_lifecycle_writes_and_closes",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::live_writers_reject_cross_process_create_and_resume",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::load_history_uses_live_writer_rollout_path",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::load_history_uses_live_writer_rollout_path_for_archived_source",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::paginated_live_appends_use_paginated_history_mode",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::paginated_resume_prefers_explicit_rollout_path_over_stale_sqlite_path",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::paginated_threads_allow_metadata_reads_and_resume_but_reject_legacy_history_paths",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::raw_append_items_does_not_update_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::read_thread_by_rollout_path_includes_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::read_thread_uses_live_writer_rollout_path_for_external_resume",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::resume_thread_rejects_duplicate_live_writer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::resume_thread_rejects_missing_cwd",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::tests::resume_thread_reopens_live_writer_and_appends",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_attachments::tests::attachment_mutations_queued_behind_deletion_reject_deleted_threads",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_attachments::tests::attachment_mutations_wait_for_exclusive_thread_lifecycle_operations",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_attachments::tests::attachment_owner_deletion_can_retry_after_state_cleanup_fails",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_attachments::tests::attachment_state_errors_preserve_missing_thread_and_invalid_request_categories",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_attachments::tests::thread_attachments_require_a_supported_sqlite_store",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_attachments::tests::unloaded_thread_attachments_support_listing_and_removal",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::inherited_search_excludes_turns_created_after_the_fork",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::item_anchors_page_exclusively_while_the_turn_grows",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::item_anchors_reject_items_outside_the_requested_scope",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::item_anchors_require_creation_order_without_an_update_watermark",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::lineage_reads_nested_forks",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::lineage_reads_page_across_parent_and_child_segments",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::list_history_keeps_legacy_threads_unsupported",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::list_items_filters_exclusive_update_ordinals_across_pages_and_turns",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::list_items_pages_whole_thread_and_per_turn_rows",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::list_items_rejects_update_ordinals_outside_sqlite_integer_range",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::list_items_update_ordinals_use_selected_rollout_id",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::list_turns_pages_projected_rows_and_applies_item_views",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::timeline_interleaves_items_and_restores_page_boundary_session_state",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::timeline_page_state_excludes_realtime_events_after_fork_cutoff",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history::read::tests::timeline_turn_boundaries_page_through_shared_ordinals",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::active_turn_stores_only_its_start_position",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::blank_and_rejected_rollout_lines_advance_projection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::cancelled_fork_keeps_source_reserved_until_lineage_resolution_finishes",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::catch_up_preserves_trailing_partial_line_boundaries",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::catch_up_rejects_missing_rollout_after_projection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::catch_up_skips_invalid_complete_suffixes_and_projects_later_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::delete_waits_for_in_flight_projection_before_removing_rows",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::event_timestamps_allow_invalid_rollout_timestamps",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::jsonl_failure_does_not_create_projection_database",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::malformed_rollout_lines_skip_inferred_ordinal_gaps",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::named_fork_boundaries_reject_invisible_and_noncanonical_turns",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::next_write_catches_up_unprojected_durable_suffix",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::paginated_fork_persists_empty_source",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::paginated_fork_reads_compressed_shared_lineage_without_materializing",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::paginated_history_without_state_db_does_not_initialize_sqlite",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::paginated_live_append_materializes_turn_items_and_state",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::paginated_projection_accepts_float_rate_limits_and_later_final_answers",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::paginated_realtime_items_materialize_separately_in_rollout_order",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::prepared_fork_reserves_source_until_child_reference_is_durable",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::projection_preserves_exact_lifecycle_timestamps",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::referenced_paginated_rollout_projects_inherited_ordinal_range",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::shutdown_materializes_items_queued_without_a_flush",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::split_homes_support_backfill_listing_and_paginated_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::sqlite_failure_does_not_fail_durable_jsonl_write",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::subagent_prefix_advances_projection_without_materializing_history",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::summary_items_use_final_answers_and_ignore_commentary",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::synchronized_catch_up_does_not_replay_old_rows",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::terminal_turn_does_not_change_after_later_records",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::unexpected_duplicate_item_completion_does_not_poison_projection",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_history_materialization::tests::unknown_rollout_lines_leave_ordinals_pending_for_valid_retries",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::thread_sections::tests::local_thread_sections_require_sqlite_and_preserve_section_identity",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::timestamp_metadata_tests::timestamp_updates_repair_missing_rows_then_touch_only_timestamp_columns",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::unarchive_thread::tests::unarchive_thread_deduplicates_rollout_paths_and_updates_sqlite_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::unarchive_thread::tests::unarchive_thread_rejects_a_cross_process_writer",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::unarchive_thread::tests::unarchive_thread_restores_rollout_and_returns_updated_thread",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::metadata_patch_applies_latest_preview_and_first_user_message",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::metadata_patch_applies_title_over_existing_name",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::metadata_patch_completes_before_concurrent_shutdown",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::observed_metadata_normalizes_cwd_for_list_filters",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::observed_metadata_rebuilds_history_mode_from_canonical_session_meta",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::observed_metadata_rejects_unknown_thread_without_rollout",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::paginated_name_updates_use_sqlite_without_rollout_writes",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::section_moves_persist_in_sqlite_without_changing_the_rollout",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::sqlite_failures_are_best_effort_for_legacy_rollout_compat_updates",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::sqlite_failures_are_best_effort_for_observed_metadata_updates",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::sqlite_failures_still_block_for_explicit_git_only_updates",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_applies_combined_explicit_patch",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_clears_git_info_fields",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_keeps_archived_thread_archived_in_sqlite",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_keeps_live_archived_thread_archived_in_sqlite",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_partially_updates_git_info",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_preserves_memory_mode_when_updating_git_info",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_recreates_missing_archived_sqlite_row_as_archived",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_rejects_mismatched_session_meta_id",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_sets_git_info",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_sets_memory_mode_on_active_rollout",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_sets_name_on_active_rollout_and_indexes_name",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_updates_paginated_git_info_in_sqlite_only",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_updates_permission_profile_and_reasoning_effort",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "local::update_thread_metadata::tests::update_thread_metadata_uses_live_rollout_path_for_external_resume",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::completed_user_message_items_emit_metadata_fields",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::create_metadata_records_originator_without_project",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::goal_update_sets_preview_without_overriding_existing_preview",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::guardian_resume_without_session_meta_preserves_compact_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::later_user_messages_do_not_emit_existing_preview_fields",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::metadata_irrelevant_items_coalesce_updated_at_touches",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::paginated_resume_history_does_not_reapply_initial_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::resume_history_keeps_derived_metadata_pending_until_applied",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::resume_history_waits_for_append_before_flushing_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::resume_preserves_existing_display_metadata_and_initializes_missing_title",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::thread_settings_applied_updates_live_metadata",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "thread_metadata_sync::tests::turn_start_advances_recency_at_without_changing_updated_at_behavior",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "types::tests::canonical_history_mode_uses_first_session_meta",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "types::tests::git_info_patch_round_trips_optional_clears",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "types::tests::thread_metadata_patch_accepts_missing_fields",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "types::tests::thread_metadata_patch_merge_uses_presence_semantics",
+          "last_pass_log": "p01-storage-regression.log"
+        },
+        {
+          "name": "types::tests::thread_metadata_patch_round_trips_optional_clears",
+          "last_pass_log": "p01-storage-regression.log"
+        }
+      ]
+    },
+    {
+      "binary_id": "codex-thread-store-component",
+      "distinct_passed": 23,
+      "cases": [
+        {
+          "name": "adapter::tests::absent_or_newer_migration_contract_keeps_ordinary_storage_compatible",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "adapter::tests::cancelled_connect_still_drains_accepted_open",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "adapter::tests::initialization_cleanup_failure_preserves_both_errors",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "adapter::tests::invalid_open_waits_for_service_cleanup_before_returning",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "adapter::tests::shutdown_owner_closes_process_with_retained_store_and_unpolled_future",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::admitted_observation_finishes_before_consuming_close",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::release_during_start_waits_for_late_native_close_without_holding_registry",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::released_before_start_is_paired_without_native_admission",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::sequential_duplicate_cleanup_is_idempotent_with_bounded_retired_history",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::shutdown_signals_then_joins_all_runs_and_retains_cleanup_failures",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::timed_out_unmatched_release_still_fences_a_late_start",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::unmatched_cleanup_exhaustion_fails_closed_without_unbounded_tombstones",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration_service::tests::version_failure_and_capacity_rejections_are_paired_and_reclaim_tombstones",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "remote::migration::tests::migration_options_and_large_report_preserve_native_values",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "remote::migration::tests::migration_report_preserves_non_utf8_path_bytes",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "remote::timeline::tests::preserves_absent_and_explicit_null_mcp_metadata",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "remote::timeline::tests::preserves_command_image_analytics_and_custom_effort",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "remote::timeline::tests::preserves_non_utf8_input_and_saved_image_paths",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "remote::timeline::tests::preserves_opaque_tool_and_search_json_with_large_numbers",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "service::tests::release_before_native_prepare_completes_drops_late_reservation",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "wire::tests::acquisition_and_append_preserve_typed_history_before_backend_policy",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "wire::tests::load_and_fork_replies_preserve_backend_owned_context",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "wire::tests::old_storage_wire_is_rejected_instead_of_reinterpreted",
+          "last_pass_log": "p01-final-lifecycle.log"
+        }
+      ]
+    },
+    {
+      "binary_id": "codex-thread-store-local-plugin::process_storage",
+      "distinct_passed": 21,
+      "cases": [
+        {
+          "name": "acquisition::confirmed_native_acquisition_errors_leave_store_usable",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "acquisition::late_native_acquisition_times_out_fences_clones_and_releases_writer",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "acquisition::mismatched_native_acquisition_reply_fences_store_and_releases_writer",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "collections::installed_store_preserves_projects_sections_attachments_and_literal_clears",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "collections::metadata_and_paginated_reads_preserve_native_results_and_revert",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "fidelity::native_non_utf8_queries_and_pending_paths_survive_the_process_boundary",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "fidelity::pending_metadata_preserves_budget_custom_variants_and_field_presence",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::failed_fork_calls_release_cleanup_capacity_and_keep_native_error_types",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::failed_preparation_discard_does_not_materialize_a_thread",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::fork_owner_cancellation_releases_source_while_delete_is_waiting",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::fork_reference_survives_restart_and_preserves_delete_conflicts",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::installed_storage_preserves_host_tool_evidence_in_raw_native_rollouts",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::installed_storage_preserves_native_history_and_resume_across_process_restart",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::large_native_rollout_roundtrips_beyond_transport_frame_size",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "lifecycle::optional_sqlite_features_match_native_capabilities_and_errors",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "maintenance::installed_store_close_waits_for_current_migration_before_acknowledging_shutdown",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration::cancelled_manual_run_close_joins_current_native_path",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration::installed_manual_migration_matches_native_dry_run_and_survives_restart",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration::installed_process_shutdown_joins_manual_migration_with_unreleased_run",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration::migration_report_preserves_non_utf8_native_paths_across_process_boundary",
+          "last_pass_log": "p01-final-lifecycle.log"
+        },
+        {
+          "name": "migration::rejected_manual_runs_release_cleanup_capacity_and_empty_run_finishes",
+          "last_pass_log": "p01-final-lifecycle.log"
+        }
+      ]
+    }
+  ],
+  "runs": [
+    {
+      "log": "p01-native-manual-first.log",
+      "sha256": "88920bb692ccae23053eaaeca6def1876c89a875ae38b8773cf209a3592a6426",
+      "bytes": 3412,
+      "summary": null,
+      "status": "compile_failed",
+      "distinct_passed": 0,
+      "distinct_failed": 0,
+      "failed_cases": []
+    },
+    {
+      "log": "p01-native-manual-rerun.log",
+      "sha256": "945760e23986f09be1c167ee8a9b7aa2dc3f2e9d7f24796e4054a834fe26868d",
+      "bytes": 5738,
+      "summary": "Summary [   0.569s] 7 tests run: 5 passed, 2 failed, 272 skipped",
+      "status": "failed",
+      "distinct_passed": 5,
+      "distinct_failed": 2,
+      "failed_cases": [
+        {
+          "suite": "codex-thread-store",
+          "case": "local::rollout_migration::manual::tests::abandoned_close_keeps_publication_owned_until_store_shutdown_joins"
+        },
+        {
+          "suite": "codex-thread-store",
+          "case": "local::rollout_migration::manual::tests::cancelling_manual_run_joins_current_path_without_setting_startup_cursor"
+        }
+      ]
+    },
+    {
+      "log": "p01-native-manual-corrected.log",
+      "sha256": "858a2b2c1add75e040bb7c2a360b7ac37d5e0ebe09096de0f8babed1d2f68a93",
+      "bytes": 1659,
+      "summary": "Summary [   0.299s] 7 tests run: 7 passed, 272 skipped",
+      "status": "passed",
+      "distinct_passed": 7,
+      "distinct_failed": 0,
+      "failed_cases": []
+    },
+    {
+      "log": "p01-component-first.log",
+      "sha256": "3ab365e82f54219e0ab1a8e74f5dc92509e8402a42b6e542e50ffcf69d4ff6f3",
+      "bytes": 2260,
+      "summary": null,
+      "status": "compile_failed",
+      "distinct_passed": 0,
+      "distinct_failed": 0,
+      "failed_cases": []
+    },
+    {
+      "log": "p01-storage-regression.log",
+      "sha256": "d5fe64db06eef84b77ba7adaa1e63cb69a2e0cfd50a83c93e37d75391ab1d14d",
+      "bytes": 43764,
+      "summary": "Summary [   8.010s] 302 tests run: 302 passed, 0 skipped",
+      "status": "passed",
+      "distinct_passed": 302,
+      "distinct_failed": 0,
+      "failed_cases": []
+    },
+    {
+      "log": "p01-worker-regression.log",
+      "sha256": "3f74388eb0630cfe7e5491721853ddb6e332c63c784d24e7713cca7a12b69913",
+      "bytes": 4147,
+      "summary": "Summary [   6.843s] 21 tests run: 21 passed, 0 skipped",
+      "status": "passed",
+      "distinct_passed": 21,
+      "distinct_failed": 0,
+      "failed_cases": [],
+      "runner": {
+        "file": "p01-worker-subreaper.json",
+        "sha256": "ecdf417e022b6d5769a65bd1e335c46106653b45505db332794590c68ca3b5c6",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-thread-store-local-plugin",
+          "--retries",
+          "0"
+        ],
+        "subreaper": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "reaped_processes": 1,
+        "adopted_processes": 0,
+        "elapsed_seconds": 38.887343036003585
+      }
+    },
+    {
+      "log": "p01-cli-first.log",
+      "sha256": "cd85eedddd187553627509609c7d4826ac485bdc05302235ccef78835c2c1642",
+      "bytes": 10743,
+      "summary": "Summary [   1.280s] 6 tests run: 4 passed, 2 failed, 295 skipped",
+      "status": "failed",
+      "distinct_passed": 4,
+      "distinct_failed": 2,
+      "failed_cases": [
+        {
+          "suite": "codex-cli::migrate_rollouts",
+          "case": "lifecycle_tests::first_interrupt_joins_native_and_selected_inflight_publication"
+        },
+        {
+          "suite": "codex-cli::migrate_rollouts",
+          "case": "selected_native_apply_matches_native_filter_and_cold_readback"
+        }
+      ],
+      "runner": {
+        "file": "p01-cli-subreaper.json",
+        "sha256": "594d789ba36537fb75ac15567ea80f5ef087d4e34567c03cc412c236c76e8ffc",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-cli",
+          "--bin",
+          "codex",
+          "--test",
+          "migrate_rollouts",
+          "--retries",
+          "0",
+          "-E",
+          "binary(migrate_rollouts) | (binary(codex) & test(migrate_rollouts))"
+        ],
+        "subreaper": true,
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null,
+        "reaped_processes": 2,
+        "adopted_processes": 1,
+        "elapsed_seconds": 402.06198537100136
+      }
+    },
+    {
+      "log": "p01-cli-corrected.log",
+      "sha256": "84d4590c580d007d8e677a3433915ced68f170b2842535a0f17199d12c8de32d",
+      "bytes": 38104,
+      "summary": "Summary [   8.513s] 302 tests run: 301 passed, 1 failed, 1 skipped",
+      "status": "failed",
+      "distinct_passed": 301,
+      "distinct_failed": 1,
+      "failed_cases": [
+        {
+          "suite": "codex-cli::migrate_rollouts",
+          "case": "selected_native_apply_matches_native_filter_and_cold_readback"
+        }
+      ],
+      "runner": {
+        "file": "p01-cli-corrected-subreaper.json",
+        "sha256": "0a6fcdd0f10cdad6b561569f401aaa395b431734e8f87d8b1766cd1fa03f1058",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-cli",
+          "--bin",
+          "codex",
+          "--test",
+          "migrate_rollouts",
+          "--test",
+          "migrate_rollouts_metrics",
+          "--retries",
+          "0"
+        ],
+        "subreaper": true,
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null,
+        "reaped_processes": 3,
+        "adopted_processes": 2,
+        "elapsed_seconds": 47.64689734800049
+      }
+    },
+    {
+      "log": "p01-cli-final.log",
+      "sha256": "1c561a64756dd7ab749e4041c7ecd757e4d70d2326b64b6b496d7e84ac6a574b",
+      "bytes": 1126,
+      "summary": null,
+      "status": "compile_failed",
+      "distinct_passed": 0,
+      "distinct_failed": 0,
+      "failed_cases": [],
+      "runner": {
+        "file": "p01-cli-final-subreaper.json",
+        "sha256": "a9487bffdfbeed4301096bf4136e47072cf64e5fef182ab08696c27efc00f139",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-cli",
+          "--bin",
+          "codex",
+          "--test",
+          "migrate_rollouts",
+          "--test",
+          "migrate_rollouts_metrics",
+          "--retries",
+          "0",
+          "-E",
+          "binary(migrate_rollouts) | binary(migrate_rollouts_metrics) | (binary(codex) & test(migrate_rollouts))"
+        ],
+        "subreaper": true,
+        "command_returncode": 101,
+        "exit_status": 101,
+        "runner_error": null,
+        "reaped_processes": 1,
+        "adopted_processes": 0,
+        "elapsed_seconds": 16.08753260099911
+      }
+    },
+    {
+      "log": "p01-cli-fixture-final.log",
+      "sha256": "e10d3a42a53ee57fb5c72092d7ea9e80b46e93e5d193aced8783a31e24799b9a",
+      "bytes": 4099,
+      "summary": "Summary [   2.813s] 8 tests run: 7 passed, 1 failed, 295 skipped",
+      "status": "failed",
+      "distinct_passed": 7,
+      "distinct_failed": 1,
+      "failed_cases": [
+        {
+          "suite": "codex-cli::migrate_rollouts",
+          "case": "selected_native_apply_matches_native_filter_and_cold_readback"
+        }
+      ],
+      "runner": {
+        "file": "p01-cli-fixture-final-subreaper.json",
+        "sha256": "92c98677b1f2e5d10a37ab61c8d388bab4ad890db7a2d9fbba1bfc06e81f97f2",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-cli",
+          "--bin",
+          "codex",
+          "--test",
+          "migrate_rollouts",
+          "--test",
+          "migrate_rollouts_metrics",
+          "--retries",
+          "0",
+          "-E",
+          "binary(migrate_rollouts) | binary(migrate_rollouts_metrics) | (binary(codex) & test(migrate_rollouts))"
+        ],
+        "subreaper": true,
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null,
+        "reaped_processes": 2,
+        "adopted_processes": 1,
+        "elapsed_seconds": 38.696936233005545
+      }
+    },
+    {
+      "log": "p01-cli-cold-final.log",
+      "sha256": "bbe0cb49a72822419ae0c4b7dd619a4e20b4b2d5544dbe96bc457648a3794ca2",
+      "bytes": 623,
+      "summary": "Summary [   1.206s] 1 test run: 1 passed, 4 skipped",
+      "status": "passed",
+      "distinct_passed": 1,
+      "distinct_failed": 0,
+      "failed_cases": [],
+      "runner": {
+        "file": "p01-cli-cold-final-subreaper.json",
+        "sha256": "6e3addc4c58a2561f5cbfd4549259d7c20f083d1985d90a6f0a427b94541627e",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-cli",
+          "--test",
+          "migrate_rollouts",
+          "--retries",
+          "0",
+          "-E",
+          "test(selected_native_apply_matches_native_filter_and_cold_readback)"
+        ],
+        "subreaper": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "reaped_processes": 1,
+        "adopted_processes": 0,
+        "elapsed_seconds": 22.434488264996617
+      }
+    },
+    {
+      "log": "p01-final-lifecycle.log",
+      "sha256": "debec5275deff27580ff071b913f2a416c53b51d673386c9ceb981dd5dbdb856",
+      "bytes": 7320,
+      "summary": "Summary [   6.820s] 44 tests run: 44 passed, 0 skipped",
+      "status": "passed",
+      "distinct_passed": 44,
+      "distinct_failed": 0,
+      "failed_cases": [],
+      "runner": {
+        "file": "p01-final-lifecycle-subreaper.json",
+        "sha256": "32bfb6389c2210b468c0541a2936fe8ec18072b2b6d08f0d9108e89f244c33b6",
+        "command": [
+          "just",
+          "test",
+          "-p",
+          "codex-thread-store-component",
+          "-p",
+          "codex-thread-store-local-plugin",
+          "--retries",
+          "0"
+        ],
+        "subreaper": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "reaped_processes": 2,
+        "adopted_processes": 1,
+        "elapsed_seconds": 44.39691325500462
+      }
+    }
+  ],
+  "quality_gates": {
+    "scoped_clippy": {
+      "status": "passed",
+      "log": "p01-clippy-final.log",
+      "exit_status": 0,
+      "warnings": 0,
+      "errors": 0,
+      "automatic_fixes": 0,
+      "exit_status_source": "Root agent observed command completion."
+    },
+    "format": {
+      "status": "passed",
+      "log": "p01-format.log",
+      "exit_status": 0,
+      "exit_status_source": "Root agent observed command completion."
+    },
+    "bazel_lock_update": {
+      "status": "passed_with_existing_annotation_warnings",
+      "log": "p01-bazel-final.log",
+      "exit_status": 0,
+      "lockfile_changed": false,
+      "note": "Local dependencies already existed in the resolved graph. This is dependency resolution, not a Bazel build/test run.",
+      "exit_status_source": "Root agent observed command completion."
+    }
+  },
+  "other_evidence": [
+    {
+      "file": "p01-clippy.log",
+      "sha256": "c12d30186f8623fe90f7692950017d868b4494cbe7317889438e9bb2bfcddd82",
+      "bytes": 40873
+    },
+    {
+      "file": "p01-clippy-final.log",
+      "sha256": "f1ea731a672e5e64e9cc432a244e779df46833f117f6b16ca6e43be564916e1b",
+      "bytes": 3462
+    },
+    {
+      "file": "p01-format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "file": "p01-bazel-lock-update.log",
+      "sha256": "ee6d005dbeacfbf6a3279f7fb741dc4a332103479b2aa7d78baf82df55bebc3e",
+      "bytes": 2572
+    },
+    {
+      "file": "p01-bazel-final.log",
+      "sha256": "a7c3f86cc4e7f41a18193d5bac6c042cd937ea1a4cc2059312ec96c9547cec22",
+      "bytes": 2017
+    }
+  ],
+  "pending": {
+    "whole_workspace_regression": {
+      "status": "not_run_for_this_slice",
+      "note": "Focused native/component/worker/CLI coverage only; state and rollout production crates were unchanged."
+    },
+    "in_app_browser_manual_testing": {
+      "status": "unavailable_not_run",
+      "alternative": "Chromium through Playwright plus direct visual inspection of safe screenshots."
+    }
+  },
+  "privacy": "No raw logs, runtime homes, bearer URLs, tokens, or session content copied into this report.",
+  "runtime_acceptance": {
+    "frozen_candidate_manifest_sha256": "18eb27ffe8f98054676b67cc4c36184dd76a43d0b129c8d46be5d2b1184b96e9",
+    "binaries": {
+      "codex-component": {
+        "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+        "bytes": 7092568
+      },
+      "codex": {
+        "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+        "bytes": 426580864
+      }
+    },
+    "public_reports": [
+      {
+        "file": "p01-independent-build-report.json",
+        "sha256": "81e6ef019520649c5bbc85960cb8eae27511d55e670d3f76f40faebeee15fdfe",
+        "source_report_sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e",
+        "passed": true
+      },
+      {
+        "file": "p01-runtime-report.json",
+        "sha256": "03f010a0a032397ae21242354ac4569fb7c7d48b5427e602f7178936d7cd6c95",
+        "source_report_sha256": "efe258e697b1e770d4804f76065f21a1a24014e35963493e69b3b064a54cd2c9",
+        "passed": true
+      },
+      {
+        "file": "p01-harness-runtime-report.json",
+        "sha256": "81e0dec0c8fad581c0af5ee95fc70917a3303ce600ad9a15e42fa09e2a0e11ae",
+        "source_report_sha256": "5b3cecea1a261393cae6e60b2cb8632789e26715ad9072b1ad77d2e9bee9f470",
+        "passed": true
+      },
+      {
+        "file": "p01-runtime-corrected-report.json",
+        "sha256": "e1af297b2a8701c3070256b3a11b15f69b281ce4ccc1440e680402558512ee88",
+        "source_report_sha256": "aa64de7ed37dcae03c1be223c514064fbcb8ca488b335618800ee0599d664115",
+        "passed": true
+      }
+    ],
+    "source_inventory": {
+      "file": "p01-independent-source-inventory.json",
+      "sha256": "e90f4a0df9b7b3020f507ab53c15db3f9ec369f33dad09b67b5e098af9ed7c17",
+      "bytes": 914345,
+      "byte_identical_to_reviewed_original": true,
+      "source_files": 3227,
+      "local_crates": 81,
+      "inventory_captured_before_build": true
+    },
+    "source_export": {
+      "local_crates": 81,
+      "resolved_packages": 917,
+      "all_local_paths_inside_export": true,
+      "lock_identities_before": 1482,
+      "lock_identities_after": 1071,
+      "lock_new_identities": 0,
+      "excluded_engines": [
+        "codex-app-server",
+        "codex-cli",
+        "codex-core",
+        "codex-tui",
+        "core_test_support"
+      ],
+      "inventory": {
+        "sha256": "e90f4a0df9b7b3020f507ab53c15db3f9ec369f33dad09b67b5e098af9ed7c17",
+        "mtime_ns": 1790816672268035406,
+        "bytes": 914345
+      },
+      "warnings": [
+        "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+      ]
+    },
+    "source_removed_before_install": true,
+    "binaries_unchanged": true,
+    "separate_source_build": {
+      "target_source": "<independent-build-root>/source/codex-rs/thread-store-local-plugin/src/main.rs",
+      "fresh": false,
+      "shared_target_cache": true,
+      "third_party_cache_reused": true,
+      "note": "Cargo target/cache directory reused to fit disk; native worker compiled from external source. Host/CLI hashes, sizes and mtimes unchanged throughout."
+    },
+    "live_provider_used": false,
+    "subreaper_runs": [
+      {
+        "file": "p01-independent-subreaper.json",
+        "sha256": "8d4c3bfe88057af0a03fd7d8e838e55509ecc22e7e4b2de92499ab04f7d33333",
+        "command": [
+          "python3",
+          "component-sdk/tests/native_storage_acceptance.py",
+          "--repo",
+          "<repository>",
+          "--host",
+          "<host-checkpoint>/codex-component",
+          "--codex",
+          "<host-checkpoint>/codex",
+          "--work-dir",
+          "<independent-build-root>",
+          "--target-dir",
+          "<repository>/codex-rs/target",
+          "--contract-version",
+          "2",
+          "--package-version",
+          "0.2.0"
+        ],
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true,
+        "adopted_processes": 4,
+        "elapsed_seconds": 67.43520328299928
+      },
+      {
+        "file": "p01-manual-runtime-subreaper.json",
+        "sha256": "046d2ae83f67dacd319518ba6e9c8f30de4ded19475116274ca68a43886d3cef",
+        "command": [
+          "python3",
+          "component-sdk/tests/manual_migration_acceptance.py",
+          "--host",
+          "<host-checkpoint>/codex-component",
+          "--codex",
+          "<host-checkpoint>/codex",
+          "--independent-report",
+          "<independent-build-root>/independent-report.json",
+          "--work-dir",
+          "<migration-runtime-root>"
+        ],
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true,
+        "adopted_processes": 5,
+        "elapsed_seconds": 5.780983386997832
+      },
+      {
+        "file": "p01-manual-runtime-corrected-subreaper.json",
+        "sha256": "001191f351c9528f8c758be140d98c1e02025631b2a57a5805b9e9046f6c3bc3",
+        "command": [
+          "python3",
+          "component-sdk/tests/manual_migration_acceptance.py",
+          "--host",
+          "<host-checkpoint>/codex-component",
+          "--codex",
+          "<host-checkpoint>/codex",
+          "--independent-report",
+          "<independent-build-root>/independent-report.json",
+          "--work-dir",
+          "<migration-runtime-root>"
+        ],
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true,
+        "adopted_processes": 3,
+        "elapsed_seconds": 4.784875807999924
+      }
+    ],
+    "old_package_compatibility": {
+      "status": "passed",
+      "file": "p01-old-worker-compatibility-report.json",
+      "sha256": "cd73770049404f54864b89d621045f25b42fe8beeb5e8485a3e4acf38526566b",
+      "source_report_sha256": "7e1d74c9a376b36b2f2ec446cc1f5931ff8c3f06e64fd8f9a6513b2270a2126c",
+      "previous_package_version": "0.1.0",
+      "storage_contract_version": 2,
+      "native_package_rebuilt": false,
+      "native_package_unchanged": true,
+      "candidate_unchanged": true,
+      "storage_fingerprints_unchanged": 14,
+      "ordinary_storage_processes_reaped": 3,
+      "unsupported_storage_processes_reaped": 1,
+      "unsupported_migration": {
+        "exit_status": 1,
+        "stdout_empty": true,
+        "stable_operation": "manual_rollout_migration",
+        "explicit_unsupported": true,
+        "storage_unchanged": true,
+        "all_storage_pids_absent": true,
+        "no_cleanup_failure": true
+      },
+      "runner": {
+        "source_file": "/workspace/acceptance/p01-old-worker-compat/subreaper.json",
+        "sha256": "95834cc626fcc57928a9d714fb4b306f349ac784785b6c439245efd75782de51",
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null
+      }
+    }
+  },
+  "gui_attempts": [
+    {
+      "status": "failed_fixture_policy_mismatch",
+      "source_report": "/workspace/acceptance/manual-migration-p01-gui/acceptance-private.json",
+      "source_report_sha256": "2a14466ffc24d1fedb61f7132940a2de6b34865d1a2d44ad18bbece036fc913e",
+      "browser_report_sha256": "6750127efe9ac26ede9500cf33eddec6478b9af72f7411d36f1bd6cd9aec5853",
+      "browser_commands_completed": 7,
+      "failure": "Approval timed out because cold exec resume persisted Never; the engine honored that policy.",
+      "cleanup": {
+        "manager_sigint_exit_status": 0,
+        "all_tracked_processes_absent": true,
+        "reported_cleanup_error_count": 1,
+        "note": "Full scenario remained failed. Private cleanup errors are not copied; manager SIGINT exit0/absence and final subreaper drain are separately recorded."
+      },
+      "provenance": "Failure diagnosis and cleanup reported by root, which owns manual GUI validation; private report is not copied.",
+      "correction": "Test-only public thread/resume now explicitly requests approvalPolicy=on-request and asserts the response; no production policy or automatic approval change."
+    },
+    {
+      "status": "passed_playwright_fallback",
+      "public_report": "p01-gui-report.json",
+      "public_report_sha256": "456c680be74565760b86acf4b36d0ac7671c3dfcf6c427b42e961dfcec9a0d87",
+      "source_report_sha256": "2bd842e8c6911f3aaad9cc0fd2f4c96c08a02d5055699f98aa142042c64a5438",
+      "browser_command_counts": [
+        21,
+        10
+      ],
+      "browser_page_errors": 0,
+      "manager_sigint_cycles": 2,
+      "all_tracked_processes_absent": true,
+      "in_app_browser_used": false,
+      "screenshots": [
+        {
+          "file": "p01-gui-approval.png",
+          "sha256": "c9c4fa85ff38fc3f43b7e8a8e4656709159441c23b685f4f968abd1eda5d8c24",
+          "source_file": "approval.png",
+          "visual_review": "Reviewed viewport-only image; synthetic fixture content, no browser address bar, bearer URL or token."
+        },
+        {
+          "file": "p01-gui-recovered.png",
+          "sha256": "8ec2f96b338cad6a475581f6771542fbb94fcd52c22697f5132b0da033f85a17",
+          "source_file": "recovered-2.png",
+          "visual_review": "Reviewed viewport-only image; synthetic fixture content, no browser address bar, bearer URL or token."
+        }
+      ]
+    }
+  ]
+}

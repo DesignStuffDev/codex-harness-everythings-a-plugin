@@ -1,5 +1,11 @@
 # Storage state transport correction
 
+The subsequent [P01 manual-migration contract](MIGRATION_COMPONENT_PLAN.md) adds
+an optional, independently negotiated migration version 1 capability. It leaves
+storage contract 2 unchanged: absent or unknown migration support disables that
+operation, without disabling ordinary storage or selecting a different backend.
+See that contract and the execution state for P01 validation status.
+
 Status: implementation underway; the version-one runtime checkpoint remains
 historical evidence for the specific cases it exercised. It does not establish
 complete state fidelity. A native-versus-process persistence regression reproduced
