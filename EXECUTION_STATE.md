@@ -6,6 +6,15 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
 
 ## Last verified checkpoints
 
+- Latest externally preserved selected-search source: `651b0b87a281934e5cd7c639021049fad8d393ac`,
+  tree `bb7e7996a14d14eaf11e00239eabe628916a77f2`, parent `cb977e7d`, on
+  `wip/p02b-bounded-search-20261001`. Its 57-path delta preserves the real native
+  worker, runtime facade, selected standalone CLI and external acceptance tools.
+  GitHub's runtime `main.rs` blob is `b94364e86ccd57970e43c7babe1e7cb0aad6a2fe`.
+  Combined regression passed 222 cases; separately built/installed search passed
+  24 real CLI/manager commands with expected statuses and unchanged host hashes.
+  App Server/TUI/GUI adoption remains pending; main's source is unchanged.
+
 - Latest externally preserved integration WIP: `cb977e7d664bc752c28854d468619039bd3ad167`,
   tree `40207f354efb3bee85265d8f3d83312489b56709`, parent `bb03f3a8`, on
   `wip/p02b-bounded-search-20261001`. Its 14-path delta preserves the real native
@@ -14,7 +23,8 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
   Native 141/141 and the separate earlier client 40/40 gates are described below;
   mechanical post-test transitions remain explicit. This is not a new host/GUI
   acceptance or independently installed search proof. Later worker integration
-  has an unresolved typed-error race and is outside this WIP.
+  is outside this WIP. The later local correction and its evidence are described
+  below; preserve their separate source identities.
 
 - Prior integration WIP: `bb03f3a81a828871e4e35d3e46b9c8528f3b7d00`,
   tree `6ad17d58936b6c9f519c06f2932efd1c8ecd4724`, branch
@@ -119,23 +129,42 @@ Latest P02B source gates, **separate runs and scopes**:
   failed runs; do not relabel the earlier retry as all green. The client gate ran
   before native integration; it is no new native, GUI or Launch validation.
 
-The later `file-search-local-plugin` worker is applied and registered outside WIP
-`cb977e7d`. Its first gate executed 33 cases: 32 passed, one wrong-type `[]`
-configuration case failed; all six actual worker-process cases passed. Only
-`Cargo.lock` changed during that gate. A strict object/null guard corrected the
-policy, but `p02b-native-worker-tests-corrected` is **not accepted**: 33 eventually
-passed with one flaky exhaustion case. Its first attempt returned `ClosedLease`
-instead of retained `ResourceExhausted` from close; source was unchanged during
-that run. Native/process owners are investigating; keep assertions unchanged and
-preserve both runs. Successful retry/exit 0 does not resolve this race.
+The later worker, runtime facade and selected standalone CLI are applied outside
+WIP `cb977e7d`. [Selected search evidence](verification/2026-10-01/P02B_SELECTED_SEARCH_EVIDENCE.md)
+preserves original compiler, configuration and lifecycle failures. A deterministic
+native callback gate reproduced the first-error/close race; retaining its close
+receipt preserves the real cause. The corrected native/worker gate passed 178/178;
+four relevant cases then passed 50 stress iterations each, with no retries.
 
-The backend-neutral client facade is now applied in `file-search-runtime`.
-Its first test compilation failed on 32 ambiguous nested assertion imports; the
-original run is preserved. Explicit import/unused-import corrections produced
-**14/14 passing controlled-backend lifecycle tests**, 0 skipped, unchanged source
-and subreaper exit 0 (`p02b-runtime-facade-tests-corrected`). Scoped lint passed;
-final formatting and real backend/client composition remain pending. This gate
-covers runtime ownership, not installed/native OS workers or presentation.
+The CLI now selects `file_search/default` through the real component manager,
+preserves native results and lexical roots, rejects selected-provider failure
+without fallback, and awaits cleanup before output. The combined later gate
+`p02b-selected-startup-regression` passed **222/222, zero skipped, no retries**,
+with all 203 scoped source fingerprints unchanged and subreaper exit zero.
+This includes explicit-startup-cancellation classification: only a prior shutdown
+fence plus known clean `ClosedLease` becomes a clean cancellation; real errors
+and cleanup uncertainty remain failures. Scoped lint, formatting and the locked
+CLI build have separate source manifests and do not imply tests were rerun after
+formatting.
+
+The first independently built external worker passed five real CLI/native parity
+cases, installation and selection. Its Ctrl+C gate correctly failed on status 1
+instead of 130; the startup cancellation correction above addresses that cause.
+Frozen corrected CLI is at
+`/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/`, SHA256
+`206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd`.
+External rebuild02 failed before compilation because Cargo reordered duplicate
+unused patch receipts and wanted to rewrite its copied lockfile. Package records,
+versions and checksums were unchanged. Corrected rebuild03 removes only proven
+unused pinned Git patches in its isolated export, checks identical full package
+records/metadata, and builds with an unchanged locked dependency graph. All seven
+build/export/package commands passed with a fresh external target. The real
+CLI-independent02 acceptance passed all 24 commands: five exact ordered native/
+installed result comparisons, clean CLI-only Ctrl+C exit 130, configuration failure
+without fallback, no-pattern bypass and removal restoring native behavior. Both
+host hashes stayed unchanged; all tracked PIDs were absent and both outer
+subreapers exited zero. Preserve the original failed runs. This is standalone
+native-search replacement proof, not new App Server/TUI/GUI proof.
 The working workspace has **169 explicit Rust members**, adding
 `file-search-component`, `file-search-local-plugin` and `file-search-runtime`;
 the accepted inventory ledger remains **166**. Update that ledger with an
@@ -177,20 +206,24 @@ preserved all 30 allocated ELF sections; runtime gates used this immutable copy.
 
 1. Re-observe original task environment, repository, actual working files, refs,
    source/index hashes, processes and disk/memory. Read AGENTS and runtime skill.
-2. Fix the worker integration's typed first-error/close race without weakening
-   assertions. Preserve current worker source and both original runs; add a
-   deterministic reproducer and rerun affected native/process and full worker
-   gates. The earlier 141/141 native gate remains historical evidence, not proof
-   this newly observed race is safe. Keep worker changes outside accepted source
-   until the failure is resolved.
-3. Publish reviewed evidence/state for completed native/client gates, keeping
-   WIP `cb977e7d`, tested pre-format bytes and the newer worker changes distinct.
-   Retain all original failed compilation/runtime attempts and source manifests.
-4. Complete the actual native worker/service integration and compose the tested
-   client facade with native/process selection and the standalone executable.
-   Preserve independent App Server connection/TUI scope ownership; independent
-   embeddings stay independent. Validate the post-test malformed-identity branch,
-   retained startup/poll/update cleanup and absent fallback after selection. See
+2. Preserve the successful standalone source WIP `651b0b87`, frozen CLI02 and
+   external build03/runtime02 artifacts. Complete the evidence/main-doc checkpoint
+   and exact upstream lineage; do not overwrite original failed attempts.
+3. Preserve the separate passing native T12 allocation-floor/traversal profile
+   check (`p02b-interactive-native-profile`): one test with eight parameter rows,
+   78 unrelated cases filtered. At 100k/T12 with highlights, fixed charged storage
+   is 11,069,744 bytes and 26 workers; 128 MiB remains the allocation ceiling.
+   This is a small real fixture, not full-capacity/RSS proof. Its test-only source
+   is newer than WIP `651b0b87`; keep lint/format transitions separate.
+4. Review/apply staged App Server, client and TUI integration. Measure the actual
+   T12 native allocation floor before adopting the interactive policy. Preserve
+   independent connection/picker scope ownership and provider guards outside
+   abortable tasks; drain search and storage on normal launcher shutdown. Add
+   synchronous shutdown intent before provider fencing so normal shutdown cannot
+   emit a false search failure; deliver genuine terminal failures reliably. Add
+   observable per-request pending-start cancellation before claiming that gate.
+   Regenerate/test the additive bounded `fuzzyFileSearch/sessionFailed` API.
+   See
    [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md) and
    [composition plan](component-sdk/FILE_SEARCH_COMPOSITION_PLAN.md).
 5. Build one new host and independently build/install native/custom workers
@@ -276,6 +309,15 @@ it predates the test import correction and later formatting.
 Cloud-local archives are recovery checkpoints, not proven outside backups. GitHub
 protects included published source only. Exclude binaries, caches, runtime homes,
 credentials and private bearer URLs from publication.
+
+Latest standalone source archive `p02b-selected-cli-tested-source.tar.gz`, SHA256
+`b077447af6c7d80e09c371a11f07f95e55e70803e3819d62d0ab09b7ac1bdb36`,
+is member-verified and bound to external WIP `651b0b87` by
+`p02b-selected-cli-wip-publication.json`. Later App Server/client/TUI drafts remain
+isolated beneath `/tmp/codex-search-*-stage`; AS and client/supplement archives
+are preserved in this recovery directory. They are uncompiled and are not covered
+by standalone runtime proof. Preserve newer shutdown corrections and TUI drafts
+before interruption; never copy an old frozen whole file over a changed base.
 
 Environment last observed connected/running, revision45, identity
 `ccarenv_b64_Y2NhcmVudl8wYzAyOTNkMzVhZTg4MTkxYjc4YjQyZmVhNWYwMDllYQ`.

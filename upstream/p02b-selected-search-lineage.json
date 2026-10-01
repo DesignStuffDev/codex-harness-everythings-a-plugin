@@ -1,0 +1,3254 @@
+{
+  "schema_version": 1,
+  "kind": "selected_search_wip_checkpoint_not_whole_harness_acceptance",
+  "source": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "import_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "accepted_main_checkpoint": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+    "previous_checkpoint": "cb977e7d664bc752c28854d468619039bd3ad167",
+    "implementation_commit": "651b0b87a281934e5cd7c639021049fad8d393ac",
+    "implementation_tree": "bb7e7996a14d14eaf11e00239eabe628916a77f2",
+    "previous_lineage": "p02b-native-backend-lineage.json"
+  },
+  "scope": {
+    "pathspecs": [
+      "codex-rs",
+      "component-sdk",
+      "MODULE.bazel.lock"
+    ],
+    "changed_paths": 57,
+    "workspace_members": {
+      "accepted_main": 166,
+      "previous_wip": 167,
+      "current_wip": 169
+    },
+    "status": "Exact source preservation, with separately scoped evidence; WIP is not promoted to accepted main by this generator.",
+    "excluded_acceptance": [
+      "complete App Server/TUI search selection",
+      "new GUI/Browser verification",
+      "whole-harness extraction",
+      "updater implementation"
+    ]
+  },
+  "boundaries": [
+    {
+      "id": "neutral_values_contracts_and_typed_cleanup",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "shared_contract_not_standalone_native_replacement",
+      "intentional_changes": [
+        "Map original owned search values into the backend-neutral contract and explicit provider/scope/session budgets.",
+        "Keep operation errors separate from startup admission and joined/unconfirmed cleanup; wire compatibility is file_search/default contract 1, not Rust ABI compatibility."
+      ],
+      "ownership": "The implementation owning accepted work produces receipts; observers do not infer cleanup from error strings or transport success.",
+      "limits": [
+        "Shared API extraction alone is not independently installed native search."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub struct FileMatch",
+              "line": 54
+            },
+            {
+              "anchor": "pub struct FileSearchSnapshot",
+              "line": 97
+            },
+            {
+              "anchor": "pub struct FileSearchOptions",
+              "line": 106
+            },
+            {
+              "anchor": "pub trait SessionReporter",
+              "line": 135
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-api/src/values.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "0f20ef03843e509a203715daed7af4dcaf19435a",
+          "sha256": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+          "symbols": [
+            {
+              "anchor": "pub struct FileMatch",
+              "line": 13
+            },
+            {
+              "anchor": "pub struct FileSearchSnapshot",
+              "line": 42
+            },
+            {
+              "anchor": "pub struct FileSearchOptions",
+              "line": 53
+            },
+            {
+              "anchor": "pub trait SessionReporter",
+              "line": 89
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-api/src/backend.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197",
+          "sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+          "symbols": [
+            {
+              "anchor": "pub trait SearchBackend:",
+              "line": 186
+            },
+            {
+              "anchor": "pub trait SearchBackendSession:",
+              "line": 206
+            },
+            {
+              "anchor": "pub struct SearchOpen",
+              "line": 30
+            },
+            {
+              "anchor": "pub struct SearchFrame",
+              "line": 76
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-api/src/error.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "338b89dec37f5f18036cea8143cfef0e8a85e4e1",
+          "sha256": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+          "symbols": [
+            {
+              "anchor": "pub enum SearchErrorKind",
+              "line": 9
+            },
+            {
+              "anchor": "pub enum CloseCleanup",
+              "line": 99
+            },
+            {
+              "anchor": "pub struct SearchCloseOutcome",
+              "line": 119
+            },
+            {
+              "anchor": "pub enum StartCleanup",
+              "line": 129
+            },
+            {
+              "anchor": "pub struct SearchStartError",
+              "line": 151
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-api/src/budget.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "21dd38cc4e4d8e245ba7da472da3161d5df68338",
+          "sha256": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+          "symbols": [
+            {
+              "anchor": "pub struct SearchBudget",
+              "line": 14
+            },
+            {
+              "anchor": "pub struct ProviderLimits",
+              "line": 50
+            },
+            {
+              "anchor": "pub struct ScopeLimits",
+              "line": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bounded_native_backend_and_failure_cause",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "existing_native_traversal_and_matching_behind_replaceable_interface",
+      "intentional_changes": [
+        "Preserve the original filesystem walker/matcher behind SearchBackend, with explicit per-session and aggregate index/worker allocations and distinct native-output accounting.",
+        "Rejected native query admission releases the adapter mutex and observes retained close outcome, preserving ResourceExhausted instead of masking it as ClosedLease while the terminal callback is pending.",
+        "Refund only joined reservations, retain first operation failure and quarantine uncertain cleanup; keep legacy native constructors available."
+      ],
+      "ownership": "Native owner joins actual walker/matcher workers. Provider/session lifecycle tasks retain ownership independently of abandoned observers.",
+      "limits": [
+        "Charges are not RSS; traversal metadata, thread stacks, runtime/allocator overhead and caller copies retain documented exclusions.",
+        "Forced runtime destruction has a separately queued cause-retention concern; no complete formal lifecycle guarantee is implied."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchSession",
+              "line": 143
+            },
+            {
+              "anchor": "pub fn create_session(",
+              "line": 164
+            },
+            {
+              "anchor": "fn walker_worker(",
+              "line": 417
+            },
+            {
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_backend.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "3eff04345ef76ced05f28e2b97b46821a2f1df55",
+          "sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+          "symbols": [
+            {
+              "anchor": "pub struct NativeSearchBackend",
+              "line": 38
+            },
+            {
+              "anchor": "impl SearchBackend for NativeSearchBackend",
+              "line": 72
+            },
+            {
+              "anchor": "struct SessionTaskGuard",
+              "line": 324
+            },
+            {
+              "anchor": "struct ShutdownGuard",
+              "line": 381
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_session.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "a3edd0e09afdf59d03094245b3c7085744a5fe91",
+          "sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+          "symbols": [
+            {
+              "anchor": "impl SearchBackendSession for NativeLease",
+              "line": 39
+            },
+            {
+              "anchor": "pub(super) struct SessionReporterBridge",
+              "line": 268
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_budget.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "fcc7eda119e5599e289697b5d3f590520dc21a0b",
+          "sha256": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "symbols": [
+            {
+              "anchor": "pub(super) struct NativeBudget",
+              "line": 13
+            },
+            {
+              "anchor": "pub fn prepare(",
+              "line": 26
+            },
+            {
+              "anchor": "pub fn reserve(",
+              "line": 88
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_index.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "04739d95b809046f04cc4950c2ea452a799e2985",
+          "sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "symbols": [
+            {
+              "anchor": "pub(super) enum NativeIndex",
+              "line": 28
+            },
+            {
+              "anchor": "pub(super) enum EntryInjector",
+              "line": 128
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_output.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "4f47888545d4ffdc1c0937a2d5f13a3abdb9cd62",
+          "sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "symbols": [
+            {
+              "anchor": "pub(crate) struct NativeOutputLimits",
+              "line": 23
+            },
+            {
+              "anchor": "pub(super) fn snapshot(",
+              "line": 37
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_policy.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "b8c41f41564fb4d08c53ccf56f0ed445001aaff6",
+          "sha256": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "symbols": [
+            {
+              "anchor": "pub struct NativeBackendLimits",
+              "line": 21
+            },
+            {
+              "anchor": "pub(super) fn prepare_open(",
+              "line": 50
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_poll.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "c32ce4b6b7c601b4956455320d194dcdfa6b9203",
+          "sha256": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "symbols": [
+            {
+              "anchor": "pub(super) struct PendingPoll",
+              "line": 18
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "e8b0bd8efb7ebc22b9695d13947cc801ec8d25ea",
+          "sha256": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchOwner",
+              "line": 35
+            },
+            {
+              "anchor": "pub(crate) async fn create_backend(",
+              "line": 245
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "persistent_process_service_and_adapter",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "process_contract_and_adapter_for_selected_native_or_custom_backend",
+      "intentional_changes": [
+        "Reuse persistent component transport with paired startup/release ownership, explicit immutable process cwd and opt-in logical payload limits.",
+        "Validate provider/lease/epoch identities and typed cleanup receipts; never silently retry, reconnect or fall back after an explicitly selected implementation fails.",
+        "Keep control drainage and default storage history behavior unchanged; process isolation remains a trusted component boundary, not an OS sandbox."
+      ],
+      "ownership": "Service and adapter retain preparing/live/closing work. Domain close receipts, not opaque successful JSON alone, authorize joined quota refund.",
+      "limits": [
+        "Earlier protocol-peer fixture checks are distinct from later actual native-worker installation checks."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchSession",
+              "line": 143
+            },
+            {
+              "anchor": "pub fn create_session(",
+              "line": 164
+            },
+            {
+              "anchor": "fn walker_worker(",
+              "line": 417
+            },
+            {
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-component/src/contract.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "ee9eea15c3db9798f3683096b7ac8e440b37e671",
+          "sha256": "12dd97950a354b4d0a754a498eeb00c11f5589ef58014585d81609e0590b7437",
+          "symbols": [
+            {
+              "anchor": "pub struct ProviderIdentity",
+              "line": 25
+            },
+            {
+              "anchor": "pub struct LeaseIdentity",
+              "line": 37
+            },
+            {
+              "anchor": "pub struct InitializeRequest",
+              "line": 86
+            },
+            {
+              "anchor": "pub struct OpenRequest",
+              "line": 122
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "3f2c5c520cbb3a721538a62346e276c183ce6957",
+          "sha256": "0ffd17156a33a0c1f49418ac8185cc9a86215e7cdca9f4954bc74f21158d4faa",
+          "symbols": [
+            {
+              "anchor": "pub trait SearchBackendFactory",
+              "line": 45
+            },
+            {
+              "anchor": "pub struct SearchService",
+              "line": 76
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_runner.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "c926905a6c020f40cdb2e8eef878bdbe6805c888",
+          "sha256": "a0adbfab09dc176e8005f3d5b9cf235448d22c4dee2c88bbc03463a9d4906402",
+          "symbols": [
+            {
+              "anchor": "pub async fn run_stdio(",
+              "line": 21
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "1b1bf5990690ef1a05402c8c8862ac31e1c546c1",
+          "sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+          "symbols": [
+            {
+              "anchor": "pub struct ProcessSearchBackend",
+              "line": 57
+            },
+            {
+              "anchor": "pub async fn connect(",
+              "line": 72
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_open.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "262057139c2174552c4d7ed7bfaaf74dc151d8c7",
+          "sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+          "symbols": [
+            {
+              "anchor": "async fn release_lease(",
+              "line": 244
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "38e829c18e51ffd36ee74b22ecc183b5dd4e290d",
+          "sha256": "510d2049f8717d38ea2bbab0b815c6a745f1f8902835310f88e3efb064840178",
+          "symbols": [
+            {
+              "anchor": "pub async fn start_with_cleanup(",
+              "line": 238
+            },
+            {
+              "anchor": "pub async fn release_reply(",
+              "line": 192
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_options.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "ac1d9ca4234f337962f579dd1866e118fa69908d",
+          "sha256": "5aa81b1a5b7d67ddedbe6ac27170e714cf80cc66469b9dd8c6d8398363cc54eb",
+          "symbols": [
+            {
+              "anchor": "pub enum SessionWorkingDirectory",
+              "line": 10
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-api/src/lib.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "6c301fb9c78def64ff247f3db25dca1077abbfc8",
+          "sha256": "aa77d05a5f19e008df1650d92eb15134ee44e374def520cec603f3d3104e8f8c",
+          "symbols": [
+            {
+              "anchor": "pub const FILE_SEARCH_CONTRACT_VERSION: u32 = 1;",
+              "line": 15
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "native_worker_package_and_strict_configuration",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "independently_buildable_native_component_package",
+      "intentional_changes": [
+        "Compose the real NativeSearchBackend with the generic versioned stdio service in a worker without Core, App Server, TUI or callback-runtime dependencies.",
+        "Correct non-object configuration acceptance: object/null only, deny unknown fields/types, redact supplied values from diagnostics.",
+        "Keep native snapshot allocation ceiling separate from serialized service-frame limits; negotiate worker admission downward from explicit service ceilings."
+      ],
+      "ownership": "Worker factory owns the native implementation; the host selects package identity and per-open allocations. Normal shutdown drains service, native jobs and response handlers.",
+      "limits": [
+        "Separate-build/install success is determined by linked evidence, not by this crate existing.",
+        "This map does not claim App Server/TUI selection or a new GUI check."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchSession",
+              "line": 143
+            },
+            {
+              "anchor": "pub fn create_session(",
+              "line": 164
+            },
+            {
+              "anchor": "fn walker_worker(",
+              "line": 417
+            },
+            {
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-local-plugin/src/lib.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "998fefb3fd75004f5d3fe30b213037ab23c4febd",
+          "sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+          "symbols": [
+            {
+              "anchor": "pub fn service_ceilings(",
+              "line": 25
+            },
+            {
+              "anchor": "pub async fn run_stdio(",
+              "line": 34
+            },
+            {
+              "anchor": "impl SearchBackendFactory for NativeFactory",
+              "line": 40
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-local-plugin/src/main.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "30ae19efda85ddb13234a4d3ab9503d83f4643fa",
+          "sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+          "symbols": [
+            {
+              "anchor": "fn main()",
+              "line": 3
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-local-plugin/src/policy.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "b74da27bcb57ee4081c4b1ea9c8cba7ef43ce173",
+          "sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+          "symbols": [
+            {
+              "anchor": "struct NativeConfig",
+              "line": 21
+            },
+            {
+              "anchor": "pub(crate) fn native_limits(",
+              "line": 33
+            },
+            {
+              "anchor": "if !config.is_object()",
+              "line": 41
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-local-plugin/config.schema.json",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "040e110276afaadae490433f6db899bdbfab1ca8",
+          "sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+          "symbols": [
+            {
+              "anchor": "native_snapshot_bytes",
+              "line": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "runtime_provider_scope_and_callback_ownership",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "shared_consumer_facade_over_selected_backend",
+      "intentional_changes": [
+        "Separate one public provider owner from scope factories, independently drained scopes and public sessions; share selected implementation without allowing scopes to restart it.",
+        "Retain callback, update and poll operations after waiter cancellation, preserve first causes across close races, and validate frame identity/count/path/highlight invariants.",
+        "Bound callbacks/polling and compact retained inputs; cancellation fences work while explicit receipts describe completion."
+      ],
+      "ownership": "Provider and scopes reserve resources before admission; internal tasks retain leases while final public handle drop requests closure. Callback completion is included in close drainage.",
+      "limits": [
+        "The facade is implemented, but every production consumer needs separate composition and regression proof."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchSession",
+              "line": 143
+            },
+            {
+              "anchor": "pub fn create_session(",
+              "line": 164
+            },
+            {
+              "anchor": "fn walker_worker(",
+              "line": 417
+            },
+            {
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub trait SessionReporter",
+              "line": 135
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-runtime/src/provider.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "a2819981b6072dc281220b037895a09db5112677",
+          "sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchProvider",
+              "line": 23
+            },
+            {
+              "anchor": "pub struct FileSearchScopeFactory",
+              "line": 30
+            },
+            {
+              "anchor": "pub fn from_backend(",
+              "line": 38
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/scope.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "4db8ae0ae4bb7d31f2fc699747f015c7b2f29a90",
+          "sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchScope",
+              "line": 16
+            },
+            {
+              "anchor": "pub async fn open(",
+              "line": 35
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/session.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "08ec3a19b205fdad8dc5dfca0864bd22cb781e98",
+          "sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+          "symbols": [
+            {
+              "anchor": "pub struct FileSearchSession",
+              "line": 22
+            },
+            {
+              "anchor": "pub fn wait_closed(",
+              "line": 49
+            },
+            {
+              "anchor": "pub(crate) fn close_cause(",
+              "line": 137
+            },
+            {
+              "anchor": "pub(crate) struct OperationGuard",
+              "line": 293
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/observation.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "df9572925c009a80e46a5df6660cda5741acb6b1",
+          "sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+          "symbols": [
+            {
+              "anchor": "pub(crate) async fn run(",
+              "line": 20
+            },
+            {
+              "anchor": "async fn pump(",
+              "line": 43
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/policy.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "c2c32b3e572457dc907d7e06d5faeaad92a2cda0",
+          "sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+          "symbols": [
+            {
+              "anchor": "pub struct RuntimePolicy",
+              "line": 14
+            },
+            {
+              "anchor": "pub(crate) fn compact_open(",
+              "line": 44
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "failed_startup_and_cancel_cause_correction",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "runtime_startup_failure_classification_repair",
+      "intentional_changes": [
+        "Capture whether an explicit closing fence preceded the startup result before the error itself starts closure.",
+        "Classify confirmed ClosedLease startup as clean cancellation only when that prior fence exists; preserve unsolicited startup failure, real resource failure and cleanup uncertainty.",
+        "Keep the original independent Ctrl+C acceptance failure and corrected rerun separately; do not relabel the failed run or infer success from process disappearance."
+      ],
+      "ownership": "Accepted startup and its cleanup remain retained even when the public observer disappears. Failure classification cannot create joined cleanup proof.",
+      "limits": [
+        "Exact correction verification and runtime pass/fail must come from the current evidence binding; source anchors alone establish no pass."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub fn create_session(",
+              "line": 164
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-runtime/src/startup.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "f11a09bf83baaa948767c535bbb136696481092e",
+          "sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+          "symbols": [
+            {
+              "anchor": "pub(crate) async fn open(",
+              "line": 19
+            },
+            {
+              "anchor": "state.closing_before_start_result = state.closing;",
+              "line": 123
+            },
+            {
+              "anchor": "struct StartCompletionGuard",
+              "line": 210
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/state.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "ae6f6904f6a03ffd7e1346f9e8b42e120da4d0d7",
+          "sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+          "symbols": [
+            {
+              "anchor": "closing_before_start_result: bool",
+              "line": 74
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/session.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "08ec3a19b205fdad8dc5dfca0864bd22cb781e98",
+          "sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+          "symbols": [
+            {
+              "anchor": "pub(crate) fn close_cause(",
+              "line": 137
+            },
+            {
+              "anchor": "async fn join_backend(",
+              "line": 234
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/startup_cancel_tests.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "c03a8d5f14c87670e40a54b5ac1d8362dac30c4e",
+          "sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+          "symbols": [
+            {
+              "anchor": "async fn explicit_cancel_before_start_rejection_does_not_poison_joined_provider()",
+              "line": 85
+            },
+            {
+              "anchor": "async fn automatic_error_close_cannot_hide_unsolicited_closed_startup()",
+              "line": 100
+            },
+            {
+              "anchor": "async fn startup_cancel_preserves_resource_failure_and_cleanup_uncertainty()",
+              "line": 117
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "catalog_selection_and_standalone_cli",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "selected_standalone_native_functionality_not_all_clients",
+      "intentional_changes": [
+        "Move standalone codex-file-search binary composition into runtime crate while reusing existing CLI options and reporter output.",
+        "Select file_search/default from explicit component home; absent selection uses native, invalid/failed explicit selection returns failure without fallback.",
+        "Preserve lexical roots, exclusions, highlighting, truncation and no-pattern listing; listing bypasses catalog/provider startup.",
+        "Require joined cleanup for a successful interrupted exit 130; failed cleanup/cause handling remains non-success and its original evidence is retained."
+      ],
+      "ownership": "Standalone command owns selected provider, scope, one-shot reporter and cleanup. Startup cwd stays immutable.",
+      "limits": [
+        "This is standalone codex-file-search, not proof of unified codex CLI, App Server, TUI or GUI selected search.",
+        "Operational limits have measured fixed allocation floors, not production-scale performance optimality or an RSS guarantee."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "sha256": "852a2016ca37e5d5d11746ff86466731169f7fede1bec42d4f69f5d1cdf8fdb8",
+          "symbols": [
+            {
+              "anchor": "pub async fn run_main",
+              "line": 225
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/main.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "beb4b18a6405fbe560e0de1e354b14775c31e4db",
+          "sha256": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "symbols": [
+            {
+              "anchor": "async fn main()",
+              "line": 12
+            },
+            {
+              "anchor": "struct StdioReporter",
+              "line": 22
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-runtime/src/selection.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "6f4af33eae2b923d22a1250eb8bcfb465d38f226",
+          "sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+          "symbols": [
+            {
+              "anchor": "pub enum SelectedImplementation",
+              "line": 25
+            },
+            {
+              "anchor": "pub struct SelectedSearchProvider",
+              "line": 33
+            },
+            {
+              "anchor": "pub async fn select_provider(",
+              "line": 43
+            },
+            {
+              "anchor": "async fn failed_with_cleanup(",
+              "line": 137
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/selection_policy.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "313a92412b12ead89a92f38d892f63c13c6fb395",
+          "sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+          "symbols": [
+            {
+              "anchor": "pub struct SelectionContext",
+              "line": 16
+            },
+            {
+              "anchor": "pub struct SelectionPolicy",
+              "line": 25
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/cli.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "78f535a1a0de3c465185f1f6cc1235d0b0977818",
+          "sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+          "symbols": [
+            {
+              "anchor": "pub struct CliInterrupted",
+              "line": 29
+            },
+            {
+              "anchor": "pub async fn run_cli_with_context",
+              "line": 53
+            },
+            {
+              "anchor": "fn with_cleanup",
+              "line": 168
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/cli_reporter.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "f3e5f2e41a20bf950c0d94b5737cc81c8ca7611e",
+          "sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+          "symbols": [
+            {
+              "anchor": "pub(super) struct OneShotReporter",
+              "line": 12
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/standalone_policy.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "12d54ca8ca178393ff38c97a52e21b75598438d3",
+          "sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+          "symbols": [
+            {
+              "anchor": "pub fn standalone_policy(",
+              "line": 24
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/src/main.rs",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+          "sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+          "symbols": [
+            {
+              "anchor": "async fn main()",
+              "line": 15
+            },
+            {
+              "anchor": "std::process::ExitCode::from(130)",
+              "line": 19
+            },
+            {
+              "anchor": "if cli.pattern.is_none()",
+              "line": 36
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-runtime/Cargo.toml",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "e6df89486bfe3476b141639dd918bdf8a0c4d6e6",
+          "sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+          "symbols": [
+            {
+              "anchor": "name = \"codex-file-search\"",
+              "line": 8
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/Cargo.toml",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "9f781c04a696ef27b6474c49fdea905621320182",
+          "sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+          "symbols": [
+            {
+              "anchor": "autobins = false",
+              "line": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sdk_export_and_assembly",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "additive_developer_packaging_capability",
+      "intentional_changes": [
+        "Export the native worker production local-crate closure into an independent Cargo workspace, resolving inherited/nested ownership and audited compile-time resources without copying a second harness.",
+        "Assemble a separately built binary, manifest and required Codex/foreign licenses plus Nucleo covered source; preserve exact inventory digests.",
+        "Independent acceptance uses an initially empty external target, parked source/install input and unchanged host executable hashes. Registry/toolchain cache reuse is reported explicitly."
+      ],
+      "ownership": "SDK export/build/package custody is distinct from host activation and runtime cleanup; no source path escape or unaudited compile-time resource inclusion is silently accepted.",
+      "limits": [
+        "Exporter is not an upstream updater or general semantic dependency analyser.",
+        "Actual separate build and same-host runtime evidence, including failures, are linked and re-bound below."
+      ],
+      "upstream_symbols": [],
+      "current_symbols": [
+        {
+          "path": "component-sdk/rust_component_package.py",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "80a0d95937b79fb9e291667bf70d769fd87f2139",
+          "sha256": "c5c679002bf161d4fb92cf02ee1524b28df5004916527bdf4c62c1ff5969de85",
+          "symbols": [
+            {
+              "anchor": "class ExportPlan:",
+              "line": 92
+            },
+            {
+              "anchor": "def production_manifest(",
+              "line": 78
+            },
+            {
+              "anchor": "    def audit_includes(",
+              "line": 322
+            },
+            {
+              "anchor": "    def export(",
+              "line": 412
+            },
+            {
+              "anchor": "def assemble(",
+              "line": 460
+            },
+            {
+              "anchor": "def nucleo_covered_source(",
+              "line": 541
+            }
+          ]
+        },
+        {
+          "path": "component-sdk/RUST_PACKAGING.md",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "2701190682bc4868e121b8d4ae48ef4a70ce9e10",
+          "sha256": "6cd13b8d431ad9e1de8e5cd0db0a1b3c3765a671365f70a6da0bc2286cd23735",
+          "symbols": [
+            {
+              "anchor": "#",
+              "line": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "isolated_unused_patch_normalization",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "independent_build_fixture_support_not_upstream_update",
+      "intentional_changes": [
+        "Record the independent-build-02 locked failure caused by unstable unused patch ordering separately from corrected independent-build-03.",
+        "Normalize only this isolated run's export: remove an exact full-revision git patch only when its package name is absent from the full resolved lock and an unambiguous unused identity with available multiplicity matches.",
+        "Retain all path patches, used names including foreign/optional targets, unresolved identities and unsupported options; save original manifest/lock/inventory before rewriting.",
+        "Require exact full package records including dependencies/checksums and lock format, unchanged metadata package/resolve/member graph, valid local export closure and byte-identical lock during the final locked build.",
+        "Preserve source_sha256 while updating only the exported manifest identity and normalization record. This helper does not alter original repository patches or the SDK exporter."
+      ],
+      "ownership": "The independent-build harness owns its isolated source export and preserved normalization receipts; it never has authority to normalize the main source tree.",
+      "limits": [
+        "This is a narrow reproducibility correction, not semantic upstream integration or permission to prune ambiguous dependencies.",
+        "Fixture and actual metadata/build evidence remain separate gates; receipt-free merge/build success cannot prove update safety."
+      ],
+      "upstream_symbols": [],
+      "current_symbols": [
+        {
+          "path": "component-sdk/tests/file_search/lock_patch_normalization.py",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "d2880d939e819f9a517d1452230cd101d29e36af",
+          "sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+          "symbols": [
+            {
+              "anchor": "def unused_patch_plan(",
+              "line": 21
+            },
+            {
+              "anchor": "def assert_package_records_unchanged(",
+              "line": 69
+            },
+            {
+              "anchor": "def prepare_normalization(",
+              "line": 82
+            }
+          ]
+        },
+        {
+          "path": "component-sdk/tests/file_search/build_worker.py",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "0f905281b58ec6cf358d265609dae4037ee7b817",
+          "sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+          "symbols": [
+            {
+              "anchor": "def validate_metadata(",
+              "line": 44
+            },
+            {
+              "anchor": "report[\"unused_patch_normalization\"] = normalization",
+              "line": 262
+            },
+            {
+              "anchor": "assert_package_records_unchanged(resolved_before, resolved_after)",
+              "line": 274
+            },
+            {
+              "anchor": "\"locked build changed the normalized lockfile\"",
+              "line": 322
+            }
+          ]
+        },
+        {
+          "path": "component-sdk/tests/file_search/test_lock_patch_normalization.py",
+          "revision": "651b0b87a281934e5cd7c639021049fad8d393ac",
+          "blob": "9e49fcdc723ee2af1792318d07192432a546be8c",
+          "sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6",
+          "symbols": [
+            {
+              "anchor": "class UnusedPatches",
+              "line": 44
+            },
+            {
+              "anchor": "def test_full_lock_used_name_retains_patch_even_when_platform_metadata_omits_it(",
+              "line": 53
+            },
+            {
+              "anchor": "def test_unmatched_or_ambiguous_receipts_cannot_authorize_removal(",
+              "line": 67
+            },
+            {
+              "anchor": "def test_exact_graph_gate_rejects_dependency_checksum_and_package_changes(",
+              "line": 100
+            },
+            {
+              "anchor": "def test_isolated_rewrite_preserves_originals_and_updates_only_export_manifest_hash(",
+              "line": 111
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "ed09149411b4387a2876a784ab8fa6772c4f0b06",
+      "after_blob": "2b0a9c3c30ad3125f50d8f87cfef47f69dda2865",
+      "import_blob": "ea897239537da5b7bbc3106eb5c1a8593f34895c",
+      "sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+      "boundary": "build_registration_and_dependency_lock"
+    },
+    {
+      "path": "codex-rs/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "04a9b0f658061afce8ecec158837feb241ee1494",
+      "after_blob": "0cda3b9a90b6fa21394b47ef3fd46527547eb224",
+      "import_blob": "fc1becc762f6c50104a84e34d0e5524203a682e0",
+      "sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+      "boundary": "build_registration_and_dependency_lock"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "36a2fe0195bc25a0a3eb5002223e6d75b3446533",
+      "after_blob": "1b1bf5990690ef1a05402c8c8862ac31e1c546c1",
+      "import_blob": null,
+      "sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_open.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "4b3456d5e71a4dfeacdf578b2216e5cc250c2aac",
+      "after_blob": "262057139c2174552c4d7ed7bfaaf74dc151d8c7",
+      "import_blob": null,
+      "sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_startup_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "5db527292d61c872dfad2052f0b06e885f5d9314",
+      "import_blob": null,
+      "sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "a67cb4c84ee4e51a1fa0309847e55627d3d8340a",
+      "after_blob": "022e3fce36734f63406dc462476ef6ab86edd8f5",
+      "import_blob": null,
+      "sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "b8c4084d90fc862a7fd91a0df3792e6bc33b2ec6",
+      "after_blob": "a1a2c63e538320941e8230f0c819c85278b8e420",
+      "import_blob": null,
+      "sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "60768ef0d08981a0b226e9f880ac1fbc88635db5",
+      "after_blob": "94b5d1d3706f8e5d7f1ba69fafc992703c71eb1c",
+      "import_blob": null,
+      "sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_lease.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "fdc5d29ae705378c8b71d996aedc2c2fe906319f",
+      "after_blob": "d0477521566f5d35c2395db31fe72371e2d20306",
+      "import_blob": null,
+      "sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_open.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "439825eb10872668d3b4351fa8abfa9c9c6cc726",
+      "after_blob": "38686fa3a5d8990b240a2801eaefb0cb59e8fc8f",
+      "import_blob": null,
+      "sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_startup_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "0ae234bfca7fcbbbbc4fb3f8c451d9a2c76495c8",
+      "import_blob": null,
+      "sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "310d10fb104e81358ff37aa01906f87cd1e00297",
+      "after_blob": "4ee50219a06d8134bbe32d62304e9b28a1d6e854",
+      "import_blob": null,
+      "sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+      "boundary": "persistent_process_service_and_adapter"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/BUILD.bazel",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "3b96f1e52efdcdc59d717142e510148de3c44a0b",
+      "import_blob": null,
+      "sha256": "6859648c4e0d82052541ccc88cf0e0c211947355b42e22675c455b8c4915fdd0",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/Cargo.toml",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "80e08f5d5e89393e96bafaaebf49c550d6e658e7",
+      "import_blob": null,
+      "sha256": "75b4190d91076d92f7c1fb1025be83c67a62cdd2178f52e66823def442bb8960",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/README.md",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "d7de1b27b116a28c0cec2489db6aa2dda07f50d6",
+      "import_blob": null,
+      "sha256": "ea22a9c13aea1553eb2f49316781a276f4ad6b93ab5c7683795ddb1892f9cf29",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/config.schema.json",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "040e110276afaadae490433f6db899bdbfab1ca8",
+      "import_blob": null,
+      "sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/src/lib.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "998fefb3fd75004f5d3fe30b213037ab23c4febd",
+      "import_blob": null,
+      "sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/src/main.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "30ae19efda85ddb13234a4d3ab9503d83f4643fa",
+      "import_blob": null,
+      "sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/src/policy.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "b74da27bcb57ee4081c4b1ea9c8cba7ef43ce173",
+      "import_blob": null,
+      "sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/src/policy_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "26f844510787e6616d3c22d891b74801cc0dcd8a",
+      "import_blob": null,
+      "sha256": "779d7dd51156e0e8150f8363b288c8a7a0f46b7af6fda75ef191f464dcaa46cf",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/tests/native_process.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "5dac43a4b65349342071c8b2b01417613be01333",
+      "import_blob": null,
+      "sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+      "boundary": "native_worker_package_and_strict_configuration"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/BUILD.bazel",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "2962e6c7da5e9365657bffba376c47c51ac620d6",
+      "import_blob": null,
+      "sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/Cargo.toml",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "e6df89486bfe3476b141639dd918bdf8a0c4d6e6",
+      "import_blob": null,
+      "sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/callback_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "8d8254a6a85790ca363f9a63bffe64b32afde42b",
+      "import_blob": null,
+      "sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/cause_race_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "b7e1433109b0243aba2e2b91caa9622874e06bb3",
+      "import_blob": null,
+      "sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/cli.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "78f535a1a0de3c465185f1f6cc1235d0b0977818",
+      "import_blob": null,
+      "sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "d107fb18e68f3111d1443933d528dd93381f5696",
+      "import_blob": null,
+      "sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/cli_reporter.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "f3e5f2e41a20bf950c0d94b5737cc81c8ca7611e",
+      "import_blob": null,
+      "sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/lib.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "1c671e97320949891b1e7bc37ffbf6d6c004da29",
+      "import_blob": null,
+      "sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/main.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+      "import_blob": null,
+      "sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/observation.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "df9572925c009a80e46a5df6660cda5741acb6b1",
+      "import_blob": null,
+      "sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/policy.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c2c32b3e572457dc907d7e06d5faeaad92a2cda0",
+      "import_blob": null,
+      "sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/provider.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "a2819981b6072dc281220b037895a09db5112677",
+      "import_blob": null,
+      "sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/scope.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "4db8ae0ae4bb7d31f2fc699747f015c7b2f29a90",
+      "import_blob": null,
+      "sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/selection.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "6f4af33eae2b923d22a1250eb8bcfb465d38f226",
+      "import_blob": null,
+      "sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/selection_guard.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "9d3a4347f9b0b39f29e8f9689a5176c5edfc76df",
+      "import_blob": null,
+      "sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/selection_policy.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "313a92412b12ead89a92f38d892f63c13c6fb395",
+      "import_blob": null,
+      "sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/selection_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "ceee4c1fd5f772e499de955c5f947c56e0705590",
+      "import_blob": null,
+      "sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/session.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "08ec3a19b205fdad8dc5dfca0864bd22cb781e98",
+      "import_blob": null,
+      "sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/standalone_policy.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "12d54ca8ca178393ff38c97a52e21b75598438d3",
+      "import_blob": null,
+      "sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+      "boundary": "catalog_selection_and_standalone_cli"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/startup.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "f11a09bf83baaa948767c535bbb136696481092e",
+      "import_blob": null,
+      "sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+      "boundary": "failed_startup_and_cancel_cause_correction"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/startup_cancel_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c03a8d5f14c87670e40a54b5ac1d8362dac30c4e",
+      "import_blob": null,
+      "sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+      "boundary": "failed_startup_and_cancel_cause_correction"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/state.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "ae6f6904f6a03ffd7e1346f9e8b42e120da4d0d7",
+      "import_blob": null,
+      "sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+      "boundary": "failed_startup_and_cancel_cause_correction"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/test_support.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "ea075821644db8d5a4fc360b6314a7af63916c04",
+      "import_blob": null,
+      "sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "3fbe2adc038b1491a4e7e1902b25c08ac3a80bcb",
+      "import_blob": null,
+      "sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+      "boundary": "runtime_provider_scope_and_callback_ownership"
+    },
+    {
+      "path": "codex-rs/file-search/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "1b5123135222e07614eadbc1069efd95a54ed01d",
+      "after_blob": "9f781c04a696ef27b6474c49fdea905621320182",
+      "import_blob": "e235898982f6eba908c5c0751eae91a5b25cdb1a",
+      "sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+      "boundary": "bounded_native_backend_and_failure_cause"
+    },
+    {
+      "path": "codex-rs/file-search/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "12b2de9fbcb75a622b1625602676bff11fb553a0",
+      "after_blob": "dd2e602ad1f42eabe26ad31240fca2bb6a7b1641",
+      "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+      "sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+      "boundary": "bounded_native_backend_and_failure_cause"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "98a82dd1196735ade842c8cb09345978c68be5cd",
+      "after_blob": "3eff04345ef76ced05f28e2b97b46821a2f1df55",
+      "import_blob": null,
+      "sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+      "boundary": "bounded_native_backend_and_failure_cause"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_failure_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "9158a3ff8895cc588c059df3e6eb345d7aefac51",
+      "import_blob": null,
+      "sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+      "boundary": "bounded_native_backend_and_failure_cause"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "f4516ef397a6b732066369295fe58c03da57c1ef",
+      "after_blob": "a3edd0e09afdf59d03094245b3c7085744a5fe91",
+      "import_blob": null,
+      "sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+      "boundary": "bounded_native_backend_and_failure_cause"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_budget_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "b13dea6928e8c13d1cd0d3321ee0fb0ef687126c",
+      "after_blob": "290b68131b022a4f72d8f31ad942be4a0865e6b4",
+      "import_blob": null,
+      "sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+      "boundary": "bounded_native_backend_and_failure_cause"
+    },
+    {
+      "path": "component-sdk/tests/file_search/README.md",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "af849b93a42262b765111068eaf280c2ce0baca3",
+      "import_blob": null,
+      "sha256": "7756a6f33382074cf872623166f2d188786d061006f72668358cc8192fc22567",
+      "boundary": "sdk_export_and_assembly"
+    },
+    {
+      "path": "component-sdk/tests/file_search/acceptance_support.py",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "61dd0d6934d16857d9f2bffd8a35027534446dab",
+      "import_blob": null,
+      "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+      "boundary": "sdk_export_and_assembly"
+    },
+    {
+      "path": "component-sdk/tests/file_search/build_worker.py",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "0f905281b58ec6cf358d265609dae4037ee7b817",
+      "import_blob": null,
+      "sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+      "boundary": "isolated_unused_patch_normalization"
+    },
+    {
+      "path": "component-sdk/tests/file_search/cli_acceptance.py",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "85426c922993b304c98006c8ea6878a8782ffc0b",
+      "import_blob": null,
+      "sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+      "boundary": "sdk_export_and_assembly"
+    },
+    {
+      "path": "component-sdk/tests/file_search/lock_patch_normalization.py",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "d2880d939e819f9a517d1452230cd101d29e36af",
+      "import_blob": null,
+      "sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+      "boundary": "isolated_unused_patch_normalization"
+    },
+    {
+      "path": "component-sdk/tests/file_search/test_lock_patch_normalization.py",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "9e49fcdc723ee2af1792318d07192432a546be8c",
+      "import_blob": null,
+      "sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6",
+      "boundary": "isolated_unused_patch_normalization"
+    }
+  ],
+  "evidence": {
+    "path": "../verification/2026-10-01/p02b-selected-search-results.json",
+    "sha256": "63c440a2a9b8a1ba3943b5f93b6501f392c1b053580689ec875223324768233b",
+    "reported_status": "focused_selected_startup_222_passed; independent_build_03_passed; unchanged_candidate_02_standalone_runtime_acceptance_passed",
+    "reported_publication": {
+      "status": "source_wip_published_and_remote_verified",
+      "commit": "651b0b87a281934e5cd7c639021049fad8d393ac",
+      "tree": "bb7e7996a14d14eaf11e00239eabe628916a77f2",
+      "parent": "cb977e7d664bc752c28854d468619039bd3ad167",
+      "branch": "wip/p02b-bounded-search-20261001",
+      "published_at": "2026-10-01T06:48:16.778842+00:00",
+      "remote_ref_verified": true,
+      "main_unchanged": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "github_runtime_main_blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+      "github_verification_source": "Root verified remote ref and runtime/main.rs blob; publication report retained.",
+      "report": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-selected-cli-wip-publication.json",
+        "sha256": "6f7ae7f7f8ac0e2bdb4d805f063e057ac28ae23c61da4bea94b56ecf42ed03de"
+      },
+      "source_paths": 57,
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-selected-cli-tested-source.tar.gz",
+        "sha256": "b077447af6c7d80e09c371a11f07f95e55e70803e3819d62d0ab09b7ac1bdb36",
+        "bytes": 195410,
+        "all57_payload_sha256_and_git_blob_identities_verified": true,
+        "durability": "cloud-local"
+      },
+      "note": "Pre-format test hashes remain distinct from final published source. The archive and all57 published file identities were independently checked; run baseline labels remain references only."
+    },
+    "runs": {
+      "native-worker-tests": {
+        "status": "finished",
+        "returncode": 100,
+        "started_utc": "2026-10-01T05:46:17Z",
+        "finished_utc": "2026-10-01T05:46:37Z",
+        "tests": {
+          "executed_unique_cases": 33,
+          "passed": 32,
+          "failed": 1,
+          "flaky": 0,
+          "skipped": 0,
+          "retries": "repository local profile (retries occurred)"
+        },
+        "scoped_source_unchanged": false,
+        "interpretation": "Rejected: configuration accepted an unsupported non-object type; failed case attempted twice. Cargo.lock changed during compilation."
+      },
+      "native-worker-tests-corrected": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T05:47:13Z",
+        "finished_utc": "2026-10-01T05:47:18Z",
+        "tests": {
+          "executed_unique_cases": 33,
+          "passed": 33,
+          "failed": 0,
+          "flaky": 1,
+          "skipped": 0,
+          "retries": "repository local profile (retries occurred)"
+        },
+        "scoped_source_unchanged": true,
+        "interpretation": "Not accepted as a clean gate: all33 cases eventually passed, but actual native worker exhaustion first returned ClosedLease instead of ResourceExhausted; passed on retry."
+      },
+      "native-race-worker-regression": {
+        "status": "finished",
+        "returncode": 100,
+        "started_utc": "2026-10-01T05:59:19Z",
+        "finished_utc": "2026-10-01T05:59:28Z",
+        "tests": {
+          "executed_unique_cases": 177,
+          "passed": 174,
+          "failed": 3,
+          "flaky": 0,
+          "skipped": 0,
+          "retries": 0
+        },
+        "scoped_source_unchanged": true,
+        "interpretation": "Three new deterministic fixture failures before intended error gate: initial indexed-root snapshot exceeded the incorrect8-byte cap. Product fix and six native-process cases passed their checks."
+      },
+      "native-race-worker-corrected": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:06:48Z",
+        "finished_utc": "2026-10-01T06:06:54Z",
+        "tests": {
+          "executed_unique_cases": 178,
+          "passed": 178,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0,
+          "retries": 0
+        },
+        "scoped_source_unchanged": true,
+        "interpretation": "Accepted focused no-retry gate; corrected root-output fixture plus real allocation-profile test."
+      },
+      "native-race-worker-stress": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:07:11Z",
+        "finished_utc": "2026-10-01T06:07:14Z",
+        "tests": {
+          "selected_cases": 4,
+          "iterations": 50,
+          "executions": 200,
+          "passed": 200,
+          "failed": 0,
+          "retries": 0,
+          "filtered_cases_per_iteration": 86,
+          "note": "Filtered cases are not executions."
+        },
+        "scoped_source_unchanged": true
+      },
+      "runtime-cause-pacing": {
+        "status": "finished",
+        "returncode": 101,
+        "started_utc": "2026-10-01T06:04:43Z",
+        "finished_utc": "2026-10-01T06:04:46Z",
+        "tests": {
+          "executed_unique_cases": 0,
+          "compile_diagnostics": 17,
+          "diagnostics": {
+            "E0433_missing_FileSearchProvider_import": 2,
+            "E0659_ambiguous_assert_eq_macro": 15
+          }
+        },
+        "scoped_source_unchanged": true
+      },
+      "runtime-cause-pacing-corrected": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:05:12Z",
+        "finished_utc": "2026-10-01T06:05:15Z",
+        "tests": {
+          "executed_unique_cases": 18,
+          "passed": 18,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0,
+          "retries": 0
+        },
+        "scoped_source_unchanged": true
+      },
+      "selected-cli-tests": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:16:13Z",
+        "finished_utc": "2026-10-01T06:16:28Z",
+        "tests": {
+          "executed_unique_cases": 32,
+          "passed": 32,
+          "failed": 0,
+          "flaky": 0,
+          "skipped": 0,
+          "retries": 0
+        },
+        "scoped_source_unchanged": false,
+        "interpretation": "32 cases passed without retries; only Cargo.lock changed. Rust/test source fingerprints stayed stable; not labeled wholly unchanged."
+      },
+      "native-race-worker-fix": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:07:41Z",
+        "finished_utc": "2026-10-01T06:07:51Z",
+        "scoped_source_unchanged": true
+      },
+      "runtime-facade-fix": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T05:52:08Z",
+        "finished_utc": "2026-10-01T05:52:11Z",
+        "scoped_source_unchanged": true
+      },
+      "native-runtime-format": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:09:05Z",
+        "finished_utc": "2026-10-01T06:09:24Z",
+        "scoped_source_unchanged": false
+      },
+      "selected-cli-fix": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:16:41Z",
+        "finished_utc": "2026-10-01T06:16:49Z",
+        "scoped_source_unchanged": true
+      },
+      "selected-cli-format": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:17:57Z",
+        "finished_utc": "2026-10-01T06:18:17Z",
+        "scoped_source_unchanged": false
+      },
+      "selected-cli-bazel-lock": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:18:17Z",
+        "finished_utc": "2026-10-01T06:18:19Z",
+        "scoped_source_unchanged": true
+      },
+      "manager-build": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:10:36Z",
+        "finished_utc": "2026-10-01T06:10:39Z",
+        "scoped_source_unchanged": true
+      },
+      "selected-cli-build": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:19:05Z",
+        "finished_utc": "2026-10-01T06:19:08Z",
+        "scoped_source_unchanged": true
+      },
+      "facade-startup-cancellation": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:27:21Z",
+        "finished_utc": "2026-10-01T06:27:30Z",
+        "tests": {
+          "executed_unique_cases": 35,
+          "passed": 35,
+          "failed": 0,
+          "skipped": 0,
+          "retries": 0
+        },
+        "scoped_source_unchanged": true,
+        "interpretation": "Exploratory only: 35 cases passed and 37 recorded paths were unchanged, but concurrent dependency edits were not fully captured; not a complete immutable dependency-source gate."
+      },
+      "selected-startup-regression": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:30:00Z",
+        "finished_utc": "2026-10-01T06:30:21Z",
+        "tests": {
+          "executed_unique_cases": 222,
+          "passed": 222,
+          "failed": 0,
+          "skipped": 0,
+          "retries": 0
+        },
+        "scoped_source_unchanged": true,
+        "interpretation": "Accepted focused combined gate: 222/222 passed without retries, 203 scoped source files unchanged; includes native/API/component/service/process/runtime and vendor regressions."
+      },
+      "selected-startup-fix": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:30:55Z",
+        "finished_utc": "2026-10-01T06:31:02Z",
+        "scoped_source_unchanged": true
+      },
+      "selected-startup-format": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:31:02Z",
+        "finished_utc": "2026-10-01T06:31:22Z",
+        "scoped_source_unchanged": false
+      },
+      "selected-cli-build-02": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:31:22Z",
+        "finished_utc": "2026-10-01T06:31:28Z",
+        "scoped_source_unchanged": true
+      },
+      "external-lock-format": {
+        "status": "finished",
+        "returncode": 0,
+        "started_utc": "2026-10-01T06:44:22Z",
+        "finished_utc": "2026-10-01T06:44:41Z",
+        "scoped_source_unchanged": false
+      }
+    },
+    "external_attempt_history": {
+      "external_build": {
+        "passed": true,
+        "report": {
+          "path": "/workspace/acceptance/p02b-search-independent-01/independent-build.json",
+          "sha256": "609dbbe49f7d117e867e90fd68226c8166071ba93fa6d27173c56b7e3112231d",
+          "bytes": 78879
+        },
+        "started_utc": "2026-10-01T06:21:22.187950+00:00",
+        "source_parked_before_runtime": true,
+        "frozen_binaries_unchanged": true,
+        "report_hash_verified": true,
+        "attempt_number": 1,
+        "command_count": 6,
+        "host_sha256_before": {
+          "cli": "6122a5648f8d4cc23e0809146bdfd9a2d5f01d185152e93ee4517868ddd28eec",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "host_sha256_after": {
+          "cli": "6122a5648f8d4cc23e0809146bdfd9a2d5f01d185152e93ee4517868ddd28eec",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "same_host_hashes_verified": true,
+        "local_crate_count": 10,
+        "all_local_paths_inside_export": true,
+        "excluded_packages": [
+          "codex-app-server",
+          "codex-cli",
+          "codex-core",
+          "codex-file-search-runtime",
+          "codex-tui",
+          "core_test_support"
+        ],
+        "build_identity": {
+          "fingerprint": {
+            "sha256": "262e983e66bb815f16b68ef504cf8738b4ff400049cf4ff02672a5f3c0f3c56f",
+            "bytes": 10274672,
+            "mtime_ns": 1790835728486371461,
+            "mode": 448
+          },
+          "separate_initially_empty_target": true,
+          "profile": "dev-small",
+          "incremental": false
+        },
+        "unused_patch_normalization": {},
+        "removed_unused_patch_count": 0,
+        "final_locked_build_preserved_lock_bytes": null
+      },
+      "external_build_02": {
+        "passed": false,
+        "report": {
+          "path": "/workspace/acceptance/p02b-search-independent-02/independent-build.json",
+          "sha256": "018c694b05098119b90d4e4a07af9c1ef415bdbb631c847928b3daa5d75948d5",
+          "bytes": 10787
+        },
+        "started_utc": "2026-10-01T06:32:34.230374+00:00",
+        "frozen_binaries_unchanged": true,
+        "error": "AssertionError: build: nonzero status; see saved stderr",
+        "failure_detail": "cargo build exited 101 because exported Cargo.lock required update while --locked prohibited changes; no corrected worker artifact or runtime acceptance is proved by this attempt.",
+        "runtime_executed": false,
+        "report_hash_verified": true,
+        "attempt_number": 2,
+        "command_count": 4,
+        "host_sha256_before": {
+          "cli": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "host_sha256_after": {
+          "cli": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "same_host_hashes_verified": true,
+        "local_crate_count": 10,
+        "all_local_paths_inside_export": true,
+        "excluded_packages": [
+          "codex-app-server",
+          "codex-cli",
+          "codex-core",
+          "codex-file-search-runtime",
+          "codex-tui",
+          "core_test_support"
+        ],
+        "build_identity": {},
+        "unused_patch_normalization": {},
+        "removed_unused_patch_count": 0,
+        "final_locked_build_preserved_lock_bytes": null
+      },
+      "external_build_03": {
+        "passed": true,
+        "report": {
+          "path": "/workspace/acceptance/p02b-search-independent-03/independent-build.json",
+          "sha256": "7e83a944ed5ecbcd304a9d806cf824cccb50172f0dbbc74ee75ae3a8cf68ce6a",
+          "bytes": 83342
+        },
+        "started_utc": "2026-10-01T06:45:03.977620+00:00",
+        "source_parked_before_runtime": true,
+        "frozen_binaries_unchanged": true,
+        "report_hash_verified": true,
+        "attempt_number": 3,
+        "command_count": 7,
+        "host_sha256_before": {
+          "cli": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "host_sha256_after": {
+          "cli": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "same_host_hashes_verified": true,
+        "local_crate_count": 10,
+        "all_local_paths_inside_export": true,
+        "excluded_packages": [
+          "codex-app-server",
+          "codex-cli",
+          "codex-core",
+          "codex-file-search-runtime",
+          "codex-tui",
+          "core_test_support"
+        ],
+        "build_identity": {
+          "fingerprint": {
+            "sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+            "bytes": 10276816,
+            "mtime_ns": 1790837151662745883,
+            "mode": 448
+          },
+          "separate_initially_empty_target": true,
+          "profile": "dev-small",
+          "incremental": false
+        },
+        "unused_patch_normalization": {
+          "applied": true,
+          "manifest_before": {
+            "sha256": "53e69208982d6fbc9ebda933ff5ecc73bc3e9907235e3d843ebe1151af1f99bb",
+            "bytes": 3747,
+            "mtime_ns": 1790837104172993365,
+            "mode": 384
+          },
+          "manifest_after": {
+            "sha256": "1ec40d7a370dab8aed2a166aeaffc697d477b99d5b4f7e51604fefac935394c6",
+            "bytes": 3072,
+            "mtime_ns": 1790837104581152356,
+            "mode": 384
+          },
+          "lock_before": {
+            "sha256": "321db592f2bd99b3df21448a85029695060d97c535864aa38f10f7d6741162d0",
+            "bytes": 33484,
+            "mtime_ns": 1790837104512080881,
+            "mode": 384
+          },
+          "lock_after": {
+            "sha256": "dbe166dc08aa0c038fd4e7d9c5625e3f0a66af08b0c9e61c014b1f1192c6c3ac",
+            "bytes": 32642,
+            "mtime_ns": 1790837104635398667,
+            "mode": 384
+          },
+          "inventory_before": {
+            "sha256": "128accd438b8d1d4dfcdad96b724e817677062aeb20ae5cd41c608309e53f79b",
+            "bytes": 51473,
+            "mtime_ns": 1790837104181885947,
+            "mode": 384
+          },
+          "inventory_after": {
+            "sha256": "a2fe36c9e4befe915547516885683268de9fd248c5d4102b07623b84173dddbd",
+            "bytes": 54321,
+            "mtime_ns": 1790837104581830987,
+            "mode": 384
+          },
+          "package_graph_before_sha256": "854993e692d9d459353ba93025ea063e1dcfbbea2c94a672515e28c6089bfc28",
+          "exact_full_package_records_unchanged": true,
+          "local_paths_and_closure_revalidated": true
+        },
+        "removed_unused_patch_count": 4,
+        "final_locked_build_preserved_lock_bytes": true
+      },
+      "external_runtime": {
+        "passed": false,
+        "report": {
+          "path": "/workspace/acceptance/p02b-search-cli-independent-01/cli-acceptance.json",
+          "sha256": "629c59f27309e621ad1f8ad88fbd99f79413510ab550e5a656613c5ce736dd96",
+          "bytes": 461622
+        },
+        "started_utc": "2026-10-01T06:22:48.333721+00:00",
+        "scope": "Standalone one-root CLI only; App Server/TUI/GUI are separate gates.",
+        "passed_parity_cases": [
+          "lexical-root",
+          "exclude",
+          "unicode",
+          "truncated",
+          "indices-off"
+        ],
+        "parity_comparison": "Exact ordered JSON values including score/root/path/indices/truncation; no normalization.",
+        "install_input_parked_before_execution": true,
+        "frozen_binaries_unchanged": true,
+        "error": "AssertionError: external-cli-ctrl-c: expected status 130, got 1",
+        "next_steps": "Correct cancellation cause and rerun; later removal/replacement gates not reached and not claimed.",
+        "report_hash_verified": true,
+        "attempt_number": 1,
+        "command_count": 15,
+        "host_sha256_before": {
+          "cli": "6122a5648f8d4cc23e0809146bdfd9a2d5f01d185152e93ee4517868ddd28eec",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "host_sha256_after": {
+          "cli": "6122a5648f8d4cc23e0809146bdfd9a2d5f01d185152e93ee4517868ddd28eec",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "same_host_hashes_verified": true,
+        "installed_worker": {
+          "path": "/workspace/acceptance/p02b-search-cli-independent-01/home/components/objects/native.file-search-local-501396-18da53a4b9404c7b-0/codex-file-search-local-plugin",
+          "fingerprint": {
+            "sha256": "262e983e66bb815f16b68ef504cf8738b4ff400049cf4ff02672a5f3c0f3c56f",
+            "bytes": 10274672,
+            "mtime_ns": 1790835768782293131,
+            "mode": 448
+          }
+        },
+        "parity_case_count": 5
+      },
+      "external_runtime_02": {
+        "passed": true,
+        "report": {
+          "path": "/workspace/acceptance/p02b-search-cli-independent-02/cli-acceptance.json",
+          "sha256": "c876db7f351bb6032104db9999ca1d01ad25ad948dd6f091f0977eb5bf9a1f9d",
+          "bytes": 475053
+        },
+        "started_utc": "2026-10-01T06:46:16.143291+00:00",
+        "scope": "Standalone one-root CLI only; App Server/TUI/GUI are separate gates.",
+        "passed_parity_cases": [
+          "lexical-root",
+          "exclude",
+          "unicode",
+          "truncated",
+          "indices-off"
+        ],
+        "parity_comparison": "Exact ordered JSON values including score/root/path/indices/truncation; no normalization.",
+        "install_input_parked_before_execution": true,
+        "frozen_binaries_unchanged": true,
+        "report_hash_verified": true,
+        "attempt_number": 2,
+        "command_count": 24,
+        "host_sha256_before": {
+          "cli": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "host_sha256_after": {
+          "cli": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+          "manager": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a"
+        },
+        "same_host_hashes_verified": true,
+        "real_cli_ctrl_c": {
+          "exit_status": 130,
+          "all_observed_pids_absent": true,
+          "signal_target": "CLI only, after observing installed worker executable",
+          "no_partial_output": true
+        },
+        "selected_failure_no_fallback": true,
+        "removal_affects_future_selection": true,
+        "immutable_object_retained": true,
+        "installed_worker": {
+          "path": "/workspace/acceptance/p02b-search-cli-independent-02/home/components/objects/native.file-search-local-507069-18da54ec82dbb276-0/codex-file-search-local-plugin",
+          "fingerprint": {
+            "sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+            "bytes": 10276816,
+            "mtime_ns": 1790837176618888095,
+            "mode": 448
+          }
+        },
+        "parity_case_count": 5
+      }
+    },
+    "latest_attempt_keys": {
+      "external_build": "external_build_03",
+      "external_runtime": "external_runtime_02"
+    },
+    "frozen_candidate_history": {
+      "frozen_candidate": {
+        "scope": "standalone search CLI and component manager; not a new codex/App Server/TUI/GUI binary",
+        "status": "build_verified; partial installed-worker parity; runtime_acceptance_failed_at_ctrl_c",
+        "binaries": {
+          "codex-file-search": {
+            "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+            "sha256": "6122a5648f8d4cc23e0809146bdfd9a2d5f01d185152e93ee4517868ddd28eec",
+            "bytes": 20989384
+          },
+          "codex-component": {
+            "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-component",
+            "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+            "bytes": 6575272
+          }
+        }
+      },
+      "frozen_candidate_02": {
+        "scope": "corrected standalone search CLI; manager reused unchanged; not full Codex/GUI",
+        "status": "build_verified; independent_worker_installed_and_used; standalone_runtime_acceptance_passed",
+        "binaries": {
+          "codex-file-search": {
+            "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+            "sha256": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+            "bytes": 20992384
+          },
+          "codex-component": {
+            "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+            "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+            "bytes": 6575272
+          }
+        }
+      }
+    },
+    "latest_independent_verification": {
+      "build_reported_passed": true,
+      "runtime_reported_passed": true,
+      "build_and_runtime_same_host_hashes": true,
+      "installed_worker_matches_separate_build": true,
+      "runtime_bound_to_latest_build_report": true,
+      "artifact_and_hash_chain_verified": true,
+      "scope": "Standalone selected-search CLI only; excludes App Server/TUI/GUI and whole-harness acceptance."
+    },
+    "attempt_selection_rule": "Highest numeric attempt is authoritative, including a newer failure; earlier successes/failures remain history. Unsuffixed keys are attempt 1.",
+    "source_bindings": [
+      {
+        "path": "codex-rs/Cargo.lock",
+        "evidence_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "evidence_git_blob": "2b0a9c3c30ad3125f50d8f87cfef47f69dda2865",
+        "commit_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "commit_git_blob": "2b0a9c3c30ad3125f50d8f87cfef47f69dda2865",
+        "matches": true,
+        "last_combined_test_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "frozen_cli_build_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/Cargo.toml",
+        "evidence_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "evidence_git_blob": "0cda3b9a90b6fa21394b47ef3fd46527547eb224",
+        "commit_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "commit_git_blob": "0cda3b9a90b6fa21394b47ef3fd46527547eb224",
+        "matches": true,
+        "last_combined_test_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "frozen_cli_build_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process.rs",
+        "evidence_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "evidence_git_blob": "1b1bf5990690ef1a05402c8c8862ac31e1c546c1",
+        "commit_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "commit_git_blob": "1b1bf5990690ef1a05402c8c8862ac31e1c546c1",
+        "matches": true,
+        "last_combined_test_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "frozen_cli_build_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_open.rs",
+        "evidence_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "evidence_git_blob": "262057139c2174552c4d7ed7bfaaf74dc151d8c7",
+        "commit_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "commit_git_blob": "262057139c2174552c4d7ed7bfaaf74dc151d8c7",
+        "matches": true,
+        "last_combined_test_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "frozen_cli_build_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_startup_tests.rs",
+        "evidence_sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+        "evidence_git_blob": "5db527292d61c872dfad2052f0b06e885f5d9314",
+        "commit_sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+        "commit_git_blob": "5db527292d61c872dfad2052f0b06e885f5d9314",
+        "matches": true,
+        "last_combined_test_sha256": "b254078aee343043d9b62f059c4c392b783154e6226866cf25f12f4d5e52a221",
+        "frozen_cli_build_sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+        "evidence_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "evidence_git_blob": "022e3fce36734f63406dc462476ef6ab86edd8f5",
+        "commit_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "commit_git_blob": "022e3fce36734f63406dc462476ef6ab86edd8f5",
+        "matches": true,
+        "last_combined_test_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "frozen_cli_build_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_tests.rs",
+        "evidence_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "evidence_git_blob": "a1a2c63e538320941e8230f0c819c85278b8e420",
+        "commit_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "commit_git_blob": "a1a2c63e538320941e8230f0c819c85278b8e420",
+        "matches": true,
+        "last_combined_test_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "frozen_cli_build_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+        "evidence_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "evidence_git_blob": "94b5d1d3706f8e5d7f1ba69fafc992703c71eb1c",
+        "commit_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "commit_git_blob": "94b5d1d3706f8e5d7f1ba69fafc992703c71eb1c",
+        "matches": true,
+        "last_combined_test_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "frozen_cli_build_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_lease.rs",
+        "evidence_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "evidence_git_blob": "d0477521566f5d35c2395db31fe72371e2d20306",
+        "commit_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "commit_git_blob": "d0477521566f5d35c2395db31fe72371e2d20306",
+        "matches": true,
+        "last_combined_test_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "frozen_cli_build_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_open.rs",
+        "evidence_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "evidence_git_blob": "38686fa3a5d8990b240a2801eaefb0cb59e8fc8f",
+        "commit_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "commit_git_blob": "38686fa3a5d8990b240a2801eaefb0cb59e8fc8f",
+        "matches": true,
+        "last_combined_test_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "frozen_cli_build_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_startup_tests.rs",
+        "evidence_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+        "evidence_git_blob": "0ae234bfca7fcbbbbc4fb3f8c451d9a2c76495c8",
+        "commit_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+        "commit_git_blob": "0ae234bfca7fcbbbbc4fb3f8c451d9a2c76495c8",
+        "matches": true,
+        "last_combined_test_sha256": "d274447cac915bf07aec7ca1b9df0eeb935812787666d966a920a9da6a6b5340",
+        "frozen_cli_build_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_tests.rs",
+        "evidence_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "evidence_git_blob": "4ee50219a06d8134bbe32d62304e9b28a1d6e854",
+        "commit_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "commit_git_blob": "4ee50219a06d8134bbe32d62304e9b28a1d6e854",
+        "matches": true,
+        "last_combined_test_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "frozen_cli_build_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/BUILD.bazel",
+        "evidence_sha256": "6859648c4e0d82052541ccc88cf0e0c211947355b42e22675c455b8c4915fdd0",
+        "evidence_git_blob": "3b96f1e52efdcdc59d717142e510148de3c44a0b",
+        "commit_sha256": "6859648c4e0d82052541ccc88cf0e0c211947355b42e22675c455b8c4915fdd0",
+        "commit_git_blob": "3b96f1e52efdcdc59d717142e510148de3c44a0b",
+        "matches": true,
+        "last_combined_test_sha256": "6859648c4e0d82052541ccc88cf0e0c211947355b42e22675c455b8c4915fdd0",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/Cargo.toml",
+        "evidence_sha256": "75b4190d91076d92f7c1fb1025be83c67a62cdd2178f52e66823def442bb8960",
+        "evidence_git_blob": "80e08f5d5e89393e96bafaaebf49c550d6e658e7",
+        "commit_sha256": "75b4190d91076d92f7c1fb1025be83c67a62cdd2178f52e66823def442bb8960",
+        "commit_git_blob": "80e08f5d5e89393e96bafaaebf49c550d6e658e7",
+        "matches": true,
+        "last_combined_test_sha256": "75b4190d91076d92f7c1fb1025be83c67a62cdd2178f52e66823def442bb8960",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/README.md",
+        "evidence_sha256": "ea22a9c13aea1553eb2f49316781a276f4ad6b93ab5c7683795ddb1892f9cf29",
+        "evidence_git_blob": "d7de1b27b116a28c0cec2489db6aa2dda07f50d6",
+        "commit_sha256": "ea22a9c13aea1553eb2f49316781a276f4ad6b93ab5c7683795ddb1892f9cf29",
+        "commit_git_blob": "d7de1b27b116a28c0cec2489db6aa2dda07f50d6",
+        "matches": true,
+        "last_combined_test_sha256": "ea22a9c13aea1553eb2f49316781a276f4ad6b93ab5c7683795ddb1892f9cf29",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/config.schema.json",
+        "evidence_sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+        "evidence_git_blob": "040e110276afaadae490433f6db899bdbfab1ca8",
+        "commit_sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+        "commit_git_blob": "040e110276afaadae490433f6db899bdbfab1ca8",
+        "matches": true,
+        "last_combined_test_sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/lib.rs",
+        "evidence_sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+        "evidence_git_blob": "998fefb3fd75004f5d3fe30b213037ab23c4febd",
+        "commit_sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+        "commit_git_blob": "998fefb3fd75004f5d3fe30b213037ab23c4febd",
+        "matches": true,
+        "last_combined_test_sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/main.rs",
+        "evidence_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "evidence_git_blob": "30ae19efda85ddb13234a4d3ab9503d83f4643fa",
+        "commit_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "commit_git_blob": "30ae19efda85ddb13234a4d3ab9503d83f4643fa",
+        "matches": true,
+        "last_combined_test_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/policy.rs",
+        "evidence_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "evidence_git_blob": "b74da27bcb57ee4081c4b1ea9c8cba7ef43ce173",
+        "commit_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "commit_git_blob": "b74da27bcb57ee4081c4b1ea9c8cba7ef43ce173",
+        "matches": true,
+        "last_combined_test_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/policy_tests.rs",
+        "evidence_sha256": "779d7dd51156e0e8150f8363b288c8a7a0f46b7af6fda75ef191f464dcaa46cf",
+        "evidence_git_blob": "26f844510787e6616d3c22d891b74801cc0dcd8a",
+        "commit_sha256": "779d7dd51156e0e8150f8363b288c8a7a0f46b7af6fda75ef191f464dcaa46cf",
+        "commit_git_blob": "26f844510787e6616d3c22d891b74801cc0dcd8a",
+        "matches": true,
+        "last_combined_test_sha256": "779d7dd51156e0e8150f8363b288c8a7a0f46b7af6fda75ef191f464dcaa46cf",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/tests/native_process.rs",
+        "evidence_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "evidence_git_blob": "5dac43a4b65349342071c8b2b01417613be01333",
+        "commit_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "commit_git_blob": "5dac43a4b65349342071c8b2b01417613be01333",
+        "matches": true,
+        "last_combined_test_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "codex-rs/file-search-runtime/BUILD.bazel",
+        "evidence_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "evidence_git_blob": "2962e6c7da5e9365657bffba376c47c51ac620d6",
+        "commit_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "commit_git_blob": "2962e6c7da5e9365657bffba376c47c51ac620d6",
+        "matches": true,
+        "last_combined_test_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "frozen_cli_build_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/Cargo.toml",
+        "evidence_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "evidence_git_blob": "e6df89486bfe3476b141639dd918bdf8a0c4d6e6",
+        "commit_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "commit_git_blob": "e6df89486bfe3476b141639dd918bdf8a0c4d6e6",
+        "matches": true,
+        "last_combined_test_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "frozen_cli_build_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/callback_tests.rs",
+        "evidence_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "evidence_git_blob": "8d8254a6a85790ca363f9a63bffe64b32afde42b",
+        "commit_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "commit_git_blob": "8d8254a6a85790ca363f9a63bffe64b32afde42b",
+        "matches": true,
+        "last_combined_test_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "frozen_cli_build_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cause_race_tests.rs",
+        "evidence_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "evidence_git_blob": "b7e1433109b0243aba2e2b91caa9622874e06bb3",
+        "commit_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "commit_git_blob": "b7e1433109b0243aba2e2b91caa9622874e06bb3",
+        "matches": true,
+        "last_combined_test_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "frozen_cli_build_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cli.rs",
+        "evidence_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "evidence_git_blob": "78f535a1a0de3c465185f1f6cc1235d0b0977818",
+        "commit_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "commit_git_blob": "78f535a1a0de3c465185f1f6cc1235d0b0977818",
+        "matches": true,
+        "last_combined_test_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "frozen_cli_build_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs",
+        "evidence_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "evidence_git_blob": "d107fb18e68f3111d1443933d528dd93381f5696",
+        "commit_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "commit_git_blob": "d107fb18e68f3111d1443933d528dd93381f5696",
+        "matches": true,
+        "last_combined_test_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "frozen_cli_build_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cli_reporter.rs",
+        "evidence_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "evidence_git_blob": "f3e5f2e41a20bf950c0d94b5737cc81c8ca7611e",
+        "commit_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "commit_git_blob": "f3e5f2e41a20bf950c0d94b5737cc81c8ca7611e",
+        "matches": true,
+        "last_combined_test_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "frozen_cli_build_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/lib.rs",
+        "evidence_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "evidence_git_blob": "1c671e97320949891b1e7bc37ffbf6d6c004da29",
+        "commit_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "commit_git_blob": "1c671e97320949891b1e7bc37ffbf6d6c004da29",
+        "matches": true,
+        "last_combined_test_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "frozen_cli_build_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/main.rs",
+        "evidence_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "evidence_git_blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+        "commit_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "commit_git_blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+        "matches": true,
+        "last_combined_test_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "frozen_cli_build_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/observation.rs",
+        "evidence_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "evidence_git_blob": "df9572925c009a80e46a5df6660cda5741acb6b1",
+        "commit_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "commit_git_blob": "df9572925c009a80e46a5df6660cda5741acb6b1",
+        "matches": true,
+        "last_combined_test_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "frozen_cli_build_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/policy.rs",
+        "evidence_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "evidence_git_blob": "c2c32b3e572457dc907d7e06d5faeaad92a2cda0",
+        "commit_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "commit_git_blob": "c2c32b3e572457dc907d7e06d5faeaad92a2cda0",
+        "matches": true,
+        "last_combined_test_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "frozen_cli_build_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/provider.rs",
+        "evidence_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "evidence_git_blob": "a2819981b6072dc281220b037895a09db5112677",
+        "commit_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "commit_git_blob": "a2819981b6072dc281220b037895a09db5112677",
+        "matches": true,
+        "last_combined_test_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "frozen_cli_build_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/scope.rs",
+        "evidence_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "evidence_git_blob": "4db8ae0ae4bb7d31f2fc699747f015c7b2f29a90",
+        "commit_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "commit_git_blob": "4db8ae0ae4bb7d31f2fc699747f015c7b2f29a90",
+        "matches": true,
+        "last_combined_test_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "frozen_cli_build_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/selection.rs",
+        "evidence_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "evidence_git_blob": "6f4af33eae2b923d22a1250eb8bcfb465d38f226",
+        "commit_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "commit_git_blob": "6f4af33eae2b923d22a1250eb8bcfb465d38f226",
+        "matches": true,
+        "last_combined_test_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "frozen_cli_build_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/selection_guard.rs",
+        "evidence_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "evidence_git_blob": "9d3a4347f9b0b39f29e8f9689a5176c5edfc76df",
+        "commit_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "commit_git_blob": "9d3a4347f9b0b39f29e8f9689a5176c5edfc76df",
+        "matches": true,
+        "last_combined_test_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "frozen_cli_build_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/selection_policy.rs",
+        "evidence_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "evidence_git_blob": "313a92412b12ead89a92f38d892f63c13c6fb395",
+        "commit_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "commit_git_blob": "313a92412b12ead89a92f38d892f63c13c6fb395",
+        "matches": true,
+        "last_combined_test_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "frozen_cli_build_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/selection_tests.rs",
+        "evidence_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "evidence_git_blob": "ceee4c1fd5f772e499de955c5f947c56e0705590",
+        "commit_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "commit_git_blob": "ceee4c1fd5f772e499de955c5f947c56e0705590",
+        "matches": true,
+        "last_combined_test_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "frozen_cli_build_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/session.rs",
+        "evidence_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "evidence_git_blob": "08ec3a19b205fdad8dc5dfca0864bd22cb781e98",
+        "commit_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "commit_git_blob": "08ec3a19b205fdad8dc5dfca0864bd22cb781e98",
+        "matches": true,
+        "last_combined_test_sha256": "d11745679f0c62185c50c667c67748206954ae4d3acb36436b9d3766d49ce0a6",
+        "frozen_cli_build_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/standalone_policy.rs",
+        "evidence_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "evidence_git_blob": "12d54ca8ca178393ff38c97a52e21b75598438d3",
+        "commit_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "commit_git_blob": "12d54ca8ca178393ff38c97a52e21b75598438d3",
+        "matches": true,
+        "last_combined_test_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "frozen_cli_build_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/startup.rs",
+        "evidence_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "evidence_git_blob": "f11a09bf83baaa948767c535bbb136696481092e",
+        "commit_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "commit_git_blob": "f11a09bf83baaa948767c535bbb136696481092e",
+        "matches": true,
+        "last_combined_test_sha256": "9b2312b4bd671c2b49865490ab85bfa47a495654f13a98e537215c3247326e64",
+        "frozen_cli_build_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/startup_cancel_tests.rs",
+        "evidence_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+        "evidence_git_blob": "c03a8d5f14c87670e40a54b5ac1d8362dac30c4e",
+        "commit_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+        "commit_git_blob": "c03a8d5f14c87670e40a54b5ac1d8362dac30c4e",
+        "matches": true,
+        "last_combined_test_sha256": "52d5793f7c918514a525d1a4cf9e061b70568b9c67f09144fff7bc07103f0240",
+        "frozen_cli_build_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/state.rs",
+        "evidence_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "evidence_git_blob": "ae6f6904f6a03ffd7e1346f9e8b42e120da4d0d7",
+        "commit_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "commit_git_blob": "ae6f6904f6a03ffd7e1346f9e8b42e120da4d0d7",
+        "matches": true,
+        "last_combined_test_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "frozen_cli_build_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/test_support.rs",
+        "evidence_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "evidence_git_blob": "ea075821644db8d5a4fc360b6314a7af63916c04",
+        "commit_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "commit_git_blob": "ea075821644db8d5a4fc360b6314a7af63916c04",
+        "matches": true,
+        "last_combined_test_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "frozen_cli_build_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/tests.rs",
+        "evidence_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "evidence_git_blob": "3fbe2adc038b1491a4e7e1902b25c08ac3a80bcb",
+        "commit_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "commit_git_blob": "3fbe2adc038b1491a4e7e1902b25c08ac3a80bcb",
+        "matches": true,
+        "last_combined_test_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "frozen_cli_build_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search/Cargo.toml",
+        "evidence_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "evidence_git_blob": "9f781c04a696ef27b6474c49fdea905621320182",
+        "commit_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "commit_git_blob": "9f781c04a696ef27b6474c49fdea905621320182",
+        "matches": true,
+        "last_combined_test_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "frozen_cli_build_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search/src/lib.rs",
+        "evidence_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "evidence_git_blob": "dd2e602ad1f42eabe26ad31240fca2bb6a7b1641",
+        "commit_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "commit_git_blob": "dd2e602ad1f42eabe26ad31240fca2bb6a7b1641",
+        "matches": true,
+        "last_combined_test_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "frozen_cli_build_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend.rs",
+        "evidence_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "evidence_git_blob": "3eff04345ef76ced05f28e2b97b46821a2f1df55",
+        "commit_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "commit_git_blob": "3eff04345ef76ced05f28e2b97b46821a2f1df55",
+        "matches": true,
+        "last_combined_test_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "frozen_cli_build_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend_failure_tests.rs",
+        "evidence_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "evidence_git_blob": "9158a3ff8895cc588c059df3e6eb345d7aefac51",
+        "commit_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "commit_git_blob": "9158a3ff8895cc588c059df3e6eb345d7aefac51",
+        "matches": true,
+        "last_combined_test_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "frozen_cli_build_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend_session.rs",
+        "evidence_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "evidence_git_blob": "a3edd0e09afdf59d03094245b3c7085744a5fe91",
+        "commit_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "commit_git_blob": "a3edd0e09afdf59d03094245b3c7085744a5fe91",
+        "matches": true,
+        "last_combined_test_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "frozen_cli_build_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_budget_tests.rs",
+        "evidence_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "evidence_git_blob": "290b68131b022a4f72d8f31ad942be4a0865e6b4",
+        "commit_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "commit_git_blob": "290b68131b022a4f72d8f31ad942be4a0865e6b4",
+        "matches": true,
+        "last_combined_test_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "frozen_cli_build_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      {
+        "path": "component-sdk/tests/file_search/README.md",
+        "evidence_sha256": "7756a6f33382074cf872623166f2d188786d061006f72668358cc8192fc22567",
+        "evidence_git_blob": "af849b93a42262b765111068eaf280c2ce0baca3",
+        "commit_sha256": "7756a6f33382074cf872623166f2d188786d061006f72668358cc8192fc22567",
+        "commit_git_blob": "af849b93a42262b765111068eaf280c2ce0baca3",
+        "matches": true,
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "component-sdk/tests/file_search/acceptance_support.py",
+        "evidence_sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+        "evidence_git_blob": "61dd0d6934d16857d9f2bffd8a35027534446dab",
+        "commit_sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+        "commit_git_blob": "61dd0d6934d16857d9f2bffd8a35027534446dab",
+        "matches": true,
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "component-sdk/tests/file_search/build_worker.py",
+        "evidence_sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+        "evidence_git_blob": "0f905281b58ec6cf358d265609dae4037ee7b817",
+        "commit_sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+        "commit_git_blob": "0f905281b58ec6cf358d265609dae4037ee7b817",
+        "matches": true,
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "component-sdk/tests/file_search/cli_acceptance.py",
+        "evidence_sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+        "evidence_git_blob": "85426c922993b304c98006c8ea6878a8782ffc0b",
+        "commit_sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+        "commit_git_blob": "85426c922993b304c98006c8ea6878a8782ffc0b",
+        "matches": true,
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "component-sdk/tests/file_search/lock_patch_normalization.py",
+        "evidence_sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+        "evidence_git_blob": "d2880d939e819f9a517d1452230cd101d29e36af",
+        "commit_sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+        "commit_git_blob": "d2880d939e819f9a517d1452230cd101d29e36af",
+        "matches": true,
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      {
+        "path": "component-sdk/tests/file_search/test_lock_patch_normalization.py",
+        "evidence_sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6",
+        "evidence_git_blob": "9e49fcdc723ee2af1792318d07192432a546be8c",
+        "commit_sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6",
+        "commit_git_blob": "9e49fcdc723ee2af1792318d07192432a546be8c",
+        "matches": true,
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      }
+    ],
+    "source_binding_source": "publication.bindings",
+    "all_source_evidence_bindings_match_commit": true,
+    "earlier_selected_file_bindings": [
+      {
+        "path": "component-sdk/tests/subreaper_runner.py",
+        "evidence_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "commit_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend.rs",
+        "evidence_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "commit_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend_session.rs",
+        "evidence_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "commit_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend_failure_tests.rs",
+        "evidence_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "commit_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_budget_tests.rs",
+        "evidence_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "commit_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_output.rs",
+        "evidence_sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+        "commit_sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search/src/native_index.rs",
+        "evidence_sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+        "commit_sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/policy.rs",
+        "evidence_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "commit_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/main.rs",
+        "evidence_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "commit_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/tests/native_process.rs",
+        "evidence_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "commit_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/Cargo.toml",
+        "evidence_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "commit_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/selection.rs",
+        "evidence_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "commit_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/selection_guard.rs",
+        "evidence_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "commit_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/standalone_policy.rs",
+        "evidence_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "commit_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cli.rs",
+        "evidence_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "commit_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cli_reporter.rs",
+        "evidence_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "commit_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/main.rs",
+        "evidence_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "commit_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/cause_race_tests.rs",
+        "evidence_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "commit_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/session.rs",
+        "evidence_sha256": "a4d4667bd8d0030ef63eb911c7e38cabfffa31323edb97b18ada15a93bed8ec5",
+        "commit_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "matches": false
+      },
+      {
+        "path": "codex-rs/file-search-runtime/src/startup.rs",
+        "evidence_sha256": "db220d6a9b2c0e92b71789975e408de2e92d988baa4ebb670ec4cfc174d6b375",
+        "commit_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "matches": false
+      },
+      {
+        "path": "codex-rs/Cargo.lock",
+        "evidence_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "commit_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "matches": true
+      },
+      {
+        "path": "codex-rs/Cargo.toml",
+        "evidence_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "commit_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "matches": true
+      },
+      {
+        "path": "MODULE.bazel.lock",
+        "evidence_sha256": "e43ce845fd29b166d0e8750120ec47364ca3aced882dba28efda465236e140e6",
+        "commit_sha256": "e43ce845fd29b166d0e8750120ec47364ca3aced882dba28efda465236e140e6",
+        "matches": true
+      }
+    ],
+    "earlier_selected_binding_differences": [
+      "codex-rs/file-search-runtime/src/session.rs",
+      "codex-rs/file-search-runtime/src/startup.rs"
+    ],
+    "earlier_selected_binding_note": "The earlier selected-file block retains pre-correction source history; publication.bindings is authoritative for the final checkpoint. Differences here are not working-tree drift or a relabeled test run.",
+    "acceptance_rule": "Latest numeric attempt determines reported current status; all original failures remain distinct. Independently verify report hashes, unchanged host hashes across build/runtime, matching built/installed worker and runtime-to-build report binding. This does not imply broader client/UI or complete source-tree verification.",
+    "delta_paths_without_selected_file_evidence_binding": [],
+    "coverage_limit": "Publication bindings identify preserved bytes and separate pre-format test/build hashes; a source match does not invent tests at the final tree. Earlier selected-file bindings remain historical. Full test manifests and explicit transitions still define actual verification scope."
+  },
+  "review_required_paths": [],
+  "interpretation": {
+    "current_blob": "Exact supplied immutable commit object, not current working bytes.",
+    "symbols": "Audited original/current anchors, not a complete semantic graph. Missing anchors stop generation.",
+    "source_tree_vs_evidence": "Source preservation is distinct from test/build and independent same-host runtime acceptance. Failed runs, retries and corrected startup are retained separately.",
+    "upstream_update": "No later OpenAI revision integration, migration/rollback demonstration or updater activation is implied."
+  },
+  "foreign_provenance": {
+    "repository": "https://github.com/helix-editor/nucleo",
+    "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+    "license": "MPL-2.0",
+    "current_provenance_blob": "7bce0c2e614e743798d02f9b033cba61b28702a9",
+    "note": "Retain covered source and original notices separately from Codex Apache-2.0 LICENSE/NOTICE. SDK package assembly must include actual used foreign patches."
+  },
+  "P18U_gaps": [
+    {
+      "id": "whole_platform_lineage_completeness",
+      "gap": "Selected search gets detailed original/current anchors; other subsystem and intentional-customization coverage is still uneven across historical schema-1 maps.",
+      "minimum_next_step": "Add a schema-normalizing read-only checker for commit/tree/blob/anchor/path-delta/license references and a component/path ownership index that explicitly reports unmapped changes instead of calling them safe."
+    },
+    {
+      "id": "evidence_and_artifact_binding",
+      "gap": "Source checkpoints, pre/post-format test bytes, exported worker source, installed package identity and frozen host hashes have separate reports; a successful merge cannot substitute for this chain.",
+      "minimum_next_step": "Require full tested-source digests plus reviewed transitions, exact package export closure and before/after host/plugin hashes in a candidate gate manifest; leave mismatches release-blocking."
+    },
+    {
+      "id": "contract_dependency_and_migration_impact",
+      "gap": "Versioned search wire and explicit ownership exist, but there is no automated upstream-change-to-contract/security/migration impact resolver.",
+      "minimum_next_step": "Maintain original-path/symbol to component/contract/capability/config/state owners and dependency edges. Flag unknown semantic, budget, cwd, sandbox, wire or state changes for review."
+    },
+    {
+      "id": "missing_consumer_runtime_gates",
+      "gap": "Standalone native/selected CLI evidence is narrower than App Server/TUI and separately installed GUI behavior.",
+      "minimum_next_step": "Map each actual consumer composition when committed, then add real App Server/TUI/UI selection, replacement/removal/upgrade and shutdown gates; retain existing accepted UI proof separately."
+    },
+    {
+      "id": "upstream_candidate_and_recovery_demonstration",
+      "gap": "No maintenance component, chosen later OpenAI revision integration or rollback demonstration is implemented by these lineage files.",
+      "minimum_next_step": "After component stability, implement an independently installable maintenance service with isolated staging and external recovery bootstrap; demonstrate one real upstream revision plus deliberate breaking/failure rollback without polling or live activation by default."
+    }
+  ]
+}

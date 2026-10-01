@@ -125,7 +125,16 @@ Six unregistered primary package manifests are STAGED. A copied source tree or o
 P02 supplement, 2026-10-01: the current ledger has 166 members. Native
 search lifetime repair and App Server/TUI ownership changes remain **COUPLED**
 implementation prerequisites. The GUI's file-reference picker is **ADDITIVE**.
-There is no installed `file_search` implementation or selected search worker yet.
+That accepted StageA source does not select an installed `file_search` worker.
+The later WIP `651b0b87a281934e5cd7c639021049fad8d393ac` adds three registered
+members (`file-search-component`, `file-search-local-plugin`, `file-search-runtime`),
+bringing the working manifest to 169. The actual native traversal/matcher is now
+separately built and installed for the standalone CLI: 222 focused tests and 24
+real CLI/manager commands passed, including parity, cancellation and removal with
+unchanged host binaries. See [evidence](verification/2026-10-01/P02B_SELECTED_SEARCH_EVIDENCE.md).
+This is a replaceable native search subset; App Server/TUI/private storage search
+are still pending and C18 as a whole remains coupled. The 166-member ledger above
+continues to describe accepted main source, not this newer WIP composition.
 
 | Owner | Additional source | Classification and scope |
 | --- | --- | --- |

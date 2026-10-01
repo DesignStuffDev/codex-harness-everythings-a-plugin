@@ -187,6 +187,16 @@ neutral search/cleanup contracts and the shared lossless path codec.
 [56 focused cases](verification/2026-10-01/P02B_CONTRACT_EVIDENCE.md) passed;
 native/process implementations and independent installation remain pending.
 
+**Later StageB working checkpoint:** source WIP `651b0b87a281934e5cd7c639021049fad8d393ac`
+implements the actual bounded native worker and standalone CLI selection. Its
+[evidence](verification/2026-10-01/P02B_SELECTED_SEARCH_EVIDENCE.md) records 222
+focused cases and an external source/target build followed by 24 real CLI/manager
+commands, including parity, Ctrl+C, failure without fallback and removal, with
+host hashes unchanged. This establishes native search replacement for that caller.
+App Server, TUI and private storage lookup remain separate unfinished consumers;
+the current accepted full-engine GUI gate is still StageA. Keep source WIP separate
+until those runtime regressions pass.
+
 **Prerequisites:** P02a search uses contract cards, the accepted process/session
 protocol and existing native authorized root snapshots. P02b filesystem/watch/Git
 and worktree mutation services additionally require P03/P04/P10 authority/config

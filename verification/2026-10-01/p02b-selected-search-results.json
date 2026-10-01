@@ -1,0 +1,4559 @@
+{
+  "schema_version": 1,
+  "status": "focused_selected_startup_222_passed; independent_build_03_passed; unchanged_candidate_02_standalone_runtime_acceptance_passed",
+  "as_of_utc": "2026-10-01",
+  "scope": {
+    "native_process_worker": "real installed native worker tested through actual component host installation and process protocol; temporary input package removed",
+    "native_race": "retained operation cause during rejected updates and closure",
+    "selected_cli": "catalog-selected runtime composition; real native CLI parity and lifecycle tests",
+    "excluded": [
+      "new App Server/TUI selection",
+      "new GUI/Browser or manager Launch GUI lifecycle run",
+      "whole-harness extraction",
+      "updater implementation"
+    ]
+  },
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "license": "Apache-2.0; retained LICENSE/NOTICE; vendored Nucleo notices remain applicable"
+  },
+  "publication": {
+    "status": "source_wip_published_and_remote_verified",
+    "commit": "651b0b87a281934e5cd7c639021049fad8d393ac",
+    "tree": "bb7e7996a14d14eaf11e00239eabe628916a77f2",
+    "parent": "cb977e7d664bc752c28854d468619039bd3ad167",
+    "branch": "wip/p02b-bounded-search-20261001",
+    "published_at": "2026-10-01T06:48:16.778842+00:00",
+    "remote_ref_verified": true,
+    "main_unchanged": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+    "github_runtime_main_blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+    "github_verification_source": "Root verified remote ref and runtime/main.rs blob; publication report retained.",
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-selected-cli-wip-publication.json",
+      "sha256": "6f7ae7f7f8ac0e2bdb4d805f063e057ac28ae23c61da4bea94b56ecf42ed03de"
+    },
+    "source_paths": 57,
+    "bindings": {
+      "codex-rs/Cargo.lock": {
+        "published_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "git_blob": "2b0a9c3c30ad3125f50d8f87cfef47f69dda2865",
+        "last_combined_test_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "frozen_cli_build_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/Cargo.toml": {
+        "published_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "git_blob": "0cda3b9a90b6fa21394b47ef3fd46527547eb224",
+        "last_combined_test_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "frozen_cli_build_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/process.rs": {
+        "published_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "git_blob": "1b1bf5990690ef1a05402c8c8862ac31e1c546c1",
+        "last_combined_test_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "frozen_cli_build_sha256": "c54f4b82894beec4e077b710b39bc65ce5b793e2fc3f7fc761941a969168008d",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/process_open.rs": {
+        "published_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "git_blob": "262057139c2174552c4d7ed7bfaaf74dc151d8c7",
+        "last_combined_test_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "frozen_cli_build_sha256": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/process_startup_tests.rs": {
+        "published_sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+        "git_blob": "5db527292d61c872dfad2052f0b06e885f5d9314",
+        "last_combined_test_sha256": "b254078aee343043d9b62f059c4c392b783154e6226866cf25f12f4d5e52a221",
+        "frozen_cli_build_sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/process_test_fixture.rs": {
+        "published_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "git_blob": "022e3fce36734f63406dc462476ef6ab86edd8f5",
+        "last_combined_test_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "frozen_cli_build_sha256": "accbccb87ef31fda052c06bd4769633e1f6f511aaf688bf8893629d28f9fb5b5",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/process_tests.rs": {
+        "published_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "git_blob": "a1a2c63e538320941e8230f0c819c85278b8e420",
+        "last_combined_test_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "frozen_cli_build_sha256": "277775e3d2ff0957fbf426fc40affbe96f5a6aa40b6f06f5678354fd415d693e",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/service_boundary_tests.rs": {
+        "published_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "git_blob": "94b5d1d3706f8e5d7f1ba69fafc992703c71eb1c",
+        "last_combined_test_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "frozen_cli_build_sha256": "5b61cb45195b2dbdcc8f28b398ade023d7d26e18e8df781de4ee99191aef3126",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/service_lease.rs": {
+        "published_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "git_blob": "d0477521566f5d35c2395db31fe72371e2d20306",
+        "last_combined_test_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "frozen_cli_build_sha256": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/service_open.rs": {
+        "published_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "git_blob": "38686fa3a5d8990b240a2801eaefb0cb59e8fc8f",
+        "last_combined_test_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "frozen_cli_build_sha256": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/service_startup_tests.rs": {
+        "published_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+        "git_blob": "0ae234bfca7fcbbbbc4fb3f8c451d9a2c76495c8",
+        "last_combined_test_sha256": "d274447cac915bf07aec7ca1b9df0eeb935812787666d966a920a9da6a6b5340",
+        "frozen_cli_build_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-component/src/service_tests.rs": {
+        "published_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "git_blob": "4ee50219a06d8134bbe32d62304e9b28a1d6e854",
+        "last_combined_test_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "frozen_cli_build_sha256": "e3cb5d48ee6899d9fa604e1d292a3cdb11777941b619074f1b17789058f23a25",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-local-plugin/BUILD.bazel": {
+        "published_sha256": "6859648c4e0d82052541ccc88cf0e0c211947355b42e22675c455b8c4915fdd0",
+        "git_blob": "3b96f1e52efdcdc59d717142e510148de3c44a0b",
+        "last_combined_test_sha256": "6859648c4e0d82052541ccc88cf0e0c211947355b42e22675c455b8c4915fdd0",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/Cargo.toml": {
+        "published_sha256": "75b4190d91076d92f7c1fb1025be83c67a62cdd2178f52e66823def442bb8960",
+        "git_blob": "80e08f5d5e89393e96bafaaebf49c550d6e658e7",
+        "last_combined_test_sha256": "75b4190d91076d92f7c1fb1025be83c67a62cdd2178f52e66823def442bb8960",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/README.md": {
+        "published_sha256": "ea22a9c13aea1553eb2f49316781a276f4ad6b93ab5c7683795ddb1892f9cf29",
+        "git_blob": "d7de1b27b116a28c0cec2489db6aa2dda07f50d6",
+        "last_combined_test_sha256": "ea22a9c13aea1553eb2f49316781a276f4ad6b93ab5c7683795ddb1892f9cf29",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/config.schema.json": {
+        "published_sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+        "git_blob": "040e110276afaadae490433f6db899bdbfab1ca8",
+        "last_combined_test_sha256": "48aeb6c96d1a2b9d840872ebbb8b4bed4ea8eecfded291e2ec9e04a0fbc18273",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/src/lib.rs": {
+        "published_sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+        "git_blob": "998fefb3fd75004f5d3fe30b213037ab23c4febd",
+        "last_combined_test_sha256": "4668a60d42f91d109b072f988d2f506b830906e1d141bac819d90771d938d5bb",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/src/main.rs": {
+        "published_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "git_blob": "30ae19efda85ddb13234a4d3ab9503d83f4643fa",
+        "last_combined_test_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/src/policy.rs": {
+        "published_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "git_blob": "b74da27bcb57ee4081c4b1ea9c8cba7ef43ce173",
+        "last_combined_test_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/src/policy_tests.rs": {
+        "published_sha256": "779d7dd51156e0e8150f8363b288c8a7a0f46b7af6fda75ef191f464dcaa46cf",
+        "git_blob": "26f844510787e6616d3c22d891b74801cc0dcd8a",
+        "last_combined_test_sha256": "779d7dd51156e0e8150f8363b288c8a7a0f46b7af6fda75ef191f464dcaa46cf",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-local-plugin/tests/native_process.rs": {
+        "published_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "git_blob": "5dac43a4b65349342071c8b2b01417613be01333",
+        "last_combined_test_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": null
+      },
+      "codex-rs/file-search-runtime/BUILD.bazel": {
+        "published_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "git_blob": "2962e6c7da5e9365657bffba376c47c51ac620d6",
+        "last_combined_test_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "frozen_cli_build_sha256": "91c3bfbf95b69f3810d86f281cd7aa559dad0bfb8a375259c174c4b848fef6a9",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/Cargo.toml": {
+        "published_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "git_blob": "e6df89486bfe3476b141639dd918bdf8a0c4d6e6",
+        "last_combined_test_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "frozen_cli_build_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/callback_tests.rs": {
+        "published_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "git_blob": "8d8254a6a85790ca363f9a63bffe64b32afde42b",
+        "last_combined_test_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "frozen_cli_build_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/cause_race_tests.rs": {
+        "published_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "git_blob": "b7e1433109b0243aba2e2b91caa9622874e06bb3",
+        "last_combined_test_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "frozen_cli_build_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/cli.rs": {
+        "published_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "git_blob": "78f535a1a0de3c465185f1f6cc1235d0b0977818",
+        "last_combined_test_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "frozen_cli_build_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs": {
+        "published_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "git_blob": "d107fb18e68f3111d1443933d528dd93381f5696",
+        "last_combined_test_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "frozen_cli_build_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/cli_reporter.rs": {
+        "published_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "git_blob": "f3e5f2e41a20bf950c0d94b5737cc81c8ca7611e",
+        "last_combined_test_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "frozen_cli_build_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/lib.rs": {
+        "published_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "git_blob": "1c671e97320949891b1e7bc37ffbf6d6c004da29",
+        "last_combined_test_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "frozen_cli_build_sha256": "d1f8059bb39e77cf5a1b8d7641f3ee0e71fb6778279a3540ed80ffdc1e57b39e",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/main.rs": {
+        "published_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "git_blob": "b94364e86ccd57970e43c7babe1e7cb0aad6a2fe",
+        "last_combined_test_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "frozen_cli_build_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/observation.rs": {
+        "published_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "git_blob": "df9572925c009a80e46a5df6660cda5741acb6b1",
+        "last_combined_test_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "frozen_cli_build_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/policy.rs": {
+        "published_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "git_blob": "c2c32b3e572457dc907d7e06d5faeaad92a2cda0",
+        "last_combined_test_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "frozen_cli_build_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/provider.rs": {
+        "published_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "git_blob": "a2819981b6072dc281220b037895a09db5112677",
+        "last_combined_test_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "frozen_cli_build_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/scope.rs": {
+        "published_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "git_blob": "4db8ae0ae4bb7d31f2fc699747f015c7b2f29a90",
+        "last_combined_test_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "frozen_cli_build_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/selection.rs": {
+        "published_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "git_blob": "6f4af33eae2b923d22a1250eb8bcfb465d38f226",
+        "last_combined_test_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "frozen_cli_build_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/selection_guard.rs": {
+        "published_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "git_blob": "9d3a4347f9b0b39f29e8f9689a5176c5edfc76df",
+        "last_combined_test_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "frozen_cli_build_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/selection_policy.rs": {
+        "published_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "git_blob": "313a92412b12ead89a92f38d892f63c13c6fb395",
+        "last_combined_test_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "frozen_cli_build_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/selection_tests.rs": {
+        "published_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "git_blob": "ceee4c1fd5f772e499de955c5f947c56e0705590",
+        "last_combined_test_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "frozen_cli_build_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/session.rs": {
+        "published_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "git_blob": "08ec3a19b205fdad8dc5dfca0864bd22cb781e98",
+        "last_combined_test_sha256": "d11745679f0c62185c50c667c67748206954ae4d3acb36436b9d3766d49ce0a6",
+        "frozen_cli_build_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/standalone_policy.rs": {
+        "published_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "git_blob": "12d54ca8ca178393ff38c97a52e21b75598438d3",
+        "last_combined_test_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "frozen_cli_build_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/startup.rs": {
+        "published_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "git_blob": "f11a09bf83baaa948767c535bbb136696481092e",
+        "last_combined_test_sha256": "9b2312b4bd671c2b49865490ab85bfa47a495654f13a98e537215c3247326e64",
+        "frozen_cli_build_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/startup_cancel_tests.rs": {
+        "published_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+        "git_blob": "c03a8d5f14c87670e40a54b5ac1d8362dac30c4e",
+        "last_combined_test_sha256": "52d5793f7c918514a525d1a4cf9e061b70568b9c67f09144fff7bc07103f0240",
+        "frozen_cli_build_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+        "same_as_last_combined_test": false,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/state.rs": {
+        "published_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "git_blob": "ae6f6904f6a03ffd7e1346f9e8b42e120da4d0d7",
+        "last_combined_test_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "frozen_cli_build_sha256": "5db0c147dcfc190a7bc97f2441e3731029710a8a4a08b2d1709798673095bd24",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/test_support.rs": {
+        "published_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "git_blob": "ea075821644db8d5a4fc360b6314a7af63916c04",
+        "last_combined_test_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "frozen_cli_build_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search-runtime/src/tests.rs": {
+        "published_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "git_blob": "3fbe2adc038b1491a4e7e1902b25c08ac3a80bcb",
+        "last_combined_test_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "frozen_cli_build_sha256": "86482bf92511945c89611ce0eeae2841888c40b089acf7e906db742959a6a6b2",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search/Cargo.toml": {
+        "published_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "git_blob": "9f781c04a696ef27b6474c49fdea905621320182",
+        "last_combined_test_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "frozen_cli_build_sha256": "72fc9abca2bcf9ab4471d3322cd971d1955be07795d557f2112675975559ab2b",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search/src/lib.rs": {
+        "published_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "git_blob": "dd2e602ad1f42eabe26ad31240fca2bb6a7b1641",
+        "last_combined_test_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "frozen_cli_build_sha256": "847a7bc11b14499dd7df1f74cb15018340f656d81b50c4b5907ad9e77482babb",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search/src/native_backend.rs": {
+        "published_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "git_blob": "3eff04345ef76ced05f28e2b97b46821a2f1df55",
+        "last_combined_test_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "frozen_cli_build_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search/src/native_backend_failure_tests.rs": {
+        "published_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "git_blob": "9158a3ff8895cc588c059df3e6eb345d7aefac51",
+        "last_combined_test_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "frozen_cli_build_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search/src/native_backend_session.rs": {
+        "published_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "git_blob": "a3edd0e09afdf59d03094245b3c7085744a5fe91",
+        "last_combined_test_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "frozen_cli_build_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "codex-rs/file-search/src/native_budget_tests.rs": {
+        "published_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "git_blob": "290b68131b022a4f72d8f31ad942be4a0865e6b4",
+        "last_combined_test_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "frozen_cli_build_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "same_as_last_combined_test": true,
+        "same_as_frozen_cli_build": true
+      },
+      "component-sdk/tests/file_search/README.md": {
+        "published_sha256": "7756a6f33382074cf872623166f2d188786d061006f72668358cc8192fc22567",
+        "git_blob": "af849b93a42262b765111068eaf280c2ce0baca3",
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      "component-sdk/tests/file_search/acceptance_support.py": {
+        "published_sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+        "git_blob": "61dd0d6934d16857d9f2bffd8a35027534446dab",
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      "component-sdk/tests/file_search/build_worker.py": {
+        "published_sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+        "git_blob": "0f905281b58ec6cf358d265609dae4037ee7b817",
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      "component-sdk/tests/file_search/cli_acceptance.py": {
+        "published_sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+        "git_blob": "85426c922993b304c98006c8ea6878a8782ffc0b",
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      "component-sdk/tests/file_search/lock_patch_normalization.py": {
+        "published_sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+        "git_blob": "d2880d939e819f9a517d1452230cd101d29e36af",
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      },
+      "component-sdk/tests/file_search/test_lock_patch_normalization.py": {
+        "published_sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6",
+        "git_blob": "9e49fcdc723ee2af1792318d07192432a546be8c",
+        "last_combined_test_sha256": null,
+        "frozen_cli_build_sha256": null,
+        "same_as_last_combined_test": null,
+        "same_as_frozen_cli_build": null
+      }
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-selected-cli-tested-source.tar.gz",
+      "sha256": "b077447af6c7d80e09c371a11f07f95e55e70803e3819d62d0ab09b7ac1bdb36",
+      "bytes": 195410,
+      "all57_payload_sha256_and_git_blob_identities_verified": true,
+      "durability": "cloud-local"
+    },
+    "note": "Pre-format test hashes remain distinct from final published source. The archive and all57 published file identities were independently checked; run baseline labels remain references only."
+  },
+  "runs": {
+    "native-worker-tests": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-worker-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T05:46:17Z",
+      "finished_utc": "2026-10-01T05:46:37Z",
+      "status": "finished",
+      "returncode": 100,
+      "scoped_source_unchanged": false,
+      "baseline_reference_only": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests.log",
+          "sha256": "495447302c7f959b9eabf67a2fcd4b5135656f0fc91621169d253379c64edffb",
+          "bytes": 8388
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests.source.json",
+          "sha256": "a5dd60599eb0c8f5d1ec63faea42fed8800623108d06f82038cad018becc1db7",
+          "bytes": 42842
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests.subreaper.json",
+          "sha256": "110e796791fc63ecd43d70d1d6fd17ee10f30b5c09178cecc2e2cf8515d4a7f0",
+          "bytes": 437
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 173,
+          "canonical_sha256": "14099beaadc21ce27f2041e16066aaf61a1aaa387e3d4f0bfabf330c94f9f400"
+        },
+        "after": {
+          "files": 173,
+          "canonical_sha256": "b5e0aadbb664c114f80eb2037cd3e620e05fd5151df4fe2e2b7ad41c234ba6c7"
+        }
+      },
+      "changes_during_command": {
+        "codex-rs/Cargo.lock": {
+          "before_sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "after_sha256": "647d0ad82f6be4132e408a45c832c69b9e19747dd5b4db0bb149d7d73a599b62"
+        }
+      },
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 100,
+        "exit_status": 100
+      },
+      "tests": {
+        "executed_unique_cases": 33,
+        "passed": 32,
+        "failed": 1,
+        "flaky": 0,
+        "skipped": 0,
+        "retries": "repository local profile (retries occurred)"
+      },
+      "interpretation": "Rejected: configuration accepted an unsupported non-object type; failed case attempted twice. Cargo.lock changed during compilation."
+    },
+    "native-worker-tests-corrected": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-worker-tests-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T05:47:13Z",
+      "finished_utc": "2026-10-01T05:47:18Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests-corrected.log",
+          "sha256": "09ba5ef5f7f5b5cd9f79169e62cb57f2de8c9031ab9fe3ad64f9a25da1460130",
+          "bytes": 6359
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests-corrected.source.json",
+          "sha256": "9c2fe1c27409e33d6afc9d64808cc9ed35f53df4188be4d81d5a9e68d7236b4c",
+          "bytes": 42849
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests-corrected.subreaper.json",
+          "sha256": "64c390c3144a38f1e458e7c0262fd20e957b167020df6e40b68fa6c7fdacf47b",
+          "bytes": 503
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 173,
+          "canonical_sha256": "3a9be1be5d93b96175781c59a6187413c6472ff3f038e131075daf74a4381c61"
+        },
+        "after": {
+          "files": 173,
+          "canonical_sha256": "3a9be1be5d93b96175781c59a6187413c6472ff3f038e131075daf74a4381c61"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "executed_unique_cases": 33,
+        "passed": 33,
+        "failed": 0,
+        "flaky": 1,
+        "skipped": 0,
+        "retries": "repository local profile (retries occurred)"
+      },
+      "interpretation": "Not accepted as a clean gate: all33 cases eventually passed, but actual native worker exhaustion first returned ClosedLease instead of ResourceExhausted; passed on retry."
+    },
+    "native-race-worker-regression": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-race-worker-regression.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search-component",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T05:59:19Z",
+      "finished_utc": "2026-10-01T05:59:28Z",
+      "status": "finished",
+      "returncode": 100,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-regression.log",
+          "sha256": "0af68149d6562a5d76d015e6a2c853112f50e470d4664674ce0c0296426299a7",
+          "bytes": 26433
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-regression.source.json",
+          "sha256": "749bb60c0724802b80d0d88df63cbdece2ce8f01bc26b83bdea180f93701448a",
+          "bytes": 43271
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-regression.subreaper.json",
+          "sha256": "e92a6376ddf29cf3a9f31610fe64f5b5e31075da3f5cd7810298e0c938ced401",
+          "bytes": 592
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 174,
+          "canonical_sha256": "182d12379106d0bf4b1c3b4c4baf32164d2f2334cbbd020f3581d80e58fd2110"
+        },
+        "after": {
+          "files": 174,
+          "canonical_sha256": "182d12379106d0bf4b1c3b4c4baf32164d2f2334cbbd020f3581d80e58fd2110"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 100,
+        "exit_status": 100
+      },
+      "tests": {
+        "executed_unique_cases": 177,
+        "passed": 174,
+        "failed": 3,
+        "flaky": 0,
+        "skipped": 0,
+        "retries": 0
+      },
+      "interpretation": "Three new deterministic fixture failures before intended error gate: initial indexed-root snapshot exceeded the incorrect8-byte cap. Product fix and six native-process cases passed their checks."
+    },
+    "native-race-worker-corrected": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-race-worker-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "--success-output",
+        "immediate",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search-component",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:06:48Z",
+      "finished_utc": "2026-10-01T06:06:54Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-corrected.log",
+          "sha256": "ee44702409b1b276b0e239c20fa70d8815c06e99dcc9396717dfc4bd398a1c2f",
+          "bytes": 73948
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-corrected.source.json",
+          "sha256": "ce863e673d61e31347ae566ba05b103e03abee1bf7830cef33ee36ab9163ba63",
+          "bytes": 43309
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-corrected.subreaper.json",
+          "sha256": "51c6f4afd440195b41928c3c491d902bf65e89a50d34702e78e009751c576ac4",
+          "bytes": 619
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 174,
+          "canonical_sha256": "8154402ef0d41b2a7c02bbf9271e3b07b73a018520a5d6e522bb5dd440b66a5d"
+        },
+        "after": {
+          "files": 174,
+          "canonical_sha256": "8154402ef0d41b2a7c02bbf9271e3b07b73a018520a5d6e522bb5dd440b66a5d"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "executed_unique_cases": 178,
+        "passed": 178,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "retries": 0
+      },
+      "interpretation": "Accepted focused no-retry gate; corrected root-output fixture plus real allocation-profile test."
+    },
+    "native-race-worker-stress": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-race-worker-stress.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "--stress-count",
+        "50",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search",
+        "-E",
+        "test(exhausted_native_index_is_failure_with_joined_cleanup_not_a_partial_idle) | test(native_backend::failure_tests)"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:07:11Z",
+      "finished_utc": "2026-10-01T06:07:14Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-stress.log",
+          "sha256": "0fd0b643897d0589030361a5f0b028892ec87fd055f284ce0b0670a971479b86",
+          "bytes": 41493
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-stress.source.json",
+          "sha256": "6936a9e242c8a61f99799d72f229dd6e482ee2506addeae06be7a667f5e7309e",
+          "bytes": 43291
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-stress.subreaper.json",
+          "sha256": "9d0f0d8160ecfc3452e62193b4d33bd606bb4ac0a81100244a8d3b5f49182868",
+          "bytes": 605
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 174,
+          "canonical_sha256": "8154402ef0d41b2a7c02bbf9271e3b07b73a018520a5d6e522bb5dd440b66a5d"
+        },
+        "after": {
+          "files": 174,
+          "canonical_sha256": "8154402ef0d41b2a7c02bbf9271e3b07b73a018520a5d6e522bb5dd440b66a5d"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "selected_cases": 4,
+        "iterations": 50,
+        "executions": 200,
+        "passed": 200,
+        "failed": 0,
+        "retries": 0,
+        "filtered_cases_per_iteration": 86,
+        "note": "Filtered cases are not executions."
+      }
+    },
+    "runtime-cause-pacing": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-runtime-cause-pacing.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:04:43Z",
+      "finished_utc": "2026-10-01T06:04:46Z",
+      "status": "finished",
+      "returncode": 101,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-runtime-cause-pacing.log",
+          "sha256": "cc79dd44f7b258e51ded77465ab5f105d6b0f550e36e35e67fceaadbb8db7f04",
+          "bytes": 15114
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-runtime-cause-pacing.source.json",
+          "sha256": "dc846c7cae7f9c3d882fc2dd5f1e82b9d3ca14ae61e5804e0b9a74a134adc274",
+          "bytes": 7068
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-runtime-cause-pacing.subreaper.json",
+          "sha256": "cb230e6b23f4f6d486ba120bb7709832f381e49fa7e7e19cd2d8c3f2a1a0851b",
+          "bytes": 413
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 27,
+          "canonical_sha256": "446f7dbb687e61fddd0a5b23ce7f4a4a5e1f3808fcad16a4b82db4568f5c3fe6"
+        },
+        "after": {
+          "files": 27,
+          "canonical_sha256": "446f7dbb687e61fddd0a5b23ce7f4a4a5e1f3808fcad16a4b82db4568f5c3fe6"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 101,
+        "exit_status": 101
+      },
+      "tests": {
+        "executed_unique_cases": 0,
+        "compile_diagnostics": 17,
+        "diagnostics": {
+          "E0433_missing_FileSearchProvider_import": 2,
+          "E0659_ambiguous_assert_eq_macro": 15
+        }
+      }
+    },
+    "runtime-cause-pacing-corrected": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-runtime-cause-pacing-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:05:12Z",
+      "finished_utc": "2026-10-01T06:05:15Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-runtime-cause-pacing-corrected.log",
+          "sha256": "d12f931af2c78e55e7317f5363fd00ec5a84463b63f782202f09ac1f467ddb72",
+          "bytes": 3057
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-runtime-cause-pacing-corrected.source.json",
+          "sha256": "44935e085d028b278a6ed82fbc0c95b8673b95a618d898b85e83f992b6b318e3",
+          "bytes": 7076
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-runtime-cause-pacing-corrected.subreaper.json",
+          "sha256": "c23dfd5615957988bd1cc8decd8799452fc773e8b39aeac36cb81ad5d2e49557",
+          "bytes": 399
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 27,
+          "canonical_sha256": "b465f49ec37b04d1a4a3340533d0e1242ae8e5c1a4497170cfa5be823d93e3a1"
+        },
+        "after": {
+          "files": 27,
+          "canonical_sha256": "b465f49ec37b04d1a4a3340533d0e1242ae8e5c1a4497170cfa5be823d93e3a1"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "executed_unique_cases": 18,
+        "passed": 18,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "retries": 0
+      }
+    },
+    "selected-cli-tests": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-selected-cli-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:16:13Z",
+      "finished_utc": "2026-10-01T06:16:28Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-cli-tests.log",
+          "sha256": "0a30ae07a6baf516dcf5c380f4e284f2876f9c1b326354f9ea871176aa802bc3",
+          "bytes": 5563
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-tests.source.json",
+          "sha256": "76d0a8c65badc7fda14037eb42ea0ce75d0544be449d84831197c5d9266a59c2",
+          "bytes": 47097
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-tests.subreaper.json",
+          "sha256": "8be3c8374c87c06a2cabda3b5dccc6c83f8bb63cac7b5487d96459028d4e9bbd",
+          "bytes": 397
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 191,
+          "canonical_sha256": "d3629095868fe59c2645d1627326cd97cb5e8cca9f81372ce89cba6426e10a5b"
+        },
+        "after": {
+          "files": 191,
+          "canonical_sha256": "97095f0b8415d055847357c1dbdb35d3527d41cd08927fd14f63c9f17c29d03d"
+        }
+      },
+      "changes_during_command": {
+        "codex-rs/Cargo.lock": {
+          "before_sha256": "9d1b163ea105056c2cbd0b765e8a61d1fab3627345fef47ef889094b718870d7",
+          "after_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06"
+        }
+      },
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "executed_unique_cases": 32,
+        "passed": 32,
+        "failed": 0,
+        "flaky": 0,
+        "skipped": 0,
+        "retries": 0
+      },
+      "interpretation": "32 cases passed without retries; only Cargo.lock changed. Rust/test source fingerprints stayed stable; not labeled wholly unchanged."
+    },
+    "native-race-worker-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:07:41Z",
+      "finished_utc": "2026-10-01T06:07:51Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-fix.log",
+          "sha256": "f873c9dcc603dc4197c95a69ee29f51e1c64ff70f511f5089da93891683536c4",
+          "bytes": 946
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-race-worker-fix.source.json",
+          "sha256": "9e7acad3a493fe8d5e60d8907aab961f2289c61341909a97a7075a9c3613cca3",
+          "bytes": 16199
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 64,
+          "canonical_sha256": "fdcdbdc3958f0c24bd33bd2c9f0727839f412658d96db60c05d22cc48a90d5e2"
+        },
+        "after": {
+          "files": 64,
+          "canonical_sha256": "fdcdbdc3958f0c24bd33bd2c9f0727839f412658d96db60c05d22cc48a90d5e2"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "runtime-facade-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-runtime"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T05:52:08Z",
+      "finished_utc": "2026-10-01T05:52:11Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-runtime-facade-fix.log",
+          "sha256": "2a7b9e8968ffe7f1646f53e38e9228d4fa3a2c999e5a96517b3dc67bcc3bb4ab",
+          "bytes": 290
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-runtime-facade-fix.source.json",
+          "sha256": "1c7dbf3c4165658a109c7f58f091ff6531abb0ce991ff6efac666f578dea741d",
+          "bytes": 3712
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 13,
+          "canonical_sha256": "efb831247a0cc21bcd18d46026cb349bef5a5e81683e5812f132691237e14cd2"
+        },
+        "after": {
+          "files": 13,
+          "canonical_sha256": "efb831247a0cc21bcd18d46026cb349bef5a5e81683e5812f132691237e14cd2"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "native-runtime-format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:09:05Z",
+      "finished_utc": "2026-10-01T06:09:24Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-runtime-format.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-native-runtime-format.source.json",
+          "sha256": "079350f7a21507de5a05426a63a89069dc2190818c1156667f097233623deed4",
+          "bytes": 31990
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 130,
+          "canonical_sha256": "8b2b570e60940347d1360714e30573b1b1ff3a028b062f585b0315435bf33d43"
+        },
+        "after": {
+          "files": 130,
+          "canonical_sha256": "2497368ed394ffaa7552054ca8bef94f161cfd6f17185a57326ac6d4c40f256f"
+        }
+      },
+      "changes_during_command": {
+        "codex-rs/file-search-runtime/src/callback_tests.rs": {
+          "before_sha256": "d91070fec505f806afcde1b104cc2776916ccf615117e13ef529d2ad1cffb741",
+          "after_sha256": "b65d5783d57c48e8c81552eaca5d21a8333cccfb23003d4ef3b61c7adbfa7813"
+        },
+        "codex-rs/file-search-runtime/src/cause_race_tests.rs": {
+          "before_sha256": "8c7fe85d6a2fbe89f13a2f09f2d3e2d434362f532e6d6f0ca86bbbc7b54d1f84",
+          "after_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a"
+        },
+        "codex-rs/file-search-runtime/src/lib.rs": {
+          "before_sha256": "cd824acf72d7d8e35b1f43111273127e67ce482236e7b254b33eae196f74caba",
+          "after_sha256": "a28ccda24968e7135f86de3d69020bc4eb05b9e1ee0c7a10e920ef74421e45b1"
+        },
+        "codex-rs/file-search-runtime/src/observation.rs": {
+          "before_sha256": "1d8ab512471e2662a505075853b57a95e64a5407bd551ab7cc23e168c5410ed8",
+          "after_sha256": "6c6d01e1780971f9a64a033e69b2c2703916d3ff47968b33297fbbdd3234caaa"
+        },
+        "codex-rs/file-search-runtime/src/policy.rs": {
+          "before_sha256": "488012390dadb9a2b3c6a542741361f09c111058b1f3f7853b2e850cd516b914",
+          "after_sha256": "53f1a7672da5d1defac1268512bb32e96e3773b2e4964ecc4d0758ca22032091"
+        },
+        "codex-rs/file-search-runtime/src/provider.rs": {
+          "before_sha256": "d778ca6637931930b5ed534bc5596ae388049ee90aa2b7dd4ab6618b1f1cc5de",
+          "after_sha256": "a12bd7f561ef1757cee5ce508b6767a4c77f05391ec830b6dccd2d50894a93ba"
+        },
+        "codex-rs/file-search-runtime/src/scope.rs": {
+          "before_sha256": "fcf89edafe1e9631d66387efcf098f7c5a57dc3fded520d27e20d5a89adb62f1",
+          "after_sha256": "02e997ee485011d68cc31bbd2bc21e00154a3137af039c09b7171340db4b5af2"
+        },
+        "codex-rs/file-search-runtime/src/session.rs": {
+          "before_sha256": "43522c350899d36386488d8ff75e71a2d18c1ce2e5d6ecf22b9f476f82243b88",
+          "after_sha256": "86076478035e0e11d406e9420f68079c468bb8a725ea99c48b2a55994629a5ad"
+        },
+        "codex-rs/file-search-runtime/src/startup.rs": {
+          "before_sha256": "50afb4ebf5d2b997c00a3ebf0eec4ec33252c97c36df73fe97c78b29146d9097",
+          "after_sha256": "db220d6a9b2c0e92b71789975e408de2e92d988baa4ebb670ec4cfc174d6b375"
+        },
+        "codex-rs/file-search-runtime/src/state.rs": {
+          "before_sha256": "e29c72603fdbd5b47f53bfd1b03143e329f1b9d1c3a97f82d30cdc58c0e13ab6",
+          "after_sha256": "9e661318948ea244f286076185c3fad693e9f90893cc584b62b05eef90ba74bc"
+        },
+        "codex-rs/file-search-runtime/src/test_support.rs": {
+          "before_sha256": "cccf986448167301c1976b6e1485101c1b15467d9d8ab65af7bab585fd13da2a",
+          "after_sha256": "dec7753897e19093af8679c23aafaee8723e068d78bd0d2920ded94382871d9f"
+        },
+        "codex-rs/file-search-runtime/src/tests.rs": {
+          "before_sha256": "d730ca633519142b8d4756bbda1f46da1b55d8d7dc52a32ae9d3e855d7ca2833",
+          "after_sha256": "f3ab2cf22f6e2d97b0988113971ad0940e4c741efe0ab0225d70a6239362922d"
+        },
+        "codex-rs/file-search/src/native_backend_failure_tests.rs": {
+          "before_sha256": "4234652156f6d262ff4ea42952d7cb72721e557c7d0fa88904539f483c9a1d87",
+          "after_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209"
+        },
+        "codex-rs/file-search/src/native_backend_session.rs": {
+          "before_sha256": "b57ca2154f2faa6ca3da5772b18db6b9daec41e66e63a226e2ec02db2e2aae5b",
+          "after_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe"
+        },
+        "codex-rs/file-search/src/native_budget_tests.rs": {
+          "before_sha256": "697b95ac3f3de4c9761de88ec388eebb2edcccfa89f205eacc8357b159152f64",
+          "after_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c"
+        }
+      }
+    },
+    "selected-cli-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:16:41Z",
+      "finished_utc": "2026-10-01T06:16:49Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-cli-fix.log",
+          "sha256": "6f5983bd3f208b51502cc1109fa662e2fc854d6466afb043534f44c4079e0568",
+          "bytes": 750
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-fix.source.json",
+          "sha256": "c5bcbcdf509e95f1fa596e047068ce4b3ccc6287343d83412daea0ff9345a5a4",
+          "bytes": 13475
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 54,
+          "canonical_sha256": "c10de69195e69bc191e5a35074e6583b2ff8b2bd46c53a689c501743d4b89b58"
+        },
+        "after": {
+          "files": 54,
+          "canonical_sha256": "c10de69195e69bc191e5a35074e6583b2ff8b2bd46c53a689c501743d4b89b58"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "selected-cli-format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:17:57Z",
+      "finished_utc": "2026-10-01T06:18:17Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-cli-format.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-format.source.json",
+          "sha256": "6e6bc5c4c268a62c560974af679ef4543e940ac37fb67aa81ef05cad4ea55d08",
+          "bytes": 21656
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 87,
+          "canonical_sha256": "3642d7f80a01cf461a18d6fd5f8cdfa1bb0bdcd05acf11732955ce10d5d3a6f5"
+        },
+        "after": {
+          "files": 87,
+          "canonical_sha256": "af49b13fb7ac27be1e3eff8f5e489cd89efc4f4ed273c29686ad464a05eab97d"
+        }
+      },
+      "changes_during_command": {
+        "codex-rs/file-search-runtime/src/cli.rs": {
+          "before_sha256": "4ce6cf21e31b06385bec744bec8bc2b3303207bf2709862782f0258a44db6663",
+          "after_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0"
+        },
+        "codex-rs/file-search-runtime/src/cli_lifecycle_tests.rs": {
+          "before_sha256": "ff7f8a0b62874dadea50ecb9da009b74a7e143e853ab0094b2ad6fcd65ba4b70",
+          "after_sha256": "620f05fdc9830395a60ba1b49348f68b0ca72a69d85e07efac66682a776ff660"
+        },
+        "codex-rs/file-search-runtime/src/cli_reporter.rs": {
+          "before_sha256": "0d9faab7b287d1273a412a4ec1764aba7c866a9d01e6102556d59e2bf2245c47",
+          "after_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73"
+        },
+        "codex-rs/file-search-runtime/src/main.rs": {
+          "before_sha256": "bc256519a13a6add86fa626028c0b07342297e4341fd6379f56fb5064d9bc539",
+          "after_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd"
+        },
+        "codex-rs/file-search-runtime/src/selection.rs": {
+          "before_sha256": "026cc05d2494db6e9694229fb63e11d702d39a27db17e4e00d8e0aa03a4ca236",
+          "after_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3"
+        },
+        "codex-rs/file-search-runtime/src/selection_guard.rs": {
+          "before_sha256": "12d42db8c60490a6ff4dd81859ed590f04100e01e5912bdbe13806318b080815",
+          "after_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff"
+        },
+        "codex-rs/file-search-runtime/src/selection_policy.rs": {
+          "before_sha256": "ed1367ee6e059101f4348c849667021b993f4828bfae49234342702c6e92998d",
+          "after_sha256": "7e79794bf0900d12a7aaccbbb21431c39bca803984617272c41ce69efeaf9632"
+        },
+        "codex-rs/file-search-runtime/src/selection_tests.rs": {
+          "before_sha256": "71dff1a6d05f4a0e67ea9c47af552b8ccc749f2b821a92592f62d016ea8c0921",
+          "after_sha256": "935a9fc1023d21d6324ada47ddbf5bedc12123b69c4ef6c0ba66adf97e877683"
+        },
+        "codex-rs/file-search-runtime/src/standalone_policy.rs": {
+          "before_sha256": "c492f1675f1d0ca681cb904dd31d15dc4852dd9d9c5078046e61d476b00c223d",
+          "after_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e"
+        }
+      }
+    },
+    "selected-cli-bazel-lock": {
+      "command": [
+        "just",
+        "bazel-lock-update"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:18:17Z",
+      "finished_utc": "2026-10-01T06:18:19Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-cli-bazel-lock.log",
+          "sha256": "f1ca94ea55bdab7a234ec3eae37ef4df4e639f6af20989fa0d5c68a6b60df0fb",
+          "bytes": 2017
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-bazel-lock.source.json",
+          "sha256": "fae43010c6d42c315399f86c3913399a1380c7d8a5c0b46fa4847ea845ebae97",
+          "bytes": 1157
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 3,
+          "canonical_sha256": "5c476b6604d87f3c65353929e089d43c1c17be36dd422e870382def9df53f837"
+        },
+        "after": {
+          "files": 3,
+          "canonical_sha256": "5c476b6604d87f3c65353929e089d43c1c17be36dd422e870382def9df53f837"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "manager-build": {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "codex-component-host",
+        "--bin",
+        "codex-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:10:36Z",
+      "finished_utc": "2026-10-01T06:10:39Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-manager-build.log",
+          "sha256": "2341c5a0dc44ae0f8de33c1836d734d36c2bce2bb4b871e1e2df0be0fc97730f",
+          "bytes": 173
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-manager-build.source.json",
+          "sha256": "60b234590e85261eb9c8abf322fba3e5c58ac0fcd54de512537dfc7988e0ff42",
+          "bytes": 15044
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 60,
+          "canonical_sha256": "f74fa92aa685ea6e79ba703232ba7df7bf594e3e6596c33a7df53f8c5c406119"
+        },
+        "after": {
+          "files": 60,
+          "canonical_sha256": "f74fa92aa685ea6e79ba703232ba7df7bf594e3e6596c33a7df53f8c5c406119"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "selected-cli-build": {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "codex-file-search-runtime",
+        "--bin",
+        "codex-file-search"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:19:05Z",
+      "finished_utc": "2026-10-01T06:19:08Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-cli-build.log",
+          "sha256": "03e4ca7e0a6c45be3b0a70be451b9d5feacc44fd58702840dc38266469b9a10d",
+          "bytes": 290
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-build.source.json",
+          "sha256": "f6cb3338165d5b903b2121aef3831c1a7f74555abec677a76c2ad56c17480c05",
+          "bytes": 46737
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 190,
+          "canonical_sha256": "8063576fa94f093d4c12540c6dac381e9d076b70db0f6f35f2e1afa58de95a3e"
+        },
+        "after": {
+          "files": 190,
+          "canonical_sha256": "8063576fa94f093d4c12540c6dac381e9d076b70db0f6f35f2e1afa58de95a3e"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "facade-startup-cancellation": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-facade-startup-cancellation.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:27:21Z",
+      "finished_utc": "2026-10-01T06:27:30Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-facade-startup-cancellation.log",
+          "sha256": "48fb271732445e22363ed8a9f367614d3ee939076b5aa7b7ae675d085935ae72",
+          "bytes": 5632
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-facade-startup-cancellation.source.json",
+          "sha256": "b5d3a2b9915552234c7a38106dcfee7c6e1feb67438c16143158d863bd61eb03",
+          "bytes": 9573
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-facade-startup-cancellation.subreaper.json",
+          "sha256": "7b83622cf02b2cd501cf0fc86120beceff02e8c944f867bcd18b6c408c29d74b",
+          "bytes": 398
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 37,
+          "canonical_sha256": "abce0915ac59304760baed84579b067cbcf18ddc5bba94a0552d3fadbda2d861"
+        },
+        "after": {
+          "files": 37,
+          "canonical_sha256": "abce0915ac59304760baed84579b067cbcf18ddc5bba94a0552d3fadbda2d861"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "executed_unique_cases": 35,
+        "passed": 35,
+        "failed": 0,
+        "skipped": 0,
+        "retries": 0
+      },
+      "interpretation": "Exploratory only: 35 cases passed and 37 recorded paths were unchanged, but concurrent dependency edits were not fully captured; not a complete immutable dependency-source gate.",
+      "acceptance_status": "exploratory_not_source_complete"
+    },
+    "selected-startup-regression": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-selected-startup-regression.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search-local-plugin",
+        "-p",
+        "codex-file-search-component",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:30:00Z",
+      "finished_utc": "2026-10-01T06:30:21Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-startup-regression.log",
+          "sha256": "dc230099ed5a7d77f6c44232c879a0297dbc846058dfe5b797fc8892a3b545d3",
+          "bytes": 29768
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-startup-regression.source.json",
+          "sha256": "e5523ae7aad2163409290930d6afd6c55f8d3106efae10dcad3bd4c4ea1a3b29",
+          "bytes": 50360
+        },
+        "subreaper_report": {
+          "path": "/workspace/acceptance/p02b-selected-startup-regression.subreaper.json",
+          "sha256": "3ad85340723b82b73c4aeaf2d874906f4d01f7fa93c9705d8f97aa56e377e7dd",
+          "bytes": 622
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 203,
+          "canonical_sha256": "c208b6aed005c7713ae202004661e4b1764c289e6c3517b43b885b2b7833d70a"
+        },
+        "after": {
+          "files": 203,
+          "canonical_sha256": "c208b6aed005c7713ae202004661e4b1764c289e6c3517b43b885b2b7833d70a"
+        }
+      },
+      "changes_during_command": {},
+      "subreaper": {
+        "subreaper": true,
+        "runner_error": null,
+        "command_returncode": 0,
+        "exit_status": 0
+      },
+      "tests": {
+        "executed_unique_cases": 222,
+        "passed": 222,
+        "failed": 0,
+        "skipped": 0,
+        "retries": 0
+      },
+      "interpretation": "Accepted focused combined gate: 222/222 passed without retries, 203 scoped source files unchanged; includes native/API/component/service/process/runtime and vendor regressions.",
+      "acceptance_status": "passed_focused_gate"
+    },
+    "selected-startup-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-runtime",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:30:55Z",
+      "finished_utc": "2026-10-01T06:31:02Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-startup-fix.log",
+          "sha256": "f34a08830af247b02cfbb286d587291b6e6fa2827d31c4b9a0c11d51fb4a1f04",
+          "bytes": 358
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-startup-fix.source.json",
+          "sha256": "e2e924576c93360aa9141895deefc1bf7c256e8bda310d64652a6f4db6414c12",
+          "bytes": 13463
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 52,
+          "canonical_sha256": "232920c81d6554e0b3bd977bc46eb0b2a1ef158880485f2d9ce4f3861bbb5510"
+        },
+        "after": {
+          "files": 52,
+          "canonical_sha256": "232920c81d6554e0b3bd977bc46eb0b2a1ef158880485f2d9ce4f3861bbb5510"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "selected-startup-format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:31:02Z",
+      "finished_utc": "2026-10-01T06:31:22Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-startup-format.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-startup-format.source.json",
+          "sha256": "cbfd42dd37c6cb357c6600627a714cc8cf2badeb5e2292fa7cab8c57d8291205",
+          "bytes": 14364
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 56,
+          "canonical_sha256": "e49c7ac0396743bdbc4cea2de282368edcbce254e59c05c6bf10beb07238be6b"
+        },
+        "after": {
+          "files": 56,
+          "canonical_sha256": "c233aaaa39b014703662a8534f9e883a28f96fd80fdf36d254ec27655a8dd46b"
+        }
+      },
+      "changes_during_command": {
+        "codex-rs/file-search-component/src/process_startup_tests.rs": {
+          "before_sha256": "b254078aee343043d9b62f059c4c392b783154e6226866cf25f12f4d5e52a221",
+          "after_sha256": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd"
+        },
+        "codex-rs/file-search-component/src/service_startup_tests.rs": {
+          "before_sha256": "d274447cac915bf07aec7ca1b9df0eeb935812787666d966a920a9da6a6b5340",
+          "after_sha256": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f"
+        },
+        "codex-rs/file-search-runtime/src/session.rs": {
+          "before_sha256": "d11745679f0c62185c50c667c67748206954ae4d3acb36436b9d3766d49ce0a6",
+          "after_sha256": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc"
+        },
+        "codex-rs/file-search-runtime/src/startup.rs": {
+          "before_sha256": "9b2312b4bd671c2b49865490ab85bfa47a495654f13a98e537215c3247326e64",
+          "after_sha256": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba"
+        },
+        "codex-rs/file-search-runtime/src/startup_cancel_tests.rs": {
+          "before_sha256": "52d5793f7c918514a525d1a4cf9e061b70568b9c67f09144fff7bc07103f0240",
+          "after_sha256": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188"
+        },
+        "component-sdk/tests/file_search/acceptance_support.py": {
+          "before_sha256": "ec7aa4522d7bc852d6e0190ee612056d9460baf962d2442001fdecd83e1af07c",
+          "after_sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194"
+        },
+        "component-sdk/tests/file_search/build_worker.py": {
+          "before_sha256": "fda44bf87771d1ceffe9a10b6e11c3aa5d872136f35ac7f9c9c088642eea213e",
+          "after_sha256": "f9d059899059bd3bbe10e754e20b0543d20ca2e1e66ea116bc3037e157236f1d"
+        },
+        "component-sdk/tests/file_search/cli_acceptance.py": {
+          "before_sha256": "a3edcf6701f8134b8780e8868fac94a83bd6159e69556f93229127746e9ce40a",
+          "after_sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d"
+        }
+      }
+    },
+    "selected-cli-build-02": {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "codex-file-search-runtime",
+        "--bin",
+        "codex-file-search"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:31:22Z",
+      "finished_utc": "2026-10-01T06:31:28Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "log": {
+          "path": "/workspace/acceptance/p02b-selected-cli-build-02.log",
+          "sha256": "764b314b81ec9ff9b587adafcf8270f1d9a7b24cae18eeeb06e6acd76c773816",
+          "bytes": 310
+        },
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-selected-cli-build-02.source.json",
+          "sha256": "49f40d7f9c1a00acc5b6ab19897bb1f12902cab04fff52f6482415fcd38a69bf",
+          "bytes": 47541
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 193,
+          "canonical_sha256": "fb7275ab190637c6b8f2cbba310cc57862ff82e6188c17cf3ff6291813226b60"
+        },
+        "after": {
+          "files": 193,
+          "canonical_sha256": "fb7275ab190637c6b8f2cbba310cc57862ff82e6188c17cf3ff6291813226b60"
+        }
+      },
+      "changes_during_command": {}
+    },
+    "external-lock-format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T06:44:22Z",
+      "finished_utc": "2026-10-01T06:44:41Z",
+      "status": "finished",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "baseline_reference_only": "562554acf45a39cb82cd62df65cf3b6627dc9011",
+      "artifacts": {
+        "source_report": {
+          "path": "/workspace/acceptance/p02b-external-lock-format.source.json",
+          "sha256": "95d5b03b1cba66898e073a6354cf8e1d5e3e45046f6fa81904e3884421bbd75c",
+          "bytes": 2116
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-external-lock-format.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      "source_snapshots": {
+        "before": {
+          "files": 6,
+          "canonical_sha256": "69800fdc9119c1d2d371d74f6a9863f19241c75f491def1205575da598b21c97"
+        },
+        "after": {
+          "files": 6,
+          "canonical_sha256": "c68bf3bdb1e8a517126bcff9bd76e93de21043dfd89cf25b028c59031a35ac5c"
+        }
+      },
+      "changes_during_command": {
+        "component-sdk/tests/file_search/build_worker.py": {
+          "before_sha256": "96a81575f181327bc1107a0a846a301c3ac10862e66f62ca6bc6c899c6405b9e",
+          "after_sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609"
+        },
+        "component-sdk/tests/file_search/lock_patch_normalization.py": {
+          "before_sha256": "4a6e87fffb1359eb4eed014a5cdc1351375d7dc716ab8592cd39fc4547c6ebb8",
+          "after_sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7"
+        },
+        "component-sdk/tests/file_search/test_lock_patch_normalization.py": {
+          "before_sha256": "bfc0d46964f66f3c79b6df3f55a2d8c8b97fb81ffae48ae4e12ff60142a7683c",
+          "after_sha256": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6"
+        }
+      }
+    }
+  },
+  "between_run_transitions": [
+    {
+      "from_run": "native-worker-tests",
+      "to_run": "native-worker-tests-corrected",
+      "reason": "Require object or null before native plugin config deserialization; unchanged invalid-type assertion.",
+      "source_changes": {
+        "codex-rs/file-search-local-plugin/src/policy.rs": {
+          "before_sha256": "6687d821953a5fa27b3b68ac30539b1f47d8663d3b6e7b02788932e45572ad2a",
+          "after_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1"
+        }
+      }
+    },
+    {
+      "from_run": "native-race-worker-regression",
+      "to_run": "native-race-worker-corrected",
+      "reason": "Account actual root Directory FileMatch and root OS bytes; exceed that cap only after gate. Add actual native allocation-profile diagnostic.",
+      "source_changes": {
+        "codex-rs/file-search/src/native_backend_failure_tests.rs": {
+          "before_sha256": "8a8e4d85dcdd3ef5e6ecf2d5ae1c436988fda244b77bcb7a820b5ff781ff1f86",
+          "after_sha256": "4234652156f6d262ff4ea42952d7cb72721e557c7d0fa88904539f483c9a1d87"
+        },
+        "codex-rs/file-search/src/native_budget_tests.rs": {
+          "before_sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "after_sha256": "697b95ac3f3de4c9761de88ec388eebb2edcccfa89f205eacc8357b159152f64"
+        }
+      }
+    },
+    {
+      "from_run": "runtime-cause-pacing",
+      "to_run": "runtime-cause-pacing-corrected",
+      "reason": "Correct test imports only: FileSearchProvider and explicit pretty_assertions::assert_eq.",
+      "source_changes": {
+        "codex-rs/file-search-runtime/src/cause_race_tests.rs": {
+          "before_sha256": "0f66097631118a9c783787e316f1764934039b2b2a6c43f027963cc027580139",
+          "after_sha256": "8c7fe85d6a2fbe89f13a2f09f2d3e2d434362f532e6d6f0ca86bbbc7b54d1f84"
+        }
+      }
+    }
+  ],
+  "source_identity": {
+    "canonical_snapshot_encoding": "SHA256 of UTF-8 json.dumps(path_to_sha256_map,sort_keys=True,separators=(comma,colon)); original full maps retained in referenced reports",
+    "selected_file_bindings": {
+      "component-sdk/tests/subreaper_runner.py": {
+        "current_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "recorded_versions": [
+          {
+            "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected",
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "runtime-cause-pacing",
+              "runtime-cause-pacing-corrected",
+              "selected-cli-tests"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search/src/native_backend.rs": {
+        "current_sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+        "recorded_versions": [
+          {
+            "sha256": "43597ad7a7800caf4978a8a05bab6662e450c6cc505f54314f7c3d49645f7848",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected"
+            ]
+          },
+          {
+            "sha256": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+            "after_runs": [
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "selected-cli-tests",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search/src/native_backend_session.rs": {
+        "current_sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+        "recorded_versions": [
+          {
+            "sha256": "17fbbb979fc77ead48d802b21519f17e0e1e54252d7ae848e7f9074cacf13b6f",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected"
+            ]
+          },
+          {
+            "sha256": "b57ca2154f2faa6ca3da5772b18db6b9daec41e66e63a226e2ec02db2e2aae5b",
+            "after_runs": [
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "native-race-worker-fix"
+            ]
+          },
+          {
+            "sha256": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+            "after_runs": [
+              "selected-cli-tests",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search/src/native_backend_failure_tests.rs": {
+        "current_sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+        "recorded_versions": [
+          {
+            "sha256": "8a8e4d85dcdd3ef5e6ecf2d5ae1c436988fda244b77bcb7a820b5ff781ff1f86",
+            "after_runs": [
+              "native-race-worker-regression"
+            ]
+          },
+          {
+            "sha256": "4234652156f6d262ff4ea42952d7cb72721e557c7d0fa88904539f483c9a1d87",
+            "after_runs": [
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "native-race-worker-fix"
+            ]
+          },
+          {
+            "sha256": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+            "after_runs": [
+              "selected-cli-tests",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search/src/native_budget_tests.rs": {
+        "current_sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+        "recorded_versions": [
+          {
+            "sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected",
+              "native-race-worker-regression"
+            ]
+          },
+          {
+            "sha256": "697b95ac3f3de4c9761de88ec388eebb2edcccfa89f205eacc8357b159152f64",
+            "after_runs": [
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "native-race-worker-fix"
+            ]
+          },
+          {
+            "sha256": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+            "after_runs": [
+              "selected-cli-tests",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search/src/native_output.rs": {
+        "current_sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+        "recorded_versions": [
+          {
+            "sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected",
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "selected-cli-tests",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search/src/native_index.rs": {
+        "current_sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+        "recorded_versions": [
+          {
+            "sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected",
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "selected-cli-tests",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-local-plugin/src/policy.rs": {
+        "current_sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+        "recorded_versions": [
+          {
+            "sha256": "6687d821953a5fa27b3b68ac30539b1f47d8663d3b6e7b02788932e45572ad2a",
+            "after_runs": [
+              "native-worker-tests"
+            ]
+          },
+          {
+            "sha256": "928f3f4272b2a2ef382a86d3b54f9f2e11bfa4fb65c94db933701f4491f110a1",
+            "after_runs": [
+              "native-worker-tests-corrected",
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-format"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-local-plugin/src/main.rs": {
+        "current_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "recorded_versions": [
+          {
+            "sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected",
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-format"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-local-plugin/tests/native_process.rs": {
+        "current_sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+        "recorded_versions": [
+          {
+            "sha256": "d61ab67fac43c97b446604a940b99523107663c291e69c6f694bd1a89da7bd83",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected",
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-format"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/Cargo.toml": {
+        "current_sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+        "recorded_versions": [
+          {
+            "sha256": "21988c00311199ff4c1a16806cb6d2a8afbc0340139caacd762608cfc3f34ec7",
+            "after_runs": [
+              "runtime-cause-pacing",
+              "runtime-cause-pacing-corrected",
+              "runtime-facade-fix",
+              "native-runtime-format"
+            ]
+          },
+          {
+            "sha256": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/selection.rs": {
+        "current_sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+        "recorded_versions": [
+          {
+            "sha256": "026cc05d2494db6e9694229fb63e11d702d39a27db17e4e00d8e0aa03a4ca236",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix"
+            ]
+          },
+          {
+            "sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+            "after_runs": [
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/selection_guard.rs": {
+        "current_sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+        "recorded_versions": [
+          {
+            "sha256": "12d42db8c60490a6ff4dd81859ed590f04100e01e5912bdbe13806318b080815",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix"
+            ]
+          },
+          {
+            "sha256": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+            "after_runs": [
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/standalone_policy.rs": {
+        "current_sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+        "recorded_versions": [
+          {
+            "sha256": "c492f1675f1d0ca681cb904dd31d15dc4852dd9d9c5078046e61d476b00c223d",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix"
+            ]
+          },
+          {
+            "sha256": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+            "after_runs": [
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/cli.rs": {
+        "current_sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+        "recorded_versions": [
+          {
+            "sha256": "4ce6cf21e31b06385bec744bec8bc2b3303207bf2709862782f0258a44db6663",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix"
+            ]
+          },
+          {
+            "sha256": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+            "after_runs": [
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/cli_reporter.rs": {
+        "current_sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+        "recorded_versions": [
+          {
+            "sha256": "0d9faab7b287d1273a412a4ec1764aba7c866a9d01e6102556d59e2bf2245c47",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix"
+            ]
+          },
+          {
+            "sha256": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+            "after_runs": [
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/main.rs": {
+        "current_sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+        "recorded_versions": [
+          {
+            "sha256": "bc256519a13a6add86fa626028c0b07342297e4341fd6379f56fb5064d9bc539",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix"
+            ]
+          },
+          {
+            "sha256": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+            "after_runs": [
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/cause_race_tests.rs": {
+        "current_sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+        "recorded_versions": [
+          {
+            "sha256": "0f66097631118a9c783787e316f1764934039b2b2a6c43f027963cc027580139",
+            "after_runs": [
+              "runtime-cause-pacing"
+            ]
+          },
+          {
+            "sha256": "8c7fe85d6a2fbe89f13a2f09f2d3e2d434362f532e6d6f0ca86bbbc7b54d1f84",
+            "after_runs": [
+              "runtime-cause-pacing-corrected"
+            ]
+          },
+          {
+            "sha256": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+            "after_runs": [
+              "selected-cli-tests",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/session.rs": {
+        "current_sha256": "a4d4667bd8d0030ef63eb911c7e38cabfffa31323edb97b18ada15a93bed8ec5",
+        "recorded_versions": [
+          {
+            "sha256": "43522c350899d36386488d8ff75e71a2d18c1ce2e5d6ecf22b9f476f82243b88",
+            "after_runs": [
+              "runtime-cause-pacing",
+              "runtime-cause-pacing-corrected"
+            ]
+          },
+          {
+            "sha256": "a4d4667bd8d0030ef63eb911c7e38cabfffa31323edb97b18ada15a93bed8ec5",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          },
+          {
+            "sha256": "57110c092bd29a8b840b37a0d0278d113ed4acd88b560df9b2390ba49fa4e9bb",
+            "after_runs": [
+              "runtime-facade-fix"
+            ]
+          },
+          {
+            "sha256": "86076478035e0e11d406e9420f68079c468bb8a725ea99c48b2a55994629a5ad",
+            "after_runs": [
+              "native-runtime-format"
+            ]
+          }
+        ]
+      },
+      "codex-rs/file-search-runtime/src/startup.rs": {
+        "current_sha256": "db220d6a9b2c0e92b71789975e408de2e92d988baa4ebb670ec4cfc174d6b375",
+        "recorded_versions": [
+          {
+            "sha256": "50afb4ebf5d2b997c00a3ebf0eec4ec33252c97c36df73fe97c78b29146d9097",
+            "after_runs": [
+              "runtime-cause-pacing",
+              "runtime-cause-pacing-corrected"
+            ]
+          },
+          {
+            "sha256": "db220d6a9b2c0e92b71789975e408de2e92d988baa4ebb670ec4cfc174d6b375",
+            "after_runs": [
+              "selected-cli-tests",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-build"
+            ]
+          },
+          {
+            "sha256": "1e073a6565f468358b5da4e4fbb70ed3c4c3576fc857a9c9153acd38cad1627b",
+            "after_runs": [
+              "runtime-facade-fix"
+            ]
+          }
+        ]
+      },
+      "codex-rs/Cargo.lock": {
+        "current_sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+        "recorded_versions": [
+          {
+            "sha256": "647d0ad82f6be4132e408a45c832c69b9e19747dd5b4db0bb149d7d73a599b62",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected"
+            ]
+          },
+          {
+            "sha256": "9d1b163ea105056c2cbd0b765e8a61d1fab3627345fef47ef889094b718870d7",
+            "after_runs": [
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "runtime-cause-pacing",
+              "runtime-cause-pacing-corrected",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "manager-build"
+            ]
+          },
+          {
+            "sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+            "after_runs": [
+              "selected-cli-tests",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-bazel-lock",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "codex-rs/Cargo.toml": {
+        "current_sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+        "recorded_versions": [
+          {
+            "sha256": "3a25e383f3319dc9f92b4f353c9004d788ade4899e1b41d5c805840bc4248a48",
+            "after_runs": [
+              "native-worker-tests",
+              "native-worker-tests-corrected"
+            ]
+          },
+          {
+            "sha256": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+            "after_runs": [
+              "native-race-worker-regression",
+              "native-race-worker-corrected",
+              "native-race-worker-stress",
+              "runtime-cause-pacing",
+              "runtime-cause-pacing-corrected",
+              "selected-cli-tests",
+              "native-race-worker-fix",
+              "native-runtime-format",
+              "selected-cli-fix",
+              "selected-cli-format",
+              "selected-cli-bazel-lock",
+              "manager-build",
+              "selected-cli-build"
+            ]
+          }
+        ]
+      },
+      "MODULE.bazel.lock": {
+        "current_sha256": "e43ce845fd29b166d0e8750120ec47364ca3aced882dba28efda465236e140e6",
+        "recorded_versions": [
+          {
+            "sha256": "e43ce845fd29b166d0e8750120ec47364ca3aced882dba28efda465236e140e6",
+            "after_runs": [
+              "selected-cli-bazel-lock"
+            ]
+          }
+        ]
+      }
+    },
+    "note": "Current bindings sampled after recorded formatting/builds; final immutable publication binding is separate.",
+    "selected_file_bindings_time_scope": "Historical candidate 01 snapshot; current_sha256 fields were sampled when the first evidence draft was created, not a claim about later working edits.",
+    "candidate_02_selected_file_bindings": {
+      "codex-rs/Cargo.lock": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+      "codex-rs/Cargo.toml": "b8f1cdaf61eb923a7b71332f36c283e65c39fc6bbf35ab3f8ed2bc5b31ff88c5",
+      "codex-rs/file-search-component/src/process_open.rs": "74014f17bd793f06ed455e8f6c1dd95ec474d2ba4ebb8467bc29023a6fe2f7b8",
+      "codex-rs/file-search-component/src/process_startup_tests.rs": "5a15521dfa202b6ffedb6db8bdb0f336d4fb16e04cd60d5d36cf0418e2eee3dd",
+      "codex-rs/file-search-component/src/service_lease.rs": "93be8366c142816b464360396ed745bf33830a6d71ebbd1a9bcc28a8f902a38d",
+      "codex-rs/file-search-component/src/service_open.rs": "d7c98e93b1ae9cff5ba1cec484e6f8ebb0199d8203911c754c1876bd9e086b3d",
+      "codex-rs/file-search-component/src/service_startup_tests.rs": "746b6e2a67fc6f14b2ca69d65bacd592fab51bcb9adf4d367433d1224706961f",
+      "codex-rs/file-search-runtime/Cargo.toml": "7de950ca73aef049e9efef353298701c0d9b65fa56a1b8fe30f3f3a034b479e9",
+      "codex-rs/file-search-runtime/src/cause_race_tests.rs": "6ecdcfeaf3b91a38e7ce65501a18a140339ec5648ad3d8e5ef0a50ab9cae664a",
+      "codex-rs/file-search-runtime/src/cli.rs": "08f4b3ce0dea6e99c6e1ac41db087a02c825d9f987a24045dc36c631531947b0",
+      "codex-rs/file-search-runtime/src/cli_reporter.rs": "bc5c6844fb7e3a352ce453fe453565c7e591645f66bc6544650ada085c823b73",
+      "codex-rs/file-search-runtime/src/main.rs": "b041002ca9d0401d26cd61e5b6467c5d8abf3e84d812d56133b6ec5717e4e5fd",
+      "codex-rs/file-search-runtime/src/selection.rs": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+      "codex-rs/file-search-runtime/src/selection_guard.rs": "9f912b6e2cdda37efe11aac0bfdcde9b056a37272796dd8690632a9d612e1bff",
+      "codex-rs/file-search-runtime/src/session.rs": "2d021777260f469dcb8fd475b594529e2e6cd91199b143aa8dff0c6de595eacc",
+      "codex-rs/file-search-runtime/src/standalone_policy.rs": "1260ee12cee2509ed1b7d0da94146e470c73b916cefd88935b337a40d2e5450e",
+      "codex-rs/file-search-runtime/src/startup.rs": "6236d4e72248b75b1b789c0d46697615eb4db2be4141cbaf621b0d3ea89889ba",
+      "codex-rs/file-search-runtime/src/startup_cancel_tests.rs": "19bf4cf49ff2f23fcf03c469066ab4ef802f8b73a32b676cf168e2656b5a8188",
+      "codex-rs/file-search/src/native_backend.rs": "c73acf84ee839b3c54b0ad0a902b9ade9b60387e75e8a55f68dfd4f93440fa69",
+      "codex-rs/file-search/src/native_backend_failure_tests.rs": "5757ed6aed3bd2368ff11bd1f93598a2d814cb07f59a55396b3e4dac5add3209",
+      "codex-rs/file-search/src/native_backend_session.rs": "22c86b4dd2036d743d148fdd964b207a066401deebb9bd7e6126333e234851fe",
+      "codex-rs/file-search/src/native_budget_tests.rs": "3b9435f5efddf42981ea384dddc7885aae740dcd2306146edcc58315884c9d9c",
+      "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+      "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866"
+    },
+    "candidate_02_binding_scope": "Exact recorded locked-build 02 post-source hashes, not a live tree assertion. Complete 193-path snapshot identified by build report and canonical digest.",
+    "external_tooling_final_bindings": {
+      "component-sdk/tests/file_search/README.md": "7756a6f33382074cf872623166f2d188786d061006f72668358cc8192fc22567",
+      "component-sdk/tests/file_search/acceptance_support.py": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+      "component-sdk/tests/file_search/build_worker.py": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+      "component-sdk/tests/file_search/cli_acceptance.py": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+      "component-sdk/tests/file_search/lock_patch_normalization.py": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+      "component-sdk/tests/file_search/test_lock_patch_normalization.py": "5acc0276b719be93c67dfcfa186388d91914ca32761a1bd8baa58bd80d0d9bc6"
+    }
+  },
+  "frozen_candidate": {
+    "scope": "standalone search CLI and component manager; not a new codex/App Server/TUI/GUI binary",
+    "metadata": {
+      "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/candidate.json",
+      "sha256": "6a38500c16b718a2de1684203acb20d683cc0c6c96f1d26b59a9f80b11cc1001",
+      "bytes": 1093
+    },
+    "binaries": {
+      "codex-file-search": {
+        "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+        "sha256": "6122a5648f8d4cc23e0809146bdfd9a2d5f01d185152e93ee4517868ddd28eec",
+        "bytes": 20989384
+      },
+      "codex-component": {
+        "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-component",
+        "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+        "bytes": 6575272
+      }
+    },
+    "status": "build_verified; partial installed-worker parity; runtime_acceptance_failed_at_ctrl_c"
+  },
+  "allocation_profiles": {
+    "pointer_bits": 64,
+    "matcher_threads": 2,
+    "reserved_os_workers": 6,
+    "index_ceiling_bytes": 134217728,
+    "fixture_root_payload_bytes": 15,
+    "profiles": [
+      {
+        "entries": 100000,
+        "compute_indices": false,
+        "fixed_bytes": 9605104,
+        "ceiling_minus_fixed_bytes": 124612624
+      },
+      {
+        "entries": 100000,
+        "compute_indices": true,
+        "fixed_bytes": 9738224,
+        "ceiling_minus_fixed_bytes": 124479504
+      },
+      {
+        "entries": 250000,
+        "compute_indices": false,
+        "fixed_bytes": 19945136,
+        "ceiling_minus_fixed_bytes": 114272592
+      },
+      {
+        "entries": 250000,
+        "compute_indices": true,
+        "fixed_bytes": 20078256,
+        "ceiling_minus_fixed_bytes": 114139472
+      }
+    ],
+    "cli_choice": {
+      "entries": 100000,
+      "index_bytes": 134217728,
+      "provider_worker_ceiling": 64,
+      "session_workers": "checked2*T+2, defaultT2 reserves6"
+    },
+    "limitation": "Actual prepaid-layout/startup/small-fixture matching proof, not populated100k/250k scale, benchmark optimum or RSS bound."
+  },
+  "pending": {
+    "external_build_and_install_runtime": "Completed for standalone one-root CLI only using build03/runtime02; earlier failures remain retained. App Server/TUI/GUI selection and full-harness replacement remain separate work.",
+    "app_server_tui_selection": "planned",
+    "gui": "accepted prior StageA unchanged; no new Browser check in this milestone",
+    "upstream_updater": "planned required roadmap work",
+    "P03_forced_runtime_shutdown_cause": "queued unverified read-only concern: ShutdownGuard may publish generic failure before a known session failure reaches provider registry; cleanup remains Unconfirmed. Not a reproduced current test failure."
+  },
+  "preservation": {
+    "reports_and_candidate_paths": "cloud-local; not a downloadable artifact or external backup by themselves",
+    "github": "Verified source WIP651b0b87a281934e5cd7c639021049fad8d393ac externally preserves the included57 paths; binaries/state/reports archives remain cloud-local unless separately published."
+  },
+  "limitations": [
+    "Linux/64-bit execution; no Windows runtime proof",
+    "No full workspace regression claimed",
+    "Native fixed-index charge excludes documented traversal/stack/allocator/runtime/query/copy costs; output and wire bytes use separate units",
+    "No tests rerun solely after lint/format; exact transitions retained",
+    "Forced-runtime fallback concern is queued separately; no claim of formal lifecycle proof"
+  ],
+  "external_build": {
+    "passed": true,
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-independent-01/independent-build.json",
+      "sha256": "609dbbe49f7d117e867e90fd68226c8166071ba93fa6d27173c56b7e3112231d",
+      "bytes": 78879
+    },
+    "started_utc": "2026-10-01T06:21:22.187950+00:00",
+    "commands": [
+      {
+        "label": "export",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "export",
+          "--repo",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--package",
+          "codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-01/source"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "compiler",
+        "argv": [
+          "rustc",
+          "-vV"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-01/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "metadata",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--offline",
+          "--filter-platform",
+          "x86_64-unknown-linux-gnu",
+          "--format-version",
+          "1"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-01/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "build",
+        "argv": [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--profile",
+          "dev-small",
+          "-j",
+          "1",
+          "-p",
+          "codex-file-search-local-plugin",
+          "--bin",
+          "codex-file-search-local-plugin",
+          "--message-format=json-render-diagnostics"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-01/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "assemble",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "assemble",
+          "--repo",
+          "/workspace/acceptance/p02b-search-independent-01/source",
+          "--binary",
+          "/workspace/p02b-search-external-target-01/dev-small/codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-01/package",
+          "--id",
+          "native.file-search-local",
+          "--kind",
+          "file_search",
+          "--name",
+          "default",
+          "--contract-version",
+          "1",
+          "--version",
+          "0.1.0"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "libraries",
+        "argv": [
+          "ldd",
+          "/workspace/acceptance/p02b-search-independent-01/package/codex-file-search-local-plugin"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-01",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      }
+    ],
+    "source_resolution": {
+      "host_triple": "x86_64-unknown-linux-gnu",
+      "local_crates": 10,
+      "resolved_packages": 102,
+      "all_local_paths_inside_export": true,
+      "lock_new_identities": 0,
+      "lock_identities_before": 1487,
+      "lock_identities_after": 141,
+      "excluded_packages": [
+        "codex-app-server",
+        "codex-cli",
+        "codex-core",
+        "codex-file-search-runtime",
+        "codex-tui",
+        "core_test_support"
+      ],
+      "warnings": [
+        "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+      ],
+      "resolved_lock": {
+        "sha256": "321db592f2bd99b3df21448a85029695060d97c535864aa38f10f7d6741162d0",
+        "bytes": 33484,
+        "mtime_ns": 1790835682844578276,
+        "mode": 384
+      }
+    },
+    "build_artifact": {
+      "binary": "/workspace/p02b-search-external-target-01/dev-small/codex-file-search-local-plugin",
+      "fingerprint": {
+        "sha256": "262e983e66bb815f16b68ef504cf8738b4ff400049cf4ff02672a5f3c0f3c56f",
+        "bytes": 10274672,
+        "mtime_ns": 1790835728486371461,
+        "mode": 448
+      },
+      "target_source": "/workspace/acceptance/p02b-search-independent-01/source/codex-rs/file-search-local-plugin/src/main.rs",
+      "fresh": false,
+      "package_id": "path+file:///workspace/acceptance/p02b-search-independent-01/source/codex-rs/file-search-local-plugin#codex-file-search-local-plugin@0.0.0",
+      "separate_initially_empty_target": true,
+      "profile": "dev-small",
+      "incremental": false
+    },
+    "source_inventory": {
+      "sha256": "eb13c128c5470af4cae47d454d02c4517cac8740308792622ebe834c1eebc9f3",
+      "bytes": 50931,
+      "mtime_ns": 1790835682611376299,
+      "mode": 384
+    },
+    "package_path": "/workspace/acceptance/p02b-search-independent-01/package",
+    "package_file_identities": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926,
+        "mtime_ns": 1790835728574936142,
+        "mode": 384
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242,
+        "mtime_ns": 1790835728574998844,
+        "mode": 384
+      },
+      "THIRD_PARTY_NOTICES.json": {
+        "sha256": "31b3734f8978aae2467e4156e2f337953b34e51c6a0bb90fe784ece5e6f1fd62",
+        "bytes": 17223,
+        "mtime_ns": 1790835728578658990,
+        "mode": 384
+      },
+      "codex-component.json": {
+        "sha256": "93a79bd86c619b44b8eb6dc4fbf258cc88786bf575e8705027fb663c4930db2f",
+        "bytes": 306,
+        "mtime_ns": 1790835728578757625,
+        "mode": 384
+      },
+      "codex-file-search-local-plugin": {
+        "sha256": "262e983e66bb815f16b68ef504cf8738b4ff400049cf4ff02672a5f3c0f3c56f",
+        "bytes": 10274672,
+        "mtime_ns": 1790835728486371461,
+        "mode": 448
+      },
+      "third-party/nucleo/Cargo.toml": {
+        "sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+        "bytes": 516,
+        "mtime_ns": 1790817331444611462,
+        "mode": 384
+      },
+      "third-party/nucleo/LICENSE": {
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "bytes": 16725,
+        "mtime_ns": 1790761963551233065,
+        "mode": 384
+      },
+      "third-party/nucleo/PROVENANCE.md": {
+        "sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "bytes": 8181,
+        "mtime_ns": 1790830696305798011,
+        "mode": 384
+      },
+      "third-party/nucleo/README.md": {
+        "sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+        "bytes": 11906,
+        "mtime_ns": 1790761963551339211,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/Cargo.toml": {
+        "sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+        "bytes": 563,
+        "mtime_ns": 1790761963551498205,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/LICENSE": {
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "bytes": 16725,
+        "mtime_ns": 1790761963551233065,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/fuzz.sh": {
+        "sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+        "bytes": 74,
+        "mtime_ns": 1790761963551523863,
+        "mode": 448
+      },
+      "third-party/nucleo/matcher/generate_case_fold_table.sh": {
+        "sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+        "bytes": 301,
+        "mtime_ns": 1790761963551684280,
+        "mode": 448
+      },
+      "third-party/nucleo/matcher/src/chars/case_fold.rs": {
+        "sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+        "bytes": 23695,
+        "mtime_ns": 1790761963551948129,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/chars/normalize.rs": {
+        "sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+        "bytes": 30871,
+        "mtime_ns": 1790761963552116497,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/chars.rs": {
+        "sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+        "bytes": 6382,
+        "mtime_ns": 1790761963551789064,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/config.rs": {
+        "sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+        "bytes": 2681,
+        "mtime_ns": 1790761963552167542,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/debug.rs": {
+        "sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+        "bytes": 389,
+        "mtime_ns": 1790761963552203405,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/exact.rs": {
+        "sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+        "bytes": 9979,
+        "mtime_ns": 1790761963552278946,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/fuzzy_greedy.rs": {
+        "sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+        "bytes": 2156,
+        "mtime_ns": 1790761963552322861,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/fuzzy_optimal.rs": {
+        "sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+        "bytes": 12718,
+        "mtime_ns": 1790761963552448756,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/lib.rs": {
+        "sha256": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+        "bytes": 30692,
+        "mtime_ns": 1790830111200766986,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/matrix.rs": {
+        "sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+        "bytes": 6865,
+        "mtime_ns": 1790828908741486398,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/matrix_extent_tests.rs": {
+        "sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+        "bytes": 1512,
+        "mtime_ns": 1790828391105154238,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/pattern/tests.rs": {
+        "sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+        "bytes": 6483,
+        "mtime_ns": 1790761963552914292,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/pattern.rs": {
+        "sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+        "bytes": 20978,
+        "mtime_ns": 1790761963552834295,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/prefilter.rs": {
+        "sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+        "bytes": 3142,
+        "mtime_ns": 1790761963552962554,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/score.rs": {
+        "sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+        "bytes": 6423,
+        "mtime_ns": 1790829720182210783,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/tests.rs": {
+        "sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+        "bytes": 22042,
+        "mtime_ns": 1790761963553159754,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/utf32_allocation_tests.rs": {
+        "sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+        "bytes": 3351,
+        "mtime_ns": 1790831086371186331,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/utf32_str/tests.rs": {
+        "sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+        "bytes": 1304,
+        "mtime_ns": 1790761963553321092,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/utf32_str.rs": {
+        "sha256": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+        "bytes": 19498,
+        "mtime_ns": 1790830111132767925,
+        "mode": 384
+      },
+      "third-party/nucleo/src/bounded.rs": {
+        "sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+        "bytes": 9217,
+        "mtime_ns": 1790829827704712334,
+        "mode": 384
+      },
+      "third-party/nucleo/src/bounded_tests.rs": {
+        "sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+        "bytes": 9713,
+        "mtime_ns": 1790829827708712279,
+        "mode": 384
+      },
+      "third-party/nucleo/src/boxcar.rs": {
+        "sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+        "bytes": 32189,
+        "mtime_ns": 1790829725034144522,
+        "mode": 384
+      },
+      "third-party/nucleo/src/boxcar_bounded_tests.rs": {
+        "sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+        "bytes": 6982,
+        "mtime_ns": 1790829827712712224,
+        "mode": 384
+      },
+      "third-party/nucleo/src/lib.rs": {
+        "sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+        "bytes": 18803,
+        "mtime_ns": 1790829720722203409,
+        "mode": 384
+      },
+      "third-party/nucleo/src/par_sort.rs": {
+        "sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+        "bytes": 36443,
+        "mtime_ns": 1790761963553845455,
+        "mode": 384
+      },
+      "third-party/nucleo/src/pattern/tests.rs": {
+        "sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+        "bytes": 534,
+        "mtime_ns": 1790761963553943249,
+        "mode": 384
+      },
+      "third-party/nucleo/src/pattern.rs": {
+        "sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+        "bytes": 2885,
+        "mtime_ns": 1790829720722203409,
+        "mode": 384
+      },
+      "third-party/nucleo/src/shutdown_tests.rs": {
+        "sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+        "bytes": 4178,
+        "mtime_ns": 1790817430423232660,
+        "mode": 384
+      },
+      "third-party/nucleo/src/tests.rs": {
+        "sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+        "bytes": 840,
+        "mtime_ns": 1790761963553974555,
+        "mode": 384
+      },
+      "third-party/nucleo/src/worker.rs": {
+        "sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+        "bytes": 12320,
+        "mtime_ns": 1790829720722203409,
+        "mode": 384
+      }
+    },
+    "source_parked_before_runtime": true,
+    "source_preserved_at": "/workspace/acceptance/p02b-search-independent-01/source.parked",
+    "frozen_binaries_unchanged": true,
+    "policy": {
+      "minimum_target_free_bytes": 2147483648,
+      "minimum_work_free_bytes": 268435456,
+      "minimum_cgroup_memory_headroom_bytes": 805306368,
+      "profile": "dev-small",
+      "jobs": 1,
+      "incremental": false,
+      "fresh_target_required": true,
+      "registry_toolchain_cache_reuse": true,
+      "estimate_caveat": "Conservative admission threshold, not a measured peak guarantee."
+    }
+  },
+  "external_runtime": {
+    "passed": false,
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-cli-independent-01/cli-acceptance.json",
+      "sha256": "629c59f27309e621ad1f8ad88fbd99f79413510ab550e5a656613c5ce736dd96",
+      "bytes": 461622
+    },
+    "started_utc": "2026-10-01T06:22:48.333721+00:00",
+    "scope": "Standalone one-root CLI only; App Server/TUI/GUI are separate gates.",
+    "commands": [
+      {
+        "label": "native-lexical-root",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-exclude",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-e",
+          "src/excluded_alpha.txt",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-unicode",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "na"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-truncated",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-l",
+          "1",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-indices-off",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-no-pattern",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "-C",
+          "./project//"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "install",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-01/home",
+          "install",
+          "/workspace/acceptance/p02b-search-cli-independent-01/install-input"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "select",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-01/home",
+          "select",
+          "file_search",
+          "default",
+          "native.file-search-local"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "list-selected",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-01/home",
+          "list"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-lexical-root",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-exclude",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-e",
+          "src/excluded_alpha.txt",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-unicode",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "na"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-truncated",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-l",
+          "1",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-indices-off",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-cli-ctrl-c",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-01/fixture",
+        "status": 1,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      }
+    ],
+    "passed_parity_cases": [
+      "lexical-root",
+      "exclude",
+      "unicode",
+      "truncated",
+      "indices-off"
+    ],
+    "parity_comparison": "Exact ordered JSON values including score/root/path/indices/truncation; no normalization.",
+    "installed_worker": {
+      "path": "/workspace/acceptance/p02b-search-cli-independent-01/home/components/objects/native.file-search-local-501396-18da53a4b9404c7b-0/codex-file-search-local-plugin",
+      "fingerprint": {
+        "sha256": "262e983e66bb815f16b68ef504cf8738b4ff400049cf4ff02672a5f3c0f3c56f",
+        "bytes": 10274672,
+        "mtime_ns": 1790835768782293131,
+        "mode": 448
+      }
+    },
+    "install_input_parked_before_execution": true,
+    "frozen_binaries_unchanged": true,
+    "error": "AssertionError: external-cli-ctrl-c: expected status 130, got 1",
+    "failure_stderr": "Error: file search interrupted; file-search provider failed: file-search owner is closing",
+    "next_steps": "Correct cancellation cause and rerun; later removal/replacement gates not reached and not claimed."
+  },
+  "frozen_candidate_02": {
+    "metadata": {
+      "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/candidate.json",
+      "sha256": "4723bef9ec5bab178375f08ab639741ae7c92b2e80d72c80f4fadb12c537b1b7",
+      "bytes": 940
+    },
+    "scope": "corrected standalone search CLI; manager reused unchanged; not full Codex/GUI",
+    "binaries": {
+      "codex-file-search": {
+        "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+        "sha256": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+        "bytes": 20992384
+      },
+      "codex-component": {
+        "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+        "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+        "bytes": 6575272
+      }
+    },
+    "status": "build_verified; independent_worker_installed_and_used; standalone_runtime_acceptance_passed",
+    "manager_reused_unchanged_from_candidate_01": true
+  },
+  "external_build_02": {
+    "passed": false,
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-independent-02/independent-build.json",
+      "sha256": "018c694b05098119b90d4e4a07af9c1ef415bdbb631c847928b3daa5d75948d5",
+      "bytes": 10787
+    },
+    "started_utc": "2026-10-01T06:32:34.230374+00:00",
+    "commands": [
+      {
+        "label": "export",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "export",
+          "--repo",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--package",
+          "codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-02/source"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "compiler",
+        "argv": [
+          "rustc",
+          "-vV"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-02/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "metadata",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--offline",
+          "--filter-platform",
+          "x86_64-unknown-linux-gnu",
+          "--format-version",
+          "1"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-02/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "build",
+        "argv": [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--profile",
+          "dev-small",
+          "-j",
+          "1",
+          "-p",
+          "codex-file-search-local-plugin",
+          "--bin",
+          "codex-file-search-local-plugin",
+          "--message-format=json-render-diagnostics"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-02/source/codex-rs",
+        "status": 101,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      }
+    ],
+    "source_resolution": {
+      "host_triple": "x86_64-unknown-linux-gnu",
+      "local_crates": 10,
+      "resolved_packages": 102,
+      "all_local_paths_inside_export": true,
+      "lock_new_identities": 0,
+      "lock_identities_before": 1487,
+      "lock_identities_after": 141,
+      "excluded_packages": [
+        "codex-app-server",
+        "codex-cli",
+        "codex-core",
+        "codex-file-search-runtime",
+        "codex-tui",
+        "core_test_support"
+      ],
+      "warnings": [
+        "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+      ],
+      "resolved_lock": {
+        "sha256": "b260297c0e12c0eca5f6c838dc02f21124a06959567bb516aed8a748bd61621a",
+        "bytes": 33484,
+        "mtime_ns": 1790836354713670743,
+        "mode": 384
+      }
+    },
+    "exported_source_inventory": {
+      "sha256": "128accd438b8d1d4dfcdad96b724e817677062aeb20ae5cd41c608309e53f79b",
+      "bytes": 51473,
+      "mtime_ns": 1790836354481984822,
+      "mode": 384
+    },
+    "frozen_binaries_before": {
+      "cli": {
+        "sha256": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+        "bytes": 20992384,
+        "mtime_ns": 1790836288086612013,
+        "mode": 448
+      },
+      "manager": {
+        "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+        "bytes": 6575272,
+        "mtime_ns": 1790835039120093093,
+        "mode": 448
+      }
+    },
+    "frozen_binaries_after": {
+      "cli": {
+        "sha256": "206a4d86a661953e9a5f6fe38576bae6ea7d724fd9f84d250d6e14bb3391bacd",
+        "bytes": 20992384,
+        "mtime_ns": 1790836288086612013,
+        "mode": 448
+      },
+      "manager": {
+        "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+        "bytes": 6575272,
+        "mtime_ns": 1790835039120093093,
+        "mode": 448
+      }
+    },
+    "frozen_binaries_unchanged": true,
+    "error": "AssertionError: build: nonzero status; see saved stderr",
+    "build_stderr": {
+      "path": "/workspace/acceptance/p02b-search-independent-02/build.stderr",
+      "sha256": "5d94c81fb5fdf257cc9d25c1ef222d4cb098e3d616097f7266ac5ea2e1a0152c",
+      "bytes": 1304
+    },
+    "failure_detail": "cargo build exited 101 because exported Cargo.lock required update while --locked prohibited changes; no corrected worker artifact or runtime acceptance is proved by this attempt.",
+    "runtime_executed": false
+  },
+  "startup_cancellation_correction": {
+    "implementation": "Facade/service record caller closing state before startup error causes automatic close; explicit cancellation followed by known clean ClosedLease cleanup does not poison provider. Genuine startup/release failures and uncertainty remain retained.",
+    "new_regression_groups": [
+      "runtime startup_cancellation",
+      "component service startup",
+      "component process startup"
+    ],
+    "external_validation": "Passed real Ctrl+C with frozen candidate02 and independently built worker03: exit130, no partial output, all tracked command PIDs absent."
+  },
+  "external_build_03": {
+    "passed": true,
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-independent-03/independent-build.json",
+      "sha256": "7e83a944ed5ecbcd304a9d806cf824cccb50172f0dbbc74ee75ae3a8cf68ce6a",
+      "bytes": 83342
+    },
+    "started_utc": "2026-10-01T06:45:03.977620+00:00",
+    "outer_subreaper": {
+      "report": {
+        "path": "/workspace/acceptance/p02b-search-independent-03-subreaper.json",
+        "sha256": "887d9e15a089e5bddc751fe39408866c39ee65c89533e9252751b92691418ac4",
+        "bytes": 807
+      },
+      "command": [
+        "python3",
+        "../component-sdk/tests/file_search/build_worker.py",
+        "--repo",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "--cli",
+        "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+        "--manager",
+        "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+        "--work-dir",
+        "/workspace/acceptance/p02b-search-independent-03",
+        "--target-dir",
+        "/workspace/p02b-search-external-target-03"
+      ],
+      "subreaper": true,
+      "exit_status": 0,
+      "command_returncode": 0,
+      "runner_error": null
+    },
+    "commands": [
+      {
+        "label": "export",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "export",
+          "--repo",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--package",
+          "codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-03/source"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "compiler",
+        "argv": [
+          "rustc",
+          "-vV"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-03/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "metadata",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--offline",
+          "--filter-platform",
+          "x86_64-unknown-linux-gnu",
+          "--format-version",
+          "1"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-03/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "metadata-normalized",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--offline",
+          "--filter-platform",
+          "x86_64-unknown-linux-gnu",
+          "--format-version",
+          "1"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-03/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "build",
+        "argv": [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--profile",
+          "dev-small",
+          "-j",
+          "1",
+          "-p",
+          "codex-file-search-local-plugin",
+          "--bin",
+          "codex-file-search-local-plugin",
+          "--message-format=json-render-diagnostics"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-03/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "assemble",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "assemble",
+          "--repo",
+          "/workspace/acceptance/p02b-search-independent-03/source",
+          "--binary",
+          "/workspace/p02b-search-external-target-03/dev-small/codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-03/package",
+          "--id",
+          "native.file-search-local",
+          "--kind",
+          "file_search",
+          "--name",
+          "default",
+          "--contract-version",
+          "1",
+          "--version",
+          "0.1.0"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "libraries",
+        "argv": [
+          "ldd",
+          "/workspace/acceptance/p02b-search-independent-03/package/codex-file-search-local-plugin"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-03",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      }
+    ],
+    "source_resolution": {
+      "host_triple": "x86_64-unknown-linux-gnu",
+      "local_crates": 10,
+      "resolved_packages": 102,
+      "all_local_paths_inside_export": true,
+      "lock_new_identities": 0,
+      "lock_identities_before": 1487,
+      "lock_identities_after": 141,
+      "excluded_packages": [
+        "codex-app-server",
+        "codex-cli",
+        "codex-core",
+        "codex-file-search-runtime",
+        "codex-tui",
+        "core_test_support"
+      ],
+      "warnings": [
+        "Arbitrary build-script/runtime file reads require separate build verification; literal include scanning is not a compiler."
+      ],
+      "resolved_lock": {
+        "sha256": "dbe166dc08aa0c038fd4e7d9c5625e3f0a66af08b0c9e61c014b1f1192c6c3ac",
+        "bytes": 32642,
+        "mtime_ns": 1790837104635398667,
+        "mode": 384
+      }
+    },
+    "build_artifact": {
+      "binary": "/workspace/p02b-search-external-target-03/dev-small/codex-file-search-local-plugin",
+      "fingerprint": {
+        "sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+        "bytes": 10276816,
+        "mtime_ns": 1790837151662745883,
+        "mode": 448
+      },
+      "target_source": "/workspace/acceptance/p02b-search-independent-03/source/codex-rs/file-search-local-plugin/src/main.rs",
+      "fresh": false,
+      "package_id": "path+file:///workspace/acceptance/p02b-search-independent-03/source/codex-rs/file-search-local-plugin#codex-file-search-local-plugin@0.0.0",
+      "separate_initially_empty_target": true,
+      "profile": "dev-small",
+      "incremental": false
+    },
+    "exported_source_inventory": {
+      "sha256": "a2fe36c9e4befe915547516885683268de9fd248c5d4102b07623b84173dddbd",
+      "bytes": 54321,
+      "mtime_ns": 1790837104581830987,
+      "mode": 384
+    },
+    "original_export_lock": {
+      "sha256": "118378e15a931328559de66436285dc7322ec8db4c955d3017b2ccd516bccb06",
+      "bytes": 410745,
+      "mtime_ns": 1790835373859376615,
+      "mode": 384
+    },
+    "unused_patch_normalization": {
+      "removed": [
+        {
+          "patch_origin": "crates-io",
+          "alias": "crossterm",
+          "declaration": {
+            "git": "https://github.com/openai-oss-forks/crossterm",
+            "rev": "efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4"
+          },
+          "unused_identity": {
+            "name": "crossterm",
+            "version": "0.29.0",
+            "source": "git+https://github.com/openai-oss-forks/crossterm?rev=efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4#efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4"
+          },
+          "package_name_absent_from_full_lock": true
+        },
+        {
+          "patch_origin": "crates-io",
+          "alias": "tokio-tungstenite",
+          "declaration": {
+            "git": "https://github.com/openai-oss-forks/tokio-tungstenite",
+            "rev": "0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186"
+          },
+          "unused_identity": {
+            "name": "tokio-tungstenite",
+            "version": "0.28.0",
+            "source": "git+https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186"
+          },
+          "package_name_absent_from_full_lock": true
+        },
+        {
+          "patch_origin": "crates-io",
+          "alias": "tungstenite",
+          "declaration": {
+            "git": "https://github.com/openai-oss-forks/tungstenite-rs",
+            "rev": "4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+          },
+          "unused_identity": {
+            "name": "tungstenite",
+            "version": "0.27.0",
+            "source": "git+https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+          },
+          "package_name_absent_from_full_lock": true
+        },
+        {
+          "patch_origin": "ssh://git@github.com/openai-oss-forks/tungstenite-rs.git",
+          "alias": "tungstenite",
+          "declaration": {
+            "git": "https://github.com/openai-oss-forks/tungstenite-rs",
+            "rev": "4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+          },
+          "unused_identity": {
+            "name": "tungstenite",
+            "version": "0.27.0",
+            "source": "git+https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+          },
+          "package_name_absent_from_full_lock": true
+        }
+      ],
+      "manifest_before": {
+        "sha256": "53e69208982d6fbc9ebda933ff5ecc73bc3e9907235e3d843ebe1151af1f99bb",
+        "bytes": 3747,
+        "mtime_ns": 1790837104172993365,
+        "mode": 384
+      },
+      "lock_before": {
+        "sha256": "321db592f2bd99b3df21448a85029695060d97c535864aa38f10f7d6741162d0",
+        "bytes": 33484,
+        "mtime_ns": 1790837104512080881,
+        "mode": 384
+      },
+      "inventory_before": {
+        "sha256": "128accd438b8d1d4dfcdad96b724e817677062aeb20ae5cd41c608309e53f79b",
+        "bytes": 51473,
+        "mtime_ns": 1790837104181885947,
+        "mode": 384
+      },
+      "package_graph_before_sha256": "854993e692d9d459353ba93025ea063e1dcfbbea2c94a672515e28c6089bfc28",
+      "applied": true,
+      "manifest_after": {
+        "sha256": "1ec40d7a370dab8aed2a166aeaffc697d477b99d5b4f7e51604fefac935394c6",
+        "bytes": 3072,
+        "mtime_ns": 1790837104581152356,
+        "mode": 384
+      },
+      "inventory_after": {
+        "sha256": "a2fe36c9e4befe915547516885683268de9fd248c5d4102b07623b84173dddbd",
+        "bytes": 54321,
+        "mtime_ns": 1790837104581830987,
+        "mode": 384
+      },
+      "exact_full_package_records_unchanged": true,
+      "local_paths_and_closure_revalidated": true,
+      "lock_after": {
+        "sha256": "dbe166dc08aa0c038fd4e7d9c5625e3f0a66af08b0c9e61c014b1f1192c6c3ac",
+        "bytes": 32642,
+        "mtime_ns": 1790837104635398667,
+        "mode": 384
+      }
+    },
+    "final_locked_build_preserved_lock_bytes": true,
+    "package_path": "/workspace/acceptance/p02b-search-independent-03/package",
+    "package_files": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926,
+        "mtime_ns": 1790837151743610247,
+        "mode": 384
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242,
+        "mtime_ns": 1790837151743675883,
+        "mode": 384
+      },
+      "THIRD_PARTY_NOTICES.json": {
+        "sha256": "14388ca0a69679e398934c0ad29c5eb7c7fc3486b3285f01db6f6503ab6e0cb4",
+        "bytes": 17223,
+        "mtime_ns": 1790837151747679847,
+        "mode": 384
+      },
+      "codex-component.json": {
+        "sha256": "93a79bd86c619b44b8eb6dc4fbf258cc88786bf575e8705027fb663c4930db2f",
+        "bytes": 306,
+        "mtime_ns": 1790837151747783200,
+        "mode": 384
+      },
+      "codex-file-search-local-plugin": {
+        "sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+        "bytes": 10276816,
+        "mtime_ns": 1790837151662745883,
+        "mode": 448
+      },
+      "third-party/nucleo/Cargo.toml": {
+        "sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+        "bytes": 516,
+        "mtime_ns": 1790817331444611462,
+        "mode": 384
+      },
+      "third-party/nucleo/LICENSE": {
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "bytes": 16725,
+        "mtime_ns": 1790761963551233065,
+        "mode": 384
+      },
+      "third-party/nucleo/PROVENANCE.md": {
+        "sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "bytes": 8181,
+        "mtime_ns": 1790830696305798011,
+        "mode": 384
+      },
+      "third-party/nucleo/README.md": {
+        "sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+        "bytes": 11906,
+        "mtime_ns": 1790761963551339211,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/Cargo.toml": {
+        "sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+        "bytes": 563,
+        "mtime_ns": 1790761963551498205,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/LICENSE": {
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "bytes": 16725,
+        "mtime_ns": 1790761963551233065,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/fuzz.sh": {
+        "sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+        "bytes": 74,
+        "mtime_ns": 1790761963551523863,
+        "mode": 448
+      },
+      "third-party/nucleo/matcher/generate_case_fold_table.sh": {
+        "sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+        "bytes": 301,
+        "mtime_ns": 1790761963551684280,
+        "mode": 448
+      },
+      "third-party/nucleo/matcher/src/chars/case_fold.rs": {
+        "sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+        "bytes": 23695,
+        "mtime_ns": 1790761963551948129,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/chars/normalize.rs": {
+        "sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+        "bytes": 30871,
+        "mtime_ns": 1790761963552116497,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/chars.rs": {
+        "sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+        "bytes": 6382,
+        "mtime_ns": 1790761963551789064,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/config.rs": {
+        "sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+        "bytes": 2681,
+        "mtime_ns": 1790761963552167542,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/debug.rs": {
+        "sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+        "bytes": 389,
+        "mtime_ns": 1790761963552203405,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/exact.rs": {
+        "sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+        "bytes": 9979,
+        "mtime_ns": 1790761963552278946,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/fuzzy_greedy.rs": {
+        "sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+        "bytes": 2156,
+        "mtime_ns": 1790761963552322861,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/fuzzy_optimal.rs": {
+        "sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+        "bytes": 12718,
+        "mtime_ns": 1790761963552448756,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/lib.rs": {
+        "sha256": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+        "bytes": 30692,
+        "mtime_ns": 1790830111200766986,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/matrix.rs": {
+        "sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+        "bytes": 6865,
+        "mtime_ns": 1790828908741486398,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/matrix_extent_tests.rs": {
+        "sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+        "bytes": 1512,
+        "mtime_ns": 1790828391105154238,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/pattern/tests.rs": {
+        "sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+        "bytes": 6483,
+        "mtime_ns": 1790761963552914292,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/pattern.rs": {
+        "sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+        "bytes": 20978,
+        "mtime_ns": 1790761963552834295,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/prefilter.rs": {
+        "sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+        "bytes": 3142,
+        "mtime_ns": 1790761963552962554,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/score.rs": {
+        "sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+        "bytes": 6423,
+        "mtime_ns": 1790829720182210783,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/tests.rs": {
+        "sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+        "bytes": 22042,
+        "mtime_ns": 1790761963553159754,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/utf32_allocation_tests.rs": {
+        "sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+        "bytes": 3351,
+        "mtime_ns": 1790831086371186331,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/utf32_str/tests.rs": {
+        "sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+        "bytes": 1304,
+        "mtime_ns": 1790761963553321092,
+        "mode": 384
+      },
+      "third-party/nucleo/matcher/src/utf32_str.rs": {
+        "sha256": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+        "bytes": 19498,
+        "mtime_ns": 1790830111132767925,
+        "mode": 384
+      },
+      "third-party/nucleo/src/bounded.rs": {
+        "sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+        "bytes": 9217,
+        "mtime_ns": 1790829827704712334,
+        "mode": 384
+      },
+      "third-party/nucleo/src/bounded_tests.rs": {
+        "sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+        "bytes": 9713,
+        "mtime_ns": 1790829827708712279,
+        "mode": 384
+      },
+      "third-party/nucleo/src/boxcar.rs": {
+        "sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+        "bytes": 32189,
+        "mtime_ns": 1790829725034144522,
+        "mode": 384
+      },
+      "third-party/nucleo/src/boxcar_bounded_tests.rs": {
+        "sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+        "bytes": 6982,
+        "mtime_ns": 1790829827712712224,
+        "mode": 384
+      },
+      "third-party/nucleo/src/lib.rs": {
+        "sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+        "bytes": 18803,
+        "mtime_ns": 1790829720722203409,
+        "mode": 384
+      },
+      "third-party/nucleo/src/par_sort.rs": {
+        "sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+        "bytes": 36443,
+        "mtime_ns": 1790761963553845455,
+        "mode": 384
+      },
+      "third-party/nucleo/src/pattern/tests.rs": {
+        "sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+        "bytes": 534,
+        "mtime_ns": 1790761963553943249,
+        "mode": 384
+      },
+      "third-party/nucleo/src/pattern.rs": {
+        "sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+        "bytes": 2885,
+        "mtime_ns": 1790829720722203409,
+        "mode": 384
+      },
+      "third-party/nucleo/src/shutdown_tests.rs": {
+        "sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+        "bytes": 4178,
+        "mtime_ns": 1790817430423232660,
+        "mode": 384
+      },
+      "third-party/nucleo/src/tests.rs": {
+        "sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+        "bytes": 840,
+        "mtime_ns": 1790761963553974555,
+        "mode": 384
+      },
+      "third-party/nucleo/src/worker.rs": {
+        "sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+        "bytes": 12320,
+        "mtime_ns": 1790829720722203409,
+        "mode": 384
+      }
+    },
+    "source_parked_before_runtime": true,
+    "source_preserved_at": "/workspace/acceptance/p02b-search-independent-03/source.parked",
+    "frozen_binaries_unchanged": true,
+    "resource_policy": {
+      "minimum_target_free_bytes": 2147483648,
+      "minimum_work_free_bytes": 268435456,
+      "minimum_cgroup_memory_headroom_bytes": 805306368,
+      "profile": "dev-small",
+      "jobs": 1,
+      "incremental": false,
+      "fresh_target_required": true,
+      "registry_toolchain_cache_reuse": true,
+      "estimate_caveat": "Conservative admission threshold, not a measured peak guarantee."
+    },
+    "tooling": {
+      "build_worker.py": {
+        "sha256": "5c7729a8688e9e05c01078a5b60c3b02b9fe5a73006c85684b14dfaf3c4fd609",
+        "bytes": 14991,
+        "mtime_ns": 1790837062455984662,
+        "mode": 384
+      },
+      "acceptance_support.py": {
+        "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+        "bytes": 9352,
+        "mtime_ns": 1790836262286981179,
+        "mode": 384
+      },
+      "lock_patch_normalization.py": {
+        "sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+        "bytes": 5789,
+        "mtime_ns": 1790837062451984717,
+        "mode": 384
+      }
+    },
+    "exporter": {
+      "sha256": "c5c679002bf161d4fb92cf02ee1524b28df5004916527bdf4c62c1ff5969de85",
+      "bytes": 30422,
+      "mtime_ns": 1790823760852820170,
+      "mode": 384
+    }
+  },
+  "external_runtime_02": {
+    "passed": true,
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-cli-independent-02/cli-acceptance.json",
+      "sha256": "c876db7f351bb6032104db9999ca1d01ad25ad948dd6f091f0977eb5bf9a1f9d",
+      "bytes": 475053
+    },
+    "started_utc": "2026-10-01T06:46:16.143291+00:00",
+    "outer_subreaper": {
+      "report": {
+        "path": "/workspace/acceptance/p02b-search-cli-independent-02-subreaper.json",
+        "sha256": "cb8299087f9c9af1f3d3a806fdc2ecceecae5f044da162f35f93d9ff32d234bc",
+        "bytes": 844
+      },
+      "command": [
+        "python3",
+        "../component-sdk/tests/file_search/cli_acceptance.py",
+        "--repo",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "--cli",
+        "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+        "--manager",
+        "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+        "--build-report",
+        "/workspace/acceptance/p02b-search-independent-03/independent-build.json",
+        "--work-dir",
+        "/workspace/acceptance/p02b-search-cli-independent-02"
+      ],
+      "subreaper": true,
+      "exit_status": 0,
+      "command_returncode": 0,
+      "runner_error": null
+    },
+    "scope": "Standalone one-root CLI only; App Server/TUI/GUI are separate gates.",
+    "commands": [
+      {
+        "label": "native-lexical-root",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-exclude",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-e",
+          "src/excluded_alpha.txt",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-unicode",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "na"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-truncated",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-l",
+          "1",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-indices-off",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "native-no-pattern",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "-C",
+          "./project//"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "install",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-02/home",
+          "install",
+          "/workspace/acceptance/p02b-search-cli-independent-02/install-input"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "select",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-02/home",
+          "select",
+          "file_search",
+          "default",
+          "native.file-search-local"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "list-selected",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-02/home",
+          "list"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-lexical-root",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-exclude",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-e",
+          "src/excluded_alpha.txt",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-unicode",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "na"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-truncated",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-l",
+          "1",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-indices-off",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "external-cli-ctrl-c",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 130,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "selected-failure-no-fallback",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 1,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "selected-failure-no-pattern",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "-C",
+          "./project//"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "remove",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-02/home",
+          "remove",
+          "native.file-search-local"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "list-removed",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+          "--codex-home",
+          "/workspace/acceptance/p02b-search-cli-independent-02/home",
+          "list"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "removed-native-lexical-root",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "removed-native-exclude",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-e",
+          "src/excluded_alpha.txt",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "removed-native-unicode",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "na"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "removed-native-truncated",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "--compute-indices",
+          "-C",
+          "./project//",
+          "-l",
+          "1",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      },
+      {
+        "label": "removed-native-indices-off",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-file-search",
+          "--json",
+          "-C",
+          "./project//",
+          "alpha"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-cli-independent-02/fixture",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "all_observed_pids_absent": true,
+        "remaining_pids": []
+      }
+    ],
+    "command_count": 24,
+    "passed_parity_cases": [
+      "lexical-root",
+      "exclude",
+      "unicode",
+      "truncated",
+      "indices-off"
+    ],
+    "parity_comparison": "Exact ordered JSON values including score/root/path/indices/truncation; no normalization.",
+    "installed_worker": {
+      "path": "/workspace/acceptance/p02b-search-cli-independent-02/home/components/objects/native.file-search-local-507069-18da54ec82dbb276-0/codex-file-search-local-plugin",
+      "fingerprint": {
+        "sha256": "7d56e0dc370641d6fdb8bd2fb1cf81fb4db123a09cbb69315c85a396e4b17ddf",
+        "bytes": 10276816,
+        "mtime_ns": 1790837176618888095,
+        "mode": 448
+      }
+    },
+    "install_input_parked_before_execution": true,
+    "real_cli_ctrl_c": {
+      "exit_status": 130,
+      "all_observed_pids_absent": true,
+      "signal_target": "CLI only, after observing installed worker executable",
+      "no_partial_output": true
+    },
+    "selected_failure_no_fallback": true,
+    "removal_affects_future_selection": true,
+    "immutable_object_retained": true,
+    "frozen_binaries_unchanged": true,
+    "tooling": {
+      "cli_acceptance.py": {
+        "sha256": "6644ccac92e0c287ebba192a4607cea2ad9be071fbd7628e26591075f3fa5e6d",
+        "bytes": 16077,
+        "mtime_ns": 1790836262286981179,
+        "mode": 384
+      },
+      "acceptance_support.py": {
+        "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+        "bytes": 9352,
+        "mtime_ns": 1790836262286981179,
+        "mode": 384
+      }
+    },
+    "all_observed_command_pids_absent": true,
+    "emergency_forced_cleanup": false,
+    "timeouts": false,
+    "expected_nonzero_statuses": {
+      "external-cli-ctrl-c": 130,
+      "selected-failure-no-fallback": 1
+    }
+  }
+}
