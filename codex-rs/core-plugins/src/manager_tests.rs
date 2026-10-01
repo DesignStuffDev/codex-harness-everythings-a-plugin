@@ -159,7 +159,6 @@ async fn plugins_manager_reads_auth_mode_from_auth_manager() {
 
 #[test]
 fn curated_repo_sync_stays_deferred_for_remote_chatgpt_catalog() {
-    CURATED_REPO_SYNC_STARTED.store(false, std::sync::atomic::Ordering::SeqCst);
     let tmp = TempDir::new().unwrap();
     let config = PluginsConfigInput::new(
         unrestricted_config_layer_stack(),
@@ -176,11 +175,42 @@ fn curated_repo_sync_stays_deferred_for_remote_chatgpt_catalog() {
         Some(AuthMode::Chatgpt),
     ));
 
-    manager.maybe_start_curated_repo_sync_for_config(
-        &config, /*on_effective_plugins_changed*/ None,
+    let mut starts = 0;
+    manager.maybe_start_curated_repo_sync_for_config_with_start(
+        &config,
+        /*on_effective_plugins_changed*/ None,
+        |_, _| starts += 1,
     );
 
-    assert!(!CURATED_REPO_SYNC_STARTED.load(std::sync::atomic::Ordering::SeqCst));
+    assert_eq!(starts, 0);
+}
+
+#[test]
+fn curated_sync_failure_never_enters_cache_refresh_or_callback_stage() {
+    for failure in [
+        SyncFailure::Ordinary("fixture ordinary failure".to_string()),
+        SyncFailure::Publication("fixture publication uncertainty".to_string()),
+        SyncFailure::Unwind,
+        SyncFailure::Quarantined,
+    ] {
+        let mut refreshes = 0;
+        let mut callbacks = 0;
+        let expected_message = failure.to_string();
+        let outcome = run_curated_sync(
+            || Err(failure),
+            |_| {
+                refreshes += 1;
+                callbacks += 1;
+                Ok(())
+            },
+        );
+        assert_eq!(
+            outcome.err().map(|error| error.to_string()),
+            Some(expected_message)
+        );
+        assert_eq!(refreshes, 0);
+        assert_eq!(callbacks, 0);
+    }
 }
 
 #[test]

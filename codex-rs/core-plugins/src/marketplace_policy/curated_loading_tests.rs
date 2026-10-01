@@ -88,10 +88,13 @@ host_pattern = '^github[.]com$'
                 permitted
             );
         }
-        manager.maybe_start_curated_repo_sync_for_config(
-            &blocked, /*on_effective_plugins_changed*/ None,
+        let mut starts = 0;
+        manager.maybe_start_curated_repo_sync_for_config_with_start(
+            &blocked,
+            /*on_effective_plugins_changed*/ None,
+            |_, _| starts += 1,
         );
-        assert!(!CURATED_REPO_SYNC_STARTED.load(std::sync::atomic::Ordering::SeqCst));
+        assert_eq!(starts, 0);
     }
 }
 

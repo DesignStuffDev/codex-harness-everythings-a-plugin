@@ -1,6 +1,14 @@
 #[cfg(target_os = "linux")]
 mod bounded_command;
 #[cfg(target_os = "linux")]
+pub use bounded_command::CommandCleanup;
+#[cfg(target_os = "linux")]
+pub use bounded_command::CommandFailure;
+#[cfg(target_os = "linux")]
+pub use bounded_command::CommandFailureKind;
+#[cfg(target_os = "linux")]
+pub use bounded_command::OwnedBackgroundCommand;
+#[cfg(target_os = "linux")]
 pub use bounded_command::run_bounded_background_command;
 mod child;
 pub use child::Child;

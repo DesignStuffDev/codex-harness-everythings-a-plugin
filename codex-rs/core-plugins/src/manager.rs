@@ -78,10 +78,12 @@ use crate::remote_plugin_id_resolver::RemotePluginIdResolver;
 use crate::remote_plugin_id_resolver::persisted_remote_plugin_id_for_installation;
 use crate::skill_snapshots::new_plugin_skill_snapshots;
 use crate::startup_sync::OPENAI_PLUGINS_GIT_URL;
+use crate::startup_sync::SyncFailure;
 use crate::startup_sync::curated_plugins_api_marketplace_path;
 use crate::startup_sync::curated_plugins_repo_path;
 use crate::startup_sync::read_curated_plugins_sha;
-use crate::startup_sync::sync_openai_plugins_repo;
+use crate::startup_sync::sync_openai_plugins_repo_owned;
+use crate::startup_sync::worker::WorkerGate;
 use crate::store::PluginInstallResult as StorePluginInstallResult;
 use crate::store::PluginStore;
 use crate::store::PluginStoreError;
@@ -134,8 +136,6 @@ use std::sync::Arc;
 use std::sync::Mutex;
 use std::sync::OnceLock;
 use std::sync::RwLock;
-use std::sync::atomic::AtomicBool;
-use std::sync::atomic::Ordering;
 use std::time::Duration;
 use std::time::Instant;
 use tokio::sync::OnceCell;
@@ -145,7 +145,16 @@ use tokio::sync::watch;
 use tracing::instrument;
 use tracing::warn;
 
-static CURATED_REPO_SYNC_STARTED: AtomicBool = AtomicBool::new(false);
+static CURATED_REPO_SYNC_WORKER: OnceLock<Arc<WorkerGate>> = OnceLock::new();
+
+fn run_curated_sync(
+    sync: impl FnOnce() -> Result<String, SyncFailure>,
+    refresh: impl FnOnce(String) -> Result<(), SyncFailure>,
+) -> Result<(), SyncFailure> {
+    let version = sync()?;
+    refresh(version)
+}
+
 const FEATURED_PLUGIN_IDS_CACHE_TTL: std::time::Duration =
     std::time::Duration::from_secs(60 * 60 * 3);
 const REMOTE_INSTALLED_PLUGIN_SYNC_WAIT_TIMEOUT: Duration = Duration::from_secs(120);
@@ -750,13 +759,28 @@ impl PluginsManager {
         config: &PluginsConfigInput,
         on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
     ) {
+        self.maybe_start_curated_repo_sync_for_config_with_start(
+            config,
+            on_effective_plugins_changed,
+            |http_client_factory, callback| {
+                self.start_curated_repo_sync(http_client_factory, callback);
+            },
+        );
+    }
+
+    fn maybe_start_curated_repo_sync_for_config_with_start(
+        self: &Arc<Self>,
+        config: &PluginsConfigInput,
+        on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
+        start: impl FnOnce(HttpClientFactory, Option<EffectivePluginsChangedCallback>),
+    ) {
         if config.plugins_enabled
             && !self.remote_global_catalog_active(config)
             && MarketplacePolicy::from_requirements(config.config_layer_stack.requirements())
                 .validate_git_source(OPENAI_PLUGINS_GIT_URL, /*ref_name*/ None)
                 .is_ok()
         {
-            self.start_curated_repo_sync(
+            start(
                 config.http_client_factory.clone(),
                 on_effective_plugins_changed,
             );
@@ -3289,9 +3313,6 @@ impl PluginsManager {
         http_client_factory: HttpClientFactory,
         on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
     ) {
-        if CURATED_REPO_SYNC_STARTED.swap(true, Ordering::SeqCst) {
-            return;
-        }
         let on_effective_plugins_changed =
             on_effective_plugins_changed.map(|on_effective_plugins_changed| {
                 let Ok(runtime) = tokio::runtime::Handle::try_current() else {
@@ -3307,39 +3328,39 @@ impl PluginsManager {
             });
         let manager = Arc::clone(self);
         let codex_home = self.codex_home.clone();
-        if let Err(err) = std::thread::Builder::new()
-            .name("plugins-curated-repo-sync".to_string())
-            .spawn(move || {
-                match sync_openai_plugins_repo(codex_home.as_path(), http_client_factory) {
-                    Ok(curated_plugin_version) => {
-                        let configured_curated_plugin_ids =
-                            configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
-                        match refresh_curated_plugin_cache(
-                            codex_home.as_path(),
-                            &curated_plugin_version,
-                            &configured_curated_plugin_ids,
-                        ) {
-                            Ok(cache_refreshed) => {
-                                manager.clear_caches_after_marketplace_source_refresh(
-                                    cache_refreshed,
-                                    on_effective_plugins_changed.as_ref(),
-                                );
-                            }
-                            Err(err) => {
-                                manager.clear_cache();
-                                CURATED_REPO_SYNC_STARTED.store(false, Ordering::SeqCst);
-                                warn!("failed to refresh curated plugin cache after sync: {err}");
-                            }
+        let gate = CURATED_REPO_SYNC_WORKER.get_or_init(|| Arc::new(WorkerGate::default()));
+        if let Err(err) = gate.start(move || {
+            run_curated_sync(
+                || {
+                    sync_openai_plugins_repo_owned(codex_home.as_path(), http_client_factory)
+                        .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
+                },
+                |curated_plugin_version| {
+                    let configured_curated_plugin_ids =
+                        configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
+                    match refresh_curated_plugin_cache(
+                        codex_home.as_path(),
+                        &curated_plugin_version,
+                        &configured_curated_plugin_ids,
+                    ) {
+                        Ok(cache_refreshed) => {
+                            manager.clear_caches_after_marketplace_source_refresh(
+                                cache_refreshed,
+                                on_effective_plugins_changed.as_ref(),
+                            );
+                            Ok(())
+                        }
+                        Err(err) => {
+                            manager.clear_cache();
+                            warn!("failed to refresh curated plugin cache after sync: {err}");
+                            Err(SyncFailure::Ordinary(format!(
+                                "failed to refresh curated plugin cache after sync: {err}"
+                            )))
                         }
                     }
-                    Err(err) => {
-                        CURATED_REPO_SYNC_STARTED.store(false, Ordering::SeqCst);
-                        warn!("failed to sync curated plugins repo: {err}");
-                    }
-                }
-            })
-        {
-            CURATED_REPO_SYNC_STARTED.store(false, Ordering::SeqCst);
+                },
+            )
+        }) {
             warn!("failed to start curated plugins repo sync task: {err}");
         }
     }

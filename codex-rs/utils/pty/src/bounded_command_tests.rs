@@ -104,3 +104,131 @@ fn excessive_output_is_an_error_and_nonzero_status_is_preserved() {
     assert_eq!(output.status.code(), Some(7));
     assert_eq!(output.stderr, b"diagnostic");
 }
+
+#[test]
+fn active_double_spawn_preserves_first_child_and_unknown_after_late_reap() {
+    use super::CommandCleanup;
+    use super::OwnedBackgroundCommand;
+    let owner = OwnedBackgroundCommand::register();
+    let mut first = Command::new("/bin/sleep");
+    first.arg("60");
+    owner
+        .spawn(&mut first, "first fixture", &AtomicBool::new(false))
+        .unwrap();
+    let pid = owner.lock().group.as_ref().unwrap().child.id();
+    let fixture = tempfile::tempdir().unwrap();
+    let marker = fixture.path().join("second-spawned");
+    let mut second = Command::new("/bin/sh");
+    second
+        .env("MARKER", &marker)
+        .args(["-c", r#"printf ran >"$MARKER""#]);
+    let original = owner
+        .spawn(&mut second, "second fixture", &AtomicBool::new(false))
+        .unwrap_err();
+    assert_eq!(original.cleanup, CommandCleanup::Unknown);
+    assert!(!marker.exists());
+    assert_eq!(
+        owner.stop_and_observe("first fixture", Duration::ZERO),
+        CommandCleanup::DirectChildAndPipes
+    );
+    let later = owner
+        .wait("late observation", Duration::ZERO, &AtomicBool::new(false))
+        .unwrap_err();
+    assert_eq!(later.message, original.message);
+    assert_eq!(later.cleanup, CommandCleanup::Unknown);
+    assert!(
+        super::COMMAND_OWNERS
+            .lock()
+            .unwrap()
+            .iter()
+            .any(|entry| std::sync::Arc::ptr_eq(entry, &owner))
+    );
+    assert!(!std::path::Path::new(&format!("/proc/{pid}")).exists());
+}
+
+#[test]
+fn lost_identity_is_sticky_and_disarms_numeric_group_signals() {
+    use super::CommandCleanup;
+    use super::CommandFailureKind;
+    use super::OwnedBackgroundCommand;
+    let owner = OwnedBackgroundCommand::register();
+    owner
+        .spawn(
+            &mut Command::new("/bin/true"),
+            "external waiter fixture",
+            &AtomicBool::new(false),
+        )
+        .unwrap();
+    // Deliberately simulate a competing waiter consuming our exact direct child.
+    let pid = owner.lock().group.as_ref().unwrap().child.id();
+    let mut status = 0;
+    assert_eq!(
+        unsafe { libc::waitpid(pid as libc::pid_t, &mut status, 0) },
+        pid as libc::pid_t
+    );
+    let error = owner
+        .wait(
+            "external waiter fixture",
+            Duration::from_secs(1),
+            &AtomicBool::new(false),
+        )
+        .unwrap_err();
+    assert_eq!(error.cause, CommandFailureKind::IdentityLost);
+    assert_eq!(error.cleanup, CommandCleanup::Unknown);
+    assert!(!owner.lock().group.as_ref().unwrap().owns_child);
+    owner.stop_and_observe("later", Duration::ZERO);
+    assert_eq!(owner.original_failure().unwrap().message, error.message);
+    assert!(!owner.lock().group.as_ref().unwrap().owns_child);
+}
+
+#[test]
+fn quarantined_unused_owner_cannot_spawn() {
+    use super::CommandCleanup;
+    use super::OwnedBackgroundCommand;
+    let owner = OwnedBackgroundCommand::register();
+    owner.quarantine("observer was lost".to_string());
+    let fixture = tempfile::tempdir().unwrap();
+    let marker = fixture.path().join("spawned");
+    let mut command = Command::new("/bin/sh");
+    command
+        .env("MARKER", &marker)
+        .args(["-c", r#"printf ran >"$MARKER""#]);
+    let error = owner
+        .spawn(&mut command, "quarantined fixture", &AtomicBool::new(false))
+        .unwrap_err();
+    assert_eq!(error.cleanup, CommandCleanup::Unknown);
+    assert_eq!(error.message, "observer was lost");
+    assert!(!marker.exists());
+}
+
+#[test]
+fn failed_group_signal_cannot_be_promoted_by_direct_child_and_pipe_exit() {
+    use super::CommandCleanup;
+    use super::OwnedBackgroundCommand;
+    let owner = OwnedBackgroundCommand::register();
+    owner.lock().force_signal_error = true;
+    owner
+        .spawn(
+            &mut Command::new("/bin/true"),
+            "signal fixture",
+            &AtomicBool::new(false),
+        )
+        .unwrap();
+    let pid = owner.lock().group.as_ref().unwrap().child.id();
+    let error = owner
+        .wait(
+            "signal fixture",
+            Duration::from_secs(2),
+            &AtomicBool::new(false),
+        )
+        .unwrap_err();
+    assert_eq!(error.cleanup, CommandCleanup::Unknown);
+    assert!(error.message.contains("fixture denied group signal"));
+    assert!(!owner.lock().group.as_ref().unwrap().owns_child);
+    assert!(!std::path::Path::new(&format!("/proc/{pid}")).exists());
+    let late = owner
+        .wait("late", Duration::ZERO, &AtomicBool::new(false))
+        .unwrap_err();
+    assert_eq!(late.message, error.message);
+    assert_eq!(late.cleanup, CommandCleanup::Unknown);
+}
