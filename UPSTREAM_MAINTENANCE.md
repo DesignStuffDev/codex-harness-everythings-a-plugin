@@ -518,3 +518,22 @@ separates the original failed source, corrected 385-test source and reviewed
 formatting transition. No dependency, public contract, persisted schema or
 official upstream revision changes. This map does not advance the frozen d04
 index, close its semantic findings, implement an updater or satisfy P18U.
+
+## Current cache-revision host and GUI regression
+
+[The runtime supplement](verification/2026-10-01/P03_CACHE_REVISION_FULL_HOST_EVIDENCE.md)
+binds source `18140083910d19c86e9cadaef0990db9aa652f6e` and exact CLI
+`876c826f76d574d9fee62011166b1ae3f4b15f69103f361aedb4e44cef08de71`.
+The full build, installed storage, migration and two cold GUI cycles passed with
+unchanged independently built packages. Both actual manager first-SIGINT shutdowns
+exited 0 in about 0.27 seconds with tracked processes absent and no forced cleanup.
+The ENOSPC attempt and unchanged fixture-isolation rejection remain failed evidence;
+a fresh workspace migration fixture supported the successful GUI run. Assertions
+were not weakened. Some adopted storage/migration descendants exited nonzero;
+strict drains passed, but their executable/cause attribution is unknown.
+
+This proves current same-upstream runtime regression for the recorded behaviors,
+using Chromium/Playwright and deterministic inference. It does not increase native
+extraction coverage, exercise a new attachment roundtrip, establish installed auth
+or catalog selection, or satisfy P18U's real later-upstream integration and rollback.
+In-app Browser and live-provider acceptance remain pending. Upstream stays pinned.
