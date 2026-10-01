@@ -1,0 +1,756 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_source_owner_prerequisite_not_independent_extraction",
+  "source_base": {
+    "source_commit": "18140083910d19c86e9cadaef0990db9aa652f6e",
+    "source_tree": "36e47c268966b945ee967e4c13e73224cc6b85cb",
+    "published_checkpoint": "b3530790258a74c0c61bfd00e4d13141b763269b",
+    "published_tree": "31c9f6584d9e0c519a37c55148d5bf293b5cc05f",
+    "publication_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-revision-runtime-publication.json",
+      "sha256": "55fe41190c087f48d36ea845930cc02aca1c54c27459559315c14f68f3d4a4bc",
+      "bytes": 4737
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/login/src/auth/auth_reload.rs",
+      "sha256": "eb9768e9864d32af0d3accd7e5440ef27bfa152fe3a9f28e20eb11140a07ab75",
+      "bytes": 8736,
+      "git_blob": "7f3d5a914447394d7270ba63b768966ec76f0c0a"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source.rs",
+      "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+      "bytes": 3188,
+      "git_blob": "344e7197148e0fdf455d2180d82de760155da471"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "sha256": "52255b4e459277d827173b0cee5ded07a724f177d8fc83d2f99814ec506efb6b",
+      "bytes": 9154,
+      "git_blob": "4a2fedcd7221c3755dc654e585a6688cec11eb70"
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "sha256": "271a19abba415005f36d2b21249cd29baa4eb63a2ec9b1a1ecdb2078da44650e",
+      "bytes": 120922,
+      "git_blob": "664d96089868fdf10fced378d949b35193991714"
+    }
+  ],
+  "candidate": {
+    "path": "/tmp/p03-source-owner-review-resumed/MANIFEST.json",
+    "sha256": "5badaee02f8562048e99287d15cf0cd38a5b91102f87eb397d85d5266aaf3e92",
+    "bytes": 4000
+  },
+  "original_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "path": "codex-rs/login/src/auth/manager.rs",
+    "blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+    "sha256": "d2081e3e4f2f339a7a1aa52ea62d8485e7785c2b0a12dde1a7f470019d56dc2a",
+    "bytes": 119014,
+    "literal_anchors": [
+      {
+        "literal": "struct CachedAuth {",
+        "lines": [
+          1797
+        ]
+      },
+      {
+        "literal": "pub struct AuthManager {",
+        "lines": [
+          2043
+        ]
+      },
+      {
+        "literal": "external_auth: RwLock<Option<Arc<dyn ExternalAuth>>>",
+        "lines": [
+          2060
+        ]
+      },
+      {
+        "literal": "pub async fn set_external_auth(",
+        "lines": [
+          2660
+        ]
+      },
+      {
+        "literal": "async fn install_external_auth(",
+        "lines": [
+          2672
+        ]
+      },
+      {
+        "literal": "pub fn clear_external_auth(",
+        "lines": [
+          2688
+        ]
+      },
+      {
+        "literal": "fn external_auth_provider(",
+        "lines": [
+          2814
+        ]
+      },
+      {
+        "literal": "fn commit_external_auth(",
+        "lines": [
+          3052
+        ]
+      },
+      {
+        "literal": "async fn resolve_external_auth(",
+        "lines": [
+          2829
+        ]
+      },
+      {
+        "literal": "async fn refresh_external_auth(",
+        "lines": [
+          3025
+        ]
+      },
+      {
+        "literal": "fn validate_external_auth(",
+        "lines": [
+          3073
+        ]
+      },
+      {
+        "literal": "fn set_cached_auth(",
+        "lines": [
+          2627
+        ]
+      },
+      {
+        "literal": "async fn load_auth(&self)",
+        "lines": [
+          2574
+        ]
+      },
+      {
+        "literal": "async fn new_from_auth_config(",
+        "lines": [
+          2178
+        ]
+      },
+      {
+        "literal": "pub fn external_bearer_only(",
+        "lines": [
+          2327
+        ]
+      }
+    ],
+    "project_private_paths_absent_at_upstream_pin": {
+      "codex-rs/login/src/auth/auth_source.rs": true,
+      "codex-rs/login/src/auth/auth_reload.rs": true,
+      "codex-rs/login/src/auth/auth_source_tests.rs": true
+    },
+    "verification": "Evidence author independently read immutable ls-tree and cat-file with optional locks and lazy fetch disabled; no source/object/Git writes. Literal anchors do not establish semantic equivalence.",
+    "proof": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/ORIGINAL_UPSTREAM_ANCHORS.json",
+      "sha256": "0360411e029a4496ba6e3012514b7a296249f099261850f50dba1a240b2ae9f2",
+      "bytes": 2278
+    }
+  },
+  "native_boundaries": [
+    {
+      "upstream_symbol": "CachedAuth / AuthManager.external_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        1797,
+        2043,
+        2060
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "struct CachedAuth {",
+          "lines": [
+            1837
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "external_auth: Option<Arc<dyn ExternalAuth>>",
+          "lines": [
+            1840
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_adaptation",
+      "scope": "Move provider ownership from a separate RwLock into the existing credential owner."
+    },
+    {
+      "upstream_symbol": "AuthManager::set_external_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2660
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub async fn set_external_auth(",
+          "lines": [
+            25
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_method_relocation",
+      "scope": "Retain the public workload-identity replacement restriction."
+    },
+    {
+      "upstream_symbol": "AuthManager::install_external_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2672
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub(super) async fn install_external_auth(",
+          "lines": [
+            37
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "literal": "pub(super) fn replace_auth_owner(",
+          "lines": [
+            120
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_adaptation",
+      "scope": "Prepare then pair provider and credentials in one owner publication; installation admission remains Unfenced."
+    },
+    {
+      "upstream_symbol": "AuthManager::clear_external_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2688
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub fn clear_external_auth(",
+          "lines": [
+            54
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "literal": "pub(super) fn replace_auth_owner(",
+          "lines": [
+            120
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_adaptation",
+      "scope": "Test source presence and remove provider/cache/failure under the same owner guard."
+    },
+    {
+      "upstream_symbol": "AuthManager::external_auth_provider",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2814
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub(super) fn external_auth_provider(",
+          "lines": [
+            62
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_adaptation",
+      "scope": "Read provider from the credential owner; poison projects None."
+    },
+    {
+      "upstream_symbol": "AuthManager::commit_external_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        3052
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub(super) fn commit_external_auth(",
+          "lines": [
+            69
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "fn persist_external_auth(",
+          "lines": [
+            75
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_helper_relocation_and_private_extraction",
+      "scope": "Extract native persistence block into private helper while retaining unfenced cache-only refresh commit."
+    },
+    {
+      "upstream_symbol": "AuthManager::set_cached_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2627
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "fn set_cached_auth(",
+          "lines": [
+            2716
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "literal": "pub(super) fn replace_auth_cache(",
+          "lines": [
+            112
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "literal": "pub(super) fn replace_auth_owner(",
+          "lines": [
+            120
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "existing_native_adaptation_extended",
+      "scope": "Delegate cache-only updates through AuthOwnerUpdate::Cache, retaining the selected provider."
+    },
+    {
+      "upstream_symbol": "AuthManager::load_auth / resolve_external_auth / refresh_external_auth / validate_external_auth",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2574,
+        2829,
+        3025,
+        3073
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn load_auth(&self)",
+          "lines": [
+            2620
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn resolve_external_auth(",
+          "lines": [
+            2876
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn refresh_external_auth(",
+          "lines": [
+            3072
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "fn validate_external_auth(",
+          "lines": [
+            3099
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "retained_native_dependencies",
+      "scope": "Provider lookup reaches co-location; separate reads, refresh ownership and side effects are not newly fenced."
+    },
+    {
+      "upstream_symbol": "AuthManager::new_from_auth_config / external_bearer_only",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_declaration_lines": [
+        2178,
+        2327
+      ],
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn new_from_auth_config(",
+          "lines": [
+            2216
+          ],
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "pub fn external_bearer_only(",
+          "lines": [
+            2369
+          ],
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "classification": "native_constructor_adaptation",
+      "scope": "All CachedAuth constructors initialize source ownership; command-provider initialization remains available."
+    }
+  ],
+  "project_custom_support": [
+    {
+      "symbol": "AuthOwnerUpdate",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "pub(super) enum AuthOwnerUpdate",
+        "lines": [
+          15
+        ],
+        "source_bytes": "final_checkout"
+      },
+      "ancestry": "New project-private owned source/cache update forms; no upstream declaration."
+    },
+    {
+      "symbol": "SourceChange",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "literal": "enum SourceChange",
+        "lines": [
+          92
+        ],
+        "source_bytes": "final_checkout"
+      },
+      "ancestry": "New project-private mutation description; no upstream declaration."
+    },
+    {
+      "symbol": "replace_auth_owner",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "literal": "pub(super) fn replace_auth_owner(",
+        "lines": [
+          120
+        ],
+        "source_bytes": "final_checkout"
+      },
+      "ancestry": "New project-private owner commit helper extending previously private reload/cache support."
+    },
+    {
+      "symbol": "persist_external_auth",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "fn persist_external_auth(",
+        "lines": [
+          75
+        ],
+        "source_bytes": "final_checkout"
+      },
+      "ancestry": "New private helper name extracted from the original native commit_external_auth persistence block."
+    }
+  ],
+  "test_boundaries": [
+    {
+      "name": "replacement_retires_provider_after_cache_and_failure_publication",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "classification": "new_project_private_baseline_compatible_test"
+    },
+    {
+      "name": "clear_retires_provider_after_clearing_its_cache_and_failure",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "classification": "new_project_private_baseline_compatible_test"
+    },
+    {
+      "name": "preparation_failure_preserves_the_previous_source_cache_and_failure",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "classification": "new_project_private_baseline_compatible_test"
+    },
+    {
+      "name": "clear_without_external_source_preserves_native_cache_and_failure",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "classification": "new_project_private_baseline_compatible_test"
+    },
+    {
+      "name": "workload_owned_source_cannot_be_replaced_or_cleared",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "classification": "new_project_private_baseline_compatible_test"
+    },
+    {
+      "name": "poisoned_credential_owner_cannot_expose_an_external_source",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "classification": "new_project_private_baseline_compatible_test"
+    }
+  ],
+  "contracts": [
+    "Store the external provider in CachedAuth under the same inner RwLock as credentials, credential revision and scoped permanent failure.",
+    "Resolve/classify and prepare external persistence before installation; publish provider plus prepared credentials and clear prior-source failure under one owner write guard.",
+    "Private AuthOwnerUpdate::Install requires prepared credentials and cannot represent Preserve; cache-only updates retain the selected source.",
+    "Clear checks source presence and clears its provider/cache/failure within one guard; absent external source preserves native state.",
+    "Retired provider/auth/failure/revision values are owned until after policy and credential guards are dropped; existing notification semantics and workload ownership rules remain compatible.",
+    "The legacy provider projection returns None for a poisoned owner; checked acquisition remains unavailable and an owned install reports a transient failure."
+  ],
+  "state_dependencies_lifecycle": "One in-memory owner now retains provider, credentials, credential revision and permanent failure. Owned updates retire replaced values after locks. Existing resolve, persistence, refresh, watch/network-policy, workload and command-provider lifecycles remain; source admission, identity and callback lifetime are not closed.",
+  "updater_impact": {
+    "upstream_pin_changed": false,
+    "component_contract_changed": false,
+    "persisted_schema_changed": false,
+    "public_api_added": false,
+    "dependency_changed": false,
+    "historical_index_or_mapping_modified": false,
+    "validator_support_claim": false,
+    "semantic_closure": false,
+    "full_symbol_graph": false,
+    "new_map_recognition_requires_separate_checker_review": true
+  },
+  "evidence": "verification/2026-10-01/P03_SOURCE_OWNER_EVIDENCE.md",
+  "results": "verification/2026-10-01/p03-source-owner-results.json",
+  "independent_extraction": false,
+  "fresh_full_host_proof": false,
+  "semantic_closure": false,
+  "full_symbol_graph": false,
+  "scope_limits": [
+    "Narrow paired in-memory source/credential/failure publication and retirement prerequisite; install uses CachePolicy::Unfenced.",
+    "No installer admission ordering, pending-install-after-clear arbitration, retained source identity/ABA fencing, or coherent source/cache/policy capture. Equal-byte source replacement clears prior-source failure without advancing credential revision.",
+    "Refresh success can still overwrite a newer source pair; outer refresh failure ownership remains separate. Cache-only commit and conditional model-cache publication are not source fences.",
+    "Persistence precedes final memory publication and may survive a denied commit; no persistent transaction, durable logout, restart provenance or shared-store fence. Poison may be discovered after resolve/persistence side effects.",
+    "No callback-retained-work cancellation/settlement, future HTTP dispatch authority, per-retry/response lifetime or catalog publication guarantee follows.",
+    "No new installed auth/catalog component, broker activation, independent extraction, dependency, public API or persisted-schema change. The latest full-host checkpoint b3530790258a74c0c61bfd00e4d13141b763269b and CLI 876c826f76d574d9fee62011166b1ae3f4b15f69103f361aedb4e44cef08de71 use preceding source 18140083910d19c86e9cadaef0990db9aa652f6e, not this change.",
+    "Upstream literal/blob anchors provide bounded provenance, not semantic equivalence, full symbol/call graph, P00M checker support, current-index closure or updater/migration/rollback acceptance. Historical mappings and evidence remain unchanged."
+  ],
+  "finalized": true,
+  "finalized_utc": "2026-10-01T20:09:14.712084+00:00",
+  "source_binding": {
+    "source_commit": "99e6802fd478e55686559aefdd6ae79177a45397",
+    "source_tree": "651cca62fb376fed10b50872165edda8d9b099e3",
+    "actual_source_commit_parent": "b3530790258a74c0c61bfd00e4d13141b763269b",
+    "actual_source_commit_parent_tree": "31c9f6584d9e0c519a37c55148d5bf293b5cc05f",
+    "immutable_source_object_created": true,
+    "main_advanced_at_creation_receipt": false,
+    "creation_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-created-source-commit.json",
+      "sha256": "a6ac63b1e3850d33399965eb68b43d638d0452c15ab3606db5508becad3c0ea8",
+      "bytes": 1828
+    },
+    "publication_manifest": {
+      "path": "/tmp/p03-source-owner-publication-manifest.json",
+      "sha256": "4d3ab241bb254fdabee034b45a223c9965c0c798ea4315dec30bf1beb1abec88",
+      "bytes": 1620
+    },
+    "final_blob_ids_match_root_publication_manifest": true,
+    "all_four_git_blob_ids_independently_recomputed_from_final_bytes": true,
+    "root_manifest_matching_scoped_entries": 8888,
+    "all_8888_final_scope_file_hashes_independently_checked": true,
+    "final_scope_hash_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/FORMAT_REVIEW.json",
+      "sha256": "ad18b7fc685d18882c9d278baaadb18719d30f126cc73e57c239f28cb1e4a15b",
+      "bytes": 2359
+    },
+    "final_source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-verified-source.tar.gz",
+      "sha256": "28c110b6b7f526c2c11e4b98ba259ba0fc73f9716f4518d8113b9642d4074786",
+      "bytes": 27015
+    },
+    "publication_context": "Created source object is not yet main in this receipt. Later evidence/docs publication and atomic branch advancement belong to root's separate publication receipt."
+  },
+  "scoped_tests_passed": 391,
+  "test_counts": {
+    "summary_available": true,
+    "run": 391,
+    "passed": 391,
+    "failed": 0,
+    "filtered": 0,
+    "test_seconds": 168.041,
+    "binaries_reported_by_nextest": 3,
+    "retry_events_reported": 0,
+    "pass_counts_by_binary": {
+      "codex-login": 241,
+      "codex-login::all": 42,
+      "codex-model-provider": 108
+    },
+    "failing_tests": [],
+    "compile_finished_lines": [
+      "Finished `test` profile [unoptimized] target(s) in 2m 58s"
+    ],
+    "login_total": 283,
+    "model_provider_total": 108,
+    "in_run_retries": 0
+  },
+  "validation": {
+    "red_gate": {
+      "source_report": {
+        "path": "/workspace/acceptance/p03-source-owner-red.source.json",
+        "sha256": "05d91708c180cde9fd12b6cf9bb71b1331351e83fce2e4fc5f4708239d6db381",
+        "bytes": 2454882
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-source-owner-red.log",
+        "sha256": "a135855000cbf5c63e0967f67d65aa351913feca6ed684c6b963c99fa3204a49",
+        "bytes": 7721
+      },
+      "strict_report": {
+        "path": "/workspace/acceptance/p03-source-owner-red.subreaper.json",
+        "sha256": "d9418ad69d8cd14ae04af4befe7c8bfcf85332f06a10fc7bde2fda234bf0964b",
+        "bytes": 502
+      },
+      "test_run": {
+        "summary_available": true,
+        "run": 6,
+        "passed": 2,
+        "failed": 4,
+        "filtered": 277,
+        "test_seconds": 0.088,
+        "binaries_reported_by_nextest": 2,
+        "retry_events_reported": 0,
+        "pass_counts_by_binary": {
+          "codex-login": 2
+        },
+        "passing_tests": [
+          "auth::manager::auth_source_tests::clear_without_external_source_preserves_native_cache_and_failure",
+          "auth::manager::auth_source_tests::workload_owned_source_cannot_be_replaced_or_cleared"
+        ],
+        "failing_tests": [
+          "auth::manager::auth_source_tests::clear_retires_provider_after_clearing_its_cache_and_failure",
+          "auth::manager::auth_source_tests::poisoned_credential_owner_cannot_expose_an_external_source",
+          "auth::manager::auth_source_tests::replacement_retires_provider_after_cache_and_failure_publication",
+          "auth::manager::auth_source_tests::preparation_failure_preserves_the_previous_source_cache_and_failure"
+        ],
+        "compile_finished_lines": [
+          "Finished `test` profile [unoptimized] target(s) in 2m 52s"
+        ],
+        "in_run_retries": 0
+      }
+    },
+    "green_gate": {
+      "source_report": {
+        "path": "/workspace/acceptance/p03-source-owner-tests.source.json",
+        "sha256": "f3fc86a1008b5f14920c06dd1c193a914ea280789161856502ef09b89f308905",
+        "bytes": 2455090
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-source-owner-tests.log",
+        "sha256": "41acc4b43c880b3c3d3026785766056e78c2cb2ee59f1922d701b60759f45fb5",
+        "bytes": 53813
+      },
+      "strict_report": {
+        "path": "/workspace/acceptance/p03-source-owner-tests.subreaper.json",
+        "sha256": "75bf799c9c3de2afd672bd785063e4a05bd288edcdb86b98e61b6c12ebf96045",
+        "bytes": 551
+      },
+      "nonzero_reaps_other_than_command": [
+        {
+          "pid": 822786,
+          "wait_status": 9,
+          "returncode": -9
+        }
+      ]
+    },
+    "initial_lint_gate": {
+      "source_report": {
+        "path": "/workspace/acceptance/p03-source-owner-fix.source.json",
+        "sha256": "daff007e4962322f29b50afd60ffb77934933de4580018e8701692c474fe3068",
+        "bytes": 2463508
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-source-owner-fix.log",
+        "sha256": "73587560cfc816cba87f880fb4fc91fc8d9f289ad944ab1605ef94e13ba0078e",
+        "bytes": 2734
+      },
+      "warning": {
+        "kind": "clippy::type_complexity",
+        "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+        "line": 23,
+        "resolved_by": "Private RetirementObserver alias for the exact existing observer tuple type."
+      }
+    },
+    "clean_lint_gate": {
+      "source_report": {
+        "path": "/workspace/acceptance/p03-source-owner-fix-clean.source.json",
+        "sha256": "037b2565937ed79a65dde58586c8105d31f3bde5ed82bcb8efa58726c7007d31",
+        "bytes": 2463508
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-source-owner-fix-clean.log",
+        "sha256": "a154163fd0d5984582d8b161b8f2a05f70bfb217ca86ff9648dff2aef684e661",
+        "bytes": 317
+      },
+      "returncode": 0,
+      "source_entries_before": 8925,
+      "source_before_after_equal": true,
+      "warning_lines_logged": 0
+    },
+    "mechanical_alias": {
+      "root_transition": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-type-alias-transition.json",
+        "sha256": "d29ab57eac9b0259adec029f7f71e5655f882b78ba565375a9b0d90f43eb3da8",
+        "bytes": 356
+      },
+      "independent_review": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/TYPE_ALIAS_REVIEW.json",
+        "sha256": "7b376d1a5b7438a2767f2b2a531c3c7768df6d13655e515d445988bb428b5551",
+        "bytes": 1133
+      },
+      "review": {
+        "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+        "before_sha256": "a057d5826a0b31722681462f374be99530b3e4c1f2d06937cf69c80a8c188c15",
+        "after_sha256": "286ed32c107b6e4b41b10d9a7384b856ca0c6bc146294c9482960f20f08cbb99",
+        "source_basis": "Exact alias-only reconstruction matches both terminal clean-lint before/after fingerprints and root alias transition; formatter may already have advanced checkout bytes.",
+        "mechanical_equivalence_check": "Removing the exact alias declaration and expanding the single field alias use restores the tested source byte for byte.",
+        "restores_tested_source_exactly": true,
+        "production_paths_changed": false,
+        "test_expressions_assertions_and_order_changed": false,
+        "tests_repeated_after_this_review": false,
+        "post_alias_snapshot": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/post-alias-auth_source_tests.rs",
+        "diff": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/type-alias-review.patch",
+          "sha256": "a07c8c058dfd90d5a1dcde5d9e15984e1c885710e99ae281c098588b283cdaaa",
+          "bytes": 509
+        }
+      },
+      "tests_repeated_after_alias": false
+    },
+    "format_gate": {
+      "source_report": {
+        "path": "/workspace/acceptance/p03-source-owner-fmt.source.json",
+        "sha256": "a1a699738eb6f8bc05b789631993ef1ab492e9ee305a4e0323024ddcf5d09f37",
+        "bytes": 2866965
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-source-owner-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "returncode": 0,
+      "repository_transition": {
+        "path": "/workspace/acceptance/p03-source-owner-fmt-repository.transition.json",
+        "sha256": "945d7f9ebc7446fdbd863b6f1ad3cfca9f615df2b026f1656bb5589e35993e4d",
+        "bytes": 1184
+      },
+      "repository_entries": 9778,
+      "changed_paths": [
+        "codex-rs/login/src/auth/auth_reload.rs",
+        "codex-rs/login/src/auth/auth_source_tests.rs",
+        "codex-rs/login/src/auth/manager.rs"
+      ],
+      "independent_review": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/FORMAT_REVIEW.json",
+        "sha256": "ad18b7fc685d18882c9d278baaadb18719d30f126cc73e57c239f28cb1e4a15b",
+        "bytes": 2359
+      },
+      "tests_repeated_after_alias_or_formatting": false
+    }
+  }
+}

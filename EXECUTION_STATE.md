@@ -10,14 +10,13 @@ Read [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md),
 - Original cloud checkout: `/workspace/codex-harness-everythings-a-plugin`.
   Preserve `/workspace/codex-harness-next-components` and both worktrees' changes.
 - Origin: `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
-- Latest remotely verified main: `3c846fe85a9f1eac0f1fa6ef73e9aee12c8089b3`, tree
-  `b0cdae358b7a9bb0b146659003d5d7085579523e`, parent source checkpoint
-  `18140083910d19c86e9cadaef0990db9aa652f6e`. All 14 affected source/evidence/doc
-  blobs and main were verified after a nonforce update from fresh `192d353d`.
-  Receipt `p03-cache-revision-publication.json`, SHA256
-  `2a8de9055d4751ef2970764cce4dae8d029204ace60ac07ae82e34339c1eabb8`.
-  The preceding runtime checkpoint `192d353d` binds native source `e289b6b5`;
-  its full-host proof remains distinct from this newer source.
+- Last completed remote verification before this checkpoint:
+  `b3530790258a74c0c61bfd00e4d13141b763269b`, tree
+  `31c9f6584d9e0c519a37c55148d5bf293b5cc05f`. All nine runtime/evidence/doc blobs
+  and main were verified after a fresh-parent, nonforce update. Receipt
+  `p03-cache-revision-runtime-publication.json`, SHA256
+  `55fe41190c087f48d36ea845930cc02aca1c54c27459559315c14f68f3d4a4bc`.
+  That full-host proof binds source `18140083`, not the newer owner change below.
 - Official upstream remains `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`; retain LICENSE/NOTICE.
 - Local HEAD/index remain at the original upstream pin; local main is stale.
@@ -59,68 +58,46 @@ Other subsystems remain coupled, adapters or compiled prerequisites.
 
 ## Current source checkpoint and ordered next actions
 
-Latest remotely verified main: `3c846fe85a9f1eac0f1fa6ef73e9aee12c8089b3`, tree
-`b0cdae358b7a9bb0b146659003d5d7085579523e`. All 14 source/evidence/doc blobs matched;
-publication receipt `p03-cache-revision-publication.json` SHA256
-`2a8de9055d4751ef2970764cce4dae8d029204ace60ac07ae82e34339c1eabb8`.
-
-1. Current immutable native source: `18140083910d19c86e9cadaef0990db9aa652f6e`,
-   tree `36e47c268966b945ee967e4c13e73224cc6b85cb`, parent `192d353d`.
-   [Cache evidence](verification/2026-10-01/P03_CACHE_REVISION_EVIDENCE.md) records
-   385 passes (277 login +108 provider), no skips/retries; preserve the separate
-   1-pass/7-failure baseline. Only two production paths changed between runs;
-   all eight new tests were unchanged. Lint passed unchanged; three files were
-   formatted mechanically. All 8,886 scoped final entries match the source tree.
-   The unchanged strict runner returned 0/null; its extra adopted descendant
-   exited by SIGKILL (-9), with exact fixture/cause attribution unknown.
-   Source archive `p03-cache-revision-verified-source.tar.gz`, SHA256
-   `e2bc6e7a5b0467e09f1ab367ed209ff44196a30975d3a8de3b26b0c1cbb33030`.
-   Publication and remote verification completed as recorded above. Re-resolve
-   remote main when resuming; never infer it from stale local refs.
-2. Current-source full CLI and installed runtime acceptance passed; see
-   [the additive runtime supplement](verification/2026-10-01/P03_CACHE_REVISION_FULL_HOST_EVIDENCE.md).
-   Source `18140083` built in 4m 46s, CLI SHA256
-   `876c826f76d574d9fee62011166b1ae3f4b15f69103f361aedb4e44cef08de71`.
-   All successful build/storage/migration/GUI maps retain identical 8,886 entries.
-   13 storage commands, 10 migration commands (plus a fresh workspace fixture repeat),
-   and two GUI cold cycles passed with unchanged external packages. Both active-turn
-   first manager SIGINTs exited 0 in 0.269s/0.270s, tracked processes absent, no forced
-   cleanup. Strict runners passed; some adopted storage/migration descendants have
-   nonzero statuses with executable/cause attribution unknown. Do not claim every
-   child exited 0. Preserve GUI ENOSPC and subsequent fixture-path rejection separately;
-   neither failure was rewritten or its guard weakened. Chromium/Playwright fixture
-   inference is not in-app Browser/live-provider proof. No new attachment roundtrip.
-   Archive `p03-cache-revision-full-cli-preserved.tar.zst`, SHA256
-   `f941862faef55169ab16fa51a9dc3c177f9bdcaa8982d19fc5e5152bad70611b`,
-   retains exact executable bytes; receipt SHA256
-   `3840e024cefeba5ba314396628e720aa04ced086463ffe59b57c52e9a445cf33`.
-   Root owns checkout/Rust/cache/Git mutations; workers stage only in designated paths.
-3. Next reviewed source-owner plan: source/cache/provider publication under one
-   owner, then latest-admitted installer and source/cache/policy fencing. Frozen
-   plan manifest `bbe999f2ab518fc58803793bf2839aa19ffe4a199c99775cae1c4169a3cdb5c4`;
-   archive `p03-native-source-publication-plan-bbe999f2.tar.gz`, SHA256
-   `dad402783e9f3e369e47e3b65ef62a34f3759d9332b42f7bac0e5c20a6e3716d`.
-   Corrected smaller candidate `/tmp/p03-source-owner-review-resumed` is statically
-   reviewed and unadopted/untested: manifest `5badaee0`, six authored tests. Archive
-   `p03-source-owner-corrected-review-stage.tar.gz`, SHA256
-   `bff82c98f1ceac5e145d5db2580089e96f29ab54e1b368bc92624e3d55e23118`.
-   Next apply its tests alone against recorded bases, preserve actual red evidence,
-   then apply production and run login/provider regressions, scoped fix and fmt.
-   Use `/tmp/adopt-p03-source-owner.py`; root reviewed the exact production/test diff.
-   Mechanical co-location is not a complete source fence or installed extraction.
-4. Carry authority through installer ordering/equal-byte replacement, actual
-   refresh success/failure, shared persistence, gateway retained work, HTTP
-   retries/body/decode and native model-cache publication. Preserve legitimate
-   account-bound factory revocation. Follow the reviewed native plans and
-   [leaf broker design](P03_LEAF_BROKER_DESIGN.md); do not activate catalog before
-   its connected lifecycle/cancellation/drain/quarantine gates pass.
-5. Prove installed native/custom catalog consumers with a separately built worker,
-   unchanged host and actual GUI/headless recovery. Then continue every P04–P19
-   inventory obligation, maintaining exact provenance each slice.
-6. **P18U is required**: independently installed maintenance component plus external
-   bootstrap/recovery, real later upstream integration in isolation, compatible
-   custom packages, incompatible-update refusal and failed activation/applicable
-   interrupted-migration rollback. No polling or live update is enabled.
+1. Native source-owner checkpoint `99e6802fd478e55686559aefdd6ae79177a45397`,
+   tree `651cca62fb376fed10b50872165edda8d9b099e3`, parent `b3530790`.
+   [Evidence](verification/2026-10-01/P03_SOURCE_OWNER_EVIDENCE.md) preserves a
+   2-pass/4-assertion-failure/277-filtered baseline and **391 passing tests**:
+   283 login plus 108 provider, no skips/retries. Only three production paths
+   changed between runs; all six new tests stayed byte-identical. Initial lint
+   passed unchanged with one fixture type-complexity warning. A private type alias
+   resolved it; clean lint passed unchanged, and three mechanical formatter changes
+   were independently reviewed. No tests were repeated solely for alias/formatting.
+   All 8,888 final scoped files match the source tree. The strict runner returned
+   0/null with an additional SIGKILL (-9) child reap whose attribution/cause is unknown.
+   The source archive SHA256 is
+   `28c110b6b7f526c2c11e4b98ba259ba0fc73f9716f4518d8113b9642d4074786`.
+2. Complete a fresh full CLI build and unchanged installed storage/migration/GUI
+   acceptance for that newer owner source. Prior full-host proof uses CLI
+   `876c826f76d574d9fee62011166b1ae3f4b15f69103f361aedb4e44cef08de71`
+   and source `18140083` only. Preserve both earlier GUI setup failures, measured
+   nonzero child statuses and the successful fresh workspace GUI run. Use fresh
+   workspace runtime directories and workspace TMPDIR, since `/tmp` is nearly full.
+   Archive exact generated test executables before retirement when reclaiming space.
+   Root alone owns checkout/Rust/cache/Git mutations; no mutation during active Rust.
+3. Review/rebase staged installer ordering onto the final formatted owner source:
+   `recovery-backups/20260930T165936Z/p03-install-order-stage`, manifest SHA256
+   `7c0b113d1a0b03e86cd8350a06899ec807f5621e7e43857eb4d9132f19515f31`.
+   Its nine held-future tests and +154/-26 production patch are uncompiled and
+   unadopted. Latest-admitted intent, exact source/cache/policy capture, equal-byte
+   source identity, and clear(None) invalidation follow the frozen native plan.
+   Preserve corrected owner-stage preimages; do not apply stale patches blindly.
+4. Carry authority through actual load/refresh success and failure, shared persistence,
+   gateway retained work, HTTP retries/body/decode and native model-cache publication.
+   Preserve legitimate account-bound factory revocation. Keep catalog activation
+   fail-closed until connected lifecycle/cancellation/drain/quarantine gates pass.
+5. Prove installed native/custom catalog consumers using separately built workers,
+   unchanged hosts and actual GUI/headless recovery. Then continue every P04–P19
+   inventory obligation with exact source/contract/customization provenance.
+6. **P18U remains required and unimplemented**: independently installed maintenance
+   component plus external bootstrap/recovery, isolated integration of a real later
+   upstream revision, unchanged custom packages, incompatible-update refusal and
+   failed activation/applicable interrupted-migration rollback. No polling/live
+   update is enabled. [Maintenance contract](UPSTREAM_MAINTENANCE.md).
 
 ## Recent resource preservation
 
@@ -184,7 +161,7 @@ created a fresh migration fixture directly in workspace and ran a third GUI gate
 Use the workspace fixture/results; preserve both failures. Future test TMPDIR must
 have measured space; free `/dev/shm` is not an available cgroup allocation budget.
 No live GUI process, native source, secondary worktree or lifecycle assertion
-was changed. Current code is externally durable on GitHub; runtime/binary archives
+was changed. Published source checkpoints are externally durable on GitHub; runtime/binary archives
 remain cloud-local. Recheck free space before compiling the next slice.
 
 Before the next build, root consolidated the unused historical provider CLI only
@@ -194,3 +171,14 @@ retains executable `70669f0b` and historical metadata; receipt SHA256
 `2c77110620a8707499b8ff5d5facab61a1e1efd6c99ce185483cf52a05af786e`.
 Current CLI, live GUI and eight historical aliases stayed intact. Overlay free
 space was about949MB afterward; `/tmp` remained limited to about94MB free.
+
+The 391-test executables were verified in
+`p03-source-owner-green-test-executables.tar.zst`, SHA256
+`39f803144a69103442e89fd2d29f234b0242a9546aa6edcd933a5caaf7077743`,
+before retiring only the three generated paths; receipt SHA256
+`f81a9934f3e84af42fa354ffb30a591a9085f4ba3ebdb54ac56ce47a8f35c099`.
+Their bytes bind the pre-alias tested source. The later final-format full CLI build
+started separately as `p03-source-owner-full-cli-build`; inspect its terminal report.
+The unadopted installer draft is separately archived as
+`p03-install-order-unadopted-stage.tar.gz`, SHA256
+`45d7ae8cecda7a015b1bab6da1e56c8bfa3756d72f2685e138b621c6131a0dc6`.

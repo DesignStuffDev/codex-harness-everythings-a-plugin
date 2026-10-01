@@ -262,3 +262,22 @@ using Chromium/Playwright and deterministic inference. It does not increase nati
 extraction coverage, exercise a new attachment roundtrip, establish installed auth
 or catalog selection, or satisfy P18U's real later-upstream integration and rollback.
 In-app Browser and live-provider acceptance remain pending. Upstream stays pinned.
+
+## Native source and credential ownership checkpoint
+
+Source `99e6802fd478e55686559aefdd6ae79177a45397` pairs the active external auth
+provider with credentials and failure metadata under one native owner. Failed
+credential preparation preserves the previous in-memory pair; clear and provider
+retirement observe the published state, with provider destruction outside locks.
+The [scoped evidence](verification/2026-10-01/P03_SOURCE_OWNER_EVIDENCE.md) retains
+four baseline assertion failures and **391 passing login/provider tests**, exact
+post-test type-alias/formatting transitions and an unattributed SIGKILL child reap.
+The [lineage](upstream/p03-native-source-owner-lineage.json) maps actual pinned
+upstream methods separately from private owned-update and persistence helpers.
+
+This is a compiled native ownership prerequisite, not installed authentication or
+catalog extraction. Installer ordering, source ABA, load/refresh ownership and
+shared persistence remain open; the previous full-host GUI proof covers source
+`18140083` only. This checkpoint needs its own full-host/GUI acceptance. Extraction
+counts and the upstream pin do not change. P18U's integration/recovery gates remain
+required, with no active polling or live update.

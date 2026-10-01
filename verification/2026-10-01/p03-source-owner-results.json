@@ -1,0 +1,753 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_source_owner_prerequisite",
+  "finalized": true,
+  "passed": true,
+  "created_utc": "2026-10-01T20:04:49.923901+00:00",
+  "candidate": {
+    "path": "/tmp/p03-source-owner-review-resumed/MANIFEST.json",
+    "sha256": "5badaee02f8562048e99287d15cf0cd38a5b91102f87eb397d85d5266aaf3e92",
+    "bytes": 4000
+  },
+  "static_review": {
+    "path": "/tmp/p03-source-owner-review-resumed/REVIEW.md",
+    "sha256": "475bc7d97509bc13b288cd39c7348a4167f645d86b387b51e64f6d805e6ade33",
+    "bytes": 6867
+  },
+  "static_review_corrections": [
+    "Remove ambiguous .into() from impl Into<String> test argument",
+    "Record and assert exact API-key bytes at provider retirement and in cached-auth checks"
+  ],
+  "original_reviewed_test_preimage": {
+    "path": "/tmp/p03-source-owner-review-resumed/preimages/codex-rs/login/src/auth/auth_source_tests.rs",
+    "sha256": "fa096c0d2839eba845b78c77c5d74ab9e86788d151dd444522737a1cc88d5cd2",
+    "bytes": 8648
+  },
+  "source_base": {
+    "source_commit": "18140083910d19c86e9cadaef0990db9aa652f6e",
+    "source_tree": "36e47c268966b945ee967e4c13e73224cc6b85cb",
+    "published_checkpoint": "b3530790258a74c0c61bfd00e4d13141b763269b",
+    "published_tree": "31c9f6584d9e0c519a37c55148d5bf293b5cc05f",
+    "publication_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-revision-runtime-publication.json",
+      "sha256": "55fe41190c087f48d36ea845930cc02aca1c54c27459559315c14f68f3d4a4bc",
+      "bytes": 4737
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/login/src/auth/auth_reload.rs",
+      "base": {
+        "sha256": "749395936ee56570eaf50de963b65dd237105d2ee817f78c12df9e8f5b91a68d",
+        "bytes": 7238
+      },
+      "original_proposed": {
+        "sha256": "61846eeda8c03febff3cc0b9f5a5427b3d4f2ac2d4d1865372d6cb7754b42788",
+        "bytes": 8779
+      },
+      "reviewed_proposed": {
+        "sha256": "61846eeda8c03febff3cc0b9f5a5427b3d4f2ac2d4d1865372d6cb7754b42788",
+        "bytes": 8779
+      },
+      "tests_only": {
+        "sha256": "749395936ee56570eaf50de963b65dd237105d2ee817f78c12df9e8f5b91a68d",
+        "bytes": 7238
+      }
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source.rs",
+      "base": null,
+      "original_proposed": {
+        "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+        "bytes": 3188
+      },
+      "reviewed_proposed": {
+        "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+        "bytes": 3188
+      },
+      "tests_only": null
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "base": null,
+      "original_proposed": {
+        "sha256": "fa096c0d2839eba845b78c77c5d74ab9e86788d151dd444522737a1cc88d5cd2",
+        "bytes": 8648
+      },
+      "reviewed_proposed": {
+        "sha256": "a057d5826a0b31722681462f374be99530b3e4c1f2d06937cf69c80a8c188c15",
+        "bytes": 9139
+      },
+      "tests_only": {
+        "sha256": "a057d5826a0b31722681462f374be99530b3e4c1f2d06937cf69c80a8c188c15",
+        "bytes": 9139
+      },
+      "correction_preimage": {
+        "sha256": "fa096c0d2839eba845b78c77c5d74ab9e86788d151dd444522737a1cc88d5cd2",
+        "bytes": 8648
+      }
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "base": {
+        "sha256": "9d85189ffe5474a7616b15fde9eb208b157ed28154c524474497a521de90c5b5",
+        "bytes": 123260
+      },
+      "original_proposed": {
+        "sha256": "0d39df74240be0b2ae8a51b3540ecf103ddb49e2c5500bac8a0b8816ff498652",
+        "bytes": 120922
+      },
+      "reviewed_proposed": {
+        "sha256": "0d39df74240be0b2ae8a51b3540ecf103ddb49e2c5500bac8a0b8816ff498652",
+        "bytes": 120922
+      },
+      "tests_only": {
+        "sha256": "c9effe18964f62930612d81df69f561aa1a53b9c1cd514936534d4292b07a177",
+        "bytes": 123330
+      }
+    }
+  ],
+  "tests_adoption": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-tests-adoption.json",
+    "sha256": "c4651b8d16476a5b89d5d299946a5bde832c7057f1f3bd2c6d87903eb11e49ca",
+    "bytes": 1790
+  },
+  "production_adoption": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-production-adoption.json",
+    "sha256": "359a821ab675ed1fc444317c76101b3dde1d4ca25aa5141f3a33f1a0c52a6268",
+    "bytes": 2165
+  },
+  "authored_test_functions": 6,
+  "authored_actual_http_tests": 0,
+  "red_gate": {
+    "status": "finished",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-source-owner-red.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-login",
+      "-E",
+      "test(auth::manager::auth_source_tests::)"
+    ],
+    "started_utc": "2026-10-01T19:47:32Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-source-owner-red.source.json",
+      "sha256": "05d91708c180cde9fd12b6cf9bb71b1331351e83fce2e4fc5f4708239d6db381",
+      "bytes": 2454882
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-source-owner-red.log",
+      "sha256": "a135855000cbf5c63e0967f67d65aa351913feca6ed684c6b963c99fa3204a49",
+      "bytes": 7721
+    },
+    "returncode": 100,
+    "finished_utc": "2026-10-01T19:50:31Z",
+    "source_entries_before": 8887,
+    "source_entries_after": 8887,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "c593c6962e54c954b6d7ffa973fe9f81fb883790378734182c1901b5874d05bc",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "strict_report": {
+      "path": "/workspace/acceptance/p03-source-owner-red.subreaper.json",
+      "sha256": "d9418ad69d8cd14ae04af4befe7c8bfcf85332f06a10fc7bde2fda234bf0964b",
+      "bytes": 502
+    },
+    "strict": {
+      "command": [
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login",
+        "-E",
+        "test(auth::manager::auth_source_tests::)"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 819686,
+          "wait_status": 25600,
+          "returncode": 100
+        }
+      ],
+      "command_pid": 819686,
+      "command_wait_status": 25600,
+      "command_returncode": 100,
+      "runner_error": null,
+      "exit_status": 100,
+      "elapsed_seconds": 174.562732107006
+    },
+    "nonzero_reaps_other_than_command": [],
+    "test_run": {
+      "summary_available": true,
+      "run": 6,
+      "passed": 2,
+      "failed": 4,
+      "filtered": 277,
+      "test_seconds": 0.088,
+      "binaries_reported_by_nextest": 2,
+      "retry_events_reported": 0,
+      "pass_counts_by_binary": {
+        "codex-login": 2
+      },
+      "passing_tests": [
+        "auth::manager::auth_source_tests::clear_without_external_source_preserves_native_cache_and_failure",
+        "auth::manager::auth_source_tests::workload_owned_source_cannot_be_replaced_or_cleared"
+      ],
+      "failing_tests": [
+        "auth::manager::auth_source_tests::clear_retires_provider_after_clearing_its_cache_and_failure",
+        "auth::manager::auth_source_tests::poisoned_credential_owner_cannot_expose_an_external_source",
+        "auth::manager::auth_source_tests::replacement_retires_provider_after_cache_and_failure_publication",
+        "auth::manager::auth_source_tests::preparation_failure_preserves_the_previous_source_cache_and_failure"
+      ],
+      "compile_finished_lines": [
+        "Finished `test` profile [unoptimized] target(s) in 2m 52s"
+      ],
+      "in_run_retries": 0
+    },
+    "exact_tests_only_and_production_base_verified": true,
+    "failures": [
+      {
+        "test": "replacement_retires_provider_after_cache_and_failure_publication",
+        "line": 109,
+        "observed": "Provider retirement observed the old exact fixture API key and previous permanent failure; owner try_write succeeded.",
+        "limit": "The loop failed on different credentials before reaching the equal-byte replacement case or later cache/watch assertions.",
+        "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+        "line_source": "tests-only red gate, before the later mechanical alias/format changes"
+      },
+      {
+        "test": "clear_retires_provider_after_clearing_its_cache_and_failure",
+        "line": 139,
+        "observed": "Provider retirement observed the old credential and permanent failure instead of cleared state; owner try_write succeeded.",
+        "limit": "Later final cache/provider assertions were not reached.",
+        "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+        "line_source": "tests-only red gate, before the later mechanical alias/format changes"
+      },
+      {
+        "test": "preparation_failure_preserves_the_previous_source_cache_and_failure",
+        "line": 185,
+        "observed": "The actual missing-token-state preparation error was returned, but the current provider Arc differed from the previous provider.",
+        "limit": "Later credential/failure/watch assertions were not reached; no shared-store save failure was injected.",
+        "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+        "line_source": "tests-only red gate, before the later mechanical alias/format changes"
+      },
+      {
+        "test": "poisoned_credential_owner_cannot_expose_an_external_source",
+        "line": 248,
+        "observed": "has_external_auth remained true after deliberate caught poisoning of this manager owner.",
+        "limit": "The intended caught poison panic at line 245 is fixture setup; the failure is the later assertion. Later acquisition/install/clear checks were not reached.",
+        "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+        "line_source": "tests-only red gate, before the later mechanical alias/format changes"
+      }
+    ]
+  },
+  "green_gate": {
+    "status": "finished",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-source-owner-tests.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-login",
+      "-p",
+      "codex-model-provider"
+    ],
+    "started_utc": "2026-10-01T19:51:50Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-source-owner-tests.source.json",
+      "sha256": "f3fc86a1008b5f14920c06dd1c193a914ea280789161856502ef09b89f308905",
+      "bytes": 2455090
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-source-owner-tests.log",
+      "sha256": "41acc4b43c880b3c3d3026785766056e78c2cb2ee59f1922d701b60759f45fb5",
+      "bytes": 53813
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T19:57:41Z",
+    "source_entries_before": 8888,
+    "source_entries_after": 8888,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "82fe07d8d5525c0060594f5d4f70769a9b2371dd1d18f21fb7892eb57959715d",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "strict_report": {
+      "path": "/workspace/acceptance/p03-source-owner-tests.subreaper.json",
+      "sha256": "75bf799c9c3de2afd672bd785063e4a05bd288edcdb86b98e61b6c12ebf96045",
+      "bytes": 551
+    },
+    "strict": {
+      "command": [
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login",
+        "-p",
+        "codex-model-provider"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 822786,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 820579,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 820579,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 348.06405994298984
+    },
+    "nonzero_reaps_other_than_command": [
+      {
+        "pid": 822786,
+        "wait_status": 9,
+        "returncode": -9
+      }
+    ],
+    "nonzero_reap_limit": "Executable attribution and cause are unknown unless separately demonstrated; the runner records no executable identity for these reaps.",
+    "test_run": {
+      "summary_available": true,
+      "run": 391,
+      "passed": 391,
+      "failed": 0,
+      "filtered": 0,
+      "test_seconds": 168.041,
+      "binaries_reported_by_nextest": 3,
+      "retry_events_reported": 0,
+      "pass_counts_by_binary": {
+        "codex-login": 241,
+        "codex-login::all": 42,
+        "codex-model-provider": 108
+      },
+      "failing_tests": [],
+      "compile_finished_lines": [
+        "Finished `test` profile [unoptimized] target(s) in 2m 58s"
+      ],
+      "login_total": 283,
+      "model_provider_total": 108,
+      "in_run_retries": 0
+    },
+    "red_to_green_changed_paths": [
+      "codex-rs/login/src/auth/auth_reload.rs",
+      "codex-rs/login/src/auth/auth_source.rs",
+      "codex-rs/login/src/auth/manager.rs"
+    ],
+    "new_test_file_unchanged_from_red": true,
+    "all_four_reviewed_proposal_hashes_match_tested_source": true,
+    "new_test_functions_passed": 6,
+    "new_tests_individually_passed": [
+      "auth::manager::auth_source_tests::clear_retires_provider_after_clearing_its_cache_and_failure",
+      "auth::manager::auth_source_tests::clear_without_external_source_preserves_native_cache_and_failure",
+      "auth::manager::auth_source_tests::poisoned_credential_owner_cannot_expose_an_external_source",
+      "auth::manager::auth_source_tests::replacement_retires_provider_after_cache_and_failure_publication",
+      "auth::manager::auth_source_tests::workload_owned_source_cannot_be_replaced_or_cleared",
+      "auth::manager::auth_source_tests::preparation_failure_preserves_the_previous_source_cache_and_failure"
+    ]
+  },
+  "initial_lint_gate": {
+    "status": "finished",
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-login",
+      "-p",
+      "codex-model-provider"
+    ],
+    "started_utc": "2026-10-01T19:57:56Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-source-owner-fix.source.json",
+      "sha256": "daff007e4962322f29b50afd60ffb77934933de4580018e8701692c474fe3068",
+      "bytes": 2463508
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-source-owner-fix.log",
+      "sha256": "73587560cfc816cba87f880fb4fc91fc8d9f289ad944ab1605ef94e13ba0078e",
+      "bytes": 2734
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T19:59:21Z",
+    "source_entries_before": 8925,
+    "source_entries_after": 8925,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "673a531fe040c0ba9e195e2d4aca50fdd950e0c2d3f49815cc9b3985e43db8f7",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "warning": {
+      "kind": "clippy::type_complexity",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "line": 23,
+      "resolved_by": "Private RetirementObserver alias for the exact existing observer tuple type."
+    },
+    "all_green_entries_equal_initial_lint_input": true
+  },
+  "lint_gate": {
+    "status": "finished",
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-login",
+      "-p",
+      "codex-model-provider"
+    ],
+    "started_utc": "2026-10-01T20:00:17Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-source-owner-fix-clean.source.json",
+      "sha256": "037b2565937ed79a65dde58586c8105d31f3bde5ed82bcb8efa58726c7007d31",
+      "bytes": 2463508
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-source-owner-fix-clean.log",
+      "sha256": "a154163fd0d5984582d8b161b8f2a05f70bfb217ca86ff9648dff2aef684e661",
+      "bytes": 317
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T20:00:29Z",
+    "source_entries_before": 8925,
+    "source_entries_after": 8925,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "8b768b127a4048f3806843e4ad22569c5ad63e1e0b29b80841fe839163b53a14",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "warning_lines_logged": 0,
+    "only_source_change_from_initial_lint": [
+      "codex-rs/login/src/auth/auth_source_tests.rs"
+    ]
+  },
+  "format_gate": {
+    "status": "finished",
+    "command": [
+      "env",
+      "-u",
+      "NO_COLOR",
+      "just",
+      "fmt"
+    ],
+    "started_utc": "2026-10-01T20:01:24Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-source-owner-fmt.source.json",
+      "sha256": "a1a699738eb6f8bc05b789631993ef1ab492e9ee305a4e0323024ddcf5d09f37",
+      "bytes": 2866965
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-source-owner-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T20:01:45Z",
+    "source_entries_before": 10337,
+    "source_entries_after": 10337,
+    "source_before_after_equal": false,
+    "source_map_canonical_sha256": "7bfafca549528deb21512938b8d562f37bba5aca4b6a3ddbab6b97bfefd67623",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "repository_before": {
+      "path": "/workspace/acceptance/p03-source-owner-fmt-repository.before.json",
+      "sha256": "c2d32cf9fac87e72a6f9a145eb06f67fbe59d9af86ed458c74e8de9b379034c9",
+      "bytes": 1314811
+    },
+    "repository_after": {
+      "path": "/workspace/acceptance/p03-source-owner-fmt-repository.after.json",
+      "sha256": "fd43528be16ec63a71f0c26965750164576037f77ec66f0ef9271309c5c295f3",
+      "bytes": 1314811
+    },
+    "repository_transition": {
+      "path": "/workspace/acceptance/p03-source-owner-fmt-repository.transition.json",
+      "sha256": "945d7f9ebc7446fdbd863b6f1ad3cfca9f615df2b026f1656bb5589e35993e4d",
+      "bytes": 1184
+    },
+    "repository_entries": 9778,
+    "changed_paths": [
+      "codex-rs/login/src/auth/auth_reload.rs",
+      "codex-rs/login/src/auth/auth_source_tests.rs",
+      "codex-rs/login/src/auth/manager.rs"
+    ],
+    "all_clean_lint_entries_equal_format_input": true,
+    "independent_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/FORMAT_REVIEW.json",
+      "sha256": "ad18b7fc685d18882c9d278baaadb18719d30f126cc73e57c239f28cb1e4a15b",
+      "bytes": 2359
+    },
+    "review": {
+      "repository_entries": 9778,
+      "whole_before_after_maps_compared": true,
+      "exactly_three_changed_paths": [
+        "codex-rs/login/src/auth/auth_reload.rs",
+        "codex-rs/login/src/auth/auth_source_tests.rs",
+        "codex-rs/login/src/auth/manager.rs"
+      ],
+      "reviews": [
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "before_sha256": "61846eeda8c03febff3cc0b9f5a5427b3d4f2ac2d4d1865372d6cb7754b42788",
+          "after_sha256": "eb9768e9864d32af0d3accd7e5440ef27bfa152fe3a9f28e20eb11140a07ab75",
+          "review": "The install match arm drops a redundant block around the same returned tuple; bindings, moved values, evaluation order and owner/drop logic are unchanged."
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+          "before_sha256": "286ed32c107b6e4b41b10d9a7384b856ca0c6bc146294c9482960f20f08cbb99",
+          "after_sha256": "52255b4e459277d827173b0cee5ded07a724f177d8fc83d2f99814ec506efb6b",
+          "review": "Reflows one constructor, one set_external_auth chain and one workload flag assignment; literals, calls, assertions and order are unchanged."
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "before_sha256": "0d39df74240be0b2ae8a51b3540ecf103ddb49e2c5500bac8a0b8816ff498652",
+          "after_sha256": "271a19abba415005f36d2b21249cd29baa4eb63a2ec9b1a1ecdb2078da44650e",
+          "review": "Reorders the same private path-qualified module declaration after the acquisition/reload modules; all module paths, module bodies and remaining manager bytes are unchanged."
+        }
+      ],
+      "auth_source_rs_unchanged": true,
+      "all_8888_green_entries_equal_initial_lint_input": true,
+      "initial_lint_entries": 8925,
+      "clean_lint_entries": 8925,
+      "all_clean_lint_entries_equal_format_input": true,
+      "format_wrapper_entries": 10337,
+      "current_final_scope_entries_independently_checked": 8888,
+      "final_scope_map_sha256": "429fa41057ed8a0b997d33cae39e04d493aa582191e51a3258c2ffe2bd54d2ab",
+      "type_alias_review": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/TYPE_ALIAS_REVIEW.json",
+      "tests_repeated_after_alias_or_formatting": false,
+      "diff": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/format-review.patch",
+        "sha256": "f28178f5ad6115c44cb04bd39ec13e9e51097a6d49482ba6d2a2feda9b825708",
+        "bytes": 2828
+      }
+    },
+    "tests_repeated_after_alias_or_formatting": false
+  },
+  "contracts": [
+    "Store the external provider in CachedAuth under the same inner RwLock as credentials, credential revision and scoped permanent failure.",
+    "Resolve/classify and prepare external persistence before installation; publish provider plus prepared credentials and clear prior-source failure under one owner write guard.",
+    "Private AuthOwnerUpdate::Install requires prepared credentials and cannot represent Preserve; cache-only updates retain the selected source.",
+    "Clear checks source presence and clears its provider/cache/failure within one guard; absent external source preserves native state.",
+    "Retired provider/auth/failure/revision values are owned until after policy and credential guards are dropped; existing notification semantics and workload ownership rules remain compatible.",
+    "The legacy provider projection returns None for a poisoned owner; checked acquisition remains unavailable and an owned install reports a transient failure."
+  ],
+  "limits": [
+    "Narrow paired in-memory source/credential/failure publication and retirement prerequisite; install uses CachePolicy::Unfenced.",
+    "No installer admission ordering, pending-install-after-clear arbitration, retained source identity/ABA fencing, or coherent source/cache/policy capture. Equal-byte source replacement clears prior-source failure without advancing credential revision.",
+    "Refresh success can still overwrite a newer source pair; outer refresh failure ownership remains separate. Cache-only commit and conditional model-cache publication are not source fences.",
+    "Persistence precedes final memory publication and may survive a denied commit; no persistent transaction, durable logout, restart provenance or shared-store fence. Poison may be discovered after resolve/persistence side effects.",
+    "No callback-retained-work cancellation/settlement, future HTTP dispatch authority, per-retry/response lifetime or catalog publication guarantee follows.",
+    "No new installed auth/catalog component, broker activation, independent extraction, dependency, public API or persisted-schema change. The latest full-host checkpoint b3530790258a74c0c61bfd00e4d13141b763269b and CLI 876c826f76d574d9fee62011166b1ae3f4b15f69103f361aedb4e44cef08de71 use preceding source 18140083910d19c86e9cadaef0990db9aa652f6e, not this change.",
+    "Upstream literal/blob anchors provide bounded provenance, not semantic equivalence, full symbol/call graph, P00M checker support, current-index closure or updater/migration/rollback acceptance. Historical mappings and evidence remain unchanged."
+  ],
+  "no_rust_or_test_execution_by_evidence_author": true,
+  "fresh_full_cli_gui_or_installed_plugin_proof": false,
+  "original_upstream_literal_proof": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/ORIGINAL_UPSTREAM_ANCHORS.json",
+    "sha256": "0360411e029a4496ba6e3012514b7a296249f099261850f50dba1a240b2ae9f2",
+    "bytes": 2278
+  },
+  "mechanical_test_alias": {
+    "root_transition": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-type-alias-transition.json",
+      "sha256": "d29ab57eac9b0259adec029f7f71e5655f882b78ba565375a9b0d90f43eb3da8",
+      "bytes": 356
+    },
+    "independent_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/TYPE_ALIAS_REVIEW.json",
+      "sha256": "7b376d1a5b7438a2767f2b2a531c3c7768df6d13655e515d445988bb428b5551",
+      "bytes": 1133
+    },
+    "review": {
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "before_sha256": "a057d5826a0b31722681462f374be99530b3e4c1f2d06937cf69c80a8c188c15",
+      "after_sha256": "286ed32c107b6e4b41b10d9a7384b856ca0c6bc146294c9482960f20f08cbb99",
+      "source_basis": "Exact alias-only reconstruction matches both terminal clean-lint before/after fingerprints and root alias transition; formatter may already have advanced checkout bytes.",
+      "mechanical_equivalence_check": "Removing the exact alias declaration and expanding the single field alias use restores the tested source byte for byte.",
+      "restores_tested_source_exactly": true,
+      "production_paths_changed": false,
+      "test_expressions_assertions_and_order_changed": false,
+      "tests_repeated_after_this_review": false,
+      "post_alias_snapshot": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/post-alias-auth_source_tests.rs",
+      "diff": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/type-alias-review.patch",
+        "sha256": "a07c8c058dfd90d5a1dcde5d9e15984e1c885710e99ae281c098588b283cdaaa",
+        "bytes": 509
+      }
+    },
+    "tests_repeated_after_alias": false
+  },
+  "red_evidence_preservation": {
+    "raw_evidence_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-red-evidence.tar.gz",
+      "sha256": "160eed28a08f4dcd2767d7d9f2dd3226e48c0161abc4a6a90caad801b4cbc41e",
+      "bytes": 871456
+    },
+    "independent_report_member_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/RED_REPORT_ARCHIVE_REVIEW.json",
+      "sha256": "43456601d7cc4659a27e26803622b4b3e8c8a52199df7e2583f393001df257f8",
+      "bytes": 1151
+    },
+    "author_verified_all_three_decompressed_reports": true,
+    "executable_preservation_claimed": false,
+    "external_backup_established": false
+  },
+  "final_source_paths": [
+    {
+      "path": "codex-rs/login/src/auth/auth_reload.rs",
+      "sha256": "eb9768e9864d32af0d3accd7e5440ef27bfa152fe3a9f28e20eb11140a07ab75",
+      "bytes": 8736,
+      "git_blob": "7f3d5a914447394d7270ba63b768966ec76f0c0a"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source.rs",
+      "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+      "bytes": 3188,
+      "git_blob": "344e7197148e0fdf455d2180d82de760155da471"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "sha256": "52255b4e459277d827173b0cee5ded07a724f177d8fc83d2f99814ec506efb6b",
+      "bytes": 9154,
+      "git_blob": "4a2fedcd7221c3755dc654e585a6688cec11eb70"
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "sha256": "271a19abba415005f36d2b21249cd29baa4eb63a2ec9b1a1ecdb2078da44650e",
+      "bytes": 120922,
+      "git_blob": "664d96089868fdf10fced378d949b35193991714"
+    }
+  ],
+  "green_evidence_preservation": {
+    "executable_preservation_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-green-elf-preservation.json",
+      "sha256": "f81a9934f3e84af42fa354ffb30a591a9085f4ba3ebdb54ac56ce47a8f35c099",
+      "bytes": 11042
+    },
+    "executable_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-green-test-executables.tar.zst",
+      "sha256": "39f803144a69103442e89fd2d29f234b0242a9546aa6edcd933a5caaf7077743",
+      "bytes": 93766294
+    },
+    "archived_executables": [
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_login-dcb4ba6e179ffbbd",
+        "sha256": "430c2cdbab33c8f664c226255fb0a874b55b23ac67e2c328e1bd25a6089f0a21",
+        "bytes": 155267304,
+        "green_gate_role": "241 passed cases"
+      },
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_model_provider-00813ce12340a1a8",
+        "sha256": "9865aa374fcdab14af136f300b07a4a707703ce5e4032b08ffbaf7b6ed0d56c5",
+        "bytes": 111002504,
+        "green_gate_role": "108 passed cases"
+      },
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/all-cbe1fa18baa3f108",
+        "sha256": "16b8a329bbff327f29c0d1c0b97d96792010ac527c23a0118ed9541338c07a74",
+        "bytes": 139599632,
+        "green_gate_role": "42 passed cases"
+      }
+    ],
+    "root_verified_archive_members": {
+      "audit.json": "5e59afdda0767af4b48ae5f437f84c1c3b8daf3856de069e7f30e90ca25fce51",
+      "RESTORE.md": "9b36e50c9e8829aa8f889bfa4d71cd0fb222458d354afe2608997fac4d0ae071",
+      "green-source-report.json": "f3fc86a1008b5f14920c06dd1c193a914ea280789161856502ef09b89f308905",
+      "green-subreaper-report.json": "75bf799c9c3de2afd672bd785063e4a05bd288edcdb86b98e61b6c12ebf96045",
+      "green-test.log": "41acc4b43c880b3c3d3026785766056e78c2cb2ee59f1922d701b60759f45fb5",
+      "post-gate/p03-source-owner-fix.source.json": "daff007e4962322f29b50afd60ffb77934933de4580018e8701692c474fe3068",
+      "post-gate/p03-source-owner-fix.log": "73587560cfc816cba87f880fb4fc91fc8d9f289ad944ab1605ef94e13ba0078e",
+      "post-gate/p03-source-owner-fix-clean.source.json": "037b2565937ed79a65dde58586c8105d31f3bde5ed82bcb8efa58726c7007d31",
+      "post-gate/p03-source-owner-fix-clean.log": "a154163fd0d5984582d8b161b8f2a05f70bfb217ca86ff9648dff2aef684e661",
+      "post-gate/p03-source-owner-fmt.source.json": "a1a699738eb6f8bc05b789631993ef1ab492e9ee305a4e0323024ddcf5d09f37",
+      "post-gate/p03-source-owner-fmt.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "post-gate/p03-source-owner-fmt-repository.before.json": "c2d32cf9fac87e72a6f9a145eb06f67fbe59d9af86ed458c74e8de9b379034c9",
+      "post-gate/p03-source-owner-fmt-repository.after.json": "fd43528be16ec63a71f0c26965750164576037f77ec66f0ef9271309c5c295f3",
+      "post-gate/p03-source-owner-fmt-repository.transition.json": "945d7f9ebc7446fdbd863b6f1ad3cfca9f615df2b026f1656bb5589e35993e4d",
+      "executables/codex_login-dcb4ba6e179ffbbd": "430c2cdbab33c8f664c226255fb0a874b55b23ac67e2c328e1bd25a6089f0a21",
+      "executables/codex_model_provider-00813ce12340a1a8": "9865aa374fcdab14af136f300b07a4a707703ce5e4032b08ffbaf7b6ed0d56c5",
+      "executables/all-cbe1fa18baa3f108": "16b8a329bbff327f29c0d1c0b97d96792010ac527c23a0118ed9541338c07a74"
+    },
+    "root_executed_archive_and_exact_generated_file_retirement": true,
+    "retired_generated_paths": [
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_login-dcb4ba6e179ffbbd",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_model_provider-00813ce12340a1a8",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/all-cbe1fa18baa3f108"
+    ],
+    "author_independently_checked_archive_digest": true,
+    "author_did_not_repeat_decompressed_member_verification": true,
+    "digest_observation_limit": "Executable hashes were observed after the run; the test runner did not capture executable hashes. These preserve the historical green tested bytes before the later source alias/format changes, not a newly tested final source.",
+    "external_backup_established": false
+  },
+  "source_publication": {
+    "source_commit": "99e6802fd478e55686559aefdd6ae79177a45397",
+    "source_tree": "651cca62fb376fed10b50872165edda8d9b099e3",
+    "actual_source_commit_parent": "b3530790258a74c0c61bfd00e4d13141b763269b",
+    "actual_source_commit_parent_tree": "31c9f6584d9e0c519a37c55148d5bf293b5cc05f",
+    "immutable_source_object_created": true,
+    "main_advanced_at_creation_receipt": false,
+    "creation_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-created-source-commit.json",
+      "sha256": "a6ac63b1e3850d33399965eb68b43d638d0452c15ab3606db5508becad3c0ea8",
+      "bytes": 1828
+    },
+    "publication_manifest": {
+      "path": "/tmp/p03-source-owner-publication-manifest.json",
+      "sha256": "4d3ab241bb254fdabee034b45a223c9965c0c798ea4315dec30bf1beb1abec88",
+      "bytes": 1620
+    },
+    "final_blob_ids_match_root_publication_manifest": true,
+    "all_four_git_blob_ids_independently_recomputed_from_final_bytes": true,
+    "root_manifest_matching_scoped_entries": 8888,
+    "all_8888_final_scope_file_hashes_independently_checked": true,
+    "final_scope_hash_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/FORMAT_REVIEW.json",
+      "sha256": "ad18b7fc685d18882c9d278baaadb18719d30f126cc73e57c239f28cb1e4a15b",
+      "bytes": 2359
+    },
+    "final_source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-verified-source.tar.gz",
+      "sha256": "28c110b6b7f526c2c11e4b98ba259ba0fc73f9716f4518d8113b9642d4074786",
+      "bytes": 27015
+    },
+    "publication_context": "Created source object is not yet main in this receipt. Later evidence/docs publication and atomic branch advancement belong to root's separate publication receipt."
+  },
+  "scoped_tests_passed": 391,
+  "red_reproduction_confirmed": true,
+  "green_correction_verified": true,
+  "finalized_utc": "2026-10-01T20:09:14.712084+00:00",
+  "subsequent_full_cli_build": {
+    "prefix": "p03-source-owner-full-cli-build",
+    "scope": "Started separately by root after scoped validation; no build or runtime outcome is claimed in this record."
+  }
+}
