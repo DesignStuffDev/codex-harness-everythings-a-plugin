@@ -206,12 +206,11 @@ impl App {
 
         async fn shutdown_on_startup_error(
             app_server: AppServerSession,
+            file_search_runtime: &crate::file_search::FileSearchRuntime,
             error: impl Into<color_eyre::eyre::Report>,
         ) -> Result<AppExitInfo> {
-            if let Err(shutdown_error) = app_server.shutdown().await {
-                tracing::warn!("app-server shutdown failed: {shutdown_error}");
-            }
-            Err(error.into())
+            crate::file_search_startup::finish(file_search_runtime, app_server, Err(error.into()))
+                .await
         }
 
         // Adopt actual launch ownership before constructing session-local preferences.
@@ -241,7 +240,9 @@ impl App {
                 .await
             {
                 Ok(bootstrap) => bootstrap?,
-                Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                Err(err) => {
+                    return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
+                }
             },
         };
         tracing::debug!(
@@ -282,8 +283,12 @@ impl App {
                 .await
             {
                 Ok(Ok(defaults)) => defaults,
-                Ok(Err(err)) => return shutdown_on_startup_error(app_server, err).await,
-                Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                Ok(Err(err)) => {
+                    return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
+                }
+                Err(err) => {
+                    return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
+                }
             }
         } else {
             FreshStartupDefaults::default()
@@ -316,7 +321,7 @@ impl App {
                 None
             };
         if let Err(err) = startup_draft.flush_pending_events(tui).await {
-            return shutdown_on_startup_error(app_server, err).await;
+            return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
         }
         let exit_info =
             if matches!(&session_selection, SessionSelection::Fork(_)) && config.model.is_none() {
@@ -333,14 +338,12 @@ impl App {
                 .await?
             };
         if let Some(exit_info) = exit_info {
-            app_server
-                .shutdown()
-                .await
-                .inspect_err(|err| {
-                    tracing::warn!("app-server shutdown failed: {err}");
-                })
-                .ok();
-            return Ok(exit_info);
+            return crate::file_search_startup::finish(
+                &file_search_runtime,
+                app_server,
+                Ok(exit_info),
+            )
+            .await;
         }
         if let Some(updated_model) = config.model.clone() {
             model = updated_model;
@@ -446,7 +449,14 @@ impl App {
                         .await
                     {
                         Ok(tooltip_override) => tooltip_override,
-                        Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                        Err(err) => {
+                            return shutdown_on_startup_error(
+                                app_server,
+                                &file_search_runtime,
+                                err,
+                            )
+                            .await;
+                        }
                     }
                 };
                 let init = crate::chatwidget::ChatWidgetInit {
@@ -493,6 +503,7 @@ impl App {
                 {
                     return shutdown_on_startup_error(
                         app_server,
+                        &file_search_runtime,
                         color_eyre::eyre::eyre!(
                             "Permission overrides are not supported when resuming a remote task."
                         ),
@@ -540,16 +551,33 @@ impl App {
                                 history_notice = notice;
                                 thread
                             }),
-                            Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                            Err(err) => {
+                                return shutdown_on_startup_error(
+                                    app_server,
+                                    &file_search_runtime,
+                                    err,
+                                )
+                                .await;
+                            }
                         }
                     }
                     Ok(resumed) => resumed,
-                    Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                    Err(err) => {
+                        return shutdown_on_startup_error(app_server, &file_search_runtime, err)
+                            .await;
+                    }
                 };
                 let resumed = if read_only_thread {
                     match resumed {
                         Ok(resumed) => Some(resumed),
-                        Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                        Err(err) => {
+                            return shutdown_on_startup_error(
+                                app_server,
+                                &file_search_runtime,
+                                err,
+                            )
+                            .await;
+                        }
                     }
                 } else {
                     let action = SessionStartAction::Resume(
@@ -626,6 +654,7 @@ impl App {
                 {
                     return shutdown_on_startup_error(
                         app_server,
+                        &file_search_runtime,
                         color_eyre::eyre::eyre!(
                             "Permission overrides are not supported when forking a remote task."
                         ),
@@ -655,7 +684,10 @@ impl App {
                     .await
                 {
                     Ok(forked) => forked,
-                    Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                    Err(err) => {
+                        return shutdown_on_startup_error(app_server, &file_search_runtime, err)
+                            .await;
+                    }
                 };
                 let action = SessionStartAction::Fork(permission_mode);
                 let forked = complete_session_start(
@@ -685,7 +717,8 @@ impl App {
                     if let Some(worktree) = managed_worktree.as_ref()
                         && let Err(err) = worktree.bind(forked.session.thread_id)
                     {
-                        return shutdown_on_startup_error(app_server, err).await;
+                        return shutdown_on_startup_error(app_server, &file_search_runtime, err)
+                            .await;
                     }
                     if config.model_reasoning_effort.is_none() {
                         config.model_reasoning_effort = forked.session.reasoning_effort.clone();
@@ -767,7 +800,7 @@ impl App {
         let file_search = FileSearchManager::new(
             config.cwd.to_path_buf(),
             app_event_tx.clone(),
-            file_search_runtime,
+            file_search_runtime.clone(),
         );
         let runtime_keymap =
             RuntimeKeymap::from_config(&local_settings.tui.keymap).map_err(|err| {
@@ -933,7 +966,9 @@ See the Codex keymap documentation for supported actions and examples."
                 .await
             {
                 Ok(result) => result?,
-                Err(err) => return shutdown_on_startup_error(app_server, err).await,
+                Err(err) => {
+                    return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
+                }
             }
             if read_only_thread {
                 app.ensure_thread_channel(thread_id).mark_external_writer();
@@ -955,7 +990,7 @@ See the Codex keymap documentation for supported actions and examples."
                     )
                     .await
             {
-                return shutdown_on_startup_error(app_server, err).await;
+                return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
             }
         }
         if !start_in_agents_overview
@@ -969,14 +1004,14 @@ See the Codex keymap documentation for supported actions and examples."
         let initial_session_ms = initial_session_started_at.elapsed().as_millis();
 
         if let Err(err) = startup_draft.flush_pending_events(tui).await {
-            return shutdown_on_startup_error(app_server, err).await;
+            return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
         }
         if Self::should_handle_active_thread_events(
             wait_for_initial_session_configured,
             app.active_thread_rx.is_some(),
         ) && let Err(err) = app.drain_active_thread_events(tui).await
         {
-            return shutdown_on_startup_error(app_server, err).await;
+            return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
         }
         if app_event_rx.is_empty()
             && !app.has_queued_startup_protected_request()
@@ -985,7 +1020,7 @@ See the Codex keymap documentation for supported actions and examples."
             && !app.chat_widget.has_pending_protected_request()
             && let Err(err) = startup_draft.flush_pending_paste_newline(tui).await
         {
-            return shutdown_on_startup_error(app_server, err).await;
+            return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
         }
         // Keep cancelled resume/fork text editable, but never carry confirmation to another session.
         let mut pending_startup_submission =
@@ -1009,7 +1044,7 @@ See the Codex keymap documentation for supported actions and examples."
         let event_stream_started_at = Instant::now();
         tui.schedule_screen_size_recheck(Duration::ZERO);
         if let Err(err) = app.render_startup_frame(tui, &app_event_rx) {
-            return shutdown_on_startup_error(app_server, err).await;
+            return shutdown_on_startup_error(app_server, &file_search_runtime, err).await;
         }
         let tui_events = tui.event_stream();
         tokio::pin!(tui_events);
@@ -1333,9 +1368,12 @@ See the Codex keymap documentation for supported actions and examples."
                 }
             }
         };
-        if let Err(err) = app_server.shutdown().await {
-            tracing::warn!(error = %err, "failed to shut down embedded app server");
-        }
+        let exit_reason_result = crate::file_search_startup::finish(
+            &file_search_runtime,
+            app_server,
+            exit_reason_result,
+        )
+        .await;
         let clear_pet_result = tui.clear_ambient_pet_image();
         let clear_result = tui.terminal.clear();
         // Keep the alternate screen active until the outer guard restores both keyboard stacks.

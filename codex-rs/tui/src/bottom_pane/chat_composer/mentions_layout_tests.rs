@@ -215,11 +215,11 @@ fn fallback_completions_keep_the_draft_cursor_and_footer_anchored() {
                 let mut popup = FileSearchPopup::new();
                 popup.set_matches(
                     "",
-                    vec![codex_file_search::FileMatch {
+                    vec![codex_file_search_api::FileMatch {
                         score: 1,
                         path: "src/example.rs".into(),
                         root: "/repo".into(),
-                        match_type: codex_file_search::MatchType::File,
+                        match_type: codex_file_search_api::MatchType::File,
                         indices: None,
                     }],
                 );

@@ -1644,7 +1644,12 @@ impl App {
                 self.skill_load_warnings.startup_complete = true;
             }
             AppEvent::StartFileSearch(query) => {
-                self.file_search.on_user_query(query.clone());
+                if let Err(error) = self.file_search.on_user_query(&query) {
+                    // The UI still owns rejected input. Clear using its exact
+                    // pending-query fence without retaining oversized backend text.
+                    self.chat_widget.apply_file_search_result(query.clone(), Vec::new());
+                    self.chat_widget.add_error_message(crate::file_search::FileSearchDelivery::error_notice(&error));
+                }
                 if let Some(thread_id) = self.active_thread_id
                     && app_server.task_tools_available(thread_id)
                     && self.config.features.enabled(Feature::MentionsV2)
@@ -1669,9 +1674,20 @@ impl App {
                     );
                 }
             }
-            AppEvent::FileSearchResult { request, query, matches } => {
-                if self.file_search.accepts(&request, &query) {
-                    self.chat_widget.apply_file_search_result(query, matches);
+            AppEvent::FileSearchReady { wake } => {
+                crate::session_log::log_inbound_app_event(&AppEvent::FileSearchReady { wake: wake.clone() });
+                if let Some(delivery) = self.file_search.take_delivery(&wake)
+                    && self.file_search.accepts_delivery(&delivery)
+                {
+                    match delivery {
+                        crate::file_search::FileSearchDelivery::Matches { query, matches, .. } => {
+                            self.chat_widget.apply_file_search_result(query, matches);
+                        }
+                        crate::file_search::FileSearchDelivery::Failed { query, error, .. } => {
+                            self.chat_widget.apply_file_search_result(query, Vec::new());
+                            self.chat_widget.add_error_message(crate::file_search::FileSearchDelivery::error_notice(&error));
+                        }
+                    }
                 }
             }
             AppEvent::TaskSearchResult {

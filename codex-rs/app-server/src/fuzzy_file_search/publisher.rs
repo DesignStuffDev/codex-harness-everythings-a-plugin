@@ -1,5 +1,6 @@
-//! One bounded, ordered publisher; native callbacks never spawn or block on I/O.
+//! One bounded, ordered publisher; search callbacks never spawn or block on I/O.
 
+use std::num::NonZeroUsize;
 use std::panic::AssertUnwindSafe;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -7,10 +8,15 @@ use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 
 use codex_app_server_protocol::FuzzyFileSearchSessionCompletedNotification;
+use codex_app_server_protocol::FuzzyFileSearchSessionError;
+use codex_app_server_protocol::FuzzyFileSearchSessionErrorKind;
+use codex_app_server_protocol::FuzzyFileSearchSessionFailedNotification;
 use codex_app_server_protocol::FuzzyFileSearchSessionUpdatedNotification;
 use codex_app_server_protocol::ServerNotification;
-use codex_file_search::FileSearchSnapshot;
-use codex_file_search::SessionReporter;
+use codex_file_search_api::FileSearchSnapshot;
+use codex_file_search_api::SearchError;
+use codex_file_search_api::SearchErrorKind;
+use codex_file_search_api::SessionReporter;
 use futures::FutureExt;
 use tokio::sync::watch;
 use tokio_util::sync::CancellationToken;
@@ -54,6 +60,7 @@ struct State {
     revision: u64,
     snapshot: Option<FileSearchSnapshot>,
     complete: bool,
+    error: Option<SearchError>,
 }
 
 pub(crate) struct SearchObserver {
@@ -61,32 +68,54 @@ pub(crate) struct SearchObserver {
     changed: watch::Sender<u64>,
     stop: CancellationToken,
     cancellation: Arc<AtomicBool>,
+    shutdown_requested: CancellationToken,
 }
 
 impl SearchObserver {
-    pub(crate) fn new(cancellation: Arc<AtomicBool>) -> Self {
+    pub(crate) fn new(
+        cancellation: Arc<AtomicBool>,
+        shutdown_requested: CancellationToken,
+    ) -> Self {
         Self {
             state: Mutex::new(State::default()),
             changed: watch::channel(0).0,
             stop: CancellationToken::new(),
             cancellation,
+            shutdown_requested,
         }
     }
 
-    pub(crate) fn cancellation(&self) -> Arc<AtomicBool> {
-        Arc::clone(&self.cancellation)
+    pub(crate) fn cancellation_requested(&self) -> bool {
+        self.cancellation.load(Ordering::Acquire) || self.shutdown_requested.is_cancelled()
     }
 
     pub(crate) fn subscribe(&self) -> watch::Receiver<u64> {
         self.changed.subscribe()
     }
 
-    pub(crate) fn set_query(&self, query: String) -> anyhow::Result<u64> {
+    pub(crate) fn set_query(
+        &self,
+        query: String,
+        max_query_bytes: NonZeroUsize,
+    ) -> anyhow::Result<u64> {
         let mut state = self
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        anyhow::ensure!(!state.closed, "file search session is closed");
+        if let Some(error) = &state.error {
+            return Err(error.clone().into());
+        }
+        anyhow::ensure!(
+            !state.closed && !self.cancellation_requested(),
+            "file search session is closed"
+        );
+        if query.len() > max_query_bytes.get() {
+            return Err(SearchError::new(
+                SearchErrorKind::ResourceExhausted,
+                "file search query exceeds the negotiated UTF-8 byte limit",
+            )
+            .into());
+        }
         state.query_id = state
             .query_id
             .checked_add(1)
@@ -97,6 +126,25 @@ impl SearchObserver {
         state.revision = state.revision.saturating_add(1);
         self.changed.send_replace(state.revision);
         Ok(state.query_id)
+    }
+
+    pub(crate) fn error(&self) -> Option<SearchError> {
+        self.state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .error
+            .clone()
+    }
+
+    pub(crate) fn is_current(&self, query_id: u64) -> bool {
+        let state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        !state.closed
+            && !self.cancellation_requested()
+            && state.error.is_none()
+            && state.query_id == query_id
     }
 
     pub(crate) fn request_close(&self) {
@@ -133,7 +181,12 @@ impl SessionReporter for SearchObserver {
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if state.closed || snapshot.query_id != state.query_id || snapshot.query != state.query {
+        if state.closed
+            || self.cancellation_requested()
+            || state.error.is_some()
+            || snapshot.query_id != state.query_id
+            || snapshot.query != state.query
+        {
             return;
         }
         state.snapshot = Some(snapshot.clone());
@@ -150,12 +203,33 @@ impl SessionReporter for SearchObserver {
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if state.closed || state.query_id != query_id || state.complete {
+        if state.closed
+            || self.cancellation_requested()
+            || state.error.is_some()
+            || state.query_id != query_id
+            || state.complete
+        {
             return;
         }
         state.complete = true;
         state.revision = state.revision.saturating_add(1);
         self.changed.send_replace(state.revision);
+    }
+
+    fn on_error(&self, error: &SearchError) {
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        // Cleanup fencing must not erase a failure delivered by accepted work.
+        // SearchError already enforces a bounded diagnostic at construction.
+        if state.error.is_none() {
+            state.error = Some(error.clone());
+            state.snapshot = None;
+            state.complete = false;
+            state.revision = state.revision.saturating_add(1);
+            self.changed.send_replace(state.revision);
+        }
     }
 }
 
@@ -172,8 +246,12 @@ impl SearchPublisher {
         outgoing: Arc<OutgoingMessageSender>,
         tasks: &TaskTracker,
         failures: PublisherFailures,
+        shutdown_requested: CancellationToken,
     ) -> Self {
-        let observer = Arc::new(SearchObserver::new(Arc::new(AtomicBool::new(false))));
+        let observer = Arc::new(SearchObserver::new(
+            Arc::new(AtomicBool::new(false)),
+            shutdown_requested,
+        ));
         let (done, completion) = watch::channel(None);
         let owned = Arc::clone(&observer);
         let joined = TaskTracker::new();
@@ -207,6 +285,9 @@ impl SearchPublisher {
     pub(crate) async fn close(self) -> anyhow::Result<()> {
         self.request_close();
         self.joined.wait().await;
+        if let Some(error) = self.observer.error() {
+            return Err(error.into());
+        }
         let result = self.completion.borrow().clone();
         result
             .ok_or_else(|| anyhow::anyhow!("file search publisher completion lost"))?
@@ -218,6 +299,12 @@ impl Drop for SearchPublisher {
     fn drop(&mut self) {
         self.request_close();
     }
+}
+
+enum PendingNotification {
+    Updated,
+    Completed,
+    Failed,
 }
 
 async fn publish(
@@ -235,63 +322,123 @@ async fn publish(
                 .state
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner);
-            if state.closed {
-                return Ok(());
+            if state.closed || observer.shutdown_requested.is_cancelled() {
+                return state
+                    .error
+                    .clone()
+                    .map_or(Ok(()), |error| Err(error.into()));
             }
             let snapshot_revision = state
                 .snapshot
                 .as_ref()
                 .map(|_| (state.query_id, state.revision));
-            if snapshot_revision.is_some()
+            if state.error.is_some() {
+                Some((state.query_id, state.revision, PendingNotification::Failed))
+            } else if snapshot_revision.is_some()
                 && sent_snapshot != snapshot_revision
                 && completed_query != Some(state.query_id)
             {
-                Some((state.query_id, state.revision, false))
+                Some((state.query_id, state.revision, PendingNotification::Updated))
             } else if state.complete && completed_query != Some(state.query_id) {
-                Some((state.query_id, state.revision, true))
+                Some((
+                    state.query_id,
+                    state.revision,
+                    PendingNotification::Completed,
+                ))
             } else {
                 None
             }
         };
-        let Some((query_id, revision, completion)) = pending else {
+        let Some((query_id, revision, notification)) = pending else {
             tokio::select! {
                 biased;
-                _ = observer.stop.cancelled() => return Ok(()),
+                _ = observer.stop.cancelled() => continue,
+                _ = observer.shutdown_requested.cancelled() => continue,
                 changed = changes.changed() => { changed?; }
             }
             continue;
         };
         let permit = tokio::select! {
             biased;
-            _ = observer.stop.cancelled() => return Ok(()),
+            _ = observer.stop.cancelled() => continue,
+                _ = observer.shutdown_requested.cancelled() => continue,
             changed = changes.changed() => { changed?; continue; }
             permit = outgoing.reserve_server_notification_to_connection(connection_id) => permit?,
         };
         // Admission commits under the same short lock as query/close fencing.
-        // Native callbacks never hold this lock across an await or client I/O.
+        // Search callbacks never hold this lock across an await or client I/O.
         let state = observer
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if state.closed || state.query_id != query_id || state.revision != revision {
+        if state.closed
+            || observer.shutdown_requested.is_cancelled()
+            || state.query_id != query_id
+            || state.revision != revision
+        {
             continue;
         }
-        if completion {
-            permit.send(ServerNotification::FuzzyFileSearchSessionCompleted(
-                FuzzyFileSearchSessionCompletedNotification {
-                    session_id: session_id.clone(),
-                },
-            ));
-            completed_query = Some(query_id);
-        } else if let Some(snapshot) = &state.snapshot {
-            permit.send(ServerNotification::FuzzyFileSearchSessionUpdated(
-                FuzzyFileSearchSessionUpdatedNotification {
-                    session_id: session_id.clone(),
-                    query: state.query.clone(),
-                    files: super::collect_files(snapshot),
-                },
-            ));
-            sent_snapshot = Some((query_id, revision));
+        match notification {
+            PendingNotification::Failed => {
+                let Some(error) = &state.error else {
+                    continue;
+                };
+                // Failure is a terminal operation event, not a cleanup receipt.
+                // Returning immediately after admission makes its delivery once-only.
+                let kind = match error.kind() {
+                    SearchErrorKind::InvalidInput => FuzzyFileSearchSessionErrorKind::InvalidInput,
+                    SearchErrorKind::UnsupportedVersion => {
+                        FuzzyFileSearchSessionErrorKind::UnsupportedVersion
+                    }
+                    SearchErrorKind::UnsupportedOption => {
+                        FuzzyFileSearchSessionErrorKind::UnsupportedOption
+                    }
+                    SearchErrorKind::UnknownLease => FuzzyFileSearchSessionErrorKind::UnknownLease,
+                    SearchErrorKind::ClosedLease => FuzzyFileSearchSessionErrorKind::ClosedLease,
+                    SearchErrorKind::StaleEpoch => FuzzyFileSearchSessionErrorKind::StaleEpoch,
+                    SearchErrorKind::ResourceExhausted => {
+                        FuzzyFileSearchSessionErrorKind::ResourceExhausted
+                    }
+                    SearchErrorKind::SearchFailed => FuzzyFileSearchSessionErrorKind::SearchFailed,
+                    SearchErrorKind::TransportLost => {
+                        FuzzyFileSearchSessionErrorKind::TransportLost
+                    }
+                    SearchErrorKind::ForcedShutdown => {
+                        FuzzyFileSearchSessionErrorKind::ForcedShutdown
+                    }
+                };
+                permit.send(ServerNotification::FuzzyFileSearchSessionFailed(
+                    FuzzyFileSearchSessionFailedNotification {
+                        session_id: session_id.clone(),
+                        query: state.query.clone(),
+                        error: FuzzyFileSearchSessionError {
+                            kind,
+                            message: error.message().to_owned(),
+                        },
+                    },
+                ));
+                return Err(error.clone().into());
+            }
+            PendingNotification::Completed => {
+                permit.send(ServerNotification::FuzzyFileSearchSessionCompleted(
+                    FuzzyFileSearchSessionCompletedNotification {
+                        session_id: session_id.clone(),
+                    },
+                ));
+                completed_query = Some(query_id);
+            }
+            PendingNotification::Updated => {
+                if let Some(snapshot) = &state.snapshot {
+                    permit.send(ServerNotification::FuzzyFileSearchSessionUpdated(
+                        FuzzyFileSearchSessionUpdatedNotification {
+                            session_id: session_id.clone(),
+                            query: state.query.clone(),
+                            files: super::collect_files(snapshot),
+                        },
+                    ));
+                    sent_snapshot = Some((query_id, revision));
+                }
+            }
         }
     }
 }

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Native file search plugin configuration, package 0.1 / file_search1",
+  "description": "Aggregate search ceilings are negotiated through file_search/initialize. This schema controls the distinct native callback snapshot allocation charge.",
+  "anyOf": [
+    { "type": "null" },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "native_snapshot_bytes": {
+          "type": "integer",
+          "minimum": 65536,
+          "maximum": 67108864,
+          "default": 16777216,
+          "description": "Maximum charged allocation of one native callback snapshot; not serialized JSON bytes, every retained copy, or process RSS."
+        }
+      }
+    }
+  ]
+}

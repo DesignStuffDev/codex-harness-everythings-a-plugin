@@ -1,20 +1,86 @@
 use super::*;
+use crate::fuzzy_file_search::close_result;
 use crate::outgoing_message::OutgoingEnvelope;
 use crate::outgoing_message::OutgoingMessage;
 use codex_analytics::AnalyticsEventsClient;
 use codex_app_server_protocol::ServerNotification;
+use codex_file_search::NativeBackendLimits;
+use codex_file_search::NativeSearchBackend;
+use codex_file_search_api::ProviderLimits;
+use codex_file_search_api::ScopeLimits;
+use codex_file_search_api::SearchBudget;
+use codex_file_search_runtime::FileSearchProvider;
+use codex_file_search_runtime::RuntimePolicy;
 use pretty_assertions::assert_eq;
+use std::num::NonZeroUsize;
 use tokio::sync::mpsc;
 use tokio::time::Duration;
 use tokio::time::timeout;
 
-fn processor() -> (SearchRequestProcessor, mpsc::Receiver<OutgoingEnvelope>) {
+fn processor() -> (
+    SearchRequestProcessor,
+    mpsc::Receiver<OutgoingEnvelope>,
+    FileSearchProvider,
+) {
+    let positive = |value| NonZeroUsize::new(value).expect("fixture bound");
+    let resources = SearchBudget {
+        max_index_entries: positive(1024),
+        max_index_bytes: positive(256 * 1024 * 1024),
+        max_worker_threads: positive(64),
+    };
+    let policy = RuntimePolicy {
+        provider: ProviderLimits {
+            max_scopes: positive(16),
+            max_sessions: positive(16),
+            resources,
+        },
+        max_query_bytes: positive(64 * 1024),
+        max_roots_options_bytes: positive(256 * 1024),
+        max_matches: positive(50),
+        max_frame_retained_bytes: positive(16 * 1024 * 1024),
+        poll_wait: Duration::from_millis(50),
+    };
+    let backend = NativeSearchBackend::new(
+        std::env::current_dir().expect("process base"),
+        NativeBackendLimits {
+            max_sessions: policy.provider.max_sessions,
+            resources,
+            max_query_bytes: policy.max_query_bytes,
+            max_roots_options_bytes: policy.max_roots_options_bytes,
+            max_matches: policy.max_matches,
+            max_snapshot_bytes: positive(16 * 1024 * 1024),
+            max_poll_wait: policy.poll_wait,
+        },
+    )
+    .expect("real native backend");
+    let provider =
+        FileSearchProvider::from_backend(Arc::new(backend), policy).expect("runtime facade");
+    let mut options = crate::fuzzy_file_search::options();
+    options.threads = NonZeroUsize::MIN;
+    let context = SearchContext {
+        shutdown_requested: tokio_util::sync::CancellationToken::new(),
+        factory: provider.scope_factory(),
+        scope_limits: ScopeLimits {
+            max_sessions: positive(16),
+        },
+        budget: SearchBudget {
+            max_index_entries: positive(64),
+            max_index_bytes: positive(16 * 1024 * 1024),
+            max_worker_threads: positive(4),
+        },
+        options,
+        max_query_bytes: policy.max_query_bytes,
+    };
     let (sender, receiver) = mpsc::channel(16);
     let outgoing = Arc::new(OutgoingMessageSender::new(
         sender,
         AnalyticsEventsClient::disabled(),
     ));
-    (SearchRequestProcessor::new(outgoing), receiver)
+    (
+        SearchRequestProcessor::new(outgoing, context),
+        receiver,
+        provider,
+    )
 }
 
 fn start(roots: &std::path::Path) -> FuzzyFileSearchSessionStartParams {
@@ -33,7 +99,7 @@ fn update(query: &str) -> FuzzyFileSearchSessionUpdateParams {
 
 #[tokio::test]
 async fn same_ids_are_connection_scoped_and_disconnect_keeps_other_search_alive() {
-    let (processor, mut receiver) = processor();
+    let (processor, mut receiver, _provider) = processor();
     let first = Arc::new(SearchConnectionState::default());
     let second = Arc::new(SearchConnectionState::default());
     let first_root = tempfile::tempdir().expect("first root");
@@ -143,7 +209,7 @@ async fn same_ids_are_connection_scoped_and_disconnect_keeps_other_search_alive(
 
 #[tokio::test]
 async fn abandoned_start_waiter_releases_reserved_startup_and_publisher() {
-    let (processor, _receiver) = processor();
+    let (processor, _receiver, _provider) = processor();
     let connection = Arc::new(SearchConnectionState::default());
     let root = tempfile::tempdir().expect("root");
     {
@@ -164,16 +230,13 @@ async fn abandoned_start_waiter_releases_reserved_startup_and_publisher() {
     assert!(connection.state.lock().expect("state").sessions.is_empty());
     assert!(connection.startups.is_empty());
     assert!(connection.publishers.is_empty());
-    connection
-        .native
-        .shutdown()
-        .await
-        .expect("native owner remains joined");
+    close_result(connection.scope.get().expect("scope").shutdown().await)
+        .expect("runtime scope remains joined");
 }
 
 #[tokio::test]
 async fn stop_before_start_acknowledgement_joins_startup_and_can_restart() {
-    let (processor, _receiver) = processor();
+    let (processor, _receiver, _provider) = processor();
     let connection = Arc::new(SearchConnectionState::default());
     let root = tempfile::tempdir().expect("root");
     let request = processor.fuzzy_file_search_session_start_response(
@@ -213,7 +276,7 @@ async fn stop_before_start_acknowledgement_joins_startup_and_can_restart() {
 
 #[tokio::test]
 async fn same_token_cancels_only_its_connection_and_old_guard_cannot_remove_new_owner() {
-    let (processor, _receiver) = processor();
+    let (processor, _receiver, _provider) = processor();
     let first = Arc::new(SearchConnectionState::default());
     let second = Arc::new(SearchConnectionState::default());
     // Retain admitted predecessor flags explicitly so cancellation identity does
@@ -271,11 +334,14 @@ async fn same_token_cancels_only_its_connection_and_old_guard_cannot_remove_new_
 }
 
 #[tokio::test]
-async fn stopped_native_owner_returns_error_instead_of_empty_success() {
-    let (processor, _receiver) = processor();
+async fn stopped_runtime_scope_returns_error_instead_of_empty_success() {
+    let (processor, _receiver, _provider) = processor();
     let connection = Arc::new(SearchConnectionState::default());
     let root = tempfile::tempdir().expect("root");
-    connection.native.request_shutdown();
+    processor
+        .register(ConnectionId(1), &connection)
+        .expect("register");
+    connection.scope.get().expect("scope").request_shutdown();
     let error = processor
         .fuzzy_file_search(
             ConnectionId(1),
@@ -288,17 +354,26 @@ async fn stopped_native_owner_returns_error_instead_of_empty_success() {
         )
         .await
         .expect_err("native failure must propagate");
-    assert!(error.message.contains("file-search owner is shutting down"));
+    assert_eq!(error.code, crate::error_code::INTERNAL_ERROR_CODE);
+    assert!(
+        error
+            .message
+            .contains("file-search runtime ownership is closing"),
+        "unexpected search failure: {error:?}"
+    );
     assert!(connection.state.lock().expect("state").one_shots.is_empty());
     processor.shutdown().await.expect("cleanup");
 }
 
 #[tokio::test]
 async fn failed_native_start_joins_publisher_before_reply_and_does_not_leave_session() {
-    let (processor, _receiver) = processor();
+    let (processor, _receiver, _provider) = processor();
     let connection = Arc::new(SearchConnectionState::default());
     let root = tempfile::tempdir().expect("root");
-    connection.native.request_shutdown();
+    processor
+        .register(ConnectionId(1), &connection)
+        .expect("register");
+    connection.scope.get().expect("scope").request_shutdown();
     let request = processor.fuzzy_file_search_session_start_response(
         ConnectionId(1),
         Arc::clone(&connection),
@@ -324,7 +399,7 @@ async fn failed_native_start_joins_publisher_before_reply_and_does_not_leave_ses
 
 #[tokio::test]
 async fn cancellation_remains_available_at_capacity_without_releasing_existing_leases() {
-    let (processor, _receiver) = processor();
+    let (processor, _receiver, _provider) = processor();
     let connection = Arc::new(SearchConnectionState::default());
     let predecessor = Arc::new(AtomicBool::new(false));
     let unrelated = Arc::new(AtomicBool::new(false));
@@ -393,7 +468,7 @@ async fn cancellation_remains_available_at_capacity_without_releasing_existing_l
 
 #[tokio::test]
 async fn publisher_failure_survives_disconnect_and_fails_global_cleanup() {
-    let (processor, receiver) = processor();
+    let (processor, receiver, _provider) = processor();
     let connection = Arc::new(SearchConnectionState::default());
     let root = tempfile::tempdir().expect("root");
     std::fs::write(root.path().join("alpha.txt"), "alpha").expect("search file");
@@ -438,4 +513,96 @@ async fn publisher_failure_survives_disconnect_and_fails_global_cleanup() {
         .await
         .expect_err("disconnect must retain cleanup failure after removing connection");
     assert!(format!("{error:#}").contains("queue is closed"));
+}
+
+#[tokio::test]
+async fn registration_rejects_foreign_provider_and_reused_connection_identity() {
+    let (first, _first_receiver, _first_provider) = processor();
+    let (second, _second_receiver, _second_provider) = processor();
+    let connection = Arc::new(SearchConnectionState::default());
+    assert!(
+        connection.scope.get().is_none(),
+        "default does not initialize any provider"
+    );
+    first
+        .register(ConnectionId(1), &connection)
+        .expect("first registration");
+    let other = Arc::new(SearchConnectionState::default());
+    assert!(first.register(ConnectionId(1), &other).is_err());
+    assert!(first.register(ConnectionId(2), &connection).is_err());
+    assert!(second.register(ConnectionId(1), &connection).is_err());
+    assert!(
+        other.scope.get().is_none(),
+        "rejected identity does not consume a scope"
+    );
+    first.shutdown().await.expect("first cleanup");
+    second.shutdown().await.expect("second cleanup");
+}
+
+#[tokio::test]
+async fn oversized_ids_and_queries_reject_before_retaining_search_state() {
+    let (processor, _receiver, _provider) = processor();
+    let connection = Arc::new(SearchConnectionState::default());
+    let oversized = "é".repeat(129);
+    let error = processor
+        .fuzzy_file_search_session_start_response(
+            ConnectionId(1),
+            Arc::clone(&connection),
+            FuzzyFileSearchSessionStartParams {
+                session_id: oversized.clone(),
+                roots: vec!["/fixture".into()],
+            },
+        )
+        .await
+        .expect_err("UTF-8 byte bound");
+    assert!(error.message.contains("256-byte"));
+    assert!(connection.scope.get().is_none());
+    processor
+        .fuzzy_file_search_session_update_response(
+            ConnectionId(1),
+            Arc::clone(&connection),
+            FuzzyFileSearchSessionUpdateParams {
+                session_id: oversized.clone(),
+                query: "x".into(),
+            },
+        )
+        .await
+        .expect_err("update id bound");
+    processor
+        .fuzzy_file_search_session_stop(
+            ConnectionId(1),
+            Arc::clone(&connection),
+            FuzzyFileSearchSessionStopParams {
+                session_id: oversized.clone(),
+            },
+        )
+        .await
+        .expect_err("stop id bound");
+    processor
+        .fuzzy_file_search(
+            ConnectionId(1),
+            Arc::clone(&connection),
+            FuzzyFileSearchParams {
+                query: "x".into(),
+                roots: vec!["/fixture".into()],
+                cancellation_token: Some(oversized),
+            },
+        )
+        .await
+        .expect_err("token id bound");
+    assert!(connection.scope.get().is_none());
+    processor
+        .fuzzy_file_search(
+            ConnectionId(1),
+            Arc::clone(&connection),
+            FuzzyFileSearchParams {
+                query: "x".repeat(processor.context.max_query_bytes.get() + 1),
+                roots: vec!["/fixture".into()],
+                cancellation_token: None,
+            },
+        )
+        .await
+        .expect_err("query bound");
+    assert!(connection.state.lock().expect("state").one_shots.is_empty());
+    processor.shutdown().await.expect("cleanup");
 }

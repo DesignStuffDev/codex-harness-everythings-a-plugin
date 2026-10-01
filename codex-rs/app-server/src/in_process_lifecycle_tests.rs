@@ -15,7 +15,7 @@ use super::InProcessClientSender;
 use super::IoError;
 use super::IoResult;
 use super::StoreShutdownGuard;
-use super::finish_processor_and_store;
+use super::finish_processor_and_services;
 
 enum CloseBehavior {
     Complete,
@@ -119,7 +119,11 @@ async fn stalled_processor_is_aborted_then_storage_closes_with_other_holders_ali
         let _retained = detached_store_reference;
         std::future::pending::<std::io::Result<()>>().await
     });
-    let result = finish_processor_and_store(&mut processor, &guard).await;
+    let search_home = tempfile::tempdir().expect("search home");
+    let (_, search_guard) = crate::file_search_services::start(search_home.path())
+        .await
+        .expect("search provider");
+    let result = finish_processor_and_services(&mut processor, &guard, &search_guard).await;
     assert_eq!(
         result.expect_err("processor timeout is reported").kind(),
         ErrorKind::TimedOut
@@ -155,7 +159,11 @@ async fn processor_cleanup_failure_reaches_client_after_storage_is_joined() {
     let guard = StoreShutdownGuard::new(store.clone());
     let mut processor =
         tokio::spawn(async { Err(IoError::other("search publisher cleanup failed")) });
-    let error = finish_processor_and_store(&mut processor, &guard)
+    let search_home = tempfile::tempdir().expect("search home");
+    let (_, search_guard) = crate::file_search_services::start(search_home.path())
+        .await
+        .expect("search provider");
+    let error = finish_processor_and_services(&mut processor, &guard, &search_guard)
         .await
         .expect_err("search cleanup failure must not become successful shutdown");
     assert_eq!(error.kind(), ErrorKind::Other);
@@ -181,6 +189,7 @@ async fn cancelling_client_shutdown_fences_storage_while_runtime_is_detached() {
         event_rx,
         runtime_handle,
         _store_lifecycle: Some(StoreShutdownGuard::new(store.clone())),
+        _search_lifecycle: None,
         _test_codex_home: None,
     };
     let shutting_down = tokio::spawn(client.shutdown());
@@ -235,6 +244,7 @@ async fn client_observes_primary_failure_and_sanitized_storage_cleanup_failure()
         event_rx,
         runtime_handle,
         _store_lifecycle: Some(StoreShutdownGuard::new(store)),
+        _search_lifecycle: None,
         _test_codex_home: None,
     };
     let error = client
@@ -250,3 +260,6 @@ async fn client_observes_primary_failure_and_sanitized_storage_cleanup_failure()
     );
     assert!(!error.to_string().contains("private-token"));
 }
+
+#[path = "in_process_search_lifecycle_tests.rs"]
+mod search_services;

@@ -10,6 +10,7 @@ use rayon::prelude::*;
 use crate::par_sort::par_quicksort;
 use crate::pattern::{self, MultiPattern};
 use crate::{boxcar, Match};
+use crate::bounded::{assert_prepaid_capacity, try_buffer, CapacityError};
 
 struct Matchers(Box<[UnsafeCell<nucleo_matcher::Matcher>]>);
 
@@ -35,7 +36,7 @@ pub(crate) struct Worker<T: Sync + Send + 'static> {
     pub(crate) should_notify: Arc<AtomicBool>,
     pub(crate) was_canceled: bool,
     pub(crate) last_snapshot: u32,
-    notify: Arc<(dyn Fn() + Sync + Send)>,
+    notify: Arc<dyn Fn() + Sync + Send >,
     pub(crate) items: Arc<boxcar::Vec<T>>,
     in_flight: Vec<u32>,
 }
@@ -59,7 +60,7 @@ impl<T: Sync + Send + 'static> Worker<T> {
     pub(crate) fn new(
         worker_threads: usize,
         config: Config,
-        notify: Arc<(dyn Fn() + Sync + Send)>,
+        notify: Arc<dyn Fn() + Sync + Send >,
         cols: u32,
     ) -> Self {
         let matchers = (0..worker_threads)
@@ -83,9 +84,40 @@ impl<T: Sync + Send + 'static> Worker<T> {
         }
     }
 
+    pub(crate) fn try_new_bounded(
+        worker_threads: usize,
+        config: Config,
+        notify: Arc<dyn Fn() + Sync + Send >,
+        entry_limit: u32,
+    ) -> Result<Self, CapacityError> {
+        let mut matchers = try_buffer(worker_threads)?;
+        for _ in 0..worker_threads {
+            let matcher = nucleo_matcher::Matcher::try_new(config.clone())
+                .ok_or(CapacityError::AllocationFailed)?;
+            matchers.push(UnsafeCell::new(matcher));
+        }
+        Ok(Self {
+            running: false,
+            matchers: Matchers(matchers.into_boxed_slice()),
+            last_snapshot: 0,
+            matches: try_buffer(entry_limit as usize)?,
+            pattern: MultiPattern::try_single()?,
+            sort_results: true,
+            reverse_items: false,
+            canceled: Arc::new(AtomicBool::new(false)),
+            should_notify: Arc::new(AtomicBool::new(false)),
+            was_canceled: false,
+            notify,
+            items: Arc::new(boxcar::Vec::try_with_fixed_capacity(entry_limit)?),
+            in_flight: try_buffer(entry_limit as usize)?,
+        })
+    }
+
     unsafe fn process_new_items(&mut self, unmatched: &AtomicU32) {
         let matchers = &self.matchers;
         let pattern = &self.pattern;
+        let capacity = self.items.fixed_capacity();
+        assert_prepaid_capacity(&self.matches, capacity, self.in_flight.len());
         self.matches.reserve(self.in_flight.len());
         self.in_flight.retain(|&idx| {
             let Some(item) = self.items.get(idx) else {
@@ -99,10 +131,13 @@ impl<T: Sync + Send + 'static> Worker<T> {
         let new_snapshot = self.items.par_snapshot(self.last_snapshot);
         if new_snapshot.end() != self.last_snapshot {
             let end = new_snapshot.end();
+            assert_prepaid_capacity(&self.matches, capacity, (end - self.last_snapshot) as usize);
             let in_flight = Mutex::new(&mut self.in_flight);
             let items = new_snapshot.map(|(idx, item)| {
                 let Some(item) = item else {
-                    in_flight.lock().push(idx);
+                    let mut in_flight = in_flight.lock();
+                    assert_prepaid_capacity(&in_flight, capacity, 1);
+                    in_flight.push(idx);
                     unmatched.fetch_add(1, atomic::Ordering::Relaxed);
                     return Match {
                         score: 0,
@@ -142,8 +177,11 @@ impl<T: Sync + Send + 'static> Worker<T> {
         let new_snapshot = self.items.snapshot(self.last_snapshot);
         if new_snapshot.end() != self.last_snapshot {
             let end = new_snapshot.end();
+            let capacity = self.items.fixed_capacity();
+            assert_prepaid_capacity(&self.matches, capacity, (end - self.last_snapshot) as usize);
             let items = new_snapshot.filter_map(|(idx, item)| {
                 if item.is_none() {
+                    assert_prepaid_capacity(&self.in_flight, capacity, 1);
                     self.in_flight.push(idx);
                     return None;
                 };
@@ -285,6 +323,7 @@ impl<T: Sync + Send + 'static> Worker<T> {
 
     fn reset_matches(&mut self) {
         self.matches.clear();
+        assert_prepaid_capacity(&self.matches, self.items.fixed_capacity(), self.last_snapshot as usize);
         self.matches
             .extend((0..self.last_snapshot).map(|idx| Match { score: 0, idx }));
         // there are usually only very few in flight items (one for each writer)

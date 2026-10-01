@@ -31,7 +31,12 @@ async fn histories_larger_than_sixteen_megabytes_round_trip() -> Result<()> {
     regular_tx.send(result(/*id*/ 1, expected.clone())).await?;
     drop(regular_tx);
     drop(control_tx);
-    let writing = tokio::spawn(write_messages(writer, regular_rx, control_rx));
+    let writing = tokio::spawn(write_messages(
+        writer,
+        regular_rx,
+        control_rx,
+        SessionPayloadLimits::default(),
+    ));
     let mut reading = MessageReader::new(BufReader::new(reader));
     let incoming = reading.next().await?.context("message")?;
     assert!(matches!(incoming.header, Header::Result { id: 1 }));
@@ -154,7 +159,12 @@ async fn urgent_controls_interleave_but_cleanup_waits_for_request_end() -> Resul
     ordinary.sent = Some(Arc::clone(&sent));
     regular_tx.send(ordinary).await?;
     drop(regular_tx);
-    let writing = tokio::spawn(write_messages(writer, regular_rx, control_rx));
+    let writing = tokio::spawn(write_messages(
+        writer,
+        regular_rx,
+        control_rx,
+        SessionPayloadLimits::default(),
+    ));
     let mut reader = BufReader::new(reader);
     let mut line = String::new();
     reader.read_line(&mut line).await?;
@@ -207,9 +217,14 @@ async fn oversized_controls_and_never_sent_dependencies_fail() -> Result<()> {
         drop(regular_tx);
         drop(control_tx);
         assert!(
-            write_messages(tokio::io::sink(), regular_rx, control_rx)
-                .await
-                .is_err()
+            write_messages(
+                tokio::io::sink(),
+                regular_rx,
+                control_rx,
+                SessionPayloadLimits::default()
+            )
+            .await
+            .is_err()
         );
     }
     Ok(())

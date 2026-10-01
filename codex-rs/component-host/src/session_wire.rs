@@ -22,9 +22,12 @@ use tokio::io::AsyncWrite;
 use tokio::io::AsyncWriteExt;
 use tokio::sync::mpsc;
 
+use crate::session_limits::CONTROL_BYTES as MAX_CONTROL_BYTES;
+use crate::session_limits::PayloadKind;
+use crate::session_limits::SessionPayloadLimits;
+
 pub(super) const MAX_PENDING: usize = 64;
 pub(super) const CHUNK_BYTES: usize = 192 * 1024;
-const MAX_CONTROL_BYTES: u64 = 64 * 1024;
 const MAX_FRAME_BYTES: usize = 4 * 1024 * 1024;
 
 /// A language-neutral component identity addressed within a persistent session.
@@ -176,6 +179,7 @@ pub(super) struct MessageReader<R> {
     reader: R,
     active: BTreeMap<u64, Assembly>,
     seen: SeenIds,
+    limits: SessionPayloadLimits,
 }
 
 impl<R: AsyncBufRead + Unpin> MessageReader<R> {
@@ -184,10 +188,32 @@ impl<R: AsyncBufRead + Unpin> MessageReader<R> {
             reader,
             active: BTreeMap::new(),
             seen: SeenIds::default(),
+            limits: SessionPayloadLimits::default(),
         }
     }
 
+    pub(super) fn with_limits(mut self, limits: SessionPayloadLimits) -> Self {
+        self.limits = limits;
+        self
+    }
+
     async fn start(&mut self, id: u64, header: Header, bytes: u64) -> Result<()> {
+        match &header {
+            Header::Request {
+                is_control: false, ..
+            } => {
+                self.limits.check_incoming(PayloadKind::Request, bytes)?;
+            }
+            Header::Result { .. } => {
+                self.limits.check_incoming(PayloadKind::Reply, bytes)?;
+            }
+            Header::Request {
+                is_control: true, ..
+            }
+            | Header::Error { .. }
+            | Header::Shutdown
+            | Header::ShutdownComplete => {}
+        }
         ensure!(
             self.active.len() < MAX_PENDING,
             "too many concurrent session assemblies"
@@ -371,7 +397,11 @@ struct Sending {
 }
 
 impl Sending {
-    async fn new(mut outgoing: Outgoing, control: bool) -> Result<Self> {
+    async fn new(
+        mut outgoing: Outgoing,
+        control: bool,
+        limits: SessionPayloadLimits,
+    ) -> Result<Self> {
         if let Header::Request {
             component, method, ..
         } = &outgoing.header
@@ -397,6 +427,17 @@ impl Sending {
                 message.len() < MAX_FRAME_BYTES,
                 "session error exceeds wire limit"
             );
+        }
+        // The public admission/respond paths reject local overflow while the
+        // connection is still healthy. Repeat the check before creating a spool
+        // so an internal caller cannot bypass the configured body bound.
+        match &outgoing.header {
+            Header::Request { .. } if control => {
+                SessionPayloadLimits::check_control(&outgoing.value)?;
+            }
+            Header::Request { .. } => limits.check_request(&outgoing.value)?,
+            Header::Result { .. } => limits.check_reply(&outgoing.value, control)?,
+            Header::Error { .. } | Header::Shutdown | Header::ShutdownComplete => {}
         }
         let payload = if matches!(
             outgoing.header,
@@ -512,6 +553,7 @@ pub(super) async fn write_messages<W: AsyncWrite + Unpin>(
     mut writer: W,
     mut regular: mpsc::Receiver<Outgoing>,
     mut control: mpsc::Receiver<Outgoing>,
+    limits: SessionPayloadLimits,
 ) -> Result<()> {
     let mut regular_open = true;
     let mut control_open = true;
@@ -536,7 +578,7 @@ pub(super) async fn write_messages<W: AsyncWrite + Unpin>(
             let outgoing = deferred
                 .remove(position)
                 .context("missing queued control")?;
-            let mut sending = Sending::new(outgoing, /*control*/ true).await?;
+            let mut sending = Sending::new(outgoing, /*control*/ true, limits).await?;
             while !sending.step(&mut writer).await? {}
             continue;
         }
@@ -553,7 +595,7 @@ pub(super) async fn write_messages<W: AsyncWrite + Unpin>(
                 None => control_open = false,
             },
             message = regular.recv(), if regular_open => match message {
-                Some(message) => active = Some(Sending::new(message, /*control*/ false).await?),
+                Some(message) => active = Some(Sending::new(message, /*control*/ false, limits).await?),
                 None => regular_open = false,
             },
             else => {

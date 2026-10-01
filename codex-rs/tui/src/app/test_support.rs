@@ -16,7 +16,7 @@ pub(crate) async fn make_test_app() -> App {
     let file_search = FileSearchManager::new(
         config.cwd.to_path_buf(),
         app_event_tx.clone(),
-        crate::file_search::FileSearchRuntime::new(),
+        crate::file_search::FileSearchRuntime::for_tests(),
     );
     let model = get_model_offline_for_tests(config.model.as_deref());
     let session_telemetry = test_session_telemetry(&config, model.as_str());

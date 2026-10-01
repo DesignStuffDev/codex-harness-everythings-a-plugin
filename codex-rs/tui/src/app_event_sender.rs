@@ -70,6 +70,20 @@ impl AppEventSender {
         }
     }
 
+    /// Return actual admission so a filtered/closed queue cannot strand the
+    /// search mailbox's single wake flag. Preserve filtering; log at UI dequeue
+    /// so backend callbacks never block on synchronous log writes or flushes.
+    pub(crate) fn send_file_search_wake(&self, wake: crate::file_search::FileSearchWake) -> bool {
+        if self.voice_only.load(Ordering::Relaxed) {
+            return false;
+        }
+        let event = AppEvent::FileSearchReady { wake };
+        match self.app_event_tx.send(event) {
+            Ok(()) => true,
+            Err(_) => false,
+        }
+    }
+
     pub(crate) fn interrupt(&self) {
         self.send(AppEvent::CodexOp(AppCommand::interrupt()));
     }

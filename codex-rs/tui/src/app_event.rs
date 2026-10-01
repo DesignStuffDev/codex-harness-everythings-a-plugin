@@ -37,7 +37,6 @@ use codex_app_server_protocol::Thread;
 use codex_app_server_protocol::ThreadGoalStatus;
 use codex_app_server_protocol::ThreadItemsListResponse;
 use codex_connectors::AppInfo;
-use codex_file_search::FileMatch;
 use codex_message_history::HistoryBatchCursor;
 use codex_protocol::ThreadId;
 use codex_protocol::openai_models::ModelPreset;
@@ -655,12 +654,9 @@ pub(crate) enum AppEvent {
     /// is at most one in-flight search.
     StartFileSearch(String),
 
-    /// Search snapshot carrying manager/session/query identity for validation
-    /// after it has waited in the app event queue.
-    FileSearchResult {
-        request: crate::file_search::FileSearchRequest,
-        query: String,
-        matches: Vec<FileMatch>,
+    /// Payload-free wake for the bounded current file-search delivery slot.
+    FileSearchReady {
+        wake: crate::file_search::FileSearchWake,
     },
 
     /// Same-host task results for the active unified mention query.

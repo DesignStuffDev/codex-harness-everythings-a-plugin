@@ -55,6 +55,7 @@ use crate::config_manager::ConfigManager;
 use crate::error_code::OVERLOADED_ERROR_CODE;
 use crate::error_code::internal_error;
 use crate::error_code::invalid_request;
+use crate::file_search_services::SearchShutdownGuard;
 use crate::message_processor::ConnectionSessionState;
 use crate::message_processor::MessageProcessor;
 use crate::message_processor::MessageProcessorArgs;
@@ -107,18 +108,23 @@ const IN_PROCESS_CONNECTION_ID: ConnectionId = ConnectionId(0);
 const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
 // Connection, background work and thread shutdown each have their own drain.
 const PROCESSOR_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(45);
-// Covers processor (45s), store (120s), outbound (5s), and analytics (25s),
-// including a small margin. All client-side shutdown waits share this deadline.
-const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(200);
+/// Overall embedded shutdown budget: processor (45s), store (120s), outbound
+/// (5s), and analytics (25s), plus margin. Facades must allow this entire budget
+/// before forcing cancellation. Admission, acknowledgement and join share it.
+pub const IN_PROCESS_SHUTDOWN_BUDGET: Duration = Duration::from_secs(200);
 /// Default bounded channel capacity for in-process runtime queues.
 pub const DEFAULT_IN_PROCESS_CHANNEL_CAPACITY: usize = CHANNEL_CAPACITY;
 
 type PendingClientRequestResponse = std::result::Result<Result, JSONRPCErrorError>;
 
+#[path = "in_process_notification.rs"]
+mod notification;
+
 fn server_notification_requires_delivery(notification: &ServerNotification) -> bool {
     matches!(
         notification,
         ServerNotification::TurnCompleted(_)
+            | ServerNotification::FuzzyFileSearchSessionFailed(_)
             | ServerNotification::ThreadQueueChanged(_)
             | ServerNotification::ThreadSettingsUpdated(_)
             | ServerNotification::ThreadAttachmentUpdated(_)
@@ -293,11 +299,33 @@ pub struct InProcessClientHandle {
     // Separate ownership ensures dropping a handle or cancelling shutdown also
     // fences storage while the runtime or detached requests retain their Arcs.
     _store_lifecycle: Option<StoreShutdownGuard>,
+    // This separate public-handle guard fences search even when detached RPCs
+    // retain the processor and the runtime owns another lifecycle guard.
+    _search_lifecycle: Option<SearchShutdownGuard>,
     #[cfg(test)]
     _test_codex_home: Option<tempfile::TempDir>,
 }
 
 impl InProcessClientHandle {
+    /// Weak local scope capability from this exact embedded runtime. It cannot
+    /// select a backend or keep a dropped public runtime handle alive.
+    pub fn file_search_scope_factory(
+        &self,
+    ) -> IoResult<codex_file_search_runtime::FileSearchScopeFactory> {
+        let factory = self
+            ._search_lifecycle
+            .as_ref()
+            .map(SearchShutdownGuard::factory)
+            .ok_or_else(|| {
+                IoError::new(
+                    ErrorKind::BrokenPipe,
+                    "in-process search provider is unavailable",
+                )
+            })?;
+        factory.effective_policy().map_err(IoError::other)?;
+        Ok(factory)
+    }
+
     /// Sends a typed client request into the in-process runtime.
     ///
     /// The returned value is a transport-level `IoResult` containing either a
@@ -358,7 +386,7 @@ impl InProcessClientHandle {
         // waiting so a required notification cannot block the runtime's drain.
         drop(self.event_rx);
         let (done_tx, done_rx) = oneshot::channel();
-        let deadline = tokio::time::Instant::now() + SHUTDOWN_ACK_TIMEOUT;
+        let deadline = tokio::time::Instant::now() + IN_PROCESS_SHUTDOWN_BUDGET;
         let request = tokio::time::timeout_at(
             deadline,
             self.client
@@ -488,6 +516,12 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
     let channel_capacity = args.channel_capacity.max(1);
     let runtime_store_lifecycle = StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
     let handle_store_lifecycle = StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
+    let (search_context, runtime_search_lifecycle) =
+        match crate::file_search_services::start(&args.config.codex_home).await {
+            Ok(services) => services,
+            Err(error) => return runtime_store_lifecycle.finish(Err(error)).await,
+        };
+    let handle_search_lifecycle = runtime_search_lifecycle.fork();
     let (client_tx, mut client_rx) = mpsc::channel::<InProcessClientMessage>(channel_capacity);
     let (event_tx, event_rx) = mpsc::channel::<InProcessServerEvent>(channel_capacity);
 
@@ -549,6 +583,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                 feedback: args.feedback,
                 log_db: args.log_db,
                 persistence,
+                search_context,
                 state_db: args.state_db,
                 config_warnings: args.config_warnings,
                 session_source: args.session_source,
@@ -786,31 +821,10 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                             }
                         }
                         OutgoingMessage::AppServerNotification(envelope) => {
-                            let notification = envelope.notification;
-                            if server_notification_requires_delivery(&notification) {
-                                if event_tx
-                                    .send(InProcessServerEvent::ServerNotification(Box::new(
-                                        notification,
-                                    )))
-                                    .await
-                                    .is_err()
-                                {
-                                    break;
-                                }
-                            } else if let Err(send_error) =
-                                event_tx.try_send(InProcessServerEvent::ServerNotification(
-                                    Box::new(notification),
-                                ))
-                            {
-                                match send_error {
-                                    mpsc::error::TrySendError::Full(_) => {
-                                        warn!("dropping in-process server notification (queue full)");
-                                        continue;
-                                    }
-                                    mpsc::error::TrySendError::Closed(_) => {
-                                        break;
-                                    }
-                                }
+                            match notification::forward(&event_tx, envelope.notification).await {
+                                notification::Delivery::Delivered => {}
+                                notification::Delivery::Dropped => continue,
+                                notification::Delivery::Closed => break,
                             }
                         }
                     }
@@ -837,8 +851,12 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             )));
         }
 
-        let shutdown_result =
-            finish_processor_and_store(&mut processor_handle, &runtime_store_lifecycle).await;
+        let shutdown_result = finish_processor_and_services(
+            &mut processor_handle,
+            &runtime_store_lifecycle,
+            &runtime_search_lifecycle,
+        )
+        .await;
         let _ = outbound_shutdown_tx.send(());
         if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut outbound_handle).await {
             outbound_handle.abort();
@@ -858,15 +876,20 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         event_rx,
         runtime_handle,
         _store_lifecycle: Some(handle_store_lifecycle),
+        _search_lifecycle: Some(handle_search_lifecycle),
         #[cfg(test)]
         _test_codex_home: None,
     })
 }
 
-async fn finish_processor_and_store(
+async fn finish_processor_and_services(
     processor: &mut tokio::task::JoinHandle<IoResult<()>>,
     store: &StoreShutdownGuard,
+    search: &SearchShutdownGuard,
 ) -> IoResult<()> {
+    // Fence every connection and local picker before waiting for an abortable
+    // processor; its detached references cannot extend public provider life.
+    search.begin_shutdown();
     let processor_result = match timeout(PROCESSOR_SHUTDOWN_TIMEOUT, &mut *processor).await {
         Ok(Ok(result)) => result,
         Ok(Err(_)) => Err(IoError::other(
@@ -881,7 +904,11 @@ async fn finish_processor_and_store(
             ))
         }
     };
-    store.finish(processor_result).await
+    // Do not append two 120-second service budgets sequentially to the
+    // 45-second processor budget inside the 200-second runtime deadline.
+    let (store_result, search_result) =
+        tokio::join!(store.finish(processor_result), search.finish());
+    crate::file_search_services::combine(store_result, search_result)
 }
 
 #[cfg(test)]
@@ -1090,6 +1117,7 @@ mod tests {
             event_rx,
             runtime_handle,
             _store_lifecycle: None,
+            _search_lifecycle: None,
             _test_codex_home: None,
         };
 

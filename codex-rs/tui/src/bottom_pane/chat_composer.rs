@@ -427,7 +427,7 @@ use crate::ui_consts::LIVE_PREFIX_COLS;
 use codex_app_server_protocol::SkillInterface;
 use codex_app_server_protocol::SkillMetadata;
 use codex_connectors::AppInfo;
-use codex_file_search::FileMatch;
+use codex_file_search_api::FileMatch;
 #[cfg(test)]
 use codex_plugin::AppConnectorId;
 use codex_plugin::PluginCapabilitySummary;
@@ -10586,7 +10586,7 @@ mod tests {
             vec![FileMatch {
                 score: 1,
                 path: PathBuf::from("src/main.rs"),
-                match_type: codex_file_search::MatchType::File,
+                match_type: codex_file_search_api::MatchType::File,
                 root: PathBuf::from("/tmp"),
                 indices: None,
             }],
@@ -10636,7 +10636,7 @@ mod tests {
             vec![FileMatch {
                 score: 1,
                 path: selected_path,
-                match_type: codex_file_search::MatchType::File,
+                match_type: codex_file_search_api::MatchType::File,
                 root,
                 indices: None,
             }],

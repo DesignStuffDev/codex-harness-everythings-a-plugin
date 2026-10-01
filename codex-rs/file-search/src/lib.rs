@@ -1,19 +1,17 @@
 use crossbeam_channel::Receiver;
 use crossbeam_channel::Sender;
-use crossbeam_channel::after;
-use crossbeam_channel::never;
 use crossbeam_channel::select;
-use crossbeam_channel::unbounded;
 use ignore::WalkBuilder;
 use ignore::overrides::OverrideBuilder;
+#[cfg(test)]
 use nucleo::Config;
-use nucleo::Injector;
+#[cfg(test)]
 use nucleo::Matcher;
-use nucleo::Nucleo;
-use nucleo::Utf32String;
+#[cfg(test)]
 use nucleo::pattern::CaseMatching;
+#[cfg(test)]
 use nucleo::pattern::Normalization;
-use serde::Serialize;
+#[cfg(test)]
 use std::num::NonZero;
 use std::path::Path;
 use std::path::PathBuf;
@@ -22,8 +20,6 @@ use std::sync::Mutex;
 use std::sync::RwLock;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
-use std::thread;
-use std::time::Duration;
 use tokio::process::Command;
 
 #[cfg(test)]
@@ -36,55 +32,56 @@ use nucleo::pattern::Pattern;
 mod async_owner;
 mod cli;
 mod lifecycle;
+mod matcher;
+mod native_backend;
+mod native_backend_policy;
+mod native_backend_poll;
+mod native_backend_session;
+mod native_budget;
+mod native_index;
+mod native_output;
+
+#[cfg(test)]
+mod native_backend_tests;
+
+pub use native_backend::NativeSearchBackend;
+pub use native_backend_policy::NativeBackendLimits;
+mod native_session;
+mod work_queue;
+
+use matcher::matcher_worker;
+use work_queue::WorkSender;
+use work_queue::WorkSignal;
 
 #[cfg(test)]
 #[path = "lifecycle_tests.rs"]
 mod lifecycle_tests;
+
+#[cfg(test)]
+#[path = "query_completion_tests.rs"]
+mod query_completion_tests;
 
 pub use async_owner::FileSearchOwner;
 pub use async_owner::FileSearchStartError;
 pub use async_owner::ManagedFileSearchSession;
 pub use cli::Cli;
 
-/// A single match result returned from the search.
-///
-/// * `score` – Relevance score returned by `nucleo`.
-/// * `path`  – Path to the matched entry (file or directory), relative to the
-///   search directory.
-/// * `match_type` – Whether this match is a file or directory.
-/// * `indices` – Optional list of character indices that matched the query.
-///   These are only filled when the caller of [`run`] sets
-///   `options.compute_indices` to `true`. The indices vector follows the
-///   guidance from `nucleo::pattern::Pattern::indices`: they are
-///   unique and sorted in ascending order so that callers can use
-///   them directly for highlighting.
-#[derive(Debug, Clone, Serialize, PartialEq, Eq)]
-pub struct FileMatch {
-    pub score: u32,
-    pub path: PathBuf,
-    pub match_type: MatchType,
-    pub root: PathBuf,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub indices: Option<Vec<u32>>, // Sorted & deduplicated when present
-}
+pub use codex_file_search_api::FileMatch;
+pub use codex_file_search_api::FileSearchOptions;
+pub use codex_file_search_api::FileSearchResults;
+pub use codex_file_search_api::FileSearchSnapshot;
+pub use codex_file_search_api::MatchType;
+pub use codex_file_search_api::SessionReporter;
+pub use native_session::FileSearchSession;
+pub(crate) use native_session::NativePolicy;
+pub use native_session::create_bounded_session;
+pub use native_session::create_session;
+pub(crate) use native_session::create_session_with_receipt;
 
-#[derive(Debug, Clone, Copy, Serialize, PartialEq, Eq)]
-#[serde(rename_all = "lowercase")]
-pub enum MatchType {
-    File,
-    Directory,
-}
-
-/// Carries the entry type observed by the walker so matched paths are not restatted.
+/// Entry payload has one owner: the shared immutable index arena.
 struct IndexedEntry {
-    full_path: Arc<str>,
+    full_path: Box<str>,
     match_type: MatchType,
-}
-
-impl FileMatch {
-    pub fn full_path(&self) -> PathBuf {
-        self.root.join(&self.path)
-    }
 }
 
 /// Returns the final path component for a matched path, falling back to the full path.
@@ -95,195 +92,15 @@ pub fn file_name_from_path(path: &str) -> String {
         .unwrap_or_else(|| path.to_string())
 }
 
-#[derive(Debug)]
-pub struct FileSearchResults {
-    pub matches: Vec<FileMatch>,
-    pub total_match_count: usize,
-}
-
-#[derive(Debug, Clone, Serialize, PartialEq, Eq, Default)]
-pub struct FileSearchSnapshot {
-    /// Monotonic session-local identity; zero denotes the initial idle state.
-    pub query_id: u64,
-    pub query: String,
-    pub matches: Vec<FileMatch>,
-    pub total_match_count: usize,
-    pub scanned_file_count: usize,
-    pub walk_complete: bool,
-}
-
-#[derive(Debug, Clone)]
-pub struct FileSearchOptions {
-    pub limit: NonZero<usize>,
-    pub exclude: Vec<String>,
-    pub threads: NonZero<usize>,
-    pub compute_indices: bool,
-    /// Toggle ignore-file processing in the walker.
-    ///
-    /// When enabled, `.gitignore` files are scoped by
-    /// `WalkBuilder::require_git(true)`, so they are honored only when the
-    /// traversed path is inside a git repository. When disabled, the walker
-    /// turns off `.gitignore`, git-global/exclude rules, `.ignore`, and
-    /// parent-directory ignore scanning.
-    pub respect_gitignore: bool,
-}
-
-impl Default for FileSearchOptions {
-    fn default() -> Self {
-        Self {
-            #[expect(clippy::unwrap_used)]
-            limit: NonZero::new(20).unwrap(),
-            exclude: Vec::new(),
-            #[expect(clippy::unwrap_used)]
-            threads: NonZero::new(2).unwrap(),
-            compute_indices: false,
-            respect_gitignore: true,
-        }
-    }
-}
-
-pub trait SessionReporter: Send + Sync + 'static {
-    /// Called when the debounced top-N changes.
-    fn on_update(&self, snapshot: &FileSearchSnapshot);
-
-    /// Called when matching becomes idle or external cancellation is observed.
-    /// Private closure fences callbacks and may discard pending queries.
-    fn on_complete(&self);
-
-    /// Associates completion with the latest query processed by the matcher.
-    /// Existing reporters can ignore identity by implementing only `on_complete`.
-    fn on_complete_tagged(&self, _query_id: u64) {
-        self.on_complete();
-    }
-}
-
-/// Owns a search supervisor. Dropping requests cleanup; [`Self::close`] joins it.
-pub struct FileSearchSession {
-    inner: Arc<SessionInner>,
-    supervisor: Option<thread::JoinHandle<anyhow::Result<()>>>,
-    finished: Receiver<()>,
-}
-
-impl FileSearchSession {
-    /// Update with an automatically increasing identity; ignored after closure.
-    pub fn update_query(&self, pattern_text: &str) {
-        let _ = self.submit_query(pattern_text, /*query_id*/ None);
-    }
-
-    /// Admit an explicitly identified query. IDs must be positive and strictly
-    /// increase within this session, including automatically assigned IDs.
-    pub fn update_query_tagged(&self, pattern_text: &str, query_id: u64) -> anyhow::Result<()> {
-        self.submit_query(pattern_text, Some(query_id))
-    }
-
-    fn submit_query(&self, pattern_text: &str, query_id: Option<u64>) -> anyhow::Result<()> {
-        let mut previous = self
-            .inner
-            .last_query_id
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if self.inner.shutdown.load(Ordering::Acquire) {
-            anyhow::bail!("file-search session is closed");
-        }
-        let query_id = match query_id {
-            Some(id) => id,
-            None => previous
-                .checked_add(1)
-                .ok_or_else(|| anyhow::anyhow!("file-search query identities exhausted"))?,
-        };
-        if query_id == 0 || query_id <= *previous {
-            anyhow::bail!("file-search query identity must be positive and strictly increasing");
-        }
-        self.inner
-            .work_tx
-            .send(WorkSignal::QueryUpdated {
-                query: pattern_text.to_owned(),
-                query_id,
-            })
-            .map_err(|_| anyhow::anyhow!("file-search worker has stopped"))?;
-        *previous = query_id;
-        Ok(())
-    }
-
-    /// Stop accepting work and request cleanup without waiting for workers.
-    /// This never changes a cancellation flag shared with another session.
-    pub fn request_close(&self) {
-        let _admission = self
-            .inner
-            .last_query_id
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if !self.inner.shutdown.swap(true, Ordering::AcqRel) {
-            let _ = self.inner.work_tx.send(WorkSignal::Shutdown);
-        }
-    }
-
-    /// Request closure and join traversal, matching and every private pool thread.
-    ///
-    /// Call from a blocking worker in asynchronous applications. Filesystem calls
-    /// and reporter callbacks must return before closure can finish. Calling this
-    /// from this session's reporter is rejected; use `request_close` there instead.
-    pub fn close(mut self) -> anyhow::Result<()> {
-        self.request_close();
-        let Some(supervisor) = self.supervisor.take() else {
-            return Ok(());
-        };
-        if supervisor.thread().id() == thread::current().id() {
-            anyhow::bail!("cannot join file search from its own reporter callback");
-        }
-        supervisor
-            .join()
-            .map_err(|_| anyhow::anyhow!("file-search supervisor panicked"))?
-    }
-}
-
-impl Drop for FileSearchSession {
-    fn drop(&mut self) {
-        // The supervisor retains all child ownership even when its waiter drops.
-        // Only a successful explicit close acknowledges joined cleanup.
-        self.request_close();
-    }
-}
-
-pub fn create_session(
-    search_directories: Vec<PathBuf>,
-    options: FileSearchOptions,
-    reporter: Arc<dyn SessionReporter>,
-    cancel_flag: Option<Arc<AtomicBool>>,
-) -> anyhow::Result<FileSearchSession> {
-    let FileSearchOptions {
-        limit,
-        exclude,
-        threads,
-        compute_indices,
-        respect_gitignore,
-    } = options;
-    let Some(primary_search_directory) = search_directories.first() else {
-        anyhow::bail!("at least one search directory is required");
-    };
-    let override_matcher = build_override_matcher(primary_search_directory, &exclude)?;
-    let (work_tx, work_rx) = unbounded();
-    let inner = Arc::new(SessionInner {
-        search_directories,
-        limit: limit.get(),
-        threads: threads.get(),
-        compute_indices,
-        respect_gitignore,
-        cancelled: cancel_flag.unwrap_or_else(|| Arc::new(AtomicBool::new(false))),
-        shutdown: Arc::new(AtomicBool::new(false)),
-        last_query_id: Mutex::new(0),
-        reporter,
-        work_tx,
-    });
-    lifecycle::start(inner, work_rx, override_matcher)
-}
-
 pub trait Reporter {
     fn report_match(&self, file_match: &FileMatch);
     fn warn_matches_truncated(&self, total_match_count: usize, shown_match_count: usize);
     fn warn_no_search_pattern(&self, search_directory: &Path);
 }
 
+/// Legacy compiled-native entry point, retained for embedding compatibility.
+/// The standalone executable now selects its backend through
+/// `codex-file-search-runtime`; this function does not perform component selection.
 pub async fn run_main<T: Reporter>(
     Cli {
         pattern,
@@ -424,14 +241,10 @@ struct SessionInner {
     shutdown: Arc<AtomicBool>,
     last_query_id: Mutex<u64>,
     reporter: Arc<dyn SessionReporter>,
-    work_tx: Sender<WorkSignal>,
-}
-
-enum WorkSignal {
-    QueryUpdated { query: String, query_id: u64 },
-    NucleoNotify,
-    WalkComplete,
-    Shutdown,
+    work_tx: WorkSender,
+    budget: Option<Arc<native_budget::NativeBudget>>,
+    output: Option<native_output::NativeOutputLimits>,
+    failure: Arc<Mutex<Option<codex_file_search_api::SearchError>>>,
 }
 
 fn build_override_matcher(
@@ -484,7 +297,7 @@ fn get_file_path<'a>(path: &'a Path, search_directories: &[PathBuf]) -> Option<(
 fn walker_worker(
     inner: Arc<SessionInner>,
     override_matcher: Option<ignore::overrides::Override>,
-    injector: Injector<IndexedEntry>,
+    injector: native_index::EntryInjector,
 ) {
     let Some(first_root) = inner.search_directories.first() else {
         let _ = inner.work_tx.send(WorkSignal::WalkComplete);
@@ -526,6 +339,7 @@ fn walker_worker(
         let injector = injector.clone();
         let cancelled = inner.cancelled.clone();
         let shutdown = inner.shutdown.clone();
+        let inner = inner.clone();
 
         Box::new(move |entry| {
             if cancelled.load(Ordering::Acquire) || shutdown.load(Ordering::Acquire) {
@@ -544,158 +358,15 @@ fn walker_worker(
                     Some(file_type) if file_type.is_dir() => MatchType::Directory,
                     _ => MatchType::File,
                 };
-                injector.push(
-                    IndexedEntry {
-                        full_path: Arc::from(full_path),
-                        match_type,
-                    },
-                    |_, cols| {
-                        cols[0] = Utf32String::from(relative_path);
-                    },
-                );
+                if let Err(error) = injector.push(&inner, full_path, relative_path, match_type) {
+                    inner.fail(error);
+                    return ignore::WalkState::Quit;
+                }
             }
             ignore::WalkState::Continue
         })
     });
     let _ = inner.work_tx.send(WorkSignal::WalkComplete);
-}
-
-fn matcher_worker(
-    inner: Arc<SessionInner>,
-    work_rx: Receiver<WorkSignal>,
-    nucleo: &mut Nucleo<IndexedEntry>,
-) -> anyhow::Result<()> {
-    const TICK_TIMEOUT_MS: u64 = 10;
-    let config = Config::DEFAULT.match_paths();
-    let mut indices_matcher = inner.compute_indices.then(|| Matcher::new(config.clone()));
-    let cancel_requested = || inner.cancelled.load(Ordering::Relaxed);
-    let shutdown_requested = || inner.shutdown.load(Ordering::Relaxed);
-
-    let mut last_query = String::new();
-    let mut last_query_id = 0;
-    let mut next_notify = never();
-    let mut will_notify = false;
-    let mut walk_complete = false;
-
-    loop {
-        if cancel_requested() || shutdown_requested() {
-            break;
-        }
-        select! {
-            recv(work_rx) -> signal => {
-                let Ok(signal) = signal else {
-                    break;
-                };
-                match signal {
-                    WorkSignal::QueryUpdated { query, query_id } => {
-                        if shutdown_requested() {
-                            break;
-                        }
-                        let append = query.starts_with(&last_query);
-                        nucleo.pattern.reparse(
-                            0,
-                            &query,
-                            CaseMatching::Ignore,
-                            Normalization::Smart,
-                            append,
-                        );
-                        last_query = query;
-                        last_query_id = query_id;
-                        will_notify = true;
-                        next_notify = after(Duration::from_millis(0));
-                    }
-                    WorkSignal::NucleoNotify => {
-                        if !will_notify {
-                            will_notify = true;
-                            next_notify = after(Duration::from_millis(TICK_TIMEOUT_MS));
-                        }
-                    }
-                    WorkSignal::WalkComplete => {
-                        walk_complete = true;
-                        if !will_notify {
-                            will_notify = true;
-                            next_notify = after(Duration::from_millis(0));
-                        }
-                    }
-                    WorkSignal::Shutdown => {
-                        break;
-                    }
-                }
-            }
-            recv(next_notify) -> _ => {
-                will_notify = false;
-                let status = nucleo.tick(TICK_TIMEOUT_MS);
-                // During reparse, Nucleo can expose the previous snapshot while
-                // the replacement computation is still running. Never label a
-                // different pattern's matches with the latest query identity.
-                if status.changed
-                    && nucleo.snapshot().pattern().column_pattern(0).atoms
-                        == nucleo.pattern.column_pattern(0).atoms
-                {
-                    let snapshot = nucleo.snapshot();
-                    let limit = inner.limit.min(snapshot.matched_item_count() as usize);
-                    let pattern = snapshot.pattern().column_pattern(0);
-                    let matches: Vec<_> = snapshot
-                        .matches()
-                        .iter()
-                        .take(limit)
-                        .filter_map(|match_| {
-                            let item = snapshot.get_item(match_.idx)?;
-                            let full_path = item.data.full_path.as_ref();
-                            let (root_idx, relative_path) = get_file_path(Path::new(full_path), &inner.search_directories)?;
-                            let indices = if let Some(indices_matcher) = indices_matcher.as_mut() {
-                                let mut idx_vec = Vec::<u32>::new();
-                                let haystack = item.matcher_columns[0].slice(..);
-                                let _ = pattern.indices(haystack, indices_matcher, &mut idx_vec);
-                                idx_vec.sort_unstable();
-                                idx_vec.dedup();
-                                Some(idx_vec)
-                            } else {
-                                None
-                            };
-                            Some(FileMatch {
-                                score: match_.score,
-                                path: PathBuf::from(relative_path),
-                                match_type: item.data.match_type,
-                                root: inner.search_directories[root_idx].clone(),
-                                indices,
-                            })
-                        })
-                        .collect();
-
-                    let snapshot = FileSearchSnapshot {
-                        query_id: last_query_id,
-                        query: last_query.clone(),
-                        matches,
-                        total_match_count: snapshot.matched_item_count() as usize,
-                        scanned_file_count: snapshot.item_count() as usize,
-                        walk_complete,
-                    };
-                    if !shutdown_requested() {
-                        inner.reporter.on_update(&snapshot);
-                    }
-                }
-                if !status.running && walk_complete && !shutdown_requested() {
-                    inner.reporter.on_complete_tagged(last_query_id);
-                }
-            }
-            default(Duration::from_millis(100)) => {
-                // Occasionally check the cancel flag.
-            }
-        }
-
-        if cancel_requested() || shutdown_requested() {
-            break;
-        }
-    }
-
-    // External cancellation retains its completion notification. Private close
-    // fences callbacks; explicit close waits for any callback already in flight.
-    if !shutdown_requested() {
-        inner.reporter.on_complete_tagged(last_query_id);
-    }
-
-    Ok(())
 }
 
 struct RunReporter {

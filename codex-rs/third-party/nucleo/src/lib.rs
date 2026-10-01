@@ -39,9 +39,12 @@ use crate::worker::Worker;
 pub use nucleo_matcher::{chars, Config, Matcher, Utf32Str, Utf32String};
 
 mod boxcar;
+mod bounded;
 mod par_sort;
 pub mod pattern;
 mod worker;
+
+pub use bounded::{BoundedInjector, BoundedNucleo, CapacityError, IndexAllocationPlan};
 
 #[cfg(test)]
 mod tests;
@@ -62,7 +65,7 @@ pub struct Item<'a, T> {
 /// and sent across threads.
 pub struct Injector<T> {
     items: Arc<boxcar::Vec<T>>,
-    notify: Arc<(dyn Fn() + Sync + Send)>,
+    notify: Arc<dyn Fn() + Sync + Send>,
 }
 
 impl<T> Clone for Injector<T> {
@@ -160,6 +163,7 @@ impl<T: Sync + Send + 'static> Snapshot<T> {
     fn update(&mut self, worker: &Worker<T>) {
         self.item_count = worker.item_count();
         self.pattern.clone_from(&worker.pattern);
+        bounded::assert_prepaid_capacity(&self.matches, worker.items.fixed_capacity(), worker.matches.len().saturating_sub(self.matches.len()));
         self.matches.clone_from(&worker.matches);
         if !Arc::ptr_eq(&worker.items, &self.items) {
             self.items = worker.items.clone()
@@ -287,7 +291,7 @@ pub struct Nucleo<T: Sync + Send + 'static> {
     pool: ThreadPool,
     state: State,
     items: Arc<boxcar::Vec<T>>,
-    notify: Arc<(dyn Fn() + Sync + Send)>,
+    notify: Arc<dyn Fn() + Sync + Send>,
     snapshot: Snapshot<T>,
     /// The pattern matched by this matcher. To update the match pattern
     /// [`MultiPattern::reparse`](`pattern::MultiPattern::reparse`) should be used.
@@ -312,7 +316,7 @@ impl<T: Sync + Send + 'static> Nucleo<T> {
     /// number of columns cannot be changed after construction.
     pub fn new(
         config: Config,
-        notify: Arc<(dyn Fn() + Sync + Send)>,
+        notify: Arc<dyn Fn() + Sync + Send>,
         num_threads: Option<usize>,
         columns: u32,
     ) -> Self {
@@ -338,7 +342,7 @@ impl<T: Sync + Send + 'static> Nucleo<T> {
     /// retained thread handle or leave the enclosing thread scope.
     pub fn new_with_thread_pool(
         config: Config,
-        notify: Arc<(dyn Fn() + Sync + Send)>,
+        notify: Arc<dyn Fn() + Sync + Send>,
         pool: ThreadPool,
         columns: u32,
     ) -> Self {

@@ -1,83 +1,27 @@
-//! Owned native searches for `@` tokens, with identities checked at UI delivery.
+//! Selected-provider searches for `@` tokens, with bounded intent/result slots.
+//! A retained coordinator serializes opens, acknowledgements and cleanup; the
+//! visible manager never owns an async waiter or keeps a retired callback alive.
 
-use codex_file_search as file_search;
-use std::future::Future;
-use std::num::NonZero;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::Mutex;
-use std::sync::Weak;
-use tokio_util::task::TaskTracker;
 
-use crate::app_event::AppEvent;
+use codex_file_search_api::FileMatch;
+use codex_file_search_api::SearchError;
+use codex_file_search_api::SearchErrorKind;
+
 use crate::app_event_sender::AppEventSender;
 
-/// Lives outside the complete App::run future, including its startup error paths.
-/// Native ownership remains with FileSearchOwner; this tracker joins the TUI's
-/// asynchronous admission and result-delivery callbacks around that owner.
-#[derive(Clone)]
-pub(crate) struct FileSearchRuntime(Arc<RuntimeInner>);
+mod coordinator;
+mod reporter;
+mod runtime;
+mod state;
+pub(crate) use runtime::FileSearchRuntime;
+pub(crate) use runtime::FileSearchSource;
+use state::SearchState;
+use state::lock;
 
-struct RuntimeInner {
-    native: file_search::FileSearchOwner,
-    tasks: TaskTracker,
-    closing: Mutex<bool>,
-}
-
-impl FileSearchRuntime {
-    pub(crate) fn new() -> Self {
-        // Allow bounded overlap while obsolete sessions finish closing.
-        const MAX_SESSIONS: NonZero<usize> = NonZero::new(8).expect("eight is nonzero");
-        Self(Arc::new(RuntimeInner {
-            native: file_search::FileSearchOwner::new(MAX_SESSIONS),
-            tasks: TaskTracker::new(),
-            closing: Mutex::new(false),
-        }))
-    }
-
-    fn spawn(&self, task: impl Future<Output = ()> + Send + 'static) -> bool {
-        let closing = self
-            .0
-            .closing
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if *closing {
-            return false;
-        }
-        self.0.tasks.spawn(task);
-        true
-    }
-
-    fn close(&self, session: file_search::ManagedFileSearchSession) {
-        session.request_close();
-        self.spawn(async move {
-            if let Err(error) = session.close().await {
-                tracing::warn!("file search session cleanup failed: {error}");
-            }
-        });
-    }
-
-    pub(crate) async fn shutdown(&self) -> anyhow::Result<()> {
-        {
-            let mut closing = self
-                .0
-                .closing
-                .lock()
-                .unwrap_or_else(std::sync::PoisonError::into_inner);
-            *closing = true;
-            self.0.tasks.close();
-        }
-        self.0.native.request_shutdown();
-        self.0.tasks.wait().await;
-        // A successful return acknowledges the actual native joins, not merely
-        // completion of the TUI callbacks. Native cleanup errors are retained.
-        self.0.native.shutdown().await
-    }
-}
-
-/// Arc identity prevents generation reuse, including across reconnect managers.
-/// Query IDs are monotonically increasing within each manager and are recorded
-/// before submission, so A -> B -> A cannot accept the first A's queued result.
+/// Opaque identities stay valid only for the owning manager/session incarnation.
 #[derive(Clone, Debug)]
 pub(crate) struct FileSearchRequest {
     manager: Arc<()>,
@@ -85,291 +29,164 @@ pub(crate) struct FileSearchRequest {
     query_id: u64,
 }
 
+/// A wake contains no result payload and does not own manager/provider state.
+#[derive(Clone, Debug)]
+pub(crate) struct FileSearchWake {
+    channel: Arc<()>,
+    credit: Arc<runtime::WakeCredit>,
+}
+
+#[derive(Debug)]
+pub(crate) enum FileSearchDelivery {
+    Matches {
+        request: FileSearchRequest,
+        query: String,
+        matches: Vec<FileMatch>,
+    },
+    Failed {
+        request: FileSearchRequest,
+        query: String,
+        error: SearchError,
+    },
+}
+impl FileSearchDelivery {
+    pub(crate) fn error_notice(error: &SearchError) -> String {
+        format!("File search failed: {error}")
+    }
+    fn identity(&self) -> (&FileSearchRequest, &str) {
+        match self {
+            Self::Matches { request, query, .. } | Self::Failed { request, query, .. } => {
+                (request, query)
+            }
+        }
+    }
+}
+
 pub(crate) struct FileSearchManager {
     state: Arc<Mutex<SearchState>>,
-    search_dir: PathBuf,
-    app_tx: AppEventSender,
     runtime: FileSearchRuntime,
 }
-
-struct SearchState {
-    latest_query: String,
-    query_id: u64,
-    manager_generation: Arc<()>,
-    session_generation: Arc<()>,
-    session: Option<file_search::ManagedFileSearchSession>,
-    starting: bool,
-}
-
-impl SearchState {
-    fn request(&self) -> FileSearchRequest {
-        FileSearchRequest {
-            manager: Arc::clone(&self.manager_generation),
-            session: Arc::clone(&self.session_generation),
-            query_id: self.query_id,
-        }
-    }
-
-    fn same_session(&self, request: &FileSearchRequest) -> bool {
-        Arc::ptr_eq(&self.manager_generation, &request.manager)
-            && Arc::ptr_eq(&self.session_generation, &request.session)
-    }
-
-    fn accepts(&self, request: &FileSearchRequest, query: &str) -> bool {
-        self.same_session(request)
-            && self.query_id == request.query_id
-            && !query.is_empty()
-            && self.latest_query == query
-    }
-
-    fn invalidate(&mut self) -> Option<file_search::ManagedFileSearchSession> {
-        self.latest_query.clear();
-        self.session_generation = Arc::new(());
-        self.starting = false;
-        self.session.take()
-    }
-}
-
 impl FileSearchManager {
-    pub(crate) fn new(search_dir: PathBuf, tx: AppEventSender, runtime: FileSearchRuntime) -> Self {
-        Self {
-            state: Arc::new(Mutex::new(SearchState {
-                latest_query: String::new(),
-                query_id: 0,
-                manager_generation: Arc::new(()),
-                session_generation: Arc::new(()),
-                session: None,
-                starting: false,
-            })),
-            search_dir,
-            app_tx: tx,
-            runtime,
-        }
+    pub(crate) fn new(root: PathBuf, tx: AppEventSender, runtime: FileSearchRuntime) -> Self {
+        let state = Arc::new(Mutex::new(SearchState::new(root, tx)));
+        runtime.register(&state);
+        Self { state, runtime }
     }
-
-    pub(crate) fn restart(&mut self, search_dir: PathBuf, app_tx: AppEventSender) {
-        // Reconnection rotates the delivery channel and manager generation,
-        // while the outer owner still retains obsolete native cleanup.
-        *self = Self::new(search_dir, app_tx, self.runtime.clone());
+    pub(crate) fn restart(&mut self, root: PathBuf, tx: AppEventSender) {
+        *self = Self::new(root, tx, self.runtime.clone());
     }
-
-    pub(crate) fn update_search_dir(&mut self, new_dir: PathBuf) {
-        self.search_dir = new_dir;
-        let session = self
-            .state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .invalidate();
-        if let Some(session) = session {
-            self.runtime.close(session);
-        }
-    }
-
-    /// Recheck queued results at delivery, after any query/CWD/reconnect events.
-    pub(crate) fn accepts(&self, request: &FileSearchRequest, query: &str) -> bool {
-        self.state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .accepts(request, query)
-    }
-
-    pub(crate) fn on_user_query(&self, query: String) {
-        let (request, session) = {
-            let mut state = self
-                .state
-                .lock()
-                .unwrap_or_else(std::sync::PoisonError::into_inner);
-            if query == state.latest_query
-                && (query.is_empty() || state.session.is_some() || state.starting)
-            {
-                return;
-            }
-            let next_id = state.query_id.checked_add(1);
-            if query.is_empty() || next_id.is_none() {
-                let session = state.invalidate();
-                drop(state);
-                if let Some(session) = session {
-                    self.runtime.close(session);
-                }
-                if next_id.is_none() {
-                    tracing::warn!("file search query identities exhausted");
-                }
-                return;
-            }
-            if let Some(next_id) = next_id {
-                state.query_id = next_id;
-            }
-            state.latest_query = query.clone();
-            if state.starting {
-                return;
-            }
-            if state.session.is_none() {
-                state.starting = true;
-                state.session_generation = Arc::new(());
-            }
-            (state.request(), state.session.clone())
+    pub(crate) fn update_search_dir(&mut self, root: PathBuf) {
+        let (intent, session) = {
+            let mut state = lock(&self.state);
+            state.root = root;
+            let session = state.invalidate();
+            (state.intent(&self.state), session)
         };
-        let reporter = Arc::new(TuiSessionReporter {
-            state: Arc::downgrade(&self.state),
-            app_tx: self.app_tx.clone(),
-            generation: request.clone(),
-        });
         if let Some(session) = session {
-            reporter.submit(&self.runtime, &session, &query, request.query_id);
-            return;
+            session.request_close();
         }
-        let runtime = self.runtime.clone();
-        let search_dir = self.search_dir.clone();
-        let admission_reporter = Arc::clone(&reporter);
-        let admitted = self.runtime.spawn(async move {
-            let still_current = admission_reporter.state.upgrade().is_some_and(|state| {
-                let state = state
-                    .lock()
-                    .unwrap_or_else(std::sync::PoisonError::into_inner);
-                state.same_session(&admission_reporter.generation) && state.starting
-            });
-            if !still_current {
-                return;
+        self.runtime.enqueue(intent);
+    }
+    #[cfg(test)]
+    pub(crate) fn accepts(&self, request: &FileSearchRequest, query: &str) -> bool {
+        lock(&self.state).accepts(request, query)
+    }
+    /// Final UI fence for the current bounded result or failure payload.
+    pub(crate) fn accepts_delivery(&self, delivery: &FileSearchDelivery) -> bool {
+        let state = lock(&self.state);
+        let (request, query) = delivery.identity();
+        state.same_session(request)
+            && state.query_id == request.query_id
+            && state.latest_query == query
+            && (!query.is_empty() || matches!(delivery, FileSearchDelivery::Failed { .. }))
+    }
+    pub(crate) fn take_delivery(&self, wake: &FileSearchWake) -> Option<FileSearchDelivery> {
+        let mut state = lock(&self.state);
+        if !Arc::ptr_eq(&state.channel, &wake.channel) {
+            return None;
+        }
+        let inner = self.runtime.inner();
+        let mut queued = lock(&inner.wakes);
+        if queued
+            .queued
+            .upgrade()
+            .is_some_and(|credit| Arc::ptr_eq(&credit, &wake.credit))
+        {
+            queued.queued = std::sync::Weak::new();
+        }
+        state.wake_queued = false;
+        state.delivery.take()
+    }
+    pub(crate) fn on_user_query(&self, query: &str) -> Result<(), SearchError> {
+        let mut failure = None;
+        let (intent, session) = {
+            let mut state = lock(&self.state);
+            if state.exhausted {
+                return Err(SearchError::new(
+                    SearchErrorKind::ResourceExhausted,
+                    "file search query identity exhausted",
+                ));
             }
-            let result = runtime
-                .0
-                .native
-                .create(
-                    vec![search_dir],
-                    file_search::FileSearchOptions {
-                        compute_indices: true,
-                        ..Default::default()
-                    },
-                    admission_reporter.clone(),
-                    /*cancel_flag*/ None,
-                )
-                .await;
-            match result {
-                Ok(session) => {
-                    let query = admission_reporter.state.upgrade().and_then(|state| {
-                        let mut state = state
-                            .lock()
-                            .unwrap_or_else(std::sync::PoisonError::into_inner);
-                        if !state.same_session(&admission_reporter.generation) || !state.starting {
-                            return None;
-                        }
-                        state.starting = false;
-                        state.session = Some(session.clone());
-                        Some((state.latest_query.clone(), state.query_id))
-                    });
-                    if let Some((query, query_id)) = query {
-                        admission_reporter.submit(&runtime, &session, &query, query_id);
-                    } else if let Err(error) = session.close().await {
-                        tracing::warn!("obsolete file search cleanup failed: {error}");
-                    }
+            if query == state.latest_query
+                && (query.is_empty() || state.session.is_some() || state.preparing)
+            {
+                return Ok(());
+            }
+            if query.len() > self.runtime.max_query_bytes() {
+                let session = state.invalidate();
+                failure = Some(SearchError::new(
+                    SearchErrorKind::ResourceExhausted,
+                    "file search query exceeds the selected provider UTF-8 byte limit",
+                ));
+                (state.intent(&self.state), session)
+            } else if !state.advance() {
+                let session = state.invalidate();
+                failure = Some(SearchError::new(
+                    SearchErrorKind::ResourceExhausted,
+                    "file search query identity exhausted",
+                ));
+                (state.intent(&self.state), session)
+            } else if query.is_empty() {
+                let session = state.invalidate();
+                (state.intent(&self.state), session)
+            } else {
+                if state.session.is_none() && !state.preparing {
+                    state.session_generation = Arc::new(());
+                    state.preparing = true;
                 }
-                Err(error) => admission_reporter.failed(&runtime, /*query_id*/ None, error),
+                state.latest_query = query.to_owned();
+                state.delivery = None;
+                (state.intent(&self.state), None)
             }
-        });
-        if !admitted {
-            reporter.failed(
-                &self.runtime,
-                /*query_id*/ None,
-                anyhow::anyhow!("file search is shutting down"),
-            );
+        };
+        if let Some(session) = session {
+            session.request_close();
         }
+        self.runtime.enqueue(intent);
+        if let Some(error) = failure {
+            self.runtime.inner().failed(error.clone());
+            return Err(error);
+        }
+        Ok(())
     }
 }
-
 impl Drop for FileSearchManager {
     fn drop(&mut self) {
-        let session = self
-            .state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .invalidate();
+        let session = lock(&self.state).invalidate();
         if let Some(session) = session {
-            self.runtime.close(session);
+            session.request_close();
         }
+        self.runtime.wake();
     }
-}
-
-struct TuiSessionReporter {
-    state: Weak<Mutex<SearchState>>,
-    app_tx: AppEventSender,
-    generation: FileSearchRequest,
-}
-
-impl TuiSessionReporter {
-    fn submit(
-        &self,
-        runtime: &FileSearchRuntime,
-        session: &file_search::ManagedFileSearchSession,
-        query: &str,
-        query_id: u64,
-    ) {
-        if let Err(error) = session.update_query_tagged(query, query_id) {
-            self.failed(runtime, Some(query_id), error);
-        }
-    }
-
-    fn failed(&self, runtime: &FileSearchRuntime, query_id: Option<u64>, error: anyhow::Error) {
-        let Some(state) = self.state.upgrade() else {
-            return;
-        };
-        let (request, query, session) = {
-            let mut state = state
-                .lock()
-                .unwrap_or_else(std::sync::PoisonError::into_inner);
-            if !state.same_session(&self.generation)
-                || query_id.is_some_and(|id| state.query_id != id)
-                || state.latest_query.is_empty()
-            {
-                return;
-            }
-            state.starting = false;
-            // Fence already queued native snapshots even when failure preserves
-            // the query text for a later retry.
-            state.session_generation = Arc::new(());
-            (
-                state.request(),
-                state.latest_query.clone(),
-                state.session.take(),
-            )
-        };
-        tracing::warn!("file search request failed: {error}");
-        if let Some(session) = session {
-            runtime.close(session);
-        }
-        self.app_tx.send(AppEvent::FileSearchResult {
-            request,
-            query,
-            matches: Vec::new(),
-        });
-    }
-}
-
-impl file_search::SessionReporter for TuiSessionReporter {
-    fn on_update(&self, snapshot: &file_search::FileSearchSnapshot) {
-        let Some(state) = self.state.upgrade() else {
-            return;
-        };
-        let request = FileSearchRequest {
-            query_id: snapshot.query_id,
-            ..self.generation.clone()
-        };
-        if !state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .accepts(&request, &snapshot.query)
-        {
-            return;
-        }
-        self.app_tx.send(AppEvent::FileSearchResult {
-            request,
-            query: snapshot.query.clone(),
-            matches: snapshot.matches.clone(),
-        });
-    }
-
-    fn on_complete(&self) {}
 }
 
 #[cfg(test)]
 #[path = "file_search_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "file_search/coordinator_tests.rs"]
+mod coordinator_tests;
+#[cfg(test)]
+#[path = "file_search/test_support.rs"]
+mod test_support;

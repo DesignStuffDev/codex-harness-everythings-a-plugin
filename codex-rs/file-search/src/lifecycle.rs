@@ -4,11 +4,15 @@ use crate::FileSearchSession;
 use crate::SessionInner;
 use crate::WorkSignal;
 use crate::matcher_worker;
+use crate::native_index::NativeAllocation;
+use crate::native_index::NativeIndex;
 use crate::walker_worker;
+use codex_file_search_api::SearchError;
+use codex_file_search_api::SearchErrorKind;
+use codex_file_search_api::SearchStartError;
+use codex_file_search_api::StartCleanup;
 use crossbeam_channel::Receiver;
 use crossbeam_channel::bounded;
-use nucleo::Config;
-use nucleo::Nucleo;
 use std::io;
 use std::panic::AssertUnwindSafe;
 use std::panic::catch_unwind;
@@ -20,9 +24,10 @@ use std::thread::JoinHandle;
 
 pub(super) fn start(
     inner: Arc<SessionInner>,
-    work_rx: Receiver<WorkSignal>,
+    work_rx: Receiver<()>,
     overrides: Option<ignore::overrides::Override>,
-) -> anyhow::Result<FileSearchSession> {
+    allocation: NativeAllocation,
+) -> Result<FileSearchSession, SearchStartError> {
     let (ready_tx, ready_rx) = bounded(1);
     let (finished_tx, finished) = bounded(1);
     let worker_inner = inner.clone();
@@ -30,11 +35,40 @@ pub(super) fn start(
         .name("file-search supervisor".into())
         .spawn(move || {
             let result = catch_unwind(AssertUnwindSafe(|| {
-                supervise(worker_inner, work_rx, overrides, ready_tx)
+                supervise(
+                    worker_inner.clone(),
+                    work_rx,
+                    overrides,
+                    ready_tx,
+                    allocation,
+                )
             }))
             .unwrap_or_else(|_| Err(anyhow::anyhow!("file-search supervisor panicked")));
+            // Publish exactly one retained terminal failure, after every native
+            // worker has joined. No error callback runs under a budget/queue lock.
+            if let Err(error) = &result {
+                let failure = worker_inner.first_failure().unwrap_or_else(|| {
+                    error
+                        .downcast_ref::<SearchError>()
+                        .cloned()
+                        .unwrap_or_else(|| {
+                            SearchError::new(SearchErrorKind::SearchFailed, error.to_string())
+                        })
+                });
+                worker_inner.fail(failure.clone());
+                let _ = catch_unwind(AssertUnwindSafe(|| {
+                    worker_inner.reporter.on_error(&failure)
+                }));
+            }
             let _ = finished_tx.send(());
             result
+        })
+        .map_err(|error| SearchStartError {
+            operation: SearchError::new(
+                SearchErrorKind::SearchFailed,
+                format!("failed to start file-search supervisor: {error}"),
+            ),
+            cleanup: StartCleanup::NotAdmitted,
         })?;
     let session = FileSearchSession {
         inner,
@@ -42,17 +76,26 @@ pub(super) fn start(
         finished,
     };
     if ready_rx.recv().is_err() {
-        session.close()?;
-        anyhow::bail!("file-search supervisor exited before becoming ready");
+        let outcome = session.close_outcome();
+        return Err(SearchStartError {
+            operation: outcome.operation.err().unwrap_or_else(|| {
+                SearchError::new(
+                    SearchErrorKind::SearchFailed,
+                    "file-search supervisor exited before becoming ready",
+                )
+            }),
+            cleanup: outcome.cleanup.into(),
+        });
     }
     Ok(session)
 }
 
 fn supervise(
     inner: Arc<SessionInner>,
-    work_rx: Receiver<WorkSignal>,
+    work_rx: Receiver<()>,
     overrides: Option<ignore::overrides::Override>,
     ready: crossbeam_channel::Sender<()>,
+    allocation: NativeAllocation,
 ) -> anyhow::Result<()> {
     let mut pool_threads = PoolThreads::default();
     let pool_panicked = Arc::new(AtomicBool::new(false));
@@ -62,10 +105,13 @@ fn supervise(
         inner.threads,
         move |_| {
             // Rayon catches asynchronous task panics. Record them separately from
-            // OS-thread joins and do not let the handler itself panic or block.
+            // OS-thread joins. Retain the failure and wake the supervisor;
+            // never invoke callbacks or join from this Rayon worker.
             panic_flag.store(true, Ordering::Release);
-            panic_inner.shutdown.store(true, Ordering::Release);
-            let _ = panic_inner.work_tx.send(WorkSignal::Shutdown);
+            panic_inner.fail(SearchError::new(
+                SearchErrorKind::SearchFailed,
+                "file-search Rayon task panicked",
+            ));
         },
         spawn_pool_thread,
     )?;
@@ -75,12 +121,7 @@ fn supervise(
             let _ = notify_inner.work_tx.send(WorkSignal::NucleoNotify);
         }
     });
-    let mut nucleo = Nucleo::new_with_thread_pool(
-        Config::DEFAULT.match_paths(),
-        notify,
-        pool,
-        /*columns*/ 1,
-    );
+    let mut nucleo = NativeIndex::create(pool, notify, allocation)?;
     let injector = nucleo.injector();
     let walker_inner = inner.clone();
     let walker = thread::Builder::new()
@@ -90,8 +131,10 @@ fn supervise(
                 walker_worker(walker_inner.clone(), overrides, injector);
             }));
             if result.is_err() {
-                walker_inner.shutdown.store(true, Ordering::Release);
-                let _ = walker_inner.work_tx.send(WorkSignal::Shutdown);
+                walker_inner.fail(SearchError::new(
+                    SearchErrorKind::SearchFailed,
+                    "file-search walker panicked",
+                ));
             }
             result.map_err(|_| anyhow::anyhow!("file-search walker panicked"))
         });
@@ -106,11 +149,23 @@ fn supervise(
                 inner.shutdown.store(true, Ordering::Release);
             }
             match catch_unwind(AssertUnwindSafe(|| {
-                matcher_worker(inner.clone(), work_rx, &mut nucleo)
+                matcher_worker(inner.clone(), work_rx, nucleo.matcher())
             })) {
                 Ok(Ok(())) => {}
-                Ok(Err(error)) => failures.push(error.to_string()),
-                Err(_) => failures.push("file-search matcher or reporter panicked".into()),
+                Ok(Err(error)) => {
+                    inner.fail(
+                        error
+                            .downcast_ref::<SearchError>()
+                            .cloned()
+                            .unwrap_or_else(|| {
+                                SearchError::new(SearchErrorKind::SearchFailed, error.to_string())
+                            }),
+                    );
+                }
+                Err(_) => inner.fail(SearchError::new(
+                    SearchErrorKind::SearchFailed,
+                    "file-search matcher or reporter panicked",
+                )),
             }
             inner.shutdown.store(true, Ordering::Release);
             // ignore::WalkParallel joins its scoped children before returning.
@@ -129,7 +184,9 @@ fn supervise(
     if pool_panicked.load(Ordering::Acquire) {
         failures.push("file-search Rayon task panicked".into());
     }
-    if failures.is_empty() {
+    if let Some(error) = inner.first_failure() {
+        Err(anyhow::Error::new(error))
+    } else if failures.is_empty() {
         Ok(())
     } else {
         anyhow::bail!(failures.join("; "))

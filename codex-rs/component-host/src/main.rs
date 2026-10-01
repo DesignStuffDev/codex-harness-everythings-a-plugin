@@ -94,6 +94,11 @@ async fn main() -> Result<()> {
             method,
             params,
         } => {
+            if kind == codex_component_api::FILE_SEARCH_KIND {
+                bail!(
+                    "file_search requires its persistent provider and lease lifecycle; use the file-search-component SDK instead of one-shot call"
+                );
+            }
             if kind == "thread_store" {
                 bail!(
                     "thread_store requires the persistent storage facade; use ComponentBinding::connect and the thread-store-component SDK initialization/lease lifecycle instead of one-shot call"

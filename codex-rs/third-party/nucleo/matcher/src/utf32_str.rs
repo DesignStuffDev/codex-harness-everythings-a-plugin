@@ -1,6 +1,11 @@
 #[cfg(test)]
 mod tests;
 
+#[cfg(test)]
+#[path = "utf32_allocation_tests.rs"]
+mod allocation_tests;
+
+use std::alloc::Layout;
 use std::borrow::Cow;
 use std::ops::{Bound, RangeBounds};
 use std::{fmt, slice};
@@ -307,6 +312,107 @@ pub enum Utf32String {
     Unicode(Box<[char]>),
 }
 
+/// Failure to plan or allocate an exactly charged matcher column.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Utf32AllocationError {
+    /// The requested storage does not fit a target allocation layout.
+    SizeOverflow,
+    /// The allocator rejected the requested storage.
+    AllocationFailed,
+    /// Actual capacity or conversion length differs from the prepaid plan.
+    CapacityMismatch,
+}
+
+impl fmt::Display for Utf32AllocationError {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str(match self {
+            Self::SizeOverflow => "matcher column allocation layout overflow",
+            Self::AllocationFailed => "matcher column allocation failed",
+            Self::CapacityMismatch => "matcher column allocation differs from its plan",
+        })
+    }
+}
+
+impl std::error::Error for Utf32AllocationError {}
+
+enum ColumnStorage {
+    Ascii(usize),
+    Unicode(usize),
+}
+
+impl ColumnStorage {
+    fn layout(&self) -> Result<Layout, Utf32AllocationError> {
+        match self {
+            Self::Ascii(count) => Layout::array::<u8>(*count),
+            Self::Unicode(count) => Layout::array::<char>(*count),
+        }
+        .map_err(|_| Utf32AllocationError::SizeOverflow)
+    }
+}
+
+/// A borrowed, allocation-free plan for one owned matcher column.
+///
+/// The owner must reserve [`Self::charged_bytes`] before calling
+/// [`Self::allocate`]. The charge describes the requested payload allocation on
+/// the pinned Rust Global allocator; it excludes inline headers and allocator
+/// bookkeeping. Conversion preserves the active Unicode segmentation features.
+pub struct Utf32AllocationPlan<'a> {
+    value: &'a str,
+    storage: ColumnStorage,
+    layout: Layout,
+}
+
+impl Utf32AllocationPlan<'_> {
+    /// Returns the exact requested backing allocation size on this target.
+    pub fn charged_bytes(&self) -> usize {
+        self.layout.size()
+    }
+
+    /// Allocates the planned payload without geometric growth or shrink overlap.
+    ///
+    /// Fresh exact reservations must have the requested capacity, as provided by
+    /// pinned Rust Global. A different capacity is rejected before filling.
+    pub fn allocate(self) -> Result<Utf32String, Utf32AllocationError> {
+        match self.storage {
+            ColumnStorage::Ascii(count) => {
+                if self.value.len() != count {
+                    return Err(Utf32AllocationError::CapacityMismatch);
+                }
+                let mut value = String::new();
+                value
+                    .try_reserve_exact(count)
+                    .map_err(|_| Utf32AllocationError::AllocationFailed)?;
+                if value.capacity() != count {
+                    return Err(Utf32AllocationError::CapacityMismatch);
+                }
+                value.push_str(self.value);
+                // Capacity equals length, so into_boxed_str does not shrink.
+                Ok(Utf32String::Ascii(value.into_boxed_str()))
+            }
+            ColumnStorage::Unicode(count) => {
+                let mut value = Vec::new();
+                value
+                    .try_reserve_exact(count)
+                    .map_err(|_| Utf32AllocationError::AllocationFailed)?;
+                if value.capacity() != count {
+                    return Err(Utf32AllocationError::CapacityMismatch);
+                }
+                for character in chars::graphemes(self.value) {
+                    if value.len() == count {
+                        return Err(Utf32AllocationError::CapacityMismatch);
+                    }
+                    value.push(character);
+                }
+                if value.len() != count {
+                    return Err(Utf32AllocationError::CapacityMismatch);
+                }
+                // Capacity equals length, so into_boxed_slice does not shrink.
+                Ok(Utf32String::Unicode(value.into_boxed_slice()))
+            }
+        }
+    }
+}
+
 impl Default for Utf32String {
     fn default() -> Self {
         Self::Ascii(String::new().into_boxed_str())
@@ -314,6 +420,24 @@ impl Default for Utf32String {
 }
 
 impl Utf32String {
+    /// Plans this conversion's exact allocation before creating owned storage.
+    ///
+    /// ASCII selection and Unicode grapheme conversion match [`Self::from`],
+    /// including the Unicode representation of ASCII strings containing CRLF.
+    pub fn allocation_plan(value: &str) -> Result<Utf32AllocationPlan<'_>, Utf32AllocationError> {
+        let storage = if has_ascii_graphemes(value) {
+            ColumnStorage::Ascii(value.len())
+        } else {
+            ColumnStorage::Unicode(chars::graphemes(value).count())
+        };
+        let layout = storage.layout()?;
+        Ok(Utf32AllocationPlan {
+            value,
+            storage,
+            layout,
+        })
+    }
+
     /// Returns the number of characters in this string.
     #[inline]
     pub fn len(&self) -> usize {
@@ -335,7 +459,7 @@ impl Utf32String {
     /// Creates a slice with a string that contains the characters in
     /// the specified **character range**.
     #[inline]
-    pub fn slice(&self, range: impl RangeBounds<usize>) -> Utf32Str {
+    pub fn slice(&self, range: impl RangeBounds<usize>) -> Utf32Str<'_> {
         let start = match range.start_bound() {
             Bound::Included(&start) => start,
             Bound::Excluded(&start) => start + 1,
@@ -355,7 +479,7 @@ impl Utf32String {
     /// Same as `slice` but accepts a u32 range for convenience since
     /// those are the indices returned by the matcher.
     #[inline]
-    pub fn slice_u32(&self, range: impl RangeBounds<u32>) -> Utf32Str {
+    pub fn slice_u32(&self, range: impl RangeBounds<u32>) -> Utf32Str<'_> {
         let start = match range.start_bound() {
             Bound::Included(&start) => start,
             Bound::Excluded(&start) => start + 1,

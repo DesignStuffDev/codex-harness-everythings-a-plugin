@@ -16,8 +16,10 @@
 //! runtime remain bounded; the local consumer event queue is unbounded so
 //! unread notifications cannot prevent request responses from being delivered.
 
+mod file_search;
 mod path;
 mod remote;
+mod shutdown;
 
 use std::error::Error;
 use std::fmt;
@@ -54,12 +56,12 @@ pub use codex_core::otel_init::build_provider as build_otel_provider;
 pub use codex_exec_server::EnvironmentManager;
 pub use codex_exec_server::ExecServerRuntimeOptions;
 use codex_feedback::CodexFeedback;
+use codex_file_search_runtime::FileSearchScopeFactory;
 use codex_protocol::protocol::SessionSource;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use serde::de::DeserializeOwned;
 use tokio::sync::mpsc;
 use tokio::sync::oneshot;
-use tokio::time::timeout;
 use toml::Value as TomlValue;
 use tracing::warn;
 
@@ -84,8 +86,6 @@ pub mod legacy_core {
 }
 
 const SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(5);
-// Covers the embedded drain, its analytics flush, and final task join.
-const IN_PROCESS_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(45);
 
 /// Raw app-server request result for typed in-process requests.
 ///
@@ -329,6 +329,9 @@ pub struct InProcessAppServerClient {
     command_tx: mpsc::Sender<ClientCommand>,
     event_rx: mpsc::UnboundedReceiver<InProcessServerEvent>,
     worker_handle: tokio::task::JoinHandle<()>,
+    shutdown_runtime: tokio::runtime::Handle,
+    // Weak capability from this exact runtime; never owns the provider.
+    file_search_factory: Option<FileSearchScopeFactory>,
 }
 
 #[derive(Clone)]
@@ -354,8 +357,8 @@ impl InProcessAppServerClient {
     /// Request queues remain bounded without blocking on unread notifications.
     pub async fn start(args: InProcessClientStartArgs) -> IoResult<Self> {
         let channel_capacity = args.channel_capacity.max(1);
-        let mut handle =
-            codex_app_server::in_process::start(args.into_runtime_start_args()).await?;
+        let handle = codex_app_server::in_process::start(args.into_runtime_start_args()).await?;
+        let (mut handle, file_search_factory) = file_search::capture(handle).await?;
         let request_sender = handle.sender();
         let (command_tx, mut command_rx) = mpsc::channel::<ClientCommand>(channel_capacity);
         // e9996ec62a preserved transcript events by awaiting a bounded queue, but that can
@@ -463,6 +466,8 @@ impl InProcessAppServerClient {
             command_tx,
             event_rx,
             worker_handle,
+            shutdown_runtime: tokio::runtime::Handle::current(),
+            file_search_factory: Some(file_search_factory),
         })
     }
 
@@ -602,39 +607,15 @@ impl InProcessAppServerClient {
         self.event_rx.recv().await
     }
 
-    /// Shuts down worker and in-process runtime with bounded wait.
+    /// Begin owned shutdown and return its bounded completion observer.
     ///
-    /// If graceful shutdown exceeds timeout, the worker task is aborted to
-    /// avoid leaking background tasks in embedding callers.
-    pub async fn shutdown(self) -> IoResult<()> {
-        let Self {
-            command_tx,
-            event_rx,
-            worker_handle,
-        } = self;
-        let mut worker_handle = worker_handle;
-        // Stop forwarding caller-facing events before asking the worker to shut down.
-        drop(event_rx);
-        let (response_tx, response_rx) = oneshot::channel();
-        if command_tx
-            .send(ClientCommand::Shutdown { response_tx })
-            .await
-            .is_ok()
-            && let Ok(command_result) = timeout(IN_PROCESS_SHUTDOWN_TIMEOUT, response_rx).await
-        {
-            command_result.map_err(|_| {
-                IoError::new(
-                    ErrorKind::BrokenPipe,
-                    "in-process app-server shutdown channel is closed",
-                )
-            })??;
-        }
-
-        if let Err(_elapsed) = timeout(IN_PROCESS_SHUTDOWN_TIMEOUT, &mut worker_handle).await {
-            worker_handle.abort();
-            let _ = worker_handle.await;
-        }
-        Ok(())
+    /// Dropping even an unpolled observer does not cancel shutdown. The original
+    /// runtime retains its coordinator. Success requires acknowledgement and
+    /// worker join; forced abortion reports unconfirmed runtime/storage cleanup.
+    /// The captured runtime also permits constructing this future outside an
+    /// entered Tokio context. Runtime destruction cannot guarantee cleanup.
+    pub fn shutdown(self) -> impl std::future::Future<Output = IoResult<()>> + Send {
+        shutdown::start(self)
     }
 }
 
@@ -768,10 +749,10 @@ impl AppServerClient {
         }
     }
 
-    pub async fn shutdown(self) -> IoResult<()> {
+    pub fn shutdown(self) -> impl std::future::Future<Output = IoResult<()>> + Send {
         match self {
-            Self::InProcess(client) => client.shutdown().await,
-            Self::Remote(client) => client.shutdown().await,
+            Self::InProcess(client) => futures::future::Either::Left(client.shutdown()),
+            Self::Remote(client) => futures::future::Either::Right(client.shutdown()),
         }
     }
 
@@ -2049,9 +2030,17 @@ mod tests {
 
     #[tokio::test]
     async fn next_event_surfaces_lagged_markers() {
-        let (command_tx, _) = mpsc::channel(1);
+        let (command_tx, mut command_rx) = mpsc::channel(1);
         let (event_tx, event_rx) = mpsc::unbounded_channel();
-        let worker_handle = tokio::spawn(async {});
+        let worker_handle = tokio::spawn(async move {
+            let response_tx = match command_rx.recv().await {
+                Some(ClientCommand::Shutdown { response_tx }) => response_tx,
+                _ => panic!("expected shutdown command"),
+            };
+            response_tx
+                .send(Ok(()))
+                .expect("shutdown should acknowledge");
+        });
         event_tx
             .send(InProcessServerEvent::Lagged { skipped: 3 })
             .expect("lagged marker should enqueue");
@@ -2061,6 +2050,8 @@ mod tests {
             command_tx,
             event_rx,
             worker_handle,
+            shutdown_runtime: tokio::runtime::Handle::current(),
+            file_search_factory: None,
         };
 
         let event = timeout(Duration::from_secs(2), client.next_event())
@@ -2168,6 +2159,8 @@ mod tests {
             command_tx,
             event_rx,
             worker_handle,
+            shutdown_runtime: tokio::runtime::Handle::current(),
+            file_search_factory: None,
         };
 
         client.shutdown().await.expect("shutdown should complete");

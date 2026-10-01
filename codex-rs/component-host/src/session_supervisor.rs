@@ -35,6 +35,10 @@ use crate::session::ComponentSession;
 use crate::session::PendingState;
 use crate::session::SessionInner;
 use crate::session::Shared;
+use crate::session_failure::SessionFailure;
+use crate::session_limits::SessionPayloadLimits;
+use crate::session_options::ComponentSessionOptions;
+use crate::session_options::SessionWorkingDirectory;
 use crate::session_wire::Header;
 use crate::session_wire::MessageReader;
 use crate::session_wire::Outgoing;
@@ -50,10 +54,47 @@ impl ComponentBinding {
     /// reported unconfirmed. Dropping this future signals its owned startup task
     /// to cancel and reap; it does not acknowledge cleanup to the absent waiter.
     pub async fn connect(&self) -> Result<ComponentSession> {
+        self.connect_with_limits(SessionPayloadLimits::default())
+            .await
+    }
+
+    /// Connect with local limits on serialized JSON request/reply bodies. The
+    /// handshake and frame format are unchanged; each peer enforces its own caps.
+    /// A peer's oversized declaration closes this connection and leaves cleanup
+    /// unconfirmed. A locally rejected request is never admitted.
+    pub async fn connect_with_limits(
+        &self,
+        limits: SessionPayloadLimits,
+    ) -> Result<ComponentSession> {
+        self.connect_with_options(ComponentSessionOptions {
+            payload_limits: limits,
+            ..ComponentSessionOptions::default()
+        })
+        .await
+    }
+
+    /// Connect with explicit, immutable process-start choices. Directory
+    /// validation and spawn stay owned by the existing cancellable startup task;
+    /// failure never falls back to a different directory or executable.
+    pub async fn connect_with_options(
+        &self,
+        options: ComponentSessionOptions,
+    ) -> Result<ComponentSession> {
+        options.payload_limits.validate()?;
+        if let SessionWorkingDirectory::ExplicitAbsolute(path) = &options.working_directory {
+            ensure!(
+                path.is_absolute(),
+                "explicit component working directory must be absolute"
+            );
+            ensure!(
+                self.entrypoint.is_absolute(),
+                "explicit component working directory requires an absolute entrypoint"
+            );
+        }
         let binding = self.clone();
         let (cancel, cancelled) = watch::channel(false);
         let _cancellation = StartupCancellation(cancel);
-        tokio::spawn(async move { binding.connect_owned(cancelled).await })
+        tokio::spawn(async move { binding.connect_owned(cancelled, options).await })
             .await
             .context("persistent startup supervisor failed; direct-child reaping is unconfirmed")?
     }
@@ -61,7 +102,9 @@ impl ComponentBinding {
     async fn connect_owned(
         &self,
         mut cancelled: watch::Receiver<bool>,
+        options: ComponentSessionOptions,
     ) -> Result<ComponentSession> {
+        let limits = options.payload_limits;
         let deadline = Duration::from_millis(self.timeout_ms);
         // Keep this owner outside the cancellable startup future. Even a caller
         // abandoning connect leaves this task alive to kill and wait explicitly.
@@ -72,11 +115,21 @@ impl ComponentBinding {
                 Err(anyhow::anyhow!("persistent component startup cancelled"))
             }
             initialized = async {
+                let working_directory = match &options.working_directory {
+                    SessionWorkingDirectory::PackageDirectory => &self.package_dir,
+                    SessionWorkingDirectory::ExplicitAbsolute(path) => {
+                        let metadata = timeout(deadline, tokio::fs::metadata(path))
+                            .await.context("persistent component working directory validation timed out")?
+                            .context("validate persistent component working directory")?;
+                        ensure!(metadata.is_dir(), "explicit component working directory is not a directory");
+                        path
+                    }
+                };
                 timeout(deadline, tokio::fs::create_dir_all(&self.state_dir)).await??;
                 let mut command = plugin_command(self);
                 command
                     .args(&self.args)
-                    .current_dir(&self.package_dir)
+                    .current_dir(working_directory)
                     .stdin(Stdio::piped())
                     .stdout(Stdio::piped())
                     .kill_on_drop(true)
@@ -155,14 +208,21 @@ impl ComponentBinding {
                 shutdown_rx,
                 supervisor_shared,
                 deadline,
+                limits,
             )
             .await
         });
         let completion_shared = Arc::clone(&shared);
         tokio::spawn(async move {
             let outcome = match supervisor.await {
-                Ok(result) => result.map_err(|error| format!("component connection failed; accepted operation outcomes may be unknown: {error:#}")),
-                Err(error) => Err(format!("component supervisor failed; direct-child reaping is unconfirmed and accepted operation outcomes are unknown: {error}")),
+                Ok(result) => result.map_err(|error| {
+                    SessionFailure::from_error(error.context(
+                        "component connection failed; accepted operation outcomes may be unknown",
+                    ))
+                }),
+                Err(error) => Err(SessionFailure::message(format!(
+                    "component supervisor failed; direct-child reaping is unconfirmed and accepted operation outcomes are unknown: {error}"
+                ))),
             };
             completion_shared.finish(outcome);
         });
@@ -177,6 +237,7 @@ impl ComponentBinding {
                 shared,
                 shutdown,
                 timeout: deadline,
+                limits,
             }),
         })
     }
@@ -242,13 +303,16 @@ async fn supervise(
     shutdown: watch::Receiver<bool>,
     shared: Arc<Shared>,
     shutdown_grace: Duration,
+    limits: SessionPayloadLimits,
 ) -> Result<()> {
     let reader_shared = Arc::clone(&shared);
     let mut tasks = Tasks {
-        reader: Some(tokio::spawn(
-            async move { receive(stdout, reader_shared).await },
-        )),
-        writer: Some(tokio::spawn(write_messages(stdin, regular_rx, control_rx))),
+        reader: Some(tokio::spawn(async move {
+            receive(stdout, reader_shared, limits).await
+        })),
+        writer: Some(tokio::spawn(write_messages(
+            stdin, regular_rx, control_rx, limits,
+        ))),
     };
     let outcome = drive(
         &mut guard,
@@ -272,10 +336,16 @@ async fn supervise(
     .and_then(std::convert::identity);
     match cleanup {
         Ok(()) => outcome,
-        Err(cleanup) => Err(cleanup).with_context(|| match outcome {
-            Ok(()) => "persistent cleanup failed; direct-child reaping or worker joins are unconfirmed".to_owned(),
-            Err(error) => format!("{error:#}; persistent cleanup failed; direct-child reaping or worker joins are unconfirmed"),
-        }),
+        Err(cleanup) => match outcome {
+            Ok(()) => Err(cleanup).context(
+                "persistent cleanup failed; direct-child reaping or worker joins are unconfirmed"
+            ),
+            // Keep the primary typed cause while adding the independent cleanup
+            // uncertainty. Formatting it into another error would erase it.
+            Err(error) => Err(error).context(format!(
+                "persistent cleanup failed; direct-child reaping or worker joins are unconfirmed: {cleanup:#}"
+            )),
+        },
     }
 }
 
@@ -339,8 +409,12 @@ async fn drive(
     }
 }
 
-async fn receive(stdout: BufReader<ChildStdout>, shared: Arc<Shared>) -> Result<()> {
-    let mut reader = MessageReader::new(stdout);
+async fn receive(
+    stdout: BufReader<ChildStdout>,
+    shared: Arc<Shared>,
+    limits: SessionPayloadLimits,
+) -> Result<()> {
+    let mut reader = MessageReader::new(stdout).with_limits(limits);
     while let Some(message) = reader.next().await? {
         let (id, result) = match message.header {
             Header::Result { id } => (
@@ -349,7 +423,8 @@ async fn receive(stdout: BufReader<ChildStdout>, shared: Arc<Shared>) -> Result<
                     .payload
                     .context("component result payload missing")?),
             ),
-            Header::Error { id, message } => (id, Err(message)),
+            // Legacy wire error text does not carry a typed limit receipt.
+            Header::Error { id, message } => (id, Err(SessionFailure::message(message))),
             Header::ShutdownComplete => {
                 ensure!(
                     shared

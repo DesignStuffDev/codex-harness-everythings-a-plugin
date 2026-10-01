@@ -30,6 +30,12 @@ impl Clone for MultiPattern {
 }
 
 impl MultiPattern {
+    pub(crate) fn try_single() -> Result<Self, crate::bounded::CapacityError> {
+        let mut cols = crate::bounded::try_buffer(1)?;
+        cols.push(Default::default());
+        Ok(Self { cols })
+    }
+
     /// Creates a multi pattern with `columns` empty column patterns.
     pub fn new(columns: usize) -> Self {
         Self {
@@ -56,7 +62,7 @@ impl MultiPattern {
                 .0
                 .atoms
                 .last()
-                .map_or(true, |last| !last.negative)
+                .is_none_or(|last| !last.negative)
         {
             self.cols[column].1 = Status::Update;
         } else {

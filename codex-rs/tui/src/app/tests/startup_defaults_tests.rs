@@ -12,7 +12,7 @@ async fn run_startup_for_test(
     bootstrap: AppServerBootstrap,
     selection: SessionSelection,
 ) -> Result<AppExitInfo> {
-    let file_search_runtime = crate::file_search::FileSearchRuntime::new();
+    let file_search_runtime = crate::file_search::FileSearchRuntime::for_tests();
     let result = App::run(
         tui,
         server,

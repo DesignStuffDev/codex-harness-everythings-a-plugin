@@ -1,5 +1,5 @@
-use codex_file_search::FileMatch;
-use codex_file_search::MatchType;
+use codex_file_search_api::FileMatch;
+use codex_file_search_api::MatchType;
 use codex_utils_fuzzy_match::fuzzy_match;
 
 use super::candidate::Candidate;

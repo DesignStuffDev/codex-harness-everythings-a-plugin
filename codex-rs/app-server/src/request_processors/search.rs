@@ -7,6 +7,7 @@ use std::sync::atomic::Ordering;
 
 use crate::error_code::internal_error;
 use crate::error_code::invalid_request;
+use crate::file_search_services::SearchContext;
 use crate::fuzzy_file_search::PendingSearchSession;
 use crate::fuzzy_file_search::PublisherFailures;
 use crate::fuzzy_file_search::run_fuzzy_file_search;
@@ -27,6 +28,7 @@ use tokio::sync::watch;
 
 mod connection;
 use connection::OneShotGuard;
+use connection::OneShotWaiter;
 pub(crate) use connection::SearchConnectionState;
 use connection::SessionEntry;
 use connection::StartWaiter;
@@ -34,6 +36,7 @@ use connection::StartWaiter;
 #[derive(Clone)]
 pub(crate) struct SearchRequestProcessor {
     outgoing: Arc<OutgoingMessageSender>,
+    context: SearchContext,
     state: Arc<Mutex<ProcessorState>>,
     failures: PublisherFailures,
 }
@@ -45,9 +48,10 @@ struct ProcessorState {
 }
 
 impl SearchRequestProcessor {
-    pub(crate) fn new(outgoing: Arc<OutgoingMessageSender>) -> Self {
+    pub(crate) fn new(outgoing: Arc<OutgoingMessageSender>, context: SearchContext) -> Self {
         Self {
             outgoing,
+            context,
             state: Arc::new(Mutex::new(ProcessorState::default())),
             failures: PublisherFailures::default(),
         }
@@ -62,15 +66,45 @@ impl SearchRequestProcessor {
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if state.closed
-            || connection
-                .state
-                .lock()
-                .unwrap_or_else(std::sync::PoisonError::into_inner)
-                .closed
-        {
+        let mut connection_state = connection
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        if state.closed || connection_state.closed {
             return Err(invalid_request("search connection is closed"));
         }
+        if connection_state
+            .connection_id
+            .is_some_and(|id| id != connection_id)
+            || state
+                .connections
+                .get(&connection_id)
+                .is_some_and(|existing| !Arc::ptr_eq(existing, connection))
+        {
+            return Err(invalid_request(
+                "file search connection identity does not match",
+            ));
+        }
+        if let Some(scope) = connection.scope.get() {
+            if !self.context.factory.owns_scope(scope) {
+                return Err(invalid_request(
+                    "file search connection belongs to another runtime",
+                ));
+            }
+        } else {
+            let scope = self
+                .context
+                .factory
+                .new_scope(self.context.scope_limits)
+                .map_err(|error| search_error(error.into()))?;
+            // Both processor and connection admission fences are held; a foreign
+            // processor cannot race another initialization or shutdown here.
+            connection
+                .scope
+                .set(scope)
+                .map_err(|_| internal_error("file search scope initialization raced"))?;
+        }
+        connection_state.connection_id = Some(connection_id);
         state
             .connections
             .entry(connection_id)
@@ -87,11 +121,17 @@ impl SearchRequestProcessor {
             self.failures
                 .record(&format!("connection {connection_id:?}: {error:#}"));
         }
-        self.state
+        let mut state = self
+            .state
             .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        if state
             .connections
-            .remove(&connection_id);
+            .get(&connection_id)
+            .is_some_and(|existing| std::ptr::eq(existing.as_ref(), connection))
+        {
+            state.connections.remove(&connection_id);
+        }
     }
 
     pub(crate) async fn shutdown(&self) -> anyhow::Result<()> {
@@ -138,9 +178,19 @@ impl SearchRequestProcessor {
         connection: Arc<SearchConnectionState>,
         params: FuzzyFileSearchParams,
     ) -> Result<FuzzyFileSearchResponse, JSONRPCErrorError> {
+        if let Some(token) = &params.cancellation_token {
+            validate_id(token, "cancellationToken")?;
+        }
         self.register(connection_id, &connection)?;
         let cancellation = Arc::new(AtomicBool::new(false));
-        let id = {
+        let _waiter = OneShotWaiter(Arc::clone(&cancellation));
+        let (reply, response) = oneshot::channel();
+        let scope = connection
+            .scope
+            .get()
+            .cloned()
+            .ok_or_else(|| internal_error("file search scope missing after registration"))?;
+        {
             let mut state = connection
                 .state
                 .lock()
@@ -148,8 +198,8 @@ impl SearchRequestProcessor {
             if state.closed {
                 return Err(invalid_request("search connection is closed"));
             }
-            // Cancellation remains available at capacity. It does not release
-            // the predecessor's slot until that search has joined its cleanup.
+            // Cancellation remains available at capacity. The predecessor keeps
+            // its slot until the retained owner observes its cleanup receipt.
             if let Some(token) = &params.cancellation_token
                 && let Some(previous) = state
                     .tokens
@@ -161,23 +211,50 @@ impl SearchRequestProcessor {
             if params.query.is_empty() || params.roots.is_empty() {
                 return Ok(FuzzyFileSearchResponse { files: Vec::new() });
             }
+            if params.query.len() > self.context.max_query_bytes.get() {
+                return Err(invalid_request(
+                    "file search query exceeds the UTF-8 byte limit",
+                ));
+            }
             let id = state.admit().map_err(search_error)?;
             if let Some(token) = &params.cancellation_token {
                 state.tokens.insert(token.clone(), id);
             }
             state.one_shots.insert(id, Arc::clone(&cancellation));
-            id
-        };
-        let _guard = OneShotGuard {
-            connection: Arc::clone(&connection),
-            id,
-            token: params.cancellation_token,
-            cancellation: Arc::clone(&cancellation),
-        };
-        let files =
-            run_fuzzy_file_search(&connection.native, params.query, params.roots, cancellation)
+            let guard = OneShotGuard {
+                connection: Arc::clone(&connection),
+                id,
+                token: params.cancellation_token,
+                cancellation: Arc::clone(&cancellation),
+            };
+            let context = self.context.clone();
+            let failures = connection.failures.clone();
+            connection.startups.spawn(async move {
+                let request_guard = guard;
+                let result = AssertUnwindSafe(run_fuzzy_file_search(
+                    &scope,
+                    &context,
+                    params.query,
+                    params.roots,
+                    cancellation,
+                ))
+                .catch_unwind()
                 .await
-                .map_err(search_error)?;
+                .unwrap_or_else(|_| {
+                    failures
+                        .record("file search request owner panicked; cleanup was not confirmed");
+                    Err(anyhow::anyhow!(
+                        "file search request owner panicked; cleanup was not confirmed"
+                    ))
+                });
+                drop(request_guard);
+                let _ = reply.send(result);
+            });
+        }
+        let files = response
+            .await
+            .map_err(|_| internal_error("file search request owner lost"))?
+            .map_err(search_error)?;
         Ok(FuzzyFileSearchResponse { files })
     }
 
@@ -187,6 +264,7 @@ impl SearchRequestProcessor {
         connection: Arc<SearchConnectionState>,
         params: FuzzyFileSearchSessionStartParams,
     ) -> Result<FuzzyFileSearchSessionStartResponse, JSONRPCErrorError> {
+        validate_id(&params.session_id, "sessionId")?;
         self.register(connection_id, &connection)?;
         let FuzzyFileSearchSessionStartParams { session_id, roots } = params;
         if session_id.is_empty() {
@@ -195,30 +273,44 @@ impl SearchRequestProcessor {
         if roots.is_empty() {
             return Err(invalid_request("at least one search directory is required"));
         }
-        let previous = connection
-            .state
-            .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .sessions
-            .remove(&session_id);
-        if let Some(previous) = previous {
-            previous.close().await.map_err(search_error)?;
-        }
+        let scope = connection
+            .scope
+            .get()
+            .cloned()
+            .ok_or_else(|| internal_error("file search scope missing after registration"))?;
         let (reply, response) = oneshot::channel();
         let id = {
             let mut state = connection
                 .state
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner);
-            let id = state.admit().map_err(search_error)?;
+            if state.closed || state.pending.contains_key(&session_id) {
+                return Err(invalid_request(
+                    "search connection is closed or session start is already pending",
+                ));
+            }
+            // Reserve the replacement identity before releasing the fence. The
+            // predecessor stays owned by this single retained task through join.
+            let previous = state.sessions.remove(&session_id);
+            let id = match state.admit() {
+                Ok(id) => id,
+                Err(error) => {
+                    if let Some(previous) = previous {
+                        state.sessions.insert(session_id, previous);
+                    }
+                    return Err(search_error(error));
+                }
+            };
             let pending = PendingSearchSession::new(
                 connection_id,
                 session_id.clone(),
                 Arc::clone(&self.outgoing),
                 &connection.publishers,
                 connection.failures.clone(),
+                self.context.shutdown_requested.clone(),
             );
             let (finished, complete) = watch::channel(None);
+            state.pending.insert(session_id.clone(), id);
             state.sessions.insert(
                 session_id.clone(),
                 SessionEntry::Starting {
@@ -229,20 +321,31 @@ impl SearchRequestProcessor {
             );
             let owned = Arc::clone(&connection);
             let owned_id = session_id.clone();
-            // Register while holding the admission lock. Shutdown cannot miss a
-            // startup task whose native constructor has not been polled yet.
+            let context = self.context.clone();
+            // Register while holding admission. Shutdown cannot miss a task
+            // whose selected backend constructor has not been polled yet.
             connection.startups.spawn(async move {
+                let mut cleanup = Ok(());
                 let operation = async {
-                    let session = match pending.start(&owned.native, roots).await {
+                    if let Some(previous) = previous
+                        && let Err(error) = previous.close().await
+                    {
+                        cleanup = Err(format!("{error:#}"));
+                        if let Err(publisher) = pending.close().await {
+                            cleanup = Err(format!(
+                                "{error:#}; replacement publisher cleanup failed: {publisher:#}"
+                            ));
+                        }
+                        return Err(error);
+                    }
+                    let session = match pending.start(&scope, &context, roots).await {
                         Ok(session) => session,
                         Err(failure) => {
-                            finished.send_replace(Some(
-                                failure
-                                    .cleanup
-                                    .as_ref()
-                                    .copied()
-                                    .map_err(|error| format!("{error:#}")),
-                            ));
+                            cleanup = failure
+                                .cleanup
+                                .as_ref()
+                                .copied()
+                                .map_err(|error| format!("{error:#}"));
                             return Err(match failure.cleanup {
                                 Ok(()) => failure.operation,
                                 Err(cleanup) => failure
@@ -272,8 +375,7 @@ impl SearchRequestProcessor {
                     };
                     if let Some(session) = session {
                         if let Err(error) = session.close().await {
-                            owned.failures.record(&format!("{error:#}"));
-                            finished.send_replace(Some(Err(format!("{error:#}"))));
+                            cleanup = Err(format!("{error:#}"));
                             return Err(error);
                         }
                         anyhow::bail!("file search start was released before acknowledgement");
@@ -284,29 +386,35 @@ impl SearchRequestProcessor {
                     .catch_unwind()
                     .await
                     .unwrap_or_else(|_| {
-                        owned.failures.record("file search startup task panicked");
-                        finished.send_replace(Some(Err(
+                        cleanup = Err(
                             "file search startup task panicked; cleanup was not confirmed"
                                 .to_owned(),
-                        )));
+                        );
                         Err(anyhow::anyhow!("file search startup task panicked"))
                     });
-                if result.is_err() {
+                if let Err(error) = &cleanup {
+                    owned.failures.record(error);
+                }
+                {
                     let mut state = owned
                         .state
                         .lock()
                         .unwrap_or_else(std::sync::PoisonError::into_inner);
-                    if state
-                        .sessions
-                        .get(&owned_id)
-                        .is_some_and(|entry| entry.id() == id)
+                    if state.pending.get(&owned_id) == Some(&id) {
+                        state.pending.remove(&owned_id);
+                    }
+                    if result.is_err()
+                        && state
+                            .sessions
+                            .get(&owned_id)
+                            .is_some_and(|entry| entry.id() == id)
                     {
                         state.sessions.remove(&owned_id);
                     }
                 }
-                if finished.borrow().is_none() {
-                    finished.send_replace(Some(Ok(())));
-                }
+                // Release the pending reservation before acknowledging stop or
+                // start, so a joined restart never races stale bookkeeping.
+                finished.send_replace(Some(cleanup));
                 let _ = reply.send(result);
             });
             id
@@ -321,6 +429,23 @@ impl SearchRequestProcessor {
             .await
             .map_err(|_| internal_error("file search startup response lost"))?
             .map_err(search_error)?;
+        {
+            let state = waiter
+                .connection
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            if state.closed
+                || state
+                    .sessions
+                    .get(&waiter.session_id)
+                    .is_none_or(|entry| entry.id() != id)
+            {
+                return Err(invalid_request(
+                    "file search start was released before acknowledgement",
+                ));
+            }
+        }
         waiter.armed = false;
         Ok(FuzzyFileSearchSessionStartResponse {})
     }
@@ -331,20 +456,47 @@ impl SearchRequestProcessor {
         connection: Arc<SearchConnectionState>,
         params: FuzzyFileSearchSessionUpdateParams,
     ) -> Result<FuzzyFileSearchSessionUpdateResponse, JSONRPCErrorError> {
+        validate_id(&params.session_id, "sessionId")?;
         self.register(connection_id, &connection)?;
+        let (id, pending) = {
+            let state = connection
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            if state.closed {
+                return Err(invalid_request("search connection is closed"));
+            }
+            let Some(SessionEntry::Ready { id, session }) = state.sessions.get(&params.session_id)
+            else {
+                return Err(invalid_request(format!(
+                    "fuzzy file search session not found: {}",
+                    params.session_id
+                )));
+            };
+            (
+                *id,
+                session
+                    .prepare_update(params.query, self.context.max_query_bytes)
+                    .map_err(search_error)?,
+            )
+        };
+        // The real backend acknowledgement is awaited without a connection lock.
+        pending.accepted().await.map_err(search_error)?;
         let state = connection
             .state
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
-        if let Some(SessionEntry::Ready { session, .. }) = state.sessions.get(&params.session_id) {
-            session.update_query(params.query).map_err(search_error)?;
-            Ok(FuzzyFileSearchSessionUpdateResponse {})
-        } else {
-            Err(invalid_request(format!(
-                "fuzzy file search session not found: {}",
-                params.session_id
-            )))
+        if state.closed
+            || state
+                .sessions
+                .get(&params.session_id)
+                .is_none_or(|entry| entry.id() != id)
+        {
+            return Err(invalid_request(
+                "file search session was released before query acknowledgement",
+            ));
         }
+        Ok(FuzzyFileSearchSessionUpdateResponse {})
     }
 
     pub(crate) async fn fuzzy_file_search_session_stop(
@@ -353,6 +505,7 @@ impl SearchRequestProcessor {
         connection: Arc<SearchConnectionState>,
         params: FuzzyFileSearchSessionStopParams,
     ) -> Result<FuzzyFileSearchSessionStopResponse, JSONRPCErrorError> {
+        validate_id(&params.session_id, "sessionId")?;
         self.register(connection_id, &connection)?;
         let session = connection
             .state
@@ -367,6 +520,15 @@ impl SearchRequestProcessor {
     }
 }
 
+fn validate_id(value: &str, name: &str) -> Result<(), JSONRPCErrorError> {
+    if value.len() > 256 {
+        return Err(invalid_request(format!(
+            "{name} exceeds the 256-byte UTF-8 limit"
+        )));
+    }
+    Ok(())
+}
+
 fn search_error(error: anyhow::Error) -> JSONRPCErrorError {
     internal_error(format!("fuzzy file search failed: {error:#}"))
 }
@@ -374,3 +536,7 @@ fn search_error(error: anyhow::Error) -> JSONRPCErrorError {
 #[cfg(test)]
 #[path = "search/search_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "search/runtime_tests.rs"]
+mod runtime_tests;

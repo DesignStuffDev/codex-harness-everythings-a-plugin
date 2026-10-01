@@ -178,13 +178,13 @@ fn log_inbound_app_event_with(logger: &SessionLogger, event: &AppEvent) {
             });
             logger.write_json_line(value);
         }
-        AppEvent::FileSearchResult { query, matches, .. } => {
+        AppEvent::FileSearchReady { .. } => {
+            // The payload lives in one bounded mailbox and may be coalesced.
+            // This wake event is not a replay of provider result data.
             let value = json!({
                 "ts": now_ts(),
                 "dir": "to_tui",
-                "kind": "file_search_result",
-                "query": query,
-                "matches": matches.len(),
+                "kind": "file_search_ready",
             });
             logger.write_json_line(value);
         }

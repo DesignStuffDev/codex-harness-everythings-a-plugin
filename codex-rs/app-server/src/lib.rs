@@ -115,6 +115,7 @@ mod error_code;
 mod extensions;
 mod external_agent_migration;
 mod external_auth;
+mod file_search_services;
 mod filters;
 mod fs_watch;
 mod fuzzy_file_search;
@@ -669,6 +670,11 @@ pub async fn run_main_with_transport_options(
         .map_err(std::io::Error::other)?;
     let store_lifecycle =
         persistence_lifecycle::StoreShutdownGuard::new(Arc::clone(&persistence.thread_store));
+    let (search_context, search_lifecycle) =
+        match file_search_services::start(&config.codex_home).await {
+            Ok(services) => services,
+            Err(error) => return store_lifecycle.finish(Err(error)).await,
+        };
     // Every failure after selecting storage must observe its cleanup. The
     // outer guard also fences admission if this startup/runtime future is cancelled.
     let result = async {
@@ -974,6 +980,7 @@ pub async fn run_main_with_transport_options(
     });
 
     let recovery_file = daemon_recovery_file_path(&config.codex_home);
+    let processor_search_lifecycle = search_lifecycle.fork();
     let processor_handle = tokio::spawn({
         let auth_manager = Arc::clone(&auth_manager);
         let initialize_notification_sender = outgoing_message_sender.clone();
@@ -988,6 +995,7 @@ pub async fn run_main_with_transport_options(
             feedback: feedback.clone(),
             log_db,
             persistence,
+            search_context,
             state_db: state_db.clone(),
             config_warnings,
             session_source,
@@ -1329,6 +1337,7 @@ pub async fn run_main_with_transport_options(
             }
             drop(snapshot);
             drop(thread_listener_tasks);
+            processor_search_lifecycle.begin_shutdown();
             processor.request_search_shutdown();
             let background_cleanup = if !shutdown_state.forced() {
                 futures::future::join_all(connections.iter().map(
@@ -1363,6 +1372,7 @@ pub async fn run_main_with_transport_options(
     drop(transport_event_tx);
 
     let processor_exit = processor_handle.await;
+    search_lifecycle.begin_shutdown();
     // Ancillary routers can retain senders after request processing stops; do
     // not postpone the storage fence until all transport tasks have exited.
     store_lifecycle.begin_shutdown();
@@ -1388,7 +1398,9 @@ pub async fn run_main_with_transport_options(
         // completion and durability are unknown on this path.
         return result;
     }
-    store_lifecycle.finish(result).await
+    let (store_result, search_result) =
+        tokio::join!(store_lifecycle.finish(result), search_lifecycle.finish());
+    file_search_services::combine(store_result, search_result)
 }
 
 struct SqliteRecoveryNotice {

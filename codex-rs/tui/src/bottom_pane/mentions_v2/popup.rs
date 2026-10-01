@@ -1,6 +1,6 @@
 //! Own live mention candidates and asynchronous file search while reserving a stable picker viewport.
 
-use codex_file_search::FileMatch;
+use codex_file_search_api::FileMatch;
 use ratatui::buffer::Buffer;
 use ratatui::layout::Rect;
 use ratatui::widgets::WidgetRef;

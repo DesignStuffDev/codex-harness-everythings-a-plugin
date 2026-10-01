@@ -145,13 +145,18 @@ impl RefUnwindSafe for MatrixSlab {}
 
 impl MatrixSlab {
     pub fn new() -> Self {
+        Self::try_new().unwrap_or_else(|| handle_alloc_error(Layout::new::<MatcherData>()))
+    }
+
+    pub fn allocation_bytes() -> usize {
+        Layout::new::<MatcherData>().size()
+    }
+
+    pub fn try_new() -> Option<Self> {
         let layout = Layout::new::<MatcherData>();
         // safety: the matrix is never zero sized (hardcoded constants)
         let ptr = unsafe { alloc_zeroed(layout) };
-        let Some(ptr) = NonNull::new(ptr) else {
-            handle_alloc_error(layout)
-        };
-        MatrixSlab(ptr.cast())
+        NonNull::new(ptr).map(MatrixSlab)
     }
 
     pub(crate) fn alloc<C: Char>(

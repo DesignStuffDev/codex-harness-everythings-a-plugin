@@ -99,7 +99,7 @@ mod utf32_str;
 mod tests;
 
 pub use crate::config::Config;
-pub use crate::utf32_str::{Utf32Str, Utf32String};
+pub use crate::utf32_str::{Utf32AllocationError, Utf32AllocationPlan, Utf32Str, Utf32String};
 
 use crate::chars::{AsciiChar, Char};
 use crate::matrix::MatrixSlab;
@@ -191,6 +191,21 @@ impl Matcher {
             config,
             slab: MatrixSlab::new(),
         }
+    }
+
+    /// Requested heap bytes for one matcher's fixed scratch slab on this target.
+    /// This excludes the inline matcher value and allocator bookkeeping.
+    pub fn scratch_allocation_bytes() -> usize {
+        MatrixSlab::allocation_bytes()
+    }
+
+    /// Allocates the same fixed scratch storage as [`Self::new`], returning
+    /// `None` if the allocator rejects that request. This does not change matching.
+    pub fn try_new(config: Config) -> Option<Self> {
+        Some(Self {
+            config,
+            slab: MatrixSlab::try_new()?,
+        })
     }
 
     /// Find the fuzzy match with the highest score in the `haystack`.

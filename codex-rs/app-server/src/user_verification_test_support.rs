@@ -113,6 +113,7 @@ pub(super) struct Harness {
     pub(super) messages: mpsc::Receiver<OutgoingEnvelope>,
     pub(super) home: tempfile::TempDir,
     transport: AppServerTransport,
+    search_lifecycle: crate::file_search_services::SearchShutdownGuard,
 }
 
 impl Harness {
@@ -153,7 +154,10 @@ impl Harness {
             sender,
             AnalyticsEventsClient::disabled(),
         ));
+        let (search_context, search_lifecycle) =
+            crate::file_search_services::start(home.path()).await?;
         let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+            search_context,
             persistence: codex_core::PersistenceServices {
                 thread_store: codex_core::thread_store_from_config(&config, None),
                 host_state_db: None,
@@ -185,6 +189,7 @@ impl Harness {
         }));
         Ok(Self {
             processor,
+            search_lifecycle,
             session: Arc::new(ConnectionSessionState::new(origin)),
             auth,
             service,
@@ -273,6 +278,10 @@ impl Harness {
             .await
             .expect("background cleanup");
         self.processor.shutdown_threads().await;
+        self.search_lifecycle
+            .finish()
+            .await
+            .expect("search provider cleanup");
     }
 }
 

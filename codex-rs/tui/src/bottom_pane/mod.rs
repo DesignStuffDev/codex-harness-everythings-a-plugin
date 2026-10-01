@@ -50,7 +50,7 @@ pub(crate) use bottom_pane_view::ViewCompletion;
 use codex_app_server_protocol::SkillMetadata;
 use codex_app_server_protocol::ToolRequestUserInputParams;
 use codex_features::Features;
-use codex_file_search::FileMatch;
+use codex_file_search_api::FileMatch;
 use codex_plugin::PluginCapabilitySummary;
 use codex_protocol::ThreadId;
 use codex_protocol::openai_models::ReasoningEffort;

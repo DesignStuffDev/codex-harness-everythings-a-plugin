@@ -61,3 +61,72 @@ the OS-thread join result. The caller must retain that failure and report it
 after joining. An exit callback is not an OS-thread join. This patch does not
 modify Rayon, use a global pool, add a hard shutdown deadline, or claim recovery
 from process-aborting failures inside Rayon.
+
+
+## Bounded single-column index construction (Stage B work in progress)
+
+The new restricted `BoundedNucleo`/`BoundedInjector` API in `src/bounded.rs`
+preserves the original unbounded API and matching/scoring rules. It does not
+expose restart, unchecked injection, or mutable access to the legacy owner.
+`IndexAllocationPlan<T>` computes checked target-layout charges before a caller
+starts and reserves its worker pool. The constructor requires that pool's actual
+worker count to match the prepaid plan.
+
+- `src/boxcar.rs` adds fallible, fully prepaid single-column arenas, atomic entry
+  admission, and non-panicking moves of prepared values/columns. The bounded
+  path does not use eager/lazy bucket growth or the generic filler callback.
+- `src/worker.rs`, `src/pattern.rs` and `src/lib.rs` construct prepaid candidate,
+  snapshot, in-flight and matcher storage. Assertions fence internal invariant
+  violations before an existing reserve/extend/clone could grow those buffers.
+  Configured entry exhaustion instead returns the typed `EntryLimit` error.
+- `matcher/src/lib.rs` and `matcher/src/matrix.rs` expose the actual target
+  scratch charge and a fallible scratch allocation path. Ordinary construction
+  retains its allocation-failure behavior.
+- `src/boxcar_bounded_tests.rs` and `src/bounded_tests.rs` cover arena boundaries,
+  concurrent rejection, payload ownership, matching parity, stable candidate
+  capacities, constructor mismatch, notification panic and joined scoped pools.
+  Test execution evidence is recorded by the parent harness, not implied here.
+
+Fixed accounting includes full geometric arena buckets, both candidate/result
+vectors and the in-flight vector, matcher values/slabs, pattern-column headers,
+and owned Arc allocations. Payload paths/columns, query atoms/clones, traversal
+and ignore metadata, thread stacks, callback state, Rayon runtime bookkeeping,
+and allocator overhead are separate; this is not an RSS limit. The native
+session now adds a retained admission ledger for entry count, exact path/column
+payload bytes and dedicated OS workers. Backend selection and the separately
+installed implementation remain later integration work.
+Stable Arc constructors can still follow Rust's ordinary OOM abort path; the
+fallible slab/arena/vector paths do not imply universal system-OOM recovery.
+
+Accounting depends on pinned Rust 1.95 Global recording the requested capacity
+for a fresh `try_reserve_exact`, and repr(C) ArcInner's two atomic counters plus
+data layout. Neither is asserted to be a stable allocator/Arc ABI. It also
+relies on Rayon 1.11's exact-size `ParIter.map` to `Vec::par_extend` path writing
+into reserved destination capacity without candidate-sized intermediate vectors;
+do not replace it with unindexed filtering without re-auditing allocations.
+Upstream or toolchain updates must recheck these assumptions and the concrete
+fixed layout before accepting the new source.
+
+
+## Exact native column payload planning
+
+- `matcher/src/utf32_str.rs` adds an opaque borrowed `Utf32AllocationPlan` and
+  typed fallible allocation. It uses the existing ASCII/CRLF classification and
+  feature-dependent grapheme iterator to preflight the exact UTF-32 payload.
+  Native injection reserves that charge before allocation. Fresh exact reserve
+  capacities are checked; conversion never grows geometrically or allocates a
+  second shrinking buffer. Existing `From` conversion behavior is unchanged.
+- `matcher/src/lib.rs` exports the plan/error types; the five checks in
+  `matcher/src/utf32_allocation_tests.rs` exercise representation and payload
+  parity, CRLF, combining graphemes, large non-power-of-two input and safe layout
+  overflow. Execution evidence is recorded separately by the harness.
+
+## Mechanical lint cleanup
+
+The scoped Clippy fix applied twelve mechanical edits after the first bounded
+index test run: one final-expression return in `matcher/src/score.rs`; two
+explicit elided lifetimes in `matcher/src/utf32_str.rs`; four redundant trait
+object parentheses in `src/lib.rs` and three in `src/worker.rs`; one equivalent
+`Option::map_or(true, ...)` to `is_none_or(...)` in `src/pattern.rs`; and one
+`repeat(...).take(...)` to `repeat_n(...)` in an existing `src/boxcar.rs` test.
+These preserve matching, evaluation order, assertions and tested input sizes.

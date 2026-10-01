@@ -121,6 +121,53 @@ fn invalid_install_rolls_back_without_changing_registry() {
 }
 
 #[test]
+fn search_selection_rejects_incompatible_upgrade_without_changing_active_package() {
+    let home = TempDir::new().unwrap();
+    let sources = TempDir::new().unwrap();
+    let source = package(sources.path(), "example.search", json!({}));
+    let manifest_path = source.join(MANIFEST_FILE);
+    let mut manifest: serde_json::Value =
+        serde_json::from_slice(&fs::read(&manifest_path).unwrap()).unwrap();
+    manifest["components"] = json!([{
+        "kind": FILE_SEARCH_KIND, "name": "default",
+        "contract_version": FILE_SEARCH_CONTRACT_VERSION
+    }]);
+    fs::write(&manifest_path, serde_json::to_vec(&manifest).unwrap()).unwrap();
+    crate::install(home.path(), &source).unwrap();
+    crate::select(
+        home.path(),
+        FILE_SEARCH_KIND,
+        "default",
+        Some("example.search"),
+    )
+    .unwrap();
+    let catalog = ComponentCatalog::load(home.path()).unwrap();
+    let selected = catalog.selected(FILE_SEARCH_KIND, "default").unwrap();
+    let settings = catalog.settings().clone();
+
+    manifest["version"] = json!("2.0.0");
+    manifest["components"][0]["contract_version"] = json!(2);
+    fs::write(&manifest_path, serde_json::to_vec(&manifest).unwrap()).unwrap();
+    assert!(crate::install(home.path(), &source).is_err());
+    let after = ComponentCatalog::load(home.path()).unwrap();
+    assert_eq!(after.settings(), &settings);
+    assert_eq!(
+        after
+            .selected(FILE_SEARCH_KIND, "default")
+            .unwrap()
+            .package_dir,
+        selected.package_dir
+    );
+    crate::select(home.path(), FILE_SEARCH_KIND, "default", None).unwrap();
+    assert!(
+        ComponentCatalog::load(home.path())
+            .unwrap()
+            .selected(FILE_SEARCH_KIND, "default")
+            .is_none()
+    );
+}
+
+#[test]
 fn explicit_selection_can_be_reset_and_does_not_accept_unknown_provider() {
     let home = TempDir::new().unwrap();
     let sources = TempDir::new().unwrap();

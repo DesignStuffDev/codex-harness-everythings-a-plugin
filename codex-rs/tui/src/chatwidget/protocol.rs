@@ -384,6 +384,7 @@ impl ChatWidget {
             | ServerNotification::TurnModerationMetadata(_)
             | ServerNotification::FuzzyFileSearchSessionUpdated(_)
             | ServerNotification::FuzzyFileSearchSessionCompleted(_)
+            | ServerNotification::FuzzyFileSearchSessionFailed(_)
             | ServerNotification::ThreadRealtimeItemAdded(_)
             | ServerNotification::ThreadRealtimeItemStarted(_)
             | ServerNotification::ThreadRealtimeItemTranscriptDelta(_)

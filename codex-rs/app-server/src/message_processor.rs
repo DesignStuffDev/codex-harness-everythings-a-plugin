@@ -259,6 +259,7 @@ pub(crate) struct MessageProcessorArgs {
     pub(crate) feedback: CodexFeedback,
     pub(crate) log_db: Option<LogDbLayer>,
     pub(crate) persistence: codex_core::PersistenceServices,
+    pub(crate) search_context: crate::file_search_services::SearchContext,
     pub(crate) state_db: Option<StateDbHandle>,
     pub(crate) config_warnings: Vec<ConfigWarningNotification>,
     pub(crate) session_source: SessionSource,
@@ -286,6 +287,7 @@ impl MessageProcessor {
             feedback,
             log_db,
             persistence,
+            search_context,
             state_db,
             config_warnings,
             session_source,
@@ -489,7 +491,7 @@ impl MessageProcessor {
             on_effective_plugins_changed,
         );
         let remote_control_processor = RemoteControlRequestProcessor::new(remote_control_handle);
-        let search_processor = SearchRequestProcessor::new(outgoing.clone());
+        let search_processor = SearchRequestProcessor::new(outgoing.clone(), search_context);
         let thread_goal_processor = ThreadGoalRequestProcessor::new(
             Arc::clone(&thread_manager),
             outgoing.clone(),

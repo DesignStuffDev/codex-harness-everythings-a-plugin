@@ -147,6 +147,7 @@ mod exec_command;
 mod external_agent_config_migration;
 mod external_editor;
 mod file_search;
+mod file_search_startup;
 mod get_git_diff;
 mod git_action_directives;
 mod goal_display;
@@ -2031,7 +2032,18 @@ async fn run_ratatui_app(
 
     // Keep the large event-loop future out of the enclosing startup futures so session
     // transitions have enough stack headroom to rebuild configuration and the chat widget.
-    let file_search_runtime = file_search::FileSearchRuntime::new();
+    let file_search_runtime =
+        match file_search_startup::start(&app_server, &config.codex_home).await {
+            Ok(runtime) => runtime,
+            Err(error) => {
+                // Selection/capability failure is terminal for this launch. Preserve
+                // the server cleanup error and restore the terminal before exit.
+                let result = file_search_startup::combine(Err(error), app_server.shutdown().await);
+                terminal_restore_guard.restore_silently();
+                session_log::log_session_end();
+                return result;
+            }
+        };
     let app_result = Box::pin(App::run(
         &mut tui,
         app_server,
