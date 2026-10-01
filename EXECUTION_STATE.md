@@ -6,6 +6,10 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
 
 ## Published checkpoint
 
+- Latest additive SDK source `d22cea88aa23e35a619d996fc731122450e51313`, tree
+  `fbf28305751239cd376cefaec0ea970048096e08`, follows reviewed evidence/roadmap `789be2e7`.
+  It adds pending-start control/ticket/receipt primitives only; no new backend or installed-runtime claim.
+
 - Main source `a469cf4be85fda40c64e563ece3e1639e4abdbac`, tree
   `3216dfb131f72939c986902053665cbad85ce610`, parent docs `b68db514687f6d4466b8d960b0e88010ddc179c9`.
   GitHub connector publication and remote verification completed. 215 source paths over prior main,
@@ -22,6 +26,10 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
   GUI presentation is additive; model/auth remain adapters. Loop/context/tools/policy are still coupled.
 
 ## Latest verification — separate scopes, no invented total
+
+- [Startup SDK support](verification/2026-10-01/P02B_STARTUP_SDK_EVIDENCE.md): 19/19 API tests
+  (11 existing +8 new), unchanged scope, no retries/skips, subreaper 0/null. Scoped fix passed
+  unchanged; formatting changed three test-only wrapping hunks. No format-only retest.
 
 - [Full CLI/TUI/GUI evidence](verification/2026-10-01/P02B_TUI_CONSUMER_EVIDENCE.md):
   TUI selected retry 23 passed; full regression 5,620 passed, 4 skipped; zero retries and unchanged scope.
@@ -63,8 +71,12 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
    repository/worktrees, remote refs, preserved index/source, active processes, memory and disk.
 2. This documentation checkpoint records reviewed evidence/lineage/state for source a469cf4.
    Verify the latest remote ref/publication receipt before new work; do not repeat publication blindly.
-3. Execute the next SDK/package slice from the canonical roadmap. Keep P02 preparation-request
-   cancellation acceptance queued: real admitted startup, retained first cause and cleanup proof.
+3. Integrate the native owner/constructor and process-adapter startup changes against the tested SDK.
+   Stages `/tmp/p02b-native-preparing-stage` and `/tmp/p02b-process-preparing-stage` are unverified
+   until root adoption/tests. Then require begin_open on SearchBackend, adapt worker service/runtime
+   and consumers, separately build the updated package and exercise real installed startup cancellation.
+   Follow the canonical Preparing plan and its durable native/process audit annexes; retain first cause,
+   NotAdmitted distinction, pre-spawn startup/close guards, quarantine and same-lease handoff fences.
 4. Complete supported replacement/upgrade/rejection/removal and remaining consumer gates; retain
    remote reconnect/daemon and private rollout lookup as explicit gaps. Move shared ownership into P03.
 5. Follow P03 broker/transport/dependency ownership, then model/provider/auth, turn/agent orchestration,

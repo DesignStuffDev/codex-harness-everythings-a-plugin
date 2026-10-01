@@ -418,3 +418,21 @@ implement neutral/native/process/service ownership together; pass focused gates;
 adopt in TUI/App Server consumers; build a new separate worker and run real-host
 regression/acceptance. This proposal is not implemented; its preservation in the repository does not
 constitute cancellation acceptance.
+
+## Additional implementation audits, 2026-10-01
+
+The [native owner/constructor review](FILE_SEARCH_PREPARING_NATIVE_REVIEW.md) and
+[process/service review](FILE_SEARCH_PREPARING_PROCESS_REVIEW.md) refine the next
+steps against exact source fingerprints. These are implementation audits, not
+runtime proof. Retain original NotAdmitted classification independently of a
+generic close receipt, guard close-result tasks as well as startup tasks before
+spawn, preserve real failure causes through cancellation, and fence session
+handoff after readiness has been queued. The reviews record deterministic tests
+and legacy compatibility constraints; staged changes still need integration and
+actual native/process/installed-host acceptance.
+
+The neutral public pending ticket/control/receipt primitives are now implemented
+at source `d22cea88aa23e35a619d996fc731122450e51313`. All 19 API tests passed,
+including eight carrier ownership/handoff cases. This additive SDK support leaves
+SearchBackend unchanged and does not supply actual constructor cancellation.
+Continue the ordered native/process/service/runtime steps above.

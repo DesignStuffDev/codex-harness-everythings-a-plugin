@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "classification": "additive_neutral_sdk_primitives_only",
+  "status": "api_tests_and_scoped_lint_passed; format_passed; four_path_source_published_and_remote_verified",
+  "prepared_utc": "2026-10-01T09:07:09.355761+00:00",
+  "publication": {
+    "status": "source_published_and_remote_verified",
+    "repository": "DesignStuffDev/codex-harness-everythings-a-plugin",
+    "branch": "main",
+    "commit": "d22cea88aa23e35a619d996fc731122450e51313",
+    "tree": "fbf28305751239cd376cefaec0ea970048096e08",
+    "parent_commit": "789be2e7b4a78ce15eb026293418dc574598ce36",
+    "parent_tree": "3c7a4a3fb47cabb30c37f1a7a3d152ebe74dc834",
+    "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/d22cea88aa23e35a619d996fc731122450e51313",
+    "remote_verified": true,
+    "verification_basis": "owning root agent publication report; this evidence worker made no Git or GitHub mutations",
+    "source_path_count": 4,
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-startup-sdk-source-publication.json",
+      "sha256": "e2b4341ee5c71d85bd907bb40d427252e8899b1bee28571b5dfbd8634e774df0",
+      "bytes": 1679,
+      "durability": "cloud-local report; published source commit provides external durability for included source"
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-startup-sdk-source-checkpoint.tar.gz",
+      "sha256": "5a70839c2e9a0d9c6c5a48821aa9c914895fd98c67acd3d0cf53a498c4e4d5b9",
+      "integrity_checked": true,
+      "durability": "cloud-local recovery checkpoint, not established external backup"
+    }
+  },
+  "scope": {
+    "crate": "codex-file-search-api",
+    "changed_paths": [
+      "codex-rs/file-search-api/README.md",
+      "codex-rs/file-search-api/src/lib.rs",
+      "codex-rs/file-search-api/src/startup.rs",
+      "codex-rs/file-search-api/tests/startup.rs"
+    ],
+    "added_public_symbols": [
+      "PendingSearchStart",
+      "SearchStartControl",
+      "SearchStartCancellationFuture",
+      "SearchStartCancellationOutcome"
+    ],
+    "activation": "none; SearchBackend trait, production backends and consumers unchanged",
+    "dependencies_changed": false,
+    "component_wire_changed": false,
+    "plugin_package_version_changed": false,
+    "README": "historical support-only status corrected with links to selected-search/TUI GUI/native-budget evidence; new primitives do not claim active Preparing cancellation"
+  },
+  "verified_behavior": [
+    "unfinished ticket requests same supplied control before observer destruction",
+    "finish preserves drop guard before first poll and through Pending",
+    "retained control clone does not postpone ticket abandonment",
+    "Ready success transfers exact session Arc without automatic cancellation; retained control remains callable",
+    "Ready error preserves original operation error and all cleanup variants without spurious cancellation",
+    "completion observer panic leaves abandonment guard armed",
+    "best-effort hook-unwind containment preserves outer panic and destructor ordering"
+  ],
+  "gates": {
+    "tests": {
+      "command": [
+        "python",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-startup-sdk-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-file-search-api"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:03:10Z",
+      "finished_utc": "2026-10-01T09:03:18Z",
+      "exit_status": 0,
+      "scoped_source_unchanged": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-startup-sdk-tests.source.json",
+        "sha256": "090c97fe699f4f8caab3035126f132f3b3f1c884a810a40c1f7698310cf69d7c",
+        "bytes": 4174,
+        "durability": "cloud-local artifact; external availability not established"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-startup-sdk-tests.log",
+        "sha256": "b4ba0160cd8db4439a9554ea1f0b290c92ca572cca8717d8c6e34e03caac0e8d",
+        "bytes": 2881,
+        "durability": "cloud-local artifact; external availability not established"
+      },
+      "executed": 19,
+      "passed": 19,
+      "failed": 0,
+      "skipped": 0,
+      "existing_contract_tests": 11,
+      "new_public_carrier_tests": 8,
+      "automatic_retries": 0,
+      "summary": "Summary [   0.026s] 19 tests run: 19 passed, 0 skipped",
+      "subreaper": {
+        "report": {
+          "path": "/workspace/acceptance/p02b-startup-sdk-tests.subreaper.json",
+          "sha256": "a00fa554db1170c9a6480cb9267e095acb98d6f7b16ac53453400129b66fdb1f",
+          "bytes": 394,
+          "durability": "cloud-local artifact; external availability not established"
+        },
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "reaped_returncodes": [
+          0
+        ]
+      }
+    },
+    "fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-api"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:03:43Z",
+      "finished_utc": "2026-10-01T09:03:45Z",
+      "exit_status": 0,
+      "scoped_source_unchanged": true,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-startup-sdk-fix.source.json",
+        "sha256": "5f71f224fa8ca5e0effdcd738659e8856bd7e871a5663246c029d21db13d0a78",
+        "bytes": 3760,
+        "durability": "cloud-local artifact; external availability not established"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-startup-sdk-fix.log",
+        "sha256": "871c64e42453cd19782fd8f69ddd94e707a9d774cef72a0393a1132265e2a774",
+        "bytes": 251,
+        "durability": "cloud-local artifact; external availability not established"
+      }
+    },
+    "format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T09:04:15Z",
+      "finished_utc": "2026-10-01T09:04:36Z",
+      "exit_status": 0,
+      "scoped_source_unchanged": false,
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-startup-sdk-format.source.json",
+        "sha256": "02dc55e72e939f73cb8e3f4ec0cb52259a1bd43fba280aa233b986971c45f8ac",
+        "bytes": 2815082,
+        "durability": "cloud-local artifact; external availability not established"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-startup-sdk-format.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0,
+        "durability": "cloud-local artifact; external availability not established"
+      },
+      "changed_paths": [
+        "codex-rs/file-search-api/tests/startup.rs"
+      ],
+      "changed_path_count": 1,
+      "production_changed": false
+    }
+  },
+  "source_lineage_sha256": "d7269c8b2a61d020b355e4d1a070b012893b292bf5fd8bf5358a512c804e01d7",
+  "limitations": [
+    "These tests exercise the real SDK carrier; they do not prove native/process Preparing cancellation, actual backend joins, quota reuse or sibling availability.",
+    "Exactly-once cleanup, immutable retained receipts and bounded per-start cancellation are obligations on future backend implementations, not guarantees implemented by this carrier.",
+    "No new real-host, installed-plugin, GUI or Browser runtime gate ran for this additive-only slice. Prior consumer evidence remains separately reported.",
+    "Tests and scoped lint used pre-format source; only three mechanical test-file wrapping/trailing-comma hunks followed. Production remained byte-identical.",
+    "Raw logs and source reports are referenced inside this cloud filesystem; their external durability is not inferred."
+  ],
+  "source_lineage_path": "upstream/p02b-startup-sdk-lineage.json"
+}

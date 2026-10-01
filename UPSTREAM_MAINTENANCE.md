@@ -121,6 +121,12 @@ separately after the host build; two final Rust call-format changes are mechanic
 These lineage records support future maintenance; neither the updater nor a later
 official upstream revision integration has run.
 
+The [pending-start SDK map](upstream/p02b-startup-sdk-lineage.json) records four
+custom support paths at `d22cea88aa23e35a619d996fc731122450e51313`, including
+public ticket/control/receipt symbols and their exact tested/formatted bytes.
+This is additive contract infrastructure; the required native/process cancellation
+integration and installed updated-worker acceptance remain separate work.
+
 ## Separately installable maintenance service
 
 Proposed selector: `maintenance:upstream`, contract version 1. This kind is not

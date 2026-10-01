@@ -217,7 +217,11 @@ the P03 authority broker; this milestone does not complete P02 or the platform.
 The next bounded lifecycle slice is [per-start Preparing cancellation](component-sdk/FILE_SEARCH_PREPARING_CANCELLATION_PLAN.md):
 an immediately available single-start control, retained cleanup receipt, native
 constructor propagation and unchanged sibling authority. This is a chosen
-implementation direction and ordered queue, not a tested capability. Preserve
+implementation direction and ordered queue. The additive SDK primitives are now
+implemented at `d22cea88aa23e35a619d996fc731122450e51313`; their
+[19 passing API tests](verification/2026-10-01/P02B_STARTUP_SDK_EVIDENCE.md) cover
+carrier ownership and handoff, not active native/process Preparing cancellation.
+The native/process audit annexes refine guard, receipt and handoff requirements. Preserve
 old package compatibility and separately build the updated worker before claiming
 its stronger cancellation behavior.
 
