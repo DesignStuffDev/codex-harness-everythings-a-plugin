@@ -589,3 +589,10 @@ cancellable locks/Git. [Required next contract](verification/2026-10-01/P03_CURA
 supersedes any queue that separates this ownership transition into unsafe intermediate
 production changes. All full-host/UI gates and remaining extraction remain open.
 P18U remains required and unimplemented; no polling/live update has started.
+
+
+The [locked-attempt lineage](upstream/p03-curated-locked-attempt-lineage.json) binds
+source9a2's private native ownership seam to the exact pinned upstream facade body,
+separating unchanged behavior from the added error-path lock assertion and formatter
+layout. Its 476-pass scope is not retained-cleanup, installed-component, full-host or
+later-upstream proof. The same remaining P18U integration/rollback gates apply.

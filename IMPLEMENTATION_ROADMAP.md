@@ -897,3 +897,15 @@ cancellable locks/Git. [Required next contract](verification/2026-10-01/P03_CURA
 supersedes any queue that separates this ownership transition into unsafe intermediate
 production changes. All full-host/UI gates and remaining extraction remain open.
 P18U remains required and unimplemented; no polling/live update has started.
+
+
+## P03 locked-attempt prerequisite checkpoint
+
+Development source `9a2be0abfa51d5baf932301ab3158b4b4aef8f19` introduces an
+immediately used private owner boundary without changing the original transport body.
+[Evidence](verification/2026-10-01/P03_CURATED_LOCKED_ATTEMPT_EVIDENCE.md) records
+476 passing core-plugin tests, clean lint and reviewed formatting. No extraction count
+or full-host gate advances. Next is the atomic typed-outcome/resource-custody/manager
+admission transition: unknown cleanup retains resources and blocks retry; later direct
+reap cannot clear it. Recovery requires external termination/fencing evidence, not merely
+restarting the host. Keep this candidate separate from main until combined host/UI gates pass.

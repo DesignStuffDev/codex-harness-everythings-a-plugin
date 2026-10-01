@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "status": "verified_mechanical_native_prerequisite_development_candidate",
+  "finalized": true,
+  "original_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "path": "codex-rs/core-plugins/src/startup_sync.rs",
+    "blob": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+    "sha256": "78fe0eaf8813eab2fa3d4a5398a06cf01152deca69f12c931821d5ca35c5e93d",
+    "symbol": "sync_openai_plugins_repo_with_transport_overrides",
+    "line": 96
+  },
+  "base": {
+    "base_source_commit": "7ab5dd77b87c2e6bf7040824e67bf6f22af6a073",
+    "base_source_tree": "1f650c46fdca056ec7cfd333a65c4defc4f9d066",
+    "published_candidate": "102f1e887ca48f808952af433bdb48c1f448795c",
+    "candidate_branch": "work/p03-curated-sync-lifecycle",
+    "main_commit": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "main_native_source": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3"
+  },
+  "mapping": {
+    "destination": "startup_sync::LockedSyncAttempt::run",
+    "classification": "mechanical_same_module_move_of_existing_native_transport_selection",
+    "unchanged_body_sha256": "508c5a6c520340c579642b677d56451bbcb55f531d955a853156a619b11e9d35",
+    "unchanged_body_bytes": 3439,
+    "normalization": "One indentation level removed, final newline included; independently compared both base and pinned-upstream body.",
+    "project_custom_support": "Immediately used private LockedSyncAttempt/acquire/run scaffold; home-bound stable File moved into original first owned local during run.",
+    "preserved": [
+      "default tracing module/target",
+      "metrics/error text/fallback control flow",
+      "transport TempDir scopes and drop before stable File unlock",
+      "public String facade",
+      "manager admission behavior"
+    ],
+    "added_test": "Seven lines extend the existing actual HTTP-error/export-suppression test to reacquire the stable File lock after Err; no new test function/fixture/timeout.",
+    "upstream_test": {
+      "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+      "blob": "8695c7a4390c6d24cd8b33825a5f65db68292d58",
+      "sha256": "be942464de3d77716bad3ee4dc249f5c56d36d61e97c9555f0c560e447120f9e",
+      "line": 1306
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "preimage": {
+        "sha256": "06fa54f70913802b681b4460a1de376b0cfd668bfe8d8b3404dc0912b6e88f00",
+        "bytes": 39725
+      },
+      "tested": {
+        "sha256": "a9905e5ddc7ce16c5071642e7eaee18f9d77e0c187a79668029a779b4cce6a8b",
+        "bytes": 41018,
+        "computed_git_blob": "df601e27f2efffe9255c498631a1ef27846439e6"
+      },
+      "anchors": [
+        {
+          "literal": "fn sync_openai_plugins_repo_with_transport_overrides(",
+          "lines": [
+            97
+          ]
+        },
+        {
+          "literal": "struct LockedSyncAttempt",
+          "lines": [
+            114
+          ]
+        },
+        {
+          "literal": "fn acquire(",
+          "lines": [
+            120
+          ]
+        },
+        {
+          "literal": "fn run(",
+          "lines": [
+            127
+          ]
+        }
+      ],
+      "final": {
+        "sha256": "a6f4752a88d0efe0555a27ca55362f755ce3ec6b6b8ee1e4a5afebf5fe90413b",
+        "bytes": 41192,
+        "computed_git_blob": "8df701fd0bb9a9bf07bf2dcafa0647851a5f388d"
+      },
+      "final_anchors": [
+        {
+          "literal": "fn sync_openai_plugins_repo_with_transport_overrides(",
+          "lines": [
+            97
+          ]
+        },
+        {
+          "literal": "struct LockedSyncAttempt",
+          "lines": [
+            114
+          ]
+        },
+        {
+          "literal": "fn acquire(",
+          "lines": [
+            120
+          ]
+        },
+        {
+          "literal": "fn run(",
+          "lines": [
+            127
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+      "preimage": {
+        "sha256": "be942464de3d77716bad3ee4dc249f5c56d36d61e97c9555f0c560e447120f9e",
+        "bytes": 49955
+      },
+      "tested": {
+        "sha256": "93d08ce74cb9656e00e039b0528c653ac57d1a92473104ff40c2ce5d8f4f12bb",
+        "bytes": 50252,
+        "computed_git_blob": "02baf1b2249dc3502cc9b2186026218b8fde9241"
+      },
+      "anchors": [
+        {
+          "literal": "async fn sync_openai_plugins_repo_skips_export_archive_when_snapshot_exists",
+          "lines": [
+            1306
+          ]
+        },
+        {
+          "literal": "let sync_lock = File::options()",
+          "lines": [
+            1347
+          ]
+        }
+      ],
+      "final": {
+        "sha256": "93d08ce74cb9656e00e039b0528c653ac57d1a92473104ff40c2ce5d8f4f12bb",
+        "bytes": 50252,
+        "computed_git_blob": "02baf1b2249dc3502cc9b2186026218b8fde9241"
+      },
+      "final_anchors": [
+        {
+          "literal": "async fn sync_openai_plugins_repo_skips_export_archive_when_snapshot_exists",
+          "lines": [
+            1306
+          ]
+        },
+        {
+          "literal": "let sync_lock = File::options()",
+          "lines": [
+            1347
+          ]
+        }
+      ]
+    }
+  ],
+  "inputs": {
+    "proposal_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1a-locked-attempt-prerequisite/MANIFEST.json",
+      "sha256": "3664ffc43a09f9a244a007a616467b14df7db577de93f7aee1db9e695ffaef2b",
+      "bytes": 4533
+    },
+    "provenance": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1a-locked-attempt-prerequisite/PROVENANCE.json",
+      "sha256": "b7ec70503b78636b22ca1876b0eca8496b2b586ec5180f4f2490882d53b8e1ca",
+      "bytes": 4875
+    },
+    "mechanical_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1a-locked-attempt-prerequisite/MECHANICAL_REVIEW.json",
+      "sha256": "7eff8825166b3e8cd335b693e15d2c57db611b230cd31c3dadb821cd1bd1749a",
+      "bytes": 997
+    },
+    "follow_on_contract": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1a-locked-attempt-prerequisite/FOLLOW_ON_CONTRACT.md",
+      "sha256": "c98a32ac08c39c841e9081821371c1bd1287d0d3420cf242594de58756d51ca5",
+      "bytes": 5829
+    },
+    "adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-locked-attempt-adoption.json",
+      "sha256": "27629d0498c929396670805487b08fd55e3ffe0e863d0900a94161acbc6cd82f",
+      "bytes": 1350
+    },
+    "preserved_proposal_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-locked-attempt-prerequisite-preserved.tar.gz",
+      "sha256": "79718e8d0b44f80b33b95ed4990efbf587e9c708a955aa9c8d478b021068b1c9",
+      "bytes": 58851
+    }
+  },
+  "evidence": "verification/2026-10-01/p03-curated-locked-attempt-results.json",
+  "limits": [
+    "Private native mechanical seam, not an independently installable component or completed B1a retained-owner contract.",
+    "Ordinary returned-error lock reacquisition does not prove safety after uncertain cleanup or retained cleanup acknowledgment.",
+    "String fallback, HEAD swallowing, manager reset, private-group abrupt-parent risk and missing actual host shutdown ownership remain unchanged.",
+    "No fresh full CLI/GUI/installed-package acceptance or main promotion.",
+    "Archive/report references remain cloud-local; outside durability is not established by these hashes."
+  ],
+  "source_commit": "9a2be0abfa51d5baf932301ab3158b4b4aef8f19",
+  "promoted_to_main": false,
+  "full_host_acceptance_passed": false,
+  "format_transition": {
+    "status": "passed",
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "returncode": 0,
+    "source_entries": 8892,
+    "source_unchanged": false,
+    "changed_paths": [
+      "codex-rs/core-plugins/src/startup_sync.rs"
+    ],
+    "matches_tested_input": true,
+    "log_matches_wrapper_hash": true,
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-locked-attempt-fmt.source.json",
+        "sha256": "a8e981dd233862354bd731e39d5526e19cadfc0c576f89de2d706223e4cab931",
+        "bytes": 2455788
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-locked-attempt-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "review": "Independent exact proposed/tested-to-final diff: two call-layout expansions and optional trailing commas only. No semantic/assertion/fixture change; no tests repeated solely for fmt."
+  },
+  "source_binding": {
+    "source_commit": "9a2be0abfa51d5baf932301ab3158b4b4aef8f19",
+    "source_tree": "64cff8e15da51074ca8c95fae3d7be96202e51e4",
+    "parent": "102f1e887ca48f808952af433bdb48c1f448795c",
+    "branch": "work/p03-curated-sync-lifecycle",
+    "branch_advanced_observed": false,
+    "created_source_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-locked-attempt-created-source.json",
+      "sha256": "58fda78bc805ad4e71ffe3f15330140ba0449ce6ba0125df434a9f6a0293e80d",
+      "bytes": 169
+    },
+    "source_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-locked-attempt-source-manifest.json",
+      "sha256": "606e008f15a0f0238b98d0b8c18468a37b84d06fae5e09f794500c09319e43fa",
+      "bytes": 945
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-locked-attempt-source.tar.gz",
+      "sha256": "ec397aaef275fb3c14e1f9da4b64e0f06cbaf6a0014c10f061e97f3be861aac0",
+      "bytes": 17213
+    },
+    "archive_members_independently_verified": 2,
+    "archive_scope": "Two changed source files, not full worktree backup; cloud-local archive.",
+    "remote_readback_basis": "Parent reports commit creation and both changed blob readbacks verified; evidence worker binds actual receipt and source/archive bytes, without separate network readback.",
+    "promoted_to_main": false
+  }
+}

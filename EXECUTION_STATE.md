@@ -13,20 +13,21 @@ Origin: `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.gi
 Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`; exact-tree import
 `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`. Retain LICENSE/NOTICE.
 
-Last verified main before this documentation supplement: `43a758138c457569a33ccd14f01446d715eb54e0`,
-tree `894c09d7398209cfd3846ec87d6a3188c062568f`, including native installer source
-`65511842d7051b2a1f5cc52917f3ebb5c03be4f3`. Twelve changed blobs and main were verified;
-receipt `p03-install-order-publication.json`, SHA256
-`315aee4b63943e621f35a23b9359365e1f3199381088fbd2ce608d993b9634b3`.
+Last verified main: `781080f7e3c8bfe1953378001d777dff33d74bc3`, tree
+`22cf918cf77f16d5d947a59b968e342cde7f71d0`. Main source remains native installer
+`65511842d7051b2a1f5cc52917f3ebb5c03be4f3`; later main changes are documentation.
+The previous candidate publication is `102f1e887ca48f808952af433bdb48c1f448795c`;
+receipt `p03-curated-git-publication.json` verifies both refs and 27 changed blobs.
 
-**Active development candidate**, present in the owning checkout: source
-`7ab5dd77b87c2e6bf7040824e67bf6f22af6a073`, tree
-`1f650c46fdca056ec7cfd333a65c4defc4f9d066`, parent `43a75813`.
-Its source is assigned to `work/p03-curated-sync-lifecycle`, **not promoted to main**.
-Main receives roadmap/evidence updates only. Before continuing, verify the final
-`p03-curated-git-publication.json` recovery receipt and both remote refs; this document
-cannot contain its own eventual publication SHA. A candidate's scoped proof does not
-validate the source of a different branch or establish release readiness.
+**Active development source**, present in the owning checkout:
+`9a2be0abfa51d5baf932301ab3158b4b4aef8f19`, tree
+`64cff8e15da51074ca8c95fae3d7be96202e51e4`, parent candidate `102f1e88`.
+This adds the tested mechanical locked-attempt prerequisite to source7ab5.
+Its destination remains `work/p03-curated-sync-lifecycle`, **not main**. Before
+continuing, verify `p03-curated-locked-attempt-publication.json` and the remote branch;
+this file cannot contain its own eventual documentation commit SHA. Source9a2
+has scoped native proof, not full-host acceptance. Unfinished sticky-quarantine
+implementation is staged separately in recovery, not adopted by this checkpoint.
 
 Local HEAD/index remain upstream; local main is stale. Use exact reviewed temporary
 indices and connector publication; do not reset/rebase/rewrite the real index.
@@ -69,6 +70,14 @@ process-global admission on errors. No host cancellation/owned-worker/full-CLI/G
 source7ab5 exists. The [required ownership review](verification/2026-10-01/P03_CURATED_B1_OWNERSHIP_REVIEW.md)
 changes the next stage ordering; enqueueing a child to the shared reaper is not a completion receipt.
 
+[Locked-attempt source9a2 evidence](verification/2026-10-01/P03_CURATED_LOCKED_ATTEMPT_EVIDENCE.md):
+private `LockedSyncAttempt` binds the actual home/File and preserves original transport
+body, tracing, fallback and drop ordering. The existing real HTTP-error regression now
+also checks stable-lock release. **476/476** passed, no skips/retries; strict0/null;
+scoped lint clean and source unchanged. Global formatting only wrapped two calls.
+This is mechanical preparation, not retained cleanup or another installed component.
+Current String errors still permit unsafe release/fallback on unknown cleanup.
+
 [Prior full-host checkpoint](verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md),
 source99/CLI c711, remains **mixed/failed**: both storage attempts passed13 behavior checks
 but strict125 found live descendants; migration10 and GUI2cold cycles passed. Actual manager
@@ -78,14 +87,17 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 
 ## Ordered implementation queue
 
-1. Verify this candidate branch and main documentation publication receipts/refs. Continue
-   source7ab5 on the candidate; keep main source655 until the combined lifecycle gates pass.
+1. Verify the source9a2 candidate publication receipt/ref and preserved semantic proposal.
+   Continue from the mechanical owner boundary; keep main source655 until combined gates pass.
 2. Implement B1a as a coherent ownership transition: typed command cleanup outcome **plus**
    retained attempt/admission generation integrated into the real pipeline and manager. Unknown
    cleanup retains lock/staging/Git resources, forbids fallback/retry, and survives String
    formatting or observer drop. Pull necessary retained worker/C1 ownership ahead of cancellation.
-   The existing shared reaper lacks completion acknowledgment. Measure a reviewable patch; split
-   tests/mechanical moves first if necessary, not an unsafe halfway production transition.
+   The existing shared reaper lacks a sufficient completion acknowledgment. The mechanical
+   prerequisite is complete. Implement sticky quarantine with reachable resources, original
+   outcome and actual worker handle; direct-child reap cannot auto-clear it. Recovery needs
+   external termination/fencing proof; host restart alone is insufficient. Keep the semantic
+   ownership transition atomic rather than publishing an unsafe halfway fallback gate.
 3. Then add B1b cancellable stable file-lock waiting and same-control Git propagation; preserve
    ordinary safe fallback. Continue policy-aware HTTP send/body cancellation, chunked extraction,
    recoverable repo+SHA publication/journal, tracked callbacks/queued config work, and actual
@@ -108,7 +120,9 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 Recovery root: `/workspace/recovery-backups/20260930T165936Z`.
 Full original two-worktree/Git/SDK/evidence archive `codex-recovered-workspace.tar.zst` SHA256
 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
-Candidate source archive `p03-curated-git-verified-native-source.tar.gz` SHA256
+Source9a2 archive `p03-curated-locked-attempt-source.tar.gz` SHA256
+`ec397aaef275fb3c14e1f9da4b64e0f06cbaf6a0014c10f061e97f3be861aac0`.
+Earlier candidate source archive `p03-curated-git-verified-native-source.tar.gz` SHA256
 `e7212fe787c0ab1a83d37b069278a83e9926991e9a990fa376abefee99cee4f4`.
 Original failed reports, tests-only candidates, both working trees and WIP branches remain.
 Filesystem archives are local recovery, not proven external backups; GitHub provides external
@@ -138,7 +152,14 @@ headroom, not a historical estimate. `/tmp` is nearly full. Source
 `just fix` and global `just fmt`. Never kill Rust or weaken assertions. No test rerun solely
 for formatting. Preserve failures and privacy: no raw private GUI/auth reports or credential output.
 
-Original task environment/config identity is unchanged, revision1458 observed running/connected;
+The selected expanded LLVM Bazel cache was retired after download checksum and fresh
+reference checks, recovering 619,810,816 allocated bytes. Compressed LLVM archive and
+all Rust/source/runtime artifacts remain. Receipt `p03-bazel-expanded-cache-retirement.json`
+records normal expunge removing the generated output base but exiting 36 while waiting for
+server PID 834487 (observed Z); do not report expunge success. About 1.07 GB was free afterward.
+Future Bazel re-expansion/offline operation is unproven; inspect headroom before builds.
+
+Original task environment/config identity is unchanged, revision 1459 observed running/connected;
 restricted package-managers policy still has additional allowed_hosts[]. In-app Browser and
 Context7 are unavailable, and no external preview is proven. Keep the original VM; no reset or
 policy bypass. Upstream libraries/framework docs are required when applicable, not for ordinary
