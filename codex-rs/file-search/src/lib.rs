@@ -33,8 +33,19 @@ mod async_owner;
 mod cli;
 mod lifecycle;
 mod matcher;
+mod native_backend;
+mod native_backend_policy;
+mod native_backend_poll;
+mod native_backend_session;
 mod native_budget;
 mod native_index;
+mod native_output;
+
+#[cfg(test)]
+mod native_backend_tests;
+
+pub use native_backend::NativeSearchBackend;
+pub use native_backend_policy::NativeBackendLimits;
 mod native_session;
 mod work_queue;
 
@@ -229,6 +240,7 @@ struct SessionInner {
     reporter: Arc<dyn SessionReporter>,
     work_tx: WorkSender,
     budget: Option<Arc<native_budget::NativeBudget>>,
+    output: Option<native_output::NativeOutputLimits>,
     failure: Arc<Mutex<Option<codex_file_search_api::SearchError>>>,
 }
 

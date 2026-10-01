@@ -190,6 +190,7 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
         reporter: Arc::new(Reporter(updates)),
         work_tx: work_tx.clone(),
         budget: None,
+        output: None,
         failure: Arc::new(Mutex::new(None)),
     });
     let mut pool_threads = PoolThreads::default();
@@ -334,6 +335,7 @@ fn completed_walk_publishes_a_fresh_snapshot_even_when_nucleo_did_not_change() {
         reporter: Arc::new(Reporter(updates)),
         work_tx: work_tx.clone(),
         budget: None,
+        output: None,
         failure: Arc::new(Mutex::new(None)),
     });
     let mut pool_threads = PoolThreads::default();

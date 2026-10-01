@@ -4,6 +4,7 @@ use crate::IndexedEntry;
 use crate::SessionInner;
 use crate::get_file_path;
 use crate::native_index::NativeMatcher;
+use codex_file_search_api::SearchError;
 use crossbeam_channel::Receiver;
 use crossbeam_channel::after;
 use crossbeam_channel::never;
@@ -101,7 +102,7 @@ pub(super) fn matcher_worker(
                         last_query_id,
                         &last_query,
                         walk_complete,
-                    );
+                    )?;
                     if !cancel_requested() && !shutdown_requested() {
                         inner.reporter.on_update(&snapshot);
                     }
@@ -131,7 +132,18 @@ fn snapshot(
     query_id: u64,
     query: &str,
     walk_complete: bool,
-) -> FileSearchSnapshot {
+) -> Result<FileSearchSnapshot, SearchError> {
+    if let Some(limits) = inner.output {
+        return crate::native_output::snapshot(
+            inner,
+            snapshot,
+            indices_matcher,
+            query_id,
+            query,
+            walk_complete,
+            limits,
+        );
+    }
     let limit = inner.limit.min(snapshot.matched_item_count() as usize);
     let pattern = snapshot.pattern().column_pattern(0);
     let matches = snapshot
@@ -163,12 +175,12 @@ fn snapshot(
             })
         })
         .collect();
-    FileSearchSnapshot {
+    Ok(FileSearchSnapshot {
         query_id,
         query: query.to_owned(),
         matches,
         total_match_count: snapshot.matched_item_count() as usize,
         scanned_file_count: snapshot.item_count() as usize,
         walk_complete,
-    }
+    })
 }

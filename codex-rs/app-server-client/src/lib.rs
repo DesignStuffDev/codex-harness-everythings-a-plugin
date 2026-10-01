@@ -2025,9 +2025,17 @@ mod tests {
 
     #[tokio::test]
     async fn next_event_surfaces_lagged_markers() {
-        let (command_tx, _) = mpsc::channel(1);
+        let (command_tx, mut command_rx) = mpsc::channel(1);
         let (event_tx, event_rx) = mpsc::unbounded_channel();
-        let worker_handle = tokio::spawn(async {});
+        let worker_handle = tokio::spawn(async move {
+            let response_tx = match command_rx.recv().await {
+                Some(ClientCommand::Shutdown { response_tx }) => response_tx,
+                _ => panic!("expected shutdown command"),
+            };
+            response_tx
+                .send(Ok(()))
+                .expect("shutdown should acknowledge");
+        });
         event_tx
             .send(InProcessServerEvent::Lagged { skipped: 3 })
             .expect("lagged marker should enqueue");

@@ -9,6 +9,7 @@ use crate::build_override_matcher;
 use crate::lifecycle;
 use crate::native_budget::NativeBudget;
 use crate::native_index::NativeAllocation;
+use crate::native_output::NativeOutputLimits;
 use codex_file_search_api::CloseCleanup;
 use codex_file_search_api::SearchBudget;
 use codex_file_search_api::SearchCloseOutcome;
@@ -27,6 +28,10 @@ use std::thread;
 pub(crate) enum NativePolicy {
     Legacy,
     Bounded(SearchBudget),
+    Backend {
+        budget: SearchBudget,
+        output: NativeOutputLimits,
+    },
 }
 
 /// Owns every native worker. Drop requests release; consuming close joins them.
@@ -53,6 +58,9 @@ impl FileSearchSession {
             .unwrap_or_else(std::sync::PoisonError::into_inner);
         if self.inner.shutdown.load(Ordering::Acquire) {
             anyhow::bail!("file-search session is closed");
+        }
+        if let Some(output) = self.inner.output {
+            output.validate_query(pattern_text)?;
         }
         let query_id = match query_id {
             Some(id) => id,
@@ -215,13 +223,19 @@ pub(crate) fn create_session_with_receipt(
     let overrides = build_override_matcher(primary, &options.exclude).map_err(|error| {
         let diagnostic = match &policy {
             NativePolicy::Legacy => error.to_string(),
-            NativePolicy::Bounded(_) => "invalid file-search exclusion pattern".to_owned(),
+            NativePolicy::Bounded(_) | NativePolicy::Backend { .. } => {
+                "invalid file-search exclusion pattern".to_owned()
+            }
         };
         not_admitted(SearchError::new(SearchErrorKind::InvalidInput, diagnostic))
     })?;
+    let output = match &policy {
+        NativePolicy::Backend { output, .. } => Some(*output),
+        NativePolicy::Legacy | NativePolicy::Bounded(_) => None,
+    };
     let (allocation, budget) = match policy {
         NativePolicy::Legacy => (NativeAllocation::Legacy, None),
-        NativePolicy::Bounded(budget) => {
+        NativePolicy::Bounded(budget) | NativePolicy::Backend { budget, .. } => {
             let (plan, budget) = NativeBudget::prepare(&options, budget).map_err(not_admitted)?;
             (NativeAllocation::Bounded(plan), Some(budget))
         }
@@ -239,6 +253,7 @@ pub(crate) fn create_session_with_receipt(
         reporter,
         work_tx,
         budget,
+        output,
         failure: Arc::new(Mutex::new(None)),
     });
     lifecycle::start(inner, work_rx, overrides, allocation)
