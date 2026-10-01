@@ -20,7 +20,7 @@ use std::thread::JoinHandle;
 
 pub(super) fn start(
     inner: Arc<SessionInner>,
-    work_rx: Receiver<WorkSignal>,
+    work_rx: Receiver<()>,
     overrides: Option<ignore::overrides::Override>,
 ) -> anyhow::Result<FileSearchSession> {
     let (ready_tx, ready_rx) = bounded(1);
@@ -50,7 +50,7 @@ pub(super) fn start(
 
 fn supervise(
     inner: Arc<SessionInner>,
-    work_rx: Receiver<WorkSignal>,
+    work_rx: Receiver<()>,
     overrides: Option<ignore::overrides::Override>,
     ready: crossbeam_channel::Sender<()>,
 ) -> anyhow::Result<()> {

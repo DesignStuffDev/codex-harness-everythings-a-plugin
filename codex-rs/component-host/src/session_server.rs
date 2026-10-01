@@ -14,8 +14,8 @@ use codex_component_api::COMPONENT_API_VERSION;
 use serde::Deserialize;
 use serde_json::Value;
 use serde_json::json;
+use tokio::io::AsyncBufRead;
 use tokio::io::BufReader;
-use tokio::io::Stdin;
 use tokio::sync::OwnedSemaphorePermit;
 use tokio::sync::Semaphore;
 use tokio::sync::mpsc;
@@ -24,6 +24,8 @@ use tokio::task::JoinHandle;
 use crate::process::read_frame;
 use crate::process::write_frame;
 use crate::session::CALL_SLOTS;
+use crate::session_failure::SessionFailure;
+use crate::session_limits::SessionPayloadLimits;
 use crate::session_wire::Header;
 use crate::session_wire::MAX_PENDING;
 use crate::session_wire::MessageReader;
@@ -45,7 +47,7 @@ pub struct SessionInitialization {
 enum End {
     Shutdown,
     Disconnected,
-    Failure(String),
+    Failure(SessionFailure),
 }
 
 struct ServerState {
@@ -65,6 +67,8 @@ pub struct ComponentServerRequest {
     pub is_control: bool,
     response: Option<mpsc::OwnedPermit<Outgoing>>,
     _slot: OwnedSemaphorePermit,
+    limits: SessionPayloadLimits,
+    response_is_control: bool,
 }
 
 impl std::fmt::Debug for ComponentServerRequest {
@@ -80,13 +84,33 @@ impl std::fmt::Debug for ComponentServerRequest {
 }
 
 impl ComponentServerRequest {
+    /// Check a successful logical JSON reply before consuming this request.
+    /// A component can use this to substitute its own typed resource-exhaustion
+    /// envelope. These local errors are never reconstructed from wire text.
+    pub fn validate_response(&self, value: &Value) -> Result<()> {
+        // The public request metadata is mutable; the reserved response lane is
+        // fixed at admission and cannot be broadened by editing that metadata.
+        self.limits.check_reply(value, self.response_is_control)
+    }
+
     /// Complete the request. Application errors belong in the service's typed
     /// result envelope; Err is reserved for malformed requests/transport failures.
     pub async fn respond(mut self, result: std::result::Result<Value, String>) -> Result<()> {
+        let overflow = result
+            .as_ref()
+            .ok()
+            .and_then(|value| self.validate_response(value).err());
         let response = self
             .response
             .take()
             .context("component request already answered")?;
+        let result = if overflow.is_some() {
+            // Use the already reserved lane, leave the writer healthy, and do
+            // not expose payload data or pretend a legacy Error is typed.
+            Err("component response exceeds configured payload limit".to_owned())
+        } else {
+            result
+        };
         let (header, value) = match result {
             Ok(value) => (Header::Result { id: self.id }, value),
             Err(message) => (
@@ -103,7 +127,10 @@ impl ComponentServerRequest {
             after_sent: None,
             sent: None,
         });
-        Ok(())
+        match overflow {
+            Some(error) => Err(error),
+            None => Ok(()),
+        }
     }
 }
 
@@ -138,6 +165,13 @@ pub struct ComponentServer {
 
 impl ComponentServer {
     pub async fn stdio() -> Result<Self> {
+        Self::stdio_with_limits(SessionPayloadLimits::default()).await
+    }
+
+    /// Enforce local serialized-body limits without changing the handshake or
+    /// wire schema. Invalid limits are rejected before consuming initialization.
+    pub async fn stdio_with_limits(limits: SessionPayloadLimits) -> Result<Self> {
+        limits.validate()?;
         let mut stdin = BufReader::new(tokio::io::stdin());
         let mut stdout = tokio::io::stdout();
         let initialize = read_frame(&mut stdin).await?;
@@ -173,9 +207,16 @@ impl ComponentServer {
         let reader_state = Arc::clone(&state);
         let responses = (regular.clone(), control.clone());
         let reader = tokio::spawn(async move {
-            let outcome =
-                read_requests(stdin, incoming, responses, Arc::clone(&reader_state)).await;
-            let end = outcome.unwrap_or_else(|error| End::Failure(format!("{error:#}")));
+            let outcome = read_requests(
+                stdin,
+                incoming,
+                responses,
+                Arc::clone(&reader_state),
+                limits,
+            )
+            .await;
+            let end =
+                outcome.unwrap_or_else(|error| End::Failure(SessionFailure::from_error(error)));
             reader_state
                 .disconnected
                 .store(!matches!(end, End::Shutdown), Ordering::Release);
@@ -184,7 +225,7 @@ impl ComponentServer {
                 .lock()
                 .unwrap_or_else(std::sync::PoisonError::into_inner) = Some(end);
         });
-        let writer = tokio::spawn(write_messages(stdout, regular_rx, control_rx));
+        let writer = tokio::spawn(write_messages(stdout, regular_rx, control_rx, limits));
         Ok(Self {
             initialization,
             incoming: receiver,
@@ -212,14 +253,19 @@ impl ComponentServer {
                     self.writer.take();
                     if let Some(reader) = self.reader.take() { reader.abort(); }
                     self.state.disconnected.store(true, Ordering::Release);
-                    let message = match result {
-                        Ok(Ok(())) => "component response writer stopped unexpectedly".to_owned(),
-                        Ok(Err(error)) => format!("component response writer failed: {error:#}"),
-                        Err(error) => format!("component response writer task failed: {error}"),
+                    let failure = match result {
+                        Ok(Ok(())) => SessionFailure::message("component response writer stopped unexpectedly"),
+                        Ok(Err(error)) => SessionFailure::from_error(error.context("component response writer failed")),
+                        Err(error) => SessionFailure::message(format!("component response writer task failed: {error}")),
                     };
-                    *self.state.end.lock().unwrap_or_else(std::sync::PoisonError::into_inner) =
-                        Some(End::Failure(message.clone()));
-                    bail!("{message}");
+                    let mut end = self.state.end.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+                    let failure = match end.as_ref() {
+                        Some(End::Failure(primary)) => SessionFailure::from_error(primary.clone().into_error()
+                            .context(format!("additional writer failure: {}", failure.into_error()))),
+                        Some(End::Shutdown | End::Disconnected) | None => failure,
+                    };
+                    *end = Some(End::Failure(failure.clone()));
+                    return Err(failure.into_error());
                 }
             }
         } else {
@@ -241,7 +287,10 @@ impl ComponentServer {
             .as_ref()
         {
             Some(End::Shutdown | End::Disconnected) => Ok(None),
-            Some(End::Failure(message)) => bail!("component server transport failed: {message}"),
+            Some(End::Failure(failure)) => Err(failure
+                .clone()
+                .into_error()
+                .context("component server transport failed")),
             None => bail!("component server reader stopped unexpectedly"),
         }
     }
@@ -288,12 +337,24 @@ impl ComponentServer {
         if let Some(writer) = self.writer.as_mut() {
             let result = writer.await;
             self.writer.take();
-            result.context("component server writer failed")??;
+            let result = result
+                .context("component server writer failed")
+                .and_then(std::convert::identity);
+            if let Err(error) = result {
+                return Err(match end {
+                    End::Failure(primary) => primary.into_error().context(format!(
+                        "additional writer failure during finish: {error:#}"
+                    )),
+                    End::Shutdown | End::Disconnected => error,
+                });
+            }
         }
         match end {
             End::Shutdown => Ok(()),
             End::Disconnected => bail!("component host disconnected"),
-            End::Failure(message) => bail!("component host protocol failed: {message}"),
+            End::Failure(failure) => Err(failure
+                .into_error()
+                .context("component host protocol failed")),
         }
     }
 }
@@ -309,13 +370,14 @@ impl Drop for ComponentServer {
     }
 }
 
-async fn read_requests(
-    stdin: BufReader<Stdin>,
+async fn read_requests<R: AsyncBufRead + Unpin>(
+    stdin: R,
     incoming: mpsc::Sender<ComponentServerRequest>,
     responses: (mpsc::Sender<Outgoing>, mpsc::Sender<Outgoing>),
     state: Arc<ServerState>,
+    limits: SessionPayloadLimits,
 ) -> Result<End> {
-    let mut reader = MessageReader::new(stdin);
+    let mut reader = MessageReader::new(stdin).with_limits(limits);
     while let Some(message) = reader.next().await? {
         match message.header {
             Header::Request {
@@ -350,6 +412,8 @@ async fn read_requests(
                         is_control,
                         response: Some(response),
                         _slot: slot,
+                        limits,
+                        response_is_control: is_control,
                     })
                     .map_err(|_| anyhow::anyhow!("component request consumer closed or full"))?;
             }
@@ -365,3 +429,7 @@ async fn read_requests(
 #[cfg(test)]
 #[path = "session_server_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "session_server_limit_tests.rs"]
+mod limit_tests;

@@ -28,6 +28,7 @@ use std::mem::MaybeUninit;
 use std::sync::atomic::{AtomicBool, AtomicPtr, AtomicU64, Ordering};
 use std::{ptr, slice};
 
+use crate::bounded::CapacityError;
 use crate::{Item, Utf32String};
 
 const BUCKETS: u32 = u32::BITS - SKIP_BUCKET;
@@ -46,6 +47,8 @@ pub(crate) struct Vec<T> {
     /// this remains constant and after initilaziaton (safety invariant) since
     /// it is used to calculate the Entry layout
     columns: u32,
+    /// A fixed arena never allocates buckets after construction.
+    fixed_capacity: Option<u32>,
 }
 
 impl<T> Vec<T> {
@@ -69,8 +72,88 @@ impl<T> Vec<T> {
             buckets: buckets.map(Bucket::new),
             inflight: AtomicU64::new(0),
             columns,
+            fixed_capacity: None,
         }
     }
+
+    /// Returns the prepaid bucket allocation charge for a single-column arena.
+    pub(crate) fn fixed_allocation_bytes(entry_limit: u32) -> Result<usize, CapacityError> {
+        if entry_limit == 0 || entry_limit > MAX_ENTRIES {
+            return Err(CapacityError::InvalidCapacity);
+        }
+        let entry_layout = Entry::<T>::try_single_layout()?;
+        let last_bucket = Location::of(entry_limit - 1).bucket;
+        let mut bytes = 0usize;
+        for bucket in 0..=last_bucket {
+            let layout = Bucket::<T>::try_layout(Location::bucket_len(bucket), entry_layout)?;
+            bytes = bytes
+                .checked_add(layout.size())
+                .ok_or(CapacityError::ArithmeticOverflow)?;
+        }
+        Ok(bytes)
+    }
+
+    /// Allocates every single-column bucket before accepting any entries.
+    pub(crate) fn try_with_fixed_capacity(entry_limit: u32) -> Result<Self, CapacityError> {
+        Self::fixed_allocation_bytes(entry_limit)?;
+        let entry_layout = Entry::<T>::try_single_layout()?;
+        let mut arena = Self {
+            buckets: [ptr::null_mut(); BUCKETS as usize].map(Bucket::new),
+            inflight: AtomicU64::new(0),
+            columns: 1,
+            fixed_capacity: Some(entry_limit),
+        };
+        let last_bucket = Location::of(entry_limit - 1).bucket;
+        for bucket in 0..=last_bucket {
+            // SAFETY: every bucket has positive length and uses the checked
+            // single-column Entry<T> layout used by access and destruction.
+            let entries = unsafe {
+                Bucket::<T>::try_alloc(Location::bucket_len(bucket), entry_layout)?
+            };
+            // Store each completed allocation immediately: arena's Drop owns all
+            // earlier buckets if a later allocation fails.
+            *arena.buckets[bucket as usize].entries.get_mut() = entries;
+        }
+        Ok(arena)
+    }
+
+    pub(crate) fn fixed_capacity(&self) -> Option<u32> {
+        self.fixed_capacity
+    }
+
+    /// Moves a prepared value and column into a prepaid slot without allocating.
+    pub(crate) fn try_push_single(
+        &self,
+        value: T,
+        column: Utf32String,
+    ) -> Result<u32, CapacityError> {
+        let limit = self.fixed_capacity.ok_or(CapacityError::PlanMismatch)?;
+        let index = self
+            .inflight
+            .fetch_update(Ordering::Release, Ordering::Relaxed, |count| {
+                (count < u64::from(limit)).then_some(count + 1)
+            })
+            .map_err(|_| CapacityError::EntryLimit)? as u32;
+        let location = Location::of(index);
+        let entries = self.buckets[location.bucket as usize]
+            .entries
+            .load(Ordering::Relaxed);
+
+        // SAFETY: construction allocated every bucket through limit - 1 with
+        // one column. The successful CAS exclusively reserved index < limit.
+        // Both writes move prepared values, invoke no callbacks and cannot
+        // panic. Publish active only after both fields are initialized.
+        unsafe {
+            let entry = Bucket::get(entries, location.entry, self.columns);
+            Entry::matcher_cols_raw(entry, self.columns)[0]
+                .get()
+                .write(MaybeUninit::new(column));
+            (*entry).slot.get().write(MaybeUninit::new(value));
+            (*entry).active.store(true, Ordering::Release);
+        }
+        Ok(index)
+    }
+
     pub fn columns(&self) -> u32 {
         self.columns
     }
@@ -139,6 +222,10 @@ impl<T> Vec<T> {
 
     /// Appends an element to the back of the vector.
     pub fn push(&self, value: T, fill_columns: impl FnOnce(&T, &mut [Utf32String])) -> u32 {
+        assert!(
+            self.fixed_capacity.is_none(),
+            "fixed arenas require try_push_single"
+        );
         let index = self.inflight.fetch_add(1, Ordering::Release);
         // the inflight counter is a `u64` to catch overflows of the vector'scapacity
         let index: u32 = index.try_into().expect("overflowed maximum capacity");
@@ -188,6 +275,10 @@ impl<T> Vec<T> {
     where
         I: IntoIterator<Item = T> + ExactSizeIterator,
     {
+        assert!(
+            self.fixed_capacity.is_none(),
+            "fixed arenas require try_push_single"
+        );
         let count: u32 = values
             .len()
             .try_into()
@@ -507,6 +598,34 @@ struct Bucket<T> {
 }
 
 impl<T> Bucket<T> {
+    fn try_layout(len: u32, entry_layout: Layout) -> Result<Layout, CapacityError> {
+        let size = entry_layout
+            .size()
+            .checked_mul(len as usize)
+            .ok_or(CapacityError::ArithmeticOverflow)?;
+        Layout::from_size_align(size, entry_layout.align())
+            .map_err(|_| CapacityError::ArithmeticOverflow)
+    }
+
+    // SAFETY: len must be positive and entry_layout must be the validated
+    // single-column Entry<T> layout, including its alignment and tail padding.
+    unsafe fn try_alloc(len: u32, entry_layout: Layout) -> Result<*mut Entry<T>, CapacityError> {
+        let layout = Self::try_layout(len, entry_layout)?;
+        // SAFETY: the caller supplies the checked, nonzero single-column
+        // Entry<T> layout. Each active flag lies inside its allocated slot.
+        unsafe {
+            let entries = std::alloc::alloc(layout);
+            if entries.is_null() {
+                return Err(CapacityError::AllocationFailed);
+            }
+            for index in 0..len {
+                let active = entries.add(index as usize * entry_layout.size()) as *mut AtomicBool;
+                active.write(AtomicBool::new(false));
+            }
+            Ok(entries.cast())
+        }
+    }
+
     fn layout(len: u32, layout: Layout) -> Layout {
         Layout::from_size_align(layout.size() * len as usize, layout.align())
             .expect("exceeded maximum allocation size")
@@ -563,6 +682,13 @@ struct Entry<T> {
 }
 
 impl<T> Entry<T> {
+    fn try_single_layout() -> Result<Layout, CapacityError> {
+        Layout::new::<Self>()
+            .extend(Layout::new::<Utf32String>())
+            .map(|(layout, _)| layout.pad_to_align())
+            .map_err(|_| CapacityError::ArithmeticOverflow)
+    }
+
     fn layout(cols: u32) -> Layout {
         let head = Layout::new::<Self>();
         let tail = Layout::array::<Utf32String>(cols as usize).expect("invalid memory layout");
@@ -652,6 +778,10 @@ impl Location {
         self.bucket_len - (self.bucket_len >> 3)
     }
 }
+
+#[cfg(test)]
+#[path = "boxcar_bounded_tests.rs"]
+mod bounded_tests;
 
 #[cfg(test)]
 mod tests {
@@ -780,7 +910,7 @@ mod tests {
     fn extend_over_max_capacity() {
         let vec = Vec::<u32>::with_capacity(1, 1);
         let count = MAX_ENTRIES as usize + 2;
-        let iter = std::iter::repeat(0).take(count);
+        let iter = std::iter::repeat_n(0, count);
         assert!(std::panic::catch_unwind(|| vec.extend(iter, |_, _| {})).is_err());
     }
 }

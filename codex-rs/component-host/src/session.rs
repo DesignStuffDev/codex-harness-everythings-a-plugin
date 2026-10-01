@@ -9,7 +9,6 @@ use std::time::Duration;
 
 use anyhow::Context;
 use anyhow::Result;
-use anyhow::bail;
 use serde_json::Value;
 use tokio::sync::Notify;
 use tokio::sync::OwnedSemaphorePermit;
@@ -19,14 +18,17 @@ use tokio::sync::oneshot;
 use tokio::sync::watch;
 use tokio::time::timeout;
 
+use crate::session_failure::SessionFailure;
+use crate::session_limits::SessionPayloadLimits;
+use crate::session_reply::PendingComponentReply;
 use crate::session_wire::Header;
 use crate::session_wire::Outgoing;
 use crate::session_wire::Payload;
 use crate::session_wire::SessionComponent;
 
 pub(super) const CALL_SLOTS: usize = 32;
-type Completion = std::result::Result<Payload, String>;
-pub(super) type FinalStatus = Option<std::result::Result<(), String>>;
+pub(super) type Completion = std::result::Result<Payload, SessionFailure>;
+pub(super) type FinalStatus = Option<std::result::Result<(), SessionFailure>>;
 
 /// A persistent process shared by calls. Cancelling a waiter never replays or
 /// cancels an accepted operation. Failed connections require explicit recovery.
@@ -51,6 +53,7 @@ pub(super) struct SessionInner {
     pub shared: Arc<Shared>,
     pub shutdown: watch::Sender<bool>,
     pub timeout: Duration,
+    pub limits: SessionPayloadLimits,
 }
 
 impl Drop for SessionInner {
@@ -69,7 +72,7 @@ pub(super) struct Pending {
 pub(super) struct PendingState {
     pub next_id: u64,
     pub calls: HashMap<u64, Pending>,
-    pub closed: Option<String>,
+    pub closed: Option<SessionFailure>,
 }
 
 pub(super) struct Shared {
@@ -88,13 +91,13 @@ impl Shared {
         self.control_slots.close();
     }
 
-    pub fn finish(&self, outcome: std::result::Result<(), String>) {
+    pub fn finish(&self, outcome: std::result::Result<(), SessionFailure>) {
         self.stop_admitting();
         let message = outcome
             .as_ref()
             .err()
             .cloned()
-            .unwrap_or_else(|| "component session closed".to_owned());
+            .unwrap_or_else(|| SessionFailure::message("component session closed"));
         let pending = {
             let mut state = self
                 .pending
@@ -144,7 +147,10 @@ impl DeferredControl {
             .lock()
             .unwrap_or_else(std::sync::PoisonError::into_inner);
         if let Some(reason) = &state.closed {
-            bail!("component cleanup unavailable: {reason}");
+            return Err(reason
+                .clone()
+                .into_error()
+                .context("component cleanup unavailable"));
         }
         state.next_id = state
             .next_id
@@ -174,15 +180,23 @@ impl DeferredControl {
 
     /// Queue cleanup and wait for its acknowledgement. A timeout stops waiting;
     /// the cleanup remains owned by the session until completion or disconnect.
-    pub async fn release(mut self) -> Result<()> {
+    pub async fn release(self) -> Result<()> {
+        self.release_reply().await?;
+        Ok(())
+    }
+
+    /// Queue cleanup and observe its complete reply. Transport success does not
+    /// prove a component-specific joined cleanup boundary: inspect the returned
+    /// receipt, including any retained operation failure or unconfirmed cleanup.
+    /// Cancellation or timeout abandons only this waiter, not accepted cleanup.
+    pub async fn release_reply(mut self) -> Result<Value> {
         let response = self.enqueue()?;
         timeout(self.inner.timeout, async {
             let payload = response
                 .await
                 .context("component cleanup response lost")?
-                .map_err(anyhow::Error::msg)?;
-            payload.into_value().await?;
-            Ok::<(), anyhow::Error>(())
+                .map_err(SessionFailure::into_error)?;
+            payload.into_value().await
         })
         .await
         .context("component cleanup wait timed out; outcome is unknown")?
@@ -206,11 +220,46 @@ impl ComponentSession {
             let payload = response
                 .await
                 .context("component response lost; outcome is unknown")?
-                .map_err(anyhow::Error::msg)?;
+                .map_err(SessionFailure::into_error)?;
             payload.into_value().await
         })
         .await
         .context("component request wait timed out; accepted operation outcome is unknown")?
+    }
+
+    /// Reserve ordinary and cleanup capacity, then return both handles as soon
+    /// as the request is admitted. Admission uses the session timeout. Errors or
+    /// cancellation before admission send no request; there is no await between
+    /// admission and returning the handles.
+    ///
+    /// The caller owns the cleanup guard independently of response observation.
+    /// Retain it across startup failure or cancellation, and explicitly await
+    /// `release` to observe cleanup. Dropping the guard only queues cleanup.
+    pub async fn start_with_cleanup(
+        &self,
+        method: &str,
+        params: Value,
+        cleanup_method: &str,
+        cleanup_params: Value,
+    ) -> Result<(PendingComponentReply, DeferredControl)> {
+        let (response, cleanup) = timeout(
+            self.inner.timeout,
+            self.start(
+                method,
+                params,
+                Some((cleanup_method.to_owned(), cleanup_params)),
+            ),
+        )
+        .await
+        .context("component admission timed out; no request was submitted")??;
+        let cleanup = cleanup.context("component cleanup reservation missing")?;
+        Ok((
+            PendingComponentReply {
+                response,
+                inner: Arc::clone(&self.inner),
+            },
+            cleanup,
+        ))
     }
 
     /// Reserve both ordinary and cleanup capacity before submitting a call.
@@ -235,7 +284,7 @@ impl ComponentSession {
             let payload = response
                 .await
                 .context("component response lost; outcome is unknown")?
-                .map_err(anyhow::Error::msg)?;
+                .map_err(SessionFailure::into_error)?;
             Ok((payload.into_value().await?, cleanup))
         })
         .await
@@ -248,6 +297,9 @@ impl ComponentSession {
         params: Value,
         cleanup: Option<(String, Value)>,
     ) -> Result<(oneshot::Receiver<Completion>, Option<DeferredControl>)> {
+        // Reject locally before reserving either lane or assigning an ID. A
+        // writer-only rejection could strand the paired request's send fence.
+        self.inner.limits.check_request(&params)?;
         let cleanup = match cleanup {
             Some((method, params)) => {
                 // Validation before reserving/admitting avoids killing a healthy
@@ -256,10 +308,8 @@ impl ComponentSession {
                     !method.is_empty() && method.len() <= 256,
                     "component cleanup method must contain 1 to 256 bytes"
                 );
-                anyhow::ensure!(
-                    serde_json::to_vec(&params)?.len() <= 64 * 1024,
-                    "component cleanup parameters exceed 64 KiB"
-                );
+                SessionPayloadLimits::check_control(&params)
+                    .context("component cleanup parameters exceed 64 KiB")?;
                 let slot = Arc::clone(&self.inner.shared.control_slots)
                     .acquire_owned()
                     .await
@@ -303,7 +353,10 @@ impl ComponentSession {
             "component session is closing"
         );
         if let Some(reason) = &state.closed {
-            bail!("component session unavailable: {reason}");
+            return Err(reason
+                .clone()
+                .into_error()
+                .context("component session unavailable"));
         }
         state.next_id = state
             .next_id
@@ -354,7 +407,7 @@ impl ComponentSession {
         self.begin_close();
         loop {
             if let Some(outcome) = completion.borrow().clone() {
-                return outcome.map_err(anyhow::Error::msg);
+                return outcome.map_err(SessionFailure::into_error);
             }
             completion
                 .changed()

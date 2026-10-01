@@ -175,3 +175,25 @@ async fn shutdown_deadline_failed_exit_and_success_all_return_after_reaping() {
         assert_reaped(&fixture);
     }
 }
+
+#[tokio::test]
+async fn paired_release_timeout_is_uncertain_and_forced_close_reaps_the_process() {
+    // This real child accepts both requests but never replies. A cleanup wait
+    // timeout is not a joined receipt, even when subsequent forced close reaps it.
+    let fixture = fixture("normal");
+    let session = fixture.binding.connect().await.unwrap();
+    let (reply, cleanup) = session
+        .start_with_cleanup("work", json!({}), "release", json!({}))
+        .await
+        .unwrap();
+    fixture.wait_for("accepted", /*count*/ 1).await;
+    drop(reply);
+    let error = cleanup.release().await.unwrap_err();
+    assert!(format!("{error:#}").contains("cleanup wait timed out; outcome is unknown"));
+    assert!(!child_is_absent(pid(&fixture)));
+    let error = session.close().await.unwrap_err();
+    let message = format!("{error:#}");
+    assert!(message.contains("shutdown timed out"), "{message}");
+    assert!(message.contains("outcomes may be unknown"), "{message}");
+    assert_reaped(&fixture);
+}

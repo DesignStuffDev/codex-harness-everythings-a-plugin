@@ -1,17 +1,17 @@
 use crossbeam_channel::Receiver;
 use crossbeam_channel::Sender;
-use crossbeam_channel::after;
-use crossbeam_channel::never;
 use crossbeam_channel::select;
-use crossbeam_channel::unbounded;
 use ignore::WalkBuilder;
 use ignore::overrides::OverrideBuilder;
+#[cfg(test)]
 use nucleo::Config;
 use nucleo::Injector;
+#[cfg(test)]
 use nucleo::Matcher;
-use nucleo::Nucleo;
 use nucleo::Utf32String;
+#[cfg(test)]
 use nucleo::pattern::CaseMatching;
+#[cfg(test)]
 use nucleo::pattern::Normalization;
 use serde::Serialize;
 use std::num::NonZero;
@@ -23,7 +23,6 @@ use std::sync::RwLock;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 use std::thread;
-use std::time::Duration;
 use tokio::process::Command;
 
 #[cfg(test)]
@@ -36,10 +35,20 @@ use nucleo::pattern::Pattern;
 mod async_owner;
 mod cli;
 mod lifecycle;
+mod matcher;
+mod work_queue;
+
+use matcher::matcher_worker;
+use work_queue::WorkSender;
+use work_queue::WorkSignal;
 
 #[cfg(test)]
 #[path = "lifecycle_tests.rs"]
 mod lifecycle_tests;
+
+#[cfg(test)]
+#[path = "query_completion_tests.rs"]
+mod query_completion_tests;
 
 pub use async_owner::FileSearchOwner;
 pub use async_owner::FileSearchStartError;
@@ -262,7 +271,7 @@ pub fn create_session(
         anyhow::bail!("at least one search directory is required");
     };
     let override_matcher = build_override_matcher(primary_search_directory, &exclude)?;
-    let (work_tx, work_rx) = unbounded();
+    let (work_tx, work_rx) = WorkSender::channel();
     let inner = Arc::new(SessionInner {
         search_directories,
         limit: limit.get(),
@@ -424,14 +433,7 @@ struct SessionInner {
     shutdown: Arc<AtomicBool>,
     last_query_id: Mutex<u64>,
     reporter: Arc<dyn SessionReporter>,
-    work_tx: Sender<WorkSignal>,
-}
-
-enum WorkSignal {
-    QueryUpdated { query: String, query_id: u64 },
-    NucleoNotify,
-    WalkComplete,
-    Shutdown,
+    work_tx: WorkSender,
 }
 
 fn build_override_matcher(
@@ -558,144 +560,6 @@ fn walker_worker(
         })
     });
     let _ = inner.work_tx.send(WorkSignal::WalkComplete);
-}
-
-fn matcher_worker(
-    inner: Arc<SessionInner>,
-    work_rx: Receiver<WorkSignal>,
-    nucleo: &mut Nucleo<IndexedEntry>,
-) -> anyhow::Result<()> {
-    const TICK_TIMEOUT_MS: u64 = 10;
-    let config = Config::DEFAULT.match_paths();
-    let mut indices_matcher = inner.compute_indices.then(|| Matcher::new(config.clone()));
-    let cancel_requested = || inner.cancelled.load(Ordering::Relaxed);
-    let shutdown_requested = || inner.shutdown.load(Ordering::Relaxed);
-
-    let mut last_query = String::new();
-    let mut last_query_id = 0;
-    let mut next_notify = never();
-    let mut will_notify = false;
-    let mut walk_complete = false;
-
-    loop {
-        if cancel_requested() || shutdown_requested() {
-            break;
-        }
-        select! {
-            recv(work_rx) -> signal => {
-                let Ok(signal) = signal else {
-                    break;
-                };
-                match signal {
-                    WorkSignal::QueryUpdated { query, query_id } => {
-                        if shutdown_requested() {
-                            break;
-                        }
-                        let append = query.starts_with(&last_query);
-                        nucleo.pattern.reparse(
-                            0,
-                            &query,
-                            CaseMatching::Ignore,
-                            Normalization::Smart,
-                            append,
-                        );
-                        last_query = query;
-                        last_query_id = query_id;
-                        will_notify = true;
-                        next_notify = after(Duration::from_millis(0));
-                    }
-                    WorkSignal::NucleoNotify => {
-                        if !will_notify {
-                            will_notify = true;
-                            next_notify = after(Duration::from_millis(TICK_TIMEOUT_MS));
-                        }
-                    }
-                    WorkSignal::WalkComplete => {
-                        walk_complete = true;
-                        if !will_notify {
-                            will_notify = true;
-                            next_notify = after(Duration::from_millis(0));
-                        }
-                    }
-                    WorkSignal::Shutdown => {
-                        break;
-                    }
-                }
-            }
-            recv(next_notify) -> _ => {
-                will_notify = false;
-                let status = nucleo.tick(TICK_TIMEOUT_MS);
-                // During reparse, Nucleo can expose the previous snapshot while
-                // the replacement computation is still running. Never label a
-                // different pattern's matches with the latest query identity.
-                if status.changed
-                    && nucleo.snapshot().pattern().column_pattern(0).atoms
-                        == nucleo.pattern.column_pattern(0).atoms
-                {
-                    let snapshot = nucleo.snapshot();
-                    let limit = inner.limit.min(snapshot.matched_item_count() as usize);
-                    let pattern = snapshot.pattern().column_pattern(0);
-                    let matches: Vec<_> = snapshot
-                        .matches()
-                        .iter()
-                        .take(limit)
-                        .filter_map(|match_| {
-                            let item = snapshot.get_item(match_.idx)?;
-                            let full_path = item.data.full_path.as_ref();
-                            let (root_idx, relative_path) = get_file_path(Path::new(full_path), &inner.search_directories)?;
-                            let indices = if let Some(indices_matcher) = indices_matcher.as_mut() {
-                                let mut idx_vec = Vec::<u32>::new();
-                                let haystack = item.matcher_columns[0].slice(..);
-                                let _ = pattern.indices(haystack, indices_matcher, &mut idx_vec);
-                                idx_vec.sort_unstable();
-                                idx_vec.dedup();
-                                Some(idx_vec)
-                            } else {
-                                None
-                            };
-                            Some(FileMatch {
-                                score: match_.score,
-                                path: PathBuf::from(relative_path),
-                                match_type: item.data.match_type,
-                                root: inner.search_directories[root_idx].clone(),
-                                indices,
-                            })
-                        })
-                        .collect();
-
-                    let snapshot = FileSearchSnapshot {
-                        query_id: last_query_id,
-                        query: last_query.clone(),
-                        matches,
-                        total_match_count: snapshot.matched_item_count() as usize,
-                        scanned_file_count: snapshot.item_count() as usize,
-                        walk_complete,
-                    };
-                    if !shutdown_requested() {
-                        inner.reporter.on_update(&snapshot);
-                    }
-                }
-                if !status.running && walk_complete && !shutdown_requested() {
-                    inner.reporter.on_complete_tagged(last_query_id);
-                }
-            }
-            default(Duration::from_millis(100)) => {
-                // Occasionally check the cancel flag.
-            }
-        }
-
-        if cancel_requested() || shutdown_requested() {
-            break;
-        }
-    }
-
-    // External cancellation retains its completion notification. Private close
-    // fences callbacks; explicit close waits for any callback already in flight.
-    if !shutdown_requested() {
-        inner.reporter.on_complete_tagged(last_query_id);
-    }
-
-    Ok(())
 }
 
 struct RunReporter {

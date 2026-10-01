@@ -193,6 +193,21 @@ impl Matcher {
         }
     }
 
+    /// Requested heap bytes for one matcher's fixed scratch slab on this target.
+    /// This excludes the inline matcher value and allocator bookkeeping.
+    pub fn scratch_allocation_bytes() -> usize {
+        MatrixSlab::allocation_bytes()
+    }
+
+    /// Allocates the same fixed scratch storage as [`Self::new`], returning
+    /// `None` if the allocator rejects that request. This does not change matching.
+    pub fn try_new(config: Config) -> Option<Self> {
+        Some(Self {
+            config,
+            slab: MatrixSlab::try_new()?,
+        })
+    }
+
     /// Find the fuzzy match with the highest score in the `haystack`.
     ///
     /// This functions has `O(mn)` time complexity for short inputs.
