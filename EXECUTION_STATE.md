@@ -6,10 +6,30 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
 
 ## Last verified checkpoints
 
-- Latest externally preserved integration WIP: `98c540863b9868eb216dba18f963c220c4be5187`,
+- Latest externally preserved integration WIP: `cb977e7d664bc752c28854d468619039bd3ad167`,
+  tree `40207f354efb3bee85265d8f3d83312489b56709`, parent `bb03f3a8`, on
+  `wip/p02b-bounded-search-20261001`. Its 14-path delta preserves the real native
+  backend/output limits and corrected/formatted client fixture. GitHub's
+  `native_backend.rs` blob is `98a82dd1196735ade842c8cb09345978c68be5cd`.
+  Native 141/141 and the separate earlier client 40/40 gates are described below;
+  mechanical post-test transitions remain explicit. This is not a new host/GUI
+  acceptance or independently installed search proof. Later worker integration
+  has an unresolved typed-error race and is outside this WIP.
+
+- Prior integration WIP: `bb03f3a81a828871e4e35d3e46b9c8528f3b7d00`,
+  tree `6ad17d58936b6c9f519c06f2932efd1c8ecd4724`, branch
+  `wip/p02b-bounded-search-20261001`, based on accepted main
+  `59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15`. The remote ref was verified;
+  GitHub's `native_budget.rs` blob is `fcc7eda119e5599e289697b5d3f590520dc21a0b`.
+  Native budget/owner, search process/service and host cwd/catalog gates passed
+  in separate runs described below. Later client evidence and its fixture correction
+  are preserved separately; neither this whole WIP nor a new CLI/GUI is accepted.
+
+- Earlier externally preserved WIP: `98c540863b9868eb216dba18f963c220c4be5187`,
   tree `d193d69db07c0ca378a9f95dae27d6dcee9d6019`, branch
-  `wip/p02b-bounded-search-20261001`. Bounded index primitives and opt-in
-  process payload limits passed166 focused cases with one ignored helper;
+  `wip/p02b-bounded-search-20261001` (now advanced to the WIP above).
+  Bounded index primitives and opt-in process payload limits passed 166 focused
+  cases with one ignored helper;
   all scoped test-source hashes were unchanged and the subreaper completed.
   Lint/format transitions are separately recorded. This is not an accepted new
   CLI/GUI build, native budget enforcement or installed search replacement.
@@ -49,8 +69,81 @@ Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMA
 
 ## Verified behavior and limits
 
+Latest P02B source gates, **separate runs and scopes**:
+
+- [Actual native backend](verification/2026-10-01/P02B_NATIVE_BACKEND_EVIDENCE.md):
+  141/141 passed, 0 skipped: native 75, neutral API 11, Nucleo 23, Matcher 32.
+  All 82 scoped fingerprints were unchanged, test/subreaper exit 0. The native
+  cases include 14 backend and five output tests plus the prior 56; actual
+  traversal/matching, retained poll/lease ownership, aggregate resources and typed
+  cleanup are exercised. Initial token-import compilation failure is preserved.
+  Subsequent reviewed clone/condition/import edits and formatting are recorded;
+  all final bindings match WIP `cb977e7d`. This does not prove installed selection
+  or eliminate the later worker error race described below.
+- [Native budget and owner](verification/2026-10-01/P02B_NATIVE_BUDGET_EVIDENCE.md):
+  122/122 passed, 0 skipped: native 56, neutral API 11, Nucleo 23, Matcher 32.
+  All 74 scoped source fingerprints were unchanged; test/subreaper exit 0.
+  Real per-session entry/index-byte/worker enforcement and typed retained cleanup
+  now exist. The original 32-diagnostic test compilation failure is preserved.
+  Later documented lint expectations and scoped/vendor/global formatting have
+  their own hashes; no post-format rerun is invented.
+- [Search service/process adapter](verification/2026-10-01/P02B_SEARCH_PROCESS_EVIDENCE.md):
+  22/22 passed, 0 skipped: six controlled-backend service, six codec and ten real
+  protocol-peer process cases. All 95 scoped source fingerprints were unchanged;
+  test/subreaper exit 0. These processes are fixtures, not installed native search
+  workers. The original five-diagnostic compile failure is preserved. Subsequent
+  malformed-identity hardening compiled but its new branch was not exercised by
+  that passing run; mechanical/lint/format transitions are recorded separately.
+- The separate host cwd/catalog run passed 80/80, with one ignored parent-death
+  helper explicitly invoked by its passing parent test. Runner exit 0; code was
+  unchanged while `Cargo.lock` changed during dependency resolution. The manifest
+  honestly records this drift. These are not an aggregate 102-case search run.
+- Initial high-level client regression `p02b-client-shutdown` failed compiling
+  `codex-core` with ENOSPC before any tests executed; command/subreaper exit 101,
+  scoped source unchanged. Its original log/source/subreaper reports remain in
+  `/workspace/acceptance/`. The separately named `p02b-client-shutdown-retry`
+  finished at 05:31:22 UTC: **40 executed, 39 passed, 1 failed, 0 skipped**,
+  exit 100, scoped source unchanged. All 12 new shutdown cases passed. Existing
+  `next_event_surfaces_lagged_markers` failed on both attempts because its fixture
+  dropped the command receiver but expected successful shutdown; the new client
+  reported `BrokenPipe` and unconfirmed runtime/storage cleanup. The fixture-only
+  correction retained the receiver and acknowledged the real shutdown command,
+  preserving existing assertions. The separately recorded corrected run passed
+  **40/40, 0 skipped**, exit 0, with all 8,680 source fingerprints unchanged;
+  its only pre-run change was eight added/two removed fixture lines in `lib.rs`.
+  [Client shutdown evidence](verification/2026-10-01/P02B_CLIENT_SHUTDOWN_EVIDENCE.md)
+  binds those actual tested bytes, which are newer than WIP `bb03f3a8`. Scoped fix
+  passed with unchanged scoped source; final format passed and only wrapped the
+  fixture acknowledgement call. Its hashes remain separate from the tested bytes.
+  The corrected/formatted fixture is now published in WIP `cb977e7d`. Preserve both
+  failed runs; do not relabel the earlier retry as all green. The client gate ran
+  before native integration; it is no new native, GUI or Launch validation.
+
+The later `file-search-local-plugin` worker is applied and registered outside WIP
+`cb977e7d`. Its first gate executed 33 cases: 32 passed, one wrong-type `[]`
+configuration case failed; all six actual worker-process cases passed. Only
+`Cargo.lock` changed during that gate. A strict object/null guard corrected the
+policy, but `p02b-native-worker-tests-corrected` is **not accepted**: 33 eventually
+passed with one flaky exhaustion case. Its first attempt returned `ClosedLease`
+instead of retained `ResourceExhausted` from close; source was unchanged during
+that run. Native/process owners are investigating; keep assertions unchanged and
+preserve both runs. Successful retry/exit 0 does not resolve this race.
+
+The backend-neutral client facade is now applied in `file-search-runtime`.
+Its first test compilation failed on 32 ambiguous nested assertion imports; the
+original run is preserved. Explicit import/unused-import corrections produced
+**14/14 passing controlled-backend lifecycle tests**, 0 skipped, unchanged source
+and subreaper exit 0 (`p02b-runtime-facade-tests-corrected`). Scoped lint passed;
+final formatting and real backend/client composition remain pending. This gate
+covers runtime ownership, not installed/native OS workers or presentation.
+The working workspace has **169 explicit Rust members**, adding
+`file-search-component`, `file-search-local-plugin` and `file-search-runtime`;
+the accepted inventory ledger remains **166**. Update that ledger with an
+appropriate accepted component checkpoint, preserving the distinction.
+
 [P02 evidence](verification/2026-10-01/P02_SEARCH_PREREQUISITE_EVIDENCE.md) and its
-machine-readable reports retain actual per-run source/log hashes and failures:
+machine-readable reports retain the last accepted full new-engine runtime gate,
+with actual per-run source/log hashes and failures:
 
 - Native search 35/35, vendored matcher/Nucleo 35/35; App Server 395 library cases
   plus 13 public RPC cases across separate 12+1 runs; focused TUI reconnect 11/11.
@@ -84,39 +177,54 @@ preserved all 30 allocated ELF sections; runtime gates used this immutable copy.
 
 1. Re-observe original task environment, repository, actual working files, refs,
    source/index hashes, processes and disk/memory. Read AGENTS and runtime skill.
-2. Preserve native queue and paired process-startup work at external WIP
-   `812b2d3e7df40dde146f4a33b3ad6fbacd53542c` on
-   `wip/p02b-runtime-20261001`. Combined99/99 passed with one ignored helper,
-   unchanged source and subreaper0; after the separate matcher correction,
-   vendor37 + native41 passed. Scoped fix/format completed. These runtime
-   changes remain outside main pending broader client/runtime acceptance.
-   The subsequent bounded index primitives and logical payload limits are now
-   preserved in WIP98c540 above. Its 35 source paths are also member-verified in
-   `p02b-bounded-search-source.tar.gz`, SHA256
-   `692c3de970a5f0a7d2f4d51373ff38b7eedb66a21b7fd0f0ac5e6be29c40256e`.
-   New native budget integration, explicit process startup cwd, file_search1
-   wire/service/process adapter and catalog admission are being implemented
-   after that snapshot; preserve them separately before restart.
-3. Implement bounded native backend, coalesced query admission, honest final
-   snapshot/Idle ordering, entry/index/worker budgets and resource errors. See
-   [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md).
-4. Add file_search1 wire service/process adapter and native/custom workers.
-   Extend retained startup cleanup and opt-in logical transport limits before
-   activation. Install no fallback after selection.
-5. Compose one provider per embedded runtime with independent App Server
-   connection/local TUI scopes; independent embeddings remain independent. Repair
-   high-level embedded-client shutdown timeout/abort reporting before sharing the
-   provider. See [composition plan](component-sdk/FILE_SEARCH_COMPOSITION_PLAN.md).
-6. Independently build/install workers outside source; exercise GUI/TUI/one-shot
-   clients, replacement, removal, incompatible versions, cancellation, resource
-   exhaustion and recovery with unchanged host. Regress storage and GUI each cycle.
-   The private rollout lookup remains a fourth consumer pending P03 broker.
-7. Continue P03 lifecycle/transport/broker, then the roadmap's ordered phases.
-   P02b filesystem/watch/Git mutations wait for authority/config/policy contracts.
-   P18U upstream update integration is **required**, sequenced after stable
-   contracts. Record lineage now; demonstrate a real later revision, unchanged
-   compatible custom packages, breaking rejection and external-bootstrap rollback
-   before release. No updater, polling schedule or live update is active.
+2. Fix the worker integration's typed first-error/close race without weakening
+   assertions. Preserve current worker source and both original runs; add a
+   deterministic reproducer and rerun affected native/process and full worker
+   gates. The earlier 141/141 native gate remains historical evidence, not proof
+   this newly observed race is safe. Keep worker changes outside accepted source
+   until the failure is resolved.
+3. Publish reviewed evidence/state for completed native/client gates, keeping
+   WIP `cb977e7d`, tested pre-format bytes and the newer worker changes distinct.
+   Retain all original failed compilation/runtime attempts and source manifests.
+4. Complete the actual native worker/service integration and compose the tested
+   client facade with native/process selection and the standalone executable.
+   Preserve independent App Server connection/TUI scope ownership; independent
+   embeddings stay independent. Validate the post-test malformed-identity branch,
+   retained startup/poll/update cleanup and absent fallback after selection. See
+   [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md) and
+   [composition plan](component-sdk/FILE_SEARCH_COMPOSITION_PLAN.md).
+5. Build one new host and independently build/install native/custom workers
+   outside its source. Exercise actual package discovery/selection, upgrade and
+   incompatibility rejection, removal/replacement, GUI/TUI/one-shot queries,
+   cancellation, resource exhaustion and recovery without rebuilding that host.
+   Regress existing storage and GUI behavior, including Launch Ctrl+C and full
+   child drainage. Use available Chromium fallback honestly while in-app Browser
+   remains unavailable. The private rollout lookup remains a fourth consumer
+   pending P03 broker; do not call search fully extracted before closing it.
+6. Continue P03 lifecycle/transport/broker and the roadmap's successive phases:
+   model/provider/auth; session/turn orchestration; context/history/compaction;
+   native tools/execution and policy/approvals/sandbox; auxiliary state/storage
+   maintenance; configuration/events and remaining UI/platform/services. P02b
+   filesystem/watch/Git mutations wait for authority/config/policy contracts.
+   Keep per-component implemented/tested/planned status and compatibility gates.
+7. P18U upstream update integration is **required**, sequenced after stable
+   contracts. Record lineage now; demonstrate a real later upstream revision,
+   unchanged compatible custom packages, breaking rejection and independent
+   recovery-bootstrap rollback before release. No updater, polling schedule or
+   live update is active. Follow the canonical roadmap through final acceptance.
+
+Earlier queue checkpoints remain recovery references, not new next actions:
+
+- Native queue and paired process-startup work are preserved at external WIP
+  `812b2d3e7df40dde146f4a33b3ad6fbacd53542c` on
+  `wip/p02b-runtime-20261001`. Combined 99/99 passed with one ignored helper,
+  unchanged source and subreaper exit 0; after the separate matcher correction,
+  vendor 37 + native 41 passed. Scoped fix/format completed.
+- WIP `98c540`'s 35 source paths are member-verified in
+  `p02b-bounded-search-source.tar.gz`, SHA256
+  `692c3de970a5f0a7d2f4d51373ff38b7eedb66a21b7fd0f0ac5e6be29c40256e`.
+  This older archive remains preserved; the later native ledger, explicit cwd,
+  service/process adapter and client shutdown source are in WIP `bb03f3a8`.
 
 ## Preserve and resume safely
 
@@ -140,6 +248,31 @@ It precedes later source/state/lineage edits. A later member-verified incrementa
 `p01-source-20261001T042418Z.tar.gz` covers17 runtime paths versus main612bf2a,
 SHA256 `18871beeccf1df50794e2d8705589d503766de92fc1d0acac86cae37234a0d39`.
 Those paths are also on external WIP812b2d3e. Keep original failures and snapshots.
+The member-verified integration incremental `p01-source-20261001T051016Z.tar.gz` covers
+81 changed paths versus accepted main `59e5d576`; SHA256
+`53c274520e38ce7f573239172af967680d19b00e1a27687cbde9f1d0acac93b3`.
+Source publication report `p02b-integration-wip-publication.json` binds that
+checkpoint to external WIP `bb03f3a8`. It predates later `/tmp` staging and evidence
+edits; preserve those separately before interruption.
+The subsequent `p02b-native-backend-staged-unverified.tar.gz` preserves 29 verified
+staged members, SHA256
+`7448d0518a6e7b5454e95a7656b9c41d26c69a4c002e8f4ab1d442e1f48d41d0`.
+This is an uncompiled, cloud-local staging archive; it is not an accepted source
+checkpoint or a GitHub backup of the new native adapter.
+The later `p02b-native-backend-tested-source.tar.gz` has SHA256
+`842dc08868198a68752e7c7fde61143783115540a2b8c8438647b88f40ea11eb`;
+`p02b-native-backend-wip-publication.json` binds its 14 source paths to externally
+preserved WIP `cb977e7d`. It preserves reviewed post-test formatting, not a claim
+that the passing test ran again on those formatted bytes.
+Newer worker staging has a separate 17-member cloud-local archive,
+`p02b-native-worker-staged-unverified.tar.gz`, SHA256
+`5e3daf2002e8ae3b1b9387888d1d9fb54b9f3c20fc077d37854e257e83cdd8f1`.
+It predates the worker configuration correction and unresolved lifecycle-race
+investigation; preserve later edits independently. Worker/facade completion is not
+implied by either archive or native WIP publication. The facade's original staging
+is independently preserved in `p02b-runtime-facade-staged-unverified.tar.gz`, SHA256
+`abc295c97229e282780a681cd606a7a884be07abe90ad32e8bc46c6b0b9605a6`;
+it predates the test import correction and later formatting.
 Cloud-local archives are recovery checkpoints, not proven outside backups. GitHub
 protects included published source only. Exclude binaries, caches, runtime homes,
 credentials and private bearer URLs from publication.
@@ -152,8 +285,10 @@ Rust1.95/debug0/incremental0. One owner serializes Rust; never kill Rust. Use
 Use `/tmp/run-p02-check.py` for actual source manifests. Never reuse unchanged
 `/tmp/run-component-regression.py`: its source label is obsolete.
 
-Resource limit: 32 GiB overlay, last observed about868 MiB free, /tmp tmpfs1.2 GiB
-free. Recheck before linking; do not use tmpfs without memory accounting. Audited
+Resource limit: 32 GiB overlay, about **2.6 GiB free at the client retry start**
+after narrowly reviewed generated-cache reclamation. This is a timestamped
+observation, not current free space. Recheck overlay, tmpfs and memory before
+linking; do not use tmpfs without memory accounting. Audited
 cache maps/restoration live in recovery reports `p02-generated-cache-tmpfs-relocation.json`
 and `p02-pre-cli-cache-tmpfs-relocation.json`. Original-path cache symlinks need
 these backing files. `p02b-reviewed-generated-cache-eviction.json` records
@@ -163,6 +298,15 @@ all aliases/identities and observing no live task-process references. Cargo's da
 checksum-verified `p02-completed-public-app-server.tar.zst`; generated new CLI
 cache was removed after independent immutable candidate verification. Do not remove
 source, evidence, runtime state, frozen binaries or active mappings for space.
+Later root-reviewed cache removals are recorded in
+`p02b-final-reviewed-cache-eviction.json` and
+`p02b-old-library-cache-eviction.json`. The latter covers 23 exact old regular
+`.rlib` variants (2,250,502,144 allocated bytes), retaining newer protocol/config
+variants, metadata, aliases and immutable runtime checkpoints. Root revalidated
+live references/builds before removal; no live Rust task was killed. Source,
+original backups, test evidence and runtime state were preserved. The audit's
+exclusion of pre-existing zombies from live-file-reference scans does not waive
+any unchanged process-lifecycle assertion.
 
 Optional viewer lives at `/workspace/remote-viewer-setup`, outside harness.
 Current enforced restricted policy still has no additional hostname grant; local

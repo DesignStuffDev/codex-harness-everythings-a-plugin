@@ -1,0 +1,1028 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-01T05:16:09.522508+00:00",
+  "source": {
+    "commit": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+    "tree": "6ad17d58936b6c9f519c06f2932efd1c8ecd4724",
+    "branch": "wip/p02b-bounded-search-20261001",
+    "previous_wip": "98c540863b9868eb216dba18f963c220c4be5187",
+    "accepted_base": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+    "publication_record": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-integration-wip-publication.json",
+      "bytes": 620,
+      "sha256": "c76e1c642979884128e8cd40a2b4abaa1b0da147eac4b299d35e55be3eaea696"
+    },
+    "publication_scope": "Immutable WIP preservation, not whole-snapshot acceptance. High-level App Server client shutdown was uncompiled/pending at this checkpoint.",
+    "preservation": {
+      "source_archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T051016Z.tar.gz",
+        "bytes": 301246,
+        "sha256": "53c274520e38ce7f573239172af967680d19b00e1a27687cbde9f1d0acac93b3"
+      },
+      "manifest": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T051016Z.json",
+        "bytes": 25121,
+        "sha256": "7e63382a99535c63e7b95dbd16bb34688650826b47829c96f4a67ea22bdbcda5"
+      },
+      "changed_paths": 81,
+      "archive_note": "Incremental cloud-local recovery checkpoint, not an outside backup.",
+      "remote_ref_verified_by_publication_record": true,
+      "external_durability": "GitHub WIP commit preserves its included source; caches/binaries/private runtime state are not implied by that publication."
+    },
+    "tested_files": {
+      "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+      "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+      "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+      "codex-rs/file-search/src/async_owner.rs": "7df2a4bde1a70a04080ecabcbb0b722681ebbcb76196379023a500e63d6f1653",
+      "codex-rs/file-search/src/async_owner_receipt_tests.rs": "f659afb47a292f1113fc33b1bc4a8b7ed17c1fbc2d10923b1b3560dcb6d838ee",
+      "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+      "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+      "codex-rs/file-search/src/lib.rs": "017e64035bef7e53c94e70f2784fef1d42dcd7e6865d05dbebb4c636065b10fc",
+      "codex-rs/file-search/src/lifecycle.rs": "1b7ecb796629587b00c52ad3bfb41952484d0231ab145d2058c07346b13812cd",
+      "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+      "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+      "codex-rs/file-search/src/matcher.rs": "2f334d41e1df7883c3543fd9be3567d2cde5144bb23d51a63727417c2c6416d0",
+      "codex-rs/file-search/src/native_budget.rs": "51d6cc77889c09518bcaf19b1780ad3704e7c6779f6c256c41ccda011e9a7038",
+      "codex-rs/file-search/src/native_budget_tests.rs": "4d10590c480b00a6869b3e39c584d257a06e3fcbe77f81725372e5ecc29449fe",
+      "codex-rs/file-search/src/native_index.rs": "20bf580f1cb2b5ceaf337879478a2c34bea4646c1ba8855a3a3c59af39d3a5f4",
+      "codex-rs/file-search/src/native_session.rs": "31a207a7d3674903cb5feb524208ebf0fd6ff1b12f0f10f6da241859f3a66c54",
+      "codex-rs/file-search/src/pool_lifecycle_tests.rs": "8d4403615dcb9506eda558c7b9827a2701a51abaa601880ea4907f9e0ac5a166",
+      "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+      "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+      "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+      "codex-rs/file-search-api/BUILD.bazel": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+      "codex-rs/file-search-api/Cargo.toml": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+      "codex-rs/file-search-api/README.md": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+      "codex-rs/file-search-api/src/backend.rs": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+      "codex-rs/file-search-api/src/budget.rs": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+      "codex-rs/file-search-api/src/close_contract_tests.rs": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+      "codex-rs/file-search-api/src/contract_tests.rs": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+      "codex-rs/file-search-api/src/error.rs": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+      "codex-rs/file-search-api/src/lib.rs": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+      "codex-rs/file-search-api/src/values.rs": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+      "codex-rs/third-party/nucleo/Cargo.toml": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+      "codex-rs/third-party/nucleo/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "codex-rs/third-party/nucleo/PROVENANCE.md": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+      "codex-rs/third-party/nucleo/README.md": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+      "codex-rs/third-party/nucleo/matcher/Cargo.toml": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+      "codex-rs/third-party/nucleo/matcher/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+      "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+      "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+      "codex-rs/third-party/nucleo/matcher/fuzz.sh": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+      "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+      "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+      "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+      "codex-rs/third-party/nucleo/matcher/src/chars.rs": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+      "codex-rs/third-party/nucleo/matcher/src/config.rs": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+      "codex-rs/third-party/nucleo/matcher/src/debug.rs": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+      "codex-rs/third-party/nucleo/matcher/src/exact.rs": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+      "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+      "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+      "codex-rs/third-party/nucleo/matcher/src/lib.rs": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+      "codex-rs/third-party/nucleo/matcher/src/matrix.rs": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+      "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+      "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+      "codex-rs/third-party/nucleo/matcher/src/pattern.rs": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+      "codex-rs/third-party/nucleo/matcher/src/prefilter.rs": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+      "codex-rs/third-party/nucleo/matcher/src/score.rs": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+      "codex-rs/third-party/nucleo/matcher/src/tests.rs": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+      "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs": "f0d13216fedf154fbf1ae2def154cd00c46f477d8df1f02e59159c1ee53f477f",
+      "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+      "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+      "codex-rs/third-party/nucleo/src/bounded.rs": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+      "codex-rs/third-party/nucleo/src/bounded_tests.rs": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+      "codex-rs/third-party/nucleo/src/boxcar.rs": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+      "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+      "codex-rs/third-party/nucleo/src/lib.rs": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+      "codex-rs/third-party/nucleo/src/par_sort.rs": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+      "codex-rs/third-party/nucleo/src/pattern/tests.rs": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+      "codex-rs/third-party/nucleo/src/pattern.rs": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+      "codex-rs/third-party/nucleo/src/shutdown_tests.rs": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+      "codex-rs/third-party/nucleo/src/tests.rs": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+      "codex-rs/third-party/nucleo/src/worker.rs": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170"
+    },
+    "post_format_commit_bindings": [
+      {
+        "path": "codex-rs/file-search/BUILD.bazel",
+        "sha256": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+        "git_blob": "71e0827da12fbb7b3e8a87df53ec30d3b526f788"
+      },
+      {
+        "path": "codex-rs/file-search/Cargo.toml",
+        "sha256": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+        "git_blob": "1b5123135222e07614eadbc1069efd95a54ed01d"
+      },
+      {
+        "path": "codex-rs/file-search/README.md",
+        "sha256": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+        "git_blob": "c47d494a18fedd33bdf4e2b8ca73559218b3e4d1"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner.rs",
+        "sha256": "5dd099e40f150d5b538c2ddb8c9cf38ec1bcd29198fed609eafcb026cb6fe2aa",
+        "git_blob": "62959aad7106bc8b0a69452d9e3c87f8443d9504"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner_receipt_tests.rs",
+        "sha256": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+        "git_blob": "c2a75db8a9e33ce3ee3765a088d4fc6e2b041a3e"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner_tests.rs",
+        "sha256": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+        "git_blob": "75f68999313e74fa9899797f26149472a5386174"
+      },
+      {
+        "path": "codex-rs/file-search/src/cli.rs",
+        "sha256": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+        "git_blob": "e3394f92da68a7ac381b3ea010856128b537f2cd"
+      },
+      {
+        "path": "codex-rs/file-search/src/lib.rs",
+        "sha256": "1fa9f84610478b44180558d02eb73d5da016153a4f1a4d8c37e09dae3e3f641d",
+        "git_blob": "b03efed08801902431fafb649035a239a271a5ae"
+      },
+      {
+        "path": "codex-rs/file-search/src/lifecycle.rs",
+        "sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+        "git_blob": "a803b2ab71ed93e7b537771840177996547c27ea"
+      },
+      {
+        "path": "codex-rs/file-search/src/lifecycle_tests.rs",
+        "sha256": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+        "git_blob": "59e5c2c11fdb120ee6a7f00a53e1d5bb6ef454ba"
+      },
+      {
+        "path": "codex-rs/file-search/src/main.rs",
+        "sha256": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+        "git_blob": "beb4b18a6405fbe560e0de1e354b14775c31e4db"
+      },
+      {
+        "path": "codex-rs/file-search/src/matcher.rs",
+        "sha256": "5c7e15643f570e7d832576cafe71c978c7eb01a986f470777fd071ba0fd7777b",
+        "git_blob": "87fbf632d26edffb22de1ec8b064578ff6f759c6"
+      },
+      {
+        "path": "codex-rs/file-search/src/native_budget.rs",
+        "sha256": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+        "git_blob": "fcc7eda119e5599e289697b5d3f590520dc21a0b"
+      },
+      {
+        "path": "codex-rs/file-search/src/native_budget_tests.rs",
+        "sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+        "git_blob": "b13dea6928e8c13d1cd0d3321ee0fb0ef687126c"
+      },
+      {
+        "path": "codex-rs/file-search/src/native_index.rs",
+        "sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+        "git_blob": "04739d95b809046f04cc4950c2ea452a799e2985"
+      },
+      {
+        "path": "codex-rs/file-search/src/native_session.rs",
+        "sha256": "79a4fedfd8a6604504b3d9711c0c8b7e631ad693ecc56f63e7119ef1b2180b4f",
+        "git_blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7"
+      },
+      {
+        "path": "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+        "sha256": "8d4403615dcb9506eda558c7b9827a2701a51abaa601880ea4907f9e0ac5a166",
+        "git_blob": "882caa2e57d3b2a033fb97f6a639f159a95502e2"
+      },
+      {
+        "path": "codex-rs/file-search/src/query_completion_tests.rs",
+        "sha256": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+        "git_blob": "786b58468f9fc3cb796454324c549e29e249d963"
+      },
+      {
+        "path": "codex-rs/file-search/src/work_queue.rs",
+        "sha256": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+        "git_blob": "8204fd15bb3e3adb1608eef99cd92fd1caeb9965"
+      },
+      {
+        "path": "codex-rs/file-search/src/work_queue_tests.rs",
+        "sha256": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+        "git_blob": "8b8f0fdd6f40f8d94b963b5175ae4a80a9173793"
+      },
+      {
+        "path": "codex-rs/file-search-api/BUILD.bazel",
+        "sha256": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+        "git_blob": "95b583e92478b20f52a12b964aa10811cc82d7cd"
+      },
+      {
+        "path": "codex-rs/file-search-api/Cargo.toml",
+        "sha256": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+        "git_blob": "6e3eb501fc58c976773e52764749882e2ce07b13"
+      },
+      {
+        "path": "codex-rs/file-search-api/README.md",
+        "sha256": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+        "git_blob": "5903debb060ca7869f1be9ace7faac97a47a1678"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/backend.rs",
+        "sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+        "git_blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/budget.rs",
+        "sha256": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+        "git_blob": "21dd38cc4e4d8e245ba7da472da3161d5df68338"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/close_contract_tests.rs",
+        "sha256": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+        "git_blob": "da58e9cfa840dbf900684e933d60aefd6099e353"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/contract_tests.rs",
+        "sha256": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+        "git_blob": "d33dbc46d10efb5ecc3ef3d7fe3e60379784b70e"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/error.rs",
+        "sha256": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+        "git_blob": "338b89dec37f5f18036cea8143cfef0e8a85e4e1"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/lib.rs",
+        "sha256": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+        "git_blob": "9bf377fce12307219a32b47c8701c12ffe606926"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/values.rs",
+        "sha256": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+        "git_blob": "0f20ef03843e509a203715daed7af4dcaf19435a"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/Cargo.toml",
+        "sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+        "git_blob": "a49f7879e11ef8de893e6d6f80654a0af8166dc5"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/LICENSE",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "git_blob": "a612ad9813b006ce81d1ee438dd784da99a54007"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "git_blob": "7bce0c2e614e743798d02f9b033cba61b28702a9"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/README.md",
+        "sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+        "git_blob": "e617cfa0e175f89e2f5e7aa1e57d58c28e47ddbf"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/Cargo.toml",
+        "sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+        "git_blob": "4b90ddbb035ae2a8169f997fa6de371f9ca50520"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/LICENSE",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "git_blob": "a612ad9813b006ce81d1ee438dd784da99a54007"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore",
+        "sha256": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+        "git_blob": "1a45eee7760d240bfa8ac1989088e0349169f264"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml",
+        "sha256": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+        "git_blob": "1b9d8a7fd3203813651a84763275c49117adb1d3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs",
+        "sha256": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+        "git_blob": "d9df7d36b0f6e7e464102ab1e70ffeff5fecc142"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz.sh",
+        "sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+        "git_blob": "d3ffa2c9a6627dad6ddaa009ac2d5a7a5e2017e0"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh",
+        "sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+        "git_blob": "32a2669746a93a838ac2d3793a64e645e0479c14"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs",
+        "sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+        "git_blob": "aacbe46141a51f018a70f599028346a74c185cc3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs",
+        "sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+        "git_blob": "3de501aaae6ceaec2921c11ddc92ba11a3bbde1c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars.rs",
+        "sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+        "git_blob": "d13a246616dd9e72d538450ac6a31e8d15d3caa4"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/config.rs",
+        "sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+        "git_blob": "eca7ae388da845d93892737e060b6cc29fe287db"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/debug.rs",
+        "sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+        "git_blob": "b8369f32dc6b79a6629adf221d1981d1535af708"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/exact.rs",
+        "sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+        "git_blob": "3cb3ceb2025c5baa193b3c0a4224d0565ea114ad"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs",
+        "sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+        "git_blob": "8215bf31fda7015123755a43d8b27d9a16d4a60c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs",
+        "sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+        "git_blob": "5d53ecfb76f3d1265fe9a4b0e4af36c59f5c5585"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/lib.rs",
+        "sha256": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+        "git_blob": "3e4e3c6c69180a0fa20aad9b6e3b0c214d388df0"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+        "sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+        "git_blob": "b88dadd5c89758bc9e87f74fb2b48772d5349aff"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs",
+        "sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+        "git_blob": "14598d2d3ef0e3d44cf3640ff9142560f807fb82"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs",
+        "sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+        "git_blob": "88880ba91df4da12d6e2f8f5952352c5e9666446"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/pattern.rs",
+        "sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+        "git_blob": "495feede30e9a3ce754fade159c5e7ad798463f6"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/prefilter.rs",
+        "sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+        "git_blob": "1e79cc2c70efcc8521aa05281b61caddf963fe03"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/score.rs",
+        "sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+        "git_blob": "f0ad8983e95f6be4e7f42fc915d4e94ad469900a"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/tests.rs",
+        "sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+        "git_blob": "32a024036d6d05fdcbf8e37b13e6d8c0f3131a62"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs",
+        "sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+        "git_blob": "9c0bffe7ced7224f9026087c73643204c5ea1bd6"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs",
+        "sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+        "git_blob": "a38c887584cf257a6ebd4a5dfdebd93f18fad8b3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs",
+        "sha256": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+        "git_blob": "53dcff205c146abae68b09d0c2dbb0dad2d525fd"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/bounded.rs",
+        "sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+        "git_blob": "a79a6fb41f6db96699b1952e3fca93560568ab4a"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/bounded_tests.rs",
+        "sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+        "git_blob": "56290982d043811f9b275cd57285f1ad0edd2f3a"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/boxcar.rs",
+        "sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+        "git_blob": "696e66e204d13c71eecacd8c6eacc3b8e7249131"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs",
+        "sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+        "git_blob": "844972defafd23d1ceee44775be468a475e9ad6d"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/lib.rs",
+        "sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+        "git_blob": "72dcae5ab4fc6075adc79b0adebefd7fe9706938"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/par_sort.rs",
+        "sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+        "git_blob": "92f716cc3f1278d896a4323d2dbdbbf3f31222b8"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/pattern/tests.rs",
+        "sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+        "git_blob": "40e8e328723f94e4552822137f69c91fef39d63f"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/pattern.rs",
+        "sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+        "git_blob": "90d6ec84fc463a9841334daccbcbed59c8c3da1f"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/shutdown_tests.rs",
+        "sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+        "git_blob": "02147da093847cb5715c009c67d888836e22e94c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/tests.rs",
+        "sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+        "git_blob": "676c50df44b4d3358f0157b854dc6aae28b1146e"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/worker.rs",
+        "sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+        "git_blob": "7571e7ed190c2b2af41983de467e35cec5ddf039"
+      }
+    ]
+  },
+  "privacy": "Whitelisted results, source identities, commands and artifact fingerprints only. No credentials, bearer URLs, ready-file contents or private session state.",
+  "status": "focused recorded checks passed; full snapshot and installed search acceptance not claimed",
+  "component": "native",
+  "runs": {
+    "p02b-native-budget-owner": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-budget-owner.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "--lib"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:00:48Z",
+      "finished_utc": "2026-10-01T05:00:51Z",
+      "returncode": 101,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner.source.json",
+        "bytes": 18665,
+        "sha256": "e860c876a4b110cf7226709eed6a7ffea693fb9af2c1dba9a16159b571917865"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner.log",
+        "bytes": 30924,
+        "sha256": "749732384438c308dc5d0c51cc0e48fbb5d99f3e1930c628eff14c47a68d42e0"
+      },
+      "source_before_count": 74,
+      "source_after_count": 74,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "8b92ac52dcac111b8d5b1e43707c4e7da1145db2daa71acec9c9915b3cde5078",
+      "source_after_canonical_sha256": "8b92ac52dcac111b8d5b1e43707c4e7da1145db2daa71acec9c9915b3cde5078",
+      "changed_paths": [],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-native-budget-owner.subreaper.json",
+          "bytes": 486,
+          "sha256": "c0dbb5b055e0b1abe8fec8acca9cad19996bc3309db0a1b63e05d09d7ae60305"
+        },
+        "enabled": true,
+        "exit_status": 101,
+        "command_returncode": 101,
+        "runner_error": null,
+        "reaped_returncodes": [
+          101
+        ]
+      }
+    },
+    "p02b-native-budget-owner-corrected": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-budget-owner-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "--lib"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:02:37Z",
+      "finished_utc": "2026-10-01T05:02:44Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-corrected.source.json",
+        "bytes": 18673,
+        "sha256": "9246fae9e60a400ddb5e4ba27de6b86b524a3d9ea3e26aa48031fe2f478b3a18"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-corrected.log",
+        "bytes": 14920,
+        "sha256": "dbc6bac5ff5cb640098dfbeea0ff0522bc01e7c7e689bec4f15e594f07301d18"
+      },
+      "source_before_count": 74,
+      "source_after_count": 74,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "9bce265b47150bbe867f493260a18b0acfa344b3f02431c012742bd76e1bed65",
+      "source_after_canonical_sha256": "9bce265b47150bbe867f493260a18b0acfa344b3f02431c012742bd76e1bed65",
+      "changed_paths": [],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-native-budget-owner-corrected.subreaper.json",
+          "bytes": 472,
+          "sha256": "17fdb83f53f1d23dbd7bba85d8a00daa7f2215ba1169a56d0bca09c16af0c748"
+        },
+        "enabled": true,
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "reaped_returncodes": [
+          0
+        ]
+      }
+    },
+    "p02b-native-budget-owner-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:04:01Z",
+      "finished_utc": "2026-10-01T05:04:05Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-fix.source.json",
+        "bytes": 18235,
+        "sha256": "be89e831be743810e0cfc7a10e5cd5c10bab55105ebb19a44cc965a481dc943e"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-fix.log",
+        "bytes": 1641,
+        "sha256": "5ecd1c38355f63c90dce09ad728299a630ea6d8455db5a4aef565717e73f073e"
+      },
+      "source_before_count": 73,
+      "source_after_count": 73,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "23fdd0e9b7fbe016311ee0b97f5c7a6138f7f8c2f10476ad39ef5d6ddc6ac13c",
+      "source_after_canonical_sha256": "23fdd0e9b7fbe016311ee0b97f5c7a6138f7f8c2f10476ad39ef5d6ddc6ac13c",
+      "changed_paths": []
+    },
+    "p02b-native-budget-owner-format": {
+      "command": [
+        "cargo",
+        "fmt",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:04:46Z",
+      "finished_utc": "2026-10-01T05:04:46Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-format.source.json",
+        "bytes": 7571,
+        "sha256": "8d7685507273d35200a84a167b23ecb07f0c2c932076652c3bf4572420e8e521"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-format.log",
+        "bytes": 318,
+        "sha256": "40fb37a0cb48659f9e05e0228f8de81e088ad05b38d0d3ef39f45fdc488dddd6"
+      },
+      "source_before_count": 30,
+      "source_after_count": 30,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "6fe9519c76cfe69e3767eef2e594d1f0acfdd46b6d72036c7db7625998597c4d",
+      "source_after_canonical_sha256": "13c08c5dad9f0ebc124e35524453afdca078db0eaa6f06c788464a941d8c4868",
+      "changed_paths": [
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "before_sha256": "7df2a4bde1a70a04080ecabcbb0b722681ebbcb76196379023a500e63d6f1653",
+          "after_sha256": "5dd099e40f150d5b538c2ddb8c9cf38ec1bcd29198fed609eafcb026cb6fe2aa"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner_receipt_tests.rs",
+          "before_sha256": "f659afb47a292f1113fc33b1bc4a8b7ed17c1fbc2d10923b1b3560dcb6d838ee",
+          "after_sha256": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "before_sha256": "017e64035bef7e53c94e70f2784fef1d42dcd7e6865d05dbebb4c636065b10fc",
+          "after_sha256": "1fa9f84610478b44180558d02eb73d5da016153a4f1a4d8c37e09dae3e3f641d"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "before_sha256": "1b7ecb796629587b00c52ad3bfb41952484d0231ab145d2058c07346b13812cd",
+          "after_sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360"
+        },
+        {
+          "path": "codex-rs/file-search/src/matcher.rs",
+          "before_sha256": "2f334d41e1df7883c3543fd9be3567d2cde5144bb23d51a63727417c2c6416d0",
+          "after_sha256": "5c7e15643f570e7d832576cafe71c978c7eb01a986f470777fd071ba0fd7777b"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_budget.rs",
+          "before_sha256": "51d6cc77889c09518bcaf19b1780ad3704e7c6779f6c256c41ccda011e9a7038",
+          "after_sha256": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_budget_tests.rs",
+          "before_sha256": "4d10590c480b00a6869b3e39c584d257a06e3fcbe77f81725372e5ecc29449fe",
+          "after_sha256": "1f2c6b8c031d6665168c827d730e150cdd1f4011d750256dc25992187f4a74fb"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_index.rs",
+          "before_sha256": "20bf580f1cb2b5ceaf337879478a2c34bea4646c1ba8855a3a3c59af39d3a5f4",
+          "after_sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "before_sha256": "31a207a7d3674903cb5feb524208ebf0fd6ff1b12f0f10f6da241859f3a66c54",
+          "after_sha256": "79a4fedfd8a6604504b3d9711c0c8b7e631ad693ecc56f63e7119ef1b2180b4f"
+        }
+      ]
+    },
+    "p02b-native-budget-vendor-format": {
+      "command": [
+        "rustfmt",
+        "--edition",
+        "2021",
+        "third-party/nucleo/matcher/src/utf32_allocation_tests.rs"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:04:46Z",
+      "finished_utc": "2026-10-01T05:04:46Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-budget-vendor-format.source.json",
+        "bytes": 10917,
+        "sha256": "c337112db680df3485187d76a4745a2a0f5f42683f53441b678f2795fed4cefa"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-budget-vendor-format.log",
+        "bytes": 106,
+        "sha256": "46e6296365b301e2eb16bb5b40f88b1aab521b90ae30c5631fe41d6319ca14c8"
+      },
+      "source_before_count": 41,
+      "source_after_count": 41,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "303e2aae644aeb97437b3e7bb0e58df12844c47ad0b4ede2038523635d997310",
+      "source_after_canonical_sha256": "3ce96a1c69d604da65fcb0a6f3978da48c51a09bb5435358d2a4ece36c17c7b2",
+      "changed_paths": [
+        {
+          "path": "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs",
+          "before_sha256": "f0d13216fedf154fbf1ae2def154cd00c46f477d8df1f02e59159c1ee53f477f",
+          "after_sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44"
+        }
+      ]
+    },
+    "p02b-native-budget-owner-final-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:05:13Z",
+      "finished_utc": "2026-10-01T05:05:16Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-final-fix.source.json",
+        "bytes": 18235,
+        "sha256": "7105e0cebcd381b292eb9500a149061ba47d2cc4b30fa1d0f802f7d9152e963d"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-native-budget-owner-final-fix.log",
+        "bytes": 449,
+        "sha256": "09db88947b4a0fa18e6cf56e311dcf1f07b19cd7050be818f19199a753602c15"
+      },
+      "source_before_count": 73,
+      "source_after_count": 73,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "e2a4a8da42111e7c0f1700e9186a40c1e8ccde5c6f0bb11a3876637d41505a5c",
+      "source_after_canonical_sha256": "e2a4a8da42111e7c0f1700e9186a40c1e8ccde5c6f0bb11a3876637d41505a5c",
+      "changed_paths": []
+    },
+    "p02b-integration-format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:09:19Z",
+      "finished_utc": "2026-10-01T05:09:39Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-integration-format.source.json",
+        "bytes": 2417284,
+        "sha256": "fd53b3085762247856fd9cac79902c98e2e93975921e75fc88a4c01cb681df9b"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-integration-format.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_before_count": 8740,
+      "source_after_count": 8740,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "1b630916793324c5de4884639340b87a6296ba3524cd806ff1cf44c6bf4af6af",
+      "source_after_canonical_sha256": "ea567ffa3fe0dd4f0f9f924f0402870a1f4028ac24ea3fa8a2e70d3bd2984d9a",
+      "changed_paths": [
+        {
+          "path": "codex-rs/app-server-client/src/shutdown.rs",
+          "before_sha256": "2f49b3f46ea21b27c36214d2363b8de29e1af5a0f0a0327e8a67d6bf36b2842d",
+          "after_sha256": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556"
+        },
+        {
+          "path": "codex-rs/app-server-client/src/shutdown_tests.rs",
+          "before_sha256": "a24785d9af5a46225ad88f2408ff6f969a5ddf802c55cb2b3dfce0e9f44246d3",
+          "after_sha256": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        },
+        {
+          "path": "codex-rs/component-host/src/catalog.rs",
+          "before_sha256": "993a36830fcb3ea45c5482b6557330ee21faefc45b92eea48048f43c0b42ddce",
+          "after_sha256": "3fef43219940b1d6d80e60582bae230a4257ca31e36e695906f0a72c9592c370"
+        },
+        {
+          "path": "codex-rs/component-host/src/catalog_tests.rs",
+          "before_sha256": "dfd3367c7922a364e474d8b8ced4cc23141b4533f025c6884d4cb8c4e25b30af",
+          "after_sha256": "a8c5e54da4dd3e57e9345445c811c24bbbbc908723c3f17ae4ec00b7d18be64a"
+        },
+        {
+          "path": "codex-rs/component-host/src/session_options_tests.rs",
+          "before_sha256": "cd766c789d3d84f7d2f8c2b89b390adafaba14ca1d04403d6ed29273a53140dd",
+          "after_sha256": "1826aa079b305bc243ad98b218a073ad6d9bc66c65cdab8181b9f0dce925b99b"
+        },
+        {
+          "path": "codex-rs/component-host/src/session_supervisor.rs",
+          "before_sha256": "5fa47401e6c4212749852376e437f2dbbfe410ad36c11df8ad34d9b102f6994a",
+          "after_sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/contract.rs",
+          "before_sha256": "b99b4bcc517efb3020563561ccdfc604ba3ff5c42e6c71ddabbb14ded32cfe73",
+          "after_sha256": "12dd97950a354b4d0a754a498eeb00c11f5589ef58014585d81609e0590b7437"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/lib.rs",
+          "before_sha256": "149918a6cc9fd8b1563229a965c0ffa6924194be856ea211637974d88ad14239",
+          "after_sha256": "42d61794d35f94deb02f343c4c5670ec9a546afffefe4a57bbd85890dbc4b9f5"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/limits.rs",
+          "before_sha256": "aaa6fdc993bd2b74090349a7a4c8edb6020ffed97cc4cfd5df9223842de62b28",
+          "after_sha256": "b289a695345151c7c600c93089e1c34bbe08865806f842589ca90fb79c80f147"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process.rs",
+          "before_sha256": "f69fe7a6a2f5099fb62863eb0758365ed1bedb0475a4cb65a2042a6f74be0b8b",
+          "after_sha256": "8cca0e962f5a4b3362651675eea2178b121b3e674c7d91c3819246feee607621"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_decode.rs",
+          "before_sha256": "b410968c2a28cfba430c83ef5c148d371a1bfbee09ad1cbc3d775ffe3ea7ccdf",
+          "after_sha256": "6eb83c5b139c8b749f207c3e1e178f1d876c846d648db8536ac53ca5255d8971"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_open.rs",
+          "before_sha256": "5bede1bae49f309cda0dd8f361b87e513e6f941c06b4fd7977848cbac7d79341",
+          "after_sha256": "0e4ca6bb4df81218f438f2313f7367b006db0c48065954085b5b37e97e581599"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_session.rs",
+          "before_sha256": "07a37a5646a910b97cd2a42e09eecac335aa0b85eac4fbfad3afbc675d352855",
+          "after_sha256": "373802884199b73b25032b3b057a208da33b5b7869efebc75c61ee22d228b3d7"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_state.rs",
+          "before_sha256": "d9aad8ce216766be06fe69d406606af8825922e774c53f466b7104b142473d06",
+          "after_sha256": "d3dee280d00aa2effeb529b298db8f755ecce842562cec7d092ae71dee696f25"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+          "before_sha256": "3c5482418ea2378db446f31f940cb79291f8ab14505c45021b0226abae97b81f",
+          "after_sha256": "e959616785868425c32a72c5696178f0f66803ff3f22fe9c1f1586881de77950"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_tests.rs",
+          "before_sha256": "5eff17eb88173b24cae0b683ee058455785fe205f5a23bbd43ac61c3e4785e07",
+          "after_sha256": "6ea3619068aae9cc5b1b5c8bacfa48a3f101175c13ee8b8ccc936e6652fc478b"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service.rs",
+          "before_sha256": "c89ccfba091e5861ba6192de4bac698531ba1b9a769f794b3f3f3c9f0146b2ed",
+          "after_sha256": "0ffd17156a33a0c1f49418ac8185cc9a86215e7cdca9f4954bc74f21158d4faa"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_admit.rs",
+          "before_sha256": "5af2fa26bf2c079f53430a497d7b0841af9f7a24f332309d791457803e2a9611",
+          "after_sha256": "4c1e82e310c55f8e51f7c277d2402e878eb1813576a1c4a7b62458bd82cefd1a"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+          "before_sha256": "fac15e995738c8da03d9391fe1e6e9aceea031a94b316ca99ba99c32644c3749",
+          "after_sha256": "112deb9463a67d7ae1c19407a762152e04d1ddd1097895ba58529339fa78f8fa"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_lease.rs",
+          "before_sha256": "bf71b4d469182e76d933ff280bf24c6f74109a5b3eb08fe2af3952ac47282193",
+          "after_sha256": "5b78c4d2c7e4f0e971148c9edbe846cc8b1df801fbc628f3e042e47a5a673490"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_open.rs",
+          "before_sha256": "df108e49f3c33d30dd1e20dbd4d5a9d8a5c3dcd6b61f7d2df127644151891d21",
+          "after_sha256": "0532a6c5bcc079ead9c31ce7eee8a34c3e0b0517bd793ac37e9e501371c5a038"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_operations.rs",
+          "before_sha256": "b0b1048641208fb4c2433dbd0228e3f6a12e5b96040b12e0c3b438d1274c8393",
+          "after_sha256": "66ba3660b1cfad5d9e6805d757d2c970f62936f2c26a7dcb4cbe40aab759ad82"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_provider.rs",
+          "before_sha256": "2eb3bd4a5b6325f79f9576b935e42f638a0f5f497168ccb7564dcef478f45095",
+          "after_sha256": "839d030d53099384bc30bfb24183ea8ef669d33a99b667c37d198ba0f9bce024"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_runner.rs",
+          "before_sha256": "5810f879a8c5eaafd2e031454acd28373d75da6ef66760c442e54f4d2c5688d7",
+          "after_sha256": "a0adbfab09dc176e8005f3d5b9cf235448d22c4dee2c88bbc03463a9d4906402"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_tests.rs",
+          "before_sha256": "d70268b5d724f0f6b38833b4d855366e73e4d87052d184806e0a6c167249e372",
+          "after_sha256": "c843271f49c09e5e1f39e214a351d68a5a018bbbf316b3088275a90f4beda24a"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/value_wire.rs",
+          "before_sha256": "7db6ce280237e97b5f454b75ae7dd4a16944ff7e3ec77df7bd0c9a175837c09a",
+          "after_sha256": "0df110b9f6f1ab656f71ea175637018d559b220de0fb45f9ccd09cacf69bf82f"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/value_wire_tests.rs",
+          "before_sha256": "c911d80bcb9de8ff4dbb7377fcddc773d252a9b3d935a5edc80854ba42dfb618",
+          "after_sha256": "6d50fca6a73479a5904ef3c153468513fa219d0ef1860047d4c0aaf225a6f3aa"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_budget_tests.rs",
+          "before_sha256": "3edc4b1ad59785447dd7793a570493a9091ff0e302ab51bb1c5b3b582be4d1db",
+          "after_sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06"
+        }
+      ]
+    }
+  },
+  "results": {
+    "tests_executed": 122,
+    "passed": 122,
+    "failed": 0,
+    "skipped": 0,
+    "by_package": {
+      "codex-file-search": 56,
+      "codex-file-search-api": 11,
+      "nucleo": 23,
+      "nucleo-matcher": 32
+    },
+    "native_budget_tests": [
+      "native_budget::tests::byte_overflow_retains_first_failure_and_changes_neither_counter",
+      "native_budget::tests::concurrent_reservations_charge_both_counters_without_partial_rejection",
+      "native_budget::tests::native_byte_exhaustion_cannot_report_a_complete_partial_index",
+      "native_budget::tests::preflight_charges_fixed_storage_and_optional_highlighting_before_startup",
+      "native_budget::tests::native_entry_exhaustion_joins_without_idle_then_reuses_budget_for_empty_tree",
+      "native_budget::tests::worker_ceiling_and_overflow_reject_before_native_admission",
+      "native_budget::tests::unsupported_nucleo_limits_reject_before_allocating_the_index",
+      "native_budget::tests::bounded_unicode_search_preserves_full_legacy_matches_and_highlights"
+    ],
+    "typed_owner_receipt_tests": [
+      "async_owner::tests::receipts::abandoned_bounded_start_waiter_keeps_ownership_until_actual_startup_and_cleanup",
+      "async_owner::tests::receipts::bounded_entry_exhaustion_retains_resource_kind_after_join_and_permits_reuse",
+      "async_owner::tests::receipts::legacy_constructor_cleanup_error_stays_conservative_while_typed_receipt_is_not_admitted",
+      "async_owner::tests::receipts::rejected_native_budget_has_not_admitted_receipt_and_does_not_strand_owner_slot",
+      "async_owner::tests::receipts::joined_reporter_failure_keeps_its_typed_receipt_and_releases_capacity",
+      "async_owner::tests::receipts::abandoned_typed_close_retains_capacity_until_blocked_callback_joins_then_reuses_it",
+      "async_owner::tests::receipts::teardown_panic_preserves_first_native_failure_and_quarantines_capacity"
+    ],
+    "utf32_allocation_tests": [
+      "utf32_str::allocation_tests::ascii_crlf_retains_unicode_representation_and_feature_specific_conversion",
+      "utf32_str::allocation_tests::combining_graphemes_preserve_segmentation_without_byte_length_overcharging",
+      "utf32_str::allocation_tests::planned_conversion_matches_existing_variants_and_actual_payload_sizes",
+      "utf32_str::allocation_tests::larger_conversion_keeps_exact_capacity_for_non_power_of_two_lengths",
+      "utf32_str::allocation_tests::target_layout_overflow_is_rejected_without_constructing_an_oversized_string"
+    ],
+    "focused_groups_are_subsets": true
+  },
+  "initial_failure": {
+    "run": "p02b-native-budget-owner",
+    "tests_executed": 0,
+    "returncode": 101,
+    "compiler_diagnostics": 32,
+    "cause": "Ambiguous assert_eq import in new nested owner receipt tests; explicit macro import and unused import cleanup preceded the corrected run."
+  },
+  "between_run_changes": [
+    {
+      "from_run": "p02b-native-budget-owner",
+      "to_run": "p02b-native-budget-owner-corrected",
+      "scope": "paths present in both manifests",
+      "changes": [
+        {
+          "path": "codex-rs/file-search/src/async_owner_receipt_tests.rs",
+          "before_sha256": "9b210d2fb3ddfe7ccd18c96aace9e1fc19f0320ae8cfb3500a1da18b847c9ebb",
+          "after_sha256": "f659afb47a292f1113fc33b1bc4a8b7ed17c1fbc2d10923b1b3560dcb6d838ee"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "before_sha256": "2f3970c37014dc81178505096b882847dd2c0896eff315999962006fb6e25094",
+          "after_sha256": "017e64035bef7e53c94e70f2784fef1d42dcd7e6865d05dbebb4c636065b10fc"
+        }
+      ]
+    },
+    {
+      "from_run": "p02b-native-budget-owner-fix",
+      "to_run": "p02b-native-budget-owner-format",
+      "scope": "paths present in both manifests",
+      "changes": []
+    },
+    {
+      "from_run": "p02b-native-budget-owner-format",
+      "to_run": "p02b-native-budget-owner-final-fix",
+      "scope": "paths present in both manifests",
+      "changes": [
+        {
+          "path": "codex-rs/file-search/src/native_budget_tests.rs",
+          "before_sha256": "1f2c6b8c031d6665168c827d730e150cdd1f4011d750256dc25992187f4a74fb",
+          "after_sha256": "3edc4b1ad59785447dd7793a570493a9091ff0e302ab51bb1c5b3b582be4d1db"
+        }
+      ]
+    }
+  ],
+  "post_test_notes": [
+    "First scoped fix exited 0 with a needless_collect warning and no source changes.",
+    "The collected worker handles deliberately ensure all reservation threads spawn before any join; a documented expect annotation retained actual concurrency.",
+    "Scoped formatting changed nine native source/test files; explicit vendor formatting changed only utf32_allocation_tests.rs.",
+    "Final scoped fix exited 0 with unchanged source and no warnings in its log.",
+    "Global integration formatting later reformatted native_budget_tests.rs again; all before/after hashes are preserved. No tests were rerun solely for format/lint."
+  ],
+  "implemented": [
+    "Native fixed-index selection enforces per-session index entries and charged retained index bytes, including fixed storage, optional highlighting scratch and prepared owned path/column payloads.",
+    "Preflight counts dedicated OS workers as 2*T+2 and rejects unsupported/overflowing allocations before admission.",
+    "Atomic ledger reservations update entry and byte counters together, retain first exhaustion, and stop further admission. Exhausted partial walks cannot report successful complete/idle.",
+    "Borrowed UTF32 allocation plans preserve existing ASCII/Unicode/grapheme conversion and permit charging exact retained column bytes before owned allocation.",
+    "Native bounded create and owner bounded create retain typed startup/close receipts. Joined failure releases slots; uncertain cleanup quarantines slots.",
+    "A separate retained error cell preserves the first native operation error if reporter teardown later panics and loses the close task receipt; legacy anyhow wrapper semantics remain conservative."
+  ],
+  "limits": [
+    "The actual NativeSearchBackend trait implementation and aggregate composition service do not exist in this snapshot.",
+    "Bounds cover retained native index allocation and dedicated OS-worker admission, not total RSS, all traversal temporaries, all query/output buffers, allocator overhead or arbitrary filesystem-call duration.",
+    "No independent native search worker package, install/remove/replace acceptance, new CLI/App Server binary or GUI runtime gate is established.",
+    "The WIP also contains unrelated high-level client shutdown work not compiled by this native test."
+  ]
+}

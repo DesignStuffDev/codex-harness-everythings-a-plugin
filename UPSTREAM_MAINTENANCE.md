@@ -53,6 +53,43 @@ new accepted CLI/GUI runtime or installed search replacement. WIP provenance is
 retained independently of acceptance so later updates cannot mistake unfinished
 customizations for verified component behavior.
 
+The [P02B integration WIP map](upstream/p02b-integration-lineage.json) binds
+**81 changed source/build/SDK paths** and 130 selected symbol anchors to
+`bb03f3a81a828871e4e35d3e46b9c8528f3b7d00`, tree
+`6ad17d58936b6c9f519c06f2932efd1c8ecd4724`, compared with accepted main checkpoint
+`59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15`. It maps native index budgets and
+typed cleanup ownership, the foreign allocation changes, paired transport and
+payload limits, immutable child cwd, `file_search1` catalog/service/process
+adapters, and the existing in-process client's shutdown repair. Workspace
+membership rises from 166 to 167 by adding `codex-file-search-component`;
+this is not a count of independently installed components.
+
+The [native budget](verification/2026-10-01/P02B_NATIVE_BUDGET_EVIDENCE.md) and
+[process adapter](verification/2026-10-01/P02B_SEARCH_PROCESS_EVIDENCE.md)
+gates identify their tested bytes and later source transitions separately.
+No installed native search worker, production client selection or new GUI
+search runtime is established at this checkpoint. The
+[client shutdown evidence](verification/2026-10-01/P02B_CLIENT_SHUTDOWN_EVIDENCE.md)
+also keeps the initial ENOSPC build without tests, the 39/40 retry, and the
+corrected 40/40 fixture run separate. That fixture correction is outside the
+mapped immutable WIP; later successful checks do not retroactively validate
+different bytes. None of these gates integrates a later official upstream
+revision or satisfies the updater and rollback acceptance requirement.
+
+The subsequent [native backend map](upstream/p02b-native-backend-lineage.json)
+records the **14-path delta** from that WIP to
+`cb977e7d664bc752c28854d468619039bd3ad167`, tree
+`40207f354efb3bee85265d8f3d83312489b56709`: 13 native source paths and the
+corrected client test fixture. It maps the real `NativeSearchBackend`, aggregate
+reservations, retained lease/query/poll ownership, explicit input policy and
+native snapshot allocation preflight to original and previous symbols.
+The [141-case native gate](verification/2026-10-01/P02B_NATIVE_BACKEND_EVIDENCE.md)
+and subsequent reviewed mechanical lint/format changes remain separate; the
+40-case client gate preceded native backend application. This advances actual
+native behavior behind the neutral interface, while installed worker, production
+consumer and GUI integration remain unverified at this checkpoint. Its workspace
+still has 167 members; the newer worker source is outside this immutable map.
+
 ## Separately installable maintenance service
 
 Proposed selector: `maintenance:upstream`, contract version 1. This kind is not

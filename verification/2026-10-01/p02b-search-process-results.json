@@ -1,0 +1,1137 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-10-01T05:16:09.522508+00:00",
+  "source": {
+    "commit": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+    "tree": "6ad17d58936b6c9f519c06f2932efd1c8ecd4724",
+    "branch": "wip/p02b-bounded-search-20261001",
+    "previous_wip": "98c540863b9868eb216dba18f963c220c4be5187",
+    "accepted_base": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+    "publication_record": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-integration-wip-publication.json",
+      "bytes": 620,
+      "sha256": "c76e1c642979884128e8cd40a2b4abaa1b0da147eac4b299d35e55be3eaea696"
+    },
+    "publication_scope": "Immutable WIP preservation, not whole-snapshot acceptance. High-level App Server client shutdown was uncompiled/pending at this checkpoint.",
+    "preservation": {
+      "source_archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T051016Z.tar.gz",
+        "bytes": 301246,
+        "sha256": "53c274520e38ce7f573239172af967680d19b00e1a27687cbde9f1d0acac93b3"
+      },
+      "manifest": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T051016Z.json",
+        "bytes": 25121,
+        "sha256": "7e63382a99535c63e7b95dbd16bb34688650826b47829c96f4a67ea22bdbcda5"
+      },
+      "changed_paths": 81,
+      "archive_note": "Incremental cloud-local recovery checkpoint, not an outside backup.",
+      "remote_ref_verified_by_publication_record": true,
+      "external_durability": "GitHub WIP commit preserves its included source; caches/binaries/private runtime state are not implied by that publication."
+    },
+    "tested_files": {
+      "codex-rs/file-search-component/BUILD.bazel": "50070c209d20c56c89a65c7dfc5c89f6464a6f89de4be56385280a06f1a8a124",
+      "codex-rs/file-search-component/Cargo.toml": "aec110b0f5f09627ad6932b6013ec04cfe00f8be171240aa73166fa5c71fc996",
+      "codex-rs/file-search-component/src/contract.rs": "b99b4bcc517efb3020563561ccdfc604ba3ff5c42e6c71ddabbb14ded32cfe73",
+      "codex-rs/file-search-component/src/lib.rs": "149918a6cc9fd8b1563229a965c0ffa6924194be856ea211637974d88ad14239",
+      "codex-rs/file-search-component/src/limits.rs": "aaa6fdc993bd2b74090349a7a4c8edb6020ffed97cc4cfd5df9223842de62b28",
+      "codex-rs/file-search-component/src/outcome.rs": "acd3ae9032888d0333ad02bc89ce089800592ca4cd8d062271eeb7f43984a03c",
+      "codex-rs/file-search-component/src/process.rs": "f69fe7a6a2f5099fb62863eb0758365ed1bedb0475a4cb65a2042a6f74be0b8b",
+      "codex-rs/file-search-component/src/process_decode.rs": "b410968c2a28cfba430c83ef5c148d371a1bfbee09ad1cbc3d775ffe3ea7ccdf",
+      "codex-rs/file-search-component/src/process_open.rs": "09c226b8e190466e949594e16372c5f8d5dad8b7f2922f90de3a2e883effcaac",
+      "codex-rs/file-search-component/src/process_session.rs": "9dc701b888cb0856a8970f2751f073bbd59909c6b97eea9e88a47ac87d42b322",
+      "codex-rs/file-search-component/src/process_state.rs": "d9aad8ce216766be06fe69d406606af8825922e774c53f466b7104b142473d06",
+      "codex-rs/file-search-component/src/process_test_fixture.rs": "3c5482418ea2378db446f31f940cb79291f8ab14505c45021b0226abae97b81f",
+      "codex-rs/file-search-component/src/process_tests.rs": "5eff17eb88173b24cae0b683ee058455785fe205f5a23bbd43ac61c3e4785e07",
+      "codex-rs/file-search-component/src/service.rs": "c89ccfba091e5861ba6192de4bac698531ba1b9a769f794b3f3f3c9f0146b2ed",
+      "codex-rs/file-search-component/src/service_admit.rs": "5af2fa26bf2c079f53430a497d7b0841af9f7a24f332309d791457803e2a9611",
+      "codex-rs/file-search-component/src/service_boundary_tests.rs": "fac15e995738c8da03d9391fe1e6e9aceea031a94b316ca99ba99c32644c3749",
+      "codex-rs/file-search-component/src/service_lease.rs": "bf71b4d469182e76d933ff280bf24c6f74109a5b3eb08fe2af3952ac47282193",
+      "codex-rs/file-search-component/src/service_open.rs": "df108e49f3c33d30dd1e20dbd4d5a9d8a5c3dcd6b61f7d2df127644151891d21",
+      "codex-rs/file-search-component/src/service_operations.rs": "6ad09b3a03c48f0fd753051358bdedce09cccd9e5f3220f2fa4200d342a1db94",
+      "codex-rs/file-search-component/src/service_provider.rs": "2eb3bd4a5b6325f79f9576b935e42f638a0f5f497168ccb7564dcef478f45095",
+      "codex-rs/file-search-component/src/service_runner.rs": "5810f879a8c5eaafd2e031454acd28373d75da6ef66760c442e54f4d2c5688d7",
+      "codex-rs/file-search-component/src/service_tests.rs": "d70268b5d724f0f6b38833b4d855366e73e4d87052d184806e0a6c167249e372",
+      "codex-rs/file-search-component/src/value_wire.rs": "7db6ce280237e97b5f454b75ae7dd4a16944ff7e3ec77df7bd0c9a175837c09a",
+      "codex-rs/file-search-component/src/value_wire_tests.rs": "c911d80bcb9de8ff4dbb7377fcddc773d252a9b3d935a5edc80854ba42dfb618",
+      "codex-rs/file-search-api/BUILD.bazel": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+      "codex-rs/file-search-api/Cargo.toml": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+      "codex-rs/file-search-api/README.md": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+      "codex-rs/file-search-api/src/backend.rs": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+      "codex-rs/file-search-api/src/budget.rs": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+      "codex-rs/file-search-api/src/close_contract_tests.rs": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+      "codex-rs/file-search-api/src/contract_tests.rs": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+      "codex-rs/file-search-api/src/error.rs": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+      "codex-rs/file-search-api/src/lib.rs": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+      "codex-rs/file-search-api/src/values.rs": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+      "codex-rs/component-host/BUILD.bazel": "26259e446a2f2208c486161418969a873167e4e118589449b49e08d2d3d61713",
+      "codex-rs/component-host/Cargo.toml": "a53a41967716a0981f475c7373b48917dd4ce6207ba7c3e088b8aa7eff60ba53",
+      "codex-rs/component-host/src/broker_api.rs": "fad60249b6d770fa4893ef8b061e1ee3c583d4b34025fada39f67c2c133e5ffa",
+      "codex-rs/component-host/src/broker_client.rs": "d90c64ddd748a9d09dce89b015f203bc0c5cbcb925b8e5c20562dc83e2c1d08f",
+      "codex-rs/component-host/src/broker_client_tests.rs": "801fc5bb893b60816a690ae96823a06c43d5632f6764fa3869d7e5bb45fb2614",
+      "codex-rs/component-host/src/broker_completion.rs": "a75853047eafaceede80ab6e3e6c3449bd0840a0d3b728a9985844a5f8d9d61d",
+      "codex-rs/component-host/src/broker_connection.rs": "35c8e8ed2b39d25debea08191b9d02d87047c54f8060ada0c5c25ad54f5052ff",
+      "codex-rs/component-host/src/broker_decode.rs": "8dcb01cf66b2fecc1e1503a806bc41e73e1a98e6d8f02b6f925e78024e4643bb",
+      "codex-rs/component-host/src/broker_decode_tests.rs": "30433179eb5c450be0464a028aa53962ff29b4dbaba9a7c896ac6857ab3d6a18",
+      "codex-rs/component-host/src/broker_dispatch.rs": "0024a399c1c842d30942aa5c519d5e1f095be202b3945b5f1dda9215dc7a882c",
+      "codex-rs/component-host/src/broker_dispatch_tests.rs": "ae03895c9801dc294176b90f6fa01f3669eefbb1512757eac7f2287b94e19c0b",
+      "codex-rs/component-host/src/broker_host.rs": "db5b164a2afa8fa0f8549f28ae63417f573868110a00f213af338590556295e9",
+      "codex-rs/component-host/src/broker_host_tests.rs": "29585b47a8cc08596b27e0b8748156c1cc79e8a942561a8af03ab81a06fdf6d9",
+      "codex-rs/component-host/src/broker_spool.rs": "07253ddd66d057238b39f000ca2b9ecc6230384d912b16d9c656a052b3cf9d00",
+      "codex-rs/component-host/src/broker_spool_tests.rs": "96512a492daa28742cdbee0e714025eb9bc47d426f5dd5ab4dfffea38fdf0721",
+      "codex-rs/component-host/src/broker_wire.rs": "c783d9d62eec9629f3915113973209d03c26db34dcc5adfbdc2c201b43fe82af",
+      "codex-rs/component-host/src/broker_wire_tests.rs": "adeead26ef0141a76fdeaf2ce827e6c7ac4f1d6c950c089fb610744f77fb75bb",
+      "codex-rs/component-host/src/broker_writer.rs": "29e0b1b4e45c0c643ade12cf3c0baafe334b48e757b76724cb98319f5f0e20ee",
+      "codex-rs/component-host/src/broker_writer_tests.rs": "8129ea1463d493e7fee895812a7f4178e1a8e524b280f44c7a91eb1e273f76de",
+      "codex-rs/component-host/src/catalog.rs": "993a36830fcb3ea45c5482b6557330ee21faefc45b92eea48048f43c0b42ddce",
+      "codex-rs/component-host/src/catalog_tests.rs": "dfd3367c7922a364e474d8b8ced4cc23141b4533f025c6884d4cb8c4e25b30af",
+      "codex-rs/component-host/src/launch.rs": "794be4a844fb2d2040c61cfd5d0954d6f17eb04c9ddaefe6e5e188ce389b940e",
+      "codex-rs/component-host/src/launch_service_tests.rs": "6c01265f9d8d6c265944db88340d01424ba9b8b4f012b9141479189332924cec",
+      "codex-rs/component-host/src/launch_tests.rs": "e1a2ac05a082e24823786a32d975ab79bd7a2674ce1bdb84a5e68855989827ed",
+      "codex-rs/component-host/src/lib.rs": "270e2f3d122c2baad90ad428c2662c9c81f65d4a1ed81cab2d36a505d4287d71",
+      "codex-rs/component-host/src/linux_parent_death_tests.rs": "8d82d71f46c14e5471da15d2f9099f5729d0ec2d5d3211fdc87c471c2510f747",
+      "codex-rs/component-host/src/main.rs": "902694445ccbb2b905ec05630d9ea6f5a65bc9e4cc367e0d2c7ce5e8591a3952",
+      "codex-rs/component-host/src/management.rs": "2c93b14286e7cf346b4735d29e526868f7ed60fe522c7b8a84c0799b264f44bb",
+      "codex-rs/component-host/src/process.rs": "2417783ccff48083969d1a247367488759148e95c30cf96704de84b983aeaa3a",
+      "codex-rs/component-host/src/process_control.rs": "b317299306af71287e46afc984c9fee37f8ea60ae746508a4b07eea2027b7e0b",
+      "codex-rs/component-host/src/process_tests.rs": "70d3b7dd542be10ff47e200beddb2781d757ef4aaa9ad6dc18d1f027da809175",
+      "codex-rs/component-host/src/session.rs": "510d2049f8717d38ea2bbab0b815c6a745f1f8902835310f88e3efb064840178",
+      "codex-rs/component-host/src/session_failure.rs": "0ef00ae9edb55ecfcfba44d06510ade3e530f2ba291f2644233adfff0b60d7f0",
+      "codex-rs/component-host/src/session_limits.rs": "0617b2d1ee16c1094174bdca06b55f1ea626721b2596e9c1ad87d7a9c79ebfef",
+      "codex-rs/component-host/src/session_limits_tests.rs": "5eb4ae4c592c3edf133802af21af5cf071cb317f8f75c910c67507d1a7912742",
+      "codex-rs/component-host/src/session_options.rs": "5aa81b1a5b7d67ddedbe6ac27170e714cf80cc66469b9dd8c6d8398363cc54eb",
+      "codex-rs/component-host/src/session_options_tests.rs": "cd766c789d3d84f7d2f8c2b89b390adafaba14ca1d04403d6ed29273a53140dd",
+      "codex-rs/component-host/src/session_payload_tests.rs": "4e446b570687839b86b05cf3385c567aa69b6d9303657f6967e35f34b4f4ef99",
+      "codex-rs/component-host/src/session_reaping_tests.rs": "a9118f8505cc306cf34d9486b6ec3a62236d7a73ffb63e79e270461ee0769bd9",
+      "codex-rs/component-host/src/session_reply.rs": "e56769eff740b857e11eef205206cfcdd00e04582ffda5a78642a2d96091c278",
+      "codex-rs/component-host/src/session_server.rs": "6b7678ffcef8b5dc25a67d51e085d755672f00bd04423185dfa8cae07888706f",
+      "codex-rs/component-host/src/session_server_limit_tests.rs": "3a6d58e349655f013b47f941f2ae403c16519bc46e51cbba0899f2454e919985",
+      "codex-rs/component-host/src/session_server_tests.rs": "a4f6ac27281f9a868b83fd515034940dc0a61ca86fd96d7a08457532393f03ad",
+      "codex-rs/component-host/src/session_start_tests.rs": "ddf07b71f24ed4602f65a0e795a2c4d5b8fe3a1d12ba1a2dbbe2248a2d8115dd",
+      "codex-rs/component-host/src/session_supervisor.rs": "5fa47401e6c4212749852376e437f2dbbfe410ad36c11df8ad34d9b102f6994a",
+      "codex-rs/component-host/src/session_supervisor_tests.rs": "0683c7abbd51cc234647e4b89e3b4c00990b4ba354f789fe229e8859ede4c00a",
+      "codex-rs/component-host/src/session_tests.rs": "61b52fcbf25ed58a66715d750849ad01584a703fd4422770fe55667839a24c74",
+      "codex-rs/component-host/src/session_wire.rs": "90e5f8943dd355179d6fcc699bdeea6f566d0bad2b368a8d6614dba5de3ca6e0",
+      "codex-rs/component-host/src/session_wire_tests.rs": "18f069aa9359031e1ebf7d1dd82587168a0860d9dd34b62194fef3556faac7ce",
+      "codex-rs/component-api/BUILD.bazel": "f6c40eb5c4da5eb6e492ec28f51f393ab9bdc1ea45281807deb7eddb18e4a1dc",
+      "codex-rs/component-api/Cargo.toml": "88b7254e980c0091f3eb407ae3f046f1a06fb696acb3d2b10f64b221a8f00077",
+      "codex-rs/component-api/src/lib.rs": "aa77d05a5f19e008df1650d92eb15134ee44e374def520cec603f3d3104e8f8c",
+      "codex-rs/component-path-codec/BUILD.bazel": "49bcaac7d4656109cf1e6ee12132b49e44944c1eed6ee3e7f0be877951b5caf3",
+      "codex-rs/component-path-codec/Cargo.toml": "3dd246d999ddda49a0b2f053fec7d45024c4645cf41dadbe7b3b09fed57be0e0",
+      "codex-rs/component-path-codec/src/adapters.rs": "b30d479f86c5f7a5a34c64c9f3f2bd2a89e17cb92f8daef812e4c4dfa9af9c90",
+      "codex-rs/component-path-codec/src/lib.rs": "7514a53b0a21e24bd9196ec15aaf8c3ce21b84a0d227bc671cb2b1dbe8e34a35",
+      "codex-rs/component-path-codec/src/paths.rs": "25f60dfb45337486a298155cfda2a5e85349bff38218e4ea4c2260d61967b824",
+      "codex-rs/component-path-codec/src/paths_tests.rs": "0d329e2cbec87c397663e8bce3a5eecdb16c138a11a0bd9e8db70d1bbca1f29c"
+    },
+    "post_format_commit_bindings": [
+      {
+        "path": "codex-rs/component-api/BUILD.bazel",
+        "sha256": "f6c40eb5c4da5eb6e492ec28f51f393ab9bdc1ea45281807deb7eddb18e4a1dc",
+        "git_blob": "ef1f5a21dc3517ba5e9664fac5cf810fb45c169d"
+      },
+      {
+        "path": "codex-rs/component-api/Cargo.toml",
+        "sha256": "88b7254e980c0091f3eb407ae3f046f1a06fb696acb3d2b10f64b221a8f00077",
+        "git_blob": "ab43eabb0bccfdf6c90d46555acd108423536f4d"
+      },
+      {
+        "path": "codex-rs/component-api/src/lib.rs",
+        "sha256": "aa77d05a5f19e008df1650d92eb15134ee44e374def520cec603f3d3104e8f8c",
+        "git_blob": "6c301fb9c78def64ff247f3db25dca1077abbfc8"
+      },
+      {
+        "path": "codex-rs/component-host/BUILD.bazel",
+        "sha256": "26259e446a2f2208c486161418969a873167e4e118589449b49e08d2d3d61713",
+        "git_blob": "65a2b3bca2409ae337f77ceb70523519b4c76ccd"
+      },
+      {
+        "path": "codex-rs/component-host/Cargo.toml",
+        "sha256": "a53a41967716a0981f475c7373b48917dd4ce6207ba7c3e088b8aa7eff60ba53",
+        "git_blob": "690e53070bfe26a5774f8ead5decdd4251ce36a7"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_api.rs",
+        "sha256": "fad60249b6d770fa4893ef8b061e1ee3c583d4b34025fada39f67c2c133e5ffa",
+        "git_blob": "50a33556f37bcd46d01e0d4863839c9189b1857e"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_client.rs",
+        "sha256": "d90c64ddd748a9d09dce89b015f203bc0c5cbcb925b8e5c20562dc83e2c1d08f",
+        "git_blob": "0aa457a035d090fbe5f5a5b6bc05b36e7c027377"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_client_tests.rs",
+        "sha256": "801fc5bb893b60816a690ae96823a06c43d5632f6764fa3869d7e5bb45fb2614",
+        "git_blob": "92495c5f8cb6054c5b509feaf4a20415d06798fd"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_completion.rs",
+        "sha256": "a75853047eafaceede80ab6e3e6c3449bd0840a0d3b728a9985844a5f8d9d61d",
+        "git_blob": "2d705611065b98194aae4dcee17192e84dd964fb"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_connection.rs",
+        "sha256": "35c8e8ed2b39d25debea08191b9d02d87047c54f8060ada0c5c25ad54f5052ff",
+        "git_blob": "98ef2168e10118671071e73026d4886cbd4bc375"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_decode.rs",
+        "sha256": "8dcb01cf66b2fecc1e1503a806bc41e73e1a98e6d8f02b6f925e78024e4643bb",
+        "git_blob": "a216392a5dcd5d10cb2f9bc3dae9640302468c13"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_decode_tests.rs",
+        "sha256": "30433179eb5c450be0464a028aa53962ff29b4dbaba9a7c896ac6857ab3d6a18",
+        "git_blob": "5e356c76adfea32ac9a7bcef31a1a1a75b0f99e8"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_dispatch.rs",
+        "sha256": "0024a399c1c842d30942aa5c519d5e1f095be202b3945b5f1dda9215dc7a882c",
+        "git_blob": "128f9e1cb94699f3c6b517ce274f9df081748c4c"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_dispatch_tests.rs",
+        "sha256": "ae03895c9801dc294176b90f6fa01f3669eefbb1512757eac7f2287b94e19c0b",
+        "git_blob": "00a2be1aa8f17556f5bb57ace0028ec1d0770718"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_host.rs",
+        "sha256": "db5b164a2afa8fa0f8549f28ae63417f573868110a00f213af338590556295e9",
+        "git_blob": "382e1e9aa87e17b4a199c9b3f7cb0c6a54636ba5"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_host_tests.rs",
+        "sha256": "29585b47a8cc08596b27e0b8748156c1cc79e8a942561a8af03ab81a06fdf6d9",
+        "git_blob": "ef3d98892dbb54ea1aeae17375cea237e4d6c59b"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_spool.rs",
+        "sha256": "07253ddd66d057238b39f000ca2b9ecc6230384d912b16d9c656a052b3cf9d00",
+        "git_blob": "e980832199d0159bef36366367031215843892d3"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_spool_tests.rs",
+        "sha256": "96512a492daa28742cdbee0e714025eb9bc47d426f5dd5ab4dfffea38fdf0721",
+        "git_blob": "2fcb1abc663d3f5d9e544a82d4269b4233fab80c"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_wire.rs",
+        "sha256": "c783d9d62eec9629f3915113973209d03c26db34dcc5adfbdc2c201b43fe82af",
+        "git_blob": "f4fe47516c80b1328b33a00feeff8d55f96c0611"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_wire_tests.rs",
+        "sha256": "adeead26ef0141a76fdeaf2ce827e6c7ac4f1d6c950c089fb610744f77fb75bb",
+        "git_blob": "8e948ef0d6db61111cc85c8acb69eb66c9bb3910"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_writer.rs",
+        "sha256": "29e0b1b4e45c0c643ade12cf3c0baafe334b48e757b76724cb98319f5f0e20ee",
+        "git_blob": "327baa334f482340f6d3d1bcd2f360ccee7f177e"
+      },
+      {
+        "path": "codex-rs/component-host/src/broker_writer_tests.rs",
+        "sha256": "8129ea1463d493e7fee895812a7f4178e1a8e524b280f44c7a91eb1e273f76de",
+        "git_blob": "d711ed737f10d008a9f984aac0c167b91bb6a5c4"
+      },
+      {
+        "path": "codex-rs/component-host/src/catalog.rs",
+        "sha256": "3fef43219940b1d6d80e60582bae230a4257ca31e36e695906f0a72c9592c370",
+        "git_blob": "390cb2025a6b927b70eaae1aa37d82baa58126c7"
+      },
+      {
+        "path": "codex-rs/component-host/src/catalog_tests.rs",
+        "sha256": "a8c5e54da4dd3e57e9345445c811c24bbbbc908723c3f17ae4ec00b7d18be64a",
+        "git_blob": "91bdc80013d0ece0ef4845c312f6170760926c2e"
+      },
+      {
+        "path": "codex-rs/component-host/src/launch.rs",
+        "sha256": "794be4a844fb2d2040c61cfd5d0954d6f17eb04c9ddaefe6e5e188ce389b940e",
+        "git_blob": "6bf4206c76fcd7484559df587fe867184b0d4a2e"
+      },
+      {
+        "path": "codex-rs/component-host/src/launch_service_tests.rs",
+        "sha256": "6c01265f9d8d6c265944db88340d01424ba9b8b4f012b9141479189332924cec",
+        "git_blob": "9321b3986ca9a64dbf67bd56818e30adb882de9d"
+      },
+      {
+        "path": "codex-rs/component-host/src/launch_tests.rs",
+        "sha256": "e1a2ac05a082e24823786a32d975ab79bd7a2674ce1bdb84a5e68855989827ed",
+        "git_blob": "e085c7bd04fe5bdcc58c98b263d1c40f2ec85a8a"
+      },
+      {
+        "path": "codex-rs/component-host/src/lib.rs",
+        "sha256": "270e2f3d122c2baad90ad428c2662c9c81f65d4a1ed81cab2d36a505d4287d71",
+        "git_blob": "cbb882490875e0b868edf43460e9e1bd42ea5a46"
+      },
+      {
+        "path": "codex-rs/component-host/src/linux_parent_death_tests.rs",
+        "sha256": "8d82d71f46c14e5471da15d2f9099f5729d0ec2d5d3211fdc87c471c2510f747",
+        "git_blob": "40db77ec409cf5638bb07ba710888ee929cbadc9"
+      },
+      {
+        "path": "codex-rs/component-host/src/main.rs",
+        "sha256": "902694445ccbb2b905ec05630d9ea6f5a65bc9e4cc367e0d2c7ce5e8591a3952",
+        "git_blob": "dc5e12f6e852d12a7e94603e4bcf78cfee859e4e"
+      },
+      {
+        "path": "codex-rs/component-host/src/management.rs",
+        "sha256": "2c93b14286e7cf346b4735d29e526868f7ed60fe522c7b8a84c0799b264f44bb",
+        "git_blob": "cef14c5a37a69e21a6be4a62a20759d3260c1181"
+      },
+      {
+        "path": "codex-rs/component-host/src/process.rs",
+        "sha256": "2417783ccff48083969d1a247367488759148e95c30cf96704de84b983aeaa3a",
+        "git_blob": "441c8bbe68c7031fc0f417ffcff929324ed5c376"
+      },
+      {
+        "path": "codex-rs/component-host/src/process_control.rs",
+        "sha256": "b317299306af71287e46afc984c9fee37f8ea60ae746508a4b07eea2027b7e0b",
+        "git_blob": "b24a1f48eeda6963dc5e455fc7b7c38682387d58"
+      },
+      {
+        "path": "codex-rs/component-host/src/process_tests.rs",
+        "sha256": "70d3b7dd542be10ff47e200beddb2781d757ef4aaa9ad6dc18d1f027da809175",
+        "git_blob": "eb96b2e5bca7f0d5cfcfdb49a0590dd607671b64"
+      },
+      {
+        "path": "codex-rs/component-host/src/session.rs",
+        "sha256": "510d2049f8717d38ea2bbab0b815c6a745f1f8902835310f88e3efb064840178",
+        "git_blob": "38e829c18e51ffd36ee74b22ecc183b5dd4e290d"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_failure.rs",
+        "sha256": "0ef00ae9edb55ecfcfba44d06510ade3e530f2ba291f2644233adfff0b60d7f0",
+        "git_blob": "c1b7950235cca312144f668c53107642871672d2"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_limits.rs",
+        "sha256": "0617b2d1ee16c1094174bdca06b55f1ea626721b2596e9c1ad87d7a9c79ebfef",
+        "git_blob": "ca408d4dca62c194020a65c0643771c5ba0b4bc5"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_limits_tests.rs",
+        "sha256": "5eb4ae4c592c3edf133802af21af5cf071cb317f8f75c910c67507d1a7912742",
+        "git_blob": "cc3dc99934bd20c742bb2a06bab773bee7510867"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_options.rs",
+        "sha256": "5aa81b1a5b7d67ddedbe6ac27170e714cf80cc66469b9dd8c6d8398363cc54eb",
+        "git_blob": "ac1d9ca4234f337962f579dd1866e118fa69908d"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_options_tests.rs",
+        "sha256": "1826aa079b305bc243ad98b218a073ad6d9bc66c65cdab8181b9f0dce925b99b",
+        "git_blob": "803927fabaca5d25ff09409033c6b0d0df4dbba9"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_payload_tests.rs",
+        "sha256": "4e446b570687839b86b05cf3385c567aa69b6d9303657f6967e35f34b4f4ef99",
+        "git_blob": "24b4409914d43b9b07a4dbf602984f6252c1b518"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_reaping_tests.rs",
+        "sha256": "a9118f8505cc306cf34d9486b6ec3a62236d7a73ffb63e79e270461ee0769bd9",
+        "git_blob": "52f167d62fb320c654a2ff3ba49dab853484541f"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_reply.rs",
+        "sha256": "e56769eff740b857e11eef205206cfcdd00e04582ffda5a78642a2d96091c278",
+        "git_blob": "735d4d4129c409d2164599f02bd57ac375641985"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_server.rs",
+        "sha256": "6b7678ffcef8b5dc25a67d51e085d755672f00bd04423185dfa8cae07888706f",
+        "git_blob": "4102193314c1cdc9b6bc821c4964d58f6f3365ae"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_server_limit_tests.rs",
+        "sha256": "3a6d58e349655f013b47f941f2ae403c16519bc46e51cbba0899f2454e919985",
+        "git_blob": "0cd3a0c5d500a4e41698160a0bd7f207417ec377"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_server_tests.rs",
+        "sha256": "a4f6ac27281f9a868b83fd515034940dc0a61ca86fd96d7a08457532393f03ad",
+        "git_blob": "3e3292f43b9e42eebf4f722d40df3600adc3a5e3"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_start_tests.rs",
+        "sha256": "ddf07b71f24ed4602f65a0e795a2c4d5b8fe3a1d12ba1a2dbbe2248a2d8115dd",
+        "git_blob": "57c8aee335ec8b28b8599d4c5930548559479cfd"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_supervisor.rs",
+        "sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2",
+        "git_blob": "12e67dc80f89728a39b24cd49bb61b249585882d"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_supervisor_tests.rs",
+        "sha256": "0683c7abbd51cc234647e4b89e3b4c00990b4ba354f789fe229e8859ede4c00a",
+        "git_blob": "add134532271d2caa8bbc0ff7a3be9a6b566754f"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_tests.rs",
+        "sha256": "61b52fcbf25ed58a66715d750849ad01584a703fd4422770fe55667839a24c74",
+        "git_blob": "5e597b3e8c1862b3f2cce81aa9c129e049d94af3"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_wire.rs",
+        "sha256": "90e5f8943dd355179d6fcc699bdeea6f566d0bad2b368a8d6614dba5de3ca6e0",
+        "git_blob": "44de72b807574a004ce60802cfe50420fee64e3f"
+      },
+      {
+        "path": "codex-rs/component-host/src/session_wire_tests.rs",
+        "sha256": "18f069aa9359031e1ebf7d1dd82587168a0860d9dd34b62194fef3556faac7ce",
+        "git_blob": "26aafdfcc6efb040c0ab0e7bd16a4ae0bb1f5adb"
+      },
+      {
+        "path": "codex-rs/component-path-codec/BUILD.bazel",
+        "sha256": "49bcaac7d4656109cf1e6ee12132b49e44944c1eed6ee3e7f0be877951b5caf3",
+        "git_blob": "033f00aec6cc8c6be5d20acf6bc865b665337612"
+      },
+      {
+        "path": "codex-rs/component-path-codec/Cargo.toml",
+        "sha256": "3dd246d999ddda49a0b2f053fec7d45024c4645cf41dadbe7b3b09fed57be0e0",
+        "git_blob": "c932477cb568376af124efc920a3bc01614c3476"
+      },
+      {
+        "path": "codex-rs/component-path-codec/src/adapters.rs",
+        "sha256": "b30d479f86c5f7a5a34c64c9f3f2bd2a89e17cb92f8daef812e4c4dfa9af9c90",
+        "git_blob": "36f409a5844cbadaafe8aec208537cb16156bca3"
+      },
+      {
+        "path": "codex-rs/component-path-codec/src/lib.rs",
+        "sha256": "7514a53b0a21e24bd9196ec15aaf8c3ce21b84a0d227bc671cb2b1dbe8e34a35",
+        "git_blob": "16300be34b49ed5b796085ca0b8bf71bac1c751d"
+      },
+      {
+        "path": "codex-rs/component-path-codec/src/paths.rs",
+        "sha256": "25f60dfb45337486a298155cfda2a5e85349bff38218e4ea4c2260d61967b824",
+        "git_blob": "47de1c47102a6c2ba9ffd9dd2a01c46c6f8d8158"
+      },
+      {
+        "path": "codex-rs/component-path-codec/src/paths_tests.rs",
+        "sha256": "0d329e2cbec87c397663e8bce3a5eecdb16c138a11a0bd9e8db70d1bbca1f29c",
+        "git_blob": "fd1d0134760e1e476d4246b099b50bde9a642242"
+      },
+      {
+        "path": "codex-rs/file-search-api/BUILD.bazel",
+        "sha256": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+        "git_blob": "95b583e92478b20f52a12b964aa10811cc82d7cd"
+      },
+      {
+        "path": "codex-rs/file-search-api/Cargo.toml",
+        "sha256": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+        "git_blob": "6e3eb501fc58c976773e52764749882e2ce07b13"
+      },
+      {
+        "path": "codex-rs/file-search-api/README.md",
+        "sha256": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+        "git_blob": "5903debb060ca7869f1be9ace7faac97a47a1678"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/backend.rs",
+        "sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+        "git_blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/budget.rs",
+        "sha256": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+        "git_blob": "21dd38cc4e4d8e245ba7da472da3161d5df68338"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/close_contract_tests.rs",
+        "sha256": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+        "git_blob": "da58e9cfa840dbf900684e933d60aefd6099e353"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/contract_tests.rs",
+        "sha256": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+        "git_blob": "d33dbc46d10efb5ecc3ef3d7fe3e60379784b70e"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/error.rs",
+        "sha256": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+        "git_blob": "338b89dec37f5f18036cea8143cfef0e8a85e4e1"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/lib.rs",
+        "sha256": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+        "git_blob": "9bf377fce12307219a32b47c8701c12ffe606926"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/values.rs",
+        "sha256": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+        "git_blob": "0f20ef03843e509a203715daed7af4dcaf19435a"
+      },
+      {
+        "path": "codex-rs/file-search-component/BUILD.bazel",
+        "sha256": "50070c209d20c56c89a65c7dfc5c89f6464a6f89de4be56385280a06f1a8a124",
+        "git_blob": "385c3444bf54b6b809e3dd2f4399478218d9ae2b"
+      },
+      {
+        "path": "codex-rs/file-search-component/Cargo.toml",
+        "sha256": "aec110b0f5f09627ad6932b6013ec04cfe00f8be171240aa73166fa5c71fc996",
+        "git_blob": "815c6d8ddbb728d981fc57909f75e38d739244b0"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/contract.rs",
+        "sha256": "12dd97950a354b4d0a754a498eeb00c11f5589ef58014585d81609e0590b7437",
+        "git_blob": "ee9eea15c3db9798f3683096b7ac8e440b37e671"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/lib.rs",
+        "sha256": "42d61794d35f94deb02f343c4c5670ec9a546afffefe4a57bbd85890dbc4b9f5",
+        "git_blob": "66661531ce8a14c58e296a7d42ba65df0f26936a"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/limits.rs",
+        "sha256": "b289a695345151c7c600c93089e1c34bbe08865806f842589ca90fb79c80f147",
+        "git_blob": "a168f672151d08e8d5a9309905b8f14a4c4c6516"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/outcome.rs",
+        "sha256": "acd3ae9032888d0333ad02bc89ce089800592ca4cd8d062271eeb7f43984a03c",
+        "git_blob": "e992c816e15c40f8d7953aa640fddc61744387a1"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process.rs",
+        "sha256": "8cca0e962f5a4b3362651675eea2178b121b3e674c7d91c3819246feee607621",
+        "git_blob": "36a2fe0195bc25a0a3eb5002223e6d75b3446533"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_decode.rs",
+        "sha256": "6eb83c5b139c8b749f207c3e1e178f1d876c846d648db8536ac53ca5255d8971",
+        "git_blob": "2b8c74aa0c7ebb5bc649a86aad3ea6a3afdddcb1"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_open.rs",
+        "sha256": "0e4ca6bb4df81218f438f2313f7367b006db0c48065954085b5b37e97e581599",
+        "git_blob": "4b3456d5e71a4dfeacdf578b2216e5cc250c2aac"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_session.rs",
+        "sha256": "373802884199b73b25032b3b057a208da33b5b7869efebc75c61ee22d228b3d7",
+        "git_blob": "92092489701d489e02f36746ff3d95d23c0cf90e"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_state.rs",
+        "sha256": "d3dee280d00aa2effeb529b298db8f755ecce842562cec7d092ae71dee696f25",
+        "git_blob": "052da16e959575198789b5c4c64ecc31f5fd811b"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+        "sha256": "e959616785868425c32a72c5696178f0f66803ff3f22fe9c1f1586881de77950",
+        "git_blob": "a67cb4c84ee4e51a1fa0309847e55627d3d8340a"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_tests.rs",
+        "sha256": "6ea3619068aae9cc5b1b5c8bacfa48a3f101175c13ee8b8ccc936e6652fc478b",
+        "git_blob": "b8c4084d90fc862a7fd91a0df3792e6bc33b2ec6"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service.rs",
+        "sha256": "0ffd17156a33a0c1f49418ac8185cc9a86215e7cdca9f4954bc74f21158d4faa",
+        "git_blob": "3f2c5c520cbb3a721538a62346e276c183ce6957"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_admit.rs",
+        "sha256": "4c1e82e310c55f8e51f7c277d2402e878eb1813576a1c4a7b62458bd82cefd1a",
+        "git_blob": "859bed07fe3019d3950b8ebedbdb570af60a7ed0"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+        "sha256": "112deb9463a67d7ae1c19407a762152e04d1ddd1097895ba58529339fa78f8fa",
+        "git_blob": "60768ef0d08981a0b226e9f880ac1fbc88635db5"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_lease.rs",
+        "sha256": "5b78c4d2c7e4f0e971148c9edbe846cc8b1df801fbc628f3e042e47a5a673490",
+        "git_blob": "fdc5d29ae705378c8b71d996aedc2c2fe906319f"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_open.rs",
+        "sha256": "0532a6c5bcc079ead9c31ce7eee8a34c3e0b0517bd793ac37e9e501371c5a038",
+        "git_blob": "439825eb10872668d3b4351fa8abfa9c9c6cc726"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_operations.rs",
+        "sha256": "66ba3660b1cfad5d9e6805d757d2c970f62936f2c26a7dcb4cbe40aab759ad82",
+        "git_blob": "d6e9a43a1e1028ff208fc338e601882aa1a55395"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_provider.rs",
+        "sha256": "839d030d53099384bc30bfb24183ea8ef669d33a99b667c37d198ba0f9bce024",
+        "git_blob": "4b3fa430970e8df117ec551406e9e6fc20b28ed5"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_runner.rs",
+        "sha256": "a0adbfab09dc176e8005f3d5b9cf235448d22c4dee2c88bbc03463a9d4906402",
+        "git_blob": "c926905a6c020f40cdb2e8eef878bdbe6805c888"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_tests.rs",
+        "sha256": "c843271f49c09e5e1f39e214a351d68a5a018bbbf316b3088275a90f4beda24a",
+        "git_blob": "310d10fb104e81358ff37aa01906f87cd1e00297"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/value_wire.rs",
+        "sha256": "0df110b9f6f1ab656f71ea175637018d559b220de0fb45f9ccd09cacf69bf82f",
+        "git_blob": "5d134b269bb5b7085ff9a8169e364df3b7b7b9d9"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/value_wire_tests.rs",
+        "sha256": "6d50fca6a73479a5904ef3c153468513fa219d0ef1860047d4c0aaf225a6f3aa",
+        "git_blob": "0303c54fe32bc693bac4bdc0c83e6132c302eb72"
+      }
+    ]
+  },
+  "privacy": "Whitelisted results, source identities, commands and artifact fingerprints only. No credentials, bearer URLs, ready-file contents or private session state.",
+  "status": "focused recorded checks passed; full snapshot and installed search acceptance not claimed",
+  "component": "process",
+  "runs": {
+    "p02b-wire-service-process": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-wire-service-process.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search-component",
+        "--lib"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:05:58Z",
+      "finished_utc": "2026-10-01T05:06:13Z",
+      "returncode": 101,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-wire-service-process.source.json",
+        "bytes": 23734,
+        "sha256": "04536d70d6af38042ef6273bb8b0b8de4767462caa0f88b47d91211ec9707fa7"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-wire-service-process.log",
+        "bytes": 6906,
+        "sha256": "8f0654810ad4502b46a95fd22faf806378e7c6d4151d94704d1df2c2bc9307aa"
+      },
+      "source_before_count": 95,
+      "source_after_count": 95,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "4f726e3bbbef2bb3f739d22f9236b36e83021637c236a41107752cfe7a31039d",
+      "source_after_canonical_sha256": "ea66c62b2d7d826e178b871fb76209ebed1a47d8a076428de219b410e7fc5e52",
+      "changed_paths": [
+        {
+          "path": "codex-rs/Cargo.lock",
+          "before_sha256": "114fe34049d173489e893f9c28da0ac9cc4c5aaf945aabdb5fafc2cf74312281",
+          "after_sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00"
+        }
+      ],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-wire-service-process.subreaper.json",
+          "bytes": 402,
+          "sha256": "41d378df619092a459d86d5e76d573b8be059433abcb3753254e099c70647002"
+        },
+        "enabled": true,
+        "exit_status": 101,
+        "command_returncode": 101,
+        "runner_error": null,
+        "reaped_returncodes": [
+          101
+        ]
+      }
+    },
+    "p02b-wire-service-process-corrected": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-wire-service-process-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search-component",
+        "--lib"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:06:49Z",
+      "finished_utc": "2026-10-01T05:06:55Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-wire-service-process-corrected.source.json",
+        "bytes": 23741,
+        "sha256": "a31d2c66b3688643113c9fedd0cc192b59e91196cbbbfb3cc879cdc75ca36426"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-wire-service-process-corrected.log",
+        "bytes": 3667,
+        "sha256": "08b3be687d5b1293167e6b1a656217984b2332eee20df6b6557d82826f115389"
+      },
+      "source_before_count": 95,
+      "source_after_count": 95,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "34adfac1be532c0788f70f2353ed30a7c8185f04df81e0480cd139d11aaaddb0",
+      "source_after_canonical_sha256": "34adfac1be532c0788f70f2353ed30a7c8185f04df81e0480cd139d11aaaddb0",
+      "changed_paths": [],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-wire-service-process-corrected.subreaper.json",
+          "bytes": 387,
+          "sha256": "1aece405ff9c42aa9bcda34d14aa5e427c1eab5541c4666c20706a1badca576d"
+        },
+        "enabled": true,
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "reaped_returncodes": [
+          0
+        ]
+      }
+    },
+    "p02b-wire-service-process-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:07:49Z",
+      "finished_utc": "2026-10-01T05:07:58Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-wire-service-process-fix.source.json",
+        "bytes": 23327,
+        "sha256": "2547f2dc65f5b1266afba25228484b22893391c93d4bca18126fc55a98cfd14b"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-wire-service-process-fix.log",
+        "bytes": 2412,
+        "sha256": "45a7bf1260c063c2c1bd161dfb66799214799114fc01517fa252d6575e592460"
+      },
+      "source_before_count": 94,
+      "source_after_count": 94,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "39f6c436887e85921a6af9c60cb6e7560424d7d7fae8adc59db8ba8d24c13ab4",
+      "source_after_canonical_sha256": "fe7e759ada256b4ba0637b85307d75718cb0825f4dea779991f8be96677bc7d6",
+      "changed_paths": [
+        {
+          "path": "codex-rs/file-search-component/src/process_session.rs",
+          "before_sha256": "9dc701b888cb0856a8970f2751f073bbd59909c6b97eea9e88a47ac87d42b322",
+          "after_sha256": "07a37a5646a910b97cd2a42e09eecac335aa0b85eac4fbfad3afbc675d352855"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_operations.rs",
+          "before_sha256": "6ad09b3a03c48f0fd753051358bdedce09cccd9e5f3220f2fa4200d342a1db94",
+          "after_sha256": "b0b1048641208fb4c2433dbd0228e3f6a12e5b96040b12e0c3b438d1274c8393"
+        }
+      ]
+    },
+    "p02b-wire-service-process-final-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search-component"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:08:58Z",
+      "finished_utc": "2026-10-01T05:09:00Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-wire-service-process-final-fix.source.json",
+        "bytes": 23326,
+        "sha256": "36e5d7dd9f73732f9c36d2ca1fb3bacc1a2c85d4958df2c73f9b48fe9c045d6f"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-wire-service-process-final-fix.log",
+        "bytes": 235,
+        "sha256": "7947628e1fda4dece0ea5b94c7d7c224fbc1500c0fa28bd71a3fa9b0c7ed7b8c"
+      },
+      "source_before_count": 94,
+      "source_after_count": 94,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "cb6fdb63d8089ca0f89f6aa470459dc704e8af10c45a33061a12b69c88d40bab",
+      "source_after_canonical_sha256": "cb6fdb63d8089ca0f89f6aa470459dc704e8af10c45a33061a12b69c88d40bab",
+      "changed_paths": []
+    },
+    "p02b-launch-cwd-and-catalog": {
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-launch-cwd-and-catalog.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-component-host",
+        "--lib"
+      ],
+      "recorded_baseline": "e18d75907f448288dceb86646054d588e32c03b7",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:50:42Z",
+      "finished_utc": "2026-10-01T04:50:56Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-launch-cwd-and-catalog.source.json",
+        "bytes": 13973,
+        "sha256": "0407d8d83af5a2cc5a6a2491fe401a1eecc9f359512b94d410ea1e209d6a935d"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-launch-cwd-and-catalog.log",
+        "bytes": 11560,
+        "sha256": "a8df86edf59cfc13f9ffa1a9aa1be4f1a782ee650660bcbf827da5c64f7f0367"
+      },
+      "source_before_count": 55,
+      "source_after_count": 55,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "023dee1c6fafafb01783d743bd56842b4c4e06309977efd91012116c4f48564c",
+      "source_after_canonical_sha256": "8d0ead47697d4ac6bb51089b4546a8b1e9ed2a549d0983e350957d5ccf798436",
+      "changed_paths": [
+        {
+          "path": "codex-rs/Cargo.lock",
+          "before_sha256": "11c3a35d1025bfa96dba180bfc2008d04a6bb5cb1b3c9afb867360aaf66c075e",
+          "after_sha256": "114fe34049d173489e893f9c28da0ac9cc4c5aaf945aabdb5fafc2cf74312281"
+        }
+      ],
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p02b-launch-cwd-and-catalog.subreaper.json",
+          "bytes": 623,
+          "sha256": "c38058d514cbec0a7e0c422cd0cda52adcab2bb4583b16cda26290ff96bbf757"
+        },
+        "enabled": true,
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "reaped_returncodes": [
+          -9,
+          -9,
+          -9,
+          0
+        ]
+      }
+    },
+    "p02b-launch-cwd-and-catalog-fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-component-host",
+        "-p",
+        "codex-component-api"
+      ],
+      "recorded_baseline": "e18d75907f448288dceb86646054d588e32c03b7",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T04:51:54Z",
+      "finished_utc": "2026-10-01T04:52:00Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-launch-cwd-and-catalog-fix.source.json",
+        "bytes": 13602,
+        "sha256": "4496a754cf2a635a2058bb0b45747f154def5d17aace2101736788229f471c14"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-launch-cwd-and-catalog-fix.log",
+        "bytes": 419,
+        "sha256": "1a572ea775cc90838e3106d9468c9338d2d02e18fce2bedfa71d0d1dedf5e836"
+      },
+      "source_before_count": 54,
+      "source_after_count": 54,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "28bcaa7d0e702bbc2b83c2875b0d4e54a1df6a3ec0ad335a56cf733fc3bb84ec",
+      "source_after_canonical_sha256": "28bcaa7d0e702bbc2b83c2875b0d4e54a1df6a3ec0ad335a56cf733fc3bb84ec",
+      "changed_paths": []
+    },
+    "p02b-integration-format": {
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "recorded_baseline": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+      "baseline_note": "Actual scoped source fingerprints; no claim that the dirty workspace equals the published baseline.",
+      "started_utc": "2026-10-01T05:09:19Z",
+      "finished_utc": "2026-10-01T05:09:39Z",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02b-integration-format.source.json",
+        "bytes": 2417284,
+        "sha256": "fd53b3085762247856fd9cac79902c98e2e93975921e75fc88a4c01cb681df9b"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-integration-format.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "source_before_count": 8740,
+      "source_after_count": 8740,
+      "scoped_source_unchanged": false,
+      "source_before_canonical_sha256": "1b630916793324c5de4884639340b87a6296ba3524cd806ff1cf44c6bf4af6af",
+      "source_after_canonical_sha256": "ea567ffa3fe0dd4f0f9f924f0402870a1f4028ac24ea3fa8a2e70d3bd2984d9a",
+      "changed_paths": [
+        {
+          "path": "codex-rs/app-server-client/src/shutdown.rs",
+          "before_sha256": "2f49b3f46ea21b27c36214d2363b8de29e1af5a0f0a0327e8a67d6bf36b2842d",
+          "after_sha256": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556"
+        },
+        {
+          "path": "codex-rs/app-server-client/src/shutdown_tests.rs",
+          "before_sha256": "a24785d9af5a46225ad88f2408ff6f969a5ddf802c55cb2b3dfce0e9f44246d3",
+          "after_sha256": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        },
+        {
+          "path": "codex-rs/component-host/src/catalog.rs",
+          "before_sha256": "993a36830fcb3ea45c5482b6557330ee21faefc45b92eea48048f43c0b42ddce",
+          "after_sha256": "3fef43219940b1d6d80e60582bae230a4257ca31e36e695906f0a72c9592c370"
+        },
+        {
+          "path": "codex-rs/component-host/src/catalog_tests.rs",
+          "before_sha256": "dfd3367c7922a364e474d8b8ced4cc23141b4533f025c6884d4cb8c4e25b30af",
+          "after_sha256": "a8c5e54da4dd3e57e9345445c811c24bbbbc908723c3f17ae4ec00b7d18be64a"
+        },
+        {
+          "path": "codex-rs/component-host/src/session_options_tests.rs",
+          "before_sha256": "cd766c789d3d84f7d2f8c2b89b390adafaba14ca1d04403d6ed29273a53140dd",
+          "after_sha256": "1826aa079b305bc243ad98b218a073ad6d9bc66c65cdab8181b9f0dce925b99b"
+        },
+        {
+          "path": "codex-rs/component-host/src/session_supervisor.rs",
+          "before_sha256": "5fa47401e6c4212749852376e437f2dbbfe410ad36c11df8ad34d9b102f6994a",
+          "after_sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/contract.rs",
+          "before_sha256": "b99b4bcc517efb3020563561ccdfc604ba3ff5c42e6c71ddabbb14ded32cfe73",
+          "after_sha256": "12dd97950a354b4d0a754a498eeb00c11f5589ef58014585d81609e0590b7437"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/lib.rs",
+          "before_sha256": "149918a6cc9fd8b1563229a965c0ffa6924194be856ea211637974d88ad14239",
+          "after_sha256": "42d61794d35f94deb02f343c4c5670ec9a546afffefe4a57bbd85890dbc4b9f5"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/limits.rs",
+          "before_sha256": "aaa6fdc993bd2b74090349a7a4c8edb6020ffed97cc4cfd5df9223842de62b28",
+          "after_sha256": "b289a695345151c7c600c93089e1c34bbe08865806f842589ca90fb79c80f147"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process.rs",
+          "before_sha256": "f69fe7a6a2f5099fb62863eb0758365ed1bedb0475a4cb65a2042a6f74be0b8b",
+          "after_sha256": "8cca0e962f5a4b3362651675eea2178b121b3e674c7d91c3819246feee607621"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_decode.rs",
+          "before_sha256": "b410968c2a28cfba430c83ef5c148d371a1bfbee09ad1cbc3d775ffe3ea7ccdf",
+          "after_sha256": "6eb83c5b139c8b749f207c3e1e178f1d876c846d648db8536ac53ca5255d8971"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_open.rs",
+          "before_sha256": "5bede1bae49f309cda0dd8f361b87e513e6f941c06b4fd7977848cbac7d79341",
+          "after_sha256": "0e4ca6bb4df81218f438f2313f7367b006db0c48065954085b5b37e97e581599"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_session.rs",
+          "before_sha256": "07a37a5646a910b97cd2a42e09eecac335aa0b85eac4fbfad3afbc675d352855",
+          "after_sha256": "373802884199b73b25032b3b057a208da33b5b7869efebc75c61ee22d228b3d7"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_state.rs",
+          "before_sha256": "d9aad8ce216766be06fe69d406606af8825922e774c53f466b7104b142473d06",
+          "after_sha256": "d3dee280d00aa2effeb529b298db8f755ecce842562cec7d092ae71dee696f25"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+          "before_sha256": "3c5482418ea2378db446f31f940cb79291f8ab14505c45021b0226abae97b81f",
+          "after_sha256": "e959616785868425c32a72c5696178f0f66803ff3f22fe9c1f1586881de77950"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_tests.rs",
+          "before_sha256": "5eff17eb88173b24cae0b683ee058455785fe205f5a23bbd43ac61c3e4785e07",
+          "after_sha256": "6ea3619068aae9cc5b1b5c8bacfa48a3f101175c13ee8b8ccc936e6652fc478b"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service.rs",
+          "before_sha256": "c89ccfba091e5861ba6192de4bac698531ba1b9a769f794b3f3f3c9f0146b2ed",
+          "after_sha256": "0ffd17156a33a0c1f49418ac8185cc9a86215e7cdca9f4954bc74f21158d4faa"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_admit.rs",
+          "before_sha256": "5af2fa26bf2c079f53430a497d7b0841af9f7a24f332309d791457803e2a9611",
+          "after_sha256": "4c1e82e310c55f8e51f7c277d2402e878eb1813576a1c4a7b62458bd82cefd1a"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+          "before_sha256": "fac15e995738c8da03d9391fe1e6e9aceea031a94b316ca99ba99c32644c3749",
+          "after_sha256": "112deb9463a67d7ae1c19407a762152e04d1ddd1097895ba58529339fa78f8fa"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_lease.rs",
+          "before_sha256": "bf71b4d469182e76d933ff280bf24c6f74109a5b3eb08fe2af3952ac47282193",
+          "after_sha256": "5b78c4d2c7e4f0e971148c9edbe846cc8b1df801fbc628f3e042e47a5a673490"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_open.rs",
+          "before_sha256": "df108e49f3c33d30dd1e20dbd4d5a9d8a5c3dcd6b61f7d2df127644151891d21",
+          "after_sha256": "0532a6c5bcc079ead9c31ce7eee8a34c3e0b0517bd793ac37e9e501371c5a038"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_operations.rs",
+          "before_sha256": "b0b1048641208fb4c2433dbd0228e3f6a12e5b96040b12e0c3b438d1274c8393",
+          "after_sha256": "66ba3660b1cfad5d9e6805d757d2c970f62936f2c26a7dcb4cbe40aab759ad82"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_provider.rs",
+          "before_sha256": "2eb3bd4a5b6325f79f9576b935e42f638a0f5f497168ccb7564dcef478f45095",
+          "after_sha256": "839d030d53099384bc30bfb24183ea8ef669d33a99b667c37d198ba0f9bce024"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_runner.rs",
+          "before_sha256": "5810f879a8c5eaafd2e031454acd28373d75da6ef66760c442e54f4d2c5688d7",
+          "after_sha256": "a0adbfab09dc176e8005f3d5b9cf235448d22c4dee2c88bbc03463a9d4906402"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_tests.rs",
+          "before_sha256": "d70268b5d724f0f6b38833b4d855366e73e4d87052d184806e0a6c167249e372",
+          "after_sha256": "c843271f49c09e5e1f39e214a351d68a5a018bbbf316b3088275a90f4beda24a"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/value_wire.rs",
+          "before_sha256": "7db6ce280237e97b5f454b75ae7dd4a16944ff7e3ec77df7bd0c9a175837c09a",
+          "after_sha256": "0df110b9f6f1ab656f71ea175637018d559b220de0fb45f9ccd09cacf69bf82f"
+        },
+        {
+          "path": "codex-rs/file-search-component/src/value_wire_tests.rs",
+          "before_sha256": "c911d80bcb9de8ff4dbb7377fcddc773d252a9b3d935a5edc80854ba42dfb618",
+          "after_sha256": "6d50fca6a73479a5904ef3c153468513fa219d0ef1860047d4c0aaf225a6f3aa"
+        },
+        {
+          "path": "codex-rs/file-search/src/native_budget_tests.rs",
+          "before_sha256": "3edc4b1ad59785447dd7793a570493a9091ff0e302ab51bb1c5b3b582be4d1db",
+          "after_sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06"
+        }
+      ]
+    }
+  },
+  "results": {
+    "tests_executed": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "real_peer_process_tests": [
+      "process::tests::mismatched_lease_reply_fences_the_provider_without_replay",
+      "process::tests::last_public_session_and_backend_drops_request_owned_cleanup",
+      "process::tests::abandoned_open_keeps_allocation_until_reserved_release_joins",
+      "process::tests::abandoned_poll_and_update_keep_their_lanes_until_actual_replies",
+      "process::tests::obsolete_query_frames_are_not_presented_as_the_new_query",
+      "process::tests::oversize_query_is_rejected_before_encoding_or_identity_admission",
+      "process::tests::ordered_admission_does_not_wait_for_the_previous_open_response",
+      "process::tests::oversized_roots_are_rejected_before_retained_startup_or_wire_admission",
+      "process::tests::process_round_trip_preserves_original_roots_query_and_explicit_cwd",
+      "process::tests::unconfirmed_release_retains_allocation_and_original_operation_failure"
+    ],
+    "controlled_backend_service_tests": [
+      "service_tests::boundaries::bounded_rejection_receipts_do_not_invalidate_an_older_live_lease",
+      "service_tests::dropped_poll_observer_keeps_slot_until_owned_operation_completes",
+      "service_tests::joined_failed_operation_refunds_quota_and_retains_failure",
+      "service_tests::boundaries::actual_encoded_frame_overflow_returns_domain_exhaustion_and_joins_owner",
+      "service_tests::release_finds_preparing_before_backend_task_runs_and_joins_late_start",
+      "service_tests::unconfirmed_close_keeps_reservation_and_fences_provider"
+    ],
+    "wire_codec_tests": [
+      "value_wire::tests::budget_and_options_reject_zero_and_preserve_supported_policy",
+      "value_wire::tests::decimal_wire_retains_high_bits_and_rejects_ambiguous_spellings",
+      "value_wire::tests::frame_round_trip_preserves_exact_root_spelling_and_query_identity",
+      "value_wire::tests::impossible_completion_and_counts_fail_instead_of_becoming_idle",
+      "value_wire::tests::invalid_result_paths_roots_and_indices_are_rejected_in_both_directions",
+      "value_wire::tests::nested_paths_round_trip_non_utf8_bytes_and_reject_foreign_encoding"
+    ],
+    "scope_note": "The real peer is a separately running protocol fixture. Service tests use a controlled backend. No actual native search worker executes through this process bridge."
+  },
+  "initial_failure": {
+    "run": "p02b-wire-service-process",
+    "tests_executed": 0,
+    "returncode": 101,
+    "compiler_diagnostics": 5,
+    "cause": "Four ambiguous assert_eq diagnostics plus a move from a match-guard binding in new service boundary tests. Explicit macro import and borrowing corrected the fixture.",
+    "source_change_during_failed_compile": "Only Cargo.lock changed as the new component dependency was resolved; code fingerprint scope stayed unchanged."
+  },
+  "separate_host_gate": {
+    "tests_executed": 80,
+    "passed": 80,
+    "failed": 0,
+    "skipped": 1,
+    "launch_options_tests": [
+      "session::tests::launch_options::invalid_explicit_directories_and_relative_entrypoint_fail_before_launch",
+      "session::tests::launch_options::existing_connect_wrappers_keep_installed_package_directory",
+      "session::tests::launch_options::rejected_handshake_with_explicit_directory_reaps_before_return",
+      "session::tests::launch_options::simultaneous_explicit_directories_keep_host_and_package_identity_unchanged"
+    ],
+    "catalog_contract_test": [
+      "catalog::tests::search_selection_rejects_incompatible_upgrade_without_changing_active_package"
+    ],
+    "source_note": "Only Cargo.lock changed during this gate from new API dependency resolution. All recorded code files stayed unchanged; the whole scoped manifest correctly reports false.",
+    "ignored_note": "The parent-death subprocess helper is ignored as a top-level case and explicitly launched by its passing parent regression.",
+    "not_added_as_one_aggregate102_run": true
+  },
+  "between_run_changes": [
+    {
+      "from_run": "p02b-wire-service-process",
+      "to_run": "p02b-wire-service-process-corrected",
+      "scope": "paths present in both manifests",
+      "changes": [
+        {
+          "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+          "before_sha256": "250eb57294242b81172cb082fa901f8cd2cba1fb2ff5d8c3936dae1de1c80e4c",
+          "after_sha256": "fac15e995738c8da03d9391fe1e6e9aceea031a94b316ca99ba99c32644c3749"
+        }
+      ]
+    },
+    {
+      "from_run": "p02b-wire-service-process-corrected",
+      "to_run": "p02b-wire-service-process-fix",
+      "scope": "paths present in both manifests",
+      "changes": []
+    },
+    {
+      "from_run": "p02b-wire-service-process-fix",
+      "to_run": "p02b-wire-service-process-final-fix",
+      "scope": "paths present in both manifests",
+      "changes": [
+        {
+          "path": "codex-rs/file-search-component/src/process_open.rs",
+          "before_sha256": "09c226b8e190466e949594e16372c5f8d5dad8b7f2922f90de3a2e883effcaac",
+          "after_sha256": "5bede1bae49f309cda0dd8f361b87e513e6f941c06b4fd7977848cbac7d79341"
+        }
+      ]
+    }
+  ],
+  "post_test_notes": [
+    "Scoped fix made two mechanical changes in service_operations.rs/process_session.rs and reported two process_open warnings.",
+    "A documented await_holding_invalid_type expectation preserves the intentional admission mutex: it orders epoch allocation and bounded transport admission, never replies or cleanup.",
+    "The process_open identity expect was changed to typed malformed-reply handling. This is defensive behavior after the passing test run; the new missing-identity branch was not separately exercised in that run.",
+    "Final fix compiled with exit 0, unchanged source and no warnings in its log.",
+    "Global integration formatting changed the recorded process/host files and unrelated high-level shutdown files; final hashes match the immutable WIP. No new exact-tree runtime run is implied."
+  ],
+  "implemented": [
+    "Versioned file_search contract/value codecs preserve exact roots, same-platform non-UTF8 paths, decimal u64 identity bits, supported options and separate operation/cleanup results.",
+    "Service reservations cover preparing/live/closing work, bounded poll/update lanes, receipt retention, quota release on Joined and provider fencing on unconfirmed cleanup.",
+    "ProcessSearchBackend retains accepted open/poll/update/cleanup tasks after observer cancellation; paired release ownership survives startup races and preserves first operation failure.",
+    "Input logical-size and identity checks run before encoding/admission; obsolete/mismatched frames are fenced; unconfirmed release retains allocation.",
+    "Explicit immutable process cwd is validated and does not mutate host cwd, package identity or durable-state location. Catalog selection rejects incompatible search contract upgrades."
+  ],
+  "limits": [
+    "Service tests use a controlled backend and process tests use a protocol peer fixture, not the native matcher behind an independently installed worker.",
+    "Catalog fixtures and source contracts do not establish actual external search-package build/install/removal/replacement.",
+    "The post-test missing-identity hardening branch has compilation/lint evidence only.",
+    "No new CLI/App Server executable or GUI interaction was tested here. High-level App Server client shutdown work in the WIP is outside these compiled scopes."
+  ]
+}

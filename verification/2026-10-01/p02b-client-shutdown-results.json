@@ -1,0 +1,573 @@
+{
+  "schema_version": 1,
+  "status": "focused_client_regression_scoped_fix_and_final_format_completed",
+  "scope": "Retained high-level in-process App Server client shutdown and existing client-library regression; not a new GUI/Launch or independently installed search runtime gate.",
+  "source_binding": {
+    "wip_commit": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+    "wip_tree": "6ad17d58936b6c9f519c06f2932efd1c8ecd4724",
+    "wip_branch": "wip/p02b-bounded-search-20261001",
+    "corrected_source_publication": {
+      "status": "published",
+      "commit": "cb977e7d664bc752c28854d468619039bd3ad167",
+      "tree": "40207f354efb3bee85265d8f3d83312489b56709",
+      "postformat_source_bindings": {
+        "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+        "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "codex-rs/app-server-client/src/lib.rs": "076d0afc779a06624f1ea4d5992c5b5b55f8878d3130d216f9380bdbfb28f2e6",
+        "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+      },
+      "note": "This preserves the client source after its separately recorded formatting. The client tests ran before native integration; this does not test every file in the later WIP."
+    },
+    "selected_file_bindings": {
+      "codex-rs/Cargo.lock": {
+        "wip_sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "corrected_tested_sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "matches_wip": true
+      },
+      "codex-rs/Cargo.toml": {
+        "wip_sha256": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "corrected_tested_sha256": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "matches_wip": true
+      },
+      "codex-rs/app-server/src/in_process.rs": {
+        "wip_sha256": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+        "corrected_tested_sha256": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/BUILD.bazel": {
+        "wip_sha256": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "corrected_tested_sha256": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/Cargo.toml": {
+        "wip_sha256": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "corrected_tested_sha256": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/README.md": {
+        "wip_sha256": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "corrected_tested_sha256": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/src/lib.rs": {
+        "wip_sha256": "50f26a48813caae3328c730339c2dd7c21cd7d1ba46054d242422dd01a524a5b",
+        "corrected_tested_sha256": "c33e258a27ec120216ef66f40427ab135829d2819bac3780d98cfba18a27c5bc",
+        "matches_wip": false
+      },
+      "codex-rs/app-server-client/src/path.rs": {
+        "wip_sha256": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "corrected_tested_sha256": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/src/remote.rs": {
+        "wip_sha256": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "corrected_tested_sha256": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/src/shutdown.rs": {
+        "wip_sha256": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "corrected_tested_sha256": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "matches_wip": true
+      },
+      "codex-rs/app-server-client/src/shutdown_tests.rs": {
+        "wip_sha256": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33",
+        "corrected_tested_sha256": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33",
+        "matches_wip": true
+      }
+    },
+    "actual_tested_source_identity": "Exact per-run source artifact hashes, canonical full-map digests and selected source fingerprints below. Do not identify the corrected test tree solely by the WIP or the runner baseline label."
+  },
+  "runs": [
+    {
+      "name": "p02b-client-shutdown",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-client-shutdown.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server-client",
+        "--lib"
+      ],
+      "started_utc": "2026-10-01T05:12:45Z",
+      "finished_utc": "2026-10-01T05:18:13Z",
+      "returncode": 101,
+      "tests": {
+        "executed": 0,
+        "passed": 0,
+        "failed": 0,
+        "skipped": 0,
+        "stage": "compilation_failed_before_execution"
+      },
+      "passed_case_names": [],
+      "failure": {
+        "kind": "ENOSPC during codex-core compilation",
+        "no_tests_executed": true
+      },
+      "source": {
+        "recorded_baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_label_is_not_tested_tree_identity": true,
+        "fingerprinted_paths": 8680,
+        "before_map_sha256": "351b3c2f94c3de53155c2dca0ebeb083b0cc23d027a293d5dc766b7ba1912a23",
+        "after_map_sha256": "351b3c2f94c3de53155c2dca0ebeb083b0cc23d027a293d5dc766b7ba1912a23",
+        "canonical_map_encoding": "UTF-8 JSON with sorted keys, compact separators, ensure_ascii=false",
+        "scoped_source_unchanged": true,
+        "selected_before": {
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+          "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+          "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+          "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+          "codex-rs/app-server-client/src/lib.rs": "50f26a48813caae3328c730339c2dd7c21cd7d1ba46054d242422dd01a524a5b",
+          "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+          "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+          "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+          "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        },
+        "selected_after": {
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+          "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+          "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+          "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+          "codex-rs/app-server-client/src/lib.rs": "50f26a48813caae3328c730339c2dd7c21cd7d1ba46054d242422dd01a524a5b",
+          "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+          "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+          "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+          "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        }
+      },
+      "subreaper": {
+        "enabled": true,
+        "command_returncode": 101,
+        "exit_status": 101,
+        "runner_error": null,
+        "adopted_returncode_counts": {}
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-client-shutdown.source.json",
+          "sha256": "ae2c7334ae627117970cf50e9dcc7ac79c6fad52406630495984957f3e6b1fd5"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-client-shutdown.log",
+          "sha256": "448aabd145112f08f9a62abebf9d6aa878cdaaa64158ebd8cfec24ff539f2672"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-client-shutdown.subreaper.json",
+          "sha256": "6111a3f8c38a166d3ccef7802307cc748e3095494964aa018fe9e9009b9e953e"
+        }
+      }
+    },
+    {
+      "name": "p02b-client-shutdown-retry",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-client-shutdown-retry.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server-client",
+        "--lib"
+      ],
+      "started_utc": "2026-10-01T05:28:39Z",
+      "finished_utc": "2026-10-01T05:31:22Z",
+      "returncode": 100,
+      "tests": {
+        "executed": 40,
+        "passed": 39,
+        "failed": 1,
+        "skipped": 0,
+        "stage": "tests_executed"
+      },
+      "passed_case_names": [
+        "shutdown::tests::acknowledgement_error_still_waits_for_worker_and_keeps_first_failure",
+        "shutdown::tests::acknowledgement_loss_cannot_be_reported_as_success",
+        "remote::tests::shutdown_tolerates_worker_exit_after_command_is_queued",
+        "shutdown::tests::acknowledgement_does_not_reset_the_deadline_for_a_stalled_worker",
+        "shutdown::tests::destroyed_runtime_cannot_produce_a_successful_shutdown_receipt",
+        "shutdown::tests::cancelling_polled_shutdown_receipt_does_not_abort_the_drain",
+        "shutdown::tests::enum_dispatcher_preserves_shutdown_ownership_before_its_receipt_is_polled",
+        "shutdown::tests::dropping_unpolled_shutdown_receipt_preserves_owned_graceful_shutdown",
+        "shutdown::tests::first_operation_error_survives_later_worker_panic",
+        "shutdown::tests::full_command_queue_is_inside_the_single_deadline",
+        "shutdown::tests::shutdown_allows_the_shared_embedded_budget_before_joining",
+        "shutdown::tests::shutdown_future_can_be_constructed_outside_its_runtime_context",
+        "shutdown::tests::worker_panic_is_reported_with_or_without_successful_acknowledgement",
+        "tests::remote_auth_token_transport_policy_allows_wss_and_loopback_ws",
+        "tests::remote_connect_includes_auth_header_when_configured",
+        "tests::remote_connect_rejects_non_loopback_ws_when_auth_configured",
+        "tests::remote_disconnect_surfaces_as_event",
+        "tests::remote_initialize_params_forward_openai_form_capability",
+        "tests::remote_backpressure_preserves_transcript_notifications",
+        "tests::remote_notifications_arrive_over_websocket",
+        "tests::remote_platform_metadata_preserves_reported_and_missing_values",
+        "tests::remote_server_request_resolution_roundtrip_works",
+        "tests::remote_server_request_received_during_initialize_is_delivered",
+        "tests::remote_duplicate_request_id_keeps_original_waiter",
+        "tests::remote_unix_socket_typed_request_roundtrip_works",
+        "tests::remote_typed_request_roundtrip_works",
+        "tests::remote_unknown_server_request_is_rejected",
+        "tests::runtime_start_args_forward_environment_manager_and_openai_form_capability",
+        "tests::shutdown_waits_for_in_process_drain",
+        "tests::shutdown_completes_promptly_without_retained_managers",
+        "tests::caller_provided_session_source_is_applied",
+        "tests::typed_request_drop_cancels_waiting_send_and_reply",
+        "tests::typed_request_error_exposes_sources",
+        "tests::threads_started_via_app_server_are_visible_through_typed_requests",
+        "tests::remote_typed_request_accepts_large_single_frame_response",
+        "tests::tiny_channel_capacity_still_supports_request_roundtrip",
+        "tests::typed_request_reports_json_rpc_errors",
+        "tests::typed_request_roundtrip_works",
+        "tests::unread_lossless_notifications_do_not_block_in_process_requests"
+      ],
+      "failure": {
+        "case": "tests::next_event_surfaces_lagged_markers",
+        "attempts": 2,
+        "reported_error_kind": "BrokenPipe",
+        "reported_cleanup": "unconfirmed",
+        "cause": "Lag-marker fixture discarded the command receiver and supplied an already-finished worker while still expecting successful shutdown."
+      },
+      "source": {
+        "recorded_baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_label_is_not_tested_tree_identity": true,
+        "fingerprinted_paths": 8680,
+        "before_map_sha256": "351b3c2f94c3de53155c2dca0ebeb083b0cc23d027a293d5dc766b7ba1912a23",
+        "after_map_sha256": "351b3c2f94c3de53155c2dca0ebeb083b0cc23d027a293d5dc766b7ba1912a23",
+        "canonical_map_encoding": "UTF-8 JSON with sorted keys, compact separators, ensure_ascii=false",
+        "scoped_source_unchanged": true,
+        "selected_before": {
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+          "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+          "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+          "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+          "codex-rs/app-server-client/src/lib.rs": "50f26a48813caae3328c730339c2dd7c21cd7d1ba46054d242422dd01a524a5b",
+          "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+          "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+          "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+          "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        },
+        "selected_after": {
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+          "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+          "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+          "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+          "codex-rs/app-server-client/src/lib.rs": "50f26a48813caae3328c730339c2dd7c21cd7d1ba46054d242422dd01a524a5b",
+          "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+          "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+          "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+          "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        }
+      },
+      "subreaper": {
+        "enabled": true,
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null,
+        "adopted_returncode_counts": {
+          "-13": 6,
+          "128": 2
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-client-shutdown-retry.source.json",
+          "sha256": "85ee517b7d8325414dbb50348258488af3871851df7f14a179bd8d127a6f8525"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-client-shutdown-retry.log",
+          "sha256": "5643bfbf17379bf339bb197370411db1a4660cac996194560fda2f069c052f41"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-client-shutdown-retry.subreaper.json",
+          "sha256": "cecead95596d3fa0d2c34fbd82ae6ee227013151be4393b4533eae697555c2a7"
+        }
+      }
+    },
+    {
+      "name": "p02b-client-shutdown-corrected",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-client-shutdown-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server-client",
+        "--lib"
+      ],
+      "started_utc": "2026-10-01T05:33:39Z",
+      "finished_utc": "2026-10-01T05:33:54Z",
+      "returncode": 0,
+      "tests": {
+        "executed": 40,
+        "passed": 40,
+        "failed": 0,
+        "skipped": 0,
+        "stage": "tests_executed"
+      },
+      "passed_case_names": [
+        "shutdown::tests::acknowledgement_error_still_waits_for_worker_and_keeps_first_failure",
+        "shutdown::tests::acknowledgement_does_not_reset_the_deadline_for_a_stalled_worker",
+        "remote::tests::shutdown_tolerates_worker_exit_after_command_is_queued",
+        "shutdown::tests::acknowledgement_loss_cannot_be_reported_as_success",
+        "shutdown::tests::cancelling_polled_shutdown_receipt_does_not_abort_the_drain",
+        "shutdown::tests::destroyed_runtime_cannot_produce_a_successful_shutdown_receipt",
+        "shutdown::tests::enum_dispatcher_preserves_shutdown_ownership_before_its_receipt_is_polled",
+        "shutdown::tests::dropping_unpolled_shutdown_receipt_preserves_owned_graceful_shutdown",
+        "shutdown::tests::first_operation_error_survives_later_worker_panic",
+        "shutdown::tests::full_command_queue_is_inside_the_single_deadline",
+        "shutdown::tests::shutdown_allows_the_shared_embedded_budget_before_joining",
+        "shutdown::tests::shutdown_future_can_be_constructed_outside_its_runtime_context",
+        "tests::next_event_surfaces_lagged_markers",
+        "shutdown::tests::worker_panic_is_reported_with_or_without_successful_acknowledgement",
+        "tests::remote_auth_token_transport_policy_allows_wss_and_loopback_ws",
+        "tests::remote_connect_rejects_non_loopback_ws_when_auth_configured",
+        "tests::remote_connect_includes_auth_header_when_configured",
+        "tests::remote_disconnect_surfaces_as_event",
+        "tests::remote_initialize_params_forward_openai_form_capability",
+        "tests::remote_backpressure_preserves_transcript_notifications",
+        "tests::remote_notifications_arrive_over_websocket",
+        "tests::remote_platform_metadata_preserves_reported_and_missing_values",
+        "tests::remote_server_request_resolution_roundtrip_works",
+        "tests::remote_server_request_received_during_initialize_is_delivered",
+        "tests::remote_duplicate_request_id_keeps_original_waiter",
+        "tests::remote_unix_socket_typed_request_roundtrip_works",
+        "tests::remote_typed_request_roundtrip_works",
+        "tests::remote_unknown_server_request_is_rejected",
+        "tests::runtime_start_args_forward_environment_manager_and_openai_form_capability",
+        "tests::shutdown_waits_for_in_process_drain",
+        "tests::shutdown_completes_promptly_without_retained_managers",
+        "tests::caller_provided_session_source_is_applied",
+        "tests::threads_started_via_app_server_are_visible_through_typed_requests",
+        "tests::typed_request_drop_cancels_waiting_send_and_reply",
+        "tests::typed_request_error_exposes_sources",
+        "tests::tiny_channel_capacity_still_supports_request_roundtrip",
+        "tests::typed_request_roundtrip_works",
+        "tests::typed_request_reports_json_rpc_errors",
+        "tests::remote_typed_request_accepts_large_single_frame_response",
+        "tests::unread_lossless_notifications_do_not_block_in_process_requests"
+      ],
+      "failure": null,
+      "source": {
+        "recorded_baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_label_is_not_tested_tree_identity": true,
+        "fingerprinted_paths": 8680,
+        "before_map_sha256": "7cdf8be6b1daf1152c92f2197f9d45fd4b462d9681ec959d75e44b989ca57296",
+        "after_map_sha256": "7cdf8be6b1daf1152c92f2197f9d45fd4b462d9681ec959d75e44b989ca57296",
+        "canonical_map_encoding": "UTF-8 JSON with sorted keys, compact separators, ensure_ascii=false",
+        "scoped_source_unchanged": true,
+        "selected_before": {
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+          "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+          "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+          "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+          "codex-rs/app-server-client/src/lib.rs": "c33e258a27ec120216ef66f40427ab135829d2819bac3780d98cfba18a27c5bc",
+          "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+          "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+          "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+          "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        },
+        "selected_after": {
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+          "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+          "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+          "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+          "codex-rs/app-server-client/src/lib.rs": "c33e258a27ec120216ef66f40427ab135829d2819bac3780d98cfba18a27c5bc",
+          "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+          "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+          "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+          "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+        }
+      },
+      "subreaper": {
+        "enabled": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "adopted_returncode_counts": {
+          "128": 6,
+          "0": 1,
+          "-13": 3
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-client-shutdown-corrected.source.json",
+          "sha256": "18e09df84f8b42dc2ad347c453f97c78c2db54386f6fa7036dc3e07dd2d22e21"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-client-shutdown-corrected.log",
+          "sha256": "ee0c8237c55127fd71bb3de13119637a4d3b350edc2db5652adb9df0fab52425"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-client-shutdown-corrected.subreaper.json",
+          "sha256": "1569a582f61699011dd95feced070e78eb949d67d4f3b200d0cfb9dddc4743cb"
+        }
+      }
+    }
+  ],
+  "fixture_correction": {
+    "changed_paths_across_8680_recorded_paths": [
+      "codex-rs/app-server-client/src/lib.rs"
+    ],
+    "lines_added": 8,
+    "lines_removed": 2,
+    "production_changes_between_retry_and_corrected": false,
+    "assertions_removed_or_weakened": false,
+    "change": "Retain the command receiver in an actual fixture worker, receive Shutdown and acknowledge Ok before the worker completes. Lag marker and successful shutdown assertions remain.",
+    "diff": "--- bb03f3a81a828871e4e35d3e46b9c8528f3b7d00:codex-rs/app-server-client/src/lib.rs\n+++ corrected-tested-source:codex-rs/app-server-client/src/lib.rs\n@@ -2025,9 +2025,15 @@\n \n     #[tokio::test]\n     async fn next_event_surfaces_lagged_markers() {\n-        let (command_tx, _) = mpsc::channel(1);\n+        let (command_tx, mut command_rx) = mpsc::channel(1);\n         let (event_tx, event_rx) = mpsc::unbounded_channel();\n-        let worker_handle = tokio::spawn(async {});\n+        let worker_handle = tokio::spawn(async move {\n+            let response_tx = match command_rx.recv().await {\n+                Some(ClientCommand::Shutdown { response_tx }) => response_tx,\n+                _ => panic!(\"expected shutdown command\"),\n+            };\n+            response_tx.send(Ok(())).expect(\"shutdown should acknowledge\");\n+        });\n         event_tx\n             .send(InProcessServerEvent::Lagged { skipped: 3 })\n             .expect(\"lagged marker should enqueue\");\n"
+  },
+  "proof_groups": {
+    "new_controlled_worker_lifecycle_tests": [
+      "shutdown::tests::acknowledgement_error_still_waits_for_worker_and_keeps_first_failure",
+      "shutdown::tests::acknowledgement_does_not_reset_the_deadline_for_a_stalled_worker",
+      "shutdown::tests::acknowledgement_loss_cannot_be_reported_as_success",
+      "shutdown::tests::cancelling_polled_shutdown_receipt_does_not_abort_the_drain",
+      "shutdown::tests::destroyed_runtime_cannot_produce_a_successful_shutdown_receipt",
+      "shutdown::tests::enum_dispatcher_preserves_shutdown_ownership_before_its_receipt_is_polled",
+      "shutdown::tests::dropping_unpolled_shutdown_receipt_preserves_owned_graceful_shutdown",
+      "shutdown::tests::first_operation_error_survives_later_worker_panic",
+      "shutdown::tests::full_command_queue_is_inside_the_single_deadline",
+      "shutdown::tests::shutdown_allows_the_shared_embedded_budget_before_joining",
+      "shutdown::tests::shutdown_future_can_be_constructed_outside_its_runtime_context",
+      "shutdown::tests::worker_panic_is_reported_with_or_without_successful_acknowledgement"
+    ],
+    "existing_real_embedded_runtime_cases": [
+      "tests::typed_request_roundtrip_works",
+      "tests::typed_request_reports_json_rpc_errors",
+      "tests::caller_provided_session_source_is_applied",
+      "tests::threads_started_via_app_server_are_visible_through_typed_requests",
+      "tests::tiny_channel_capacity_still_supports_request_roundtrip",
+      "tests::unread_lossless_notifications_do_not_block_in_process_requests",
+      "tests::shutdown_completes_promptly_without_retained_managers"
+    ],
+    "other_coverage": "Existing mock remote WebSocket/Unix-socket transport, event, metadata, error and controlled-drain tests remain enabled; these are subsets of the 40, not additional totals."
+  },
+  "post_test_gates": {
+    "scoped_fix": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-app-server-client"
+      ],
+      "started_utc": "2026-10-01T05:34:10Z",
+      "finished_utc": "2026-10-01T05:37:25Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "source_before": {
+        "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "codex-rs/app-server-client/src/lib.rs": "c33e258a27ec120216ef66f40427ab135829d2819bac3780d98cfba18a27c5bc",
+        "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33",
+        "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00"
+      },
+      "source_after": {
+        "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "codex-rs/app-server-client/src/lib.rs": "c33e258a27ec120216ef66f40427ab135829d2819bac3780d98cfba18a27c5bc",
+        "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33",
+        "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00"
+      },
+      "name": "p02b-client-shutdown-fix",
+      "status": "finished",
+      "warnings_in_log": false,
+      "source_artifact_sha256": "9a34e9bbb1dcffdd0955469081d6f12d1f73b194bf075ce890707cf7013356be",
+      "log_sha256": "462483886a3571f4a45cc9f2df25c8b8e28fe3cfffdfb2417be9cbe1a7bcd0aa"
+    },
+    "final_format": {
+      "name": "p02b-client-shutdown-format",
+      "status": "finished",
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "started_utc": "2026-10-01T05:37:42Z",
+      "finished_utc": "2026-10-01T05:38:03Z",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "fingerprinted_paths": 8679,
+      "before_map_sha256": "cc610e82026dae21ce1d69d5addae3a888828a881a8d55874bf1aec0234a2d85",
+      "after_map_sha256": "d6c1197fdb06d20fbbd02b24d73e26f2ac70ed823dc8351f96fc1e977b8fecf4",
+      "canonical_map_encoding": "UTF-8 JSON with sorted keys, compact separators, ensure_ascii=false",
+      "changed_paths": [
+        "codex-rs/app-server-client/src/lib.rs"
+      ],
+      "selected_before": {
+        "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+        "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "codex-rs/app-server-client/src/lib.rs": "c33e258a27ec120216ef66f40427ab135829d2819bac3780d98cfba18a27c5bc",
+        "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+      },
+      "selected_after": {
+        "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "codex-rs/app-server/src/in_process.rs": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+        "codex-rs/app-server-client/BUILD.bazel": "68278d976028d765acd49eaf2c7ee25ad6f3d686505cbda3e549d5592a64d2df",
+        "codex-rs/app-server-client/Cargo.toml": "74fd9123b3697f600e1913c2665c4f235ca1c9999756b109361de41636e288c7",
+        "codex-rs/app-server-client/README.md": "8ced7c68ae2f21a9d650b3c71250bf9d7c710b3172c524016dd03c5fe8630491",
+        "codex-rs/app-server-client/src/lib.rs": "076d0afc779a06624f1ea4d5992c5b5b55f8878d3130d216f9380bdbfb28f2e6",
+        "codex-rs/app-server-client/src/path.rs": "d8d73364280b595468d60ca6a33ab2d6461013feb0d182d142022d13e0c94f7f",
+        "codex-rs/app-server-client/src/remote.rs": "c1b89c748ebc812836d68882dbd7848b72fe5e4cc7c226cc2cb7d3846515b5e5",
+        "codex-rs/app-server-client/src/shutdown.rs": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+        "codex-rs/app-server-client/src/shutdown_tests.rs": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33"
+      },
+      "source_artifact_sha256": "03f6f42eea6fef0eda2c49a4ee8e81216cbee4ea933c30592240a500d2584403",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change_classification": "Only wraps the new fixture response_tx.send(Ok(())).expect(...) call; no semantic change. No rerun solely for formatting."
+    }
+  },
+  "limits": [
+    "No new CLI/App Server executable or GUI/browser/manager Launch validation is claimed.",
+    "No full 205-second storage drain on a real runtime is claimed: deadline cases use controlled workers and paused Tokio time.",
+    "The real embedded-runtime cases initialize actual App Server/config/state and exercise requests and cleanup; they do not establish live-provider turn, independent storage-plugin or new search-plugin behavior.",
+    "Subreaper adopted return codes are recorded separately from test outcomes; nonzero child statuses are not counted as passing tests."
+  ],
+  "custody_and_privacy": {
+    "source_wip": "GitHub WIP cb977e7d664bc752c28854d468619039bd3ad167 includes the corrected/formatted client fixture. Its 40-test gate remains bound to the earlier pre-native source manifests.",
+    "original_artifacts": "/workspace/acceptance/p02b-client-shutdown* retained separately; reports and logs referenced here are cloud-local.",
+    "public_content": "Whitelisted source identities, fixture diff, case names, outcome counts and artifact fingerprints; no credentials, bearer URLs, private session data or raw environment dumps."
+  },
+  "later_native_application": "Actual NativeSearchBackend staging was applied only AFTER the client test/fix/format gates. Later native bytes are not covered by this 40-test run or its full source manifest."
+}

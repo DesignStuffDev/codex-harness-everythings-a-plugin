@@ -1,0 +1,1950 @@
+{
+  "schema_version": 1,
+  "status": "focused_real_native_backend_gate_passed; independent_installation_pending",
+  "summary": {
+    "executed": 141,
+    "passed": 141,
+    "skipped": 0,
+    "packages": {
+      "codex-file-search": 75,
+      "codex-file-search-api": 11,
+      "nucleo": 23,
+      "nucleo-matcher": 32
+    },
+    "same_source_during_test": true,
+    "source_fingerprints": 82
+  },
+  "source_binding": {
+    "commit": "cb977e7d664bc752c28854d468619039bd3ad167",
+    "tree": "40207f354efb3bee85265d8f3d83312489b56709",
+    "parent": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+    "branch": "wip/p02b-bounded-search-20261001",
+    "github_ref_verified": true,
+    "github_native_backend_blob": "98a82dd1196735ade842c8cb09345978c68be5cd",
+    "exact_final_bindings": {
+      "codex-rs/file-search/BUILD.bazel": {
+        "tested_sha256": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+        "published_sha256": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/Cargo.toml": {
+        "tested_sha256": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+        "published_sha256": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/README.md": {
+        "tested_sha256": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+        "published_sha256": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/async_owner.rs": {
+        "tested_sha256": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+        "published_sha256": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/async_owner_receipt_tests.rs": {
+        "tested_sha256": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+        "published_sha256": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/async_owner_tests.rs": {
+        "tested_sha256": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+        "published_sha256": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/cli.rs": {
+        "tested_sha256": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+        "published_sha256": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/lib.rs": {
+        "tested_sha256": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+        "published_sha256": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/lifecycle.rs": {
+        "tested_sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+        "published_sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/lifecycle_tests.rs": {
+        "tested_sha256": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+        "published_sha256": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/main.rs": {
+        "tested_sha256": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+        "published_sha256": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/matcher.rs": {
+        "tested_sha256": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+        "published_sha256": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_backend.rs": {
+        "tested_sha256": "90532afafb3396b3e8d17873237a81fde9e4b78da2989b922176829051063a31",
+        "published_sha256": "43597ad7a7800caf4978a8a05bab6662e450c6cc505f54314f7c3d49645f7848",
+        "same_as_tested": false
+      },
+      "codex-rs/file-search/src/native_backend_policy.rs": {
+        "tested_sha256": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+        "published_sha256": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_backend_policy_tests.rs": {
+        "tested_sha256": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+        "published_sha256": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_backend_poll.rs": {
+        "tested_sha256": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+        "published_sha256": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_backend_session.rs": {
+        "tested_sha256": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+        "published_sha256": "17fbbb979fc77ead48d802b21519f17e0e1e54252d7ae848e7f9074cacf13b6f",
+        "same_as_tested": false
+      },
+      "codex-rs/file-search/src/native_backend_tests.rs": {
+        "tested_sha256": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+        "published_sha256": "187a99eb0e686adda526a5e3cc0fa451e119500d1baf6deebb9c387fe2749b97",
+        "same_as_tested": false
+      },
+      "codex-rs/file-search/src/native_budget.rs": {
+        "tested_sha256": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+        "published_sha256": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_budget_tests.rs": {
+        "tested_sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+        "published_sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_index.rs": {
+        "tested_sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+        "published_sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_output.rs": {
+        "tested_sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+        "published_sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_output_tests.rs": {
+        "tested_sha256": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+        "published_sha256": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/native_session.rs": {
+        "tested_sha256": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+        "published_sha256": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/pool_lifecycle_tests.rs": {
+        "tested_sha256": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+        "published_sha256": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/query_completion_tests.rs": {
+        "tested_sha256": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+        "published_sha256": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/work_queue.rs": {
+        "tested_sha256": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+        "published_sha256": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search/src/work_queue_tests.rs": {
+        "tested_sha256": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+        "published_sha256": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/BUILD.bazel": {
+        "tested_sha256": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+        "published_sha256": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/Cargo.toml": {
+        "tested_sha256": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+        "published_sha256": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/README.md": {
+        "tested_sha256": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+        "published_sha256": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/backend.rs": {
+        "tested_sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+        "published_sha256": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/budget.rs": {
+        "tested_sha256": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+        "published_sha256": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/close_contract_tests.rs": {
+        "tested_sha256": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+        "published_sha256": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/contract_tests.rs": {
+        "tested_sha256": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+        "published_sha256": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/error.rs": {
+        "tested_sha256": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+        "published_sha256": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/lib.rs": {
+        "tested_sha256": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+        "published_sha256": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+        "same_as_tested": true
+      },
+      "codex-rs/file-search-api/src/values.rs": {
+        "tested_sha256": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+        "published_sha256": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/Cargo.toml": {
+        "tested_sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+        "published_sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/LICENSE": {
+        "tested_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "published_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/PROVENANCE.md": {
+        "tested_sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "published_sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/README.md": {
+        "tested_sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+        "published_sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/Cargo.toml": {
+        "tested_sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+        "published_sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/LICENSE": {
+        "tested_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "published_sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore": {
+        "tested_sha256": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+        "published_sha256": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml": {
+        "tested_sha256": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+        "published_sha256": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs": {
+        "tested_sha256": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+        "published_sha256": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/fuzz.sh": {
+        "tested_sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+        "published_sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh": {
+        "tested_sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+        "published_sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs": {
+        "tested_sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+        "published_sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs": {
+        "tested_sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+        "published_sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/chars.rs": {
+        "tested_sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+        "published_sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/config.rs": {
+        "tested_sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+        "published_sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/debug.rs": {
+        "tested_sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+        "published_sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/exact.rs": {
+        "tested_sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+        "published_sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs": {
+        "tested_sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+        "published_sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs": {
+        "tested_sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+        "published_sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/lib.rs": {
+        "tested_sha256": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+        "published_sha256": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/matrix.rs": {
+        "tested_sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+        "published_sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs": {
+        "tested_sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+        "published_sha256": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs": {
+        "tested_sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+        "published_sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/pattern.rs": {
+        "tested_sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+        "published_sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/prefilter.rs": {
+        "tested_sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+        "published_sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/score.rs": {
+        "tested_sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+        "published_sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/tests.rs": {
+        "tested_sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+        "published_sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs": {
+        "tested_sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+        "published_sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs": {
+        "tested_sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+        "published_sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs": {
+        "tested_sha256": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+        "published_sha256": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/bounded.rs": {
+        "tested_sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+        "published_sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/bounded_tests.rs": {
+        "tested_sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+        "published_sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/boxcar.rs": {
+        "tested_sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+        "published_sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs": {
+        "tested_sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+        "published_sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/lib.rs": {
+        "tested_sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+        "published_sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/par_sort.rs": {
+        "tested_sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+        "published_sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/pattern/tests.rs": {
+        "tested_sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+        "published_sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/pattern.rs": {
+        "tested_sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+        "published_sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/shutdown_tests.rs": {
+        "tested_sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+        "published_sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/tests.rs": {
+        "tested_sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+        "published_sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+        "same_as_tested": true
+      },
+      "codex-rs/third-party/nucleo/src/worker.rs": {
+        "tested_sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+        "published_sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+        "same_as_tested": true
+      },
+      "codex-rs/Cargo.toml": {
+        "tested_sha256": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "published_sha256": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+        "same_as_tested": true
+      },
+      "codex-rs/Cargo.lock": {
+        "tested_sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "published_sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+        "same_as_tested": true
+      },
+      "component-sdk/tests/subreaper_runner.py": {
+        "tested_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "published_sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+        "same_as_tested": true
+      }
+    },
+    "note": "Post-test mechanical fixes are distinguished from tested source per path. This WIP is not an accepted full host/GUI runtime checkpoint."
+  },
+  "events": [
+    {
+      "name": "p02b-native-backend-pretest-format",
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "started_utc": "2026-10-01T05:38:46Z",
+      "finished_utc": "2026-10-01T05:39:06Z",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "source": {
+        "baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_is_reference_not_tested_tree": true,
+        "path_count_before": 8687,
+        "path_count_after": 8687,
+        "full_before_map_sha256": "8c95f51766fd48368a3d63fb3147dcae068309500a971e839886b80e6d5fe4ed",
+        "full_after_map_sha256": "b893df4c74d366cfe99c351b631ae9556d436899715c49716830e69da1402493",
+        "canonical_map_encoding": "UTF-8 JSON, sorted keys, compact separators, ensure_ascii=false",
+        "changed_paths": [
+          "codex-rs/file-search/src/async_owner.rs",
+          "codex-rs/file-search/src/lib.rs",
+          "codex-rs/file-search/src/matcher.rs",
+          "codex-rs/file-search/src/native_backend.rs",
+          "codex-rs/file-search/src/native_backend_policy.rs",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs",
+          "codex-rs/file-search/src/native_backend_poll.rs",
+          "codex-rs/file-search/src/native_backend_session.rs",
+          "codex-rs/file-search/src/native_backend_tests.rs",
+          "codex-rs/file-search/src/native_output.rs",
+          "codex-rs/file-search/src/native_output_tests.rs",
+          "codex-rs/file-search/src/native_session.rs"
+        ],
+        "included_fingerprints": "changed paths only; full maps remain in fingerprinted source artifact",
+        "before": {
+          "codex-rs/file-search/src/async_owner.rs": "6394730ea458688ad806627bf53d760ad4b990c83a31a0aea088df88aebb507c",
+          "codex-rs/file-search/src/lib.rs": "43e35aa7ff775d9cec0dc8d15c5aaadd8ebfb8814a9db3371e2d0019ab8fb1a0",
+          "codex-rs/file-search/src/matcher.rs": "a8f3b911a5f41df3044fffa08bc6d9d810c5da1000f33a44d326d1afc75a11ef",
+          "codex-rs/file-search/src/native_backend.rs": "c074a65a345764aa1b345725a239f1837460476110e0d87a6bdaac8623d5494d",
+          "codex-rs/file-search/src/native_backend_policy.rs": "a599cea2ca22bfffbf457d2a7cd155b6eab8cf369cf63efa746290f4660b9177",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "e6b0a034f9594cb24c332183f1750c6298c8b8b77648fa245256020db5e55156",
+          "codex-rs/file-search/src/native_backend_poll.rs": "7f6dfdb6ff8624258ac6c6d0af6ec848f0781263900df7d5c9433702c9bfb82a",
+          "codex-rs/file-search/src/native_backend_session.rs": "8d1e835011511bb37592b4ec02a2053f3ddb4e6980f459fef0d7c693cd563cd5",
+          "codex-rs/file-search/src/native_backend_tests.rs": "50e2539e7edfa1bac7f72203f214f96cee5d0d2eaa2ea296991dd54223926882",
+          "codex-rs/file-search/src/native_output.rs": "8d716d09cd31e7ed59ecc6c72cd7a59dbf41adc44a0051f32e62b6eca4c45fab",
+          "codex-rs/file-search/src/native_output_tests.rs": "010c61f72d00c3250d130fd01b8737b311fe280130b50a17ee9e1c0f97c99c93",
+          "codex-rs/file-search/src/native_session.rs": "4913c1d0493b86839fa53452e4ab01b94d33e8416545f8f38d0a6dc3f28268df"
+        },
+        "after": {
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "742ca8ba1afe9643aeb03677c74da68cef4c324d43623d5ad71ea481da56c03e",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3"
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-pretest-format.source.json",
+          "sha256": "47ca7d0b21fa4dff97e1648e4c1247ac2b3c50eb2394c8a8a442185dcb8601e1"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-backend-pretest-format.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "p02b-native-backend-tests",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-backend-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "started_utc": "2026-10-01T05:39:51Z",
+      "finished_utc": "2026-10-01T05:39:53Z",
+      "returncode": 101,
+      "scoped_source_unchanged": true,
+      "source": {
+        "baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_is_reference_not_tested_tree": true,
+        "path_count_before": 82,
+        "path_count_after": 82,
+        "full_before_map_sha256": "583f89a22a9778d8466f85eb22069d420be1e70071cd31eefc1de31802d74b06",
+        "full_after_map_sha256": "583f89a22a9778d8466f85eb22069d420be1e70071cd31eefc1de31802d74b06",
+        "canonical_map_encoding": "UTF-8 JSON, sorted keys, compact separators, ensure_ascii=false",
+        "changed_paths": [],
+        "included_fingerprints": "complete scoped maps",
+        "before": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "742ca8ba1afe9643aeb03677c74da68cef4c324d43623d5ad71ea481da56c03e",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+          "codex-rs/file-search-api/BUILD.bazel": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+          "codex-rs/file-search-api/Cargo.toml": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+          "codex-rs/file-search-api/README.md": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+          "codex-rs/file-search-api/src/backend.rs": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+          "codex-rs/file-search-api/src/budget.rs": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+          "codex-rs/file-search-api/src/close_contract_tests.rs": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+          "codex-rs/file-search-api/src/contract_tests.rs": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+          "codex-rs/file-search-api/src/error.rs": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+          "codex-rs/file-search-api/src/lib.rs": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+          "codex-rs/file-search-api/src/values.rs": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+          "codex-rs/third-party/nucleo/Cargo.toml": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+          "codex-rs/third-party/nucleo/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/PROVENANCE.md": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+          "codex-rs/third-party/nucleo/README.md": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+          "codex-rs/third-party/nucleo/matcher/Cargo.toml": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+          "codex-rs/third-party/nucleo/matcher/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+          "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+          "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+          "codex-rs/third-party/nucleo/matcher/fuzz.sh": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+          "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+          "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+          "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+          "codex-rs/third-party/nucleo/matcher/src/chars.rs": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+          "codex-rs/third-party/nucleo/matcher/src/config.rs": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+          "codex-rs/third-party/nucleo/matcher/src/debug.rs": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+          "codex-rs/third-party/nucleo/matcher/src/exact.rs": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+          "codex-rs/third-party/nucleo/matcher/src/lib.rs": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+          "codex-rs/third-party/nucleo/matcher/src/matrix.rs": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+          "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+          "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+          "codex-rs/third-party/nucleo/matcher/src/pattern.rs": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+          "codex-rs/third-party/nucleo/matcher/src/prefilter.rs": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+          "codex-rs/third-party/nucleo/matcher/src/score.rs": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+          "codex-rs/third-party/nucleo/matcher/src/tests.rs": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+          "codex-rs/third-party/nucleo/src/bounded.rs": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+          "codex-rs/third-party/nucleo/src/bounded_tests.rs": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+          "codex-rs/third-party/nucleo/src/boxcar.rs": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+          "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+          "codex-rs/third-party/nucleo/src/lib.rs": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+          "codex-rs/third-party/nucleo/src/par_sort.rs": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+          "codex-rs/third-party/nucleo/src/pattern/tests.rs": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+          "codex-rs/third-party/nucleo/src/pattern.rs": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+          "codex-rs/third-party/nucleo/src/shutdown_tests.rs": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+          "codex-rs/third-party/nucleo/src/tests.rs": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+          "codex-rs/third-party/nucleo/src/worker.rs": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "component-sdk/tests/subreaper_runner.py": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+        },
+        "after": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "742ca8ba1afe9643aeb03677c74da68cef4c324d43623d5ad71ea481da56c03e",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+          "codex-rs/file-search-api/BUILD.bazel": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+          "codex-rs/file-search-api/Cargo.toml": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+          "codex-rs/file-search-api/README.md": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+          "codex-rs/file-search-api/src/backend.rs": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+          "codex-rs/file-search-api/src/budget.rs": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+          "codex-rs/file-search-api/src/close_contract_tests.rs": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+          "codex-rs/file-search-api/src/contract_tests.rs": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+          "codex-rs/file-search-api/src/error.rs": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+          "codex-rs/file-search-api/src/lib.rs": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+          "codex-rs/file-search-api/src/values.rs": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+          "codex-rs/third-party/nucleo/Cargo.toml": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+          "codex-rs/third-party/nucleo/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/PROVENANCE.md": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+          "codex-rs/third-party/nucleo/README.md": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+          "codex-rs/third-party/nucleo/matcher/Cargo.toml": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+          "codex-rs/third-party/nucleo/matcher/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+          "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+          "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+          "codex-rs/third-party/nucleo/matcher/fuzz.sh": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+          "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+          "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+          "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+          "codex-rs/third-party/nucleo/matcher/src/chars.rs": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+          "codex-rs/third-party/nucleo/matcher/src/config.rs": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+          "codex-rs/third-party/nucleo/matcher/src/debug.rs": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+          "codex-rs/third-party/nucleo/matcher/src/exact.rs": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+          "codex-rs/third-party/nucleo/matcher/src/lib.rs": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+          "codex-rs/third-party/nucleo/matcher/src/matrix.rs": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+          "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+          "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+          "codex-rs/third-party/nucleo/matcher/src/pattern.rs": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+          "codex-rs/third-party/nucleo/matcher/src/prefilter.rs": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+          "codex-rs/third-party/nucleo/matcher/src/score.rs": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+          "codex-rs/third-party/nucleo/matcher/src/tests.rs": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+          "codex-rs/third-party/nucleo/src/bounded.rs": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+          "codex-rs/third-party/nucleo/src/bounded_tests.rs": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+          "codex-rs/third-party/nucleo/src/boxcar.rs": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+          "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+          "codex-rs/third-party/nucleo/src/lib.rs": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+          "codex-rs/third-party/nucleo/src/par_sort.rs": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+          "codex-rs/third-party/nucleo/src/pattern/tests.rs": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+          "codex-rs/third-party/nucleo/src/pattern.rs": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+          "codex-rs/third-party/nucleo/src/shutdown_tests.rs": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+          "codex-rs/third-party/nucleo/src/tests.rs": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+          "codex-rs/third-party/nucleo/src/worker.rs": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "component-sdk/tests/subreaper_runner.py": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-tests.source.json",
+          "sha256": "ebee4c738ed3f08299b0cfc4e0e533f381fd2e7a3c4f846941a62e521bba93c2"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-backend-tests.log",
+          "sha256": "bb4aecb5757be2b20b7b9592834741dee554cfc0d5f7b7bfbb5389babb88e5b0"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-tests.subreaper.json",
+          "sha256": "c652003b086e50a69992e5a2117a9683997bf92304f58aa1ff5cdaa22de33fb2"
+        }
+      },
+      "subreaper": {
+        "subreaper": true,
+        "command_returncode": 101,
+        "exit_status": 101,
+        "runner_error": null,
+        "adopted_returncode_counts": {}
+      },
+      "tests": {
+        "executed": 0,
+        "status": "compile failure before execution",
+        "cause": "Unresolved TaskTrackerToken import; three whole-guard capture warnings also observed."
+      }
+    },
+    {
+      "name": "p02b-native-backend-tests-corrected",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-native-backend-tests-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-file-search-api",
+        "-p",
+        "nucleo",
+        "-p",
+        "nucleo-matcher"
+      ],
+      "started_utc": "2026-10-01T05:41:13Z",
+      "finished_utc": "2026-10-01T05:41:21Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "source": {
+        "baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_is_reference_not_tested_tree": true,
+        "path_count_before": 82,
+        "path_count_after": 82,
+        "full_before_map_sha256": "e973773471e118031610ccf996a85070f3b1d8566624e69ab5dc11d644b5f2c3",
+        "full_after_map_sha256": "e973773471e118031610ccf996a85070f3b1d8566624e69ab5dc11d644b5f2c3",
+        "canonical_map_encoding": "UTF-8 JSON, sorted keys, compact separators, ensure_ascii=false",
+        "changed_paths": [],
+        "included_fingerprints": "complete scoped maps",
+        "before": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "90532afafb3396b3e8d17873237a81fde9e4b78da2989b922176829051063a31",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+          "codex-rs/file-search-api/BUILD.bazel": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+          "codex-rs/file-search-api/Cargo.toml": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+          "codex-rs/file-search-api/README.md": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+          "codex-rs/file-search-api/src/backend.rs": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+          "codex-rs/file-search-api/src/budget.rs": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+          "codex-rs/file-search-api/src/close_contract_tests.rs": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+          "codex-rs/file-search-api/src/contract_tests.rs": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+          "codex-rs/file-search-api/src/error.rs": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+          "codex-rs/file-search-api/src/lib.rs": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+          "codex-rs/file-search-api/src/values.rs": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+          "codex-rs/third-party/nucleo/Cargo.toml": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+          "codex-rs/third-party/nucleo/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/PROVENANCE.md": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+          "codex-rs/third-party/nucleo/README.md": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+          "codex-rs/third-party/nucleo/matcher/Cargo.toml": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+          "codex-rs/third-party/nucleo/matcher/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+          "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+          "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+          "codex-rs/third-party/nucleo/matcher/fuzz.sh": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+          "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+          "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+          "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+          "codex-rs/third-party/nucleo/matcher/src/chars.rs": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+          "codex-rs/third-party/nucleo/matcher/src/config.rs": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+          "codex-rs/third-party/nucleo/matcher/src/debug.rs": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+          "codex-rs/third-party/nucleo/matcher/src/exact.rs": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+          "codex-rs/third-party/nucleo/matcher/src/lib.rs": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+          "codex-rs/third-party/nucleo/matcher/src/matrix.rs": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+          "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+          "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+          "codex-rs/third-party/nucleo/matcher/src/pattern.rs": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+          "codex-rs/third-party/nucleo/matcher/src/prefilter.rs": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+          "codex-rs/third-party/nucleo/matcher/src/score.rs": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+          "codex-rs/third-party/nucleo/matcher/src/tests.rs": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+          "codex-rs/third-party/nucleo/src/bounded.rs": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+          "codex-rs/third-party/nucleo/src/bounded_tests.rs": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+          "codex-rs/third-party/nucleo/src/boxcar.rs": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+          "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+          "codex-rs/third-party/nucleo/src/lib.rs": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+          "codex-rs/third-party/nucleo/src/par_sort.rs": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+          "codex-rs/third-party/nucleo/src/pattern/tests.rs": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+          "codex-rs/third-party/nucleo/src/pattern.rs": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+          "codex-rs/third-party/nucleo/src/shutdown_tests.rs": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+          "codex-rs/third-party/nucleo/src/tests.rs": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+          "codex-rs/third-party/nucleo/src/worker.rs": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "component-sdk/tests/subreaper_runner.py": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+        },
+        "after": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "90532afafb3396b3e8d17873237a81fde9e4b78da2989b922176829051063a31",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+          "codex-rs/file-search-api/BUILD.bazel": "40a9bd3088ed6c655fe8a02b12cf14dc9ff3d5ba6770976b296f2b451eab7d9a",
+          "codex-rs/file-search-api/Cargo.toml": "8155ea72687e70901d33cf81b37943ee8f72c90b657e90d68d161f3ab8de855a",
+          "codex-rs/file-search-api/README.md": "e3d7851c2e51c2e437116a706bf48aabf45347c948c96a2dbbbb759fba8fbc0b",
+          "codex-rs/file-search-api/src/backend.rs": "e93e5b02c22bef3d2491f7fa04b25e7e4117b3fa987e1183f98acb5d9bf3ae16",
+          "codex-rs/file-search-api/src/budget.rs": "67d739def19253b6c5db4d248e6bfdb6e38ba839b25b135e6137ab12a4bf806d",
+          "codex-rs/file-search-api/src/close_contract_tests.rs": "0f12fdffdb98f480d0f07d4bf378243792333b206d250148754ecb8a85cb32a4",
+          "codex-rs/file-search-api/src/contract_tests.rs": "47c9e310ef176c03e005819b1e849ee3118dec6f94c9e5a9136816f4d8abb661",
+          "codex-rs/file-search-api/src/error.rs": "3737f07b96924cf6fea69fde15d8fdec74d9d44249f1290e8e8dba315dcd9f74",
+          "codex-rs/file-search-api/src/lib.rs": "df90571998fabf0231d846d295b1988b4161f4b74c60a052a9aac4777f5cdaa9",
+          "codex-rs/file-search-api/src/values.rs": "2c5f528612e7e59757bfab0716afefef8faf4f2c979df152bf5476e13428dffa",
+          "codex-rs/third-party/nucleo/Cargo.toml": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676",
+          "codex-rs/third-party/nucleo/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/PROVENANCE.md": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+          "codex-rs/third-party/nucleo/README.md": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d",
+          "codex-rs/third-party/nucleo/matcher/Cargo.toml": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9",
+          "codex-rs/third-party/nucleo/matcher/LICENSE": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+          "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484",
+          "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27",
+          "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a",
+          "codex-rs/third-party/nucleo/matcher/fuzz.sh": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55",
+          "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf",
+          "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634",
+          "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf",
+          "codex-rs/third-party/nucleo/matcher/src/chars.rs": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7",
+          "codex-rs/third-party/nucleo/matcher/src/config.rs": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8",
+          "codex-rs/third-party/nucleo/matcher/src/debug.rs": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8",
+          "codex-rs/third-party/nucleo/matcher/src/exact.rs": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab",
+          "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2",
+          "codex-rs/third-party/nucleo/matcher/src/lib.rs": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+          "codex-rs/third-party/nucleo/matcher/src/matrix.rs": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+          "codex-rs/third-party/nucleo/matcher/src/matrix_extent_tests.rs": "ac9f9b2ddaa285fdcd741475aacb74bb678e4ba4d8e7ee75d5dd48114037a2dc",
+          "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6",
+          "codex-rs/third-party/nucleo/matcher/src/pattern.rs": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d",
+          "codex-rs/third-party/nucleo/matcher/src/prefilter.rs": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db",
+          "codex-rs/third-party/nucleo/matcher/src/score.rs": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+          "codex-rs/third-party/nucleo/matcher/src/tests.rs": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982",
+          "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+          "codex-rs/third-party/nucleo/src/bounded.rs": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+          "codex-rs/third-party/nucleo/src/bounded_tests.rs": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+          "codex-rs/third-party/nucleo/src/boxcar.rs": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+          "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+          "codex-rs/third-party/nucleo/src/lib.rs": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+          "codex-rs/third-party/nucleo/src/par_sort.rs": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84",
+          "codex-rs/third-party/nucleo/src/pattern/tests.rs": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a",
+          "codex-rs/third-party/nucleo/src/pattern.rs": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+          "codex-rs/third-party/nucleo/src/shutdown_tests.rs": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1",
+          "codex-rs/third-party/nucleo/src/tests.rs": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684",
+          "codex-rs/third-party/nucleo/src/worker.rs": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+          "codex-rs/Cargo.toml": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+          "codex-rs/Cargo.lock": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+          "component-sdk/tests/subreaper_runner.py": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-tests-corrected.source.json",
+          "sha256": "593a4ff55ad0a0c05127d3b4bc0a56de60e6a0d68715175d73542f5f815ee73f"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-backend-tests-corrected.log",
+          "sha256": "e675b0dcf3b42ae4f7d2a86f6c3fd1cad6c2e4861406db31d38067198be912de"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-tests-corrected.subreaper.json",
+          "sha256": "87e0d20df6f899953e28c03f4e8fe4a97c6a165439a93da5e12dcebd4c0d5e7e"
+        }
+      },
+      "subreaper": {
+        "subreaper": true,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "adopted_returncode_counts": {}
+      },
+      "tests": {
+        "executed": 141,
+        "passed": 141,
+        "failed": 0,
+        "skipped": 0,
+        "binaries": 5,
+        "packages": {
+          "codex-file-search": 75,
+          "codex-file-search-api": 11,
+          "nucleo": 23,
+          "nucleo-matcher": 32
+        },
+        "cases": [
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::dropped_final_lease_releases_reporter_and_shutdown_fences_new_sessions"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::cancelled_preparing_waiter_keeps_ownership_until_startup_and_cleanup_finish"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::native_failure_is_observable_and_retained_by_repeated_shutdown_waiters"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::abandoned_bounded_start_waiter_keeps_ownership_until_actual_startup_and_cleanup"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::aborted_close_waiter_retains_capacity_until_callback_and_threads_join"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::bounded_entry_exhaustion_retains_resource_kind_after_join_and_permits_reuse"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::observed_cancelled_start_waits_for_cleanup_and_preserves_both_errors"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::observed_cooperative_start_cancellation_has_no_cleanup_failure"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::legacy_constructor_cleanup_error_stays_conservative_while_typed_receipt_is_not_admitted"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::rejected_native_budget_has_not_admitted_receipt_and_does_not_strand_owner_slot"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::abandoned_typed_close_retains_capacity_until_blocked_callback_joins_then_reuses_it"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::joined_reporter_failure_keeps_its_typed_receipt_and_releases_capacity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::asynchronous_rayon_task_panic_is_observed_without_aborting"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::completed_walk_publishes_a_fresh_snapshot_even_when_nucleo_did_not_change"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::join_waits_beyond_rayon_worker_exit_until_os_thread_finishes"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::partial_pool_start_failure_joins_every_started_thread"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::tagged_a_b_a_queries_reject_reused_ids_and_closed_clones"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::pool_thread_panic_is_reported_after_join"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "async_owner::tests::receipts::teardown_panic_preserves_first_native_failure_and_quarantines_capacity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::walker_owner_joins_during_supervisor_unwind"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::dropping_session_eventually_releases_reporter_ownership"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::explicit_close_does_not_cancel_sibling_using_shared_external_flag"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::idle_close_joins_workers_and_releases_reporter"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::query_flood_during_a_blocked_reporter_does_not_delay_close_admission"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::reporter_panic_is_returned_by_close_and_does_not_retain_workers"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle::tests::changed_old_pattern_snapshot_is_not_published_with_new_query_identity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::abandoned_poll_observer_retains_its_single_admission_until_actual_completion"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::abandoned_open_observer_cannot_orphan_preparing_native_work"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::reporter_panic_wakes_one_shot_waiter_without_completion_callback"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "lifecycle_tests::close_waits_for_blocked_callback_but_request_close_does_not"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::dropping_last_public_lease_with_an_abandoned_poll_releases_joined_capacity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::constructor_rejects_relative_mismatched_or_unnormalized_base_and_bad_poll_policy"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::closing_one_shared_lease_fences_its_clones_without_harming_siblings"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::dropped_close_and_shutdown_observers_leave_retained_joined_receipts"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::real_entry_exhaustion_retains_failure_but_joined_cleanup_returns_capacity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::real_native_output_exhaustion_is_typed_and_never_reports_successful_idle"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::rejected_open_policy_inputs_do_not_consume_ownership_or_poison_shutdown"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::relative_and_absolute_lexical_roots_keep_their_spelling_without_chdir"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::each_aggregate_resource_axis_blocks_second_admission_until_joined_release"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::rejected_query_and_poll_inputs_do_not_advance_identity_or_poison_shutdown"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::policy_tests::spare_capacity_inputs_preserve_real_root_exclusion_and_query_semantics"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::byte_overflow_retains_first_failure_and_changes_neither_counter"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_backend_tests::repeated_normalized_and_a_b_a_queries_keep_exact_ids_and_complete_snapshots"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::concurrent_reservations_charge_both_counters_without_partial_rejection"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::native_byte_exhaustion_cannot_report_a_complete_partial_index"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::preflight_charges_fixed_storage_and_optional_highlighting_before_startup"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::unsupported_nucleo_limits_reject_before_allocating_the_index"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::native_entry_exhaustion_joins_without_idle_then_reuses_budget_for_empty_tree"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::worker_ceiling_and_overflow_reject_before_native_admission"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_output::tests::exact_input_copy_preserves_values_without_retaining_spare_capacity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_output::tests::exact_native_path_copy_preserves_platform_encoding_and_capacity"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_output::tests::output_exhaustion_fails_without_idle_and_joins_index_ownership"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_budget::tests::bounded_unicode_search_preserves_full_legacy_matches_and_highlights"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_output::tests::query_byte_rejection_does_not_advance_identity_or_poison_the_session"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::cancel_exits_run"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "query_completion_tests::each_settled_generation_publishes_its_own_completed_snapshot_before_idle"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::file_name_from_path_falls_back_to_full_path"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::file_name_from_path_uses_basename"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "native_output::tests::output_preallocation_preserves_unicode_scores_paths_and_positive_atom_highlights"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::git_repo_still_respects_local_gitignore_when_enabled"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::parent_gitignore_outside_repo_does_not_hide_repo_files"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::run_classifies_followed_directory_symlink_as_directory"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::run_returns_directory_matches_for_query"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::run_returns_matches_for_query"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::dropping_session_does_not_cancel_siblings_with_shared_cancel_flag"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::session_accepts_query_updates_after_walk_complete"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::session_emits_complete_when_query_changes_with_no_matches"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::tie_breakers_sort_by_path_when_scores_equal"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::verify_score_is_none_for_non_match"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "work_queue::tests::admission_between_receiving_wake_and_taking_slot_still_has_a_wake"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::session_emits_updates_when_query_changes"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::session_streams_updates_before_walk_complete"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "work_queue::tests::admission_reports_a_stopped_matcher"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "work_queue::tests::query_flood_retains_only_the_latest_query_and_all_lifecycle_flags"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "close_tests::close_receipt_rejects_missing_unknown_or_oversized_cleanup_evidence"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "close_tests::close_receipt_preserves_operation_failure_independently_of_cleanup"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::diagnostics_are_bounded_without_splitting_utf8"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::frame_rejects_relabeling_and_missing_idle_snapshot"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::existing_match_and_snapshot_json_is_preserved"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::poll_accepts_revision_gaps_but_rejects_stale_or_fabricated_change"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::idle_requires_a_complete_index_and_snapshot_counts_must_agree"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::query_admission_checks_identity_and_utf8_bytes"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::resource_allocations_are_rejected_instead_of_clamped"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::startup_cleanup_evidence_survives_round_trip"
+          },
+          {
+            "package": "codex-file-search-api",
+            "name": "tests::zero_budget_fields_cannot_bypass_validation_through_serde"
+          },
+          {
+            "package": "codex-file-search",
+            "name": "tests::session_scanned_file_count_is_monotonic_across_queries"
+          },
+          {
+            "package": "nucleo",
+            "name": "bounded::tests::notification_panic_keeps_fully_initialized_payload_owned_until_index_drop"
+          },
+          {
+            "package": "nucleo",
+            "name": "bounded::tests::construction_rejects_a_pool_that_differs_from_the_prepaid_plan"
+          },
+          {
+            "package": "nucleo",
+            "name": "bounded::tests::bounded_matching_preserves_native_results_without_growing_candidate_buffers"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::accepted_and_rejected_owned_payloads_are_dropped_once"
+          },
+          {
+            "package": "nucleo",
+            "name": "bounded::tests::over_limit_plan_is_rejected_without_creating_a_pool_or_arena"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::fixed_injection_rejects_a_legacy_arena_without_mutating_it"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::fixed_charge_and_buckets_cover_exact_boundary_without_growth"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::concurrent_rejection_does_not_advance_count_or_lose_accepted_entries"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::fixed_layout_rejects_a_bucket_larger_than_isize_max"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::legacy_injection_is_fenced_before_mutating_a_fixed_arena"
+          },
+          {
+            "package": "nucleo",
+            "name": "bounded::tests::concurrent_injection_and_superseded_queries_keep_the_prepaid_index_intact"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::invalid_fixed_capacities_are_rejected_before_allocation"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::bounded_tests::prepared_column_is_moved_and_full_arena_returns_error_without_panic"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::tests::extend_over_max_capacity"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::tests::extend_over_two_buckets"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::tests::extend_over_more_than_two_buckets"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::tests::extend_unique_bucket"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::tests::extend_with_incorrect_reported_len_is_caught"
+          },
+          {
+            "package": "nucleo",
+            "name": "pattern::tests::append"
+          },
+          {
+            "package": "nucleo",
+            "name": "boxcar::tests::location"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "chars::normalize::tests::boundary_cases"
+          },
+          {
+            "package": "nucleo",
+            "name": "tests::active_injector_count"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "chars::normalize::tests::general"
+          },
+          {
+            "package": "nucleo",
+            "name": "shutdown_tests::supplied_scoped_pool_runs_native_matching_and_terminates"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "matrix::matrix_extent_tests::ascii_matrix_view_extent_matches_reserved_layout"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "chars::normalize::tests::invisible_chars"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "chars::normalize::tests::unchanged_outside_blocks"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "matrix::matrix_extent_tests::unicode_matrix_view_extent_matches_reserved_layout"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "pattern::tests::case_matching"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "pattern::tests::escape"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "pattern::tests::negative"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "pattern::tests::pattern_atoms"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "pattern::tests::pattern_kinds"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::empty_needle"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_casing"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_fuzzy"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_fuzzy_case_sensitive"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_long_str"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_normalize"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_optimal"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_reject"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_prefer_prefix"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_single_char_needle"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_substring"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_substring_case_sensitive"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::test_unicode"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::allocation_tests::ascii_crlf_retains_unicode_representation_and_feature_specific_conversion"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "tests::umlaut"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::allocation_tests::combining_graphemes_preserve_segmentation_without_byte_length_overcharging"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::allocation_tests::planned_conversion_matches_existing_variants_and_actual_payload_sizes"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::allocation_tests::larger_conversion_keeps_exact_capacity_for_non_power_of_two_lengths"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::allocation_tests::target_layout_overflow_is_rejected_without_constructing_an_oversized_string"
+          },
+          {
+            "package": "nucleo",
+            "name": "shutdown_tests::shutdown_waits_for_a_running_matcher_notification"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::tests::test_grapheme_truncation"
+          },
+          {
+            "package": "nucleo-matcher",
+            "name": "utf32_str::tests::test_utf32str_ascii"
+          }
+        ]
+      }
+    },
+    {
+      "name": "p02b-native-backend-fix",
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search"
+      ],
+      "started_utc": "2026-10-01T05:41:48Z",
+      "finished_utc": "2026-10-01T05:41:52Z",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "source": {
+        "baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_is_reference_not_tested_tree": true,
+        "path_count_before": 28,
+        "path_count_after": 28,
+        "full_before_map_sha256": "931ecf39dfe1209d3fd2615510f165f5ca0b37d259711532d6e39f5dba79b26d",
+        "full_after_map_sha256": "02c12b934593ebd146dcc8c87bf88a30258c570c82b7ee3aa0eaf806274a6d21",
+        "canonical_map_encoding": "UTF-8 JSON, sorted keys, compact separators, ensure_ascii=false",
+        "changed_paths": [
+          "codex-rs/file-search/src/native_backend.rs",
+          "codex-rs/file-search/src/native_backend_session.rs"
+        ],
+        "included_fingerprints": "complete scoped maps",
+        "before": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "90532afafb3396b3e8d17873237a81fde9e4b78da2989b922176829051063a31",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "324146738eecae4e7830c8570dab9dfba13e2713f1ce22c7e2977cc48d5e802e",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628"
+        },
+        "after": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "43597ad7a7800caf4978a8a05bab6662e450c6cc505f54314f7c3d49645f7848",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "5d4bfbc3fd4c006bfbf8d8e98e258719cb3bdaacff6b247602cb305e667fe95c",
+          "codex-rs/file-search/src/native_backend_tests.rs": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628"
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-fix.source.json",
+          "sha256": "f8f360320d145c946e112b86ae8a8b609ca408d65d06b5ce91a1c87360eac985"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-backend-fix.log",
+          "sha256": "2dc6d98a28d0e2797b7446a20031836c435b3e72d4a69271e00ff191d5c1622f"
+        }
+      }
+    },
+    {
+      "name": "p02b-native-backend-final-fix",
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search"
+      ],
+      "started_utc": "2026-10-01T05:42:52Z",
+      "finished_utc": "2026-10-01T05:42:54Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "source": {
+        "baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_is_reference_not_tested_tree": true,
+        "path_count_before": 28,
+        "path_count_after": 28,
+        "full_before_map_sha256": "89a17740aba7d600024295b6cf104f9bc30ccf86b7b77fee7f05079ba20e7c0b",
+        "full_after_map_sha256": "89a17740aba7d600024295b6cf104f9bc30ccf86b7b77fee7f05079ba20e7c0b",
+        "canonical_map_encoding": "UTF-8 JSON, sorted keys, compact separators, ensure_ascii=false",
+        "changed_paths": [],
+        "included_fingerprints": "complete scoped maps",
+        "before": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "43597ad7a7800caf4978a8a05bab6662e450c6cc505f54314f7c3d49645f7848",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "5d4bfbc3fd4c006bfbf8d8e98e258719cb3bdaacff6b247602cb305e667fe95c",
+          "codex-rs/file-search/src/native_backend_tests.rs": "187a99eb0e686adda526a5e3cc0fa451e119500d1baf6deebb9c387fe2749b97",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628"
+        },
+        "after": {
+          "codex-rs/file-search/BUILD.bazel": "22c1d6b7840d9148097ee788e86f405be5f9334d6166b0fde09342c861ecfb55",
+          "codex-rs/file-search/Cargo.toml": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+          "codex-rs/file-search/README.md": "faec4972f988dd21637cdad0339431cd93baefb0a5df84eead9e0d2a8e5ca89c",
+          "codex-rs/file-search/src/async_owner.rs": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+          "codex-rs/file-search/src/async_owner_receipt_tests.rs": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+          "codex-rs/file-search/src/async_owner_tests.rs": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+          "codex-rs/file-search/src/cli.rs": "ac32362861b356083b7fcf96e86ad820ca7b79949c91b0935ab6f786101850cc",
+          "codex-rs/file-search/src/lib.rs": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+          "codex-rs/file-search/src/lifecycle.rs": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+          "codex-rs/file-search/src/lifecycle_tests.rs": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+          "codex-rs/file-search/src/main.rs": "f4cddbcf88d20c976e911744fa97c56782ae617f8d5661be0cd3383dbb74ffdf",
+          "codex-rs/file-search/src/matcher.rs": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+          "codex-rs/file-search/src/native_backend.rs": "43597ad7a7800caf4978a8a05bab6662e450c6cc505f54314f7c3d49645f7848",
+          "codex-rs/file-search/src/native_backend_policy.rs": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+          "codex-rs/file-search/src/native_backend_policy_tests.rs": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+          "codex-rs/file-search/src/native_backend_poll.rs": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+          "codex-rs/file-search/src/native_backend_session.rs": "5d4bfbc3fd4c006bfbf8d8e98e258719cb3bdaacff6b247602cb305e667fe95c",
+          "codex-rs/file-search/src/native_backend_tests.rs": "187a99eb0e686adda526a5e3cc0fa451e119500d1baf6deebb9c387fe2749b97",
+          "codex-rs/file-search/src/native_budget.rs": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+          "codex-rs/file-search/src/native_budget_tests.rs": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+          "codex-rs/file-search/src/native_index.rs": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+          "codex-rs/file-search/src/native_output.rs": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+          "codex-rs/file-search/src/native_output_tests.rs": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+          "codex-rs/file-search/src/native_session.rs": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+          "codex-rs/file-search/src/pool_lifecycle_tests.rs": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+          "codex-rs/file-search/src/query_completion_tests.rs": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+          "codex-rs/file-search/src/work_queue.rs": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+          "codex-rs/file-search/src/work_queue_tests.rs": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628"
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-final-fix.source.json",
+          "sha256": "75b0968e4dd24572d0ad3c2001d5c42264575f70a3d831aefc9f960bc65cb164"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-backend-final-fix.log",
+          "sha256": "5e7bfa1c6c3450aa8d7492411d9ebbb9b00ed0a7f81d3d03599ba2514d52397b"
+        }
+      }
+    },
+    {
+      "name": "p02b-native-backend-final-format",
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "started_utc": "2026-10-01T05:42:55Z",
+      "finished_utc": "2026-10-01T05:43:15Z",
+      "returncode": 0,
+      "scoped_source_unchanged": false,
+      "source": {
+        "baseline_label": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+        "baseline_is_reference_not_tested_tree": true,
+        "path_count_before": 8687,
+        "path_count_after": 8687,
+        "full_before_map_sha256": "331abece079127d28b335a82f857bab858aff427dc1a0b064e7ac137bc7386c6",
+        "full_after_map_sha256": "ededb8c36546804da1ff2206411b6e470238dc7eea108e0e662ebb718abb63dd",
+        "canonical_map_encoding": "UTF-8 JSON, sorted keys, compact separators, ensure_ascii=false",
+        "changed_paths": [
+          "codex-rs/file-search/src/native_backend_session.rs"
+        ],
+        "included_fingerprints": "changed paths only; full maps remain in fingerprinted source artifact",
+        "before": {
+          "codex-rs/file-search/src/native_backend_session.rs": "5d4bfbc3fd4c006bfbf8d8e98e258719cb3bdaacff6b247602cb305e667fe95c"
+        },
+        "after": {
+          "codex-rs/file-search/src/native_backend_session.rs": "17fbbb979fc77ead48d802b21519f17e0e1e54252d7ae848e7f9074cacf13b6f"
+        }
+      },
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-backend-final-format.source.json",
+          "sha256": "921beba538fdd5337b361b2678a6f98644369425b150e506b4b2040bcb746242"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-backend-final-format.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  ],
+  "between_gate_transitions": [
+    {
+      "from": "p02b-native-backend-pretest-format",
+      "to": "p02b-native-backend-tests",
+      "common_paths_compared": 81,
+      "changes_between_gates": {}
+    },
+    {
+      "from": "p02b-native-backend-tests",
+      "to": "p02b-native-backend-tests-corrected",
+      "common_paths_compared": 82,
+      "changes_between_gates": {
+        "codex-rs/file-search/src/native_backend.rs": {
+          "before": "742ca8ba1afe9643aeb03677c74da68cef4c324d43623d5ad71ea481da56c03e",
+          "after": "90532afafb3396b3e8d17873237a81fde9e4b78da2989b922176829051063a31"
+        }
+      }
+    },
+    {
+      "from": "p02b-native-backend-tests-corrected",
+      "to": "p02b-native-backend-fix",
+      "common_paths_compared": 28,
+      "changes_between_gates": {}
+    },
+    {
+      "from": "p02b-native-backend-fix",
+      "to": "p02b-native-backend-final-fix",
+      "common_paths_compared": 28,
+      "changes_between_gates": {
+        "codex-rs/file-search/src/native_backend_tests.rs": {
+          "before": "d12e64e97f037259402bbccdcc037c0b92d52c82b63e75f7fae82bb58da49283",
+          "after": "187a99eb0e686adda526a5e3cc0fa451e119500d1baf6deebb9c387fe2749b97"
+        }
+      }
+    },
+    {
+      "from": "p02b-native-backend-final-fix",
+      "to": "p02b-native-backend-final-format",
+      "common_paths_compared": 28,
+      "changes_between_gates": {}
+    }
+  ],
+  "test_groups": {
+    "native_backend_real_filesystem_cases": [
+      "native_backend_tests::abandoned_poll_observer_retains_its_single_admission_until_actual_completion",
+      "native_backend_tests::abandoned_open_observer_cannot_orphan_preparing_native_work",
+      "native_backend_tests::dropping_last_public_lease_with_an_abandoned_poll_releases_joined_capacity",
+      "native_backend_tests::policy_tests::constructor_rejects_relative_mismatched_or_unnormalized_base_and_bad_poll_policy",
+      "native_backend_tests::closing_one_shared_lease_fences_its_clones_without_harming_siblings",
+      "native_backend_tests::policy_tests::dropped_close_and_shutdown_observers_leave_retained_joined_receipts",
+      "native_backend_tests::policy_tests::real_entry_exhaustion_retains_failure_but_joined_cleanup_returns_capacity",
+      "native_backend_tests::policy_tests::real_native_output_exhaustion_is_typed_and_never_reports_successful_idle",
+      "native_backend_tests::policy_tests::rejected_open_policy_inputs_do_not_consume_ownership_or_poison_shutdown",
+      "native_backend_tests::policy_tests::relative_and_absolute_lexical_roots_keep_their_spelling_without_chdir",
+      "native_backend_tests::each_aggregate_resource_axis_blocks_second_admission_until_joined_release",
+      "native_backend_tests::policy_tests::rejected_query_and_poll_inputs_do_not_advance_identity_or_poison_shutdown",
+      "native_backend_tests::policy_tests::spare_capacity_inputs_preserve_real_root_exclusion_and_query_semantics",
+      "native_backend_tests::repeated_normalized_and_a_b_a_queries_keep_exact_ids_and_complete_snapshots"
+    ],
+    "native_output_cases": [
+      "native_output::tests::exact_input_copy_preserves_values_without_retaining_spare_capacity",
+      "native_output::tests::exact_native_path_copy_preserves_platform_encoding_and_capacity",
+      "native_output::tests::output_exhaustion_fails_without_idle_and_joins_index_ownership",
+      "native_output::tests::query_byte_rejection_does_not_advance_identity_or_poison_the_session",
+      "native_output::tests::output_preallocation_preserves_unicode_scores_paths_and_positive_atom_highlights"
+    ],
+    "prior_native_cases": 56,
+    "groups_are_subsets_of_total": true
+  },
+  "reviewed_changes": {
+    "before_corrected_test": "Import TaskTrackerToken from tokio_util::task::task_tracker; move whole preconstructed lifecycle guards into async bodies before awaiting; keep tracker token last so bookkeeping precedes release. Only native_backend.rs changed between the failed compile and corrected gate.",
+    "after_test": [
+      {
+        "files": [
+          "codex-rs/file-search/src/native_backend.rs"
+        ],
+        "change": "Two unused outcome.clone() expressions become moves; the branch needing the later outcome retains its clone."
+      },
+      {
+        "files": [
+          "codex-rs/file-search/src/native_backend_session.rs"
+        ],
+        "change": "Nested checks collapse to short-circuit && in the same order; final formatter wraps this condition."
+      },
+      {
+        "files": [
+          "codex-rs/file-search/src/native_backend_tests.rs"
+        ],
+        "change": "Remove unused std::future::Future import."
+      }
+    ],
+    "review_notes_path": "/tmp/p02b-native-backend-verification-notes.md",
+    "review_notes_sha256": "2d3d29fe93ae00bae0b90573cfdb5ee9766d22be954ba617e7d83c3e34560695",
+    "semantic_review": "Native owner reversed these mechanical edits in temporary copies and recovered recorded tested hashes; review did not run tests a second time.",
+    "final_fix": "exit 0, unchanged scoped source, no warnings",
+    "final_format": "exit 0; only native_backend_session.rs changed"
+  },
+  "implemented": {
+    "native_provider": "Actual SearchBackend implementation over retained FileSearchOwner, checked aggregate session/entry/index-byte/OS-worker reservations and explicit base-dir policy.",
+    "leases": "Final public Arc drop closes work independently of internal task references; joined release occurs before receipt publication; uncertain cleanup quarantines quota.",
+    "poll": "One retained PendingPoll serviced by the existing session actor; observer cancellation does not refund admission, and no per-poll task/thread is spawned.",
+    "query": "Exact monotonically increasing identities with atomic enqueue/identity transitions, stale callback fencing and coherent completed snapshot before Idle.",
+    "inputs": "Explicit limits; roots/excludes/query storage compacted fallibly while retaining lexical OS-string semantics; cwd never changed.",
+    "output": "Separate bound for one native callback snapshot backing allocation including path/query/result/positive-atom highlight capacities, distinct from service encoded WireFrame limits."
+  },
+  "limits": [
+    "No independent native worker package build/install/removal/replacement or unchanged-host selection gate yet.",
+    "No new CLI/App Server/GUI/Browser/manager Launch runtime gate in this slice.",
+    "Resource accounting is not total RSS: traversal metadata, allocator/stacks, parsed patterns, shared-runtime bookkeeping and later client copies are separate.",
+    "Linux execution does not establish Windows/WTF8 runtime behavior; platform-specific path branches are not cross-platform proof.",
+    "No universal OOM recovery, interruptible filesystem operations or production-scale default budgets are claimed.",
+    "The native worker crate applied after this WIP and staged facade are outside these test and source scopes.",
+    "Subsequent real-worker integration exposed an unresolved first-error/close race (ClosedLease masking ResourceExhausted); the earlier 141 passing cases do not prove every typed-error race safe."
+  ],
+  "custody": {
+    "archive": "/workspace/recovery-backups/20260930T165936Z/p02b-native-backend-tested-source.tar.gz",
+    "archive_sha256": "842dc08868198a68752e7c7fde61143783115540a2b8c8438647b88f40ea11eb",
+    "archive_is_cloud_local": true,
+    "external_durability": "GitHub WIP protects included source only; binaries/runtime state are not published.",
+    "publication_report": "/workspace/recovery-backups/20260930T165936Z/p02b-native-backend-wip-publication.json",
+    "publication_report_sha256": "5da2639e86210f738f6c93dc11c645182b673445279253208f5018bf41a4c4f7"
+  },
+  "privacy": "Whitelisted source paths, test outcomes and fingerprints only; no credentials, private bearer URLs or session/runtime contents.",
+  "later_worker_integration_finding": {
+    "status": "unresolved; later worker gate not accepted",
+    "scope": "Actual native worker process integration after cb977; not part of the historical 141-test gate.",
+    "initial_run": {
+      "name": "p02b-native-worker-tests",
+      "executed": 33,
+      "passed": 32,
+      "failed": 1,
+      "skipped": 0,
+      "issue": "Policy accepted wrong-type [] configuration; strict object/null validation was subsequently added.",
+      "source_during_run": "Cargo.lock changed; recorded code unchanged.",
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests.source.json",
+          "sha256": "a5dd60599eb0c8f5d1ec63faea42fed8800623108d06f82038cad018becc1db7"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests.log",
+          "sha256": "495447302c7f959b9eabf67a2fcd4b5135656f0fc91621169d253379c64edffb"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests.subreaper.json",
+          "sha256": "110e796791fc63ecd43d70d1d6fd17ee10f30b5c09178cecc2e2cf8515d4a7f0"
+        }
+      }
+    },
+    "corrected_run": {
+      "name": "p02b-native-worker-tests-corrected",
+      "executed": 33,
+      "eventually_passed": 33,
+      "flaky": 1,
+      "skipped": 0,
+      "issue": "Exhausted native index test first observed ClosedLease from close instead of retained ResourceExhausted, then passed on retry.",
+      "source_during_run": "Recorded source unchanged; successful exit does not erase the failed attempt.",
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests-corrected.source.json",
+          "sha256": "9c2fe1c27409e33d6afc9d64808cc9ed35f53df4188be4d81d5a9e68d7236b4c"
+        },
+        "log": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests-corrected.log",
+          "sha256": "09ba5ef5f7f5b5cd9f79169e62cb57f2de8c9031ab9fe3ad64f9a25da1460130"
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p02b-native-worker-tests-corrected.subreaper.json",
+          "sha256": "64c390c3144a38f1e458e7c0262fd20e957b167020df6e40b68fa6c7fdacf47b"
+        }
+      }
+    },
+    "next_action": "Investigate and fix typed first-failure/close race without weakening assertions; rerun focused deterministic and full worker/native regression before acceptance."
+  }
+}

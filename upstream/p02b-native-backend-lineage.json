@@ -1,0 +1,840 @@
+{
+  "schema_version": 1,
+  "kind": "preserved_native_backend_checkpoint_not_installed_runtime",
+  "source": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "import_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "accepted_main_checkpoint": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+    "previous_checkpoint": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+    "implementation_commit": "cb977e7d664bc752c28854d468619039bd3ad167",
+    "implementation_tree": "40207f354efb3bee85265d8f3d83312489b56709",
+    "branch": "wip/p02b-bounded-search-20261001",
+    "previous_lineage": "p02b-integration-lineage.json"
+  },
+  "classification": "real_native_search_backend_and_bounded_output_verified_in_process_not_installed_component",
+  "scope": {
+    "changed_paths": 14,
+    "native_source_paths": 13,
+    "client_fixture_paths": 1,
+    "pathspecs": [
+      "codex-rs",
+      "component-sdk"
+    ],
+    "workspace_members": 167,
+    "excluded": "The newer worker package/168-member working tree, process composition, production consumer selection and later edits are not in this immutable checkpoint."
+  },
+  "interpretation": {
+    "current_blob": "Exact cb977 immutable blob, not the working-tree file.",
+    "symbols": "Selected audited original/parent/current anchors; not a complete call graph. Unchanged neutral contract anchors identify dependencies.",
+    "null_import_blob": "Path absent at original OpenAI import; semantic origin is separately mapped, not assumed absent.",
+    "test_transition": "The 141-case run identifies actual pre-lint/format source. Reviewed mechanical transitions bind those results to preserved source without claiming another exact-tree test execution."
+  },
+  "boundaries": [
+    {
+      "id": "native_search_backend_and_aggregate_owner",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "real_native_backend_trait_implementation_not_yet_installed_replacement",
+      "origin": "Original OpenAI filesystem search, composed through the previously introduced retained native owner and neutral SearchBackend contract.",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "symbols": [
+            {
+              "symbol": "create_session",
+              "anchor": "pub fn create_session(",
+              "line": 164
+            },
+            {
+              "symbol": "FileSearchSession",
+              "anchor": "pub struct FileSearchSession",
+              "line": 143
+            },
+            {
+              "symbol": "walker_worker",
+              "anchor": "fn walker_worker(",
+              "line": 417
+            },
+            {
+              "symbol": "matcher_worker",
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "62959aad7106bc8b0a69452d9e3c87f8443d9504",
+          "symbols": [
+            {
+              "symbol": "FileSearchOwner",
+              "anchor": "pub struct FileSearchOwner",
+              "line": 35
+            },
+            {
+              "symbol": "create_bounded",
+              "anchor": "pub async fn create_bounded(",
+              "line": 224
+            },
+            {
+              "symbol": "shutdown_outcome",
+              "anchor": "pub async fn shutdown_outcome(",
+              "line": 345
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_backend.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "98a82dd1196735ade842c8cb09345978c68be5cd",
+          "symbols": [
+            {
+              "symbol": "NativeSearchBackend",
+              "anchor": "pub struct NativeSearchBackend",
+              "line": 38
+            },
+            {
+              "symbol": "SearchBackend implementation",
+              "anchor": "impl SearchBackend for NativeSearchBackend",
+              "line": 72
+            },
+            {
+              "symbol": "Provider",
+              "anchor": "pub(super) struct Provider",
+              "line": 161
+            },
+            {
+              "symbol": "Registry",
+              "anchor": "struct Registry",
+              "line": 172
+            },
+            {
+              "symbol": "Provider::finish",
+              "anchor": "fn finish(&self, session: &NativeSession",
+              "line": 182
+            },
+            {
+              "symbol": "run_session",
+              "anchor": "async fn run_session(",
+              "line": 238
+            },
+            {
+              "symbol": "SessionTaskGuard",
+              "anchor": "struct SessionTaskGuard",
+              "line": 324
+            },
+            {
+              "symbol": "ShutdownGuard",
+              "anchor": "struct ShutdownGuard",
+              "line": 381
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "e8b0bd8efb7ebc22b9695d13947cc801ec8d25ea",
+          "symbols": [
+            {
+              "symbol": "FileSearchOwner::create_backend",
+              "anchor": "pub(crate) async fn create_backend(",
+              "line": 245
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "544822ef130afbc762d3bae4a54a239b7ff1dc01",
+          "symbols": [
+            {
+              "symbol": "NativePolicy",
+              "anchor": "pub(crate) enum NativePolicy",
+              "line": 28
+            },
+            {
+              "symbol": "create_session_with_receipt",
+              "anchor": "pub(crate) fn create_session_with_receipt(",
+              "line": 206
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-api/src/backend.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197",
+          "symbols": [
+            {
+              "symbol": "SearchBackend",
+              "anchor": "pub trait SearchBackend:",
+              "line": 186
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Implement the existing neutral SearchBackend interface with real native traversal/matching, using one retained FileSearchOwner per provider instead of a controlled test backend.",
+        "Atomically reserve provider session slots and aggregate entry/byte/dedicated-worker allowances with checked monotonic identities before admitted startup; release reservations only after Joined cleanup and before publishing the receipt.",
+        "Retain startup, close and provider shutdown tasks and first operation/cleanup failures separately; last public lease/provider drop requests cleanup without internal tasks preventing that drop.",
+        "Preconstruct full task guards and explicitly move them into async bodies before awaiting. The tracker token is the final guard field so cancellation bookkeeping precedes task-tracker release.",
+        "Add a private create_backend policy route for native output limits while preserving legacy and index-only bounded constructors."
+      ],
+      "ownership": "Provider owns aggregate accounting, retained native owner and task tracker; session owners keep actual native joins. Unconfirmed cleanup quarantines reservations, and lost task receipts cannot be relabeled Joined.",
+      "limits": [
+        "This establishes real native behavior behind the trait, not a separately packaged worker or production consumer selection.",
+        "Retained tasks require a live cooperative runtime; the implementation does not promise interruption of arbitrary filesystem operations or universal OOM/process-abort recovery."
+      ]
+    },
+    {
+      "id": "native_lease_query_snapshot_and_poll_bridge",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "native_callback_to_neutral_session_adapter",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "symbols": [
+            {
+              "symbol": "FileSearchSnapshot",
+              "anchor": "pub struct FileSearchSnapshot",
+              "line": 97
+            },
+            {
+              "symbol": "SessionReporter",
+              "anchor": "pub trait SessionReporter",
+              "line": 135
+            },
+            {
+              "symbol": "matcher_worker",
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7",
+          "symbols": [
+            {
+              "symbol": "update_query_tagged",
+              "anchor": "pub fn update_query_tagged(",
+              "line": 44
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "62959aad7106bc8b0a69452d9e3c87f8443d9504",
+          "symbols": [
+            {
+              "symbol": "ManagedFileSearchSession",
+              "anchor": "pub struct ManagedFileSearchSession",
+              "line": 420
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_backend_session.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "f4516ef397a6b732066369295fe58c03da57c1ef",
+          "symbols": [
+            {
+              "symbol": "NativeLease",
+              "anchor": "pub(super) struct NativeLease",
+              "line": 30
+            },
+            {
+              "symbol": "SearchBackendSession implementation",
+              "anchor": "impl SearchBackendSession for NativeLease",
+              "line": 39
+            },
+            {
+              "symbol": "NativeSession",
+              "anchor": "pub(super) struct NativeSession",
+              "line": 95
+            },
+            {
+              "symbol": "SessionState",
+              "anchor": "pub(super) struct SessionState",
+              "line": 104
+            },
+            {
+              "symbol": "finish",
+              "anchor": "pub(super) fn finish(",
+              "line": 187
+            },
+            {
+              "symbol": "publish_close",
+              "anchor": "pub(super) fn publish_close(",
+              "line": 216
+            },
+            {
+              "symbol": "SessionReporterBridge",
+              "anchor": "pub(super) struct SessionReporterBridge",
+              "line": 244
+            },
+            {
+              "symbol": "on_complete_tagged",
+              "anchor": "fn on_complete_tagged(",
+              "line": 277
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend_poll.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "c32ce4b6b7c601b4956455320d194dcdfa6b9203",
+          "symbols": [
+            {
+              "symbol": "PendingPoll",
+              "anchor": "pub(super) struct PendingPoll",
+              "line": 18
+            },
+            {
+              "symbol": "next",
+              "anchor": "pub(super) async fn next(",
+              "line": 24
+            },
+            {
+              "symbol": "service",
+              "anchor": "pub(super) fn service(",
+              "line": 65
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-api/src/backend.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197",
+          "symbols": [
+            {
+              "symbol": "SearchBackendSession",
+              "anchor": "pub trait SearchBackendSession:",
+              "line": 206
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Separate the public Arc lease from retained internal session/task state so abandoning startup or the last public lease still requests real closure.",
+        "Fence query enqueue and accepted identity in one session lock, validate increasing identities and query bytes before mutation, reject stale callbacks, and require a coherent current complete snapshot before Idle.",
+        "Retain one PendingPoll in session state, served by the existing lifecycle actor without a per-poll task or OS observer thread. Dropping the observer does not free the accepted slot.",
+        "Retain immutable repeated close outcomes and operation errors separately from cleanup; publish close only after provider reservation bookkeeping."
+      ],
+      "ownership": "One session actor owns native callbacks, the current frame and pending poll. A public response observer never owns cancellation or resource-refund authority.",
+      "limits": [
+        "Frame revisions and query IDs are checked, not wrapped. Snapshot clones held by callers are outside the native callback allocation charge."
+      ]
+    },
+    {
+      "id": "explicit_native_policy_and_compact_inputs",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "native_admission_policy_support",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "symbols": [
+            {
+              "symbol": "FileSearchOptions",
+              "anchor": "pub struct FileSearchOptions",
+              "line": 106
+            },
+            {
+              "symbol": "build_override_matcher",
+              "anchor": "fn build_override_matcher(",
+              "line": 370
+            },
+            {
+              "symbol": "get_file_path",
+              "anchor": "fn get_file_path<",
+              "line": 386
+            }
+          ]
+        }
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_budget.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "fcc7eda119e5599e289697b5d3f590520dc21a0b",
+          "symbols": [
+            {
+              "symbol": "NativeBudget::prepare",
+              "anchor": "pub fn prepare(",
+              "line": 26
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_backend_policy.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "b8c41f41564fb4d08c53ccf56f0ed445001aaff6",
+          "symbols": [
+            {
+              "symbol": "NativeBackendLimits",
+              "anchor": "pub struct NativeBackendLimits",
+              "line": 21
+            },
+            {
+              "symbol": "prepare_open",
+              "anchor": "pub(super) fn prepare_open(",
+              "line": 50
+            },
+            {
+              "symbol": "validate_open",
+              "anchor": "pub(super) fn validate_open(",
+              "line": 71
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_backend.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "98a82dd1196735ade842c8cb09345978c68be5cd",
+          "symbols": [
+            {
+              "symbol": "NativeSearchBackend::new",
+              "anchor": "pub fn new(base_dir: PathBuf, limits: NativeBackendLimits)",
+              "line": 43
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_output.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "4f47888545d4ffdc1c0937a2d5f13a3abdb9cd62",
+          "symbols": [
+            {
+              "symbol": "exact_vec",
+              "anchor": "pub(super) fn exact_vec<",
+              "line": 171
+            },
+            {
+              "symbol": "exact_string",
+              "anchor": "pub(super) fn exact_string(",
+              "line": 184
+            },
+            {
+              "symbol": "exact_path",
+              "anchor": "pub(super) fn exact_path(",
+              "line": 198
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Require explicit policy for session/resources/query/root-options/matches/output/poll bounds; no hidden production defaults are selected by this backend.",
+        "Validate root presence, exclusion syntax, request budgets, fixed native preflight and current cwd before owner admission, so clean input rejection does not poison shutdown history.",
+        "Require an explicit absolute base equal to process cwd at constructor and open; never chdir, canonicalize roots, normalize lexical paths or replace OS strings.",
+        "Copy admitted roots/exclusions/query into exact fresh allocations before retaining them so oversized caller spare capacity does not bypass logical input accounting."
+      ],
+      "ownership": "Embedding composition chooses limits and maintains stable process cwd. The provider owns compact copies after validation; this is not a filesystem permission boundary.",
+      "limits": [
+        "Linux checks are not Windows runtime proof. Absolute-base equality does not prevent unrelated threads changing process cwd; the embedding process must uphold the documented invariant."
+      ]
+    },
+    {
+      "id": "native_callback_snapshot_allocation_preflight",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "bounded_native_output_construction",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "symbols": [
+            {
+              "symbol": "FileMatch",
+              "anchor": "pub struct FileMatch",
+              "line": 54
+            },
+            {
+              "symbol": "FileSearchSnapshot",
+              "anchor": "pub struct FileSearchSnapshot",
+              "line": 97
+            },
+            {
+              "symbol": "matcher_worker",
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/file-search/src/matcher.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "87fbf632d26edffb22de1ec8b064578ff6f759c6",
+          "symbols": [
+            {
+              "symbol": "snapshot",
+              "anchor": "fn snapshot(",
+              "line": 127
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_output.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "4f47888545d4ffdc1c0937a2d5f13a3abdb9cd62",
+          "symbols": [
+            {
+              "symbol": "NativeOutputLimits",
+              "anchor": "pub(crate) struct NativeOutputLimits",
+              "line": 23
+            },
+            {
+              "symbol": "validate_query",
+              "anchor": "pub(crate) fn validate_query(",
+              "line": 29
+            },
+            {
+              "symbol": "snapshot",
+              "anchor": "pub(super) fn snapshot(",
+              "line": 37
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/matcher.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "c6c64184330d352320d212434c3bef65b2c82e93",
+          "symbols": [
+            {
+              "symbol": "snapshot",
+              "anchor": "fn snapshot(",
+              "line": 128
+            },
+            {
+              "symbol": "fallible bounded snapshot dispatch",
+              "anchor": "return crate::native_output::snapshot(",
+              "line": 137
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "544822ef130afbc762d3bae4a54a239b7ff1dc01",
+          "symbols": [
+            {
+              "symbol": "submit_query",
+              "anchor": "fn submit_query(",
+              "line": 53
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "12b2de9fbcb75a622b1625602676bff11fb553a0",
+          "symbols": [
+            {
+              "symbol": "SessionInner output policy",
+              "anchor": "output: Option<native_output::NativeOutputLimits>",
+              "line": 243
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Preflight one callback snapshot over an immutable top-N matcher view before cloning results: Vec<FileMatch> backing layout, query/path/root bytes and positive-atom highlight capacity.",
+        "Allocate exact buffers fallibly and validate capacities; highlight sorting/dedup retains its prepaid capacity, which can exceed final indices length.",
+        "Return typed ResourceExhausted for output/query admission failure and propagate native failure through retained close receipts without false successful Idle.",
+        "Keep legacy snapshot construction and index-only bounded behavior when no backend output policy is configured."
+      ],
+      "ownership": "The callback snapshot owns the charged backing allocations. Index ledgers, parsed patterns, queued queries, facade clones and encoded process WireFrames have distinct lifetimes/bounds.",
+      "limits": [
+        "This is a requested native backing-allocation charge, not JSON size or RSS. Allocator overhead, traversal metadata, stacks and shared-runtime/Rayon bookkeeping are not included.",
+        "Exact-capacity accounting depends on pinned allocator/toolchain behavior and needs renewed review during upstream/toolchain updates."
+      ]
+    },
+    {
+      "id": "client_lag_fixture_shutdown_handshake",
+      "classification": "test_fixture_correction_for_previously_mapped_client_shutdown",
+      "origin": "Existing OpenAI client lag-event test; production shutdown repair was introduced in parent bb03 and is unchanged by this delta.",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server-client/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+          "symbols": [
+            {
+              "symbol": "next_event_surfaces_lagged_markers",
+              "anchor": "async fn next_event_surfaces_lagged_markers()",
+              "line": 2051
+            }
+          ]
+        }
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/app-server-client/src/lib.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "4964b7b492cae7637d8a639a7ffa16c30d17ba60",
+          "symbols": [
+            {
+              "symbol": "next_event_surfaces_lagged_markers",
+              "anchor": "async fn next_event_surfaces_lagged_markers()",
+              "line": 2027
+            }
+          ]
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/app-server-client/src/lib.rs",
+          "revision": "cb977e7d664bc752c28854d468619039bd3ad167",
+          "blob": "83f35b6801252ad1e32b82fab09191bccd1b9221",
+          "symbols": [
+            {
+              "symbol": "next_event_surfaces_lagged_markers",
+              "anchor": "async fn next_event_surfaces_lagged_markers()",
+              "line": 2027
+            },
+            {
+              "symbol": "actual worker shutdown acknowledgement",
+              "anchor": ".expect(\"shutdown should acknowledge\");",
+              "line": 2037
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Retain the command receiver and use an actual Tokio worker that receives ClientCommand::Shutdown and acknowledges Ok before exiting.",
+        "Preserve the exact Lagged { skipped: 3 } observation and shutdown success assertion; do not suppress the new BrokenPipe failure or alter production code.",
+        "Record the corrected client 40/40 gate before native backend application; the formatted fixture is now present in this immutable checkpoint."
+      ],
+      "ownership": "The test client owns a real worker and handshake, matching the production shutdown contract.",
+      "limits": [
+        "The client gate and later 141-case native gate are separate runs. Their union is not a newly tested whole-host or GUI integration result."
+      ]
+    }
+  ],
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/app-server-client/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "4964b7b492cae7637d8a639a7ffa16c30d17ba60",
+      "after_blob": "83f35b6801252ad1e32b82fab09191bccd1b9221",
+      "import_blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+      "sha256": "076d0afc779a06624f1ea4d5992c5b5b55f8878d3130d216f9380bdbfb28f2e6",
+      "boundary": "client_lag_fixture_shutdown_handshake"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "62959aad7106bc8b0a69452d9e3c87f8443d9504",
+      "after_blob": "e8b0bd8efb7ebc22b9695d13947cc801ec8d25ea",
+      "import_blob": null,
+      "sha256": "0b99d712ac0825ae881a3f7ee7872e22a485b78e0fbe011ef1e30aff96c5d3ce",
+      "boundary": "native_search_backend_and_aggregate_owner"
+    },
+    {
+      "path": "codex-rs/file-search/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "b03efed08801902431fafb649035a239a271a5ae",
+      "after_blob": "12b2de9fbcb75a622b1625602676bff11fb553a0",
+      "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+      "sha256": "45aac822a7c1b3de2ddb4cb19abb710bf2939aae8b055deb1a52b2a1259b7156",
+      "boundary": "native_search_backend_and_aggregate_owner"
+    },
+    {
+      "path": "codex-rs/file-search/src/matcher.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "87fbf632d26edffb22de1ec8b064578ff6f759c6",
+      "after_blob": "c6c64184330d352320d212434c3bef65b2c82e93",
+      "import_blob": null,
+      "sha256": "8672f9a95466f7d114b38c9c0d98159b50b120d711b84b7f9db1f07f5913937b",
+      "boundary": "native_callback_snapshot_allocation_preflight"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "98a82dd1196735ade842c8cb09345978c68be5cd",
+      "import_blob": null,
+      "sha256": "43597ad7a7800caf4978a8a05bab6662e450c6cc505f54314f7c3d49645f7848",
+      "boundary": "native_search_backend_and_aggregate_owner"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_policy.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "b8c41f41564fb4d08c53ccf56f0ed445001aaff6",
+      "import_blob": null,
+      "sha256": "f23695eb2e960eca7ecb6622b9cb354eead5e2f17b8cb3dd1db52a802082aa0b",
+      "boundary": "explicit_native_policy_and_compact_inputs"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_policy_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "a8015a9212045f24be9078f34c2a4539dab2785a",
+      "import_blob": null,
+      "sha256": "b64b2219fdd8c4891afe09223290530055519ab6f0fe4e7de012ead4906befe0",
+      "boundary": "explicit_native_policy_and_compact_inputs"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_poll.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c32ce4b6b7c601b4956455320d194dcdfa6b9203",
+      "import_blob": null,
+      "sha256": "e69bd16d1de03508a6f09a07d167deea7f615c27e209adad82b42c5467f9e51e",
+      "boundary": "native_lease_query_snapshot_and_poll_bridge"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_session.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "f4516ef397a6b732066369295fe58c03da57c1ef",
+      "import_blob": null,
+      "sha256": "17fbbb979fc77ead48d802b21519f17e0e1e54252d7ae848e7f9074cacf13b6f",
+      "boundary": "native_lease_query_snapshot_and_poll_bridge"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "e97e521befff261e270886241c913a8e70bc4e48",
+      "import_blob": null,
+      "sha256": "187a99eb0e686adda526a5e3cc0fa451e119500d1baf6deebb9c387fe2749b97",
+      "boundary": "native_search_backend_and_aggregate_owner"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_output.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "4f47888545d4ffdc1c0937a2d5f13a3abdb9cd62",
+      "import_blob": null,
+      "sha256": "d8032b17acbb4e1cb71ccdb4ce436552e223e2d79681b730742188329a221866",
+      "boundary": "native_callback_snapshot_allocation_preflight"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_output_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "f121e2ab507c73148d69a344018524d5403a8d7e",
+      "import_blob": null,
+      "sha256": "ad7c666c94a831a6f3717edf393deeaf8fe4ab5601130a0dbbb2e3ce48e302ba",
+      "boundary": "native_callback_snapshot_allocation_preflight"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_session.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7",
+      "after_blob": "544822ef130afbc762d3bae4a54a239b7ff1dc01",
+      "import_blob": null,
+      "sha256": "594bdab6fbeb160786c76783ca5ccc589e29dfd5ad45ce98c806c5ab42b392a3",
+      "boundary": "native_search_backend_and_aggregate_owner"
+    },
+    {
+      "path": "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "882caa2e57d3b2a033fb97f6a639f159a95502e2",
+      "after_blob": "e2813e318ced6f350aa03385b13271c29b481651",
+      "import_blob": null,
+      "sha256": "50c5ac1d16779ad553c7200a26863c7e784a8bc13fa39f0b892f2206778c5099",
+      "boundary": "native_search_backend_and_aggregate_owner"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "../verification/2026-10-01/P02B_NATIVE_BACKEND_EVIDENCE.md",
+      "machine_readable": "../verification/2026-10-01/p02b-native-backend-results.json",
+      "initial_gate": {
+        "label": "p02b-native-backend-tests",
+        "result": "Compilation exit 101, no tests: invalid TaskTrackerToken import; complete preconstructed guard capture was also corrected before the passing run."
+      },
+      "corrected_gate": {
+        "label": "p02b-native-backend-tests-corrected",
+        "executed": 141,
+        "passed": 141,
+        "skipped": 0,
+        "packages": {
+          "codex-file-search": 75,
+          "codex-file-search-api": 11,
+          "nucleo": 23,
+          "nucleo-matcher": 32
+        },
+        "command_exit": 0,
+        "subreaper_exit": 0,
+        "unchanged_source_fingerprints": 82,
+        "log_sha256": "e675b0dcf3b42ae4f7d2a86f6c3fd1cad6c2e4861406db31d38067198be912de",
+        "source_report_sha256": "593a4ff55ad0a0c05127d3b4bc0a56de60e6a0d68715175d73542f5f815ee73f"
+      },
+      "coverage": "The native 75 include prior 56 plus 14 real-backend and five output cases. These 19 are subsets, not additional tests. Runtime was Linux.",
+      "post_test_transition": [
+        "Two unused outcome.clone() calls became moves into publish_close; the startup-cancel path still clones because it reads the outcome afterward.",
+        "Nested failure.is_none()/advance().is_ok() became equivalent short-circuit &&; one unused test Future import was removed.",
+        "Final scoped fix passed without changes/warnings and formatting changed only the collapsed condition. No tests were rerun solely for lint/format."
+      ]
+    },
+    {
+      "path": "../verification/2026-10-01/P02B_CLIENT_SHUTDOWN_EVIDENCE.md",
+      "machine_readable": "../verification/2026-10-01/p02b-client-shutdown-results.json",
+      "result": "Original ENOSPC/no-test and later 39/40 runs remain preserved. Corrected fixture passed 40/40, zero skipped, before native backend source was applied; later formatting is recorded separately. The fixture correction is included here without attributing the client gate to newer native bytes."
+    }
+  ],
+  "custody": {
+    "publication_manifest": "/workspace/recovery-backups/20260930T165936Z/p02b-native-backend-wip-publication.json",
+    "publication_manifest_sha256": "5da2639e86210f738f6c93dc11c645182b673445279253208f5018bf41a4c4f7",
+    "all_14_source_hashes_match_publication_manifest": true,
+    "external_durability": "GitHub WIP source-only publication recorded by root; source custody is not runtime acceptance.",
+    "cloud_local_archive": "/workspace/recovery-backups/20260930T165936Z/p02b-native-backend-tested-source.tar.gz",
+    "cloud_local_archive_sha256": "842dc08868198a68752e7c7fde61143783115540a2b8c8438647b88f40ea11eb",
+    "archive_limit": "This VM-local archive is not independently durable outside the cloud filesystem."
+  },
+  "maintenance_gates": [
+    "Re-audit upstream query identity/completion, callback reentrancy, native join ownership and snapshot allocation before adapting these boundaries.",
+    "Preserve original lexical roots and same-platform OS-string values, legacy/index-only constructor semantics, first-operation-error retention and Joined-only capacity refunds.",
+    "Recheck allocator/Arc/Rayon assumptions and separate native-output accounting from index, aggregate-provider and process encoded-frame limits.",
+    "Retain Apache-2.0 Codex LICENSE/NOTICE and separately licensed unchanged Nucleo MPL-2.0 source/provenance; this delta imports no later upstream or foreign revision.",
+    "Next acceptance requires separately built/installed native worker plus real process-host and existing consumer/UI gates. An in-process native SearchBackend implementation is a prerequisite, not completed independently installable extraction.",
+    "P18U later upstream integration and breaking/failure rollback demonstrations remain required; no updater or periodic polling is implemented by this lineage."
+  ]
+}

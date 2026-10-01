@@ -1,0 +1,2078 @@
+{
+  "schema_version": 1,
+  "kind": "preserved_integration_wip_not_accepted_runtime",
+  "source": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "import_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "previous_checkpoint": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+    "implementation_commit": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+    "implementation_tree": "6ad17d58936b6c9f519c06f2932efd1c8ecd4724",
+    "branch": "wip/p02b-bounded-search-20261001",
+    "previous_lineage": "p02b-bounded-lineage.json",
+    "prior_preserved_wip": "98c540863b9868eb216dba18f963c220c4be5187"
+  },
+  "classification": "native_budget_and_process_contract_integration_prerequisites_not_installed_native_search",
+  "scope": {
+    "delta_from": "accepted main source checkpoint, not previous WIP",
+    "pathspecs": [
+      "codex-rs",
+      "component-sdk"
+    ],
+    "changed_paths": 81,
+    "workspace_members": {
+      "accepted": 166,
+      "preserved_wip": 167
+    },
+    "new_member": "codex-file-search-component",
+    "excluded": "Root documentation/evidence, later lag-fixture correction and subsequent native backend integration are outside this immutable source delta."
+  },
+  "interpretation": {
+    "current_blob": "Exact immutable implementation commit blob, never the live working-tree file.",
+    "import_blob": "Exact original OpenAI import blob at the same path when present; null means the path was added later, not that it has no semantic predecessor.",
+    "symbols": "Selected audited anchors, checked against exact Git blobs; not a complete automated call graph or proof of replaceability.",
+    "path_delta": "Every changed source/build/SDK path under the two declared pathspecs is recorded; unchanged dependencies may still appear in boundary anchors.",
+    "tests": "Test runs and source/lint/format transitions have separate recorded fingerprints; no exact-tree test run is invented from a later formatting checkpoint."
+  },
+  "boundaries": [
+    {
+      "id": "native_query_queue_and_completion",
+      "classification": "modified_native_behavior_not_installed_replacement",
+      "origin": "OpenAI native file-search session and matcher loop",
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/work_queue.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "8204fd15bb3e3adb1608eef99cd92fd1caeb9965",
+          "symbols": [
+            {
+              "symbol": "WorkSender",
+              "anchor": "pub(super) struct WorkSender",
+              "line": 27
+            },
+            {
+              "symbol": "send",
+              "anchor": "pub fn send(",
+              "line": 46
+            },
+            {
+              "symbol": "take",
+              "anchor": "pub fn take(",
+              "line": 67
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/matcher.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "87fbf632d26edffb22de1ec8b064578ff6f759c6",
+          "symbols": [
+            {
+              "symbol": "matcher_worker",
+              "anchor": "pub(super) fn matcher_worker(",
+              "line": 19
+            },
+            {
+              "symbol": "snapshot",
+              "anchor": "fn snapshot(",
+              "line": 127
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7",
+          "symbols": [
+            {
+              "symbol": "FileSearchSession",
+              "anchor": "pub struct FileSearchSession",
+              "line": 33
+            },
+            {
+              "symbol": "update_query_tagged",
+              "anchor": "pub fn update_query_tagged(",
+              "line": 44
+            },
+            {
+              "symbol": "create_session",
+              "anchor": "pub fn create_session(",
+              "line": 170
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Replace a query-per-message backlog with latest-query coalescing and retained sticky walk/stop flags.",
+        "Separate the native session and matcher into focused modules; tagged query identity rejects stale completion and completed snapshots precede Idle."
+      ],
+      "ownership": "The existing native supervisor retains walker, matcher pool and reporter lifetime; queue wakeups do not transfer ownership.",
+      "limits": [
+        "No installed backend selection or App Server/TUI composition is added by this module extraction.",
+        "Matching, score ordering and Unicode/highlight parity remain regression obligations."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "symbols": [
+            {
+              "symbol": "FileSearchSession",
+              "anchor": "pub struct FileSearchSession",
+              "line": 143
+            },
+            {
+              "symbol": "create_session",
+              "anchor": "pub fn create_session(",
+              "line": 164
+            },
+            {
+              "symbol": "WorkSignal",
+              "anchor": "enum WorkSignal",
+              "line": 363
+            },
+            {
+              "symbol": "matcher_worker",
+              "anchor": "fn matcher_worker(",
+              "line": 499
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "native_index_budget_and_preflight",
+      "classification": "bounded_native_implementation_prerequisite",
+      "origin": "Existing OpenAI walker/injection path with new explicit resource accounting",
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/native_budget.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "fcc7eda119e5599e289697b5d3f590520dc21a0b",
+          "symbols": [
+            {
+              "symbol": "NativeBudget",
+              "anchor": "pub(super) struct NativeBudget",
+              "line": 13
+            },
+            {
+              "symbol": "prepare",
+              "anchor": "pub fn prepare(",
+              "line": 26
+            },
+            {
+              "symbol": "reserve",
+              "anchor": "pub fn reserve(",
+              "line": 88
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_index.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "04739d95b809046f04cc4950c2ea452a799e2985",
+          "symbols": [
+            {
+              "symbol": "NativeAllocation",
+              "anchor": "pub(super) enum NativeAllocation",
+              "line": 23
+            },
+            {
+              "symbol": "NativeIndex",
+              "anchor": "pub(super) enum NativeIndex",
+              "line": 28
+            },
+            {
+              "symbol": "EntryInjector",
+              "anchor": "pub(super) enum EntryInjector",
+              "line": 128
+            },
+            {
+              "symbol": "push",
+              "anchor": "pub fn push(",
+              "line": 134
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7",
+          "symbols": [
+            {
+              "symbol": "create_bounded_session",
+              "anchor": "pub fn create_bounded_session(",
+              "line": 183
+            },
+            {
+              "symbol": "NativePolicy",
+              "anchor": "pub(crate) enum NativePolicy",
+              "line": 27
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Preflight fixed index/highlighting allocation and 2*T + 2 dedicated OS workers before native startup.",
+        "Atomically charge entry count and exact retained path/column bytes before allocating owned payloads; retain the first exhaustion and stop further admission.",
+        "Use a restricted prepaid matcher for bounded sessions while preserving the legacy unbounded entrypoint; an exhausted partial walk cannot report complete/Idle."
+      ],
+      "ownership": "A session owns the prepaid index and ledger until teardown; both admission counters advance together or neither does.",
+      "limits": [
+        "This is retained index accounting, not an RSS, arbitrary filesystem-call duration, allocator-overhead or total-runtime bound.",
+        "The actual NativeSearchBackend trait adapter and separately installed native worker are absent at this immutable checkpoint."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+          "symbols": [
+            {
+              "symbol": "IndexedEntry",
+              "anchor": "struct IndexedEntry",
+              "line": 71
+            },
+            {
+              "symbol": "walker_worker",
+              "anchor": "fn walker_worker(",
+              "line": 417
+            },
+            {
+              "symbol": "create_session",
+              "anchor": "pub fn create_session(",
+              "line": 164
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "codex-file-search-api::SearchBudget/SearchError",
+        "vendored Nucleo prepaid index and UTF-32 planning"
+      ]
+    },
+    {
+      "id": "native_async_owner_typed_receipts",
+      "classification": "native_owner_extension_not_new_installed_component",
+      "origin": "Stage A custom retained owner around the original native search implementation",
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "62959aad7106bc8b0a69452d9e3c87f8443d9504",
+          "symbols": [
+            {
+              "symbol": "FileSearchOwner",
+              "anchor": "pub struct FileSearchOwner",
+              "line": 35
+            },
+            {
+              "symbol": "create_bounded",
+              "anchor": "pub async fn create_bounded(",
+              "line": 224
+            },
+            {
+              "symbol": "shutdown_outcome",
+              "anchor": "pub async fn shutdown_outcome(",
+              "line": 345
+            },
+            {
+              "symbol": "ManagedFileSearchSession",
+              "anchor": "pub struct ManagedFileSearchSession",
+              "line": 420
+            },
+            {
+              "symbol": "close_outcome",
+              "anchor": "pub async fn close_outcome(",
+              "line": 497
+            },
+            {
+              "symbol": "launch_close",
+              "anchor": "fn launch_close(",
+              "line": 632
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/native_session.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7",
+          "symbols": [
+            {
+              "symbol": "close_outcome",
+              "anchor": "pub fn close_outcome(",
+              "line": 102
+            },
+            {
+              "symbol": "create_session_with_receipt",
+              "anchor": "pub(crate) fn create_session_with_receipt(",
+              "line": 198
+            },
+            {
+              "symbol": "first_failure",
+              "anchor": "pub(super) fn first_failure(",
+              "line": 149
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "a803b2ab71ed93e7b537771840177996547c27ea",
+          "symbols": [
+            {
+              "symbol": "start",
+              "anchor": "pub(super) fn start(",
+              "line": 25
+            },
+            {
+              "symbol": "supervise",
+              "anchor": "fn supervise(",
+              "line": 93
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Expose separate operation and cleanup outcomes for bounded startup, lease close and owner shutdown; preserve legacy anyhow entrypoints.",
+        "Refund capacity only on Joined cleanup, retaining operation failure; quarantine capacity on unconfirmed cleanup.",
+        "Keep accepted startup and close jobs alive after observer cancellation; retain the first native failure independently if later reporter teardown panics."
+      ],
+      "ownership": "Preparing, ready and closing entries remain with the retained owner. An error alone is not a joined-cleanup receipt.",
+      "limits": [
+        "Existing FileSearchStartError compatibility is conservative; legacy flattened errors do not become new proof of cleanup.",
+        "Runtime destruction, process abort and arbitrary stuck native work remain outside successful-join guarantees."
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "revision": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+          "blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff",
+          "symbols": [
+            {
+              "symbol": "FileSearchOwner",
+              "anchor": "pub struct FileSearchOwner",
+              "line": 29
+            },
+            {
+              "symbol": "create",
+              "anchor": "pub async fn create(",
+              "line": 150
+            },
+            {
+              "symbol": "ManagedFileSearchSession",
+              "anchor": "pub struct ManagedFileSearchSession",
+              "line": 275
+            },
+            {
+              "symbol": "shutdown",
+              "anchor": "pub async fn shutdown(",
+              "line": 229
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "codex-file-search-api typed startup/close contracts"
+      ]
+    },
+    {
+      "id": "foreign_prepaid_matcher_and_payload_planning",
+      "classification": "foreign_dependency_customization_not_openai_extraction",
+      "origin": {
+        "repository": "https://github.com/helix-editor/nucleo",
+        "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+        "license": "MPL-2.0",
+        "mapping": "Foreign original paths drop the codex-rs/third-party/nucleo/ prefix. These files were vendored after the OpenAI import; import_blob is absent."
+      },
+      "current_symbols": [
+        {
+          "path": "codex-rs/third-party/nucleo/src/bounded.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "a79a6fb41f6db96699b1952e3fca93560568ab4a",
+          "symbols": [
+            {
+              "symbol": "IndexAllocationPlan",
+              "anchor": "pub struct IndexAllocationPlan",
+              "line": 52
+            },
+            {
+              "symbol": "BoundedNucleo",
+              "anchor": "pub struct BoundedNucleo",
+              "line": 165
+            },
+            {
+              "symbol": "BoundedInjector",
+              "anchor": "pub struct BoundedInjector",
+              "line": 242
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "53dcff205c146abae68b09d0c2dbb0dad2d525fd",
+          "symbols": [
+            {
+              "symbol": "Utf32AllocationPlan",
+              "anchor": "pub struct Utf32AllocationPlan",
+              "line": 359
+            },
+            {
+              "symbol": "allocate",
+              "anchor": "pub fn allocate(",
+              "line": 375
+            },
+            {
+              "symbol": "allocation_plan",
+              "anchor": "pub fn allocation_plan(",
+              "line": 427
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/matcher/src/lib.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "3e4e3c6c69180a0fa20aad9b6e3b0c214d388df0",
+          "symbols": [
+            {
+              "symbol": "scratch_allocation_bytes",
+              "anchor": "pub fn scratch_allocation_bytes(",
+              "line": 198
+            },
+            {
+              "symbol": "try_new",
+              "anchor": "pub fn try_new(",
+              "line": 204
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Add fallible prepaid single-column arena, candidate/snapshot/in-flight arrays, matcher scratch and typed capacity failure while retaining ordinary constructors.",
+        "Preflight borrowed UTF-32 payload charge and allocate exact backing storage preserving ASCII/CRLF, Unicode and grapheme conversion behavior.",
+        "Retain the earlier safely demonstrated matrix-extent correction and documented mechanical lint edits; do not count these foreign patches as native subsystem extraction."
+      ],
+      "ownership": "Bounded index construction owns prepaid buffers; the enclosing native supervisor must still stop producers and join actual OS workers after index shutdown.",
+      "limits": [
+        "Accounting depends on pinned Rust allocator/Arc layout and Rayon indexed-collection behavior; upstream/toolchain changes require re-audit.",
+        "Fallible selected allocation paths do not guarantee recovery from every system OOM or process-aborting failure."
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/third-party/nucleo/src/lib.rs",
+          "revision": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+          "blob": "227f0f955268f6d771336d8d7095fefb70ba5252",
+          "symbols": [
+            {
+              "symbol": "Nucleo",
+              "anchor": "pub struct Nucleo",
+              "line": 281
+            },
+            {
+              "symbol": "new_with_thread_pool",
+              "anchor": "pub fn new_with_thread_pool(",
+              "line": 339
+            }
+          ]
+        }
+      ],
+      "dependencies": [
+        "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "p02b-matrix-lineage.json"
+      ]
+    },
+    {
+      "id": "paired_transport_admission_and_logical_limits",
+      "classification": "additive_plugin_infrastructure",
+      "origin": "Custom persistent component transport, not an imported native subsystem",
+      "current_symbols": [
+        {
+          "path": "codex-rs/component-host/src/session.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "38e829c18e51ffd36ee74b22ecc183b5dd4e290d",
+          "symbols": [
+            {
+              "symbol": "start_with_cleanup",
+              "anchor": "pub async fn start_with_cleanup(",
+              "line": 238
+            },
+            {
+              "symbol": "call_with_cleanup",
+              "anchor": "pub async fn call_with_cleanup(",
+              "line": 268
+            },
+            {
+              "symbol": "DeferredControl::release_reply",
+              "anchor": "pub async fn release_reply(",
+              "line": 192
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_reply.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "735d4d4129c409d2164599f02bd57ac375641985",
+          "symbols": [
+            {
+              "symbol": "PendingComponentReply",
+              "anchor": "pub struct PendingComponentReply",
+              "line": 20
+            },
+            {
+              "symbol": "wait",
+              "anchor": "pub async fn wait(",
+              "line": 39
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_limits.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "ca408d4dca62c194020a65c0643771c5ba0b4bc5",
+          "symbols": [
+            {
+              "symbol": "SessionPayloadLimits",
+              "anchor": "pub struct SessionPayloadLimits",
+              "line": 16
+            },
+            {
+              "symbol": "PayloadLimitExceeded",
+              "anchor": "pub struct PayloadLimitExceeded",
+              "line": 34
+            },
+            {
+              "symbol": "check_value",
+              "anchor": "fn check_value(",
+              "line": 108
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_failure.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "c1b7950235cca312144f668c53107642871672d2",
+          "symbols": [
+            {
+              "symbol": "SessionFailure",
+              "anchor": "pub(super) struct SessionFailure",
+              "line": 6
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_wire.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "44de72b807574a004ce60802cfe50420fee64e3f",
+          "symbols": [
+            {
+              "symbol": "MessageReader::with_limits",
+              "anchor": "pub(super) fn with_limits(",
+              "line": 195
+            },
+            {
+              "symbol": "MessageReader::start",
+              "anchor": "async fn start(",
+              "line": 200
+            },
+            {
+              "symbol": "Sending",
+              "anchor": "struct Sending",
+              "line": 390
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_server.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "4102193314c1cdc9b6bc821c4964d58f6f3365ae",
+          "symbols": [
+            {
+              "symbol": "ComponentServerRequest::validate_response",
+              "anchor": "pub fn validate_response(",
+              "line": 90
+            },
+            {
+              "symbol": "ComponentServer::stdio_with_limits",
+              "anchor": "pub async fn stdio_with_limits(",
+              "line": 173
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Return response observer plus reserved cleanup immediately after paired admission; cancellation before acquiring both lanes sends no partial request, and dropped observers never replay accepted work.",
+        "Preserve full request-before-cleanup ordering and return opaque successful cleanup JSON so callers validate domain receipts; retain call_with_cleanup/release compatibility.",
+        "Add opt-in serialized logical JSON body limits before admission or spooling/deserialization; keep existing headers and wire format.",
+        "Keep ordinary default storage bodies unbounded and fixed 64 KiB control allowance; reject configured reply caps below 64 KiB instead of silently clamping.",
+        "Carry typed local payload overflow through terminal observations; local rejection keeps healthy cleanup lanes, whereas oversized peer payload terminates transport with unconfirmed domain cleanup. Never infer typed remote errors from legacy strings."
+      ],
+      "ownership": "Existing session owners retain accepted operations; reserved control capacity survives ordinary saturation. A transport response is distinct from native join/durability.",
+      "limits": [
+        "Transport opt-in bounds do not validate search identities, results or domain cleanup; the search adapter must do that.",
+        "Session default behavior and storage wire compatibility are intentionally preserved."
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/component-host/src/session.rs",
+          "revision": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+          "blob": "d2aab3e0728a72aa73e3c6089b518bcc7e811016",
+          "symbols": [
+            {
+              "symbol": "call_with_cleanup",
+              "anchor": "pub async fn call_with_cleanup(",
+              "line": 219
+            },
+            {
+              "symbol": "DeferredControl",
+              "anchor": "pub struct DeferredControl",
+              "line": 116
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "immutable_process_cwd_and_search_catalog_admission",
+      "classification": "additive_plugin_launch_and_catalog_support",
+      "origin": "Existing custom catalog and retained persistent-process startup",
+      "current_symbols": [
+        {
+          "path": "codex-rs/component-host/src/session_options.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "ac1d9ca4234f337962f579dd1866e118fa69908d",
+          "symbols": [
+            {
+              "symbol": "SessionWorkingDirectory",
+              "anchor": "pub enum SessionWorkingDirectory",
+              "line": 10
+            },
+            {
+              "symbol": "ComponentSessionOptions",
+              "anchor": "pub struct ComponentSessionOptions",
+              "line": 24
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/session_supervisor.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "12e67dc80f89728a39b24cd49bb61b249585882d",
+          "symbols": [
+            {
+              "symbol": "connect",
+              "anchor": "pub async fn connect(",
+              "line": 56
+            },
+            {
+              "symbol": "connect_with_options",
+              "anchor": "pub async fn connect_with_options(",
+              "line": 79
+            },
+            {
+              "symbol": "connect_owned",
+              "anchor": "async fn connect_owned(",
+              "line": 102
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-api/src/lib.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "6c301fb9c78def64ff247f3db25dca1077abbfc8",
+          "symbols": [
+            {
+              "symbol": "FILE_SEARCH_CONTRACT_VERSION",
+              "anchor": "pub const FILE_SEARCH_CONTRACT_VERSION: u32 = 1;",
+              "line": 15
+            },
+            {
+              "symbol": "FILE_SEARCH_KIND",
+              "anchor": "pub const FILE_SEARCH_KIND: &str = \"file_search\";",
+              "line": 16
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/catalog.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "390cb2025a6b927b70eaae1aa37d82baa58126c7",
+          "symbols": [
+            {
+              "symbol": "read_manifest",
+              "anchor": "pub(crate) fn read_manifest(",
+              "line": 227
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/main.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "dc5e12f6e852d12a7e94603e4bcf78cfee859e4e",
+          "symbols": [
+            {
+              "symbol": "persistent-only Call guard",
+              "anchor": "if kind == codex_component_api::FILE_SEARCH_KIND",
+              "line": 97
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Allow explicit existing absolute startup cwd in the retained startup task, rejecting relative cwd/entrypoint or invalid directories before spawning. Apply child current_dir once without host/per-lease chdir.",
+        "Keep canonical package entrypoint, package identity and state binding; existing connect/connect_with_limits still start in package_dir and one-shot/stream defaults are unchanged.",
+        "Admit file_search contract 1 packages in catalog, reject incompatible selected upgrades, and reject one-shot manager Call for the persistent provider/lease lifecycle."
+      ],
+      "ownership": "Launch options are fixed for a process lifetime; package discovery and compatibility stay with the catalog. No filesystem authority is added to the contract.",
+      "limits": [
+        "A startup cwd is not a sandbox and does not normalize original search roots.",
+        "Catalog admission and fixture upgrade checks do not establish a packaged native worker or production search selection."
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/component-host/src/session_supervisor.rs",
+          "revision": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+          "blob": "cb28bf4d5f21b3900e76c19b49f9d468a241bb1c",
+          "symbols": [
+            {
+              "symbol": "connect",
+              "anchor": "pub async fn connect(",
+              "line": 52
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/component-host/src/catalog.rs",
+          "revision": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+          "blob": "3a6e155793f7bfb402bd5fab1fc01926bfe004b7",
+          "symbols": [
+            {
+              "symbol": "read_manifest",
+              "anchor": "pub(crate) fn read_manifest(",
+              "line": 225
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "file_search1_contract_and_owned_service",
+      "classification": "new_adapter_capability_not_native_extraction",
+      "origin": "New provider/lease wire service built on already accepted neutral search contracts",
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-component/src/contract.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "ee9eea15c3db9798f3683096b7ac8e440b37e671",
+          "symbols": [
+            {
+              "symbol": "ProviderIdentity",
+              "anchor": "pub struct ProviderIdentity",
+              "line": 25
+            },
+            {
+              "symbol": "LeaseIdentity",
+              "anchor": "pub struct LeaseIdentity",
+              "line": 37
+            },
+            {
+              "symbol": "InitializeRequest",
+              "anchor": "pub struct InitializeRequest",
+              "line": 86
+            },
+            {
+              "symbol": "OpenRequest",
+              "anchor": "pub struct OpenRequest",
+              "line": 122
+            },
+            {
+              "symbol": "WireReply",
+              "anchor": "pub struct WireReply",
+              "line": 226
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/value_wire.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "5d134b269bb5b7085ff9a8169e364df3b7b7b9d9",
+          "symbols": [
+            {
+              "symbol": "WireU64",
+              "anchor": "pub struct WireU64",
+              "line": 27
+            },
+            {
+              "symbol": "WireOptions",
+              "anchor": "pub struct WireOptions",
+              "line": 97
+            },
+            {
+              "symbol": "WireFrame",
+              "anchor": "pub struct WireFrame",
+              "line": 244
+            },
+            {
+              "symbol": "WirePoll",
+              "anchor": "pub enum WirePoll",
+              "line": 327
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/limits.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "a168f672151d08e8d5a9309905b8f14a4c4c6516",
+          "symbols": [
+            {
+              "symbol": "ServiceLimits",
+              "anchor": "pub struct ServiceLimits",
+              "line": 34
+            },
+            {
+              "symbol": "payload_limits",
+              "anchor": "pub fn payload_limits(",
+              "line": 25
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/outcome.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "e992c816e15c40f8d7953aa640fddc61744387a1",
+          "symbols": [
+            {
+              "symbol": "WireCloseOutcome",
+              "anchor": "pub struct WireCloseOutcome",
+              "line": 17
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "3f2c5c520cbb3a721538a62346e276c183ce6957",
+          "symbols": [
+            {
+              "symbol": "SearchBackendFactory",
+              "anchor": "pub trait SearchBackendFactory",
+              "line": 45
+            },
+            {
+              "symbol": "SearchService",
+              "anchor": "pub struct SearchService",
+              "line": 76
+            },
+            {
+              "symbol": "PendingServiceReply",
+              "anchor": "pub struct PendingServiceReply",
+              "line": 58
+            },
+            {
+              "symbol": "RETAINED_RECEIPTS",
+              "anchor": "pub(crate) const RETAINED_RECEIPTS: usize = 64;",
+              "line": 152
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_admit.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "859bed07fe3019d3950b8ebedbdb570af60a7ed0",
+          "symbols": [
+            {
+              "symbol": "ServiceLane",
+              "anchor": "pub enum ServiceLane",
+              "line": 32
+            },
+            {
+              "symbol": "admit",
+              "anchor": "pub fn admit(",
+              "line": 51
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_lease.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "fdc5d29ae705378c8b71d996aedc2c2fe906319f",
+          "symbols": [
+            {
+              "symbol": "Lease",
+              "anchor": "pub(crate) struct Lease",
+              "line": 26
+            },
+            {
+              "symbol": "request_close",
+              "anchor": "pub(crate) fn request_close(",
+              "line": 53
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/service_runner.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "c926905a6c020f40cdb2e8eef878bdbe6805c888",
+          "symbols": [
+            {
+              "symbol": "run_stdio",
+              "anchor": "pub async fn run_stdio(",
+              "line": 21
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Define file_search/default contract 1 initialization, open, query update, snapshot poll, release and provider shutdown, with provider/lease/epoch identities and typed operation versus cleanup outcomes.",
+        "Preserve decimal u64 identity bits and same-platform non-UTF8 paths; reject invalid paths, bounds, indices, counts and impossible Idle/completion frames.",
+        "Synchronously reserve Preparing work before spawning handlers so release can find startup; retain abandoned poll/update ownership and bounded retired receipts.",
+        "Refund quotas after Joined close even on operation failure; quarantine unconfirmed cleanup and fence the provider. Oversized encoded snapshots return ResourceExhausted with owned cleanup instead of truncated success.",
+        "Offer a generic persistent stdio runner and factory context with explicit base/config/state/limits, independent of Core and any concrete native matcher."
+      ],
+      "ownership": "SearchService retains factory initialization, lease work and shutdown; the stdio runner drains accepted service work and response handlers before transport finish.",
+      "limits": [
+        "Service tests use controlled backends; the runner is not itself a packaged native search plugin.",
+        "The immutable SDK plan contains historical proposal/status text; typed source and separately recorded evidence are authoritative for implemented names and test status."
+      ],
+      "dependencies": [
+        "codex-file-search-api::SearchBackend/SearchBackendSession (unchanged accepted contracts)",
+        "codex-component-host persistent transport",
+        "codex-component-path-codec"
+      ]
+    },
+    {
+      "id": "file_search1_process_backend",
+      "classification": "new_process_adapter_not_installed_native_functionality",
+      "origin": "New implementation of the previously accepted neutral SearchBackend surface",
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search-api/src/backend.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "8be8c279d9bd0cb7f9bcc67d4e8c7a98cbcb1197",
+          "symbols": [
+            {
+              "symbol": "SearchBackend",
+              "anchor": "pub trait SearchBackend:",
+              "line": 186
+            },
+            {
+              "symbol": "SearchBackendSession",
+              "anchor": "pub trait SearchBackendSession:",
+              "line": 206
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "36a2fe0195bc25a0a3eb5002223e6d75b3446533",
+          "symbols": [
+            {
+              "symbol": "ProcessSearchBackend",
+              "anchor": "pub struct ProcessSearchBackend",
+              "line": 57
+            },
+            {
+              "symbol": "connect",
+              "anchor": "pub async fn connect(",
+              "line": 65
+            },
+            {
+              "symbol": "connect_owned",
+              "anchor": "async fn connect_owned(",
+              "line": 126
+            },
+            {
+              "symbol": "run_provider",
+              "anchor": "async fn run_provider(",
+              "line": 242
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_open.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "4b3456d5e71a4dfeacdf578b2216e5cc250c2aac",
+          "symbols": [
+            {
+              "symbol": "open",
+              "anchor": "pub(super) async fn open(",
+              "line": 45
+            },
+            {
+              "symbol": "admit",
+              "anchor": "async fn admit(",
+              "line": 88
+            },
+            {
+              "symbol": "run_open",
+              "anchor": "async fn run_open(",
+              "line": 141
+            },
+            {
+              "symbol": "release_lease",
+              "anchor": "async fn release_lease(",
+              "line": 236
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_session.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "92092489701d489e02f36746ff3d95d23c0cf90e",
+          "symbols": [
+            {
+              "symbol": "ProcessSession",
+              "anchor": "pub(super) struct ProcessSession",
+              "line": 39
+            },
+            {
+              "symbol": "update",
+              "anchor": "async fn update(",
+              "line": 82
+            },
+            {
+              "symbol": "poll",
+              "anchor": "async fn poll(",
+              "line": 153
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_state.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "052da16e959575198789b5c4c64ecc31f5fd811b",
+          "symbols": [
+            {
+              "symbol": "Provider",
+              "anchor": "pub(super) struct Provider",
+              "line": 23
+            },
+            {
+              "symbol": "Lease",
+              "anchor": "pub(super) struct Lease",
+              "line": 41
+            },
+            {
+              "symbol": "OperationGuard",
+              "anchor": "pub(super) struct OperationGuard",
+              "line": 249
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/file-search-component/src/process_decode.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "2b8c74aa0c7ebb5bc649a86aad3ea6a3afdddcb1",
+          "symbols": [
+            {
+              "symbol": "transport_error",
+              "anchor": "pub(super) fn transport_error(",
+              "line": 13
+            },
+            {
+              "symbol": "decode",
+              "anchor": "pub(super) fn decode<",
+              "line": 34
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Connect one selected process in explicit immutable cwd with negotiated payload/resource ceilings; no reconnect/replay or fallback to another implementation on failure.",
+        "Serialize epoch allocation plus bounded admission without waiting for an earlier open response. Retain paired cleanup through abandoned startup and validate release_reply domain receipts.",
+        "Check roots/options/query limits before encoding/admission, validate identities/methods before accepting replies, and fence stale or mismatched responses.",
+        "Retain accepted operations after observer cancellation; final public backend/session drop requests owned cleanup. Preserve original operation failure when release is uncertain."
+      ],
+      "ownership": "Provider and lease owner tasks retain transport and cleanup independently of public observers; reserved resource capacity is released only under explicit cleanup receipts.",
+      "limits": [
+        "Real independent peer-process tests validate transport/lifecycle behavior but peers are protocol fixtures, not the native matcher.",
+        "No installed native worker, App Server/TUI backend composition or real GUI search replacement is present at this checkpoint.",
+        "The post-test missing-identity error branch in process_open was compiled by scoped lint but was not separately exercised in the recorded 22-case run."
+      ]
+    },
+    {
+      "id": "embedded_client_shutdown_deadline_and_ownership",
+      "classification": "repair_existing_native_client_lifecycle_not_subsystem_extraction",
+      "origin": "Existing OpenAI in-process App Server client plus earlier custom low-level storage drain",
+      "current_symbols": [
+        {
+          "path": "codex-rs/app-server-client/src/lib.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "4964b7b492cae7637d8a639a7ffa16c30d17ba60",
+          "symbols": [
+            {
+              "symbol": "InProcessAppServerClient",
+              "anchor": "pub struct InProcessAppServerClient",
+              "line": 326
+            },
+            {
+              "symbol": "AppServerClient",
+              "anchor": "pub enum AppServerClient",
+              "line": 344
+            },
+            {
+              "symbol": "shutdown_runtime",
+              "anchor": "shutdown_runtime: tokio::runtime::Handle",
+              "line": 330
+            },
+            {
+              "symbol": "shutdown future dispatcher",
+              "anchor": "pub fn shutdown(self) -> impl std::future::Future<Output = IoResult<()>> + Send",
+              "line": 612
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server-client/src/shutdown.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "c990855ef3d574129b67bb269204a058bcdd9e36",
+          "symbols": [
+            {
+              "symbol": "FACADE_SHUTDOWN_BUDGET",
+              "anchor": "const FACADE_SHUTDOWN_BUDGET:",
+              "line": 23
+            },
+            {
+              "symbol": "start",
+              "anchor": "pub(super) fn start(",
+              "line": 27
+            },
+            {
+              "symbol": "WorkerOwner",
+              "anchor": "struct WorkerOwner",
+              "line": 58
+            },
+            {
+              "symbol": "coordinate",
+              "anchor": "async fn coordinate(",
+              "line": 78
+            },
+            {
+              "symbol": "ShutdownFailures",
+              "anchor": "struct ShutdownFailures",
+              "line": 163
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/app-server/src/in_process.rs",
+          "revision": "bb03f3a81a828871e4e35d3e46b9c8528f3b7d00",
+          "blob": "a94bf1b38c343f886317c01aaf3fb8063ebcc311",
+          "symbols": [
+            {
+              "symbol": "IN_PROCESS_SHUTDOWN_BUDGET",
+              "anchor": "pub const IN_PROCESS_SHUTDOWN_BUDGET:",
+              "line": 113
+            }
+          ]
+        }
+      ],
+      "intentional_changes": [
+        "Replace separate 45-second acknowledgement/join waits and unbounded command send with one admission/acknowledgement/join deadline derived from the existing 200-second embedded budget plus 5 seconds.",
+        "Capture the owning runtime and start retained coordination synchronously when shutdown is requested; an unpolled/cancelled receipt or enum wrapper no longer drops unobserved worker ownership. Future construction outside an entered runtime is preserved.",
+        "Retain first operation failure while still observing worker completion; surface acknowledgement loss, worker panic and forced deadline as errors with explicit cleanup uncertainty.",
+        "On deadline request abort, return uncertainty within the public deadline, and retain the worker for eventual join; do not claim lower-level storage cleanup from a facade abort.",
+        "Expose/name the shared low-level budget only; its 200-second value and unrelated low-level implementation are unchanged in this delta. Remote client shutdown remains separate."
+      ],
+      "ownership": "The coordinator owns the facade worker through join or abort-and-join fallback. A live cooperative runtime is required for retained cleanup to progress.",
+      "limits": [
+        "This repairs an existing coupled client; no separately installable App Server/session orchestration component is introduced.",
+        "The immutable checkpoint has the old lag-test fixture that drops its command receiver; the first executable client gate reports 39/40, including all 12 new shutdown cases passing.",
+        "The corrected 40/40 client gate is a later fixture revision outside bb03; it must not be attributed to this immutable tree."
+      ],
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server-client/src/lib.rs",
+          "revision": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+          "blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+          "symbols": [
+            {
+              "symbol": "InProcessAppServerClient",
+              "anchor": "pub struct InProcessAppServerClient",
+              "line": 328
+            },
+            {
+              "symbol": "AppServerClient",
+              "anchor": "pub enum AppServerClient",
+              "line": 345
+            },
+            {
+              "symbol": "IN_PROCESS_SHUTDOWN_TIMEOUT",
+              "anchor": "const IN_PROCESS_SHUTDOWN_TIMEOUT:",
+              "line": 88
+            },
+            {
+              "symbol": "shutdown",
+              "anchor": "pub async fn shutdown(self) -> IoResult<()>",
+              "line": 609
+            }
+          ]
+        }
+      ],
+      "previous_symbols": [
+        {
+          "path": "codex-rs/app-server/src/in_process.rs",
+          "revision": "59e5d576681d6cbb4977e9ccfaf5fe22bbeb2f15",
+          "blob": "3e74d3a5907568c32a1a3c933b9d2c1a242b9b70",
+          "symbols": [
+            {
+              "symbol": "SHUTDOWN_ACK_TIMEOUT",
+              "anchor": "const SHUTDOWN_ACK_TIMEOUT: Duration = Duration::from_secs(200);",
+              "line": 112
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "checkpoint_delta": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "bdb749e1a76e031968361b6af2fc9b721b4e9c94",
+      "after_blob": "ed09149411b4387a2876a784ab8fa6772c4f0b06",
+      "import_blob": "ea897239537da5b7bbc3106eb5c1a8593f34895c",
+      "sha256": "de535f6125267092c5787d15dfd1a0b43f5315c1b3675cf26b42f63be46c0f00",
+      "boundary": "workspace_build_registration"
+    },
+    {
+      "path": "codex-rs/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "58498a92254c7399f76c3499d295fa94bb09a7bd",
+      "after_blob": "04a9b0f658061afce8ecec158837feb241ee1494",
+      "import_blob": "fc1becc762f6c50104a84e34d0e5524203a682e0",
+      "sha256": "21bef2a061a51fc673be4494003b52ca868420b68ee76d1a92d606a456faf7ee",
+      "boundary": "workspace_build_registration"
+    },
+    {
+      "path": "codex-rs/app-server-client/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+      "after_blob": "4964b7b492cae7637d8a639a7ffa16c30d17ba60",
+      "import_blob": "079d1bd2ca5e464b0421d623c682bf61028ce420",
+      "sha256": "50f26a48813caae3328c730339c2dd7c21cd7d1ba46054d242422dd01a524a5b",
+      "boundary": "embedded_client_shutdown_deadline_and_ownership"
+    },
+    {
+      "path": "codex-rs/app-server-client/src/shutdown.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c990855ef3d574129b67bb269204a058bcdd9e36",
+      "import_blob": null,
+      "sha256": "fdadbea423047dbce36f9fd19d4c2a7b4b35cc349df2686898fac7a6bb10b556",
+      "boundary": "embedded_client_shutdown_deadline_and_ownership"
+    },
+    {
+      "path": "codex-rs/app-server-client/src/shutdown_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "76f8477decc6bae175c51d215f1056ea3d8438e8",
+      "import_blob": null,
+      "sha256": "ccf64a1e4267ace6bfb443058915149c678ad36c9052573c8d623584ea320c33",
+      "boundary": "embedded_client_shutdown_deadline_and_ownership"
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "3e74d3a5907568c32a1a3c933b9d2c1a242b9b70",
+      "after_blob": "a94bf1b38c343f886317c01aaf3fb8063ebcc311",
+      "import_blob": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+      "sha256": "3eeb810bedc9d9545707d8076317b4120e0f3831d404cdedff287d455aeafd00",
+      "boundary": "embedded_client_shutdown_deadline_and_ownership"
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "be7be390e3497bd9e03bb185ff58cf5e75a843ea",
+      "after_blob": "6c301fb9c78def64ff247f3db25dca1077abbfc8",
+      "import_blob": null,
+      "sha256": "aa77d05a5f19e008df1650d92eb15134ee44e374def520cec603f3d3104e8f8c",
+      "boundary": "immutable_process_cwd_and_search_catalog_admission"
+    },
+    {
+      "path": "codex-rs/component-host/src/catalog.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "3a6e155793f7bfb402bd5fab1fc01926bfe004b7",
+      "after_blob": "390cb2025a6b927b70eaae1aa37d82baa58126c7",
+      "import_blob": null,
+      "sha256": "3fef43219940b1d6d80e60582bae230a4257ca31e36e695906f0a72c9592c370",
+      "boundary": "immutable_process_cwd_and_search_catalog_admission"
+    },
+    {
+      "path": "codex-rs/component-host/src/catalog_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "13097b0d9f1b2b36a2461449f0baf94a553cefc8",
+      "after_blob": "91bdc80013d0ece0ef4845c312f6170760926c2e",
+      "import_blob": null,
+      "sha256": "a8c5e54da4dd3e57e9345445c811c24bbbbc908723c3f17ae4ec00b7d18be64a",
+      "boundary": "immutable_process_cwd_and_search_catalog_admission"
+    },
+    {
+      "path": "codex-rs/component-host/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "45aa7815519a1801c53faeac6d723dfb42caf851",
+      "after_blob": "cbb882490875e0b868edf43460e9e1bd42ea5a46",
+      "import_blob": null,
+      "sha256": "270e2f3d122c2baad90ad428c2662c9c81f65d4a1ed81cab2d36a505d4287d71",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/main.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "d831de6b261d1b4cccdff1dfcd4cdd2d75a2202d",
+      "after_blob": "dc5e12f6e852d12a7e94603e4bcf78cfee859e4e",
+      "import_blob": null,
+      "sha256": "902694445ccbb2b905ec05630d9ea6f5a65bc9e4cc367e0d2c7ce5e8591a3952",
+      "boundary": "immutable_process_cwd_and_search_catalog_admission"
+    },
+    {
+      "path": "codex-rs/component-host/src/session.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "d2aab3e0728a72aa73e3c6089b518bcc7e811016",
+      "after_blob": "38e829c18e51ffd36ee74b22ecc183b5dd4e290d",
+      "import_blob": null,
+      "sha256": "510d2049f8717d38ea2bbab0b815c6a745f1f8902835310f88e3efb064840178",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_failure.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c1b7950235cca312144f668c53107642871672d2",
+      "import_blob": null,
+      "sha256": "0ef00ae9edb55ecfcfba44d06510ade3e530f2ba291f2644233adfff0b60d7f0",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_limits.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "ca408d4dca62c194020a65c0643771c5ba0b4bc5",
+      "import_blob": null,
+      "sha256": "0617b2d1ee16c1094174bdca06b55f1ea626721b2596e9c1ad87d7a9c79ebfef",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_limits_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "cc3dc99934bd20c742bb2a06bab773bee7510867",
+      "import_blob": null,
+      "sha256": "5eb4ae4c592c3edf133802af21af5cf071cb317f8f75c910c67507d1a7912742",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_options.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "ac1d9ca4234f337962f579dd1866e118fa69908d",
+      "import_blob": null,
+      "sha256": "5aa81b1a5b7d67ddedbe6ac27170e714cf80cc66469b9dd8c6d8398363cc54eb",
+      "boundary": "immutable_process_cwd_and_search_catalog_admission"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_options_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "803927fabaca5d25ff09409033c6b0d0df4dbba9",
+      "import_blob": null,
+      "sha256": "1826aa079b305bc243ad98b218a073ad6d9bc66c65cdab8181b9f0dce925b99b",
+      "boundary": "immutable_process_cwd_and_search_catalog_admission"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_payload_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "24b4409914d43b9b07a4dbf602984f6252c1b518",
+      "import_blob": null,
+      "sha256": "4e446b570687839b86b05cf3385c567aa69b6d9303657f6967e35f34b4f4ef99",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_reaping_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "ee225d53a2ab71d2b5a35bfc69dbf0cbdee40f97",
+      "after_blob": "52f167d62fb320c654a2ff3ba49dab853484541f",
+      "import_blob": null,
+      "sha256": "a9118f8505cc306cf34d9486b6ec3a62236d7a73ffb63e79e270461ee0769bd9",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_reply.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "735d4d4129c409d2164599f02bd57ac375641985",
+      "import_blob": null,
+      "sha256": "e56769eff740b857e11eef205206cfcdd00e04582ffda5a78642a2d96091c278",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_server.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "fcbc08ff57cd4232da5e8d9ea9d749b8c60d7afc",
+      "after_blob": "4102193314c1cdc9b6bc821c4964d58f6f3365ae",
+      "import_blob": null,
+      "sha256": "6b7678ffcef8b5dc25a67d51e085d755672f00bd04423185dfa8cae07888706f",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_server_limit_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "0cd3a0c5d500a4e41698160a0bd7f207417ec377",
+      "import_blob": null,
+      "sha256": "3a6d58e349655f013b47f941f2ae403c16519bc46e51cbba0899f2454e919985",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_start_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "57c8aee335ec8b28b8599d4c5930548559479cfd",
+      "import_blob": null,
+      "sha256": "ddf07b71f24ed4602f65a0e795a2c4d5b8fe3a1d12ba1a2dbbe2248a2d8115dd",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_supervisor.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "cb28bf4d5f21b3900e76c19b49f9d468a241bb1c",
+      "after_blob": "12e67dc80f89728a39b24cd49bb61b249585882d",
+      "import_blob": null,
+      "sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "a29e64fc32b160105a3777a302a54cb3b95ba164",
+      "after_blob": "5e597b3e8c1862b3f2cce81aa9c129e049d94af3",
+      "import_blob": null,
+      "sha256": "61b52fcbf25ed58a66715d750849ad01584a703fd4422770fe55667839a24c74",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "08361420647b7906538bf92f7f5bfb52d3cc1c3d",
+      "after_blob": "44de72b807574a004ce60802cfe50420fee64e3f",
+      "import_blob": null,
+      "sha256": "90e5f8943dd355179d6fcc699bdeea6f566d0bad2b368a8d6614dba5de3ca6e0",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/component-host/src/session_wire_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "752fad43f923918640fea553e71606fe53e1684d",
+      "after_blob": "26aafdfcc6efb040c0ab0e7bd16a4ae0bb1f5adb",
+      "import_blob": null,
+      "sha256": "18f069aa9359031e1ebf7d1dd82587168a0860d9dd34b62194fef3556faac7ce",
+      "boundary": "paired_transport_admission_and_logical_limits"
+    },
+    {
+      "path": "codex-rs/file-search-component/BUILD.bazel",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "385c3444bf54b6b809e3dd2f4399478218d9ae2b",
+      "import_blob": null,
+      "sha256": "50070c209d20c56c89a65c7dfc5c89f6464a6f89de4be56385280a06f1a8a124",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/Cargo.toml",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "815c6d8ddbb728d981fc57909f75e38d739244b0",
+      "import_blob": null,
+      "sha256": "aec110b0f5f09627ad6932b6013ec04cfe00f8be171240aa73166fa5c71fc996",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/contract.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "ee9eea15c3db9798f3683096b7ac8e440b37e671",
+      "import_blob": null,
+      "sha256": "12dd97950a354b4d0a754a498eeb00c11f5589ef58014585d81609e0590b7437",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/lib.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "66661531ce8a14c58e296a7d42ba65df0f26936a",
+      "import_blob": null,
+      "sha256": "42d61794d35f94deb02f343c4c5670ec9a546afffefe4a57bbd85890dbc4b9f5",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/limits.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "a168f672151d08e8d5a9309905b8f14a4c4c6516",
+      "import_blob": null,
+      "sha256": "b289a695345151c7c600c93089e1c34bbe08865806f842589ca90fb79c80f147",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/outcome.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "e992c816e15c40f8d7953aa640fddc61744387a1",
+      "import_blob": null,
+      "sha256": "acd3ae9032888d0333ad02bc89ce089800592ca4cd8d062271eeb7f43984a03c",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "36a2fe0195bc25a0a3eb5002223e6d75b3446533",
+      "import_blob": null,
+      "sha256": "8cca0e962f5a4b3362651675eea2178b121b3e674c7d91c3819246feee607621",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_decode.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "2b8c74aa0c7ebb5bc649a86aad3ea6a3afdddcb1",
+      "import_blob": null,
+      "sha256": "6eb83c5b139c8b749f207c3e1e178f1d876c846d648db8536ac53ca5255d8971",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_open.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "4b3456d5e71a4dfeacdf578b2216e5cc250c2aac",
+      "import_blob": null,
+      "sha256": "0e4ca6bb4df81218f438f2313f7367b006db0c48065954085b5b37e97e581599",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_session.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "92092489701d489e02f36746ff3d95d23c0cf90e",
+      "import_blob": null,
+      "sha256": "373802884199b73b25032b3b057a208da33b5b7869efebc75c61ee22d228b3d7",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_state.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "052da16e959575198789b5c4c64ecc31f5fd811b",
+      "import_blob": null,
+      "sha256": "d3dee280d00aa2effeb529b298db8f755ecce842562cec7d092ae71dee696f25",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "a67cb4c84ee4e51a1fa0309847e55627d3d8340a",
+      "import_blob": null,
+      "sha256": "e959616785868425c32a72c5696178f0f66803ff3f22fe9c1f1586881de77950",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "b8c4084d90fc862a7fd91a0df3792e6bc33b2ec6",
+      "import_blob": null,
+      "sha256": "6ea3619068aae9cc5b1b5c8bacfa48a3f101175c13ee8b8ccc936e6652fc478b",
+      "boundary": "file_search1_process_backend"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "3f2c5c520cbb3a721538a62346e276c183ce6957",
+      "import_blob": null,
+      "sha256": "0ffd17156a33a0c1f49418ac8185cc9a86215e7cdca9f4954bc74f21158d4faa",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_admit.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "859bed07fe3019d3950b8ebedbdb570af60a7ed0",
+      "import_blob": null,
+      "sha256": "4c1e82e310c55f8e51f7c277d2402e878eb1813576a1c4a7b62458bd82cefd1a",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_boundary_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "60768ef0d08981a0b226e9f880ac1fbc88635db5",
+      "import_blob": null,
+      "sha256": "112deb9463a67d7ae1c19407a762152e04d1ddd1097895ba58529339fa78f8fa",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_lease.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "fdc5d29ae705378c8b71d996aedc2c2fe906319f",
+      "import_blob": null,
+      "sha256": "5b78c4d2c7e4f0e971148c9edbe846cc8b1df801fbc628f3e042e47a5a673490",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_open.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "439825eb10872668d3b4351fa8abfa9c9c6cc726",
+      "import_blob": null,
+      "sha256": "0532a6c5bcc079ead9c31ce7eee8a34c3e0b0517bd793ac37e9e501371c5a038",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_operations.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "d6e9a43a1e1028ff208fc338e601882aa1a55395",
+      "import_blob": null,
+      "sha256": "66ba3660b1cfad5d9e6805d757d2c970f62936f2c26a7dcb4cbe40aab759ad82",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_provider.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "4b3fa430970e8df117ec551406e9e6fc20b28ed5",
+      "import_blob": null,
+      "sha256": "839d030d53099384bc30bfb24183ea8ef669d33a99b667c37d198ba0f9bce024",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_runner.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c926905a6c020f40cdb2e8eef878bdbe6805c888",
+      "import_blob": null,
+      "sha256": "a0adbfab09dc176e8005f3d5b9cf235448d22c4dee2c88bbc03463a9d4906402",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "310d10fb104e81358ff37aa01906f87cd1e00297",
+      "import_blob": null,
+      "sha256": "c843271f49c09e5e1f39e214a351d68a5a018bbbf316b3088275a90f4beda24a",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/value_wire.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "5d134b269bb5b7085ff9a8169e364df3b7b7b9d9",
+      "import_blob": null,
+      "sha256": "0df110b9f6f1ab656f71ea175637018d559b220de0fb45f9ccd09cacf69bf82f",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/value_wire_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "0303c54fe32bc693bac4bdc0c83e6132c302eb72",
+      "import_blob": null,
+      "sha256": "6d50fca6a73479a5904ef3c153468513fa219d0ef1860047d4c0aaf225a6f3aa",
+      "boundary": "file_search1_contract_and_owned_service"
+    },
+    {
+      "path": "codex-rs/file-search/Cargo.toml",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "1a06447906e867c93468125d68e4958e1b0decd0",
+      "after_blob": "1b5123135222e07614eadbc1069efd95a54ed01d",
+      "import_blob": "e235898982f6eba908c5c0751eae91a5b25cdb1a",
+      "sha256": "acb4fce56bca994e7a4c59dd957a722a96808d96a866e45a1803760f156a5efe",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff",
+      "after_blob": "62959aad7106bc8b0a69452d9e3c87f8443d9504",
+      "import_blob": null,
+      "sha256": "5dd099e40f150d5b538c2ddb8c9cf38ec1bcd29198fed609eafcb026cb6fe2aa",
+      "boundary": "native_async_owner_typed_receipts"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_receipt_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "c2a75db8a9e33ce3ee3765a088d4fc6e2b041a3e",
+      "import_blob": null,
+      "sha256": "b1d2e6d8cd2877002acac834201812c79710abb5bbf080802f293d5cc6241590",
+      "boundary": "native_async_owner_typed_receipts"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "e055dbad092cb578cdf89bdca46a4dbf854ab349",
+      "after_blob": "75f68999313e74fa9899797f26149472a5386174",
+      "import_blob": null,
+      "sha256": "e56b193eea845f8f23a91699e31d3d65a826e11a174d6f028471f9d42767901e",
+      "boundary": "native_async_owner_typed_receipts"
+    },
+    {
+      "path": "codex-rs/file-search/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6",
+      "after_blob": "b03efed08801902431fafb649035a239a271a5ae",
+      "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+      "sha256": "1fa9f84610478b44180558d02eb73d5da016153a4f1a4d8c37e09dae3e3f641d",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/lifecycle.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5",
+      "after_blob": "a803b2ab71ed93e7b537771840177996547c27ea",
+      "import_blob": null,
+      "sha256": "1e11c8780477dfa98fd863580a56c589c05f7334a35fc7754eca99841bfd3360",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/lifecycle_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "1a02ce6f0639d6c4c44d9cf7004ffeb3e679ffb8",
+      "after_blob": "59e5c2c11fdb120ee6a7f00a53e1d5bb6ef454ba",
+      "import_blob": null,
+      "sha256": "abf4a9ef80b8bca8ed6c207214a3712a62b92a793bad95e5689ef6f14150ded4",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/matcher.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "87fbf632d26edffb22de1ec8b064578ff6f759c6",
+      "import_blob": null,
+      "sha256": "5c7e15643f570e7d832576cafe71c978c7eb01a986f470777fd071ba0fd7777b",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_budget.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "fcc7eda119e5599e289697b5d3f590520dc21a0b",
+      "import_blob": null,
+      "sha256": "58e299b4d5f5c029fc8e1076c26537aa15b0facbad0acb30a9a9b1cee5051fc4",
+      "boundary": "native_index_budget_and_preflight"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_budget_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "b13dea6928e8c13d1cd0d3321ee0fb0ef687126c",
+      "import_blob": null,
+      "sha256": "6ba5bd17de5f390236fa9cd37537f818eb6ba931fb4cf9c49b08c25a386cfd06",
+      "boundary": "native_index_budget_and_preflight"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_index.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "04739d95b809046f04cc4950c2ea452a799e2985",
+      "import_blob": null,
+      "sha256": "6d130b80733bffe80200117dc05d7d7840b46acf8214cd25ccc8cdbfc37ab8e0",
+      "boundary": "native_index_budget_and_preflight"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_session.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "252db5908f47bd0b24c948dbf53c9e28cd30d4c7",
+      "import_blob": null,
+      "sha256": "79a4fedfd8a6604504b3d9711c0c8b7e631ad693ecc56f63e7119ef1b2180b4f",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "d0ce6f6033d0494871f18958aa496e502aa99e2d",
+      "after_blob": "882caa2e57d3b2a033fb97f6a639f159a95502e2",
+      "import_blob": null,
+      "sha256": "8d4403615dcb9506eda558c7b9827a2701a51abaa601880ea4907f9e0ac5a166",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/query_completion_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "786b58468f9fc3cb796454324c549e29e249d963",
+      "import_blob": null,
+      "sha256": "995b6b7540322e67c2a145d42a85a389bef3dfa3351097c4b50e53cdd79d3c8e",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/work_queue.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "8204fd15bb3e3adb1608eef99cd92fd1caeb9965",
+      "import_blob": null,
+      "sha256": "516d260a7fd4bf539746ebc8b9ab5d7bf945dea442f6ac5dd0aefe5c5210e506",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/file-search/src/work_queue_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "8b8f0fdd6f40f8d94b963b5175ae4a80a9173793",
+      "import_blob": null,
+      "sha256": "cd735620b1bbe8eed97f74f0e419ffdd37c0a456d7a5ae3b5ec45f2b595ce628",
+      "boundary": "native_query_queue_and_completion"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "8f2fd5c66e580a5dbbbf53318dfccb67c21c2d8e",
+      "after_blob": "7bce0c2e614e743798d02f9b033cba61b28702a9",
+      "import_blob": null,
+      "sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "3e8874c590c0fa3d87826749b1832076ddc2f002",
+      "after_blob": "3e4e3c6c69180a0fa20aad9b6e3b0c214d388df0",
+      "import_blob": null,
+      "sha256": "673a0d701349d022f226bf71a9a5079c8b6091e2f0550d13e75c59acd5b05507",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "6345c21040d7321b9ca7ffb47080830080390091",
+      "after_blob": "b88dadd5c89758bc9e87f74fb2b48772d5349aff",
+      "import_blob": null,
+      "sha256": "26d77e4d267d0049306a5ffce3d4efa46ceeb94ea5bfc274f1d2aa11d3450775",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/score.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "c934a8ef49891bddd658d6eb1d221392bfa89f49",
+      "after_blob": "f0ad8983e95f6be4e7f42fc915d4e94ad469900a",
+      "import_blob": null,
+      "sha256": "9a36796b9c2c7986532e3ba94f42d7c414093a6c292e77dbe2e6137b767c35b5",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/utf32_allocation_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "9c0bffe7ced7224f9026087c73643204c5ea1bd6",
+      "import_blob": null,
+      "sha256": "10fdd9ad2c3c28469e0cbabdd18e0666a66077b3fc4fcfd885e705cad5e15a44",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "664dae7a834d6e66b441652ed7436ae9d0b338fa",
+      "after_blob": "53dcff205c146abae68b09d0c2dbb0dad2d525fd",
+      "import_blob": null,
+      "sha256": "da7bfc81322c5fcfbc8517504cd975a620d11ee6111b61758a488594a93239c0",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/bounded.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "a79a6fb41f6db96699b1952e3fca93560568ab4a",
+      "import_blob": null,
+      "sha256": "ffcf9fb953f75d51222b39240649a7e1a51955bc9daac6c078338102f5cdafff",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/bounded_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "56290982d043811f9b275cd57285f1ad0edd2f3a",
+      "import_blob": null,
+      "sha256": "747bcaae25dabed86d5abee12a84f1eda563156a613ddb4d40a59696f6180ad9",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/boxcar.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "9b48809daeb827a60c6994a0bea0de2c663cbd22",
+      "after_blob": "696e66e204d13c71eecacd8c6eacc3b8e7249131",
+      "import_blob": null,
+      "sha256": "2aa91f1028229e401d965c0867a1813422f76326eddb353d5c00b37efa41cca9",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/boxcar_bounded_tests.rs",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "844972defafd23d1ceee44775be468a475e9ad6d",
+      "import_blob": null,
+      "sha256": "138fde400fca8cc0d8772ed14f55bade034c81c83bb37fe2a9d54abc4df261d2",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/lib.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "227f0f955268f6d771336d8d7095fefb70ba5252",
+      "after_blob": "72dcae5ab4fc6075adc79b0adebefd7fe9706938",
+      "import_blob": null,
+      "sha256": "0a3fbccbe501af53651075834369be1ebf1112cd712a91ab425cd8b8cc03ac61",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/pattern.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "816b0a31691c421bb8ad90f9ef92cd48dacecf3f",
+      "after_blob": "90d6ec84fc463a9841334daccbcbed59c8c3da1f",
+      "import_blob": null,
+      "sha256": "e1b1d2ab2add3e2984801ea2cc17a0725735ea96163f8a50354ef469353a479a",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/src/worker.rs",
+      "status": "M",
+      "mode": "100644",
+      "before_blob": "aedd46c4b66101a02fbdef3c2fb9827b264d1ac1",
+      "after_blob": "7571e7ed190c2b2af41983de467e35cec5ddf039",
+      "import_blob": null,
+      "sha256": "e694a945d7ac02ee4570227f4f79976bfbf094bd2cbd8346655d25281167a170",
+      "boundary": "foreign_prepaid_matcher_and_payload_planning"
+    },
+    {
+      "path": "component-sdk/FILE_SEARCH_WIRE_PLAN.md",
+      "status": "A",
+      "mode": "100644",
+      "before_blob": null,
+      "after_blob": "14420d57520b42191cfdb06dc3bc8dd688528c9c",
+      "import_blob": null,
+      "sha256": "4eeefd9a5ff691503cc61ef9b1660bbed9b59cc1a90d4458692d3f927deae725",
+      "boundary": "file_search1_contract_and_owned_service"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "../verification/2026-10-01/P02B_BOUNDED_INDEX_EVIDENCE.md",
+      "result": "Shared earlier 166/166 executed plus 1 ignored with transport-limit evidence; do not double count."
+    },
+    {
+      "path": "../verification/2026-10-01/P02B_TRANSPORT_LIMITS_EVIDENCE.md",
+      "result": "Same 166-case run: host 75, native 41, Nucleo 23, Matcher 27; separate later source transitions."
+    },
+    {
+      "path": "../verification/2026-10-01/P02B_NATIVE_BUDGET_EVIDENCE.md",
+      "result": "122/122: native 56, neutral API 11, Nucleo 23, Matcher 32. Original compilation failure and later lint/format changes remain separate."
+    },
+    {
+      "path": "../verification/2026-10-01/P02B_SEARCH_PROCESS_EVIDENCE.md",
+      "result": "22/22 search-component tests; separate host cwd/catalog 80/80 plus 1 helper ignored. Component tests use controlled backend/real protocol peers; post-test identity handling is explicitly recorded."
+    },
+    {
+      "path": "../verification/2026-10-01/P02B_CLIENT_SHUTDOWN_EVIDENCE.md",
+      "machine_readable": "../verification/2026-10-01/p02b-client-shutdown-results.json",
+      "result": "Initial ENOSPC build ran no tests; retry compiled and ran 39/40 (all 12 new shutdown tests passed). Corrected lag fixture then passed 40/40 on later bytes outside bb03. Original failed evidence is preserved.",
+      "later_correction": {
+        "path": "codex-rs/app-server-client/src/lib.rs",
+        "test": "next_event_surfaces_lagged_markers",
+        "change": "Keep the command receiver and use an actual worker that receives Shutdown and sends Ok; preserve Lagged { skipped: 3 } and the shutdown success assertion.",
+        "source_membership": "Not included in implementation_commit; consult the evidence manifest for exact corrected fingerprints."
+      }
+    }
+  ],
+  "maintenance_gates": [
+    "Review semantic upstream changes to native traversal/matching callbacks, query completion, native pool ownership and App Server shutdown separately from textual merge success.",
+    "Revalidate the bounded foreign allocator/Arc/Rayon assumptions, preserve MPL-2.0 source/notices separately from Apache-2.0 Codex LICENSE/NOTICE, and rerun allocation/matching parity and lifecycle regressions.",
+    "Preserve host API version 1, storage contract 2 and default storage payload behavior; search contract 1 remains opt-in and needs its own package compatibility/upgrade/removal/runtime gates.",
+    "A candidate must rerun actual native packaged search through unchanged host consumers and the existing UI before claiming replacement acceptance; peer fixtures alone are insufficient.",
+    "No later official Codex revision was integrated here. The independently installable updater, isolated upstream-integration demonstration and failed-update rollback remain outstanding P18U work."
+  ]
+}
