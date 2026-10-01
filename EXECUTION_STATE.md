@@ -1,177 +1,138 @@
 # Execution state — read first on resume
 
-Updated 2026-10-01 UTC. Canonical plan: [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md).
-Inventory: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
+Updated 2026-10-01 UTC. Follow [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md),
+[COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md) and
+[UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md). Full v1 is **not complete**.
 
-## Current checkpoint
+## Last verified checkpoints
 
-- Project: Codex Harness Compartmentalized; full v1 is **not complete**.
-- P00 roadmap/source audit is complete. P01 manual-migration implementation and
-  scoped runtime gates are complete: source commit
-  `5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb`, tree
-  `1aa7638122282600aa493661a33594285f945d2d`.
-- This documentation checkpoint accompanies that source on `main`. Revalidate
-  remote refs before resuming or publishing; do not infer them from local HEAD.
-- Previous accepted implementation: `4e38e02993df698cefa99d7cc325890d837262de`;
-  roadmap checkpoint: `83364aa63526d75840d4149f4598ba1aeed02a06`.
-- Separately preserved unverified work: `0b38d5974159ab2a8776200025dbb602e89b8f8f`
-  (`wip/recovered-next-components-20260930`). Do not merge it wholesale.
-- Upstream pin: `d42056091aded7feb1d88ac7e83972108b2aa478`.
-- Repository: `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
-- P02a native search ownership, App Server/TUI lifecycle and GUI file-picker work
-  are staged in the working tree, **not included in the P01 source commit**.
-  Native search's latest 35/35 tests passed with unchanged scoped source and the
-  subreaper. App Server tests are still compiling; the TUI reconnect sender fix
-  awaits its rerun. This is partial verification, not an accepted P02 checkpoint.
-  There is still no independently installed search implementation.
-- Upstream maintenance remains required. Its release gates explicitly require a
-  later pinned upstream revision, unchanged compatible custom-plugin packages,
-  both breaking-update rejection and failed-activation recovery through an
-  external bootstrap. No updater, schedule or live update is active.
+- P02 StageA source: `25b2c3150879761026086a62e480045fc38d32ff`, tree
+  `5ba385b6e7730119b6d5cdca67fba2dc4f5c395d`; its companion documentation commit
+  publishes this state and evidence. Revalidate the current remote ref.
+- P01 source: `5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb`.
+  Native thread persistence and optional manual migration are independently selected;
+  inline attachment storage is a separately replaceable native subset.
+- StageA fixes native search worker/publication lifetime in App Server/TUI and adds
+  file references to the independently packaged desktop GUI. **Search is still
+  coupled.** Infrastructure, lifecycle repairs and additive UI do not count as its
+  extraction. Model/auth remain adapters; loop, context, compaction, native tools,
+  policy and auxiliary databases remain coupled.
+- Unregistered StageB API/path-codec drafts: external WIP
+  `17c366bb94f77b3d3895acd6f061a5cb308bd384`, branch
+  `wip/p02-search-lifecycle-20261001`. They are excluded from accepted StageA.
+- Older isolated WIP: `0b38d5974159ab2a8776200025dbb602e89b8f8f`, branch
+  `wip/recovered-next-components-20260930`. Never merge WIP wholesale.
+- Official upstream pin: `d42056091aded7feb1d88ac7e83972108b2aa478`; Apache LICENSE
+  and NOTICE retained. Nucleo's separate pinned MPL-2.0 source/notices are retained.
+  See [exact StageA lineage](upstream/p02-search-lineage.json).
+
+## Verified behavior and limits
+
+[P02 evidence](verification/2026-10-01/P02_SEARCH_PREREQUISITE_EVIDENCE.md) and its
+machine-readable reports retain actual per-run source/log hashes and failures:
+
+- Native search 35/35, vendored matcher/Nucleo 35/35; App Server 395 library cases
+  plus 13 public RPC cases across separate 12+1 runs; focused TUI reconnect 11/11.
+- Full TUI: 5,604 passed, four cursor-color failures, four ignored. The same
+  executable's six unchanged cursor tests passed with NO_COLOR unset. Together
+  these establish 5,608 distinct passing executed cases across environments,
+  **not one all-green run**. Original failures/snapshots remain preserved.
+- SDK packaging 19/19, desktop controller/gateway 7 Node + 14 Python cases.
+  Scoped fix, format, final Clippy and CLI build passed; eight vendor style
+  warnings remain. Build scope recorded 2,979 unchanged source fingerprints.
+- The new engine ran the existing independently built storage 0.2.0 package
+  unchanged: real turns, tools, streaming, persistence, cold resume, restoration,
+  manual migration dry-run/apply/idempotence and strict child cleanup passed.
+  This proves compatibility, **not a new independent storage build**.
+- New-engine GUI: 49+38 Chromium/Playwright commands, zero page errors, real file
+  search/insertion, approval/native tool completion, streaming, Stop, reload and
+  cold recovery. Manager Launch SIGINT during active turns exited zero in about
+  0.315/0.316s; all observed processes absent and subreaper drains passed.
+- In-app Browser is unavailable. This is real Chromium fallback evidence with a
+  deterministic provider, not live-provider, Windows, remote-viewer or full-suite
+  proof. The older P01-engine GUI gate remains separately identified.
+
+Frozen StageA runtime: `/workspace/component-checkpoint-candidate-p02a-20261001/`.
+CLI SHA256 `181463925d599f0eed023106820cad8fbb228d81e972eefb256a2076b88813c0`;
+manager SHA256 `acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3`.
+Original candidate.json records creation-time pending status; later evidence records
+passed acceptance. Do not overwrite it or older frozen P01/v2 artifacts. Stripping
+preserved all 30 allocated ELF sections; runtime gates used this immutable copy.
 
 ## Ordered next actions
 
-1. Verify the original environment, checkout, remote refs, source/index state and
-   active commands. Read the P01 evidence and compare actual blobs to the accepted
-   source commit; original HEAD/index deliberately remain at the upstream import.
-2. Finish P02a1 verification: latest native search is 35/35; pinned Nucleo/matcher
-   tests previously passed 35/35 and SDK packaging passed 19/19. Retain MPL-2.0
-   notices/source, verify export and inventory added manifests. Native lifetime
-   repairs alone do not extract search. Never confuse requested and joined close.
-3. Finish App Server search/embedded cleanup/public RPC tests, then rerun TUI after
-   the reconnect fix that sends results through the rotated event channel. The
-   prior 11/11 TUI result predates that fix. Build and test the new real host;
-   GUI 0.2.0's 87/87 Chromium commands used the unchanged frozen P01 host, so do
-   not present them as evidence for the new App Server code. Agree lifecycle
-   semantics before enabling the file_search1 process adapter. Detailed gates are in
-   [FILE_SEARCH_COMPONENT_PLAN.md](component-sdk/FILE_SEARCH_COMPONENT_PLAN.md).
-4. Independently package native/custom search workers, install without rebuilding
-   the frozen host, exercise real clients, then regress existing storage and GUI.
-   P02b mutation/watch/Git services wait for P03/P04/P10 authority prerequisites.
-5. P03 startup ownership, model transport2 and broker are separate reviewable gates.
-   Complete missing WIP test/module links; do not activate everything as one import.
-6. Continue the remaining ordered phases. P18U upstream maintenance is required;
-   establish lineage at every extraction now, implement the updater after stable
-   contracts. Viewer networking is an optional separate workstream.
+1. Re-observe original task environment, repository, actual working files, refs,
+   source/index hashes, processes and disk/memory. Read AGENTS and runtime skill.
+2. Register neutral `file-search-api` and `component-path-codec` drafts, add missing
+   Bazel target, apply reviewed state-codec path re-exports. Run API/path/old-codec
+   compatibility tests, scoped lint/format and lock updates. No installed-search
+   claim from this supporting-library step.
+3. Implement bounded native backend, coalesced query admission, honest final
+   snapshot/Idle ordering, entry/index/worker budgets and resource errors. See
+   [native plan](component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md).
+4. Add file_search1 wire service/process adapter and native/custom workers.
+   Extend retained startup cleanup and opt-in logical transport limits before
+   activation. Install no fallback after selection.
+5. Compose one provider per embedded runtime with independent App Server
+   connection/local TUI scopes; independent embeddings remain independent. Repair
+   high-level embedded-client shutdown timeout/abort reporting before sharing the
+   provider. See [composition plan](component-sdk/FILE_SEARCH_COMPOSITION_PLAN.md).
+6. Independently build/install workers outside source; exercise GUI/TUI/one-shot
+   clients, replacement, removal, incompatible versions, cancellation, resource
+   exhaustion and recovery with unchanged host. Regress storage and GUI each cycle.
+   The private rollout lookup remains a fourth consumer pending P03 broker.
+7. Continue P03 lifecycle/transport/broker, then the roadmap's ordered phases.
+   P02b filesystem/watch/Git mutations wait for authority/config/policy contracts.
+   P18U upstream update integration is **required**, sequenced after stable
+   contracts. Record lineage now; demonstrate a real later revision, unchanged
+   compatible custom packages, breaking rejection and external-bootstrap rollback
+   before release. No updater, polling schedule or live update is active.
 
-## P01 verified behavior and exact scope
+## Preserve and resume safely
 
-[Evidence and original failures](verification/2026-10-01/P01_TEST_EVIDENCE.md)
-record **625 distinct passing Rust cases across runs**, not one aggregate run:
-279 native thread-store, 23 component, 21 native worker, 295 CLI unit, five CLI
-migration and two real OTLP metrics cases. The final component/worker rerun passed
-44/44 with no retries and the unchanged subreaper. One subprocess helper is ignored.
-Nine packaging-version tests passed. Scoped final Clippy had no warnings; formatting
-and Bazel lock regeneration passed. No new production core/common/protocol changes.
+Original primary `/workspace/codex-harness-everythings-a-plugin`; isolated recovered
+WIP `/workspace/codex-harness-next-components`. Origin remains
+`https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
+Original `work` HEAD/index deliberately stay at upstream. Baseline files are often
+untracked relative to that index: ordinary diff against main can falsely show them
+as deleted. Compare actual file blobs. Never reset, clean or bulk-stage either tree.
+Use exact path whitelists and a temporary index based on the accepted ref; verify
+remote refs immediately before non-force push and verify GitHub afterward.
+Original index SHA256: `2e0abf9135fedee93d85ffedb3045397fb85d35017f4191dc5e7a133af0b6759`.
 
-- Storage package **0.2.0**, storage contract **2**, optional manual-migration **1**:
-  exported outside the checkout, 81 local crates/917 resolved packages, no new
-  dependency identities, core/CLI/App Server/TUI excluded. Worker built separately,
-  export removed before install, host fingerprints unchanged throughout acceptance.
-- Actual legacy conversation: native/selected dry-run parity and unchanged storage
-  bytes, selected Apply, repeated Apply, cold CLI model-history and App Server UI
-  history, cancellation and strict process disappearance passed.
-- Actual older native package 0.1.0/storage2 remains usable for ordinary turns,
-  tools, persistence and cold resume. Migration dry-run returns Unsupported with
-  no fallback, unchanged storage and all observed workers reaped.
-- Real Chromium/Playwright GUI: streaming, native command approval, Stop, page reload,
-  cold engine/browser restart and continuation passed. Two manager-only Launch
-  SIGINTs during active blocked turns exited zero; all tracked manager/gateway/
-  App Server/storage/model PIDs absent, with subreaper drains. See safe screenshots
-  in the P01 evidence. This was **not** the unavailable in-app Browser.
-- Initial GUI approval timeout is preserved. CLI exec resume persisted Never;
-  fixture preparation now explicitly restores on-request through public
-  thread/resume. The product honored Never; no policy bypass or automatic approval
-  was added. Failed Rust fixture attempts are also preserved separately.
-- State/rollout regression is focused native integration, including journals,
-  compression/archive preservation, SQLite contention and recovery. Complete
-  standalone state/rollout/workspace suites were not rerun for unchanged crates.
-- Generic process large-history transport and migration report codec size cases
-  passed. A dedicated >4 MiB migration-report IPC case was not run.
-
-Frozen P01 binaries (do not overwrite):
-`/workspace/verified-component-checkpoint-p01-20261001/`.
-Manager SHA256 `acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3`;
-CLI SHA256 `467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01`.
-The original accepted host directory remains immutable too.
-
-## Contract and remaining coverage
-
-The selected backend is resolved before native construction. Migration capabilities
-are optional; absent/unknown versions disable only migration. No native fallback
-is permitted after selection. Selected Apply has one worker-owned StateRuntime;
-DryRun opens no database, and both startup maintenance flags are off in this path.
-Native cancellation finishes accepted path publication. Cancel acknowledges the
-request; close joins cleanup. Dropped waiters do not abort accepted mutation futures.
-There are 32 retained runs, bounded pending/tombstone slots and 128 retired-ID
-acknowledgements; this is not durable replay protection. Clients use unique IDs.
-First interrupt cooperates; repeated signal or 210-second budget reports durability
-uncertainty. Native/selected telemetry records one run without double counting.
-
-This extends actual native thread storage. Inline attachment is a separate native
-subset; the GUI is additive. Model/auth remain adapters; loop, live context,
-compaction, native tools/policy and auxiliary databases remain coupled. The previous
-2,694/2,694 core-library result belongs to its recorded older source, not new P02
-work. Model-v1's reproduced 4 MiB limit and staged model2/broker/replay remain open.
-Cross-platform, live-provider and full workspace evidence are not established.
-
-## Workspace and preservation
-
-Original primary: `/workspace/codex-harness-everythings-a-plugin`.
-Isolated recovered WIP: `/workspace/codex-harness-next-components`.
-Both retain upstream HEAD and recovered changes; **ordinary diff/status against
-HEAD includes the recovered baseline**. Untracked baseline files may appear deleted
-in a comparison against main. Never reset/clean/bulk-stage either checkout.
-
-Publish explicit paths with a temporary index based on a verified commit. Preserve
-original HEAD/index and the shared build paths. For each checkpoint record the
-actual tested source, independent package, binary hashes and limitations. Never use
-`/tmp/run-component-regression.py` unchanged: its source label is obsolete.
-
-Full cloud-local backup `/workspace/recovery-backups/20260930T165936Z/` retains both
-source worktrees, SDK/GUI/docs/evidence/Git state and accepted artifacts. Archive
+Full both-worktree/SDK/docs/evidence/Git backup is in
+`/workspace/recovery-backups/20260930T165936Z/codex-recovered-workspace.tar.zst`,
 SHA256 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
-P01 incremental source snapshots and original logs remain there. Snapshot
-`p01-source-20261001T011110Z.tar.gz` SHA256
-`5b4aa470b8e883eacf421cc99a8e4730b2cfd0431139051ee0f3df13e854787b`
-was member-hash verified before the final documentation additions.
-New P02 incremental snapshot `p01-source-20261001T020951Z.tar.gz` (historical
-filename prefix) contains 99 changed paths versus `06d3540c73510120cd8a08a1d9d3429718bda9bf`;
-SHA256 `63f61bc3be47019d9b44aa742c79816d231a2c3840de7958145473e9ee2486e3`.
-Its members were verified; it predates the reconnect fix and these documentation
-edits. The earlier `020257Z` snapshot failed member verification and is marked
-unverified; do not use it as a verified recovery point. Save another snapshot
-before publication. Current private native evidence:
-`/workspace/acceptance/p02-native-final-startup-corrected.{log,source.json,subreaper.json}`.
-App Server run: `/workspace/acceptance/p02-app-server-search-unit.*`; inspect its
-terminal status instead of assuming completion. Preserve original failures.
-Cloud-local archives are not externally durable backups. GitHub protects only the
-source included in its published refs; preserve newer work before further edits.
-Never publish credentials, private bearer URLs, caches, binaries or runtime homes.
+Later member-verified incremental `p01-source-20261001T040040Z.tar.gz` (historical
+prefix) covers 124 changed paths versus main4288; SHA256
+`9e581f18c9abc5e3719b6f45c11c2fe7b23e0b9284faf408049462edd6691a05`.
+It precedes this final state/lineage edit. Keep original failures and later snapshots.
+Cloud-local archives are recovery checkpoints, not proven outside backups. GitHub
+protects included published source only. Exclude binaries, caches, runtime homes,
+credentials and private bearer URLs from publication.
 
-## Runtime and resume rules
+Environment last observed connected/running, revision45, identity
+`ccarenv_b64_Y2NhcmVudl8wYzAyOTNkMzVhZTg4MTkxYjc4YjQyZmVhNWYwMDllYQ`.
+Source `/workspace/toolchains/component-verification-env.sh`, jobs1, existing
+Rust1.95/debug0/incremental0. One owner serializes Rust; never kill Rust. Use
+`just test`, scoped `just fix`, `just fmt`, and required Bazel/schema regeneration.
+Use `/tmp/run-p02-check.py` for actual source manifests. Never reuse unchanged
+`/tmp/run-component-regression.py`: its source label is obsolete.
 
-Read AGENTS and cloud-runtime skill, then query task-bound status. Observed original
-instance was `ccarenv_b64_Y2NhcmVudl8wYzAyOTNkMzVhZTg4MTkxYjc4YjQyZmVhNWYwMDllYQ`,
-revision38, connected/running; re-observe rather than trusting this record.
-Source `/workspace/toolchains/component-verification-env.sh`, use jobs1 and existing
-debug0/incremental0 settings. One owner serializes Rust builds; never kill Rust.
-Use just test, scoped just fix and just fmt; regenerate Bazel/schema when applicable.
+Resource limit: 32 GiB overlay, last observed only379 MiB free, /tmp tmpfs1.2 GiB
+free. Recheck before linking; do not use tmpfs without memory accounting. Audited
+cache maps/restoration live in recovery reports `p02-generated-cache-tmpfs-relocation.json`
+and `p02-pre-cli-cache-tmpfs-relocation.json`. Original-path cache symlinks need
+these backing files. Cargo's dangerous hardlink to frozen-v2 was safely detached;
+**do not restore it**. Completed App Server executable is preserved in the
+checksum-verified `p02-completed-public-app-server.tar.zst`; generated new CLI
+cache was removed after independent immutable candidate verification. Do not remove
+source, evidence, runtime state, frozen binaries or active mappings for space.
 
-Overlay is 32 GiB with roughly 1.2 GB free after P01. Check actual resources before
-linking. Eviction reports retain exact hashes of removed stale generated executables;
-all sources, libraries, metadata symlinks and accepted binaries were preserved.
-Do not treat /tmp tmpfs as disk spill or remove its live metadata-symlink targets.
-Use isolated runtime homes and unchanged subreaper/lifecycle assertions.
-
-Optional viewer: `/workspace/remote-viewer-setup`, outside harness. Its authenticated
-local services do not prove cloud-to-local reachability. Published editor settings
-still did not reach this task's observed allowed_hosts list; bridge pairing remains
-unverified. Do not bypass policy, reset the VM or let this block component work.
-
-Routine implementation, tests and non-force checkpoint pushes are authorized.
-Upstream updates are required by [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md):
-exact lineage, isolated candidate, compatibility/security/runtime/UI gates, coordinated
-versions/migrations and rollback/bootstrap recovery. No polling or live installation
-update has been started. Continue feasible phases; finite resources/run lifetime and
-missing Browser do not justify calling the whole platform complete.
+Optional viewer lives at `/workspace/remote-viewer-setup`, outside harness.
+Current enforced restricted policy still has no additional hostname grant; local
+services do not establish user-accessible reachability. Never bypass policy or
+reset/replace this VM. This workstream does not block component development.
+Routine implementation/testing and non-force checkpoint pushes are authorized.
+Continue feasible phases; finite resources or unavailable Browser are limitations,
+not grounds to claim the platform finished.

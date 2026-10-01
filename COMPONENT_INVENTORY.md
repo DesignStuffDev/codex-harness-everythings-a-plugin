@@ -122,6 +122,21 @@ Six unregistered primary package manifests are STAGED. A copied source tree or o
 | C08 | `codex-rs/context-engine`, `context-replay`, `context-replay-component`, `context-replay-native-plugin` | Register and build leaves, activate core replay bridge and component selection, run native differential/parity fixtures and an external-worker acceptance test. `context-engine/NEXT_INTEGRATION.md` documents gates. Pure reconstruction is narrower than all live context management/compaction. Session startup must be fallible and owner release must close the worker. |
 | C05 | `codex-rs/model-catalog-api`, `model-catalog-native-plugin`; unlinked `models-manager/src/component*` and `model-provider/src/component_catalog*` modules | Follow `model-provider/COMPONENT_CATALOG_ACTIVATION.md`; activate dependency broker/session/spool integration, endpoint grants and authority fencing before replacing catalog selection. Preserve native provider seeds, ETag/cache/offline/auth-change behavior and test independent installation. |
 
+P02 supplement, 2026-10-01: the 164-member baseline ledger is unchanged. Native
+search lifetime repair and App Server/TUI ownership changes remain **COUPLED**
+implementation prerequisites. The GUI's file-reference picker is **ADDITIVE**.
+There is no installed `file_search` implementation or selected search worker yet.
+
+| Owner | Additional source | Classification and scope |
+| --- | --- | --- |
+| C18/C26 | `codex-rs/third-party/nucleo/Cargo.toml`, `matcher/Cargo.toml`; retained matcher fuzz manifest | SUPPORT/native dependency, moved from the exact pinned Git dependency to local source with owned-pool/shutdown changes. MPL-2.0 licenses and provenance are retained. Vendoring is not component extraction. |
+| C18/C00 | `codex-rs/file-search-api`, `codex-rs/component-path-codec` | Two additional unregistered, uncompiled Stage B drafts preserved on `wip/p02-search-lifecycle-20261001` at `17c366bb94f77b3d3895acd6f061a5cb308bd384`. STAGED shared contracts/codecs, excluded from the accepted Stage A source; not independently installed components. |
+
+The P02 component plan and its native-backend/composition annexes document all four
+search consumers, explicit ownership and remaining activation gates. The private
+storage search fallback remains pending dependency injection; client search
+replacement alone cannot make that path replaceable.
+
 The isolated WIP checkout adds `codex-rs/model-transport-api` (STAGED), model2 transport/worker paths, runtime lifecycle/cleanup work and thread-store migration protocol/client work. Its copied baseline reports apply to the older baseline only. In particular, migration wire variants and client calls do not supply the missing server dispatch/lease registry/CLI composition. See `component-sdk/MIGRATION_COMPONENT_PLAN.md`, `MODEL_TRANSPORT_V2_PROPOSAL.md`, `MODEL_TRANSPORT_V2_DOMAIN.md` and `SESSION_RUNTIME_LIFECYCLE_PLAN.md`; none of those proposals alone proves implementation. Primary broker activation patches under `component-sdk/` likewise remain STAGED until integrated and tested.
 
 ## Non-Rust distributions and executable surfaces

@@ -32,8 +32,13 @@ The subsequent [P01 lineage](upstream/p01-migration-lineage.json) maps native ma
 rollout migration to its optional storage capability, retained worker lifecycle,
 selected CLI composition and shared telemetry. It records exact upstream symbols,
 the immutable P01 implementation commit, all changed blobs and the complete diff
-from the import. The initial snapshot above remains historical. Unverified P02
-work is not promoted by this mapping; each accepted extraction needs its own entry.
+from the import. The initial snapshot above remains historical. The subsequent
+[P02 StageA lineage](upstream/p02-search-lineage.json) records exact native search,
+App Server/TUI ownership, foreign Nucleo patch, SDK and additive GUI boundaries at
+`25b2c3150879761026086a62e480045fc38d32ff`. It includes every changed path/blob and
+78 current symbol anchors, with foreign provenance kept separate. This is a verified
+native prerequisite, **not** installed search or updater execution. Unregistered
+StageB drafts are excluded; each accepted boundary needs its own mapped checkpoint.
 
 ## Separately installable maintenance service
 

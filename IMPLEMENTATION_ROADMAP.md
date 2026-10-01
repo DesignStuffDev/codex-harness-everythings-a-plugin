@@ -173,6 +173,15 @@ durability result, package compatibility tests, SDK/native package docs and evid
 Detailed P02a audit, staged contract proposal and pending consumers:
 [file-search component plan](component-sdk/FILE_SEARCH_COMPONENT_PLAN.md).
 
+**Verified prerequisite (2026-10-01):** StageA joins native search workers and
+client publication across cancellation/reconnect/shutdown; the separately packaged
+GUI adds native file references. Source `25b2c3150879761026086a62e480045fc38d32ff`
+and [evidence](verification/2026-10-01/P02_SEARCH_PREREQUISITE_EVIDENCE.md)
+include new-host storage, migration and GUI regression. Search is still **COUPLED**:
+no installed search backend is active. StageB must register the neutral contracts,
+add bounded native/process implementations and replace real composition paths.
+[Lineage](upstream/p02-search-lineage.json) records this distinction.
+
 **Prerequisites:** P02a search uses contract cards, the accepted process/session
 protocol and existing native authorized root snapshots. P02b filesystem/watch/Git
 and worktree mutation services additionally require P03/P04/P10 authority/config

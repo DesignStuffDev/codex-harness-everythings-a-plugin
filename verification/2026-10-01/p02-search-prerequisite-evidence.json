@@ -1,0 +1,995 @@
+{
+  "schema_version": 1,
+  "status": "verified StageA prerequisite scoped/runtime gates; independent search extraction remains incomplete",
+  "recorded_utc": "2026-10-01T02:46:23.730212+00:00",
+  "publication": {
+    "main_docs": "4288e493d3164ef2995808c02cc65e60528ca96e",
+    "source_wip": "17c366bb94f77b3d3895acd6f061a5cb308bd384",
+    "prior_p01": "06d3540c73510120cd8a08a1d9d3429718bda9bf",
+    "upstream": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "note": "These are source references recorded during verification, not a claim that the work remains unpublished. Accepted StageA publication and exact before/after lineage are recorded in upstream/p02-search-lineage.json. Per-run source fingerprints define each test scope.",
+    "prior_source_wip": "ca7998f636bca102ba6e6dd46b5bc97c4904dfd7",
+    "accepted_stage_a_source": {
+      "commit": "25b2c3150879761026086a62e480045fc38d32ff",
+      "tree": "5ba385b6e7730119b6d5cdca67fba2dc4f5c395d",
+      "parent": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scope": "Exact StageA source/SDK/design checkpoint created after verification; excludes both unregistered StageB draft crates. Original per-run manifests and WIP source reference remain unchanged. Publication is recorded separately in execution state and lineage."
+    }
+  },
+  "extraction_status": "Native ownership/client prerequisites and additive GUI completed to the recorded scope; independently installable/selected search component is NOT implemented or verified.",
+  "gates": {
+    "native_latest": {
+      "scope": "Latest native search library;35 actual cases; unchanged scoped source.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-native-final-startup-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-file-search"
+      ],
+      "started_utc": "2026-10-01T02:09:50Z",
+      "finished_utc": "2026-10-01T02:09:56Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-native-final-startup-corrected.source.json",
+        "bytes": 12583,
+        "sha256": "0a521520aaed8331e190a0e4ca8cbc3c32e1627025f82d3b2cea61263967b6ec"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-native-final-startup-corrected.log",
+        "bytes": 8279,
+        "sha256": "daaa4175f43dce3fdf97391763e205b068f0268728fba6ca229c2fb1bd393107"
+      },
+      "baseline_recorded_by_runner": "06d3540c73510120cd8a08a1d9d3429718bda9bf",
+      "scoped_source_unchanged": true,
+      "source_before_count": 49,
+      "source_before_canonical_sha256": "b834f43e0cee973f62fe2fff87580d303bd1e7031a728386281203579b5b07b4",
+      "source_after_count": 49,
+      "source_after_canonical_sha256": "b834f43e0cee973f62fe2fff87580d303bd1e7031a728386281203579b5b07b4",
+      "changed_paths": [],
+      "observed_unique_passed_cases": 35,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "338c7f40c4cddc9c72c4eda0d8c15b971db54fcc40c67efc5edfcda232c72ec4",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-native-final-startup-corrected.subreaper.json",
+          "bytes": 364,
+          "sha256": "b762e8ebfee5873e3870f605ca64668914c31face82ecf7d382b1abe7df61f91"
+        }
+      }
+    },
+    "app_server_full": {
+      "scope": "Full App Server library;395 actual cases; includes the focused27.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-app-server-lib-regression.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--lib"
+      ],
+      "started_utc": "2026-10-01T02:19:29Z",
+      "finished_utc": "2026-10-01T02:19:47Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-lib-regression.source.json",
+        "bytes": 103986,
+        "sha256": "abe9ff60cde286c96462f20a8953d3effc98e5ec866dde5f9368a720a966edbb"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-app-server-lib-regression.log",
+        "bytes": 63314,
+        "sha256": "4ed0c4574e9f2beb4a58873cc20b595bc46b37a1ad2a2d176a6f3814a6371e4b"
+      },
+      "baseline_recorded_by_runner": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scoped_source_unchanged": true,
+      "source_before_count": 399,
+      "source_before_canonical_sha256": "dd3344d33dc3419a4aac325e856c9d5e479ed48bd3272ad235bfa99d90c286be",
+      "source_after_count": 399,
+      "source_after_canonical_sha256": "dd3344d33dc3419a4aac325e856c9d5e479ed48bd3272ad235bfa99d90c286be",
+      "changed_paths": [],
+      "observed_unique_passed_cases": 395,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "d1c389d0ad1fab4fdbee8196615eb401fe6052eb7f2561cc94b5477a66afbe6c",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-app-server-lib-regression.subreaper.json",
+          "bytes": 1112,
+          "sha256": "857324be8579a3c2e08e78a10c4634fe46e08d2bc89845018eecf322e07ece5b"
+        }
+      }
+    },
+    "app_server_focused_subset": {
+      "scope": "Focused App Server search/lifecycle/serialization27; subset of395, not additional cases.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-app-server-search-unit-space-retry.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--lib",
+        "-E",
+        "test(fuzzy_file_search) | test(request_processors::search) | test(request_serialization) | test(in_process::lifecycle_tests)"
+      ],
+      "started_utc": "2026-10-01T02:18:25Z",
+      "finished_utc": "2026-10-01T02:19:04Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-search-unit-space-retry.source.json",
+        "bytes": 104137,
+        "sha256": "e4bcfa2f3545bd8977f9cf0f377330c16b241610454301a65e4909ac6d18d088"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-app-server-search-unit-space-retry.log",
+        "bytes": 8031,
+        "sha256": "fe2a1decfdcb79e5537a6088fbaa7f919e57c69c44578938325dfdb12bd0b5af"
+      },
+      "baseline_recorded_by_runner": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scoped_source_unchanged": true,
+      "source_before_count": 399,
+      "source_before_canonical_sha256": "dd3344d33dc3419a4aac325e856c9d5e479ed48bd3272ad235bfa99d90c286be",
+      "source_after_count": 399,
+      "source_after_canonical_sha256": "dd3344d33dc3419a4aac325e856c9d5e479ed48bd3272ad235bfa99d90c286be",
+      "changed_paths": [],
+      "observed_unique_passed_cases": 27,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "fbbc40be123dac8dcacd697d35e4057b0af3f3170cad11cbcff905597b119c26",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-app-server-search-unit-space-retry.subreaper.json",
+          "bytes": 519,
+          "sha256": "ddbe326328e0fa934231a6518b4cb894b5693ac5d100f79dba2fb2410d47ba00"
+        }
+      }
+    },
+    "tui_current_search_reconnect_subset": {
+      "scope": "Current focused11 search/reconnect tests, real old/new channels, same runtime owner; unchanged scoped source.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-tui-search-reconnect.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-tui",
+        "--lib",
+        "-E",
+        "test(file_search)"
+      ],
+      "started_utc": "2026-10-01T02:25:20Z",
+      "finished_utc": "2026-10-01T02:31:52Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-tui-search-reconnect.source.json",
+        "bytes": 898989,
+        "sha256": "2c21c360d93d567a05f2cef0276008a0a4c5acce8be37333b35073b77ade34d0"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-tui-search-reconnect.log",
+        "bytes": 10521,
+        "sha256": "47a52b4b77da908cbab096ac735723caa1d0986065cabeb03e86462e7dfdc359"
+      },
+      "baseline_recorded_by_runner": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scoped_source_unchanged": true,
+      "source_before_count": 2849,
+      "source_before_canonical_sha256": "6bfaa4a93997422336e1c925c66aac39cca4d0db2f3ba66084f798f5129554ad",
+      "source_after_count": 2849,
+      "source_after_canonical_sha256": "6bfaa4a93997422336e1c925c66aac39cca4d0db2f3ba66084f798f5129554ad",
+      "changed_paths": [],
+      "observed_unique_passed_cases": 11,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "85f9d0daa3ec59f65588c5ee56f873292788767462bbd47f682e5f123985d4a6",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-tui-search-reconnect.subreaper.json",
+          "bytes": 404,
+          "sha256": "a8bd225c6d8a37cbd9b1e5c4e9cad8b764de708fc782f5fe1262211d06b9f370"
+        }
+      }
+    },
+    "tui_full_ambient_environment": {
+      "scope": "Full TUI with ambient NO_COLOR;5608 executed,5604 passed,4 failed,4 ignored.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-tui-lib-regression.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-tui",
+        "--lib"
+      ],
+      "started_utc": "2026-10-01T02:32:42Z",
+      "finished_utc": "2026-10-01T02:35:58Z",
+      "status": "finished",
+      "returncode": 100,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-tui-lib-regression.source.json",
+        "bytes": 899372,
+        "sha256": "834ca45657a0757d187f2d8a8110d64c03f72476b131b1b69c5bff736d5b3f9d"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-tui-lib-regression.log",
+        "bytes": 761941,
+        "sha256": "4d310820ba6e25abd08830f1e8b1ff983d2082e30eaf1fdc1621eb2123c500ed"
+      },
+      "baseline_recorded_by_runner": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scoped_source_unchanged": false,
+      "source_before_count": 2849,
+      "source_before_canonical_sha256": "6bfaa4a93997422336e1c925c66aac39cca4d0db2f3ba66084f798f5129554ad",
+      "source_after_count": 2851,
+      "source_after_canonical_sha256": "abb8a77edad7f44f9797e2c8a8ca6af7b47cd07f25372558ebda24315566a6f2",
+      "changed_paths": [
+        "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_owned_wide_frames.snap.new",
+        "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_single_column_frames.snap.new"
+      ],
+      "observed_unique_passed_cases": 5604,
+      "observed_unique_failed_cases": 4,
+      "passed_case_names_sha256": "463f2479264f892dbc8d6dcb69e5eebacbebaaf8a8639a98afbaebd44199eeab",
+      "failed_cases": [
+        "codex-tui custom_terminal::tests::cursor::terminal_draw_omits_cursor_style_without_an_owned_glyph",
+        "codex-tui custom_terminal::tests::cursor::terminal_draw_repairs_owned_wide_hyperlink_after_skipped_glyphs",
+        "codex-tui custom_terminal::tests::cursor::terminal_draw_repairs_single_column_without_scrolling",
+        "codex-tui custom_terminal::tests::cursor::terminal_draw_repairs_styled_anchor_on_cursor_only_frames"
+      ],
+      "subreaper": {
+        "exit_status": 100,
+        "command_returncode": 100,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-tui-lib-regression.subreaper.json",
+          "bytes": 52150,
+          "sha256": "2f81b71dbc7e58e953d96c1bc01b7b212f8e7f9f8fea539bc43882d0e78585a3"
+        }
+      }
+    },
+    "tui_cursor_child_environment_rerun": {
+      "scope": "Six unchanged cursor tests and approved snapshots using the same test executable; only child environment unsets NO_COLOR.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-tui-cursor-color-env.subreaper.json",
+        "--",
+        "env",
+        "-u",
+        "NO_COLOR",
+        "just",
+        "test",
+        "-p",
+        "codex-tui",
+        "--lib",
+        "-E",
+        "test(custom_terminal::tests::cursor)"
+      ],
+      "started_utc": "2026-10-01T02:37:24Z",
+      "finished_utc": "2026-10-01T02:37:26Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-tui-cursor-color-env.source.json",
+        "bytes": 899045,
+        "sha256": "c72443066b6a74750fe00b90531942796a0868ce30539da68e5f1bd78132b1d2"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-tui-cursor-color-env.log",
+        "bytes": 4862,
+        "sha256": "b2461f95c962eb00561623fb5b3aa789a526b24f03048c3fec5410c0923d4fd0"
+      },
+      "baseline_recorded_by_runner": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scoped_source_unchanged": true,
+      "source_before_count": 2849,
+      "source_before_canonical_sha256": "6bfaa4a93997422336e1c925c66aac39cca4d0db2f3ba66084f798f5129554ad",
+      "source_after_count": 2849,
+      "source_after_canonical_sha256": "6bfaa4a93997422336e1c925c66aac39cca4d0db2f3ba66084f798f5129554ad",
+      "changed_paths": [],
+      "observed_unique_passed_cases": 6,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "d3bee84297431b7c4952c062ea3770ebdf691b26528701762b7aa119ccadbc49",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-tui-cursor-color-env.subreaper.json",
+          "bytes": 461,
+          "sha256": "3eedb3dd3c2c5c4a3c1a4f39b759b6e69b01d112cc889fcc3a529bd3a28673af"
+        }
+      }
+    },
+    "tui_historical": {
+      "scope": "Historical11-test result; later superseded. Four test-only files changed during broad tracked scope.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/recovery-backups/20260930T165936Z/p02-tui-search-first-subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-tui",
+        "--lib",
+        "--offline",
+        "-E",
+        "test(file_search)",
+        "--test-threads",
+        "2"
+      ],
+      "started_utc": "2026-10-01T01:50:56Z",
+      "finished_utc": "2026-10-01T01:59:55Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-tui-search-first.source.json",
+        "bytes": 851244,
+        "sha256": "d740252fd4aa0b338e5f36093adf3dd21909553fff7b4b18b73700444ffa6aa9"
+      },
+      "log": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-tui-search-first.log",
+        "bytes": 16738,
+        "sha256": "28b17d8077342efc7dd1a1c0dd402b035e157a4d7db17f9e5f2709f594255ea7"
+      },
+      "baseline_recorded_by_runner": "06d3540c73510120cd8a08a1d9d3429718bda9bf",
+      "scoped_source_unchanged": false,
+      "source_before_count": 2665,
+      "source_before_canonical_sha256": "2ec9c086d9c4e2abac551eb1c017bd56bc5dca2d8a97598b43ccc294d232f6f5",
+      "source_after_count": 2666,
+      "source_after_canonical_sha256": "888a14324ec4908f23836ba163b04f704b65343ec7e96b9e0d399f9920045f99",
+      "changed_paths": [
+        "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+        "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+        "codex-rs/app-server/src/request_serialization_search_tests.rs",
+        "codex-rs/file-search/src/async_owner_tests.rs"
+      ],
+      "observed_unique_passed_cases": 11,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "85f9d0daa3ec59f65588c5ee56f873292788767462bbd47f682e5f123985d4a6",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02-tui-search-first-subreaper.json",
+          "bytes": 451,
+          "sha256": "5610b491ab04c7840c6a84ff1ed49f7494672a4307f20d28b38ef92cf1a526e3"
+        }
+      }
+    },
+    "app_server_public_rpc": {
+      "scope": "Actual public RPC search integration:12 passed,1449 filtered out; unchanged scoped source; separate from395 library cases.",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-app-server-search-public.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--test",
+        "all",
+        "-E",
+        "test(fuzzy_file_search) | test(search_connection_tests)"
+      ],
+      "started_utc": "2026-10-01T02:41:33Z",
+      "finished_utc": "2026-10-01T02:43:33Z",
+      "status": "finished",
+      "returncode": 0,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-search-public.source.json",
+        "bytes": 104070,
+        "sha256": "2d926c45469cc7364c14390de5ccba2eb807a09db303bb0939d7420037679960"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-app-server-search-public.log",
+        "bytes": 5845,
+        "sha256": "7640aeb26f7453af7e16ba352f2596b25fce981217b417b526ba94c5ecda4374"
+      },
+      "baseline_recorded_by_runner": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scoped_source_unchanged": true,
+      "source_before_count": 399,
+      "source_before_canonical_sha256": "dd3344d33dc3419a4aac325e856c9d5e479ed48bd3272ad235bfa99d90c286be",
+      "source_after_count": 399,
+      "source_after_canonical_sha256": "dd3344d33dc3419a4aac325e856c9d5e479ed48bd3272ad235bfa99d90c286be",
+      "changed_paths": [],
+      "observed_unique_passed_cases": 12,
+      "observed_unique_failed_cases": 0,
+      "passed_case_names_sha256": "c57149ff3fbadd093a359a0019f34d501b49e41ac39ff1802786d96846da4b0f",
+      "failed_cases": [],
+      "subreaper": {
+        "exit_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "artifact": {
+          "path": "/workspace/acceptance/p02-app-server-search-public.subreaper.json",
+          "bytes": 462,
+          "sha256": "63abae966e4303d886fa348e47b6a01bdae5ccfcacf480d2acdea4b6923941e6"
+        }
+      }
+    },
+    "app_server_additional_websocket_isolation": {
+      "scope": "New separate public WebSocket connection-isolation case; original12 public RPC passes remain separate.",
+      "status": "historical failed run; corrected separately",
+      "tests_executed": 1,
+      "tests_passed": 0,
+      "tests_failed": 1,
+      "attempts": 2,
+      "returncode": 100,
+      "scoped_source_unchanged_during_failed_run": true,
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-app-server-search-connections.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--test",
+        "all",
+        "-E",
+        "test(websocket_search_sessions_are_private_and_survive_another_connection_closing)"
+      ],
+      "log": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections.log",
+        "sha256": "4ce7a3d6819956d1a817f7b1b4374cba29b5f5ed77383c38f134f32ea2958709",
+        "bytes": 8289
+      },
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections.source.json",
+        "sha256": "4e19164855f4d2d7044b000a4d98cb39cf9abc032ba705f0f3d3c7cbed7d3e38",
+        "bytes": 104104
+      },
+      "subreaper_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections.subreaper.json",
+        "sha256": "34e613ab9b374d0ae8bde75355c2301b6da45bc0f0832078600e2bce03830aca",
+        "bytes": 664
+      },
+      "diagnosis": "The fixture expected alpha before consuming the legitimate startup empty-query snapshot. Only test code changed: it now validates startup response, empty snapshot and completion before typed queries; completion must follow the matching snapshot. Isolation and post-stop assertions remain.",
+      "production_changed_for_correction": false,
+      "corrected_rerun": "app_server_additional_websocket_isolation_corrected"
+    },
+    "app_server_additional_websocket_isolation_corrected": {
+      "scope": "Corrected real public WebSocket search connection-isolation case; separate from the12-case public RPC run.",
+      "status": "passed",
+      "tests_executed": 1,
+      "tests_passed": 1,
+      "tests_failed": 0,
+      "filtered_out": 1460,
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02-app-server-search-connections-corrected.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--test",
+        "all",
+        "-E",
+        "test(websocket_search_sessions_are_private_and_survive_another_connection_closing)"
+      ],
+      "started_utc": "2026-10-01T02:53:45Z",
+      "finished_utc": "2026-10-01T02:55:08Z",
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections-corrected.source.json",
+        "bytes": 104112,
+        "sha256": "743910752730c3df6bade04cfd3a605baca5f152bb4b8c15beb27c45386f54c7"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections-corrected.log",
+        "bytes": 4322,
+        "sha256": "5b468c3496831c7c5bf4c916febb2fe58283012f448facd2a06d800660252449"
+      },
+      "subreaper_manifest": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections-corrected.subreaper.json",
+        "bytes": 488,
+        "sha256": "008b1164999b5896e0727677edba15aedf60ae20f466e5c9fd022e0f09ddf060"
+      },
+      "subreaper_exit_status": 0,
+      "runner_error": null,
+      "production_changed_for_correction": false,
+      "assertions": "Validated initial response, legitimate empty-query snapshot and completion before typed queries; matching snapshot must precede completion; connection isolation and no post-stop updates remain strict."
+    },
+    "scoped_fix": {
+      "status": "finished",
+      "returncode": 0,
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-tui"
+      ],
+      "scoped_source_unchanged": false,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-lint-final.source.json",
+        "sha256": "092fd2de77a9ad6d6449f06aca6ddadd3af09e227431712ec9ca49ad181fdb9b",
+        "bytes": 898470
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-lint-final.log",
+        "sha256": "261b2728433f46575ca9d52f5aa6eadb72d24963301ce1f6786e38990d042da1",
+        "bytes": 18629
+      },
+      "changed_paths": [
+        "codex-rs/app-server/src/request_processors/search/connection.rs"
+      ]
+    },
+    "format": {
+      "status": "finished",
+      "returncode": 0,
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "scoped_source_unchanged": false,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-format-final.source.json",
+        "sha256": "e77f5a8c7326f6a27256afe81dd2529fb2a7da9b3e250d68c84368d8f177d43b",
+        "bytes": 912234
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-format-final.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "changed_paths": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+        "codex-rs/app-server/src/fuzzy_file_search/publisher_tests.rs",
+        "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+        "codex-rs/app-server/src/message_processor.rs",
+        "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+        "codex-rs/app-server/src/outgoing_message.rs",
+        "codex-rs/app-server/src/request_processors.rs",
+        "codex-rs/app-server/src/request_processors/search.rs",
+        "codex-rs/app-server/src/request_processors/search/connection.rs",
+        "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+        "codex-rs/app-server/src/request_serialization.rs",
+        "codex-rs/app-server/src/request_serialization_search_tests.rs",
+        "codex-rs/app-server/src/user_verification_test_support.rs",
+        "codex-rs/app-server/tests/suite/fuzzy_file_search.rs",
+        "codex-rs/app-server/tests/suite/v2/mod.rs",
+        "codex-rs/app-server/tests/suite/v2/search_connection_tests.rs",
+        "codex-rs/file-search/src/async_owner.rs",
+        "codex-rs/file-search/src/async_owner_tests.rs",
+        "codex-rs/file-search/src/lib.rs",
+        "codex-rs/file-search/src/lifecycle.rs",
+        "codex-rs/file-search/src/lifecycle_tests.rs",
+        "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+        "codex-rs/tui/src/app/startup.rs",
+        "codex-rs/tui/src/app/test_support.rs",
+        "codex-rs/tui/src/app/tests.rs",
+        "codex-rs/tui/src/app/tests/startup_defaults_tests.rs",
+        "codex-rs/tui/src/file_search.rs",
+        "codex-rs/tui/src/file_search_tests.rs",
+        "codex-rs/tui/src/lib.rs",
+        "component-sdk/rust_component_package.py",
+        "component-sdk/tests/desktop_search_acceptance.py",
+        "component-sdk/tests/native_storage_acceptance.py",
+        "component-sdk/tests/p01_gui_acceptance.py",
+        "component-sdk/tests/reused_storage_acceptance.py",
+        "component-sdk/tests/test_desktop_search.py",
+        "component-sdk/tests/test_rust_package.py"
+      ]
+    },
+    "final_scoped_clippy": {
+      "status": "finished",
+      "returncode": 0,
+      "command": [
+        "just",
+        "clippy",
+        "-p",
+        "codex-file-search",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-tui"
+      ],
+      "scoped_source_unchanged": true,
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-lint-corrected.source.json",
+        "sha256": "44dfdc1f5d2d32cee829ba77a4e5d7228d38c3aad168d80bc4acc4119f56c80f",
+        "bytes": 898472
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-lint-corrected.log",
+        "sha256": "b55c06882b93bc52cb37fcdb3b132cf1696d282743a1bad7d3fac70b9b7e7bbd",
+        "bytes": 20056
+      },
+      "changed_paths": []
+    },
+    "new_host_cli_build": {
+      "returncode": 0,
+      "started_utc": "2026-10-01T03:10:55Z",
+      "finished_utc": "2026-10-01T03:16:36Z",
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-cli-candidate-build.source.json",
+        "sha256": "d04d71939d857f31cc4025c47e6a1878b3124fb682362cd0c51db01f30eb6b49",
+        "bytes": 930705
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-cli-candidate-build.log",
+        "sha256": "3bdd18983497d19aa88ed5de50457b8760aeaa7aff1421ca08df4e92b147f826",
+        "bytes": 10444
+      },
+      "source_before_count": 2979,
+      "source_after_count": 2979,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "e78ede6d6f17dbc8d9ae470928afda02191c6f20dc55a5a9e200b8bace7b29c7",
+      "source_after_canonical_sha256": "e78ede6d6f17dbc8d9ae470928afda02191c6f20dc55a5a9e200b8bace7b29c7",
+      "changed_paths": []
+    },
+    "new_host_runtime": {
+      "artifact": {
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-new-host-runtime-results.json",
+        "bytes": 32232,
+        "sha256": "a3ea070dffa1d321a2a94621959a9984ede11b30d3d6f9ca23a39e482a19010b"
+      },
+      "passed": true,
+      "candidate_codex_sha256": "181463925d599f0eed023106820cad8fbb228d81e972eefb256a2076b88813c0",
+      "manager_reused_unchanged": true,
+      "storage_evidence_kind": "reused_package_new_host",
+      "new_independent_native_storage_build": false,
+      "old_storage_package_compatibility_passed": true,
+      "manual_migration_passed": true,
+      "gui_commands_passed": 87,
+      "source_scopes_unchanged": true,
+      "binaries_unchanged_during_runtime": true,
+      "manager_only_SIGINT_exit_codes": [
+        0,
+        0
+      ],
+      "observed_descendants_absent_and_drains_passed": true,
+      "note": "Separate current-host evidence; original frozen-P01 GUI report remains historical and unchanged."
+    },
+    "bazel_graph": {
+      "status": "lock update and graph queries completed",
+      "compile_or_runtime_verification": false,
+      "logs": [
+        {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02-bazel-lock-corrected.log",
+          "bytes": 2017,
+          "sha256": "c8302fb0c01d2db9c1317fc66f3a9b26f859c8ac0a8ac1482a9ed7971b790cea"
+        },
+        {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02-bazel-search-query.log",
+          "bytes": 568,
+          "sha256": "5183a080fbfe897718eb3829677ee7344d73eac35f1eaeb34fa9c0ceead82e88"
+        },
+        {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02-bazel-search-dependencies.log",
+          "bytes": 1471,
+          "sha256": "91ce8e7604834ac1f7e3d6406709860c391502d7f30dc2547c9b4bd76e87f3db"
+        }
+      ],
+      "scope": "Corrected nested path patch, lock update, file-search target query and direct dependency query. This is not a Bazel compilation or test run."
+    }
+  },
+  "counting": {
+    "tui_executed_in_full_run": 5608,
+    "tui_passed_in_full_run": 5604,
+    "tui_failed_in_full_run": 4,
+    "tui_ignored_in_full_run": 4,
+    "cursor_rerun_passed": 6,
+    "all_four_failures_in_passing_cursor_rerun": true,
+    "distinct_executed_tui_cases_with_a_pass_across_environment_runs": 5608,
+    "one_all_green_aggregate_run": false,
+    "focused_tui11_subset_full_passes": true,
+    "app_focused27_subset_full395": true,
+    "repeated_gates_not_added_to_unique_totals": true,
+    "public_rpc_distinct_cases_passed_across_separate_scopes": 13,
+    "public_rpc_one_aggregate13_run": false
+  },
+  "cursor_environment_diagnosis": {
+    "ambient_NO_COLOR_present": true,
+    "pinned_dependency": "crossterm0.29.0",
+    "source_reference": {
+      "path": "/workspace/toolchains/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/crossterm-0.29.0/src/style/types/colored.rs",
+      "bytes": 10190,
+      "sha256": "f1f5462e0dcb469aff5cf8737b7f9196b7217778113d68ec8f8297ecad5af73d"
+    },
+    "behavior": "Colored::ansi_color_disabled checks NO_COLOR; colored cursor expectations differ when the environment disables ANSI color.",
+    "rerun_change": "env -u NO_COLOR for the test child only; no production/test/approved-snapshot changes.",
+    "same_test_executable": "The focused rerun reused the compiled test binary; tests and approved snapshots were unchanged.",
+    "tracked_source_diff_between_full_and_cursor_run_starts": [],
+    "failed_snapshot_artifacts": [
+      {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-tui-no-color-failed-snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_owned_wide_frames.snap.new",
+        "bytes": 396,
+        "sha256": "9410fcdbfb557e64d6eb65a0f5eaadbe39cb59d3bd8af5c3c0b077446d1bc283"
+      },
+      {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-tui-no-color-failed-snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_single_column_frames.snap.new",
+        "bytes": 342,
+        "sha256": "bbc87c9d9a6da0bc01e68ae5e4c9ec8206b570cf855e09e7ca48ff228966ea09"
+      },
+      {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-tui-no-color-failed-snapshots/manifest.json",
+        "bytes": 1027,
+        "sha256": "59387eccae1d2c64c3cad35cf0c7264ad282e82dbd8254a51de85e6534d80de7"
+      }
+    ],
+    "snapshots_accepted": false
+  },
+  "vendor": {
+    "tests_passed": 35,
+    "tests_failed": 0,
+    "log": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02-nucleo-tests.log",
+      "bytes": 7091,
+      "sha256": "852406bd7e27a90f70fcaf9335e6c8230a046298d6246fb313fb44e243e9386b"
+    },
+    "upstream_revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+    "license": "MPL-2.0",
+    "provenance_file": "codex-rs/third-party/nucleo/PROVENANCE.md",
+    "scope": "Nucleo+Matcher library tests, separate from native35. No installed component proof.",
+    "historical_source_audit": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02-nucleo-source-audit.json",
+      "bytes": 8702,
+      "sha256": "eb1cbc0972b65d7e18fa75ebd5c85f1269f0df36aebe6947dda17dc77a677fb5"
+    },
+    "final_source_audit": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-nucleo-source-audit.json",
+      "bytes": 9100,
+      "sha256": "d5862ff6ab1bdb7654638937166b19fbfc20bb7ea4f1891f8631fdf19149276b"
+    },
+    "final_audit_counts": {
+      "files": 36,
+      "unchanged": 30,
+      "modified": 3,
+      "added": 2,
+      "materialized_license_symlink": 1
+    }
+  },
+  "sdk_source_packaging": {
+    "tests_passed": 19,
+    "exit_code": 0,
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02-sdk-packaging-owner-tests.json",
+      "bytes": 70562,
+      "sha256": "b3adcb2ccde6245339173caedb1e48f21185317f33dbcd7165f8688e519d55bc"
+    },
+    "log": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02-sdk-packaging-owner-tests.log",
+      "bytes": 3627,
+      "sha256": "2a272929131a16f5e145ce7f326813578fee6f31fa8d2e86ebbf6cc2f8ccdb50"
+    },
+    "source_export_inventory": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02-sdk-packaging-owner-source-inventory.json",
+      "bytes": 15150,
+      "sha256": "8c7220f6b1811d8376db182d1d4a5060acbaf888937b7099dffaa774010c2af0"
+    },
+    "tested_source_sha256": {
+      "component-sdk/rust_component_package.py": "2ea68d965c9545c5b22fb59ab54ea2969bc8a1e8616afc1a950339df562ebcc0",
+      "component-sdk/tests/test_rust_package.py": "00c937360926a643c8ca30099ce41928d7c0969cbae81b27fcd0486d7cacf136",
+      "component-sdk/tests/native_storage_acceptance.py": "13046f7a37186f72358df77496fb3704f1b2491ff21ec1007f776ba6a691f8b4",
+      "component-sdk/RUST_PACKAGING.md": "6cd13b8d431ad9e1de8e5cd0db0a1b3c3765a671365f70a6da0bc2286cd23735",
+      "codex-rs/Cargo.toml": "aebf14936c2eede92603e3e5b9e1e6fd5d03679ee9758bdd82e5424415c47bfb",
+      "codex-rs/Cargo.lock": "16fef8ecd4e9dac0508003ac720a7ab6280c39b05c4899a0180e807b9c7b21e7"
+    },
+    "independent_search_build_verified": false,
+    "installed_search_verified": false,
+    "scope": "Exporter/assembler nested-workspace owner retention and covered-source fidelity, source-only audit."
+  },
+  "gui": {
+    "public_evidence": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-gui-native-search-results.json",
+      "bytes": 24033,
+      "sha256": "eeebc26d0f2ce535f4281afc3bf9134a0b17af862be8b3806d948f9b776442d6"
+    },
+    "commands_passed": 87,
+    "cycles": [
+      49,
+      38
+    ],
+    "page_errors": 0,
+    "gui_version": "0.2.0",
+    "host_scope": "Frozen P01 native App Server search, NOT newly built P02 Rust search.",
+    "in_app_browser": "Unavailable; real Chromium/Playwright fallback and safe screenshot inspection.",
+    "platform": "Linux runtime; Windows path syntax unit coverage only.",
+    "binary_fingerprints": {
+      "host": {
+        "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+        "mtime_ns": 1790778198616991936,
+        "bytes": 7092568
+      },
+      "codex": {
+        "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+        "mtime_ns": 1790816651966152497,
+        "bytes": 426580864
+      }
+    },
+    "package_sha256": "930e2d5aefa5e644e9477e412526422f034baffc81e5d4aaef0ba37b0817a697",
+    "focused_node_tests": 7,
+    "focused_python_tests": 14,
+    "manager_only_SIGINT_exit_codes": [
+      0,
+      0
+    ],
+    "observed_descendants_absent": true,
+    "child_subreaper_drains_passed": true,
+    "source_and_helper_hashes": "See linked public evidence; runtime GUI bytes were compared with packaged files."
+  },
+  "original_failures": [
+    {
+      "artifact": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-bazel-lock-update.log",
+        "bytes": 1716,
+        "sha256": "360b1fd93bb1acfa07b23e4853fff7c83ffc47de01066556bd79009f2d59a8b7"
+      },
+      "summary": "Nested nucleo-matcher path discovery failed. Root path patch was corrected; the subsequent lock update and target/dependency queries completed. Their logs are retained under gates.bazel_graph; no Bazel compilation is claimed."
+    },
+    {
+      "artifact": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-native-owned.log",
+        "bytes": 4705,
+        "sha256": "12071bef0ee553378667abe777ef3818fea9417b5a041eac4eadebca7000bb97"
+      },
+      "summary": "Compile error importing TaskTrackerToken from wrong pinned tokio-util path."
+    },
+    {
+      "artifact": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02-native-startup-joined.log",
+        "bytes": 9958,
+        "sha256": "441008e1bc09b8c50dcfe2578aee6c08a55102191cff8bcd988062d63f98e65c"
+      },
+      "summary": "33/34 passed; tagged-query fixture mistook partial snapshot for final result, failed twice. Corrected latest35 passed."
+    },
+    {
+      "artifact": {
+        "path": "/workspace/acceptance/p02-native-final-startup.log",
+        "bytes": 213,
+        "sha256": "0f7164d4a5c804ebbfa5f0863d97d2c0145f7699dd61fa6a7ea456249de81057"
+      },
+      "summary": "Runner lacked required --report; no test ran."
+    },
+    {
+      "artifact": {
+        "path": "/workspace/acceptance/p02-app-server-search-unit.log",
+        "bytes": 16279,
+        "sha256": "b2e7f68c70233fa26d1973b25fc7200ad8a4cac65b5f95d127431b425494a6b5"
+      },
+      "summary": "App Server test compilation ran out of filesystem space; no tests ran. Unchanged-source retry27 and full395 later passed."
+    },
+    {
+      "artifact": {
+        "path": "/workspace/acceptance/p02-tui-lib-regression.log",
+        "bytes": 761941,
+        "sha256": "4d310820ba6e25abd08830f1e8b1ff983d2082e30eaf1fdc1621eb2123c500ed"
+      },
+      "summary": "Four color-dependent cursor tests failed twice under NO_COLOR; unchanged cursor six later passed in child environment."
+    },
+    {
+      "public_artifact": {
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-gui-native-search-results.json",
+        "bytes": 24033,
+        "sha256": "eeebc26d0f2ce535f4281afc3bf9134a0b17af862be8b3806d948f9b776442d6"
+      },
+      "summary": "First GUI startup failed with caught Illegal invocation; timer receiver fixed. Original failure and graceful cleanup retained in sanitized evidence."
+    },
+    {
+      "artifact": {
+        "path": "/workspace/acceptance/p02-app-server-search-connections.log",
+        "sha256": "4ce7a3d6819956d1a817f7b1b4374cba29b5f5ed77383c38f134f32ea2958709",
+        "bytes": 8289
+      },
+      "summary": "New WebSocket isolation test failed twice because it did not consume the legitimate initial empty-query snapshot. A test-only fixture correction subsequently passed the separate one-case rerun; production and strict isolation/post-stop assertions were unchanged."
+    }
+  ],
+  "pending": [
+    "Independent search component facade/worker/selection/install/remove and actual external-build runtime gate"
+  ],
+  "privacy": "Whitelisted summaries, source/log hashes and paths only. No bearer URLs, raw browser errors, private ready contents, credential values or runtime state copied.",
+  "source_checkpoint": {
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T025406Z.tar.gz",
+      "bytes": 959701,
+      "sha256": "c5dfb6de8a18dfe83115bad4a0bf1aa438bcf3d5a60eb0a83b9239ee4cb45662"
+    },
+    "manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T025406Z.json",
+      "bytes": 35122,
+      "sha256": "acba1969d5256e43fe6d1bb34b15dd6564ac7b9ea5863204838bb4c3b380c64f"
+    },
+    "recorded_base": "4288e493d3164ef2995808c02cc65e60528ca96e",
+    "recorded_status": "unverified_in_progress_source_snapshot",
+    "changed_paths": 114,
+    "archive_member_count": 115,
+    "member_verification": "Archive members verified during source preservation; archive hash rechecked during report preparation.",
+    "scope": "Historical incremental cloud-local source archive, not a whole-checkpoint validation or external backup; its historical filename prefix does not determine the acceptance scope. Newer source preservation is listed separately."
+  },
+  "lint_scope": {
+    "final_exit_code": 0,
+    "final_scope_unchanged": true,
+    "owned_crate_warnings": 0,
+    "vendor_warnings": 8,
+    "vendor_warning_categories": {
+      "nucleo_matcher_mismatched_lifetime_syntax": 2,
+      "nucleo_unnecessary_type_parentheses": 6
+    },
+    "all_warnings_inherited_from_upstream": false,
+    "note": "No zero-warning claim. A copied constructor annotation may account for a new vendor warning.",
+    "fix_attempt": "The invalid automatic PathBuf==str suggestion was rejected/restored. A connection conditional collapse applied. Equivalent manual cleanups mapped a unit reference with copied(), removed an unfulfilled expect, and compared a borrowed Path.",
+    "post_test_changes": "Formatting and equivalent lint changes only; no tests rerun solely for these changes."
+  },
+  "source_review": {
+    "scope": "App Server search publication/start/update/stop, abandoned waiters and disconnect cleanup only; read-only, no tests.",
+    "concrete_correctness_blockers_found": [],
+    "working_paths_compared_to_wip": 115,
+    "byte_mismatches": 0,
+    "missing_paths": 0,
+    "stage_b_excluded_from_accepted_checkpoint": [
+      "codex-rs/file-search-api/",
+      "codex-rs/component-path-codec/"
+    ],
+    "stage_b_registered_workspace_members": false,
+    "note": "Read-only comparison of the 115-path WIP snapshot at the time of review. Later changes add documentation/evidence. The two excluded StageB directories are preserved on WIP, not accepted StageA implementation or installable-search evidence."
+  },
+  "finalized_utc": "2026-10-01T04:00:49.143191+00:00",
+  "newer_source_checkpoint": {
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T030330Z.tar.gz",
+      "bytes": 966865,
+      "sha256": "80ce764b7aff4645a2a54954d30f0ffb1c7cf507e7e39a1b108592d1509c4f57"
+    },
+    "manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p01-source-20261001T030330Z.json",
+      "bytes": 35418,
+      "sha256": "cac5efb0e2ffc9f56ed42b76910ba03fc0ff4c3529f2847f607418059c14654b"
+    },
+    "changed_paths": 115,
+    "recorded_base": "4288e493d3164ef2995808c02cc65e60528ca96e",
+    "recorded_status": "unverified_in_progress_source_snapshot",
+    "scope": "Cloud-local incremental source checkpoint matched the WIP source snapshot. It predates final design documents and this evidence; it is not a complete outside backup."
+  }
+}

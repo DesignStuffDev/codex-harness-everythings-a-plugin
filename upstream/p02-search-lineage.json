@@ -1,0 +1,1512 @@
+{
+  "schema_version": 1,
+  "kind": "codex_extraction_lineage_checkpoint",
+  "status": "verified_native_prerequisite_not_search_extraction",
+  "source": {
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "import_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "implementation_commit": "25b2c3150879761026086a62e480045fc38d32ff",
+    "implementation_tree": "5ba385b6e7730119b6d5cdca67fba2dc4f5c395d",
+    "note": "Exact immutable StageA code/SDK checkpoint. Companion evidence records per-run fingerprints; unregistered StageB API/path-codec drafts are excluded. Search remains native and coupled.",
+    "previous_checkpoint": "4288e493d3164ef2995808c02cc65e60528ca96e",
+    "previous_lineage": "p01-migration-lineage.json"
+  },
+  "boundaries": [
+    {
+      "id": "native_file_search_lifecycle",
+      "inventory_owners": [
+        "C18"
+      ],
+      "classification": "native_lifecycle_repair_not_externalized",
+      "contract": {
+        "surface": "native Rust API",
+        "installed_component_kind": null,
+        "version_status": "No installed search contract negotiated; planned file_search version1 is not implemented."
+      },
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "FileSearchSession",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "FileSearchSession::update_query",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "Drop for FileSearchSession",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "create_session",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "walker_worker",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "matcher_worker",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "run",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "SessionReporter",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "FileSearchSnapshot",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a"
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "FileSearchSession::{update_query_tagged,request_close,close}",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "create_session",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "walker_worker",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "matcher_worker",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "run",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "SessionReporter::on_complete_tagged",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lib.rs",
+          "symbol": "FileSearchSnapshot::query_id",
+          "blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "symbol": "start",
+          "blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "symbol": "supervise",
+          "blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "symbol": "WalkerThread",
+          "blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "symbol": "PoolThreads::{build,join}",
+          "blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5"
+        },
+        {
+          "path": "codex-rs/file-search/src/lifecycle.rs",
+          "symbol": "spawn_pool_thread",
+          "blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "symbol": "FileSearchOwner::{create,request_shutdown,shutdown}",
+          "blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "symbol": "ManagedFileSearchSession::{update_query_tagged,request_close,is_finished,close}",
+          "blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "symbol": "FileSearchStartError::{operation_error,cleanup_error}",
+          "blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "symbol": "OwnerInner::{started,release}",
+          "blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff"
+        },
+        {
+          "path": "codex-rs/file-search/src/async_owner.rs",
+          "symbol": "Lease",
+          "blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff"
+        }
+      ],
+      "ownership": {
+        "state": "Session owns roots/options, native index/query state, reporter and private shutdown. Async owner owns bounded accepted-session leases, readiness/close receipts and retained failures; caller-supplied cancellation remains separate from private close.",
+        "dependencies": "ignore traversal; pinned modified Nucleo; dedicated Rayon pool; crossbeam worker signaling; Tokio blocking execution and TaskTracker for async admission/join ownership.",
+        "lifecycle": "Retain supervisor, walker and pool OS handles. Close first fences notifications, stops/joins producers, quiesces matcher then joins pool workers. Async create reserves before startup; abandoned waiters release leases while accepted startup/cleanup remains supervised. Successful close/shutdown observes joins; failures remain reportable.",
+        "cancellation": "Private request_close does not mutate a shared external cancellation flag. Query idle, external cancellation, joined close and process termination are distinct. Tagged positive increasing query identities precede callbacks."
+      },
+      "intentional_customizations": [
+        "Replace detached native worker ownership with explicit joinable lifecycle and async retained owner.",
+        "Carry query identity through snapshots/completion so consumers can reject stale A-to-B-to-A results.",
+        "Propagate worker/reporter/pool failures and typed observed-startup cleanup outcomes. Constructor errors retain conservative cleanup outcomes."
+      ],
+      "preserved_native_behavior": [
+        "Existing match/options/result types and file/directory classification; traversal ignores, exclusions, followed symlinks, deepest root, scoring and highlighting.",
+        "Standalone run_main flags/output/no-pattern listing remain native; run now closes its session before reporting completion."
+      ],
+      "validation_paths": [
+        "codex-rs/file-search/src/lifecycle_tests.rs",
+        "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+        "codex-rs/file-search/src/async_owner_tests.rs",
+        "codex-rs/file-search/src/lib.rs"
+      ],
+      "remaining_gaps": [
+        "No independently installed file_search component contract, selected backend factory, process adapter or native/custom search package is active in Stage A.",
+        "Fourth native consumer remains codex-rs/rollout/src/list.rs::find_thread_path_by_id_str_in_subdir -> file_search::run; externalizing App Server/TUI/standalone alone will not replace storage lookup fallback.",
+        "Process-wide App Server search quota, bounded/coalesced native query ingress, index entry/byte budgets and opt-in logical IPC limits remain Stage B requirements.",
+        "Public App Server search DTOs remain unchanged. Added native Rust query identity is not an installed wire-contract version.",
+        "OS filesystem operations and process-aborting native failures do not gain a hard cancellation deadline or guaranteed recovery."
+      ]
+    },
+    {
+      "id": "nucleo_owned_pool_shutdown_patch",
+      "inventory_owners": [
+        "C18",
+        "C26"
+      ],
+      "classification": "native_dependency_lifecycle_patch_not_externalized",
+      "upstream_symbols": [
+        {
+          "repository": "https://github.com/helix-editor/nucleo",
+          "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+          "path": "src/lib.rs",
+          "symbol": "Nucleo::{new,Drop}"
+        },
+        {
+          "repository": "https://github.com/helix-editor/nucleo",
+          "revision": "4253de9faabb4e5c6d81d946a5e35a90f87347ee",
+          "path": "src/worker.rs",
+          "symbol": "Worker::new"
+        },
+        {
+          "path": "codex-rs/Cargo.toml",
+          "symbol": "workspace.dependencies.nucleo",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "fc1becc762f6c50104a84e34d0e5524203a682e0"
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/third-party/nucleo/src/lib.rs",
+          "symbol": "Nucleo::new_with_thread_pool",
+          "blob": "227f0f955268f6d771336d8d7095fefb70ba5252"
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/src/lib.rs",
+          "symbol": "Nucleo::shutdown",
+          "blob": "227f0f955268f6d771336d8d7095fefb70ba5252"
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/src/lib.rs",
+          "symbol": "Nucleo::new",
+          "blob": "227f0f955268f6d771336d8d7095fefb70ba5252"
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/src/lib.rs",
+          "symbol": "Drop for Nucleo",
+          "blob": "227f0f955268f6d771336d8d7095fefb70ba5252"
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/src/worker.rs",
+          "symbol": "Worker::new",
+          "blob": "aedd46c4b66101a02fbdef3c2fb9827b264d1ac1"
+        },
+        {
+          "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+          "symbol": "Local changes and ownership/limits",
+          "blob": "523fee0781a925a11798a0fbb93df23bd431a32b"
+        },
+        {
+          "path": "codex-rs/Cargo.toml",
+          "symbol": "workspace.dependencies.nucleo",
+          "blob": "f4b94a9265b27d9973e52570d7eba3374f750f24"
+        },
+        {
+          "path": "codex-rs/Cargo.toml",
+          "symbol": "patch.crates-io.nucleo-matcher",
+          "blob": "f4b94a9265b27d9973e52570d7eba3374f750f24"
+        }
+      ],
+      "ownership": {
+        "state": "Native matcher state stays in Nucleo; file-search owns its supplied dedicated pool and retains actual OS worker handles.",
+        "dependencies": "Vendored Nucleo0.5.0 and unchanged matcher0.3.1 source from the recorded pin, Rayon1.13.0 in the enclosing dependency graph.",
+        "lifecycle": "new_with_thread_pool permits caller panic handling and thread ownership; consuming shutdown disables matcher notifications, cancels and waits for worker-lock quiescence. It drops the pool but does not itself join OS threads; caller must stop injectors/producers and join retained handles outside pool callbacks."
+      },
+      "intentional_customizations": [
+        "Source patch adds dedicated-pool construction and explicit consuming matcher quiescence.",
+        "Worker matcher allocation uses the supplied pool actual thread count.",
+        "Vendor manifest omits absent upstream bench workspace member; matcher LICENSE symlink is materialized for portable packages."
+      ],
+      "preserved_native_behavior": [
+        "Matching/scoring/sorting algorithms, dependency versions and matcher defaults remain unchanged.",
+        "Ordinary Nucleo constructor default thread selection/names/failure behavior and ordinary Drop remain unchanged."
+      ],
+      "license": {
+        "spdx": "MPL-2.0",
+        "files": [
+          "codex-rs/third-party/nucleo/LICENSE",
+          "codex-rs/third-party/nucleo/matcher/LICENSE"
+        ],
+        "provenance": "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "note": "Covered source and local modifications retain MPL-2.0; surrounding Codex Apache-2.0 does not relicense these files."
+      },
+      "validation_paths": [
+        "codex-rs/third-party/nucleo/src/shutdown_tests.rs",
+        "codex-rs/third-party/nucleo/src/tests.rs",
+        "codex-rs/third-party/nucleo/matcher/src/tests.rs"
+      ],
+      "remaining_gaps": [
+        "Nucleo shutdown is quiescence, not proof of OS-thread exit without file-search joins.",
+        "No Rayon source patch, global pool adoption or hard shutdown deadline.",
+        "Targeted vendor provenance is not a complete transitive-license audit."
+      ]
+    },
+    {
+      "id": "app_server_search_lifecycle",
+      "inventory_owners": [
+        "C18",
+        "C19"
+      ],
+      "classification": "native_lifecycle_repair_not_externalized",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "run_fuzzy_file_search",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "start_fuzzy_file_search_session",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "FuzzyFileSearchSession",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "SessionReporterImpl::{send_snapshot,send_complete}",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "symbol": "SearchRequestProcessor",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "symbol": "fuzzy_file_search",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "symbol": "fuzzy_file_search_session_stop",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_serialization.rs",
+          "symbol": "RequestSerializationQueueKey::FuzzyFileSearchSession",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "390896a6cccf8e3cc0a2f2bbfa6421e72030f4ea"
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "run_fuzzy_file_search",
+          "blob": "d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "PendingSearchSession::start",
+          "blob": "d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "FuzzyFileSearchSession::close",
+          "blob": "d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "symbol": "SearchStartFailure",
+          "blob": "d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+          "symbol": "SearchObserver",
+          "blob": "371fcebc56b15e984333627ccd9b22f1dfedf7cf"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+          "symbol": "SearchPublisher",
+          "blob": "371fcebc56b15e984333627ccd9b22f1dfedf7cf"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+          "symbol": "publish",
+          "blob": "371fcebc56b15e984333627ccd9b22f1dfedf7cf"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+          "symbol": "SearchConnectionState",
+          "blob": "64709601704155b8b082a76b0b86ef31c4177cee"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+          "symbol": "SessionEntry",
+          "blob": "64709601704155b8b082a76b0b86ef31c4177cee"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+          "symbol": "OneShotGuard",
+          "blob": "64709601704155b8b082a76b0b86ef31c4177cee"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+          "symbol": "StartWaiter",
+          "blob": "64709601704155b8b082a76b0b86ef31c4177cee"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "symbol": "SearchRequestProcessor::{register,fuzzy_file_search,connection_closed,shutdown}",
+          "blob": "f95ae6774858be231b5d7ec535ea3093bc31ae24"
+        },
+        {
+          "path": "codex-rs/app-server/src/outgoing_message.rs",
+          "symbol": "ConnectionNotificationPermit",
+          "blob": "a85cd84288261a4ca05a2f1a0a3ac3531c9e6ab4"
+        },
+        {
+          "path": "codex-rs/app-server/src/outgoing_message.rs",
+          "symbol": "reserve_server_notification_to_connection",
+          "blob": "a85cd84288261a4ca05a2f1a0a3ac3531c9e6ab4"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_serialization.rs",
+          "symbol": "RequestSerializationQueueKey::FuzzyFileSearchSession",
+          "blob": "9a62383e9b343b58d3c30951ec6c7f22793b3f3f"
+        },
+        {
+          "path": "codex-rs/app-server/src/message_processor.rs",
+          "symbol": "ConnectionSessionState::searches",
+          "blob": "82da2ab910651c5fff773afdcae2e3d7c96f184c"
+        },
+        {
+          "path": "codex-rs/app-server/src/message_processor.rs",
+          "symbol": "connection_closed",
+          "blob": "82da2ab910651c5fff773afdcae2e3d7c96f184c"
+        },
+        {
+          "path": "codex-rs/app-server/src/message_processor.rs",
+          "symbol": "request_search_shutdown",
+          "blob": "82da2ab910651c5fff773afdcae2e3d7c96f184c"
+        },
+        {
+          "path": "codex-rs/app-server/src/message_processor.rs",
+          "symbol": "drain_background_tasks",
+          "blob": "82da2ab910651c5fff773afdcae2e3d7c96f184c"
+        },
+        {
+          "path": "codex-rs/app-server/src/lib.rs",
+          "symbol": "processor graceful/forced shutdown branch",
+          "blob": "2e4b81007b3756de5198cd15400b9301670c8935"
+        },
+        {
+          "path": "codex-rs/app-server/src/in_process.rs",
+          "symbol": "finish_processor_and_store",
+          "blob": "3e74d3a5907568c32a1a3c933b9d2c1a242b9b70"
+        }
+      ],
+      "ownership": {
+        "state": "Connection state owns session IDs, one-shot cancellation tokens, admission generations and startup/publisher trackers. Native owner retains accepted search work. Processor retains connection cleanup failures after connection removal.",
+        "dependencies": "Native managed search owner; existing public JSON-RPC DTOs; connection RPC gate and serialization queue; targeted bounded outgoing queue; network/in-process shutdown composition.",
+        "lifecycle": "Fence connection search admission before draining admitted RPCs; join startup, native sessions and publishers before graceful completion. Session stop cancels blocked outgoing reservations and joins before reply. Forced network exit issues synchronous search fence but does not claim joins.",
+        "ordering": "One latest-state publisher per session; expected tagged ID precedes native update; reservation commits under query/close fence; updates precede completion. Stop is a queue-admission fence, not client-render acknowledgement.",
+        "cancellation": "Same-token predecessor cancellation occurs before replacement capacity admission. Empty query/root cancellation needs no native slot; old lease remains charged until its cleanup ends. Tokens and session IDs are scoped to connection."
+      },
+      "intentional_customizations": [
+        "Broadcast search notifications become targeted to their owning connection.",
+        "Session IDs no longer serialize unrelated connections.",
+        "One-shot/native/publisher cleanup failures reach callers and final shutdown instead of successful empty responses.",
+        "Startup rejection is distinct from native cleanup failure; publisher always joins after failed construction."
+      ],
+      "preserved_native_behavior": [
+        "Public search RPC names/DTOs,50-result/up-to12-worker policy, highlighting, score/path sort and existing path presentation.",
+        "Existing same-token cancellation intent and empty-query empty result."
+      ],
+      "validation_paths": [
+        "codex-rs/app-server/src/fuzzy_file_search/publisher_tests.rs",
+        "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+        "codex-rs/app-server/src/request_serialization_search_tests.rs",
+        "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+        "codex-rs/app-server/tests/suite/fuzzy_file_search.rs",
+        "codex-rs/app-server/tests/suite/v2/search_connection_tests.rs"
+      ],
+      "remaining_gaps": [
+        "Per-connection capacity16 does not impose a process-wide quota; selected provider/global scopes remain Stage B.",
+        "No file_search package selection or independent install acceptance yet.",
+        "Current forced path is cancellation/uncertainty, not graceful join proof.",
+        "Already admitted frames can precede stop response; transport delivery/rendering is not acknowledged by queue fencing."
+      ]
+    },
+    {
+      "id": "tui_search_lifecycle",
+      "inventory_owners": [
+        "C18",
+        "C19"
+      ],
+      "classification": "native_lifecycle_repair_not_externalized",
+      "upstream_symbols": [
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "FileSearchManager",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "70ac98de116c7d4169583a8c758913af4329182c"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "SearchState",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "70ac98de116c7d4169583a8c758913af4329182c"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "TuiSessionReporter",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "70ac98de116c7d4169583a8c758913af4329182c"
+        },
+        {
+          "path": "codex-rs/tui/src/app/event_dispatch.rs",
+          "symbol": "AppEvent::FileSearchResult dispatch",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "38669630645f17152142597edacfa3d39c9984b3"
+        },
+        {
+          "path": "codex-rs/tui/src/app/reconnect.rs",
+          "symbol": "FileSearchManager::new reconnect replacement",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "0656ba6e387605b97af01e9582c28cbf55d4ce8b"
+        },
+        {
+          "path": "codex-rs/tui/src/lib.rs",
+          "symbol": "App::run composition",
+          "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "import_blob": "b72a33c77640a410e5cc26dd46f0ee9fcb647258"
+        }
+      ],
+      "current_symbols": [
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "FileSearchRuntime::{spawn,close,shutdown}",
+          "blob": "51105ae2637d3a21e809e85a727f7db77041c825"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "FileSearchRequest",
+          "blob": "51105ae2637d3a21e809e85a727f7db77041c825"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "FileSearchManager::{restart,update_search_dir,accepts,on_user_query}",
+          "blob": "51105ae2637d3a21e809e85a727f7db77041c825"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "Drop for FileSearchManager",
+          "blob": "51105ae2637d3a21e809e85a727f7db77041c825"
+        },
+        {
+          "path": "codex-rs/tui/src/file_search.rs",
+          "symbol": "TuiSessionReporter::{submit,failed,on_update}",
+          "blob": "51105ae2637d3a21e809e85a727f7db77041c825"
+        },
+        {
+          "path": "codex-rs/tui/src/app_event.rs",
+          "symbol": "AppEvent::FileSearchResult",
+          "blob": "453f4c6ef819dfc54e5c3a960baf19718b207c3b"
+        },
+        {
+          "path": "codex-rs/tui/src/app/event_dispatch.rs",
+          "symbol": "AppEvent::FileSearchResult identity recheck",
+          "blob": "16e9df6b46753a0d1964bdbd7253409cd7659e94"
+        },
+        {
+          "path": "codex-rs/tui/src/app/reconnect.rs",
+          "symbol": "FileSearchManager::restart call",
+          "blob": "1b2d0d20ca2953246a07878482eea7f9a7308559"
+        },
+        {
+          "path": "codex-rs/tui/src/app/startup.rs",
+          "symbol": "App::run file_search_runtime argument",
+          "blob": "d20354e3f0da5764e8e9f9ac8b0fa9210009ea72"
+        },
+        {
+          "path": "codex-rs/tui/src/lib.rs",
+          "symbol": "outer FileSearchRuntime creation and shutdown around App::run",
+          "blob": "888a2e484107ad966baaace8e6684a6513c31f42"
+        },
+        {
+          "path": "codex-rs/tui/src/session_log.rs",
+          "symbol": "AppEvent::FileSearchResult matching",
+          "blob": "5adc38ca969700ec3e376ebf5717637b2b887938"
+        }
+      ],
+      "ownership": {
+        "state": "Search manager owns current cwd/query plus manager/session/query delivery identities; weak reporter reference breaks native reporter/state cycle. Outer runtime retains native owner and asynchronous startup/close callbacks across manager replacement.",
+        "dependencies": "Native managed search API; AppEventSender and event dispatch; outer App::run/reconnect lifecycle. TUI is a direct search consumer, not an App Server fuzzy RPC client.",
+        "lifecycle": "Clear/cwd/reconnect/drop invalidates identity and takes sessions under lock, then requests/joins cleanup outside it. Runtime outlives App::run including early returns and joins native owner before successful exit.",
+        "ordering": "Record query ID before native submission; validate manager/session/query identity at callback and again at queued UI-event delivery. Retry after native failure rotates session generation."
+      },
+      "intentional_customizations": [
+        "Remove reporter ownership cycle and detached manager replacement cleanup.",
+        "Prevent stale queued results from changing mentions after clear/cwd/reconnect or repeated query text.",
+        "Surface final search cleanup failure through outer TUI result."
+      ],
+      "preserved_native_behavior": [
+        "Native fuzzy matching/options and default20 results/two workers with indices.",
+        "Existing mention popup formatting and file reference behavior; no extracted native TUI plugin in Stage A."
+      ],
+      "validation_paths": [
+        "codex-rs/tui/src/file_search_tests.rs",
+        "codex-rs/tui/src/app/tests/startup_defaults_tests.rs",
+        "codex-rs/tui/src/app/tests.rs"
+      ],
+      "remaining_gaps": [
+        "Runtime still directly constructs native FileSearchOwner with capacity8; selected facade/package remains Stage B.",
+        "TUI presentation itself is not independently installable.",
+        "Latest TUI checks must be attached by root against actual tested source; earlier pass is not proof for later edits."
+      ]
+    },
+    {
+      "id": "sdk_nucleo_covered_source_distribution",
+      "inventory_owners": [
+        "C00",
+        "C26"
+      ],
+      "classification": "sdk_packaging_support_not_native_extraction",
+      "upstream_symbols": [],
+      "origin_note": "The component SDK is project-added infrastructure; there is no corresponding extracted upstream Codex SDK symbol. This change extends its existing source exporter and binary assembler.",
+      "current_symbols": [
+        {
+          "path": "component-sdk/rust_component_package.py",
+          "symbol": "ExportPlan",
+          "blob": "80a0d95937b79fb9e291667bf70d769fd87f2139"
+        },
+        {
+          "path": "component-sdk/rust_component_package.py",
+          "symbol": "assemble",
+          "blob": "80a0d95937b79fb9e291667bf70d769fd87f2139"
+        },
+        {
+          "path": "component-sdk/rust_component_package.py",
+          "symbol": "inventory_path",
+          "blob": "80a0d95937b79fb9e291667bf70d769fd87f2139"
+        },
+        {
+          "path": "component-sdk/rust_component_package.py",
+          "symbol": "nucleo_covered_source",
+          "blob": "80a0d95937b79fb9e291667bf70d769fd87f2139"
+        },
+        {
+          "path": "component-sdk/RUST_PACKAGING.md",
+          "symbol": "Nucleo covered-source packaging guidance",
+          "blob": "2701190682bc4868e121b8d4ae48ef4a70ce9e10"
+        },
+        {
+          "path": "component-sdk/tests/test_rust_package.py",
+          "symbol": "NativeSourceExportTests",
+          "blob": "78c66c5dba8af583810b53f6087f342db16a3c96"
+        }
+      ],
+      "ownership": {
+        "state": "Export inventory records local crate/source identities and source/export SHA256; assembly copies independently inventoried covered source and writes THIRD_PARTY_NOTICES.json.",
+        "dependencies": "Exported Cargo dependency closure and nested vendor workspace; pinned Nucleo/matcher manifests, LICENSE files and PROVENANCE; Python standard-library filesystem/hash/manifest adapters.",
+        "lifecycle": "Fail closed on missing inventory, absent/extra covered files, unsafe paths/symlinks, hash drift, package/license/provenance mismatch. No runtime service or native extraction is introduced."
+      },
+      "intentional_customizations": [
+        "Preserve vendor workspace/dependency closure in external source export.",
+        "Bundle exact modified MPL-covered source, materialized license files and provenance with relevant binary packages.",
+        "Keep source/export/package digests distinct and verify copied package bytes."
+      ],
+      "validation_paths": [
+        "component-sdk/tests/test_rust_package.py"
+      ],
+      "remaining_gaps": [
+        "Targeted Nucleo bundle is not a complete transitive-license compliance report or general-purpose license engine.",
+        "Packaging validation alone is not independent search-worker build/install/runtime proof.",
+        "No host checkpoint or published artifact is claimed by this draft."
+      ]
+    },
+    {
+      "id": "desktop_additive_file_search",
+      "inventory_owners": [
+        "C19",
+        "C18"
+      ],
+      "classification": "additive_gui_capability_not_native_extraction",
+      "upstream_symbols": [],
+      "origin_note": "Custom separately packaged desktop-style GUI already belongs to the project; this adds a functional file-reference picker. No official desktop source is assumed available or copied.",
+      "contract": {
+        "existing_component_kind": "presentation",
+        "name": "desktop",
+        "contract_version": 1,
+        "backend_rpc": "fuzzyFileSearch",
+        "installed_search_component": false
+      },
+      "current_symbols": [
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-search.js",
+          "symbol": "SearchController::{search,cancelActive,current,close}",
+          "blob": "b24ca2c5da1fe56771dccfa5b171a9c5042b25a3"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-search.js",
+          "symbol": "absoluteRoot",
+          "blob": "b24ca2c5da1fe56771dccfa5b171a9c5042b25a3"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-search.js",
+          "symbol": "validFile",
+          "blob": "b24ca2c5da1fe56771dccfa5b171a9c5042b25a3"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-search.js",
+          "symbol": "fileReference",
+          "blob": "b24ca2c5da1fe56771dccfa5b171a9c5042b25a3"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-search.js",
+          "symbol": "insertReference",
+          "blob": "b24ca2c5da1fe56771dccfa5b171a9c5042b25a3"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-picker.js",
+          "symbol": "createFilePicker",
+          "blob": "f3d19fd11b0b20f779f152cb06c511d1ca9d4057"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-picker.js",
+          "symbol": "render",
+          "blob": "f3d19fd11b0b20f779f152cb06c511d1ca9d4057"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/file-picker.js",
+          "symbol": "choose",
+          "blob": "f3d19fd11b0b20f779f152cb06c511d1ca9d4057"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/app.js",
+          "symbol": "filePicker composition",
+          "blob": "a956b6b726e41e9168f2617c6bd655a6c5bdfff5"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/app.js",
+          "symbol": "fileSearchConnection epoch and thread/root/reconnect invalidation",
+          "blob": "a956b6b726e41e9168f2617c6bd655a6c5bdfff5"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/index.html",
+          "symbol": "file-picker markup",
+          "blob": "1d8a7f12fcebcaecb60cceaa34b0ebc1e0dfe430"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/static/style.css",
+          "symbol": "file-picker styles",
+          "blob": "c2ece79f2a3dd764e5b4c9deb47b94d3d86b96bd"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+          "symbol": "Bridge cwd",
+          "blob": "c5019fd6d411b26849a2dbd5b360ed29d2a3c0f5"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+          "symbol": "RPC allowlist fuzzyFileSearch",
+          "blob": "c5019fd6d411b26849a2dbd5b360ed29d2a3c0f5"
+        },
+        {
+          "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+          "symbol": "GET static assets and status cwd/path_style",
+          "blob": "c5019fd6d411b26849a2dbd5b360ed29d2a3c0f5"
+        }
+      ],
+      "ownership": {
+        "state": "Browser owns bounded current picker state, one active and one latest queued query, per-query token and revision/context identity. Gateway retains existing authenticated App Server bridge; native search owns traversal.",
+        "dependencies": "Existing GUI packaging/assets and authenticated gateway; unchanged App Server one-shot fuzzyFileSearch response; cwd/thread/connection context; prompt composer.",
+        "lifecycle": "Debounce/coalesce queries; best-effort empty-query cancellation on replacement/close while identity fencing independently rejects stale replies. Thread/root changes, reconnect/disconnect and page hide invalidate the picker. Choosing a current result inserts an escaped path reference without reading/uploading file content.",
+        "ordering": "A-to-B-to-A and root/thread/connection changes have distinct revisions/context; delayed cancellation cannot cancel its successor because each query has its own token. UI renders result text with textContent and rejects invalid paths/root mismatches."
+      },
+      "intentional_customizations": [
+        "New Find file picker, keyboard navigation, retry/errors and prompt insertion over actual native-backed RPC.",
+        "Serve host cwd/path style so the browser uses the cloud filesystem context."
+      ],
+      "validation_paths": [
+        "component-sdk/tests/test_desktop_search.cjs",
+        "component-sdk/tests/test_desktop_search.py",
+        "component-sdk/tests/desktop_search_acceptance.py",
+        "component-sdk/tests/test_desktop.py"
+      ],
+      "remaining_gaps": [
+        "GUI currently exercises built-in native search, not an installed file_search service.",
+        "Stage B must rerun actual packaged GUI through selected native/custom search plugin with unchanged host hashes.",
+        "Browser-control/manual test availability and remote viewer reachability must be reported separately; screenshots/listening services do not prove the requested local interactive viewer.",
+        "Root must attach current browser/runtime/regression evidence; this semantic draft does not promote UI tests to passed."
+      ]
+    }
+  ],
+  "evidence_policy": "Relevant test-source anchors are not passing-test claims. See ../verification/2026-10-01/P02_SEARCH_PREREQUISITE_EVIDENCE.md and its two machine-readable reports for per-run actual source hashes, failures, runtime behavior and omissions.",
+  "shared_remaining_gaps": [
+    "No independently installed file_search component contract, selected backend factory, process adapter or native/custom search package is active in Stage A.",
+    "Fourth native consumer remains codex-rs/rollout/src/list.rs::find_thread_path_by_id_str_in_subdir -> file_search::run; externalizing App Server/TUI/standalone alone will not replace storage lookup fallback.",
+    "Process-wide App Server search quota, bounded/coalesced native query ingress, index entry/byte budgets and opt-in logical IPC limits remain Stage B requirements.",
+    "Public App Server search DTOs remain unchanged. Added native Rust query identity is not an installed wire-contract version.",
+    "OS filesystem operations and process-aborting native failures do not gain a hard cancellation deadline or guaranteed recovery."
+  ],
+  "generated_at_utc": "2026-10-01T04:01:37.433085+00:00",
+  "checkpoint_delta": {
+    "base_commit": "4288e493d3164ef2995808c02cc65e60528ca96e",
+    "changed_paths": [
+      {
+        "path": "MODULE.bazel.lock",
+        "mode": "100644",
+        "before_blob": "b0077619b602c0fae264d8d6a391546fca68100c",
+        "after_blob": "c834f35e8a8244b6cc69f93063664b9e40bbda1e",
+        "sha256": "e43ce845fd29b166d0e8750120ec47364ca3aced882dba28efda465236e140e6"
+      },
+      {
+        "path": "codex-rs/Cargo.lock",
+        "mode": "100644",
+        "before_blob": "56efd60d8f8089ab68164abd59a93fa5e6691bf0",
+        "after_blob": "1e6706ead8f25bb09a1bc3677a6949ff97fad576",
+        "sha256": "16fef8ecd4e9dac0508003ac720a7ab6280c39b05c4899a0180e807b9c7b21e7"
+      },
+      {
+        "path": "codex-rs/Cargo.toml",
+        "mode": "100644",
+        "before_blob": "ebf0cf5ca1d507362547bf8cf0c936bf72ca34ce",
+        "after_blob": "f4b94a9265b27d9973e52570d7eba3374f750f24",
+        "sha256": "aebf14936c2eede92603e3e5b9e1e6fd5d03679ee9758bdd82e5424415c47bfb"
+      },
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "mode": "100644",
+        "before_blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+        "after_blob": "d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00",
+        "sha256": "95b655350b2acc8a61194a8bbe6d4a129e66e7c91f2550424285ba4e0fd07ecf"
+      },
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "371fcebc56b15e984333627ccd9b22f1dfedf7cf",
+        "sha256": "42f6060a72f6c0e916227c974188ad16c726ffeaed14673e63a332282a9e352d"
+      },
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search/publisher_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "a45e71950b724ac46def5d9bd17f22d94790af96",
+        "sha256": "3075ac4e7ababc81af61b50a3a59f4de3b3d496b95d05d6043ac17f4c1ff1876"
+      },
+      {
+        "path": "codex-rs/app-server/src/in_process.rs",
+        "mode": "100644",
+        "before_blob": "51911fc8ac07735b82d5263d741769f7424faaa0",
+        "after_blob": "3e74d3a5907568c32a1a3c933b9d2c1a242b9b70",
+        "sha256": "8722d4e0522ca6177c01ea4309cd54df3a6df5d8500b18b9f1c799d22f30e72f"
+      },
+      {
+        "path": "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+        "mode": "100644",
+        "before_blob": "44451585555a798324cd43ca5897eafc148902fe",
+        "after_blob": "b5f50e372ae07a98f2f2a1cdc85562742f706d77",
+        "sha256": "5f4d15226130417bb799403456c45a1efbc1e96eb14fc2e5000e74629b99bbcb"
+      },
+      {
+        "path": "codex-rs/app-server/src/lib.rs",
+        "mode": "100644",
+        "before_blob": "1b0ed7ff146a9cecceaf1d99686fc339bd2ddd63",
+        "after_blob": "2e4b81007b3756de5198cd15400b9301670c8935",
+        "sha256": "3773e7857883a1c21249cb0fdc8c007105b6330b473b01871798563750ea6c5c"
+      },
+      {
+        "path": "codex-rs/app-server/src/message_processor.rs",
+        "mode": "100644",
+        "before_blob": "8473248bc7f880331b6045ddeef1a746ca03acd7",
+        "after_blob": "82da2ab910651c5fff773afdcae2e3d7c96f184c",
+        "sha256": "9cffdb90d9cae2574cd2d93402e67702de5fefa1b359ee11ec9f8397fb2c90a7"
+      },
+      {
+        "path": "codex-rs/app-server/src/message_processor_gateway_oauth_tests.rs",
+        "mode": "100644",
+        "before_blob": "dd63e6718392629a848efd314f30b596244725dc",
+        "after_blob": "ddc79bdd1133d16f71405e545e5845414a187dfb",
+        "sha256": "28d28278c8ddbb52380384d46804e5a94db5ca5bd34ee8993e261d9d5290cb3a"
+      },
+      {
+        "path": "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+        "mode": "100644",
+        "before_blob": "b1e8270738d88e9d753df56d467bf090f7fe2241",
+        "after_blob": "22d624ad818007a2417bba50d76715adff85d5ca",
+        "sha256": "01e51537a08cf83371941c7848a6945e33e8c2967a11fb2b8856e0f13949adee"
+      },
+      {
+        "path": "codex-rs/app-server/src/outgoing_message.rs",
+        "mode": "100644",
+        "before_blob": "961eccc2aad51cb17b3e9206ed95c34dab686c2e",
+        "after_blob": "a85cd84288261a4ca05a2f1a0a3ac3531c9e6ab4",
+        "sha256": "1ee25136ea2c30415c8329a25d4a639df40a2efc49afdf048cec65b2b57ca487"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors.rs",
+        "mode": "100644",
+        "before_blob": "c9b3908d913283d8fdcc6cfe835a16870041d0b5",
+        "after_blob": "9ce1e2ecd0bc9e933868c12dae6048c2c7061aa2",
+        "sha256": "edacdc289aea92a609aea4952fd6f4be390c1a20d0569a6856ebf7325d71047f"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search.rs",
+        "mode": "100644",
+        "before_blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a",
+        "after_blob": "f95ae6774858be231b5d7ec535ea3093bc31ae24",
+        "sha256": "2499fa2dd18f2793669a49f9c96864c4ae0f87e3c44ce561c38b60368a89faf6"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "64709601704155b8b082a76b0b86ef31c4177cee",
+        "sha256": "6a0d51cee1147ae9e5ce22f5dc60a21fa39bcab091b71088d2f967cde7950985"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "6868befbb674d9a89dabd5e9e4f055014ed13116",
+        "sha256": "0d183985283089a1c58bd11faf255af19c3ef387766fa1e32e9fe2d30d51c6f3"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_serialization.rs",
+        "mode": "100644",
+        "before_blob": "390896a6cccf8e3cc0a2f2bbfa6421e72030f4ea",
+        "after_blob": "9a62383e9b343b58d3c30951ec6c7f22793b3f3f",
+        "sha256": "4fe2442b6d5da9a35d05b56b4e73a8c17d366517b9eed63362212f0366bf5b7d"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_serialization_search_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "c87aa7448cfea0073efed154a85e5aa960b34f03",
+        "sha256": "92113542d14a1c9f8f968d9fc54f9349899757ca5c63943ebf49d3a765821992"
+      },
+      {
+        "path": "codex-rs/app-server/src/user_verification_test_support.rs",
+        "mode": "100644",
+        "before_blob": "0c3932c24be81c97b5f6fba440c895220f9630d6",
+        "after_blob": "5911a5ef8d1a08a03eb632b0fe5bb97940708c76",
+        "sha256": "b8637668a60c572888b3663820a4a8cdaada64f5bb7f0a58966b893494336e42"
+      },
+      {
+        "path": "codex-rs/app-server/tests/suite/fuzzy_file_search.rs",
+        "mode": "100644",
+        "before_blob": "34dd3cd9dc0c984c8984156a50f0b1fb54a0a3e1",
+        "after_blob": "d7fc4c87c47dc95c6370f62138274c76493114f6",
+        "sha256": "c3a81e2e1c204247795e099586fa08c6aa7b10c92e02b17e496010a630610233"
+      },
+      {
+        "path": "codex-rs/app-server/tests/suite/v2/mod.rs",
+        "mode": "100644",
+        "before_blob": "2d82aa82210615c6fecf13edcf57355a4d751353",
+        "after_blob": "6f078e460ae03ff9357ec14a8024529ec500ebed",
+        "sha256": "52c3f6029974d67a8a2fa06258e6cf946b96e576e72c443c04cffaf19d34e87d"
+      },
+      {
+        "path": "codex-rs/app-server/tests/suite/v2/search_connection_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "eea93a7c6ec2b728af8d074ac824f49098daa9a1",
+        "sha256": "7bf2e5f6654870ae2ff2c4137e7b6ad5f5eb609ee578eb09f378f16600e0a774"
+      },
+      {
+        "path": "codex-rs/file-search/Cargo.toml",
+        "mode": "100644",
+        "before_blob": "e235898982f6eba908c5c0751eae91a5b25cdb1a",
+        "after_blob": "1a06447906e867c93468125d68e4958e1b0decd0",
+        "sha256": "f86b1c953ad01cb6c69452e51234005158338120780ce482c353c8a8bbf33f24"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "8e71364c2a6b80311dfa7572c7e0b51885cd04ff",
+        "sha256": "c0e98f7012e17e7439f65f5e8abf854a25804941eba5006be267b36f07ddb19a"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "e055dbad092cb578cdf89bdca46a4dbf854ab349",
+        "sha256": "0e78d72843a078d1e7f2ccd7051b44c22dc5afab2ccd46fd3914765cfdc7356c"
+      },
+      {
+        "path": "codex-rs/file-search/src/lib.rs",
+        "mode": "100644",
+        "before_blob": "bcad11f770d18e731af3d0edf527e52452b3a75a",
+        "after_blob": "914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6",
+        "sha256": "788d9ef76d8233a5fac6d91b2215632b7cc3c408d84f6db32eca0b9affbb9f40"
+      },
+      {
+        "path": "codex-rs/file-search/src/lifecycle.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "ac55e5c2f2630fb61a2c2554cf5c8b19740747e5",
+        "sha256": "5d3901a7103ea394334fde67d3cb8eea3526b760eb5818c0400df7a71ba9c4a9"
+      },
+      {
+        "path": "codex-rs/file-search/src/lifecycle_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "1a02ce6f0639d6c4c44d9cf7004ffeb3e679ffb8",
+        "sha256": "7b12d9da8b92913d83ccf10a5173ccde48712cc1542102a4f97637e65abd757c"
+      },
+      {
+        "path": "codex-rs/file-search/src/pool_lifecycle_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "d0ce6f6033d0494871f18958aa496e502aa99e2d",
+        "sha256": "76532f322fc37737565db499b16cbb6511e5d5b45e508f917ceb23866359f202"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/Cargo.toml",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "a49f7879e11ef8de893e6d6f80654a0af8166dc5",
+        "sha256": "25a71b4103c48a2653d36046d15899b7c8343b965fd5d6d083c5835233803676"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/LICENSE",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "a612ad9813b006ce81d1ee438dd784da99a54007",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "523fee0781a925a11798a0fbb93df23bd431a32b",
+        "sha256": "f7aac33ca388e9834ca558e07738a0d23551b7f6e2777d6988d9ed572aa7e0a5"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/README.md",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "e617cfa0e175f89e2f5e7aa1e57d58c28e47ddbf",
+        "sha256": "63810dbadf973376d5a60de76c3c691edbe683ec9d42c37faffde0ed20251c5d"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/Cargo.toml",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "4b90ddbb035ae2a8169f997fa6de371f9ca50520",
+        "sha256": "86aa0dbe66e99ae147e0f19b5dd847fea39cd0873558a209ebad63d6d8f18fb9"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/LICENSE",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "a612ad9813b006ce81d1ee438dd784da99a54007",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz.sh",
+        "mode": "100755",
+        "before_blob": null,
+        "after_blob": "d3ffa2c9a6627dad6ddaa009ac2d5a7a5e2017e0",
+        "sha256": "5dcfb414bd5d81e21323bd9569534e943ad130fdd09eb3e5c4d875a2f7b31c55"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/.gitignore",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "1a45eee7760d240bfa8ac1989088e0349169f264",
+        "sha256": "a24ed50fc1f28dcafa5d4f9eac712faf4b1ffd7910177f5ce30289197a7a2484"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "1b9d8a7fd3203813651a84763275c49117adb1d3",
+        "sha256": "c0ba163c405ff77f8a07b699300052f1958156d3c37012f87f8799cd1e72ad27"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "d9df7d36b0f6e7e464102ab1e70ffeff5fecc142",
+        "sha256": "6027f596c2e27269bbac96f9572b6d22e94c259a93ea29deb5582f33da6f250a"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh",
+        "mode": "100755",
+        "before_blob": null,
+        "after_blob": "32a2669746a93a838ac2d3793a64e645e0479c14",
+        "sha256": "e1680aff990b8a4be3d6889bf2eff306199f2731c942bfc22bf3e8919f0e2ecf"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "d13a246616dd9e72d538450ac6a31e8d15d3caa4",
+        "sha256": "6b316a6aea6bdfec35af8967991664944c85abd045f78d3fbcb96d00a7df23f7"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "aacbe46141a51f018a70f599028346a74c185cc3",
+        "sha256": "711604e45eafe19baaef04d4ba97870fad5f52ac0653ecc034edbc6024fd0634"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/chars/normalize.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "3de501aaae6ceaec2921c11ddc92ba11a3bbde1c",
+        "sha256": "4b97370478f701a93dff41553a4a699ec9fbc241ff958c12638c81fcd4e6c2cf"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/config.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "eca7ae388da845d93892737e060b6cc29fe287db",
+        "sha256": "744777c320d18dc1cad0871963cb6020b6aa69d1732a33cd0c0563b48155b4b8"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/debug.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "b8369f32dc6b79a6629adf221d1981d1535af708",
+        "sha256": "9d45cc56a0a11edb1c63fd8158bce9a76541b791c750580c89ae2245413ab2e8"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/exact.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "3cb3ceb2025c5baa193b3c0a4224d0565ea114ad",
+        "sha256": "3c4121c62a96bd1797f150eb1b913d3b6cb0131a1c78ac3b780b9c47f5cde867"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "8215bf31fda7015123755a43d8b27d9a16d4a60c",
+        "sha256": "2f0ab9398f0b26c1f057e494d7029489a435358ce89170a4b548262e3457b0ab"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "5d53ecfb76f3d1265fe9a4b0e4af36c59f5c5585",
+        "sha256": "deb6a2088e1e2af0358a1772eb9905bebb372f570b376ea70081d44ddd45bfb2"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/lib.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "3e8874c590c0fa3d87826749b1832076ddc2f002",
+        "sha256": "84a47fce13e1fad9ee34d96a4627342ec6176fe0667763e856544a3106b5fc0b"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/matrix.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "a91ed95f5beda8d9decc5c615cf5384bfbda4d5b",
+        "sha256": "c3ff2b105ac1a0cee11c2e2d60640f775a217614a6c4713a23358fcdf4c966db"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/pattern.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "495feede30e9a3ce754fade159c5e7ad798463f6",
+        "sha256": "16baad5cc262f5800a221c97f81b341afccfd5e9eb74e6ffd9c1fa27001f569d"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/pattern/tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "88880ba91df4da12d6e2f8f5952352c5e9666446",
+        "sha256": "11163657fdcf19363a6d1687ecf55c05d631ef54c31338b71c229c7c6b9d04e6"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/prefilter.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "1e79cc2c70efcc8521aa05281b61caddf963fe03",
+        "sha256": "2afd4a12798876440d6b5c11362092069c953c1f7f7b62dd5d1fe38472a934db"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/score.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "c934a8ef49891bddd658d6eb1d221392bfa89f49",
+        "sha256": "d6e77c89ede3df98681e2a03efb8d97f910b2967c7c6e6b912d56c927a8f3d0c"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "32a024036d6d05fdcbf8e37b13e6d8c0f3131a62",
+        "sha256": "a2417bf89a580c9762f003b3fd651831364152c4f0b36da99cfd80e312681a03"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "664dae7a834d6e66b441652ed7436ae9d0b338fa",
+        "sha256": "4f9b7c388111ed6a894eb4052018f5ef2c3bac11faaebd5ad9459863b79759cf"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "a38c887584cf257a6ebd4a5dfdebd93f18fad8b3",
+        "sha256": "be0470be54ad7a5d639239ebc4331170837a075e09e848177f3c6f7a2b7fa982"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/boxcar.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "9b48809daeb827a60c6994a0bea0de2c663cbd22",
+        "sha256": "ea0cd05cc0ea3d723ea1bfcf89e8784d96b90fa99101e1d1ac2542ffcb94b9c3"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/lib.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "227f0f955268f6d771336d8d7095fefb70ba5252",
+        "sha256": "0afcee4fe2f798b36148dc4fe3a7844139460cbc8ae997eaf45c5b5998f42985"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/par_sort.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "92f716cc3f1278d896a4323d2dbdbbf3f31222b8",
+        "sha256": "75ddff9aa1b22844ae7a73869b2c8ffee0551d1a52659fb1ad58e699a267cc84"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/pattern.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "816b0a31691c421bb8ad90f9ef92cd48dacecf3f",
+        "sha256": "e3235175016ac8f254bfd50521e971aa86a51d33a6619b96a5be82cd47c1de89"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/pattern/tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "40e8e328723f94e4552822137f69c91fef39d63f",
+        "sha256": "e1edf4d98f44a0273ddfc1113c7b7c77f1c05ec9ca353475d30bd77e8c57663a"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/shutdown_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "02147da093847cb5715c009c67d888836e22e94c",
+        "sha256": "5271c6583675884a83d08e8a209b06cb630e4738cbb019808fb07d77935149a1"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "676c50df44b4d3358f0157b854dc6aae28b1146e",
+        "sha256": "aa158ba5e2bca27147d8ae8bcde99e2a063be89fff242f8ae8792533499ea684"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/src/worker.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "aedd46c4b66101a02fbdef3c2fb9827b264d1ac1",
+        "sha256": "a9f93800400f3b94d818740137fe85aedbe5c24e7a05c5a95f81de4bf9966deb"
+      },
+      {
+        "path": "codex-rs/tui/Cargo.toml",
+        "mode": "100644",
+        "before_blob": "9d61157c421220bd70852e72ce59b89a79a025be",
+        "after_blob": "2cc77ff6d55a3529e4b2ccc3f3354dbe042486a7",
+        "sha256": "c9b5203e3aff3167ec4b0f6c01eb93ac27af967eb1c7a0a2543e3117b9481695"
+      },
+      {
+        "path": "codex-rs/tui/src/app/event_dispatch.rs",
+        "mode": "100644",
+        "before_blob": "38669630645f17152142597edacfa3d39c9984b3",
+        "after_blob": "16e9df6b46753a0d1964bdbd7253409cd7659e94",
+        "sha256": "a44ffca3fc0071dcca1cbca193b59cf992f529cd790206e6b070d628d6090096"
+      },
+      {
+        "path": "codex-rs/tui/src/app/reconnect.rs",
+        "mode": "100644",
+        "before_blob": "0656ba6e387605b97af01e9582c28cbf55d4ce8b",
+        "after_blob": "1b2d0d20ca2953246a07878482eea7f9a7308559",
+        "sha256": "4014b61a91991653b8abb8ad33691287f6cd96bedac5f93e151cb964e5f17a1e"
+      },
+      {
+        "path": "codex-rs/tui/src/app/startup.rs",
+        "mode": "100644",
+        "before_blob": "1f8702fbfb8be2ba00ff064b42e1b3f88bce9607",
+        "after_blob": "d20354e3f0da5764e8e9f9ac8b0fa9210009ea72",
+        "sha256": "48c7f8cd68e3d752f3b4f6ab372680d5189ccf265b474b9998df8d8dec037532"
+      },
+      {
+        "path": "codex-rs/tui/src/app/test_support.rs",
+        "mode": "100644",
+        "before_blob": "5e6dcf7be5dba1f1bdacbd02dfaca5bef509104c",
+        "after_blob": "4b333005d6a4c69ea9ff12d6c27aa352a4d41e37",
+        "sha256": "4ab2aa0d9f9105fea88fb90493f5de644701cfd48d9c0d824090adad524aca47"
+      },
+      {
+        "path": "codex-rs/tui/src/app/tests.rs",
+        "mode": "100644",
+        "before_blob": "34e83eab49ff8fcb8adbcf888c331ea24d59c74e",
+        "after_blob": "5e0887e73f76a36e5e74c04b1c4926be7dd007c0",
+        "sha256": "b42ffb9f02642d1086de277e3cef37326cefb0d815b4ff21c67c075c50030bd2"
+      },
+      {
+        "path": "codex-rs/tui/src/app/tests/startup_defaults_tests.rs",
+        "mode": "100644",
+        "before_blob": "22e27ed3f1fe0d12bb3525a89c2062ed4fafad33",
+        "after_blob": "e6d08b068e53aa551d399d21c0568da0852b5ae4",
+        "sha256": "e3f68d420a10a811e7c5778380225b9a55b734f11d67266f904e16ddbe6ba376"
+      },
+      {
+        "path": "codex-rs/tui/src/app_event.rs",
+        "mode": "100644",
+        "before_blob": "c77c55841d79d44ce52e496aac6a787af5f680cd",
+        "after_blob": "453f4c6ef819dfc54e5c3a960baf19718b207c3b",
+        "sha256": "1431acbcddf779a2266cbf3d82042914dbb3738c790082c304cdf28dde0d9425"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search.rs",
+        "mode": "100644",
+        "before_blob": "70ac98de116c7d4169583a8c758913af4329182c",
+        "after_blob": "51105ae2637d3a21e809e85a727f7db77041c825",
+        "sha256": "15a180c13b8f05c0e026b57d80e2081ffb5503f52c73a9b15899fc496de3190a"
+      },
+      {
+        "path": "codex-rs/tui/src/file_search_tests.rs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "b3586503340cce59b0766afca5caa827434b63a8",
+        "sha256": "6494f66d508b186dda32cbfd64ad53894e891396fe221ee1f6316c95a5ab1f87"
+      },
+      {
+        "path": "codex-rs/tui/src/lib.rs",
+        "mode": "100644",
+        "before_blob": "b72a33c77640a410e5cc26dd46f0ee9fcb647258",
+        "after_blob": "888a2e484107ad966baaace8e6684a6513c31f42",
+        "sha256": "1f92635abaabc898f95d748c15c3885a1e6756c371f2c01f329de43028cfd223"
+      },
+      {
+        "path": "codex-rs/tui/src/session_log.rs",
+        "mode": "100644",
+        "before_blob": "56f6541022abe64a04f696056c9ed46fda02bfc6",
+        "after_blob": "5adc38ca969700ec3e376ebf5717637b2b887938",
+        "sha256": "b56982d377d2037dd9f0ce2861642c21c8380711e10a7f4c018c9d1f9abde203"
+      },
+      {
+        "path": "component-sdk/FILE_SEARCH_COMPONENT_PLAN.md",
+        "mode": "100644",
+        "before_blob": "6aa3092b2ff255d52a712dde99ba34dff50d9361",
+        "after_blob": "008436e64c25fb7a9db07bdd808ac3d16b3c4df8",
+        "sha256": "3a2157412b160128c09fd9acfa1f71ecd34d23e6570178e50c4ff796db437dc3"
+      },
+      {
+        "path": "component-sdk/FILE_SEARCH_COMPOSITION_PLAN.md",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "0c1cb1966ec51b37ca9c3799a6081c520f6aee44",
+        "sha256": "c0684aa0d27f5c8cc6ace7edc13e238937fa2b84d75d66eba02a74a1fed9a770"
+      },
+      {
+        "path": "component-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "c6c75789b3d9a3fabf4b80cda21f8a65ab5c8396",
+        "sha256": "040e18b92fe69bc4c38bf6613f7d1b5ae5b4f178fd1270ff73dbd8e73cc06f55"
+      },
+      {
+        "path": "component-sdk/RUST_PACKAGING.md",
+        "mode": "100644",
+        "before_blob": "14861748874fb0ea44c23f254a7f850871c4796e",
+        "after_blob": "2701190682bc4868e121b8d4ae48ef4a70ce9e10",
+        "sha256": "6cd13b8d431ad9e1de8e5cd0db0a1b3c3765a671365f70a6da0bc2286cd23735"
+      },
+      {
+        "path": "component-sdk/examples/desktop/README.md",
+        "mode": "100644",
+        "before_blob": "08e07d04221a39a36748fb4384589e9203c6f06a",
+        "after_blob": "220f315d1a7ccf9b8d85fccff1d2c1ce1509d4dc",
+        "sha256": "63b18aefd2bf77c2381990dd34d96809fb4d505fdcd5b8afe85079558d6b7f02"
+      },
+      {
+        "path": "component-sdk/examples/desktop/codex-component.json",
+        "mode": "100644",
+        "before_blob": "2b27665376bffc2f4b809207ebc5a29f990d2995",
+        "after_blob": "81ce421a240b7185cf2f2894023c70b030295b1e",
+        "sha256": "809c83029763f0cc9902fa9e834c6d6b2ba00e990417ab375618b9365f629b94"
+      },
+      {
+        "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+        "mode": "100644",
+        "before_blob": "e60a38977136ca59a826b68da44c0ff50049b2a1",
+        "after_blob": "c5019fd6d411b26849a2dbd5b360ed29d2a3c0f5",
+        "sha256": "5ba51145d04588e531bd0d1108074d658ae58da38cfc2c6043e6e72313903fc5"
+      },
+      {
+        "path": "component-sdk/examples/desktop/desktop_ui/static/app.js",
+        "mode": "100644",
+        "before_blob": "2f1196ddf55cc9cdb72d03594bbf0f324a55b76e",
+        "after_blob": "a956b6b726e41e9168f2617c6bd655a6c5bdfff5",
+        "sha256": "26a05ef49118a1283c158c19b6ef48482bdca4aeb21d0024b910b3f3cbd41c98"
+      },
+      {
+        "path": "component-sdk/examples/desktop/desktop_ui/static/file-picker.js",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "f3d19fd11b0b20f779f152cb06c511d1ca9d4057",
+        "sha256": "30e38e3cf3d89dd20872c70bd903ad56a0fccfa138edbc324893f20bb8648bb9"
+      },
+      {
+        "path": "component-sdk/examples/desktop/desktop_ui/static/file-search.js",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "b24ca2c5da1fe56771dccfa5b171a9c5042b25a3",
+        "sha256": "b1958adb456f0a4d8669f8999cb93e698f0243d65ac65b6aa60cb1b611b8b3ae"
+      },
+      {
+        "path": "component-sdk/examples/desktop/desktop_ui/static/index.html",
+        "mode": "100644",
+        "before_blob": "0bc5032e6d550fc701156af58ed84a33c2f2d227",
+        "after_blob": "1d8a7f12fcebcaecb60cceaa34b0ebc1e0dfe430",
+        "sha256": "ce23129e73708dd24de77674a756970e9ec326aa5f92ce7ecfae337f810d41e3"
+      },
+      {
+        "path": "component-sdk/examples/desktop/desktop_ui/static/style.css",
+        "mode": "100644",
+        "before_blob": "93167859f8f3d1842742fc229062d3f33aee4ddf",
+        "after_blob": "c2ece79f2a3dd764e5b4c9deb47b94d3d86b96bd",
+        "sha256": "0b3f73868781521b8dee285b99eb6889f2a01ea86cca68a376cec927ed4d1a4a"
+      },
+      {
+        "path": "component-sdk/rust_component_package.py",
+        "mode": "100644",
+        "before_blob": "d9f4dd96089e4ba8c3fea3919c820d0932ddda78",
+        "after_blob": "80a0d95937b79fb9e291667bf70d769fd87f2139",
+        "sha256": "c5c679002bf161d4fb92cf02ee1524b28df5004916527bdf4c62c1ff5969de85"
+      },
+      {
+        "path": "component-sdk/tests/desktop_search_acceptance.py",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "927facba033b43e6beb3d3d00a3ef4e1853da456",
+        "sha256": "4160534bb14040f766175e91ef7fe51a3ef4d24269cf9062c90c369237a2542d"
+      },
+      {
+        "path": "component-sdk/tests/native_storage_acceptance.py",
+        "mode": "100644",
+        "before_blob": "87f943b5a7d1ba2bceeeb56b38adcad4ee6a6807",
+        "after_blob": "0c558ff653b9b0a24a179b33c5dd39ac2cc94077",
+        "sha256": "3cef46ece8e4c6bc36abfb926e89d7c84d2785ea6f93ad60f4de89e2e98048bf"
+      },
+      {
+        "path": "component-sdk/tests/p01_gui_acceptance.py",
+        "mode": "100644",
+        "before_blob": "32ff4ba35dce0621ca8d093847823c880a392d9f",
+        "after_blob": "20c1c5f24fe80dc8503061449b040f5bdb39f1d8",
+        "sha256": "43721df2b4bff37d0a18654eca78c7fa590b49879aed2615f3b7d5c3063019a1"
+      },
+      {
+        "path": "component-sdk/tests/reused_storage_acceptance.py",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "e27247c5133274facb6ce9491ece20bb6a410c12",
+        "sha256": "a943c1aa37dccc15ca0549845194fcfe49193eb25f7c9cb1bde3af7d7f791c30"
+      },
+      {
+        "path": "component-sdk/tests/test_desktop_search.cjs",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "298b0917aeec463cb0d1bb15bd7d8f4780f02cdb",
+        "sha256": "d51605a50c7ee1d0f03c92cb30de57560e035b3b6b9c5e5cddeb3d6916c6d68e"
+      },
+      {
+        "path": "component-sdk/tests/test_desktop_search.py",
+        "mode": "100644",
+        "before_blob": null,
+        "after_blob": "54d0dfb809b4c9b008495b5802e3da9d8e76de7a",
+        "sha256": "6b63c687debbca075afa29c1f5c1c597dd75a78a8b4c80d4ac55a03ae6217394"
+      },
+      {
+        "path": "component-sdk/tests/test_rust_package.py",
+        "mode": "100644",
+        "before_blob": "da90648c9de9fb166539b5d2cd9ffd42de7adb75",
+        "after_blob": "78c66c5dba8af583810b53f6087f342db16a3c96",
+        "sha256": "0db6680db5fd243a8133289ec3efe09ff244aacb3ca36e10164939d3fda63933"
+      }
+    ]
+  },
+  "complete_import_diff": {
+    "base_commit": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "raw_git_diff": ":000000 100644 0000000000000000000000000000000000000000 20498c7de67222f0e3ab021c093a68e0818f11db A\tCOMPONENTS.md\n:000000 100644 0000000000000000000000000000000000000000 f42be2684bdd20086eb712c769c4109cef7887d3 A\tCOMPONENT_INVENTORY.md\n:000000 100644 0000000000000000000000000000000000000000 ad3f5d965f18fe6e1a89c3d91fb1ee0351abd07b A\tCONTEXT_COMPONENT_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 2fbcaac36eba60f67dc4b5cfd15e90770fa168de A\tEXECUTION_STATE.md\n:000000 100644 0000000000000000000000000000000000000000 70f85ce254a8ba8d81d7ae564f007a3bb5dcb278 A\tIMPLEMENTATION_ROADMAP.md\n:000000 100644 0000000000000000000000000000000000000000 608d43f83245ca28475fa0e690c59c6e36ed7973 A\tMODEL_COMPONENT_PLAN.md\n:100644 100644 b0077619b602c0fae264d8d6a391546fca68100c c834f35e8a8244b6cc69f93063664b9e40bbda1e M\tMODULE.bazel.lock\n:100644 100644 06b02fced7db972084bf0188cb03f60375b51c1c b49eb1a6eacfab2cb04a04b91c1e844b3e8ee11c M\tREADME.md\n:000000 100644 0000000000000000000000000000000000000000 deb41ae67df8f1f9dde57eb386c357b38a1bf090 A\tRECOVERY.md\n:000000 100644 0000000000000000000000000000000000000000 5d904953c199cca26e5e30c40f03465eb199ef52 A\tUPSTREAM_MAINTENANCE.md\n:000000 100644 0000000000000000000000000000000000000000 685dfd56ddfefbca796d917f7eb6dac554ae7436 A\tUPSTREAM_PROVENANCE.md\n:000000 100644 0000000000000000000000000000000000000000 06b02fced7db972084bf0188cb03f60375b51c1c A\tUPSTREAM_README.md\n:000000 100644 0000000000000000000000000000000000000000 2a74b7c1ceda8ac2ca230e5742f931e792d22fbd A\tVALIDATION.md\n:100644 100644 ea897239537da5b7bbc3106eb5c1a8593f34895c 1e6706ead8f25bb09a1bc3677a6949ff97fad576 M\tcodex-rs/Cargo.lock\n:100644 100644 fc1becc762f6c50104a84e34d0e5524203a682e0 f4b94a9265b27d9973e52570d7eba3374f750f24 M\tcodex-rs/Cargo.toml\n:100644 100644 f8cd61e3ad079d51616c7901b66dba0ae3ee002d d7a8cd1cb6c8621103b1ac00ce8dc9e49b3e8d00 M\tcodex-rs/app-server/src/fuzzy_file_search.rs\n:000000 100644 0000000000000000000000000000000000000000 371fcebc56b15e984333627ccd9b22f1dfedf7cf A\tcodex-rs/app-server/src/fuzzy_file_search/publisher.rs\n:000000 100644 0000000000000000000000000000000000000000 a45e71950b724ac46def5d9bd17f22d94790af96 A\tcodex-rs/app-server/src/fuzzy_file_search/publisher_tests.rs\n:100644 100644 b467a33ec245499ef76f131f174dabe026fe6ae0 3e74d3a5907568c32a1a3c933b9d2c1a242b9b70 M\tcodex-rs/app-server/src/in_process.rs\n:000000 100644 0000000000000000000000000000000000000000 b5f50e372ae07a98f2f2a1cdc85562742f706d77 A\tcodex-rs/app-server/src/in_process_lifecycle_tests.rs\n:100644 100644 d1a622ca8cc94ab626e8e377333c9d875cd18451 2e4b81007b3756de5198cd15400b9301670c8935 M\tcodex-rs/app-server/src/lib.rs\n:100644 100644 796ecf2fc86a47c056cb934e6590c120d9836c32 82da2ab910651c5fff773afdcae2e3d7c96f184c M\tcodex-rs/app-server/src/message_processor.rs\n:100644 100644 dd63e6718392629a848efd314f30b596244725dc ddc79bdd1133d16f71405e545e5845414a187dfb M\tcodex-rs/app-server/src/message_processor_gateway_oauth_tests.rs\n:100644 100644 41d843c743abf671b82983e3bcec118ea5df99d2 22d624ad818007a2417bba50d76715adff85d5ca M\tcodex-rs/app-server/src/message_processor_tracing_tests.rs\n:100644 100644 961eccc2aad51cb17b3e9206ed95c34dab686c2e a85cd84288261a4ca05a2f1a0a3ac3531c9e6ab4 M\tcodex-rs/app-server/src/outgoing_message.rs\n:000000 100644 0000000000000000000000000000000000000000 b5717696e8bb923e1ab043c547edd51097ed8f31 A\tcodex-rs/app-server/src/persistence_lifecycle.rs\n:100644 100644 38110ec11554de76c9fa494285d2b56b4c6921e5 9ce1e2ecd0bc9e933868c12dae6048c2c7061aa2 M\tcodex-rs/app-server/src/request_processors.rs\n:100644 100644 873ebdcd777d8d801fd39e380d5441430aa3e591 fcbfa013872566d39e7cc6a966328e2c911cadd0 M\tcodex-rs/app-server/src/request_processors/rollout.rs\n:100644 100644 d683c6f10a87f2d3f599c710f6262fceb9a7628a f95ae6774858be231b5d7ec535ea3093bc31ae24 M\tcodex-rs/app-server/src/request_processors/search.rs\n:000000 100644 0000000000000000000000000000000000000000 64709601704155b8b082a76b0b86ef31c4177cee A\tcodex-rs/app-server/src/request_processors/search/connection.rs\n:000000 100644 0000000000000000000000000000000000000000 6868befbb674d9a89dabd5e9e4f055014ed13116 A\tcodex-rs/app-server/src/request_processors/search/search_tests.rs\n:100644 100644 289cb63953662eb5fba00222ec49432dd976b944 62aa66b64fc966fdead5939d2b65282dd256f0cc M\tcodex-rs/app-server/src/request_processors/thread_processor.rs\n:100644 100644 390896a6cccf8e3cc0a2f2bbfa6421e72030f4ea 9a62383e9b343b58d3c30951ec6c7f22793b3f3f M\tcodex-rs/app-server/src/request_serialization.rs\n:000000 100644 0000000000000000000000000000000000000000 c87aa7448cfea0073efed154a85e5aa960b34f03 A\tcodex-rs/app-server/src/request_serialization_search_tests.rs\n:100644 100644 d2096bc1f17dce225d4e2edad6c62bbb67eb162b 5911a5ef8d1a08a03eb632b0fe5bb97940708c76 M\tcodex-rs/app-server/src/user_verification_test_support.rs\n:100644 100644 34dd3cd9dc0c984c8984156a50f0b1fb54a0a3e1 d7fc4c87c47dc95c6370f62138274c76493114f6 M\tcodex-rs/app-server/tests/suite/fuzzy_file_search.rs\n:100644 100644 2d82aa82210615c6fecf13edcf57355a4d751353 6f078e460ae03ff9357ec14a8024529ec500ebed M\tcodex-rs/app-server/tests/suite/v2/mod.rs\n:000000 100644 0000000000000000000000000000000000000000 eea93a7c6ec2b728af8d074ac824f49098daa9a1 A\tcodex-rs/app-server/tests/suite/v2/search_connection_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 17dbfa39b2cc8a792be995d39134abdeb856c88f A\tcodex-rs/attachment-store-api/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 0d4ecbf2371fc8b68de8f802adef4a81c91367ac A\tcodex-rs/attachment-store-api/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 b9da56aa0384a56faab93349a2b971fddbb7fdc7 A\tcodex-rs/attachment-store-api/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 3e4586b1c0bf8469c0b70e1baa77340a13ff4d3d A\tcodex-rs/attachment-store-component/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 b6fbb38ea4fbe7eeccc4e0e9b44c25e4a41e0402 A\tcodex-rs/attachment-store-component/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 0aa83c5621b5a55ba4733156d1501d5d63c0883d A\tcodex-rs/attachment-store-component/README.md\n:000000 100644 0000000000000000000000000000000000000000 540a8e2058a1f2d93489ab472be3f995ea74f445 A\tcodex-rs/attachment-store-component/package/build.py\n:000000 100644 0000000000000000000000000000000000000000 9c3b12d1ec5009a936867e88b316b77f61222e39 A\tcodex-rs/attachment-store-component/src/adapter.rs\n:000000 100644 0000000000000000000000000000000000000000 8e10603d1b665881129a891becfa1ac58389e790 A\tcodex-rs/attachment-store-component/src/adapter_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 324dc82b870527fc4ea6dad541a4048687c85846 A\tcodex-rs/attachment-store-component/src/bin/inline.rs\n:000000 100644 0000000000000000000000000000000000000000 dcfdaa9ce3e4ef77c0662d799395fe69f8a34012 A\tcodex-rs/attachment-store-component/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 25d88755cef4d4cda07f3ee6d8633df253c8a3a1 A\tcodex-rs/attachment-store-component/src/native.rs\n:000000 100644 0000000000000000000000000000000000000000 3d928b80f69a96eed1c4a60e6b1372b5490a0e51 A\tcodex-rs/attachment-store-component/src/protocol.rs\n:000000 100644 0000000000000000000000000000000000000000 cb8b3bd067f9c46ca12c6c180190dd89ca18d31e A\tcodex-rs/attachment-store-component/src/selection.rs\n:000000 100644 0000000000000000000000000000000000000000 42b14510f79c478605c78c2339051a55707a58bc A\tcodex-rs/attachment-store-component/src/staging_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 52b9b461bf12e03a758dfa69b1b9ba3661332461 A\tcodex-rs/attachment-store-inline/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 620fd765cb9ffd2b5b48c271a7932e9078d1cc69 A\tcodex-rs/attachment-store-inline/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 bdd02830f657a579a70ba0f7656fed6943e654d2 A\tcodex-rs/attachment-store-inline/src/lib.rs\n:100644 100644 dd66412fa1621fbe762140498e9149a3676cace0 1f5c525a9c6cc19f777e3283d02a185a24dc56b8 M\tcodex-rs/attachment-store/Cargo.toml\n:100644 100644 99cb4826fa22b8df074aa75f055b988bb1ecd86a dab0dbb266bf787de0a7ce22d951dae8084d55d9 M\tcodex-rs/attachment-store/src/lib.rs\n:100644 100644 41fbbb78ba3aeac02701c7a54b2c8d00ec57c817 335d9fec21874088401bff3f875958b15694e2ef M\tcodex-rs/cli/BUILD.bazel\n:100644 100644 399230d3f4d15f7983b642cc7aa2515b00eae35a b7d871d3635100ee07fea168d9f4491fe9d4dd2d M\tcodex-rs/cli/Cargo.toml\n:100644 100644 f7f695b73260fb661dcb4906e3bf38a805475022 f7d8c108f45332df4ed5efc410c4e49ce6672aaf M\tcodex-rs/cli/src/migrate_rollouts.rs\n:000000 100644 0000000000000000000000000000000000000000 10443b9c8b6ea84a61f1e40dbf8c2f0e757d8801 A\tcodex-rs/cli/src/migrate_rollouts/progress_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 9b4959106d52efcd7223b254a56dc2946b476c7a A\tcodex-rs/cli/src/migrate_rollouts/runtime.rs\n:000000 100644 0000000000000000000000000000000000000000 65a4f7e5085f43253eed9d91c01208668fba47ee A\tcodex-rs/cli/tests/migrate_rollouts.rs\n:000000 100644 0000000000000000000000000000000000000000 562d5802aa14e04ddc39ff879d91d94a621a080f A\tcodex-rs/cli/tests/migrate_rollouts/lifecycle_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 e37e29ad5019c9935a55772d8d693e0811b14720 A\tcodex-rs/cli/tests/migrate_rollouts/support.rs\n:000000 100644 0000000000000000000000000000000000000000 869769b53aff3b4dcbb3866d14e4198f33710c9b A\tcodex-rs/cli/tests/migrate_rollouts_metrics.rs\n:000000 100644 0000000000000000000000000000000000000000 0089af7ae5e30cbdc0619bebe109e7adbb9594f5 A\tcodex-rs/component-adapters/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 2846c962bc70bbe3b3346bdf9342cf979d14fdd5 A\tcodex-rs/component-adapters/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 9f5be7d9d8ef97dc5f60377316f3d636d6d1c6b1 A\tcodex-rs/component-adapters/src/adapter_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 1a8952034b280c1551112ba3f7e7240a68a1239c A\tcodex-rs/component-adapters/src/context.rs\n:000000 100644 0000000000000000000000000000000000000000 73cf978f070c771eeb6c37c84cdeec06d9ecd45f A\tcodex-rs/component-adapters/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 77ef2de14c392d2a935534e0814762647eb815f3 A\tcodex-rs/component-adapters/src/lifecycle.rs\n:000000 100644 0000000000000000000000000000000000000000 21fbc4bf32de681e11b48ef9dfc48d3e596d5706 A\tcodex-rs/component-adapters/src/tools.rs\n:000000 100644 0000000000000000000000000000000000000000 5013684df28664feadb27373dfb48bd293a9c7c7 A\tcodex-rs/component-adapters/tests/fixtures/component_adapter_plugin.rs\n:000000 100644 0000000000000000000000000000000000000000 ef1f5a21dc3517ba5e9664fac5cf810fb45c169d A\tcodex-rs/component-api/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 ab43eabb0bccfdf6c90d46555acd108423536f4d A\tcodex-rs/component-api/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 be7be390e3497bd9e03bb185ff58cf5e75a843ea A\tcodex-rs/component-api/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 65a2b3bca2409ae337f77ceb70523519b4c76ccd A\tcodex-rs/component-host/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 690e53070bfe26a5774f8ead5decdd4251ce36a7 A\tcodex-rs/component-host/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 50a33556f37bcd46d01e0d4863839c9189b1857e A\tcodex-rs/component-host/src/broker_api.rs\n:000000 100644 0000000000000000000000000000000000000000 0aa457a035d090fbe5f5a5b6bc05b36e7c027377 A\tcodex-rs/component-host/src/broker_client.rs\n:000000 100644 0000000000000000000000000000000000000000 92495c5f8cb6054c5b509feaf4a20415d06798fd A\tcodex-rs/component-host/src/broker_client_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 2d705611065b98194aae4dcee17192e84dd964fb A\tcodex-rs/component-host/src/broker_completion.rs\n:000000 100644 0000000000000000000000000000000000000000 98ef2168e10118671071e73026d4886cbd4bc375 A\tcodex-rs/component-host/src/broker_connection.rs\n:000000 100644 0000000000000000000000000000000000000000 a216392a5dcd5d10cb2f9bc3dae9640302468c13 A\tcodex-rs/component-host/src/broker_decode.rs\n:000000 100644 0000000000000000000000000000000000000000 5e356c76adfea32ac9a7bcef31a1a1a75b0f99e8 A\tcodex-rs/component-host/src/broker_decode_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 128f9e1cb94699f3c6b517ce274f9df081748c4c A\tcodex-rs/component-host/src/broker_dispatch.rs\n:000000 100644 0000000000000000000000000000000000000000 00a2be1aa8f17556f5bb57ace0028ec1d0770718 A\tcodex-rs/component-host/src/broker_dispatch_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 382e1e9aa87e17b4a199c9b3f7cb0c6a54636ba5 A\tcodex-rs/component-host/src/broker_host.rs\n:000000 100644 0000000000000000000000000000000000000000 ef3d98892dbb54ea1aeae17375cea237e4d6c59b A\tcodex-rs/component-host/src/broker_host_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 e980832199d0159bef36366367031215843892d3 A\tcodex-rs/component-host/src/broker_spool.rs\n:000000 100644 0000000000000000000000000000000000000000 2fcb1abc663d3f5d9e544a82d4269b4233fab80c A\tcodex-rs/component-host/src/broker_spool_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 f4fe47516c80b1328b33a00feeff8d55f96c0611 A\tcodex-rs/component-host/src/broker_wire.rs\n:000000 100644 0000000000000000000000000000000000000000 8e948ef0d6db61111cc85c8acb69eb66c9bb3910 A\tcodex-rs/component-host/src/broker_wire_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 327baa334f482340f6d3d1bcd2f360ccee7f177e A\tcodex-rs/component-host/src/broker_writer.rs\n:000000 100644 0000000000000000000000000000000000000000 d711ed737f10d008a9f984aac0c167b91bb6a5c4 A\tcodex-rs/component-host/src/broker_writer_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 3a6e155793f7bfb402bd5fab1fc01926bfe004b7 A\tcodex-rs/component-host/src/catalog.rs\n:000000 100644 0000000000000000000000000000000000000000 13097b0d9f1b2b36a2461449f0baf94a553cefc8 A\tcodex-rs/component-host/src/catalog_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 6bf4206c76fcd7484559df587fe867184b0d4a2e A\tcodex-rs/component-host/src/launch.rs\n:000000 100644 0000000000000000000000000000000000000000 9321b3986ca9a64dbf67bd56818e30adb882de9d A\tcodex-rs/component-host/src/launch_service_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 e085c7bd04fe5bdcc58c98b263d1c40f2ec85a8a A\tcodex-rs/component-host/src/launch_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 45aa7815519a1801c53faeac6d723dfb42caf851 A\tcodex-rs/component-host/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 40db77ec409cf5638bb07ba710888ee929cbadc9 A\tcodex-rs/component-host/src/linux_parent_death_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 d831de6b261d1b4cccdff1dfcd4cdd2d75a2202d A\tcodex-rs/component-host/src/main.rs\n:000000 100644 0000000000000000000000000000000000000000 cef14c5a37a69e21a6be4a62a20759d3260c1181 A\tcodex-rs/component-host/src/management.rs\n:000000 100644 0000000000000000000000000000000000000000 441c8bbe68c7031fc0f417ffcff929324ed5c376 A\tcodex-rs/component-host/src/process.rs\n:000000 100644 0000000000000000000000000000000000000000 b24a1f48eeda6963dc5e455fc7b7c38682387d58 A\tcodex-rs/component-host/src/process_control.rs\n:000000 100644 0000000000000000000000000000000000000000 eb96b2e5bca7f0d5cfcfdb49a0590dd607671b64 A\tcodex-rs/component-host/src/process_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 d2aab3e0728a72aa73e3c6089b518bcc7e811016 A\tcodex-rs/component-host/src/session.rs\n:000000 100644 0000000000000000000000000000000000000000 ee225d53a2ab71d2b5a35bfc69dbf0cbdee40f97 A\tcodex-rs/component-host/src/session_reaping_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 fcbc08ff57cd4232da5e8d9ea9d749b8c60d7afc A\tcodex-rs/component-host/src/session_server.rs\n:000000 100644 0000000000000000000000000000000000000000 3e3292f43b9e42eebf4f722d40df3600adc3a5e3 A\tcodex-rs/component-host/src/session_server_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 cb28bf4d5f21b3900e76c19b49f9d468a241bb1c A\tcodex-rs/component-host/src/session_supervisor.rs\n:000000 100644 0000000000000000000000000000000000000000 add134532271d2caa8bbc0ff7a3be9a6b566754f A\tcodex-rs/component-host/src/session_supervisor_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 a29e64fc32b160105a3777a302a54cb3b95ba164 A\tcodex-rs/component-host/src/session_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 08361420647b7906538bf92f7f5bfb52d3cc1c3d A\tcodex-rs/component-host/src/session_wire.rs\n:000000 100644 0000000000000000000000000000000000000000 752fad43f923918640fea553e71606fe53e1684d A\tcodex-rs/component-host/src/session_wire_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 94cd9ac5a50bbb5a23df74e4ad08990943610fc8 A\tcodex-rs/component-state-codec/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 2baf206cf3f870627d34efc2f9a273f72f6ad4dc A\tcodex-rs/component-state-codec/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 a9d7ecdbb29352a5e176d648c2e62544d215f7d8 A\tcodex-rs/component-state-codec/README.md\n:000000 100644 0000000000000000000000000000000000000000 9a9574a478bb849a75665929c0650f3522eddc3e A\tcodex-rs/component-state-codec/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 9933fdb5b749311a9f0fd0b8ed355ac19c235797 A\tcodex-rs/component-state-codec/src/wire/ACTIVATION.md\n:000000 100644 0000000000000000000000000000000000000000 fe57c707f3ed04da676ae37005df886806892cff A\tcodex-rs/component-state-codec/src/wire/envelope.rs\n:000000 100644 0000000000000000000000000000000000000000 262074e02c976a50acd28e268d727cf3991a9f54 A\tcodex-rs/component-state-codec/src/wire/events.rs\n:000000 100644 0000000000000000000000000000000000000000 05b54e58836a17b4a88b9d8e9fbf836c233e093e A\tcodex-rs/component-state-codec/src/wire/events_approvals.rs\n:000000 100644 0000000000000000000000000000000000000000 4ac652a9a6d635dba2aa017bcfb15f04801ad0ba A\tcodex-rs/component-state-codec/src/wire/events_file_changes.rs\n:000000 100644 0000000000000000000000000000000000000000 b3f941d1a9b7321c574cad99575b8d5595b74161 A\tcodex-rs/component-state-codec/src/wire/events_items.rs\n:000000 100644 0000000000000000000000000000000000000000 0303bdfb53c68183cf773af28822088bb06a6ca1 A\tcodex-rs/component-state-codec/src/wire/events_json.rs\n:000000 100644 0000000000000000000000000000000000000000 b9b7ad92e1f13674dbd58489401b5dbbb9963b86 A\tcodex-rs/component-state-codec/src/wire/events_nested.rs\n:000000 100644 0000000000000000000000000000000000000000 9c35db3fb10a0408c4ad64a5581aed78f17a6df6 A\tcodex-rs/component-state-codec/src/wire/events_paths.rs\n:000000 100644 0000000000000000000000000000000000000000 c6c21df99b68d27c3dcec1e6275ba440ba33cd41 A\tcodex-rs/component-state-codec/src/wire/events_paths_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 7f0d8c1d386d89e26cf1447f3dbc1f485ea948c8 A\tcodex-rs/component-state-codec/src/wire/events_permissions.rs\n:000000 100644 0000000000000000000000000000000000000000 c41c4d71fab179a3ba500b19f5a48d8fe165d50e A\tcodex-rs/component-state-codec/src/wire/events_review.rs\n:000000 100644 0000000000000000000000000000000000000000 0cead0af485f9b5ae3f991ec2a7c278ea8d2ac7f A\tcodex-rs/component-state-codec/src/wire/events_scalars.rs\n:000000 100644 0000000000000000000000000000000000000000 e01462632fb1fe826972ae4e074a8f27e1c20a5a A\tcodex-rs/component-state-codec/src/wire/events_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 499d5210eb74534e1a326f01a98efb747b839746 A\tcodex-rs/component-state-codec/src/wire/metadata.rs\n:000000 100644 0000000000000000000000000000000000000000 435bd12c431d890abd2a1682d0b6292e11d1205a A\tcodex-rs/component-state-codec/src/wire/mod.rs\n:000000 100644 0000000000000000000000000000000000000000 4eecbe44eb094fc9fbf0a0a6ca6a7f28829ff33e A\tcodex-rs/component-state-codec/src/wire/paths.rs\n:000000 100644 0000000000000000000000000000000000000000 2199aae953012e73fc72b4386f9ac8d048dac92f A\tcodex-rs/component-state-codec/src/wire/paths_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 35facde78b58e03242b3953b474de16609c0cd41 A\tcodex-rs/component-state-codec/src/wire/response.rs\n:000000 100644 0000000000000000000000000000000000000000 34e8e7a877867d48800428129876dd0bb92f24e7 A\tcodex-rs/component-state-codec/src/wire/rollout.rs\n:000000 100644 0000000000000000000000000000000000000000 36d48384f0ec95bee080cff678e9f74fea8cf741 A\tcodex-rs/component-state-codec/src/wire/security.rs\n:000000 100644 0000000000000000000000000000000000000000 cd4ad4cd0281ee7cd35a4594422ca162ce665ac3 A\tcodex-rs/component-state-codec/src/wire/session.rs\n:000000 100644 0000000000000000000000000000000000000000 865b639b2f207d73e3cde8c2ea69356d850711b0 A\tcodex-rs/component-state-codec/src/wire/tests.rs\n:000000 100644 0000000000000000000000000000000000000000 947171b4b185cba642c94447587ee59be0a6a508 A\tcodex-rs/component-state-codec/src/wire/usage.rs\n:000000 100644 0000000000000000000000000000000000000000 8fdd350477b5054605a1bf028d366fa048d105de A\tcodex-rs/context-engine/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 5661b4191899696fab35d7a2219dbbd90acecb7a A\tcodex-rs/context-engine/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 56ce87f036d9f086e4324714438c9c23fdc24f6d A\tcodex-rs/context-engine/LIVE_STATE_PROTOCOL_DESIGN.md\n:000000 100644 0000000000000000000000000000000000000000 efb48a16292ccf6f15915b1b216d0c0ed7b80cd3 A\tcodex-rs/context-engine/NEXT_INTEGRATION.md\n:000000 100644 0000000000000000000000000000000000000000 2aab355bc1d0c094fab71ed302f4f9e07c873bcb A\tcodex-rs/context-engine/README.md\n:000000 100644 0000000000000000000000000000000000000000 e9182cf0ba8b8abce780ac17d8e6c650863bd6ce A\tcodex-rs/context-engine/SEMANTICS_PROVENANCE.md\n:000000 100644 0000000000000000000000000000000000000000 f4166e5831adeff5fe673fe55607b82ae5fbbc36 A\tcodex-rs/context-engine/SOURCE_MAP.json\n:000000 100644 0000000000000000000000000000000000000000 16a32666a7d729418d7e03c851fa1918b4b5ee5f A\tcodex-rs/context-engine/src/compact.rs\n:000000 100644 0000000000000000000000000000000000000000 361ed28762e6bf3ba2a9d1926d065f4b68eba5fe A\tcodex-rs/context-engine/src/compaction_summary.rs\n:000000 100644 0000000000000000000000000000000000000000 ad7d58cfb54fec0fb0139e57443f15805cbf867b A\tcodex-rs/context-engine/src/fragments.rs\n:000000 100644 0000000000000000000000000000000000000000 ed9605712d4cc9b449d2139491b4064b2a8c9a93 A\tcodex-rs/context-engine/src/guardian.rs\n:000000 100644 0000000000000000000000000000000000000000 e8a1093486108341d7ef33d10126453b362be693 A\tcodex-rs/context-engine/src/history.rs\n:000000 100644 0000000000000000000000000000000000000000 32d22a0e7998e200a3f51f2ac1c4c85940d8a7dc A\tcodex-rs/context-engine/src/history/recording.rs\n:000000 100644 0000000000000000000000000000000000000000 d831f5c4da8c2e89b000133517ab7ee428d0a5a7 A\tcodex-rs/context-engine/src/history/replay.rs\n:000000 100644 0000000000000000000000000000000000000000 b12f952bceed59b0633f5926d48aed70d2c03039 A\tcodex-rs/context-engine/src/history/review.rs\n:000000 100644 0000000000000000000000000000000000000000 ff41c5fdb7c5342d1f6d887d7714561a9505e036 A\tcodex-rs/context-engine/src/history/rollback.rs\n:000000 100644 0000000000000000000000000000000000000000 841f68684955d36fddfb0e24bd76c19710d2deff A\tcodex-rs/context-engine/src/history/snapshot.rs\n:000000 100644 0000000000000000000000000000000000000000 e3e0616702925548cb95f7434d81bc8799189652 A\tcodex-rs/context-engine/src/history/state.rs\n:000000 100644 0000000000000000000000000000000000000000 d6f86dd5161fec33edb9e9a3071aa94361b50517 A\tcodex-rs/context-engine/src/history/token_accounting.rs\n:000000 100644 0000000000000000000000000000000000000000 36b47f31b79f58ea8f2e1653acb89e389cf1a93c A\tcodex-rs/context-engine/src/history/user_authorization.rs\n:000000 100644 0000000000000000000000000000000000000000 b31aaa737368a7e13abd6a55154cfe186e192bda A\tcodex-rs/context-engine/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 84dc9b0972b8102f71b94c2f8ed3e1d08ec7e6f2 A\tcodex-rs/context-engine/src/normalize.rs\n:000000 100644 0000000000000000000000000000000000000000 146a738eeafccdc335bbc365edf2254fbb74cb90 A\tcodex-rs/context-engine/src/semantics/authorization_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 ffdbe3974f3b813d6c03748dc7c8d84c4af04ff4 A\tcodex-rs/context-engine/src/semantics/contextual_user_message.rs\n:000000 100644 0000000000000000000000000000000000000000 4607f6fbbd8b3efebfc6c23d7b20e04e84bd9df8 A\tcodex-rs/context-engine/src/semantics/contextual_user_message_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 8f9a99285bf56fa19203e9c63098b9e12d42031d A\tcodex-rs/context-engine/src/semantics/event_mapping.rs\n:000000 100644 0000000000000000000000000000000000000000 f104c77b3dcef0d51c79dc6a6ac123ad65f05f9e A\tcodex-rs/context-engine/src/semantics/event_mapping_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 8ff9b3c29d52f7a9081c9397d44127b83640699c A\tcodex-rs/context-engine/src/semantics/guardian_retained_instructions.rs\n:000000 100644 0000000000000000000000000000000000000000 90d688cb58e657e115cdcea2ea59aeff2a7b7b70 A\tcodex-rs/context-engine/src/semantics/internal_model_context.rs\n:000000 100644 0000000000000000000000000000000000000000 c6b5db24c659228ced5cdfcbbf3a065a1e5e816d A\tcodex-rs/context-engine/src/semantics/legacy_apply_patch_exec_command_warning.rs\n:000000 100644 0000000000000000000000000000000000000000 7f69bb02e75acdfa122a4a34f72c916afef9ac8b A\tcodex-rs/context-engine/src/semantics/legacy_model_mismatch_warning.rs\n:000000 100644 0000000000000000000000000000000000000000 1d11e11dec21b6e6cf0047632e20448daca08a1f A\tcodex-rs/context-engine/src/semantics/legacy_unified_exec_process_limit_warning.rs\n:000000 100644 0000000000000000000000000000000000000000 650b70670f4c59bd2cfddb66b5407179af886bda A\tcodex-rs/context-engine/src/semantics/marker_matchers.rs\n:000000 100644 0000000000000000000000000000000000000000 a8c7d3e3ec8bbc69faea43516ccb7867bdbff339 A\tcodex-rs/context-engine/src/semantics/marker_matchers_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 937bf98596e46892b84fd5a28c653770316a71b4 A\tcodex-rs/context-engine/src/semantics/mod.rs\n:000000 100644 0000000000000000000000000000000000000000 b243cea5ad01dd73906cc66bb91700e3a5c527c7 A\tcodex-rs/context-engine/src/semantics/subagent_notification.rs\n:000000 100644 0000000000000000000000000000000000000000 9d350c13546899c3c76fcfaed39c873a256553bc A\tcodex-rs/context-engine/src/semantics/turn_aborted.rs\n:000000 100644 0000000000000000000000000000000000000000 b74efce0e09158fcfa870b28850f7a71aa98c009 A\tcodex-rs/context-engine/src/semantics/user_goal.rs\n:000000 100644 0000000000000000000000000000000000000000 f75cb24d577c2fc46f4c9a16fa1fe65f3715eac8 A\tcodex-rs/context-engine/src/semantics/user_instructions.rs\n:000000 100644 0000000000000000000000000000000000000000 cdc96f64129d2a30a42e4bc27f691e3b864f4b9b A\tcodex-rs/context-engine/src/semantics/user_shell_command.rs\n:000000 100644 0000000000000000000000000000000000000000 57430ed7e656c943d664c86751621ef4123d87b4 A\tcodex-rs/context-engine/src/semantics/web_search.rs\n:000000 100644 0000000000000000000000000000000000000000 1ebb5fd74c09419fda91b41cdb1c77bfecd3fe38 A\tcodex-rs/context-engine/src/token_estimation.rs\n:000000 100644 0000000000000000000000000000000000000000 f97364f4b1b1a759e0c4ad69d26dc193496051fc A\tcodex-rs/context-engine/src/token_estimation_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 349768b82a3b58707ec9c09a8100842ecc93d4d5 A\tcodex-rs/context-engine/src/unsupported_media.rs\n:000000 100644 0000000000000000000000000000000000000000 2b6d0b77146821e49eaf4c96f964d8978071f05f A\tcodex-rs/context-engine/src/updates.rs\n:000000 100644 0000000000000000000000000000000000000000 2c26c9b82380bdd2929181d28a72bf1a4e57ffde A\tcodex-rs/context-engine/src/util.rs\n:000000 100644 0000000000000000000000000000000000000000 f8e04249b22fa0144e5d3ff5895e37f73a8163d6 A\tcodex-rs/context-fragments/src/component_context.rs\n:100644 100644 5f2b266cf456568f7173353dbca4489f828dbba4 c5d51c111589f76659e9b4a09271a723834eaa81 M\tcodex-rs/context-fragments/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 425abbf4c311f1b70a19e87515f6c800b2afbb9f A\tcodex-rs/context-replay-component/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 b475bb17886ad3c3fcc06bce423217f7bb3363b9 A\tcodex-rs/context-replay-component/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 8666229bbec02411ed92520d02ab71f00232b0d8 A\tcodex-rs/context-replay-component/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 0f0b1e4c8ebde629a00110bb69a84f303b42db3c A\tcodex-rs/context-replay-native-plugin/ACTIVATION.md\n:000000 100644 0000000000000000000000000000000000000000 49ad38fe80314938fb7eb450e7b02c062271ea39 A\tcodex-rs/context-replay-native-plugin/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 83d1e6e0aaa49fc224ce65584f3fb6e891c38688 A\tcodex-rs/context-replay-native-plugin/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 bd7f8b2b18fe77cda83ee25e8d2977cba713e25b A\tcodex-rs/context-replay-native-plugin/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 d8b919153e068a7e6f448cedc62693e3728580bf A\tcodex-rs/context-replay-native-plugin/src/main.rs\n:000000 100644 0000000000000000000000000000000000000000 82cc6f9315800923e5e43f7127cce6d2f8f58388 A\tcodex-rs/context-replay-native-plugin/tests/native_process_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 73a2147893ac2b915107418b3104893eefe3a3b0 A\tcodex-rs/context-replay/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 382248863776acdb32ad7b3cec24d22e088a9fdc A\tcodex-rs/context-replay/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 70cf1ee931c81ffc81aec4f792c3aa5102f29793 A\tcodex-rs/context-replay/README.md\n:000000 100644 0000000000000000000000000000000000000000 ec8aebdf3a737517c3dbdae7bb77b61f938b0ec1 A\tcodex-rs/context-replay/src/component_contract.rs\n:000000 100644 0000000000000000000000000000000000000000 f5374e0273578e12723f0096f3d24672aa2d3b0c A\tcodex-rs/context-replay/src/component_state_codec_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 ca7aea7215ea08bda25ce40105090a9e1ea81d2a A\tcodex-rs/context-replay/src/contract.rs\n:000000 100644 0000000000000000000000000000000000000000 2c7c39b563234b2d740eca1a4435d1a4e5e24970 A\tcodex-rs/context-replay/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 0367cd4f5707dff02f61ad263e9812da31a8ffc5 A\tcodex-rs/context-replay/src/reducer.rs\n:000000 100644 0000000000000000000000000000000000000000 2043895988886fe874a24d3ac3794a5503d3677c A\tcodex-rs/context-replay/src/selection.rs\n:000000 100644 0000000000000000000000000000000000000000 e794629472cd91fcf987d42d8ec3a7b35f4e02e3 A\tcodex-rs/context-replay/src/world_state.rs\n:000000 100644 0000000000000000000000000000000000000000 cc233ee23a2c1c5a99220d20faf777feea34f094 A\tcodex-rs/context-replay/src/world_state_tests.rs\n:100644 100644 0c7549b0c0c90e11ccbcf57bab3c206279b5f0bc 70e7a38b71ec379d626c8f921d6216eb67328216 M\tcodex-rs/core-api/src/lib.rs\n:100644 100644 cb35952df0f8ffea93caab6fa0dc00bc6ec46fa3 ce225e0f0266eb18aa102a839eac7a5fb9f74e4c M\tcodex-rs/core/BUILD.bazel\n:100644 100644 661bfdd43a992c47923cbcee8a172cba5dfbb606 c1ca9bcc3cfbdf75e65328072c47f55c064755bb M\tcodex-rs/core/Cargo.toml\n:100644 100644 e852b632d8fe54ce8d3259d353574f61b7bbe3f7 780efe0f2b3d2c58f9e1136094da00fa73e3e7f4 M\tcodex-rs/core/src/client.rs\n:100644 100644 9d6b9656ba9fd559a7b4a1e8ca966cf154d47e2a bde7f7ef880eb12d136361ef80506a3d1a7602e6 M\tcodex-rs/core/src/codex_delegate.rs\n:100644 100644 f8762c98ce731c2a13c6130a5809f5dea0515e33 b337812b78d3efc80064daae59cc43118a95b89b M\tcodex-rs/core/src/codex_delegate_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 1a61f1997dd25715f8204f1790ce3b6ebf51174b A\tcodex-rs/core/src/component_model.rs\n:000000 100644 0000000000000000000000000000000000000000 f683ca8bf0538fbbebe12750a6875da25f99f448 A\tcodex-rs/core/src/component_persistence.rs\n:100644 100644 a74f10a616479a181d26f701f6d869245484206d aa7c5b8967fe1936b6356543bcd0e61029dc005a M\tcodex-rs/core/src/context/contextual_user_message.rs\n:100644 100644 cc6772d8f947eb4309372915340ea7105bd1a7ab 43a2bcbb19014778c00c75a6505e7994cd1ab4ac M\tcodex-rs/core/src/context/contextual_user_message_tests.rs\n:100644 100644 e9cf47db67ba6503f686260c57a1819fa39d2166 6c2db1aea01d7f16debd67b72370a0cb526569c0 M\tcodex-rs/core/src/context/mod.rs\n:000000 100644 0000000000000000000000000000000000000000 6d71d2ea5010860da9bb3d1b63647f7d276f08ca A\tcodex-rs/core/src/context_manager/component_engine_parity_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 dfeacf6738b40cbe9e3fb1f06397c3c64dee428a A\tcodex-rs/core/src/context_manager/replay_bridge.rs\n:100644 100644 45ff58ab6d804abf743401d5f09749024e87ef3b d97191b5d06b4e8395fee2e82960f4133f2066ae M\tcodex-rs/core/src/lib.rs\n:100644 100644 e9853bf20e4af1dfa289ea145708fe63a2719ea3 e6ce95fc26b8d2e0bc144f1a0e4afccbadecd5c1 M\tcodex-rs/core/src/prompt_debug.rs\n:000000 100644 0000000000000000000000000000000000000000 00e7ee3a316e25a75e026052ed02f93369a34710 A\tcodex-rs/core/src/session/CONTEXT_REPLAY_ACTIVATION.md\n:000000 100644 0000000000000000000000000000000000000000 cdabeb684e47aa197ab0a0e95d7307bacd198ff6 A\tcodex-rs/core/src/session/component_replay.rs\n:000000 100644 0000000000000000000000000000000000000000 3d1d7fef2f78f2a4f2a33cee622c1351f1c367bb A\tcodex-rs/core/src/session/context_engine_replay_parity_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 413e680c5b6f502b81c3b481144a22a24e8ccbc1 A\tcodex-rs/core/src/session/context_replay_tests.rs\n:100644 100644 b87697684690c0d29e382e762986ddb3c51813ba 0f0946d5b99601b4f6e2328eb03ee2195cb53dd3 M\tcodex-rs/core/src/session/mod.rs\n:100644 100644 e92aaeef8ae5081c416d40c911b769e42ad224de 0a8cf8f1334459befe1471715d58f4bfd285144e M\tcodex-rs/core/src/session/session.rs\n:100644 100644 8221619a21c518f1c78abf9151b6e317e91975a4 3286eb21c124965b7c175008d6936254b001f1ef M\tcodex-rs/core/src/session/tests.rs\n:100644 100644 2d78c4af2a903be9c22a1b02024a610a7d42cb29 e8ef213735fe6c3c5c6492370932288834406286 M\tcodex-rs/core/src/session/tests/guardian_tests.rs\n:100644 100644 ded1f878e89d15afd1342266a519091d6313111f ab37f085aaf07651595eb6f3aa30ab9f3741218c M\tcodex-rs/core/src/state/service.rs\n:100644 100644 ba195d8e0cdb9381891b06713a595257f320c422 039d7dc06c3a01846fcf5b6ce60dbb35d8fb50b5 M\tcodex-rs/core/src/thread_manager.rs\n:100644 100644 927e9b3d833651821506e221907c6617e575339d b0e0c744143a1a52c6e1abe032009e4ed41bbd85 M\tcodex-rs/core/src/tools/handlers/extension_tools.rs\n:100644 100644 9ac7b76ebd05469582f6eb78e5a4490b726854f6 bc8efc451ecf8e5cf9d262383b1b7caf34336fd9 M\tcodex-rs/core/src/tools/registry.rs\n:100644 100644 895d8d4b997d5fbd3d5401855f4088ef3d6cfb3a 55ddf8e80b88a86bacc9b4b4a86ce9471e547b60 M\tcodex-rs/core/src/tools/registry_tests.rs\n:100644 100644 a34bcd447fe99649873f46e881dbf7e9f7df347b 2e6ba0ddb4775b95d4d68cd1d662a728c622672f M\tcodex-rs/core/tests/common/test_codex.rs\n:000000 100644 0000000000000000000000000000000000000000 323ec9aa0a47ae5aa1f5709f1f5cfafdfd8a032d A\tcodex-rs/core/tests/suite/component_attachments.rs\n:000000 100644 0000000000000000000000000000000000000000 d9e5fb8cd22aaa803355adb182716f07a992b4de A\tcodex-rs/core/tests/suite/component_model.rs\n:000000 100644 0000000000000000000000000000000000000000 ae7e40fec8163f1f4922c4e1acb5fc67fda5878a A\tcodex-rs/core/tests/suite/component_persistence.rs\n:100644 100644 2971b1201d7937b94de9466945a609a7d16e2d49 1153025c47ab2628b1a839e14d1ca9c87fffa5da M\tcodex-rs/core/tests/suite/mod.rs\n:100644 100644 db3d52b5bf1500a69650ad7884b86a753d7c0783 f99daca2daf9e6790ef1a63fb32e05501546e95b M\tcodex-rs/core/tests/suite/openai_file_mcp.rs\n:100644 100644 9f2e33dbfbb034dd0c8df86e9b31063ca19d1764 c7877bb57993107e256a89d80046e8b8cd94975a M\tcodex-rs/core/tests/suite/scenarios.rs\n:100644 100644 e235898982f6eba908c5c0751eae91a5b25cdb1a 1a06447906e867c93468125d68e4958e1b0decd0 M\tcodex-rs/file-search/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 8e71364c2a6b80311dfa7572c7e0b51885cd04ff A\tcodex-rs/file-search/src/async_owner.rs\n:000000 100644 0000000000000000000000000000000000000000 e055dbad092cb578cdf89bdca46a4dbf854ab349 A\tcodex-rs/file-search/src/async_owner_tests.rs\n:100644 100644 bcad11f770d18e731af3d0edf527e52452b3a75a 914fa22a4fc9dc602e5d55bfd5fa72daec39b6c6 M\tcodex-rs/file-search/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 ac55e5c2f2630fb61a2c2554cf5c8b19740747e5 A\tcodex-rs/file-search/src/lifecycle.rs\n:000000 100644 0000000000000000000000000000000000000000 1a02ce6f0639d6c4c44d9cf7004ffeb3e679ffb8 A\tcodex-rs/file-search/src/lifecycle_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 d0ce6f6033d0494871f18958aa496e502aa99e2d A\tcodex-rs/file-search/src/pool_lifecycle_tests.rs\n:100644 100644 78eea8c3dc52bd2862b6b911706006c191fb04a6 6d56454668f9724653e035f22268900f4cc0706a M\tcodex-rs/login/BUILD.bazel\n:100644 100644 7762770be8c9f651dcff12cf3de2f7100c52462f 1ef39cb634362803c1bdade7674c9036cc0b1848 M\tcodex-rs/login/Cargo.toml\n:100644 100644 cdc9c8d3560359aca41ebf28b1b313e1a1793304 683a9b6624892b116658679cab0433b66183046b M\tcodex-rs/login/src/auth/manager.rs\n:000000 100644 0000000000000000000000000000000000000000 18b8361c672bb40560d12e4a6c749483d8b07c4f A\tcodex-rs/login/src/component_auth.rs\n:000000 100644 0000000000000000000000000000000000000000 94779649671b044ab7fa059c9d1a0161cdbba3c1 A\tcodex-rs/login/src/component_auth_tests.rs\n:100644 100644 abbbf1d8977e4efe31cf17e561a76a9e1bd76e0d 8053ec52bdae9e96d799560970ee58b97c714d46 M\tcodex-rs/login/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 32b58f2cc7a798a5e55c6ef8cdfafa0385e18011 A\tcodex-rs/login/tests/fixtures/component_auth_plugin.rs\n:000000 100644 0000000000000000000000000000000000000000 f83d3dc2afcf941673182a8ab8000f443ea80ac3 A\tcodex-rs/model-catalog-api/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 4e355ea79e6924e3de8ca795b37a24f5512d7090 A\tcodex-rs/model-catalog-api/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 062c61255e978852049ad6371b7bd57051a94d36 A\tcodex-rs/model-catalog-native-plugin/ACTIVATION.md\n:000000 100644 0000000000000000000000000000000000000000 20e35b1ee8e37c595a61142aea940d6041b47aca A\tcodex-rs/model-catalog-native-plugin/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 ae384ebc18d81c1bc96cca7354283645fc17a87e A\tcodex-rs/model-catalog-native-plugin/codex-component.json\n:000000 100644 0000000000000000000000000000000000000000 7f45655372cc9a17c78e293558b17d1b81290441 A\tcodex-rs/model-catalog-native-plugin/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 dd8773c5563a7bf1c53275508a90c30cd1ea7b55 A\tcodex-rs/model-catalog-native-plugin/src/main.rs\n:000000 100644 0000000000000000000000000000000000000000 a7f85eeb13fefda2114130eab939510b4d35e6b5 A\tcodex-rs/model-provider/COMPONENT_CATALOG_ACTIVATION.md\n:000000 100644 0000000000000000000000000000000000000000 895f62155a543fd7edd6092dad9dc34189d8eea0 A\tcodex-rs/model-provider/src/component_catalog.rs\n:000000 100644 0000000000000000000000000000000000000000 5f34492da6c30b4ad1342ff4936642dc66a8f3a1 A\tcodex-rs/model-provider/src/component_catalog_authority.rs\n:000000 100644 0000000000000000000000000000000000000000 47c6341c43748fd3e42c07ee3e6d22e8633e3828 A\tcodex-rs/model-provider/src/component_catalog_service.rs\n:000000 100644 0000000000000000000000000000000000000000 c564f81577dd8e5623f5b13d462e5dcc9022203e A\tcodex-rs/model-provider/src/component_catalog_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 5ed8c0f6ed01b89c29cc069507347bb10df34533 A\tcodex-rs/models-manager/src/manager/component.rs\n:000000 100644 0000000000000000000000000000000000000000 590d7fd6e84fe8a0486695e8329075e8454b1a21 A\tcodex-rs/models-manager/src/manager/component_cache_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 6553114d88ec1f4720d4d1e957ef38b45abde7cd A\tcodex-rs/models-manager/src/manager/component_endpoint.rs\n:000000 100644 0000000000000000000000000000000000000000 5f7e4e623a2221f1112adff4c5ed072d8e91532a A\tcodex-rs/models-manager/src/manager/component_mirror.rs\n:000000 100644 0000000000000000000000000000000000000000 104c385564b72b717d355da0137aec40c49aba5a A\tcodex-rs/models-manager/src/manager/component_mirror_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 c69ae34bf1e4a3be5ee7602a80fb51589685bd09 A\tcodex-rs/models-manager/src/manager/component_process_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 3c4847b08d0b5f9772372860c5b6bd75341f2805 A\tcodex-rs/models-manager/src/manager/component_service.rs\n:100644 100644 bb29f84985f57febc38c28eb573371feba7a9aca 689ceb80c8690f60c99671ca17f9cfdb58c420b3 M\tcodex-rs/protocol/src/models.rs\n:100644 100644 5bd758d75cb7781cb65c4ed3dd52b35b58a1ef3c f20d39bb8f6b91546ad3786c0b2eba502837d3de M\tcodex-rs/protocol/src/models/executed_tool_calls.rs\n:000000 100644 0000000000000000000000000000000000000000 788316433d09dcf4f8e9fc0d31b26852eceb1a35 A\tcodex-rs/protocol/src/models/executed_tool_calls/trusted_component.rs\n:000000 100644 0000000000000000000000000000000000000000 f9f9e9187ebf573c3e71a1d32f1419b4ed4dc342 A\tcodex-rs/protocol/src/models/executed_tool_calls/trusted_component_tests.rs\n:100644 100644 ba7eb24c5b91b47683e5516a2fb4a5122e55b0bc 940011a6f8088a883fd23f1ce43a285740de9155 M\tcodex-rs/rollout/src/compression.rs\n:000000 100644 0000000000000000000000000000000000000000 1b2765b76da367a792b64f924d2ba65529b3f980 A\tcodex-rs/rollout/src/compression/worker.rs\n:000000 100644 0000000000000000000000000000000000000000 0f1956676fe425ed26f0c64dea9192add6b7c456 A\tcodex-rs/rollout/src/compression/worker/cleanup.rs\n:000000 100644 0000000000000000000000000000000000000000 977dfb87d6cd902001b5d257edea4403839006cb A\tcodex-rs/rollout/src/compression/worker/file.rs\n:000000 100644 0000000000000000000000000000000000000000 7c1563355555176747e8eff9f5b1c26cea3916a8 A\tcodex-rs/rollout/src/compression/worker/scan.rs\n:000000 100644 0000000000000000000000000000000000000000 36b8759788208f0cc120e1f53419579a11b8fbc0 A\tcodex-rs/rollout/src/compression/worker/worker_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 1d8a01c02d27c8ca205cc3b129847ba9ef7c12b7 A\tcodex-rs/rollout/src/compression/worker_error.rs\n:100644 100644 6bcbf57fde3b524a6e09aef1719d5fd22a617998 0c4b5a5fcec24e5d3f35e8b62a50569c355d365f M\tcodex-rs/rollout/src/lib.rs\n:100644 100644 5489dd54ca167917069bb49b39392e5534de5018 77d011265891fb4cf4911e8ad8fb36b0971cd094 M\tcodex-rs/state/src/model/project.rs\n:100644 100644 0712b213866eadb70dd3239a9f783b595af3c2e0 5b28ea3fa49428974a4e88ff75f15b7198db769e M\tcodex-rs/state/src/model/thread_attachment.rs\n:000000 100644 0000000000000000000000000000000000000000 a49f7879e11ef8de893e6d6f80654a0af8166dc5 A\tcodex-rs/third-party/nucleo/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 a612ad9813b006ce81d1ee438dd784da99a54007 A\tcodex-rs/third-party/nucleo/LICENSE\n:000000 100644 0000000000000000000000000000000000000000 523fee0781a925a11798a0fbb93df23bd431a32b A\tcodex-rs/third-party/nucleo/PROVENANCE.md\n:000000 100644 0000000000000000000000000000000000000000 e617cfa0e175f89e2f5e7aa1e57d58c28e47ddbf A\tcodex-rs/third-party/nucleo/README.md\n:000000 100644 0000000000000000000000000000000000000000 4b90ddbb035ae2a8169f997fa6de371f9ca50520 A\tcodex-rs/third-party/nucleo/matcher/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 a612ad9813b006ce81d1ee438dd784da99a54007 A\tcodex-rs/third-party/nucleo/matcher/LICENSE\n:000000 100755 0000000000000000000000000000000000000000 d3ffa2c9a6627dad6ddaa009ac2d5a7a5e2017e0 A\tcodex-rs/third-party/nucleo/matcher/fuzz.sh\n:000000 100644 0000000000000000000000000000000000000000 1a45eee7760d240bfa8ac1989088e0349169f264 A\tcodex-rs/third-party/nucleo/matcher/fuzz/.gitignore\n:000000 100644 0000000000000000000000000000000000000000 1b9d8a7fd3203813651a84763275c49117adb1d3 A\tcodex-rs/third-party/nucleo/matcher/fuzz/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 d9df7d36b0f6e7e464102ab1e70ffeff5fecc142 A\tcodex-rs/third-party/nucleo/matcher/fuzz/fuzz_targets/fuzz_target_1.rs\n:000000 100755 0000000000000000000000000000000000000000 32a2669746a93a838ac2d3793a64e645e0479c14 A\tcodex-rs/third-party/nucleo/matcher/generate_case_fold_table.sh\n:000000 100644 0000000000000000000000000000000000000000 d13a246616dd9e72d538450ac6a31e8d15d3caa4 A\tcodex-rs/third-party/nucleo/matcher/src/chars.rs\n:000000 100644 0000000000000000000000000000000000000000 aacbe46141a51f018a70f599028346a74c185cc3 A\tcodex-rs/third-party/nucleo/matcher/src/chars/case_fold.rs\n:000000 100644 0000000000000000000000000000000000000000 3de501aaae6ceaec2921c11ddc92ba11a3bbde1c A\tcodex-rs/third-party/nucleo/matcher/src/chars/normalize.rs\n:000000 100644 0000000000000000000000000000000000000000 eca7ae388da845d93892737e060b6cc29fe287db A\tcodex-rs/third-party/nucleo/matcher/src/config.rs\n:000000 100644 0000000000000000000000000000000000000000 b8369f32dc6b79a6629adf221d1981d1535af708 A\tcodex-rs/third-party/nucleo/matcher/src/debug.rs\n:000000 100644 0000000000000000000000000000000000000000 3cb3ceb2025c5baa193b3c0a4224d0565ea114ad A\tcodex-rs/third-party/nucleo/matcher/src/exact.rs\n:000000 100644 0000000000000000000000000000000000000000 8215bf31fda7015123755a43d8b27d9a16d4a60c A\tcodex-rs/third-party/nucleo/matcher/src/fuzzy_greedy.rs\n:000000 100644 0000000000000000000000000000000000000000 5d53ecfb76f3d1265fe9a4b0e4af36c59f5c5585 A\tcodex-rs/third-party/nucleo/matcher/src/fuzzy_optimal.rs\n:000000 100644 0000000000000000000000000000000000000000 3e8874c590c0fa3d87826749b1832076ddc2f002 A\tcodex-rs/third-party/nucleo/matcher/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 a91ed95f5beda8d9decc5c615cf5384bfbda4d5b A\tcodex-rs/third-party/nucleo/matcher/src/matrix.rs\n:000000 100644 0000000000000000000000000000000000000000 495feede30e9a3ce754fade159c5e7ad798463f6 A\tcodex-rs/third-party/nucleo/matcher/src/pattern.rs\n:000000 100644 0000000000000000000000000000000000000000 88880ba91df4da12d6e2f8f5952352c5e9666446 A\tcodex-rs/third-party/nucleo/matcher/src/pattern/tests.rs\n:000000 100644 0000000000000000000000000000000000000000 1e79cc2c70efcc8521aa05281b61caddf963fe03 A\tcodex-rs/third-party/nucleo/matcher/src/prefilter.rs\n:000000 100644 0000000000000000000000000000000000000000 c934a8ef49891bddd658d6eb1d221392bfa89f49 A\tcodex-rs/third-party/nucleo/matcher/src/score.rs\n:000000 100644 0000000000000000000000000000000000000000 32a024036d6d05fdcbf8e37b13e6d8c0f3131a62 A\tcodex-rs/third-party/nucleo/matcher/src/tests.rs\n:000000 100644 0000000000000000000000000000000000000000 664dae7a834d6e66b441652ed7436ae9d0b338fa A\tcodex-rs/third-party/nucleo/matcher/src/utf32_str.rs\n:000000 100644 0000000000000000000000000000000000000000 a38c887584cf257a6ebd4a5dfdebd93f18fad8b3 A\tcodex-rs/third-party/nucleo/matcher/src/utf32_str/tests.rs\n:000000 100644 0000000000000000000000000000000000000000 9b48809daeb827a60c6994a0bea0de2c663cbd22 A\tcodex-rs/third-party/nucleo/src/boxcar.rs\n:000000 100644 0000000000000000000000000000000000000000 227f0f955268f6d771336d8d7095fefb70ba5252 A\tcodex-rs/third-party/nucleo/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 92f716cc3f1278d896a4323d2dbdbbf3f31222b8 A\tcodex-rs/third-party/nucleo/src/par_sort.rs\n:000000 100644 0000000000000000000000000000000000000000 816b0a31691c421bb8ad90f9ef92cd48dacecf3f A\tcodex-rs/third-party/nucleo/src/pattern.rs\n:000000 100644 0000000000000000000000000000000000000000 40e8e328723f94e4552822137f69c91fef39d63f A\tcodex-rs/third-party/nucleo/src/pattern/tests.rs\n:000000 100644 0000000000000000000000000000000000000000 02147da093847cb5715c009c67d888836e22e94c A\tcodex-rs/third-party/nucleo/src/shutdown_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 676c50df44b4d3358f0157b854dc6aae28b1146e A\tcodex-rs/third-party/nucleo/src/tests.rs\n:000000 100644 0000000000000000000000000000000000000000 aedd46c4b66101a02fbdef3c2fb9827b264d1ac1 A\tcodex-rs/third-party/nucleo/src/worker.rs\n:100644 100644 5e1d975ae818ee3778a4f81d6b9b9c1f90bba04d b108e6db900ee431b8764574ea6bfe442f3801da M\tcodex-rs/thread-manager-sample/src/main.rs\n:000000 100644 0000000000000000000000000000000000000000 6b5cbf8d2fff9554dc3b92ff7b7268025750fc37 A\tcodex-rs/thread-store-component/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 932a0d3a26ae2137d572c39fa5a3927e165836d2 A\tcodex-rs/thread-store-component/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 f21e5038204948752126708ecfb1791074bc7840 A\tcodex-rs/thread-store-component/src/acquisition.rs\n:000000 100644 0000000000000000000000000000000000000000 187fdbe41107f399209b6cf8ced7cacfcbf32954 A\tcodex-rs/thread-store-component/src/adapter.rs\n:000000 100644 0000000000000000000000000000000000000000 12582375d2acc4e8ee8b6daa73d4e516428795f5 A\tcodex-rs/thread-store-component/src/adapter_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 c4951a555dc979aaf25b36142040ceae65888af8 A\tcodex-rs/thread-store-component/src/contract.rs\n:000000 100644 0000000000000000000000000000000000000000 ef91a5c8776ee72be78a66906bc98beb69bb758d A\tcodex-rs/thread-store-component/src/dispatch.rs\n:000000 100644 0000000000000000000000000000000000000000 8590838a586369481753a5a7840c1536009f6733 A\tcodex-rs/thread-store-component/src/error.rs\n:000000 100644 0000000000000000000000000000000000000000 1174567489f890ae2f553c108515e1b26d714c26 A\tcodex-rs/thread-store-component/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 f659f2ec7f3af9e341ad93900539c608e7f9a303 A\tcodex-rs/thread-store-component/src/migration_adapter.rs\n:000000 100644 0000000000000000000000000000000000000000 c61a82284687106dd42bf3fc4f513b343866c7ed A\tcodex-rs/thread-store-component/src/migration_service.rs\n:000000 100644 0000000000000000000000000000000000000000 7b5a067288bc0986d0273b62ad16926f4121735d A\tcodex-rs/thread-store-component/src/migration_service_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 45fe90eb8cc7fc95a3a6768217c302086699e69e A\tcodex-rs/thread-store-component/src/remote/clearable.rs\n:000000 100644 0000000000000000000000000000000000000000 0166951524d55cda134f4b164353190e335285dd A\tcodex-rs/thread-store-component/src/remote/creation.rs\n:000000 100644 0000000000000000000000000000000000000000 8fe21243cf4879f2cc6b7092824cec40ec9d778d A\tcodex-rs/thread-store-component/src/remote/discovery.rs\n:000000 100644 0000000000000000000000000000000000000000 28de163735e6eebe4e6e48fb13e70211bc3e8671 A\tcodex-rs/thread-store-component/src/remote/history_arc.rs\n:000000 100644 0000000000000000000000000000000000000000 2462d217a94f68fc4dabdbc6b7e97ec434f6089e A\tcodex-rs/thread-store-component/src/remote/metadata.rs\n:000000 100644 0000000000000000000000000000000000000000 12d7c877a8387494bb2fb08286f4decd51d8edd5 A\tcodex-rs/thread-store-component/src/remote/migration.rs\n:000000 100644 0000000000000000000000000000000000000000 0c7349d7b6ab360539cd09925fe69f6b0571b705 A\tcodex-rs/thread-store-component/src/remote/migration_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 1cebaec1c615f166f597a140f81c86c303ca8418 A\tcodex-rs/thread-store-component/src/remote/mod.rs\n:000000 100644 0000000000000000000000000000000000000000 69297c313ade8fb322f51a94ae8f2f5f1dea501a A\tcodex-rs/thread-store-component/src/remote/timeline.rs\n:000000 100644 0000000000000000000000000000000000000000 95855769afbf236e33fc8c516f0ba5da9e8fc5c7 A\tcodex-rs/thread-store-component/src/remote/timeline_items.rs\n:000000 100644 0000000000000000000000000000000000000000 13bfcf6fa558756bdd664c3d4306e22999573052 A\tcodex-rs/thread-store-component/src/remote/timeline_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 bf8574e1bab2917947c40a02e35321fd8b920a05 A\tcodex-rs/thread-store-component/src/service.rs\n:000000 100644 0000000000000000000000000000000000000000 5ad8f721e213251ce4911d2ba22540959eb5167a A\tcodex-rs/thread-store-component/src/service_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 46b1db1c0a6a39b98b89168562b989d351c5ebba A\tcodex-rs/thread-store-component/src/wire.rs\n:000000 100644 0000000000000000000000000000000000000000 db79e4e2504fd2ab39317539951d1a07f684f927 A\tcodex-rs/thread-store-component/src/wire_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 3c42d453b2262af83877f6f2427386da6a9424e7 A\tcodex-rs/thread-store-local-plugin/BUILD.bazel\n:000000 100644 0000000000000000000000000000000000000000 86cb4eca8e7f36818c3d9a6af71076f8e837aaa7 A\tcodex-rs/thread-store-local-plugin/Cargo.toml\n:000000 100644 0000000000000000000000000000000000000000 cb1ea1b776b6bee5494da37434c9b411f1edea20 A\tcodex-rs/thread-store-local-plugin/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 3e17940de5b0bb953bbb6f46ccb0771e13c9918e A\tcodex-rs/thread-store-local-plugin/src/main.rs\n:000000 100644 0000000000000000000000000000000000000000 7a9dfab572e4fda57ec08f18a84263a75e1d71b7 A\tcodex-rs/thread-store-local-plugin/src/native.rs\n:000000 100644 0000000000000000000000000000000000000000 19c70df26e828c7d6bcd5d66d26a0aafe819a679 A\tcodex-rs/thread-store-local-plugin/tests/cases/acquisition.rs\n:000000 100644 0000000000000000000000000000000000000000 f329814249d7fc44f72ff1fe293a1c77d6807336 A\tcodex-rs/thread-store-local-plugin/tests/cases/collections.rs\n:000000 100644 0000000000000000000000000000000000000000 44468c8a690430eb015f338b7a13cd061c1ede29 A\tcodex-rs/thread-store-local-plugin/tests/cases/fidelity.rs\n:000000 100644 0000000000000000000000000000000000000000 04b6460aa76b66df6e9488a7c6653239e21af057 A\tcodex-rs/thread-store-local-plugin/tests/cases/lifecycle.rs\n:000000 100644 0000000000000000000000000000000000000000 7cd54967ea69dffc3c38ddce3a226d41b757d01f A\tcodex-rs/thread-store-local-plugin/tests/cases/maintenance.rs\n:000000 100644 0000000000000000000000000000000000000000 1ed31275fa284ae7acc8c860a4073f155ea4f487 A\tcodex-rs/thread-store-local-plugin/tests/cases/migration.rs\n:000000 100644 0000000000000000000000000000000000000000 f53c02ef928062ceafc5f395e24c4003b864e1b9 A\tcodex-rs/thread-store-local-plugin/tests/process_storage.rs\n:000000 100644 0000000000000000000000000000000000000000 a71202e2435fee665c5ef4bfd6b452459b473160 A\tcodex-rs/thread-store-local-plugin/tests/support/mod.rs\n:000000 100644 0000000000000000000000000000000000000000 6fae2d3198cc8915fb40be02ed2dfbccd049972f A\tcodex-rs/thread-store/src/compatibility.rs\n:100644 100644 bc5e8ed7c4f9c8692fb19f6d94c623f6bc0f3335 2445b07aa2e86921e87fe3536f88e7876940a605 M\tcodex-rs/thread-store/src/error.rs\n:100644 100644 26eba76b5a94d8a4b5941035e4dd0bf4f359fd3f 48d02026218c32497ff45af885c056165c535175 M\tcodex-rs/thread-store/src/lib.rs\n:000000 100644 0000000000000000000000000000000000000000 149fb16f605452f589d6db365ca2f7d5472040b6 A\tcodex-rs/thread-store/src/lifecycle.rs\n:100644 100644 f6f57e6dd0a224b9a540a963b3dfe0138346d6d6 25b25e1dbefe6d64f42bf48a4eba1d8b9b40d443 M\tcodex-rs/thread-store/src/live_thread.rs\n:000000 100644 0000000000000000000000000000000000000000 8a0fba5e080745b2c0277a3606845a5301dcc605 A\tcodex-rs/thread-store/src/local/maintenance.rs\n:000000 100644 0000000000000000000000000000000000000000 742dc773593b2a017ce4712afffed5130c0de23e A\tcodex-rs/thread-store/src/local/maintenance_tests.rs\n:100644 100644 05f2d9061da5bc92c217f5b33911e5660cdf3523 2e093291363ad9b9bef0d13a48da74845c05c7f6 M\tcodex-rs/thread-store/src/local/mod.rs\n:100644 100644 c259a6f034dd9bb45559ea665b798327c3983555 3466ba5802e0530161bd3eba0d57d26c358b24aa M\tcodex-rs/thread-store/src/local/rollout_migration.rs\n:000000 100644 0000000000000000000000000000000000000000 71ca523dff6c47f3aed9930dccbc4fe2fe95dbee A\tcodex-rs/thread-store/src/local/rollout_migration/manual.rs\n:000000 100644 0000000000000000000000000000000000000000 463a2d1924f62c89db450fad8c748d21c0184f9d A\tcodex-rs/thread-store/src/local/rollout_migration/manual_tests.rs\n:100644 100644 dbc48ed8c06fecaebf19b7f0e7b69d9985c103b2 92981bc015dffcd678f76af43dca9360afdc4b60 M\tcodex-rs/thread-store/src/local/rollout_migration/startup.rs\n:000000 100644 0000000000000000000000000000000000000000 a16507eef46a96fe66892a6fdbb4b5347cd1351d A\tcodex-rs/thread-store/src/local/rollout_migration/startup_lifecycle_tests.rs\n:100644 100644 d2e144ca33aeb2881bb7d6bbd0c2977a6e5f4c11 9c9ccbe0c369965ab57c522e9e7d68b821c68e2c M\tcodex-rs/thread-store/src/local/rollout_migration/startup_tests.rs\n:100644 100644 e27c66b5779183ab9be068bd62247ad329566476 ae4c6803426064d9512c76e92cdf7df28dceb938 M\tcodex-rs/thread-store/src/local/rollout_migration/telemetry.rs\n:000000 100644 0000000000000000000000000000000000000000 72e28e74a77334d27661c9b06708e8943955f928 A\tcodex-rs/thread-store/src/local/rollout_migration_lifecycle_tests.rs\n:100644 100644 d27cbd035c751272ba32ea8c419e77d795157904 dca6eb49446ccac279f11e2935e77a274e1ff85b M\tcodex-rs/thread-store/src/local/rollout_migration_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 02a0567cbeef8a69980d0044c3ce0b9a2bfaba23 A\tcodex-rs/thread-store/src/migration_run.rs\n:100644 100644 fd918b90f14ec975d3ffec17c97bb34e28221040 11d871f15318f8780fa04a8f64a088a8de51fc79 M\tcodex-rs/thread-store/src/projects.rs\n:100644 100644 d67c3b766a89d3a2f14a5c57deb5f4d2db19f2fb f955d220a087cdd453c1abe22424f41b0b99318a M\tcodex-rs/thread-store/src/store.rs\n:100644 100644 4abe2d17c200967d40d9bdbb9eb129f320ca4625 296a72ad85b0b0166b6fb8d4e61a02dfeae9690a M\tcodex-rs/thread-store/src/thread_attachments.rs\n:100644 100644 8e1fc670409a41e4db887a2ea9fa739c957cd959 9bb7a71f87d87cad9180cd93a6021d6b440c129f M\tcodex-rs/thread-store/src/thread_metadata_sync.rs\n:100644 100644 0fda4a655ee747fc8f50c27ebe067c44cdd0d533 3ee261bbb2621348461f92904c2280e2e17d8d85 M\tcodex-rs/thread-store/src/thread_sections.rs\n:100644 100644 5030f8864d3caad6b495c26b397267aa59f592d2 0efb43afa7b45248584269cd4f39b49a0b3a8512 M\tcodex-rs/thread-store/src/types.rs\n:100644 100644 5af16c3b7d0124efefadae60214649916104e78a 9d1a3bb41cd1e52034e580078471eb0e8ee7443d M\tcodex-rs/tools/src/tool_executor.rs\n:100644 100644 9d61157c421220bd70852e72ce59b89a79a025be 2cc77ff6d55a3529e4b2ccc3f3354dbe042486a7 M\tcodex-rs/tui/Cargo.toml\n:100644 100644 38669630645f17152142597edacfa3d39c9984b3 16e9df6b46753a0d1964bdbd7253409cd7659e94 M\tcodex-rs/tui/src/app/event_dispatch.rs\n:100644 100644 0656ba6e387605b97af01e9582c28cbf55d4ce8b 1b2d0d20ca2953246a07878482eea7f9a7308559 M\tcodex-rs/tui/src/app/reconnect.rs\n:100644 100644 1f8702fbfb8be2ba00ff064b42e1b3f88bce9607 d20354e3f0da5764e8e9f9ac8b0fa9210009ea72 M\tcodex-rs/tui/src/app/startup.rs\n:100644 100644 5e6dcf7be5dba1f1bdacbd02dfaca5bef509104c 4b333005d6a4c69ea9ff12d6c27aa352a4d41e37 M\tcodex-rs/tui/src/app/test_support.rs\n:100644 100644 34e83eab49ff8fcb8adbcf888c331ea24d59c74e 5e0887e73f76a36e5e74c04b1c4926be7dd007c0 M\tcodex-rs/tui/src/app/tests.rs\n:100644 100644 22e27ed3f1fe0d12bb3525a89c2062ed4fafad33 e6d08b068e53aa551d399d21c0568da0852b5ae4 M\tcodex-rs/tui/src/app/tests/startup_defaults_tests.rs\n:100644 100644 c77c55841d79d44ce52e496aac6a787af5f680cd 453f4c6ef819dfc54e5c3a960baf19718b207c3b M\tcodex-rs/tui/src/app_event.rs\n:100644 100644 70ac98de116c7d4169583a8c758913af4329182c 51105ae2637d3a21e809e85a727f7db77041c825 M\tcodex-rs/tui/src/file_search.rs\n:000000 100644 0000000000000000000000000000000000000000 b3586503340cce59b0766afca5caa827434b63a8 A\tcodex-rs/tui/src/file_search_tests.rs\n:100644 100644 b72a33c77640a410e5cc26dd46f0ee9fcb647258 888a2e484107ad966baaace8e6684a6513c31f42 M\tcodex-rs/tui/src/lib.rs\n:100644 100644 56f6541022abe64a04f696056c9ed46fda02bfc6 5adc38ca969700ec3e376ebf5717637b2b887938 M\tcodex-rs/tui/src/session_log.rs\n:000000 100644 0000000000000000000000000000000000000000 dde4c356d98a70b08dd5c2dbc7e13c9066c504b0 A\tcomponent-sdk/BROKER_REVIEW.md\n:000000 100644 0000000000000000000000000000000000000000 94eeb5050e75a89bdccaf2b7d8b5952cf3163617 A\tcomponent-sdk/DEPENDENCY_BROKER_PROPOSAL.md\n:000000 100644 0000000000000000000000000000000000000000 981321107e06a2a1a94a36e098a0e2d143978441 A\tcomponent-sdk/EXECUTION_COMPONENT_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 008436e64c25fb7a9db07bdd808ac3d16b3c4df8 A\tcomponent-sdk/FILE_SEARCH_COMPONENT_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 0c1cb1966ec51b37ca9c3799a6081c520f6aee44 A\tcomponent-sdk/FILE_SEARCH_COMPOSITION_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 c6c75789b3d9a3fabf4b80cda21f8a65ab5c8396 A\tcomponent-sdk/FILE_SEARCH_NATIVE_BACKEND_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 b3258f9dde57a19623d680e0451675fcb9c9b3ae A\tcomponent-sdk/MIGRATION_COMPONENT_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 febdeb2157af1c5999ec0679b11d2d9b57ddb85e A\tcomponent-sdk/MODEL_TRANSPORT_V2_DOMAIN.md\n:000000 100644 0000000000000000000000000000000000000000 6eb9356535ff8d0b8c84e9ffb2ca54086b6913a9 A\tcomponent-sdk/MODEL_TRANSPORT_V2_PROPOSAL.md\n:000000 100644 0000000000000000000000000000000000000000 8d24b47576565f9a09a51ed9b94dc71b0d047659 A\tcomponent-sdk/PERSISTENT_PROTOCOL.md\n:000000 100644 0000000000000000000000000000000000000000 f3cd390a2a9f585a126af815dc8921bf43be81f0 A\tcomponent-sdk/README.md\n:000000 100644 0000000000000000000000000000000000000000 2701190682bc4868e121b8d4ae48ef4a70ce9e10 A\tcomponent-sdk/RUST_PACKAGING.md\n:000000 100644 0000000000000000000000000000000000000000 d12c34537f41c7f2454cda9dc1d2c8f233875243 A\tcomponent-sdk/SESSION_RUNTIME_LIFECYCLE_PLAN.md\n:000000 100644 0000000000000000000000000000000000000000 2009d28cb011c85be46a5ad42731916c811c1c6b A\tcomponent-sdk/STORAGE_MAINTENANCE_LIFECYCLE.md\n:000000 100644 0000000000000000000000000000000000000000 10efbe1b3b4b937750991aeb6f20a578d040a52a A\tcomponent-sdk/STORAGE_WIRE_V2.md\n:000000 100644 0000000000000000000000000000000000000000 86a3cb5a581c5c99cc68c835c48b07ec4668c13b A\tcomponent-sdk/STREAMING_PROTOCOL_PROPOSAL.md\n:000000 100644 0000000000000000000000000000000000000000 7fb70ab38ebe18846c5e69a33507f65b0e95b79e A\tcomponent-sdk/broker-runtime-activation.patch\n:000000 100644 0000000000000000000000000000000000000000 1da9734dcaa5de0b0f72d2c5b9a7324830fc6c11 A\tcomponent-sdk/broker-session-activation.patch\n:000000 100644 0000000000000000000000000000000000000000 7becde76660070232c091abaab4b2e7f8e03f279 A\tcomponent-sdk/broker-spool-activation.patch\n:000000 100644 0000000000000000000000000000000000000000 4606e72e042564097e8780d66c1d4dcb611869bd A\tcomponent-sdk/codex_component_sdk/LICENSE\n:000000 100644 0000000000000000000000000000000000000000 2805899d56d0332d175cfc613c67d45d6f006db7 A\tcomponent-sdk/codex_component_sdk/NOTICE\n:000000 100644 0000000000000000000000000000000000000000 a68d35057078f44f07fad286f52e6952527113b3 A\tcomponent-sdk/codex_component_sdk/__init__.py\n:000000 100644 0000000000000000000000000000000000000000 08897a1efbc8b1d191e3fcb42ddb2480be563948 A\tcomponent-sdk/codex_component_sdk/__main__.py\n:000000 100644 0000000000000000000000000000000000000000 d4801f63a49dd5c42a766e94fa47e12e55fcff72 A\tcomponent-sdk/examples/calculator/codex-component.json\n:000000 100644 0000000000000000000000000000000000000000 3afe263b3f0310511c8c0c251a209c4537bee3e9 A\tcomponent-sdk/examples/calculator/plugin.py\n:000000 100644 0000000000000000000000000000000000000000 4606e72e042564097e8780d66c1d4dcb611869bd A\tcomponent-sdk/examples/desktop/LICENSE\n:000000 100644 0000000000000000000000000000000000000000 2805899d56d0332d175cfc613c67d45d6f006db7 A\tcomponent-sdk/examples/desktop/NOTICE\n:000000 100644 0000000000000000000000000000000000000000 220f315d1a7ccf9b8d85fccff1d2c1ce1509d4dc A\tcomponent-sdk/examples/desktop/README.md\n:000000 100644 0000000000000000000000000000000000000000 81ce421a240b7185cf2f2894023c70b030295b1e A\tcomponent-sdk/examples/desktop/codex-component.json\n:000000 100644 0000000000000000000000000000000000000000 d2918d5cef34077c0a1d2ed0b1c74f141ed92898 A\tcomponent-sdk/examples/desktop/desktop_ui/__init__.py\n:000000 100644 0000000000000000000000000000000000000000 c5019fd6d411b26849a2dbd5b360ed29d2a3c0f5 A\tcomponent-sdk/examples/desktop/desktop_ui/gateway.py\n:000000 100644 0000000000000000000000000000000000000000 a956b6b726e41e9168f2617c6bd655a6c5bdfff5 A\tcomponent-sdk/examples/desktop/desktop_ui/static/app.js\n:000000 100644 0000000000000000000000000000000000000000 f3d19fd11b0b20f779f152cb06c511d1ca9d4057 A\tcomponent-sdk/examples/desktop/desktop_ui/static/file-picker.js\n:000000 100644 0000000000000000000000000000000000000000 b24ca2c5da1fe56771dccfa5b171a9c5042b25a3 A\tcomponent-sdk/examples/desktop/desktop_ui/static/file-search.js\n:000000 100644 0000000000000000000000000000000000000000 1d8a7f12fcebcaecb60cceaa34b0ebc1e0dfe430 A\tcomponent-sdk/examples/desktop/desktop_ui/static/index.html\n:000000 100644 0000000000000000000000000000000000000000 c2ece79f2a3dd764e5b4c9deb47b94d3d86b96bd A\tcomponent-sdk/examples/desktop/desktop_ui/static/style.css\n:000000 100644 0000000000000000000000000000000000000000 a62e7e3ba5e33ceb3ea7110f27eedfe59b7f9006 A\tcomponent-sdk/examples/desktop/plugin.py\n:000000 100644 0000000000000000000000000000000000000000 6ae860f5088d0e38340643b34008952c1b2cd9e3 A\tcomponent-sdk/examples/model-fixture/codex-component.json\n:000000 100644 0000000000000000000000000000000000000000 cea96086464ec02e1c77476d39fc2c968213fa92 A\tcomponent-sdk/examples/model-fixture/plugin.py\n:000000 100644 0000000000000000000000000000000000000000 7882b70eee7289802ee6d3df6ac5bfcdd2603b64 A\tcomponent-sdk/pyproject.toml\n:000000 100644 0000000000000000000000000000000000000000 80a0d95937b79fb9e291667bf70d769fd87f2139 A\tcomponent-sdk/rust_component_package.py\n:000000 100644 0000000000000000000000000000000000000000 02e5f011d8bf445a1ac6ce5a7d55217d7b3fcf9e A\tcomponent-sdk/tests/P01_GUI_RUNBOOK.md\n:000000 100644 0000000000000000000000000000000000000000 0954ffe8a1f87259dd9f153f5338e909e3f89834 A\tcomponent-sdk/tests/acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 927facba033b43e6beb3d3d00a3ef4e1853da456 A\tcomponent-sdk/tests/desktop_search_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 cf12a01ac24224c2418361dfb764aae4b4e032de A\tcomponent-sdk/tests/gui_browser_driver.cjs\n:000000 100644 0000000000000000000000000000000000000000 b33ee6cb31546bc68061641c49f4e420536ee588 A\tcomponent-sdk/tests/gui_harness_fixture.py\n:000000 100644 0000000000000000000000000000000000000000 dfd4d269b80416081294315c758f557c08bee67f A\tcomponent-sdk/tests/harness_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 cebd59f7199d98d017ded95de31091a81f058db0 A\tcomponent-sdk/tests/manual_migration_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 0c558ff653b9b0a24a179b33c5dd39ac2cc94077 A\tcomponent-sdk/tests/native_storage_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 20c1c5f24fe80dc8503061449b040f5bdb39f1d8 A\tcomponent-sdk/tests/p01_gui_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 e27247c5133274facb6ce9491ece20bb6a410c12 A\tcomponent-sdk/tests/reused_storage_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 82a8631c863f285dddb1811648c801754ee1c77a A\tcomponent-sdk/tests/sdk_distribution_acceptance.py\n:000000 100644 0000000000000000000000000000000000000000 753ac1d79fd46e20b408d0088bb8eaa2909b0a68 A\tcomponent-sdk/tests/subreaper_runner.py\n:000000 100644 0000000000000000000000000000000000000000 5ef094e3a9da035669805e8036aae9360ffbb5e8 A\tcomponent-sdk/tests/test_desktop.py\n:000000 100644 0000000000000000000000000000000000000000 298b0917aeec463cb0d1bb15bd7d8f4780f02cdb A\tcomponent-sdk/tests/test_desktop_search.cjs\n:000000 100644 0000000000000000000000000000000000000000 54d0dfb809b4c9b008495b5802e3da9d8e76de7a A\tcomponent-sdk/tests/test_desktop_search.py\n:000000 100644 0000000000000000000000000000000000000000 09fc3357f5b1de8566fbc57caf731af099f165e4 A\tcomponent-sdk/tests/test_manager_shutdown.py\n:000000 100644 0000000000000000000000000000000000000000 78c66c5dba8af583810b53f6087f342db16a3c96 A\tcomponent-sdk/tests/test_rust_package.py\n:000000 100644 0000000000000000000000000000000000000000 100b80950cf7a279a15848696bb6d6d84ab70039 A\tcomponent-sdk/tests/test_sdk.py\n:000000 100644 0000000000000000000000000000000000000000 ee20112a694800de3a0412386bdd20602d267641 A\tcomponent-sdk/tests/test_subreaper_runner.py\n:000000 100644 0000000000000000000000000000000000000000 2004b005491f485142953cf1c7f87938ba3792d2 A\tupstream/lineage.json\n:000000 100644 0000000000000000000000000000000000000000 f68b2d464585a50eb687d2d289529c231fedea05 A\tupstream/p01-migration-lineage.json\n:000000 100644 0000000000000000000000000000000000000000 f5223fd5356f90e8bb0d4892719b6f87f937aa96 A\tverification/2026-09-30/active-workspace-test-inventory.json\n:000000 100644 0000000000000000000000000000000000000000 eeaf39b5f0fbf7bbaec0d60dfdc78d50f4a6dcf7 A\tverification/2026-09-30/app-server-lifecycle-library-results.json\n:000000 100644 0000000000000000000000000000000000000000 5bf5df0cac50ba646eae4c726fba56e487a2d6c8 A\tverification/2026-09-30/app-server-lifecycle-library.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 bca7a7cab11aaa8f413bf3b299e63e8867b40559 A\tverification/2026-09-30/app-server-lifecycle-library.log\n:000000 100644 0000000000000000000000000000000000000000 d3bcd99c8b9c817bbdf7951e9692849b0a3bdc1e A\tverification/2026-09-30/attachment-component-fix.log\n:000000 100644 0000000000000000000000000000000000000000 d4c37f913477211e922dffd3972d87b70959b9d0 A\tverification/2026-09-30/attachment-component-results.log\n:000000 100644 0000000000000000000000000000000000000000 2a0098ea92e8591575aa915f9e655870d44a1ec1 A\tverification/2026-09-30/attachment-inline-exported-source.json\n:000000 100644 0000000000000000000000000000000000000000 909925a30a374f12771abde6000a1f41d4b8ea20 A\tverification/2026-09-30/attachment-inline-independent-commands.json\n:000000 100644 0000000000000000000000000000000000000000 685bc1c05f98620806d9dbc2ff38ca61f42949b7 A\tverification/2026-09-30/attachment-inline-independent.json\n:000000 100644 0000000000000000000000000000000000000000 eeed8c9bfa9ecc8d668f26deeb8eeece6876b428 A\tverification/2026-09-30/baseline-core-lib-attempt2.json\n:000000 100644 0000000000000000000000000000000000000000 52afad50eed327b86bfe3c5a37454e91c96a00c6 A\tverification/2026-09-30/baseline-core-lib-attempt2.log\n:000000 100644 0000000000000000000000000000000000000000 dc6e8c29485a427d18b5049571bc6fa2c3c219df A\tverification/2026-09-30/baseline-core-lib.json\n:000000 100644 0000000000000000000000000000000000000000 ec75bc90b4efb8bb3ca1ca762e01c7bc95c48bc9 A\tverification/2026-09-30/baseline-core-lib.log\n:000000 100644 0000000000000000000000000000000000000000 691929fe01bf5855ebf4a461462bf24464bd3253 A\tverification/2026-09-30/bazel-lock-update-storage-v2.log\n:000000 100644 0000000000000000000000000000000000000000 28a9c3fb2e593dc7e008ec054f4647ac3a82f9bb A\tverification/2026-09-30/bazel-lock-update-storage.log\n:000000 100644 0000000000000000000000000000000000000000 a3ad61cf63f1c8f628e1df95190a2d3e30e48cef A\tverification/2026-09-30/broker-persistent-reap-patch-application.json\n:000000 100644 0000000000000000000000000000000000000000 f2e964086541ec935b5f321a4d9740707a5b600b A\tverification/2026-09-30/broker-staged-patch-application.json\n:000000 100644 0000000000000000000000000000000000000000 9a27bcd997e591edaf7b86e4813eaf97d2eb74ac A\tverification/2026-09-30/build-cache-reclamation.json\n:000000 100644 0000000000000000000000000000000000000000 4fe484516e71d65cacb027ffdb60ee7da506acf7 A\tverification/2026-09-30/checkpoint-preserved-binaries.json\n:000000 100644 0000000000000000000000000000000000000000 964f00e99091cb8b292f8042572a131ddad4a77e A\tverification/2026-09-30/component-host-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 3f4a3c8ebc3282f816159843deb68c03f8343b1d A\tverification/2026-09-30/component-host-force-reap-build.log\n:000000 100644 0000000000000000000000000000000000000000 990bf36575b490aec45bb0351a8920aeb77aadcb A\tverification/2026-09-30/component-host-force-reap-fix.log\n:000000 100644 0000000000000000000000000000000000000000 4bc3d79856a797428e24ed649c370b64582f915f A\tverification/2026-09-30/component-host-force-reap-junit.xml\n:000000 100644 0000000000000000000000000000000000000000 be5190f8b99ae9a3f015216b2525b9ac8b14f9b0 A\tverification/2026-09-30/component-host-force-reap-test.log\n:000000 100644 0000000000000000000000000000000000000000 78b6872c94e5e24bbc7ff06f5e6ba0462ebf3d31 A\tverification/2026-09-30/component-host-force-reap.json\n:000000 100644 0000000000000000000000000000000000000000 48829b9a83f4dfc7202498e698c4ce7813cd3d2c A\tverification/2026-09-30/component-host-graceful-shutdown-build.log\n:000000 100644 0000000000000000000000000000000000000000 248da6896f5f3fdb414aa6250aa2ee8444a5d305 A\tverification/2026-09-30/component-host-graceful-shutdown-fix.log\n:000000 100644 0000000000000000000000000000000000000000 f41640622f0b9ad649eb2f71f4846bcc7e199c7b A\tverification/2026-09-30/component-host-graceful-shutdown-junit.xml\n:000000 100644 0000000000000000000000000000000000000000 98668eba618e7a9c1ea1d29c27ae0c5e9c412d68 A\tverification/2026-09-30/component-host-graceful-shutdown-test.log\n:000000 100644 0000000000000000000000000000000000000000 0dd97ba92faf6ca23d45e83dadea7c3f0173f443 A\tverification/2026-09-30/component-host-graceful-shutdown.json\n:000000 100644 0000000000000000000000000000000000000000 13948a31440ec0a279c88b193ed130cef69db0da A\tverification/2026-09-30/component-host-parent-death.json\n:000000 100644 0000000000000000000000000000000000000000 deb28dd9aec4dde0e17d2dc787f4a44d879b4272 A\tverification/2026-09-30/component-host-persistent-reap-fix.log\n:000000 100644 0000000000000000000000000000000000000000 a4eebd2e1793c463f27991053b5c1d6a6f091ca3 A\tverification/2026-09-30/component-host-persistent-reap-junit.xml\n:000000 100644 0000000000000000000000000000000000000000 4d93285a5d7ceb5c4db0a9fbcfbdccdad1eabe21 A\tverification/2026-09-30/component-host-persistent-reap-tests.log\n:000000 100644 0000000000000000000000000000000000000000 f27f47fb50b55a9f813c0c5b701518bb37e6333f A\tverification/2026-09-30/component-host-persistent-reap.json\n:000000 100644 0000000000000000000000000000000000000000 b1a44814a73dc6ce5e551217744442fca460ebd9 A\tverification/2026-09-30/component-host-service-lifetime-fix.log\n:000000 100644 0000000000000000000000000000000000000000 933b825a7710288483a6cae03d7436916822ea67 A\tverification/2026-09-30/component-host-service-lifetime-junit.xml\n:000000 100644 0000000000000000000000000000000000000000 b54c25ff509db017a4a72699f2a6917d699c2b97 A\tverification/2026-09-30/component-host-service-lifetime-tests.log\n:000000 100644 0000000000000000000000000000000000000000 e099e7054e9e0b2874461e13a8216a93680bfb22 A\tverification/2026-09-30/component-host-service-lifetime.json\n:000000 100644 0000000000000000000000000000000000000000 3501bef896dcbc56f548c54a6aaa418319a8198d A\tverification/2026-09-30/component-host-shutdown.json\n:000000 100644 0000000000000000000000000000000000000000 76abbb39f45580ce3fb15e3e42b45487271bf7c0 A\tverification/2026-09-30/component-service-lifetime-binaries.json\n:000000 100644 0000000000000000000000000000000000000000 52d66b1eb1a6fcb03b2075117c7c73e0ac9ce90d A\tverification/2026-09-30/component-service-lifetime-build.log\n:000000 100644 0000000000000000000000000000000000000000 42bf637653e8c86646cfcfdaa8f80b595cb4bb40 A\tverification/2026-09-30/component-state-codec-clippy-fix.log\n:000000 100644 0000000000000000000000000000000000000000 aa0f65846e09af137bd54c624e44e6b42bc8e5d0 A\tverification/2026-09-30/component-state-codec-commands.txt\n:000000 100644 0000000000000000000000000000000000000000 61b74f422fadf911ae2439cbc32bc72dae1cc957 A\tverification/2026-09-30/component-state-codec-format.log\n:000000 100644 0000000000000000000000000000000000000000 569c0b3b6ad337d4602f75cf15a71e11700ccb7a A\tverification/2026-09-30/component-state-codec-protocol-clippy.log\n:000000 100644 0000000000000000000000000000000000000000 e5027f0c4b7cb260b549f64796c8ee9336c4d335 A\tverification/2026-09-30/component-state-codec-protocol-helper-tests.log\n:000000 100644 0000000000000000000000000000000000000000 b02b9df86598c8ac640afa53ffa8b2d960d87aec A\tverification/2026-09-30/component-state-codec-protocol-helper.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 3c3d7be9088a4acc981ced7e960b8cf81aa49a69 A\tverification/2026-09-30/component-state-codec-results.json\n:000000 100644 0000000000000000000000000000000000000000 bc191eb129a0c520dc737462bae3e7b0934df6a0 A\tverification/2026-09-30/component-state-codec-tests.log\n:000000 100644 0000000000000000000000000000000000000000 41adc5ddec62faf12375dc94570a77e694cf956e A\tverification/2026-09-30/component-state-codec.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 c7c28634b13dd89e265c4cd912006c451fe3a94a A\tverification/2026-09-30/compression-worker-source-review.json\n:000000 100644 0000000000000000000000000000000000000000 10a215402bebc60fff7ce6f3268436272acd863b A\tverification/2026-09-30/core-component-gates.md\n:000000 100644 0000000000000000000000000000000000000000 50417bbfd427cdfe66cb3e75ff1b2db8bf94aed3 A\tverification/2026-09-30/core-components-and-resume.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 1365395981f7b6c0736ca7750b47cf8cfdf60cf0 A\tverification/2026-09-30/core-components-and-resume.log\n:000000 100644 0000000000000000000000000000000000000000 7691c34f2cd9d6cad22da5ae01d2cb84f6f2b388 A\tverification/2026-09-30/core-delegate.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 ec5f74d9b93487867c3fa9f144a815faec3e1047 A\tverification/2026-09-30/core-native-storage-final.json\n:000000 100644 0000000000000000000000000000000000000000 6f4132c86704b7f9d362b11f587c9f401259a943 A\tverification/2026-09-30/core-native-storage-final.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 bd6b4c5516dd4cc64e23fc7e521c1d7f28ca755f A\tverification/2026-09-30/core-native-storage-final.log\n:000000 100644 0000000000000000000000000000000000000000 daec426a73dbe07479175e3e4739650b10840ada A\tverification/2026-09-30/core-registry-context-delegate.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 9760ebbef6a70b37ff05fde44e4b3c2fbab1c5fe A\tverification/2026-09-30/core-registry-context-delegate.log\n:000000 100644 0000000000000000000000000000000000000000 6e6dd1cfae34b8c0fe8ff71f548fbbb2c525810f A\tverification/2026-09-30/desktop-client-disconnect-python.json\n:000000 100644 0000000000000000000000000000000000000000 ca2bdd769743527259a442cf09645538dcc7e511 A\tverification/2026-09-30/desktop-client-disconnect-python.log\n:000000 100644 0000000000000000000000000000000000000000 3b72841dd679c47c3c97fd3d71a5cc41f7f3f663 A\tverification/2026-09-30/desktop-graceful-shutdown-python.json\n:000000 100644 0000000000000000000000000000000000000000 722ab3d8c78ecd627821581e11174b2355b86f58 A\tverification/2026-09-30/desktop-graceful-shutdown-python.log\n:000000 100644 0000000000000000000000000000000000000000 b272effc392dae61bec5f7a51d67e0ee662e1f84 A\tverification/2026-09-30/full-workspace-glib-setup.json\n:000000 100644 0000000000000000000000000000000000000000 c2fda89bafa5b653899fe4b14c0c5ee274c02811 A\tverification/2026-09-30/full-workspace-gstreamer-setup.json\n:000000 100644 0000000000000000000000000000000000000000 523d7aef2ab03cc508ccd8e43e79618a722e25b2 A\tverification/2026-09-30/full-workspace-helper-build.log\n:000000 100644 0000000000000000000000000000000000000000 7c7f487004be29579fab6334e95171225e321b4b A\tverification/2026-09-30/full-workspace-patched-zsh-setup.json\n:000000 100644 0000000000000000000000000000000000000000 e1f91263477c7d70a263c3922ccfd0e9ec7baea8 A\tverification/2026-09-30/full-workspace-regressions-attempt1.json\n:000000 100644 0000000000000000000000000000000000000000 52fb97bd0bebeb2c72a3bebdaa762d1dfdd6032f A\tverification/2026-09-30/full-workspace-regressions-attempt1.log\n:000000 100644 0000000000000000000000000000000000000000 2aa3ced1d55527bd030bb50db60891112b648397 A\tverification/2026-09-30/full-workspace-regressions-attempt2.json\n:000000 100644 0000000000000000000000000000000000000000 f88f7f536a49ac507552e5ab0555ec7af83196a1 A\tverification/2026-09-30/full-workspace-regressions-attempt2.log\n:000000 100644 0000000000000000000000000000000000000000 124b5f0712a9692e20c567bc1f30d79b7fbd580d A\tverification/2026-09-30/full-workspace-regressions-attempt3.json\n:000000 100644 0000000000000000000000000000000000000000 06103a50a23111abc92f1f0e4099746aa40f4f6f A\tverification/2026-09-30/full-workspace-regressions-attempt3.log\n:000000 100644 0000000000000000000000000000000000000000 bf682665de7c580557f83c95265a06ab78889237 A\tverification/2026-09-30/full-workspace-regressions-attempt4.json\n:000000 100644 0000000000000000000000000000000000000000 4db89fccde798402187352a9cf5f5d1eed398f8a A\tverification/2026-09-30/full-workspace-regressions-attempt4.log\n:000000 100644 0000000000000000000000000000000000000000 bf682665de7c580557f83c95265a06ab78889237 A\tverification/2026-09-30/full-workspace-regressions.json\n:000000 100644 0000000000000000000000000000000000000000 52fb97bd0bebeb2c72a3bebdaa762d1dfdd6032f A\tverification/2026-09-30/full-workspace-regressions.log\n:000000 100644 0000000000000000000000000000000000000000 2aa73bfff3e902f44345579d6c7aaa68a44911b7 A\tverification/2026-09-30/full-workspace-v8-setup.json\n:000000 100644 0000000000000000000000000000000000000000 d44ddf2224005074b12016724f43ea8760b75834 A\tverification/2026-09-30/gui-fixture-interrupted.png\n:000000 100644 0000000000000000000000000000000000000000 379cd0c1284e710b156df986416bdc38730941af A\tverification/2026-09-30/gui-fixture-mobile.png\n:000000 100644 0000000000000000000000000000000000000000 d9dd51387f98381a5124464318135449a6c47a82 A\tverification/2026-09-30/gui-manager-final-approval.png\n:000000 100644 0000000000000000000000000000000000000000 312edba7fe3e9abfec1cbf7e4fd0b0dfa28bb27c A\tverification/2026-09-30/gui-manager-final-interrupted.png\n:000000 100644 0000000000000000000000000000000000000000 d8369d4aefdbf79bad83bb7e878bed98f5f491e2 A\tverification/2026-09-30/gui-manager-final-recovered.png\n:000000 100644 0000000000000000000000000000000000000000 b1d785ea576ec46ee20676f2b8e82b7c9ee10758 A\tverification/2026-09-30/gui-manager-final-streaming.png\n:000000 100644 0000000000000000000000000000000000000000 3d973cfe66dce278b3632ba717ec2a7207dcbc90 A\tverification/2026-09-30/gui-manager-final-tool.png\n:000000 100644 0000000000000000000000000000000000000000 ca7b5820d02d422f82a6893cfdcfde393d4f1a80 A\tverification/2026-09-30/gui-manager-native-storage-final.json\n:000000 100644 0000000000000000000000000000000000000000 376d235f1561f9512734f54fc54cc14b5e68db79 A\tverification/2026-09-30/gui-manager-native-storage-v2.json\n:000000 100644 0000000000000000000000000000000000000000 fbeb4d16cf765a71e1868d8bbf50c16b5b4fa977 A\tverification/2026-09-30/gui-native-storage-rerun.md\n:000000 100644 0000000000000000000000000000000000000000 18df60d863634b201c80ec57acedb0dcb0fd9c07 A\tverification/2026-09-30/gui-native-storage-v2-browser.json\n:000000 100644 0000000000000000000000000000000000000000 c27da9384e82c41deb4144fa3d4aafa182b28edc A\tverification/2026-09-30/gui-native-storage-v2-setup-commands.json\n:000000 100644 0000000000000000000000000000000000000000 a6092f38a5f2404e05a1e59e66c41fa5c85b7bf5 A\tverification/2026-09-30/gui-real-approval-completed.png\n:000000 100644 0000000000000000000000000000000000000000 fb3b1bbe388e581008dc71c9a41149e59fc56c5e A\tverification/2026-09-30/gui-real-approval-request.png\n:000000 100644 0000000000000000000000000000000000000000 be9376a1013c70261e128ecfef7a6e9cf9efa20a A\tverification/2026-09-30/gui-real-engine-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 b39172505ca708501721c01ca7d702db53bcf1fc A\tverification/2026-09-30/gui-real-engine-chat.png\n:000000 100644 0000000000000000000000000000000000000000 7bf402f1c6b656736d752f102d5cea98de0a21f5 A\tverification/2026-09-30/gui-real-interrupted.png\n:000000 100644 0000000000000000000000000000000000000000 4ec020f84509f3e67b3166115a4faef545362231 A\tverification/2026-09-30/gui-real-recovered-after-restart.png\n:000000 100644 0000000000000000000000000000000000000000 9100af02e69f07fb4815edb724a04f2fd6fdc50e A\tverification/2026-09-30/gui-real-response-after-restart.png\n:000000 100644 0000000000000000000000000000000000000000 4237db41db5ae0b50642d2c309e804d89e6c1f59 A\tverification/2026-09-30/gui-storage-composition-approval.png\n:000000 100644 0000000000000000000000000000000000000000 a462d7d3a62f830dccfcd502e3f8b93338f30717 A\tverification/2026-09-30/gui-storage-composition-interrupted.png\n:000000 100644 0000000000000000000000000000000000000000 52dbc2b40441acfc79037e3d3cc71a7e1a7a192d A\tverification/2026-09-30/gui-storage-composition-recovered.png\n:000000 100644 0000000000000000000000000000000000000000 9dd0a0d161b397e1f73f99b39f8a469e86e1ba05 A\tverification/2026-09-30/gui-storage-composition-tool.png\n:000000 100644 0000000000000000000000000000000000000000 5edb229e441184043d89309a8f938f4b6b61aaf2 A\tverification/2026-09-30/gui-storage-composition-turn.png\n:000000 100644 0000000000000000000000000000000000000000 125b4fa7e0061b9acb414af93b725fc74d93c1c0 A\tverification/2026-09-30/gui-storage-composition.json\n:000000 100644 0000000000000000000000000000000000000000 c90d7a3eedc5551e3d66d464092b6eea54853a23 A\tverification/2026-09-30/gui-v2-approval.png\n:000000 100644 0000000000000000000000000000000000000000 4ee53326f6584269235d259d8cdb6766c1bc58f4 A\tverification/2026-09-30/gui-v2-completed-after-restart.png\n:000000 100644 0000000000000000000000000000000000000000 ee7e9c38a5c974753341c071430ef7cff83950f4 A\tverification/2026-09-30/gui-v2-interrupted.png\n:000000 100644 0000000000000000000000000000000000000000 8d8641dc6d28488b52f417fbae6fd6874b5c0382 A\tverification/2026-09-30/gui-v2-recovered.png\n:000000 100644 0000000000000000000000000000000000000000 bc1ea9a2daf43a4a0f0713956860674724a284fd A\tverification/2026-09-30/gui-v2-streaming.png\n:000000 100644 0000000000000000000000000000000000000000 a0143e5fa54258206bf8f7536eae89dcb753eb22 A\tverification/2026-09-30/gui-v2-tool.png\n:000000 100644 0000000000000000000000000000000000000000 81e4a538ccebdfcf77c55e45c7a408602bcaf01e A\tverification/2026-09-30/harness-cli-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 14f597155c22a653005902045932ea3309b2fa22 A\tverification/2026-09-30/harness-cli-commands.json\n:000000 100644 0000000000000000000000000000000000000000 4aac3be26b9c0f21efb01febd9792255232d57c4 A\tverification/2026-09-30/inactive-test-cache-reclamation.json\n:000000 100644 0000000000000000000000000000000000000000 1fd436761981a527cae3c98db1d69245fd46cf80 A\tverification/2026-09-30/login-junit.xml\n:000000 100644 0000000000000000000000000000000000000000 045135b02a2f915fe87f834da97019d87c1a8058 A\tverification/2026-09-30/login-results.md\n:000000 100644 0000000000000000000000000000000000000000 ac6366ba93f94ef0aca4cea0655368e6f4bac01f A\tverification/2026-09-30/manager-service-lifetime-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 9b421360e24d2c0ab48c78757f061dab2bc4b6df A\tverification/2026-09-30/manager-service-lifetime-acceptance.log\n:000000 100644 0000000000000000000000000000000000000000 bb8b16c2ad5e68d1895df161345e58711106599c A\tverification/2026-09-30/manager-shutdown-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 f25370c034b749bdf802c09bd2e1dc19031f0c9a A\tverification/2026-09-30/manager-shutdown-reaping-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 c5de40b9c9f1baaf292542bb1ee1f26d8d5ca6da A\tverification/2026-09-30/model-wire-audit.md\n:000000 100644 0000000000000000000000000000000000000000 cc367f98f37e0e16b09722219be2352c2c3c2311 A\tverification/2026-09-30/model-wire-size-audit-commands.json\n:000000 100644 0000000000000000000000000000000000000000 d9dd687f038d729a2b99c32b24cc8e449e5e1de8 A\tverification/2026-09-30/model-wire-size-audit.json\n:000000 100644 0000000000000000000000000000000000000000 26545bd0157121637a90512d70169b03f0abb5fb A\tverification/2026-09-30/model-wire-size-reproduce.py\n:000000 100644 0000000000000000000000000000000000000000 ff6c9888f891e025a54e1161340cd5f59ceb4fc9 A\tverification/2026-09-30/native-components-cli-build-retry.log\n:000000 100644 0000000000000000000000000000000000000000 9850c0f0448e496b55fdb4f2cecbbefd5dd95e3b A\tverification/2026-09-30/native-components-cli-build.log\n:000000 100644 0000000000000000000000000000000000000000 75372fd1c89b771d6e6a2046e247562711b7dafe A\tverification/2026-09-30/native-components-final-binaries.json\n:000000 100644 0000000000000000000000000000000000000000 6316737fc6d91a2e7f85573fbe822999514a1669 A\tverification/2026-09-30/native-components-final-cli-build.log\n:000000 100644 0000000000000000000000000000000000000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 A\tverification/2026-09-30/native-components-final-fmt.log\n:000000 100644 0000000000000000000000000000000000000000 2738136b9690f2b091218f597d24a22abb703cac A\tverification/2026-09-30/native-components-fix-retry.log\n:000000 100644 0000000000000000000000000000000000000000 7e9412ac957ca2755a05f2ee16f1c9d9c925a88f A\tverification/2026-09-30/native-components-fix.log\n:000000 100644 0000000000000000000000000000000000000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 A\tverification/2026-09-30/native-components-fmt.log\n:000000 100644 0000000000000000000000000000000000000000 a116812cad5d79254af1d351956690fbb83def45 A\tverification/2026-09-30/native-packager-contract-version.log\n:000000 100644 0000000000000000000000000000000000000000 86222195a31c68e4c331aff1df81afb6c0d0dc38 A\tverification/2026-09-30/next-components-worktree-baseline.json\n:000000 100644 0000000000000000000000000000000000000000 1e2648b0a30660b3cbd01a87d1bdf0c2dfc22ea4 A\tverification/2026-09-30/off-main-target-cache-cleanup.json\n:000000 100644 0000000000000000000000000000000000000000 47c363d234c84b7de0399ba41a0c9c6b82c38071 A\tverification/2026-09-30/paired-build-metadata-relocation.json\n:000000 100644 0000000000000000000000000000000000000000 49c68d6cf919b21775e484ebbca38bc40692f332 A\tverification/2026-09-30/proposed-storage-acquisition/acquisition-fence.patch\n:000000 100644 0000000000000000000000000000000000000000 91e381feed6e7708da3f0a87863217c44a9a400f A\tverification/2026-09-30/proposed-storage-acquisition/acquisition.rs\n:000000 100644 0000000000000000000000000000000000000000 f8d2d48f125650abe4e97976c9c00efd8b2bc677 A\tverification/2026-09-30/proposed-storage-acquisition/acquisition_tests.rs\n:000000 100644 0000000000000000000000000000000000000000 4ec519a442006613c2919d9b077b2cc2809569f9 A\tverification/2026-09-30/recovery-attachment-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 e24b75c20fc6bf50e538462f8c98ba03ff36dd56 A\tverification/2026-09-30/recovery-attachment-revalidated.json\n:000000 100644 0000000000000000000000000000000000000000 9b8f3fbbc071fe07821bc903ae3f2daf20c7d206 A\tverification/2026-09-30/recovery-cache-preservation.json\n:000000 100644 0000000000000000000000000000000000000000 d7800c768058540624107f8520f59e6e3f49bb1f A\tverification/2026-09-30/recovery-core-failure-analysis.md\n:000000 100644 0000000000000000000000000000000000000000 f5347b70de272f9c738f45b6cfc210fe714443e0 A\tverification/2026-09-30/recovery-core-fix.log\n:000000 100644 0000000000000000000000000000000000000000 9afe08a8d0fa4b07b7eebb589548a413f0e4de39 A\tverification/2026-09-30/recovery-core-lib-20260930.json\n:000000 100644 0000000000000000000000000000000000000000 e62e119ebefe79f89ccacdfa35449c56e3953dc9 A\tverification/2026-09-30/recovery-core-lib-20260930.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 b6b38b99e9eae3d9c4d611499248b2ea80cabab3 A\tverification/2026-09-30/recovery-core-lib-20260930.log\n:000000 100644 0000000000000000000000000000000000000000 2813876770a1b51fd094d1d2ce89a43f6b1fe4a2 A\tverification/2026-09-30/recovery-core-lib-portable-20260930.json\n:000000 100644 0000000000000000000000000000000000000000 19bc8c83a2335b8d4060c6c3624dc5a8283016d1 A\tverification/2026-09-30/recovery-core-lib-portable-20260930.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 4287c3dc2a7cc11b5c3d80528fbf505bd9ca8b30 A\tverification/2026-09-30/recovery-core-lib-portable-20260930.log\n:000000 100644 0000000000000000000000000000000000000000 6b9aa0353d01429a92ed480b18c3b33829e13bc0 A\tverification/2026-09-30/recovery-core-lib-portable-20260930.source.json\n:000000 100644 0000000000000000000000000000000000000000 50d5fc806b0ea607ad918422d040de7aed4ded08 A\tverification/2026-09-30/recovery-core-lib-portable-20260930.subreaper.json\n:000000 100644 0000000000000000000000000000000000000000 b3574deac8525763a0e7ba7b5fb7079791daad05 A\tverification/2026-09-30/recovery-core-lib-portable-20260930.tracked.patch\n:000000 100644 0000000000000000000000000000000000000000 844816fa36b2646873492a50618fd5744141a8a3 A\tverification/2026-09-30/recovery-final-checks.json\n:000000 100644 0000000000000000000000000000000000000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 A\tverification/2026-09-30/recovery-fmt.log\n:000000 100644 0000000000000000000000000000000000000000 e812a03659ccb1fcebb7058d7ad036445ba05443 A\tverification/2026-09-30/recovery-full-workspace-backup.json\n:000000 100644 0000000000000000000000000000000000000000 123094fb3ec3ff32cf9de43b5bb46c33c51f4f2a A\tverification/2026-09-30/recovery-gui-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 10c26083ec6bad38b820272f8d0bd68077d1531a A\tverification/2026-09-30/recovery-gui-binaries-after.json\n:000000 100644 0000000000000000000000000000000000000000 10c26083ec6bad38b820272f8d0bd68077d1531a A\tverification/2026-09-30/recovery-gui-binaries-before.json\n:000000 100644 0000000000000000000000000000000000000000 cc877651de5868c70b506fb950ac97015970e77a A\tverification/2026-09-30/recovery-gui-browser.json\n:000000 100644 0000000000000000000000000000000000000000 88161db86a7badccbf424ad69244141080b86d7e A\tverification/2026-09-30/recovery-gui-launch-1-processes.json\n:000000 100644 0000000000000000000000000000000000000000 8c217c502a6573f914fcc563acd171578be1ad3c A\tverification/2026-09-30/recovery-gui-launch-1-shutdown.json\n:000000 100644 0000000000000000000000000000000000000000 bdfe8873602210d596a8417e52d21eb1dacb0823 A\tverification/2026-09-30/recovery-gui-launch-2-processes.json\n:000000 100644 0000000000000000000000000000000000000000 9489839bf45dbddb967681f75227028534d5f8f0 A\tverification/2026-09-30/recovery-gui-launch-2-shutdown.json\n:000000 100644 0000000000000000000000000000000000000000 2aa279fac2112edb72d778031c87eca17b8f10f4 A\tverification/2026-09-30/recovery-gui-launcher-stop-model.json\n:000000 100644 0000000000000000000000000000000000000000 bc94c42aa82cacaee1e3e92d8058c6ec1e555da9 A\tverification/2026-09-30/recovery-gui-recovery-approval.png\n:000000 100644 0000000000000000000000000000000000000000 deef7ca5717382ae4fde8605b765350d2327953a A\tverification/2026-09-30/recovery-gui-recovery-cold-continued.png\n:000000 100644 0000000000000000000000000000000000000000 4c14b12d9511cdd9d9322f0b7cb42737f93d44d4 A\tverification/2026-09-30/recovery-gui-recovery-cold-recovered.png\n:000000 100644 0000000000000000000000000000000000000000 dca0fa304ae8845f380661162b59f32295f98fc8 A\tverification/2026-09-30/recovery-gui-recovery-interrupted.png\n:000000 100644 0000000000000000000000000000000000000000 5a0139e7a42fe3ab2971fe175155ab22851f4d2b A\tverification/2026-09-30/recovery-gui-recovery-streaming.png\n:000000 100644 0000000000000000000000000000000000000000 1136b40d27522c64419ce443b16de8bf55adde54 A\tverification/2026-09-30/recovery-gui-recovery-tool.png\n:000000 100644 0000000000000000000000000000000000000000 f849792ee1c448591e7d74c257d420034a4ed07e A\tverification/2026-09-30/recovery-gui-setup-commands.json\n:000000 100644 0000000000000000000000000000000000000000 fe33c5bc4f25f97b95542913661d5ab6e3e2c5bb A\tverification/2026-09-30/recovery-gui-ui-stop-model.json\n:000000 100644 0000000000000000000000000000000000000000 c392ff0a687659a46ba8622fdc6a68e46e5c3ff8 A\tverification/2026-09-30/recovery-harness-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 3cd9b3f2d44283e330d27c57823795e67284331a A\tverification/2026-09-30/recovery-harness-command.json\n:000000 100644 0000000000000000000000000000000000000000 bc79c74ce1352b83fda9da77f7b663a669d1fe7f A\tverification/2026-09-30/recovery-harness-commands.json\n:000000 100644 0000000000000000000000000000000000000000 dee2becc61b91e6b0568de82cdd8ef4c86b17840 A\tverification/2026-09-30/recovery-harness-native-requests.json\n:000000 100644 0000000000000000000000000000000000000000 bfcef28e0d79e86802b095d19d0ef3c1fd96caaf A\tverification/2026-09-30/recovery-manager-shutdown-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 06cb1d7c70666f8e251de12f92698973914cd0ac A\tverification/2026-09-30/recovery-manager-shutdown-command.json\n:000000 100644 0000000000000000000000000000000000000000 b632dddb082a020ffd4a97de6403cd6094afc4c6 A\tverification/2026-09-30/recovery-preview-capabilities.json\n:000000 100644 0000000000000000000000000000000000000000 4a9e583fdbe9162b076ba0d15f5d34fb9b8f6bc4 A\tverification/2026-09-30/recovery-runtime-summary.json\n:000000 100644 0000000000000000000000000000000000000000 0acabd8525dd56325e1ec2166bb64b8783995925 A\tverification/2026-09-30/recovery-subreaper-runner-tests.json\n:000000 100644 0000000000000000000000000000000000000000 17eb174b727441d6c1e33a4dd1c9ee917df0f850 A\tverification/2026-09-30/roadmap-source-audit.json\n:000000 100644 0000000000000000000000000000000000000000 981e31c6641403bf133d7e261e5111846c0621d4 A\tverification/2026-09-30/sdk-all-results.log\n:000000 100644 0000000000000000000000000000000000000000 cf877c7ad2fc7d878a5ebc1830fb9b113588da26 A\tverification/2026-09-30/sdk-wheel-distribution-commands.json\n:000000 100644 0000000000000000000000000000000000000000 93d5bfed261800a10bf6f0ee76cc4e1a66315397 A\tverification/2026-09-30/sdk-wheel-distribution.json\n:000000 100644 0000000000000000000000000000000000000000 49b1ae7e9fe1b92e559174393d672f58efb668be A\tverification/2026-09-30/sdk-wheel-sdk-tests.log\n:000000 100644 0000000000000000000000000000000000000000 b3cc964764ea478334ffc937b806d71aef5a7b1a A\tverification/2026-09-30/storage-acquisition-fix.log\n:000000 100644 0000000000000000000000000000000000000000 20246771efe53879a36c204be1cfc4bc9c428f79 A\tverification/2026-09-30/storage-component-results.json\n:000000 100644 0000000000000000000000000000000000000000 242940c67301f4c1259bacb17adaeede7ecac7ea A\tverification/2026-09-30/storage-engine-cli-acceptance.json\n:000000 100644 0000000000000000000000000000000000000000 6fd77696b650b175082f59d19a3130be0c14872f A\tverification/2026-09-30/storage-engine-cli-commands.json\n:000000 100644 0000000000000000000000000000000000000000 33cc8ff27f0b19c6f23d8f41639a4e2e745cccef A\tverification/2026-09-30/storage-final-regressions-command.txt\n:000000 100644 0000000000000000000000000000000000000000 c59ba59d0f02eb79d0d5c6af5150fcc7a057f7ff A\tverification/2026-09-30/storage-final-regressions-results.json\n:000000 100644 0000000000000000000000000000000000000000 341b0ba4eef72efe6b342851aca04cf346199ce3 A\tverification/2026-09-30/storage-final-regressions.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 74351329fac8483ec02b1f546a96f13a022a4599 A\tverification/2026-09-30/storage-final-regressions.log\n:000000 100644 0000000000000000000000000000000000000000 f094c86d65469e95d80914e61dd3e71b57340dee A\tverification/2026-09-30/storage-followup-inventory.md\n:000000 100644 0000000000000000000000000000000000000000 7779c679cfc19451f814be7dc80c4ea94301f64f A\tverification/2026-09-30/storage-lifecycle-regressions-results.json\n:000000 100644 0000000000000000000000000000000000000000 2ede6d5a06e401cef154b881de2850d7d8c5b121 A\tverification/2026-09-30/storage-lifecycle-regressions.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 46c963ec4716f213f39dadf939c82920eb245287 A\tverification/2026-09-30/storage-lifecycle-regressions.log\n:000000 100644 0000000000000000000000000000000000000000 05ae2cf22b45f4327781752e1901c42f9e65ec43 A\tverification/2026-09-30/storage-maintenance-clippy.log\n:000000 100644 0000000000000000000000000000000000000000 0b0e2d866d9aac37699b370afaf8674ca1c6c052 A\tverification/2026-09-30/storage-maintenance-diagnostic.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 525d464245dd89cbc387804d513a00dc66632430 A\tverification/2026-09-30/storage-maintenance-diagnostic.log\n:000000 100644 0000000000000000000000000000000000000000 452975d588ffca247ad99443bc81815e4effdb19 A\tverification/2026-09-30/storage-maintenance-final-clippy.log\n:000000 100644 0000000000000000000000000000000000000000 fd0a88994eda09e279ebeed7454b81427b3bc857 A\tverification/2026-09-30/storage-maintenance-first-compile.json\n:000000 100644 0000000000000000000000000000000000000000 8ff6a75394f3942014fb77ac9787937f0ba49677 A\tverification/2026-09-30/storage-maintenance-first-compile.log\n:000000 100644 0000000000000000000000000000000000000000 dbb67ecb5b1236e7dd128b9d5e658115ffecb6da A\tverification/2026-09-30/storage-maintenance-first-runtime.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 b982acd738d5e2fd8a20f10de6c79f2900e671f9 A\tverification/2026-09-30/storage-maintenance-first-runtime.log\n:000000 100644 0000000000000000000000000000000000000000 c4822197f8bf31c715d7a16ccebd3d8e7f69f13a A\tverification/2026-09-30/storage-maintenance-owned-close.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 4a278f08fe4ad09bd6cc3c75d599ca257e8ace31 A\tverification/2026-09-30/storage-maintenance-owned-close.log\n:000000 100644 0000000000000000000000000000000000000000 14d5a7ba2402401fd13ab17a511a8a37b001600e A\tverification/2026-09-30/storage-maintenance-pool-close.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 25c6d445e1d172880e4958151b33a6044535577b A\tverification/2026-09-30/storage-maintenance-pool-close.log\n:000000 100644 0000000000000000000000000000000000000000 cd07f53e96a9a86be8cae677e4d4cb25d905af50 A\tverification/2026-09-30/storage-maintenance-regressions.json\n:000000 100644 0000000000000000000000000000000000000000 dbb67ecb5b1236e7dd128b9d5e658115ffecb6da A\tverification/2026-09-30/storage-maintenance-regressions.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 b982acd738d5e2fd8a20f10de6c79f2900e671f9 A\tverification/2026-09-30/storage-maintenance-regressions.log\n:000000 100644 0000000000000000000000000000000000000000 66bda3d4284db99384c857e72c98a4832baa34d3 A\tverification/2026-09-30/storage-native-regressions-results.json\n:000000 100644 0000000000000000000000000000000000000000 4a3b3adafeef3839ba63a5b58f375761fdbca87b A\tverification/2026-09-30/storage-native-regressions.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 10883bf1a877d4f29feb9a86650a6ebc36dfe0d5 A\tverification/2026-09-30/storage-native-regressions.log\n:000000 100644 0000000000000000000000000000000000000000 a1992055b08c0190772ddceef701e820277f1ef0 A\tverification/2026-09-30/storage-v2-checkpoint-archives.json\n:000000 100644 0000000000000000000000000000000000000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 A\tverification/2026-09-30/storage-v2-checkpoint-fmt.log\n:000000 100644 0000000000000000000000000000000000000000 e69de29bb2d1d6434b8b29ae775ad8c2e48c5391 A\tverification/2026-09-30/storage-v2-final-fmt.log\n:000000 100644 0000000000000000000000000000000000000000 23aeb49a053e37307c65e925d364ac59f99b3409 A\tverification/2026-09-30/storage-v2-host-build.log\n:000000 100644 0000000000000000000000000000000000000000 a29bc81ca5a827e9032db891b7fee86330bc289c A\tverification/2026-09-30/storage-wire-fidelity-before.json\n:000000 100644 0000000000000000000000000000000000000000 6ce249a1a81b8e56f5fcd902d41197ecb8e2c584 A\tverification/2026-09-30/storage-wire-fidelity-before.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 0209d41f31ec1135c46d5c6fed56504eef6226d0 A\tverification/2026-09-30/storage-wire-fidelity-before.log\n:000000 100644 0000000000000000000000000000000000000000 79c9df5527e1adcf2cb308094e7ca660a19acfff A\tverification/2026-09-30/storage-wire-v2-clippy.log\n:000000 100644 0000000000000000000000000000000000000000 42da5da04df604c8e12d7da9fe8fd034cfbecc94 A\tverification/2026-09-30/storage-wire-v2-first-runtime.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 35fa5d370bd6c11b9d8d1efecc7bce679b9488a0 A\tverification/2026-09-30/storage-wire-v2-first-runtime.log\n:000000 100644 0000000000000000000000000000000000000000 c4fd850b98b21d0050b3eeae174b9dea35cd5c78 A\tverification/2026-09-30/storage-wire-v2-first.json\n:000000 100644 0000000000000000000000000000000000000000 a09a25d1a6838c19056365bc86bd425696774797 A\tverification/2026-09-30/storage-wire-v2-first.log\n:000000 100644 0000000000000000000000000000000000000000 1545ab513c2172f7a2b1f3109191138fe46b4d50 A\tverification/2026-09-30/storage-wire-v2-paths.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 29023dd13f0b962aa16115b533e70cb82150c583 A\tverification/2026-09-30/storage-wire-v2-paths.log\n:000000 100644 0000000000000000000000000000000000000000 b60287178ced42217a603a99f052e7d106224e7a A\tverification/2026-09-30/storage-wire-v2-regressions.json\n:000000 100644 0000000000000000000000000000000000000000 42da5da04df604c8e12d7da9fe8fd034cfbecc94 A\tverification/2026-09-30/storage-wire-v2-regressions.junit.xml\n:000000 100644 0000000000000000000000000000000000000000 35fa5d370bd6c11b9d8d1efecc7bce679b9488a0 A\tverification/2026-09-30/storage-wire-v2-regressions.log\n:000000 100644 0000000000000000000000000000000000000000 225865217b05a2f163fd97d228edeb9ccf0ac480 A\tverification/2026-09-30/thread-store-native-final-source-inventory.json\n:000000 100644 0000000000000000000000000000000000000000 18755d664f64c32162456d998de26543cde87bb2 A\tverification/2026-09-30/thread-store-native-independent-commands.json\n:000000 100644 0000000000000000000000000000000000000000 04b8f2c691a3c2aaa1f5f25aadf21336108ab44c A\tverification/2026-09-30/thread-store-native-independent.json\n:000000 100644 0000000000000000000000000000000000000000 454d321240f286e02b6cba040e3713fd8ff38f97 A\tverification/2026-09-30/thread-store-native-v2-cli-commands.json\n:000000 100644 0000000000000000000000000000000000000000 ec033fe8211c72133e056854c6b5217a5feb6a42 A\tverification/2026-09-30/thread-store-native-v2-cli.json\n:000000 100644 0000000000000000000000000000000000000000 48a3fac4ea8c6f559a8973719da964f696435155 A\tverification/2026-09-30/thread-store-native-v2-independent.json\n:000000 100644 0000000000000000000000000000000000000000 3becee6cf404802b92a5c31ca250acae7ea5a54a A\tverification/2026-09-30/thread-store-native-v2-native-requests.json\n:000000 100644 0000000000000000000000000000000000000000 e44deec96b2f9cc4cae11ae8f18f04963c54d84e A\tverification/2026-09-30/thread-store-native-v2-setup-attempt1.json\n:000000 100644 0000000000000000000000000000000000000000 fc716f552d4d786ade27f3512ccb012954c23e08 A\tverification/2026-09-30/thread-store-native-v2-source-inventory.json\n:000000 100644 0000000000000000000000000000000000000000 9ac3ddbc1524e12d4fda86d3aeb39716c196e8de A\tverification/2026-09-30/thread-store-source-export.json\n:000000 100644 0000000000000000000000000000000000000000 832174be53e2a0f3ddb6fae97319e4b2aa5cf18f A\tverification/2026-09-30/thread-store-source-inventory.json\n:000000 100644 0000000000000000000000000000000000000000 5e9c39df4a1889cbcf773cc751ad20ce535ccccf A\tverification/2026-09-30/untested-test-binary-symbol-strip.json\n:000000 100644 0000000000000000000000000000000000000000 bd9d4d329d0f0d24bba77649f96c5b5db2b83da5 A\tverification/2026-09-30/v1-checkpoint-archive.json\n:000000 100644 0000000000000000000000000000000000000000 751cc90b6a4d120cd71f15e5204cc42bddc0b911 A\tverification/2026-09-30/workspace-attempt2-cleanup-candidates.json\n:000000 100644 0000000000000000000000000000000000000000 26f695c426dac3eb8d2e15f956d9d864fea1d606 A\tverification/2026-09-30/workspace-attempt2-cleanup-removal.json\n:000000 100644 0000000000000000000000000000000000000000 1bb38299594cfe86ae80d5eb9f77703e6fdf12fe A\tverification/2026-09-30/workspace-attempt4-failed-build-cleanup.json\n:000000 100644 0000000000000000000000000000000000000000 a8f2229636072867ad44bda19843d2fece5fa8d6 A\tverification/2026-09-30/workspace-regression-target-batches.json\n:000000 100644 0000000000000000000000000000000000000000 5243af312ec394d1a4a41f123fb444369eb377a5 A\tverification/2026-10-01/P01_TEST_EVIDENCE.md\n:000000 100644 0000000000000000000000000000000000000000 28fe3fcf4a0c16e1c05c5a4fc7200c8e1b596cad A\tverification/2026-10-01/p01-gui-approval.png\n:000000 100644 0000000000000000000000000000000000000000 4f87a5d62354dc500ae83598e1ae033b126a4968 A\tverification/2026-10-01/p01-gui-recovered.png\n:000000 100644 0000000000000000000000000000000000000000 cd7dabd58e03ea0f43b8dac1878f1e2c55c23c89 A\tverification/2026-10-01/p01-gui-report.json\n:000000 100644 0000000000000000000000000000000000000000 5b22bd9c5bc2a31490a471dacbc7ffa974471b57 A\tverification/2026-10-01/p01-harness-runtime-report.json\n:000000 100644 0000000000000000000000000000000000000000 b78aec9320d32cfaf7887036cd38c4079d352c8a A\tverification/2026-10-01/p01-independent-build-report.json\n:000000 100644 0000000000000000000000000000000000000000 672951122943310be79d523df1fb71c999894a60 A\tverification/2026-10-01/p01-independent-source-inventory.json\n:000000 100644 0000000000000000000000000000000000000000 b812ab68c2a71cd029492090c975f0b00f19a7d3 A\tverification/2026-10-01/p01-old-worker-compatibility-report.json\n:000000 100644 0000000000000000000000000000000000000000 ba26f22f26070c7dc9fb28050cf4d0ac90ac92af A\tverification/2026-10-01/p01-runtime-corrected-report.json\n:000000 100644 0000000000000000000000000000000000000000 b11ab0999958d9937b90dc93a2b25c434defdad3 A\tverification/2026-10-01/p01-runtime-report.json\n:000000 100644 0000000000000000000000000000000000000000 3317218a6c58aa9c49bb59689d4ee74d293c7021 A\tverification/2026-10-01/p01-test-results.json\n:000000 100644 0000000000000000000000000000000000000000 ea368373530024258a70b95f94190362e4b88ba6 A\tverification/activation-patches/model-manager-component.patch",
+    "note": "Raw path/mode/blob inventory includes inherited changes, documentation and evidence. A changed path does not establish native extraction."
+  },
+  "mapping_limits": [
+    "Semantic anchors are selected reviewed boundaries, not an automated complete symbol/call-graph mapping. Unknown upstream changes require review.",
+    "Foreign Nucleo source provenance is verified separately in the vendor audit; it is not attributed to the OpenAI import.",
+    "No upstream integration, installed search selection or updater runtime is established by this lineage checkpoint."
+  ]
+}

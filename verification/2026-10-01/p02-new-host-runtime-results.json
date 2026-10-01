@@ -1,0 +1,858 @@
+{
+  "schema_version": 1,
+  "status": "verified recorded new-host runtime gates; independent search extraction remains incomplete",
+  "passed": true,
+  "recorded_utc": "2026-10-01T03:27:55.662538+00:00",
+  "scope": "P02 StageA native search lifecycle/client prerequisites with current host and reused independently built native storage. This is not independent search-plugin installation or whole-harness extraction.",
+  "candidate": {
+    "artifact": {
+      "path": "/workspace/component-checkpoint-candidate-p02a-20261001/candidate.json",
+      "sha256": "1c5d7bcec810c9ae6847ae57d95086da42cef9944594d82d0132da7e2e4da4df",
+      "bytes": 7915
+    },
+    "recorded_status": "frozen_candidate_runtime_acceptance_pending",
+    "source_reference": "17c366bb94f77b3d3895acd6f061a5cb308bd384",
+    "source_note": "Compiled Rust sources are identified by the WIP ref and per-run fingerprints. Unregistered file-search-api/component-path-codec drafts on that ref were not compiled and are excluded from the accepted StageA source. Subsequent changes add documentation and verification evidence.",
+    "original_unstripped_cli": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "7eadbfd1cc110dc2f49fa81a652ea6ef9de5f8e735471b35347fda4f1115ba2d",
+      "bytes": 626602360,
+      "mtime_ns": 1790824595553392509,
+      "retention": "Historical build fingerprint. Generated unstripped aliases were removed after the separate stripped candidate was frozen and all 30 allocated ELF sections were verified identical. The executed candidate remains preserved."
+    },
+    "candidate_binaries": {
+      "codex": {
+        "sha256": "181463925d599f0eed023106820cad8fbb228d81e972eefb256a2076b88813c0",
+        "bytes": 427215360,
+        "mtime_ns": 1790824595553392509
+      },
+      "codex-component": {
+        "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+        "bytes": 7092568,
+        "mtime_ns": 1790778198616991936
+      }
+    },
+    "binaries_verified_after_all_runtime_gates": {
+      "codex": {
+        "path": "/workspace/component-checkpoint-candidate-p02a-20261001/codex",
+        "sha256": "181463925d599f0eed023106820cad8fbb228d81e972eefb256a2076b88813c0",
+        "bytes": 427215360
+      },
+      "codex-component": {
+        "path": "/workspace/component-checkpoint-candidate-p02a-20261001/codex-component",
+        "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+        "bytes": 7092568
+      }
+    },
+    "allocated_elf_sections_identical_after_strip": true,
+    "allocated_elf_section_count": 30,
+    "elf_verification_scope": "Candidate record compares all 30 allocated ELF sections; stripping is not another source build.",
+    "manager_note": "Accepted P01 manager source/binary unchanged; copied the immutable executable.",
+    "build": {
+      "returncode": 0,
+      "started_utc": "2026-10-01T03:10:55Z",
+      "finished_utc": "2026-10-01T03:16:36Z",
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-cli-candidate-build.source.json",
+        "sha256": "d04d71939d857f31cc4025c47e6a1878b3124fb682362cd0c51db01f30eb6b49",
+        "bytes": 930705
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-cli-candidate-build.log",
+        "sha256": "3bdd18983497d19aa88ed5de50457b8760aeaa7aff1421ca08df4e92b147f826",
+        "bytes": 10444
+      },
+      "source_before_count": 2979,
+      "source_after_count": 2979,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "e78ede6d6f17dbc8d9ae470928afda02191c6f20dc55a5a9e200b8bace7b29c7",
+      "source_after_canonical_sha256": "e78ede6d6f17dbc8d9ae470928afda02191c6f20dc55a5a9e200b8bace7b29c7",
+      "changed_paths": []
+    },
+    "recorded_status_note": "Immutable candidate metadata was written before runtime acceptance. The pending status is its historical value; the completed gates in this report supersede that pending acceptance state without rewriting original metadata.",
+    "generated_cache_preservation_audit": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02-frozen-cli-generated-cache-eviction.json",
+      "bytes": 14839,
+      "sha256": "4e3d7219936f3d4b90f8e616cbe8a5cdd6b45f25ec71bad9f3c283a0f9419e8f"
+    },
+    "accepted_stage_a_source": {
+      "commit": "25b2c3150879761026086a62e480045fc38d32ff",
+      "tree": "5ba385b6e7730119b6d5cdca67fba2dc4f5c395d",
+      "parent": "4288e493d3164ef2995808c02cc65e60528ca96e",
+      "scope": "Exact StageA source/SDK/design checkpoint created after verification; excludes both unregistered StageB draft crates. Original per-run manifests and WIP source reference remain unchanged. Publication is recorded separately in execution state and lineage."
+    }
+  },
+  "reused_storage": {
+    "passed": true,
+    "evidence_kind": "reused_package_new_host",
+    "new_independent_build": false,
+    "package_version": "0.2.0",
+    "contract_version": 2,
+    "report": {
+      "path": "/workspace/acceptance/p02-new-host-storage/independent-report.json",
+      "sha256": "d34dc0cb6ecbed3ff1f760b83b44f0676b3ba7345a38639591991eb07e09c568",
+      "bytes": 5841
+    },
+    "original_independent_build_report": {
+      "path": "/workspace/acceptance/thread-store-p01-0.2.0/independent-report.json",
+      "sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e",
+      "bytes": 8530
+    },
+    "source_build_report_fingerprint_unchanged": true,
+    "original_build_binaries": {
+      "host": {
+        "sha256": "acffaefb470b796b47f36fd9a9d5d4c23d2b5d3622316256b6c8c770ccc8a8f3",
+        "mtime_ns": 1790778198616991936,
+        "bytes": 7092568
+      },
+      "codex": {
+        "sha256": "467ee8360d45701bed728dead65568d6178b5b2d8c2c5b6d149ebcfb11a5ad01",
+        "mtime_ns": 1790816651966152497,
+        "bytes": 426580864
+      }
+    },
+    "original_exported_source_absent_before_and_after": true,
+    "source_removal_scope": "Original exported build tree remains absent; this run performed no Rust export or build.",
+    "package_files_before": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "mtime_ns": 1790816732780801252,
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "mtime_ns": 1790816732780865717,
+        "bytes": 242
+      },
+      "codex-component.json": {
+        "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48",
+        "mtime_ns": 1790816732780996350,
+        "bytes": 309
+      },
+      "codex-thread-store-local-plugin": {
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "mtime_ns": 1790816732933022938,
+        "bytes": 71203368
+      }
+    },
+    "package_files_after": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "mtime_ns": 1790816732780801252,
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "mtime_ns": 1790816732780865717,
+        "bytes": 242
+      },
+      "codex-component.json": {
+        "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48",
+        "mtime_ns": 1790816732780996350,
+        "bytes": 309
+      },
+      "codex-thread-store-local-plugin": {
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "mtime_ns": 1790816732933022938,
+        "bytes": 71203368
+      }
+    },
+    "package_files_reverified_now": {
+      "LICENSE": {
+        "path": "/workspace/acceptance/thread-store-p01-0.2.0/package/LICENSE",
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "path": "/workspace/acceptance/thread-store-p01-0.2.0/package/NOTICE",
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "codex-component.json": {
+        "path": "/workspace/acceptance/thread-store-p01-0.2.0/package/codex-component.json",
+        "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48",
+        "bytes": 309
+      },
+      "codex-thread-store-local-plugin": {
+        "path": "/workspace/acceptance/thread-store-p01-0.2.0/package/codex-thread-store-local-plugin",
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "bytes": 71203368
+      }
+    },
+    "host_binaries_unchanged": true,
+    "runtime_runner_fingerprint": {
+      "sha256": "ebe9d535ac826aa09a181b8ffbfe93910a4663e94f9dd4eae666fe309f385d39",
+      "mtime_ns": 1790769116031996662,
+      "bytes": 15536
+    },
+    "verified": [
+      "original independent build provenance validated",
+      "unchanged old package installed against current host and CLI",
+      "real CLI turns, tool execution, streaming and cold session resume",
+      "storage child termination and native restoration with retained history"
+    ],
+    "runtime": {
+      "report": {
+        "path": "/workspace/acceptance/p02-new-host-storage/runtime/acceptance.json",
+        "sha256": "4dd9cf244da72905d146e475cf545b1cabbc205d963ff46508acf45c23214617",
+        "bytes": 2415
+      },
+      "passed": true,
+      "inference": "deterministic external process + loopback native fixture; no live model",
+      "reported_verified_behaviors": [
+        "independent builds",
+        "source removed",
+        "real CLI turn",
+        "external tool execution",
+        "context contribution",
+        "model event streaming",
+        "persisted session resume",
+        "zero native inference while replacement selected",
+        "native restoration with retained history",
+        "selected native storage process",
+        "cold storage process restart and resume",
+        "storage child termination after each CLI process",
+        "native storage restoration with retained history"
+      ],
+      "independent_builds_label_scope": "The harness helper built small Python fixture plugins separately. Native storage independent-build proof belongs only to the original P01 report; this run reused its package.",
+      "storage_children": [
+        {
+          "pid": 466738,
+          "terminated": true,
+          "proc_absent_now": true
+        },
+        {
+          "pid": 466826,
+          "terminated": true,
+          "proc_absent_now": true
+        },
+        {
+          "pid": 466913,
+          "terminated": true,
+          "proc_absent_now": true
+        }
+      ]
+    },
+    "source": {
+      "returncode": 0,
+      "started_utc": "2026-10-01T03:22:55Z",
+      "finished_utc": "2026-10-01T03:23:00Z",
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-new-host-storage-run.source.json",
+        "sha256": "1aa1080bb5ca5e357d9b84e88d004b8085e7edbc80c7ebfad11ce0a402f390f3",
+        "bytes": 15483
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-new-host-storage-run.log",
+        "sha256": "ef8fb4a1bed509b8b7bec9b04762efd02fce2df086a76e2fd4ac8d378a31a366",
+        "bytes": 67
+      },
+      "source_before_count": 60,
+      "source_after_count": 60,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "349bc163ef1b45254bd6f7757cf952f8c4dc71d6a40de7ef0b4afec7f218e841",
+      "source_after_canonical_sha256": "349bc163ef1b45254bd6f7757cf952f8c4dc71d6a40de7ef0b4afec7f218e841",
+      "changed_paths": []
+    },
+    "subreaper": {
+      "artifact": {
+        "path": "/workspace/acceptance/p02-new-host-storage.subreaper.json",
+        "sha256": "33f189a3e4b0ec92e3e17efb5354ab2392c0537cbec90af24e2151cae395868e",
+        "bytes": 1131
+      },
+      "subreaper": true,
+      "exit_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "reaped_count": 6,
+      "recorded_children_absent_now": [
+        {
+          "pid": 466690,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 466804,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 466888,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 466977,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467012,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467058,
+          "proc_absent_at_initial_public_report_check": true
+        }
+      ]
+    }
+  },
+  "manual_migration": {
+    "passed": true,
+    "report": {
+      "path": "/workspace/acceptance/p02-new-host-migration/manual-migration-report.json",
+      "sha256": "e3be294959101356a6e0cfb563558a2c5b43c9c14d0f46765ce8281fb418fc55",
+      "bytes": 8617
+    },
+    "host_binaries_unchanged": true,
+    "input_storage_report_fingerprint": {
+      "sha256": "d34dc0cb6ecbed3ff1f760b83b44f0676b3ba7345a38639591991eb07e09c568",
+      "mtime_ns": 1790824979724712068,
+      "bytes": 5841
+    },
+    "verified": [
+      "matching independent-source package and unchanged host",
+      "real legacy App Server conversation",
+      "native/selected dry-run parity and unchanged storage bytes",
+      "selected CLI migration and idempotent repeated apply",
+      "cold CLI resume retains user/assistant history",
+      "cold App Server paginated history",
+      "post-migration turn cancellation and process reaping"
+    ],
+    "inference": "deterministic external GUI fixture, not a live provider",
+    "observed_storage_workers_absent_now": [
+      {
+        "pid": 467118,
+        "proc_absent_at_initial_public_report_check": true
+      },
+      {
+        "pid": 467193,
+        "proc_absent_at_initial_public_report_check": true
+      },
+      {
+        "pid": 467236,
+        "proc_absent_at_initial_public_report_check": true
+      },
+      {
+        "pid": 467266,
+        "proc_absent_at_initial_public_report_check": true
+      },
+      {
+        "pid": 467302,
+        "proc_absent_at_initial_public_report_check": true
+      },
+      {
+        "pid": 467390,
+        "proc_absent_at_initial_public_report_check": true
+      }
+    ],
+    "source": {
+      "returncode": 0,
+      "started_utc": "2026-10-01T03:23:27Z",
+      "finished_utc": "2026-10-01T03:23:34Z",
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-new-host-migration-run.source.json",
+        "sha256": "be053f1db90b3a1e3404de5a05d7d6a4279ae29f1c9dd8c46997094b10da7952",
+        "bytes": 15487
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-new-host-migration-run.log",
+        "sha256": "15e49b7e7338d80b35fc1e3e77feecaef8a7e6d57bee8ef83bd22b76e9e19c0e",
+        "bytes": 74
+      },
+      "source_before_count": 60,
+      "source_after_count": 60,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "349bc163ef1b45254bd6f7757cf952f8c4dc71d6a40de7ef0b4afec7f218e841",
+      "source_after_canonical_sha256": "349bc163ef1b45254bd6f7757cf952f8c4dc71d6a40de7ef0b4afec7f218e841",
+      "changed_paths": []
+    },
+    "subreaper": {
+      "artifact": {
+        "path": "/workspace/acceptance/p02-new-host-migration.subreaper.json",
+        "sha256": "53a8514f9f65ef848b79c3e4cf636038021ea19768be4d5dc7f08582cceee3ff",
+        "bytes": 1132
+      },
+      "subreaper": true,
+      "exit_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "reaped_count": 6,
+      "recorded_children_absent_now": [
+        {
+          "pid": 467068,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467142,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467365,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467459,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467470,
+          "proc_absent_at_initial_public_report_check": true
+        },
+        {
+          "pid": 467476,
+          "proc_absent_at_initial_public_report_check": true
+        }
+      ]
+    },
+    "gui_fixture_source_removed": true
+  },
+  "gui": {
+    "passed": true,
+    "private_report_fingerprint": {
+      "path": "/workspace/acceptance/p02-new-host-gui/acceptance-private.json",
+      "sha256": "5613fa31c5e9d11e5bcea9f6dd6baa1aead42b97a8d582ac5dbd92a2ea6d87f4",
+      "bytes": 19536
+    },
+    "browser": "Chromium through Playwright; requested in-app Browser unavailable",
+    "inference": "deterministic fixture; no live provider",
+    "host_binaries_unchanged": true,
+    "installed_packages_unchanged": true,
+    "script_fingerprint": {
+      "sha256": "43721df2b4bff37d0a18654eca78c7fa590b49879aed2615f3b7d5c3063019a1",
+      "mtime_ns": 1790823760852820170,
+      "bytes": 31824
+    },
+    "driver_fingerprint": {
+      "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+      "mtime_ns": 1790777761103245727,
+      "bytes": 2800
+    },
+    "file_search_helper_fingerprint": {
+      "sha256": "4160534bb14040f766175e91ef7fe51a3ef4d24269cf9062c90c369237a2542d",
+      "mtime_ns": 1790823760852820170,
+      "bytes": 10241
+    },
+    "runs": [
+      {
+        "cycle": 1,
+        "passed": true,
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.31479205699724844,
+        "tracked_processes_absent": true,
+        "installed_storage_fingerprint": {
+          "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+          "mtime_ns": 1790825009067708585,
+          "bytes": 71203368
+        },
+        "browser": {
+          "private_artifact_fingerprint": {
+            "path": "/workspace/acceptance/p02-new-host-gui/browser-1.json",
+            "sha256": "25676e4abca08194ed5e4e358b3870a374abc8c6d41cd52bc3e4b8636743d2a0",
+            "bytes": 32484
+          },
+          "commands": 49,
+          "passed_commands": 49,
+          "page_error_count": 0,
+          "closed": true
+        },
+        "file_search_verified": [
+          "real filesystem results",
+          "relative root rejected without RPC or draft/input changes",
+          "click insertion with spaces/quotes/backslash",
+          "keyboard insertion without submitting",
+          "draft preservation",
+          "A-B-A query fence",
+          "root replacement fence",
+          "explicit close fence",
+          "task replacement fence"
+        ],
+        "actual_backend": "New frozen P02A native App Server fuzzyFileSearch; no selected search component installed.",
+        "subreaper_drain_passed": true,
+        "observed_manager_descendant_count": 23,
+        "observed_browser_descendant_count": 10,
+        "observed_processes_absent_now": [
+          {
+            "pid": 467499,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467506,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467507,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467525,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467540,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467550,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467553,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467555,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467559,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467573,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467592,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467594,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467615,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467624,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467631,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467663,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467664,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467673,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467674,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467695,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467696,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467697,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467745,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467788,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467811,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467855,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467861,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467868,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467872,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467873,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467878,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467895,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467900,
+            "proc_absent_at_initial_public_report_check": true
+          }
+        ]
+      },
+      {
+        "cycle": 2,
+        "passed": true,
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.3163431099965237,
+        "tracked_processes_absent": true,
+        "installed_storage_fingerprint": {
+          "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+          "mtime_ns": 1790825009067708585,
+          "bytes": 71203368
+        },
+        "browser": {
+          "private_artifact_fingerprint": {
+            "path": "/workspace/acceptance/p02-new-host-gui/browser-2.json",
+            "sha256": "7d3893d471e04c818282896f6a0352a3bd34b2c996f0dbec96daf7786f824fdc",
+            "bytes": 26598
+          },
+          "commands": 38,
+          "passed_commands": 38,
+          "page_error_count": 0,
+          "closed": true
+        },
+        "file_search_verified": [
+          "real filesystem results",
+          "relative root rejected without RPC or draft/input changes",
+          "click insertion with spaces/quotes/backslash",
+          "keyboard insertion without submitting",
+          "draft preservation",
+          "A-B-A query fence",
+          "root replacement fence",
+          "explicit close fence",
+          "task replacement fence"
+        ],
+        "actual_backend": "New frozen P02A native App Server fuzzyFileSearch; no selected search component installed.",
+        "subreaper_drain_passed": true,
+        "observed_manager_descendant_count": 11,
+        "observed_browser_descendant_count": 10,
+        "observed_processes_absent_now": [
+          {
+            "pid": 467903,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467910,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467911,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467928,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467943,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467951,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467957,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467958,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467962,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467976,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467995,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 467998,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468018,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468021,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468034,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468064,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468073,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468074,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468241,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468250,
+            "proc_absent_at_initial_public_report_check": true
+          },
+          {
+            "pid": 468255,
+            "proc_absent_at_initial_public_report_check": true
+          }
+        ]
+      }
+    ],
+    "total_commands": 87,
+    "final_subreaper_drain_passed": true,
+    "own_child_subreaper": "GUI runner directly owns descendant tracking and drains; no external subreaper wrapper was substituted.",
+    "tracking_scope": "observed descendant identities plus child-subreaper drain; scans can miss short-lived descendants",
+    "source": {
+      "returncode": 0,
+      "started_utc": "2026-10-01T03:24:15Z",
+      "finished_utc": "2026-10-01T03:24:35Z",
+      "source_manifest": {
+        "path": "/workspace/acceptance/p02-new-host-gui-run.source.json",
+        "sha256": "270c49189e6c215b00f58a8114553e6aa7bfa9a5dd99776ec6c74a438569d965",
+        "bytes": 15356
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02-new-host-gui-run.log",
+        "sha256": "f02988e48464da4caf914bb9cf376aacbdad9b4e6568bc2e9150d14687ccd8a7",
+        "bytes": 63
+      },
+      "source_before_count": 60,
+      "source_after_count": 60,
+      "scoped_source_unchanged": true,
+      "source_before_canonical_sha256": "349bc163ef1b45254bd6f7757cf952f8c4dc71d6a40de7ef0b4afec7f218e841",
+      "source_after_canonical_sha256": "349bc163ef1b45254bd6f7757cf952f8c4dc71d6a40de7ef0b4afec7f218e841",
+      "changed_paths": []
+    },
+    "separately_built_gui_package_files": {
+      "SDK-NOTICE": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/SDK-NOTICE",
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "NOTICE": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/NOTICE",
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "LICENSE": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/LICENSE",
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "codex-component.json": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/codex-component.json",
+        "sha256": "809c83029763f0cc9902fa9e834c6d6b2ba00e990417ab375618b9365f629b94",
+        "bytes": 356
+      },
+      "SDK-LICENSE": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/SDK-LICENSE",
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "README.md": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/README.md",
+        "sha256": "63b18aefd2bf77c2381990dd34d96809fb4d505fdcd5b8afe85079558d6b7f02",
+        "bytes": 11133
+      },
+      "plugin.pyz": {
+        "path": "/workspace/acceptance/p02-new-host-migration/gui/desktop-package/plugin.pyz",
+        "sha256": "a095f2a6ffa9fdceae69d00197868cc14f5eb0a1ce1fb89adbeba9ae8cdd02f4",
+        "bytes": 28882
+      }
+    },
+    "safe_viewport_screenshots": [
+      {
+        "path": "/workspace/acceptance/p02-new-host-gui/search-results-1.png",
+        "sha256": "5c9a1ba28ebdbfc55cc20541a93785f9ce20793397f507e7078dc40b3d1954d2",
+        "bytes": 78896
+      },
+      {
+        "path": "/workspace/acceptance/p02-new-host-gui/search-inserted-2.png",
+        "sha256": "f86dcb0797b778056574d71d27df8e69c8441d32bf1fc4d8bbbb069608b89418",
+        "bytes": 121922
+      },
+      {
+        "path": "/workspace/acceptance/p02-new-host-gui/approval.png",
+        "sha256": "7cae60a9e4ac0ec7687fe0483ee077e3094ca7e1ab20f878c417a112ec6f0465",
+        "bytes": 134040
+      },
+      {
+        "path": "/workspace/acceptance/p02-new-host-gui/recovered-2.png",
+        "sha256": "469ac04ac24616dc7f102f5fe759e347d4e88a7c8cd4b9ac78a6d0e144588d5d",
+        "bytes": 146345
+      }
+    ],
+    "visual_inspection": {
+      "performed": true,
+      "screenshots": [
+        "search-results-1.png",
+        "recovered-2.png"
+      ],
+      "scope": "Safe viewport screenshots viewed; real file picker and recovered conversation visible. This is not the unavailable in-app Browser.",
+      "additional_final_report_review": [
+        "search-results-2.png",
+        "search-inserted-2.png"
+      ]
+    },
+    "published_safe_viewport_screenshots": [
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-new-host-search-results.png",
+        "bytes": 86380,
+        "sha256": "0ff5a0a2f4d731884344bc09a8124695cad0cef6048419acdf869c4ad422d5c8"
+      },
+      {
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/p02-new-host-search-inserted.png",
+        "bytes": 121922,
+        "sha256": "f86dcb0797b778056574d71d27df8e69c8441d32bf1fc4d8bbbb069608b89418"
+      }
+    ]
+  },
+  "counting": {
+    "storage_runtime_runs": 1,
+    "manual_migration_runs": 1,
+    "gui_cold_cycles": 2,
+    "gui_commands": 87,
+    "these_are_not_added_to_original_frozen_P01_GUI_unique_counts": true,
+    "new_native_storage_builds": 0,
+    "new_host_source_builds": 1,
+    "candidate_stripping_is_not_a_second_build": true
+  },
+  "remaining_scope": [
+    "Search component installation/selection/removal and independently built search worker are not implemented.",
+    "Whole-harness subsystem extraction remains incomplete.",
+    "No live provider inference or Windows runtime validation."
+  ],
+  "privacy": "Whitelisted outcomes and fingerprints only. No raw commands, bearer URLs, ready-file contents, browser errors, credentials or private runtime state copied.",
+  "finalized_utc": "2026-10-01T04:00:49.143191+00:00"
+}
