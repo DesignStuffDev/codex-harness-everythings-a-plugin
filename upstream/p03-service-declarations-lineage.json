@@ -1,0 +1,337 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-01T13:24:24.349218+00:00",
+  "status": "adopted_focused_tests_passed_lint_runtime_publication_pending",
+  "stage_manifest": {
+    "path": "/tmp/p03-service-declarations-stage/FINAL_MANIFEST.json",
+    "sha256": "2705a5c51b656e556f7fc488f28e2e0cdbcf5f1318fd88c316927f311a4efc9a"
+  },
+  "classification": "custom_component_infrastructure_and_validation_only",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "tree": "147ac2447134294359c4071b0aeb495922760db7",
+    "exact_import": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "note": "This slice adds no native extraction. Existing custom path absence is taken from exact-import lineage records; new custom files have no upstream source mapping."
+  },
+  "paths": [
+    {
+      "path": "codex-rs/attachment-store-component/src/adapter_tests.rs",
+      "base_sha256": "cc494380fae99c488a9f2d768cad4276ea95f8431ef0adc475410cf27529ad45",
+      "proposed_sha256": "1b3aaa91177e459ce86c4625fe2d94a3e9ded192fc0aeadf9cb2e646460f4fe2",
+      "bytes": 11790,
+      "additions": 1,
+      "removals": 0,
+      "classification": "existing_custom_fixture_compatibility",
+      "change": "Adds service_requirements: None to the existing ComponentSpec literal; existing assertions unchanged.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/attachment-store-component/src/adapter_tests.rs"
+      },
+      "tested_sha256": "1b3aaa91177e459ce86c4625fe2d94a3e9ded192fc0aeadf9cb2e646460f4fe2",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-api/Cargo.toml",
+      "base_sha256": "88b7254e980c0091f3eb407ae3f046f1a06fb696acb3d2b10f64b221a8f00077",
+      "proposed_sha256": "6538cb86b82de50241d16bf716a4b5a9e1fca294c2ad6a966afa3a3c8bb7b429",
+      "bytes": 304,
+      "additions": 3,
+      "removals": 0,
+      "classification": "custom_test_dependency",
+      "change": "Adds workspace pretty_assertions only as a dev-dependency.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/component-api/Cargo.toml"
+      },
+      "tested_sha256": "6538cb86b82de50241d16bf716a4b5a9e1fca294c2ad6a966afa3a3c8bb7b429",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "base_sha256": "aa77d05a5f19e008df1650d92eb15134ee44e374def520cec603f3d3104e8f8c",
+      "proposed_sha256": "ac641ebd572db2af0114344d5403b834299b69999b326d7fc4af2cb09fb40c7e",
+      "bytes": 2933,
+      "additions": 17,
+      "removals": 0,
+      "classification": "custom_public_api_addition",
+      "change": "Adds optional ComponentSpec.service_requirements, exports checked declaration DTOs and registers six tests.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/component-api/src/lib.rs"
+      },
+      "tested_sha256": "ac641ebd572db2af0114344d5403b834299b69999b326d7fc4af2cb09fb40c7e",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-api/src/service_requirements.rs",
+      "base_sha256": null,
+      "proposed_sha256": "1bbc50dded0d379290fbbbba9a3f6df6e2b6fe58eb4885b8bb09cbef7245fa7e",
+      "bytes": 5500,
+      "additions": 155,
+      "removals": 0,
+      "classification": "new_custom_validation",
+      "change": "Checked immutable requirement declarations, version/count/identity/UTF-8 limits; no runtime grant.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "new_custom_path_in_this_stage",
+        "mapping": "No original upstream native path/symbol is claimed; file is newly authored beside custom infrastructure."
+      },
+      "tested_sha256": "1bbc50dded0d379290fbbbba9a3f6df6e2b6fe58eb4885b8bb09cbef7245fa7e",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-api/src/service_requirements_tests.rs",
+      "base_sha256": null,
+      "proposed_sha256": "3caf4244bc5aaa4ced9c282bd806fbe3dc85a86031969221976385cf93739013",
+      "bytes": 7010,
+      "additions": 127,
+      "removals": 0,
+      "classification": "new_custom_validation_tests",
+      "change": "Six authored compatibility/strict-input tests; no executed result.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "new_custom_path_in_this_stage",
+        "mapping": "No original upstream native path/symbol is claimed; file is newly authored beside custom infrastructure."
+      },
+      "tested_sha256": "3caf4244bc5aaa4ced9c282bd806fbe3dc85a86031969221976385cf93739013",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-host/src/catalog.rs",
+      "base_sha256": "3fef43219940b1d6d80e60582bae230a4257ca31e36e695906f0a72c9592c370",
+      "proposed_sha256": "07dbe4fb5903684216536350fc1731ae201fd11361e142af6b6b19c8a75952db",
+      "bytes": 11790,
+      "additions": 9,
+      "removals": 0,
+      "classification": "custom_activation_guard",
+      "change": "Rejects Some service requirements while broker runtime is inactive; registers actual catalog test.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/component-host/src/catalog.rs"
+      },
+      "tested_sha256": "07dbe4fb5903684216536350fc1731ae201fd11361e142af6b6b19c8a75952db",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-host/src/catalog_service_requirements_tests.rs",
+      "base_sha256": null,
+      "proposed_sha256": "40fcc962a55915f3259247724fcbd396e7d54a34252384a289548e5e2d785931",
+      "bytes": 1799,
+      "additions": 39,
+      "removals": 0,
+      "classification": "new_custom_catalog_test",
+      "change": "Actual read_manifest accepts plain manifest and rejects valid required/optional declarations, then restores plain acceptance.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "new_custom_path_in_this_stage",
+        "mapping": "No original upstream native path/symbol is claimed; file is newly authored beside custom infrastructure."
+      },
+      "tested_sha256": "40fcc962a55915f3259247724fcbd396e7d54a34252384a289548e5e2d785931",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-host/src/launch_tests.rs",
+      "base_sha256": "e1a2ac05a082e24823786a32d975ab79bd7a2674ce1bdb84a5e68855989827ed",
+      "proposed_sha256": "c443241f63d2646b44cfbb697d6b1f20dbb9d91a46228e4286ed454846c3f5e3",
+      "bytes": 4196,
+      "additions": 1,
+      "removals": 0,
+      "classification": "existing_custom_fixture_compatibility",
+      "change": "Adds service_requirements: None to the existing ComponentSpec literal; existing assertions unchanged.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/component-host/src/launch_tests.rs"
+      },
+      "tested_sha256": "c443241f63d2646b44cfbb697d6b1f20dbb9d91a46228e4286ed454846c3f5e3",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-host/src/process_tests.rs",
+      "base_sha256": "70d3b7dd542be10ff47e200beddb2781d757ef4aaa9ad6dc18d1f027da809175",
+      "proposed_sha256": "5c5bb76d9fe532bbd08c31aa93735fd7baf2e94fefd2f6e0897185d0b5830c06",
+      "bytes": 16355,
+      "additions": 1,
+      "removals": 0,
+      "classification": "existing_custom_fixture_compatibility",
+      "change": "Adds service_requirements: None to the existing ComponentSpec literal; existing assertions unchanged.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/component-host/src/process_tests.rs"
+      },
+      "tested_sha256": "5c5bb76d9fe532bbd08c31aa93735fd7baf2e94fefd2f6e0897185d0b5830c06",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/component-host/src/session_tests.rs",
+      "base_sha256": "61b52fcbf25ed58a66715d750849ad01584a703fd4422770fe55667839a24c74",
+      "proposed_sha256": "2ac2e826077221ceb3d48c87129c4eb18d65b73fd940ac6439d80581ae9dce06",
+      "bytes": 14381,
+      "additions": 1,
+      "removals": 0,
+      "classification": "existing_custom_fixture_compatibility",
+      "change": "Adds service_requirements: None to the existing ComponentSpec literal; existing assertions unchanged.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/component-host/src/session_tests.rs"
+      },
+      "tested_sha256": "2ac2e826077221ceb3d48c87129c4eb18d65b73fd940ac6439d80581ae9dce06",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+      "base_sha256": "5f2e08ce11c19bc5077f303aa9b18a812edf2d5006ffbdf617f75406cd9994f6",
+      "proposed_sha256": "12d4b2f6779afc9b3397352fb41989ebcfe965d6c9ef3b5e8e54859002a094f0",
+      "bytes": 11984,
+      "additions": 1,
+      "removals": 0,
+      "classification": "existing_custom_fixture_compatibility",
+      "change": "Adds service_requirements: None to the existing ComponentSpec literal; existing assertions unchanged.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_import_blob_absence",
+        "artifact": "upstream/p02b-selected-search-lineage.json",
+        "sha256": "1c78f21b5792effa70d5e40366b356977bff333523f31b76eafcb0432c49a66e",
+        "row_path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+        "import_blob": null
+      },
+      "tested_sha256": "12d4b2f6779afc9b3397352fb41989ebcfe965d6c9ef3b5e8e54859002a094f0",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/thread-store-component/src/adapter_tests.rs",
+      "base_sha256": "4cd344fcf282e17b48bda1832b07f312e9156f6ca80bdc04de1a23d51c7dba7b",
+      "proposed_sha256": "1fbc5e15d00615b064af37a737ec961655623b221d18794fd0c81cfa1589e262",
+      "bytes": 10601,
+      "additions": 1,
+      "removals": 0,
+      "classification": "existing_custom_fixture_compatibility",
+      "change": "Adds service_requirements: None to the existing ComponentSpec literal; existing assertions unchanged.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": {
+        "kind": "recorded_exact_import_diff",
+        "artifact": "upstream/lineage.json",
+        "sha256": "6fbb06a193b5bcc766d2fa7cd0ce06cae2ace7b5594fcc2685e98503e9fc6328",
+        "row_path": "codex-rs/thread-store-component/src/adapter_tests.rs"
+      },
+      "tested_sha256": "1fbc5e15d00615b064af37a737ec961655623b221d18794fd0c81cfa1589e262",
+      "test_source_equals_staged": true
+    },
+    {
+      "path": "codex-rs/Cargo.lock",
+      "classification": "generated_custom_test_dependency_edge",
+      "base_sha256": "660c481faa80470cde9eccd4d7bd8e563b32d567cde293d2c4283d3c65a68804",
+      "tested_sha256": "4784270f81d7c388c8686e6c85ec3c7d99e73643f179dabde16082f12b34730e",
+      "delta": "Only pretty_assertions added to codex-component-api dependency list; no package versions changed.",
+      "upstream_native_path": null,
+      "upstream_native_symbol": null,
+      "lineage_basis": "Generated lock update required by the staged custom crate dev-dependency; original lock recovered from verified adoption archive."
+    }
+  ],
+  "review": {
+    "agent": "/root/stageb_audit/runtime_review/lineage_accuracy/p03_broker_linkage",
+    "hash_bound_ack": true,
+    "scope": "All 12 proposed hashes, nine current/base preimages, three absent new paths, replay, patch and docs; no definite semantic blocker. Static only.",
+    "runtime_result_scope": "Focused five-package suite, not new executable manager installation or activated broker."
+  },
+  "checks_recommended_not_executed": [
+    {
+      "order": 4,
+      "owner": "root",
+      "working_directory": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "command": "just fix --locked -p codex-component-api -p codex-component-host -p codex-file-search-component -p codex-thread-store-component -p codex-attachment-store-component"
+    },
+    {
+      "order": 5,
+      "owner": "root",
+      "working_directory": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "command": "just fmt"
+    },
+    {
+      "order": 6,
+      "owner": "root",
+      "working_directory": "/workspace/codex-harness-everythings-a-plugin",
+      "command": "just bazel-lock-check"
+    }
+  ],
+  "compatibility": {
+    "json_omission": "None omitted; old ordinary packages remain parseable and serialize without the new field.",
+    "rust_source": "Public struct field addition requires external Rust struct literals to supply the field.",
+    "inactive_guard": "Some is rejected for both required and optional declarations until coordinated broker activation.",
+    "tests_confirmed": "All six API validation/compatibility tests and actual catalog rejection test passed."
+  },
+  "non_claims": [
+    "No live host authority/grants",
+    "No broker runtime activation",
+    "No pre-serde allocation bound or measured RSS bound",
+    "No independent package installation runtime proof in this slice",
+    "No additional native subsystem extraction",
+    "No new UI or browser behavior"
+  ],
+  "tests": {
+    "executed": 177,
+    "passed": 177,
+    "skipped": 1,
+    "failed": 0,
+    "individual_retries": 0,
+    "new_declaration_tests_passed": 7
+  },
+  "source_adoption": {
+    "checkout_edited_by_root": true,
+    "publication_commit": null,
+    "source_report": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests-02.source.json",
+      "sha256": "fdad09fce4dafce788d2e4b3e258ae1c099ece70e8e1a37b57dbe87cbd18c827",
+      "bytes": 2449389
+    },
+    "frozen_scope_paths": 8864,
+    "scope_map_canonical_sha256": "b4e1afbaa98aa24ed50577cffc38f458cea49e0005e8519b5933fe9ae6aac4b3",
+    "scope_map_hash_encoding": "SHA256 of UTF-8 json.dumps(source_before,sort_keys=True,separators=(comma,colon))"
+  },
+  "generated_utc": "2026-10-01T13:37:33.469267+00:00",
+  "checks_completed": {
+    "bazel_lock": {
+      "path": "/workspace/acceptance/p03-service-declarations-bazel-lock.source.json",
+      "sha256": "2f2e460a4c416011229da21530f0cbda760d4382b29aceac0d1e1d2357f7e828",
+      "bytes": 2448881
+    },
+    "tests": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests-02.source.json",
+      "sha256": "fdad09fce4dafce788d2e4b3e258ae1c099ece70e8e1a37b57dbe87cbd18c827",
+      "bytes": 2449389
+    }
+  }
+}

@@ -360,3 +360,11 @@ passed [24 installed-package commands](verification/2026-10-01/P03_WIRE_SLICE1_R
 against the preserved worker04 package. Exact executed test-helper sources are
 preserved in a [reviewed fixture archive](verification/2026-10-01/p03-wire-cli-source-fixtures.json).
 This remains same-upstream compatibility evidence, not P18U acceptance.
+
+The [service-declaration map](upstream/p03-service-declarations-lineage.json) binds twelve
+custom API/loader/fixture paths and the generated lockfile edge. The successful 177-test
+snapshot and three-file formatting transition are separate from the eight-command manager
+installation gate. The [declaration contract](component-sdk/SERVICE_REQUIREMENTS_V1.md)
+records the Rust source-literal change and unchanged plain JSON behavior. The broader
+[broker design](P03_LEAF_BROKER_DESIGN.md) and its [source snapshot](upstream/p03-broker-design-bindings.json)
+are intentionally future-facing: no grant or runtime broker activation is inferred from them.

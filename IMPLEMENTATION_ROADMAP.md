@@ -279,6 +279,15 @@ negotiated leaf broker and native catalog prerequisites without silently removin
 model-v2, authority/configuration or acyclic-dependency obligations below.
 
 
+**Verified support so far:** private wire factoring passed 87 focused tests and 24 actual
+installed-search commands on a freshly linked standalone CLI. Checked service declarations
+passed 177 tests and eight real manager installation/catalog commands. The declaration API
+fails closed while broker negotiation is inactive; these are support changes, not additional
+native extraction. See [current evidence/queue](EXECUTION_STATE.md), the
+[declaration API](component-sdk/SERVICE_REQUIREMENTS_V1.md), and the preserved
+[agreed broker design](P03_LEAF_BROKER_DESIGN.md). Its remaining lifecycle and budget sections
+are planned work; source presence does not satisfy activation or full GUI acceptance.
+
 **Prerequisites:** baseline preserved; no domain activation mixed into this change.
 **Deliver in reviewable stages:** integrate saved session constructor cleanup owner;
 complete chunked/typed model-v2 transport and missing test/linkage files; activate

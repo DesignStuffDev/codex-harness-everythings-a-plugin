@@ -15,7 +15,7 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   `wip/p02b-preparing-cancellation-20261001`. Six final review slices extend `9bd3bc30`;
   their intermediate commits were not individually compiled. This checkpoint promotes the
   verified final source while retaining current main documentation and original failed evidence.
-- Main verified checkpoint: `c28a1c33a856a987316f4b97b4c488d68055fffc`, tree
+- Last full-host/UI checkpoint: `c28a1c33a856a987316f4b97b4c488d68055fffc`, tree
   `b40fa4d6f635dea2de7ca1856aaf96d5af58f37b`, remotely verified after nonforce publication.
   Parents are `a0be45bd` and `3b8a889`. It promotes73 source paths plus22 documentation/evidence/
   fixture/image paths. Among8978 published scoped entries, implementation hashes match the build;
@@ -23,6 +23,10 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   `COPYING` symlink, outside the regular-file hash map. Receipt:
   `/workspace/recovery-backups/20260930T165936Z/p02b-preparing-promoted-publication.json`.
   Previous accepted runtime `a469cf4` and additive SDK `d22cea88` remain historical.
+- Latest previously verified remote support checkpoint: `ca38f8c6d956f514dd09b03a6540ba388e5ec038`,
+  tree `c8073ab505d94ce06ed2e345f74e364c83c44adc`. Seven private wire paths plus evidence/docs
+  were nonforce-published and verified. Receipt `p03-wire-slice1-publication.json` is in recovery.
+  The next declaration checkpoint below has separate source and runtime bindings.
 - Official upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`;
   exact-tree import `ae720ae9a98bad29ca2cff998e7d5baaf05cec86`, tree
   `147ac2447134294359c4071b0aeb495922760db7`. Retain LICENSE/NOTICE and lineage.
@@ -69,48 +73,60 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   deterministic inference, not in-app Browser or live-provider proof. Storage's historical
   per-child exe-disappearance assertion is weaker than GUI/migration PID-absence assertions.
 
+## Verified P03 support checkpoints
+
+- Private wire factoring: **87 passed, one skipped** (81 host library, six manager; API compiled
+  with no executed cases). Lint unchanged; three mechanical format changes independently reviewed.
+  Source/format lineage and raw child statuses are in
+  [focused evidence](verification/2026-10-01/P03_WIRE_SLICE1_EVIDENCE.md) and its format companion.
+- New frozen search CLI `a52a960f424101e34d0027555d8ee7f223c7a685721d57477c2a4dcf1cb7dfa1`
+  passed **24 actual commands** against unchanged worker04 and original manager: exact parity,
+  CLI-only Ctrl+C exit130, selected failure exit1 without fallback, removal and PID absence.
+  [Runtime evidence](verification/2026-10-01/P03_WIRE_SLICE1_RUNTIME_EVIDENCE.md) binds the
+  8,861 historical source entries. FullCLI1b72/GUI evidence predates P03; it is not new-codec proof.
+- Service declarations: **177 passed, one skipped**, zero retries across five crates; includes
+  all seven new tests. The first compile/link failed SIGBUS while disk was full, with zero tests;
+  unchanged source passed after generated-cache preservation. The offline all-platform metadata
+  failure is retained; Linux-filtered metadata passed. Cargo.lock adds only the API test dependency;
+  required Bazel lock update passed unchanged. Lint unchanged; three mechanical format changes.
+  [Test evidence](verification/2026-10-01/P03_SERVICE_DECLARATIONS_EVIDENCE.md) retains failures
+  and raw four -9 child reaps without inventing causes; formatting is recorded separately.
+- Fresh manager `e34edd90256bafb3b3aec94360a4de2ee885e0082085df7b91d33449aea748fb`
+  passed **eight actual install/catalog commands**. Plain install/select/remove works; required
+  and optional service declarations both reject before changing existing state. All observed PIDs
+  disappeared; package/manager/source unchanged. [Manager evidence](verification/2026-10-01/P03_SERVICE_DECLARATIONS_MANAGER_EVIDENCE.md)
+  covers installation only: it did not execute worker04 or activate broker/services/full GUI.
+- [Published declaration API](component-sdk/SERVICE_REQUIREMENTS_V1.md) is custom support,
+  not native extraction. Adding the Rust struct field requires external Rust literal updates;
+  ordinary JSON packages omit it and remain compatible. Never count these overlapping suites
+  as additive independent coverage. Their exact snapshots and source-only runner archives remain.
+
 ## Ordered next actions
 
-1. P02 promotion is verified above. P03 shared transport has passed focused tests, lint and
-   the newly linked standalone CLI's 24-command installed-package gate. Publish this coherent
-   support checkpoint first; the locally verified declaration slice has its own subsequent gate.
-   No root Rust command is currently active; recheck before editing or building.
-2. The reviewed P03 private wire-codec slice is ADOPTED from `/tmp/p03-session-wire-slice1-stage`.
-   Manifest SHA `fed07229d88d06db099834c21633e769427e559b6a97ae07ea086436bc17ffe0`.
-   Seven preimages matched; explicit `#[path = "session_wire/raw_tests.rs"]` was added per
-   AGENTS. Adoption report `/workspace/acceptance/p03-wire-slice1-adoption.json` binds all7 files.
-   Before/proposed archive SHA14cdf3c5ee358412a994ef5ab051dac903393408f9b797bcf391300cbc027ece.
-   The frozen stage is unchanged. This is shared
-   support, not native extraction or broker activation.
-3. P03 focused gate passed **87 tests, one skipped**: 81 host library and six manager launch
-   cases; API compiled but contributed no executed tests. Strict subreaper exited 0 without
-   runner error; three raw child exits -9 and one 0 remain recorded, without inferred causes.
-   Scoped `just fix` passed unchanged; `just fmt` changed three files mechanically, independently
-   reviewed. Preserve [tested hashes](verification/2026-10-01/P03_WIRE_SLICE1_EVIDENCE.md) and
-   [format transition](verification/2026-10-01/P03_WIRE_SLICE1_LINT_FORMAT_EVIDENCE.md).
-   Build passed with 8,861 scoped fingerprints unchanged. New frozen search CLI:
-   `/workspace/component-checkpoint-candidate-p03-wire-cli-20261001/codex-file-search`, SHA
-   `a52a960f424101e34d0027555d8ee7f223c7a685721d57477c2a4dcf1cb7dfa1`.
-   Artifact receipt: `/workspace/acceptance/p03-wire-slice1-cli-artifact.json`.
-   The unchanged worker04 and original manager passed the explicit reused-package gate: exact
-   native/external/restored parity, CLI-only Ctrl+C exit130, selected failure exit1 without
-   fallback, removal and observed PID absence. All 24 commands met their expected outcomes;
-   strict subreaper exited0/null. [Runtime evidence](verification/2026-10-01/P03_WIRE_SLICE1_RUNTIME_EVIDENCE.md)
-   preserves original independent-build proof and actual historical source bindings. Current
-   fullCLI1b72/GUI evidence predates P03; new-codec full-host/GUI acceptance remains unclaimed.
-4. Agree the bounded, opt-in leaf-broker contract before parallel implementation, then rebase stale
-   unlinked drafts. Use retained active startup/decode/reply/flush ownership, exact negotiated
-   grant equality, explicit aggregate budgets and guarded typed lifecycle calls. See
-   [P03 source audit](P03_SOURCE_AUDIT.md). No worker-supplied configuration may create authority.
-5. Proceed to native model-catalog/cache extraction after required authority/composition seams:
-   provider-owned endpoint capability, atomic native policy epochs, isolated-session behavior,
-   bounded pending work and retained cleanup. External native/custom workers must visibly alter
-   real model listing/selection with unchanged host bytes. General Session cleanup, model-v2,
-   auth/config, inference and storage's private search fallback remain explicit obligations.
-6. Continue P04–P19 against the canonical inventory. Keep source/symbol lineage current now.
-   P18U must implement an installable updater and external recovery bootstrap, then demonstrate
-   a real later-upstream isolated integration plus rejected breaking update/failed activation
-   rollback. No polling schedule or live update is enabled.
+1. Recheck original environment, source state, remote refs, active work and resource headroom.
+   Publish the verified declaration checkpoint separately from the wire checkpoint if its durable
+   receipt is absent; never infer publication from local files or stale local main.
+2. Follow the agreed [leaf-broker design](P03_LEAF_BROKER_DESIGN.md) and
+   [source bindings](upstream/p03-broker-design-bindings.json). The card is a preserved design
+   snapshot, not execution proof. Declaration DTOs are accepted; retain the catalog rejection
+   until coordinated negotiated activation. Review the separate finite-budget DTO draft next
+   (`/tmp/p03-broker-dto-stage`), then freeze exact offer/acknowledgement and failure contracts.
+3. Implement bounded connection/call/decoded-work ownership, exact grant equality, retained
+   decode/serialize/flush/receiver receipts and all centralized leaf-entry guards in reviewed
+   slices. Reuse active startup supervision; do not revive stale waiter-owned broker drafts.
+   Only after shared signatures are frozen should independent module implementation proceed
+   in parallel. Plain history semantics and native security ceilings must remain intact.
+4. Prove a separately built installed diagnostic consumer on the real host, then recheck old
+   search/storage packages and manager/GUI lifecycle. This is infrastructure acceptance, not
+   native extraction. Browser-tool absence and deterministic-model limitations stay explicit.
+5. Extract native model-catalog/cache after required provider capability, atomic native policy
+   epochs, isolated-session behavior, finite domain limits and retained cleanup seams. Real
+   model listing/selection must change through separately built replacements with unchanged host.
+   General Session cleanup, model-v2, authentication/configuration, inference and the private
+   storage search fallback remain obligations, not silently removed prerequisites.
+6. Continue P04–P19 and every inventory row. P18U must implement the installable updater plus
+   external bootstrap, prove a real later-upstream isolated integration and breaking-candidate/
+   failed-activation recovery. Preserve lineage now. No polling or live update is enabled.
 
 ## Resume and preservation rules
 
@@ -140,6 +156,11 @@ Full v1 is incomplete. Follow this queue across runs; do not infer completion fr
   preserve it and its different prior backing. SHM is volatile cache, not source backup. If missing
   after restart, while Rust is idle remove only verified recorded dangling generated-cache links;
   allow Cargo regeneration. Never remove a rebuilt regular file based on an old symlink record.
+- Disk remains tight. Three completed TUI executables/four generated aliases were checksum-verified
+  in `p03-completed-tui-executables.tar.gz` before retirement; 184 metadata files remained unchanged.
+  Archive SHA `125e90d2ec711bf4fa2a2c62bdf84abb2fbd6ed0facd3ec202d24dde4e9ed19d`; receipt
+  `p03-completed-tui-executable-preservation.json`. Do not treat absent generated executables as
+  missing source or delete preserved hosts; regenerate only when needed with planned headroom.
 - GUI reports/logs/readiness URLs are private. Publish only reviewed whitelisted summaries/images.
   Tested staged-runner source archive and member manifest are under `verification/2026-10-01/fixtures/`
   and `p02b-preparing-source-fixtures.json`; exact path-bound provenance checks require reviewed

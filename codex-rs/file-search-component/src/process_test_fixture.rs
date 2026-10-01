@@ -44,6 +44,7 @@ impl Fixture {
         let binding = ComponentBinding {
             plugin_id: "search.fixture".into(),
             spec: ComponentSpec {
+                service_requirements: None,
                 kind: "file_search".into(),
                 name: "default".into(),
                 contract_version: 1,

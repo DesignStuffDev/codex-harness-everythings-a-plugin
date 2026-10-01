@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-01T13:40:40.744562+00:00",
+  "classification": "read_only_post_test_format_and_runner_review",
+  "prior_test_evidence": {
+    "path": "/tmp/p03-service-declarations-tested-evidence-stage/p03-service-declarations-results.json",
+    "sha256": "d8f08663a81f0922a5f93cb8adcaf95f700af997bffb0d4b191d7814db15ebec",
+    "bytes": 11547
+  },
+  "lint": {
+    "source_report": {
+      "path": "/workspace/acceptance/p03-service-declarations-fix.source.json",
+      "sha256": "d2e1c8709227cafebc776420e2b91087b3332fda136dd3c08778e0863a23b6e3",
+      "bytes": 2449083
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-service-declarations-fix.log",
+      "sha256": "0b0ba6d544a286223459fa9635a32c3fcb2fcee4f7617f3cee87046160bdbcb9",
+      "bytes": 8548
+    },
+    "exit_code": 0,
+    "source_unchanged": true,
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-component-api",
+      "-p",
+      "codex-component-host",
+      "-p",
+      "codex-file-search-component",
+      "-p",
+      "codex-thread-store-component",
+      "-p",
+      "codex-attachment-store-component"
+    ]
+  },
+  "format": {
+    "source_report": {
+      "path": "/workspace/acceptance/p03-service-declarations-fmt.source.json",
+      "sha256": "65bbbff06eba0376ba6d65e958b49c184344fbcc970c416312b3ebf4d05d67f8",
+      "bytes": 2448868
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-service-declarations-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "exit_code": 0,
+    "changed_paths": [
+      {
+        "path": "codex-rs/component-api/src/service_requirements.rs",
+        "tested_sha256": "1bbc50dded0d379290fbbbba9a3f6df6e2b6fe58eb4885b8bb09cbef7245fa7e",
+        "formatted_sha256": "7605dc554a695eaf5ed79c2d8fd082ad1adeec7c56ca8b5f72a056a892202cd2",
+        "review": "Wrapping/indentation and optional trailing commas only; string/comment tokens and assertions retained.",
+        "tested_snapshot": "/tmp/p03-service-declarations-postformat-review/tested/codex-rs/component-api/src/service_requirements.rs",
+        "formatted_snapshot": "/tmp/p03-service-declarations-postformat-review/formatted/codex-rs/component-api/src/service_requirements.rs"
+      },
+      {
+        "path": "codex-rs/component-api/src/service_requirements_tests.rs",
+        "tested_sha256": "3caf4244bc5aaa4ced9c282bd806fbe3dc85a86031969221976385cf93739013",
+        "formatted_sha256": "fbc2fe5eb643ac1e4e7805ca0150745685dcfb4a29f4584ccfbbf706f3c94501",
+        "review": "Wrapping/indentation and optional trailing commas only; string/comment tokens and assertions retained.",
+        "tested_snapshot": "/tmp/p03-service-declarations-postformat-review/tested/codex-rs/component-api/src/service_requirements_tests.rs",
+        "formatted_snapshot": "/tmp/p03-service-declarations-postformat-review/formatted/codex-rs/component-api/src/service_requirements_tests.rs"
+      },
+      {
+        "path": "codex-rs/component-host/src/catalog_service_requirements_tests.rs",
+        "tested_sha256": "40fcc962a55915f3259247724fcbd396e7d54a34252384a289548e5e2d785931",
+        "formatted_sha256": "b249505dab8fda1d70a48f32ab4f2fdc91960bf6837b720f4481a885369a93d5",
+        "review": "Wrapping/indentation and optional trailing commas only; string/comment tokens and assertions retained.",
+        "tested_snapshot": "/tmp/p03-service-declarations-postformat-review/tested/codex-rs/component-host/src/catalog_service_requirements_tests.rs",
+        "formatted_snapshot": "/tmp/p03-service-declarations-postformat-review/formatted/codex-rs/component-host/src/catalog_service_requirements_tests.rs"
+      }
+    ],
+    "all_other_recorded_paths_unchanged": true,
+    "diff": {
+      "path": "/tmp/p03-service-declarations-postformat-review/formatting.diff",
+      "sha256": "adcff3e358971cef3e22258e4ec57366cea12344abee5d2a53346dca629d3a30",
+      "bytes": 12856
+    },
+    "review_method": "Full diff inspected; supplemental token comparison ignores whitespace outside string/comment tokens and optional trailing commas before closing delimiters. This is not compilation.",
+    "tests_not_repeated_solely_for_format": true
+  },
+  "manager_runner_review": {
+    "script": {
+      "path": "/tmp/p03-service-declarations-manager-acceptance.py",
+      "sha256": "9bdb2c388a5f23db2bb4f126085c0431923121d9e745f87a468f2b604e33f65b",
+      "bytes": 6949
+    },
+    "preserved_review_copy": {
+      "path": "/tmp/p03-service-declarations-postformat-review/reviewed-manager-acceptance.py",
+      "sha256": "9bdb2c388a5f23db2bb4f126085c0431923121d9e745f87a468f2b604e33f65b",
+      "bytes": 6949
+    },
+    "strict_helper": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/acceptance_support.py",
+      "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+      "bytes": 9352
+    },
+    "syntax": "Python ast.parse succeeded without importing or executing runner",
+    "definite_static_blockers": [],
+    "expected_commands": [
+      {
+        "label": "plain-install",
+        "status": 0
+      },
+      {
+        "label": "plain-select",
+        "status": 0
+      },
+      {
+        "label": "plain-list",
+        "status": 0
+      },
+      {
+        "label": "reject-required",
+        "status": 1
+      },
+      {
+        "label": "reject-optional",
+        "status": 1
+      },
+      {
+        "label": "list-after-rejections",
+        "status": 0
+      },
+      {
+        "label": "plain-remove",
+        "status": 0
+      },
+      {
+        "label": "list-after-removal",
+        "status": 0
+      }
+    ],
+    "checked": [
+      "Manager path/hash/size bound to completed unchanged-source build receipt",
+      "Independent worker package content/mode/mtime inventory bound to preserved build proof; source remains parked",
+      "Fresh external test home; source/package inputs re-fingerprinted afterward",
+      "Plain install auto-enables; select and List projection match current actual manager contracts",
+      "Required/optional guard diagnostic checked before duplicate installed ID can mask rejection",
+      "After each failed install, whole existing home file inventory equals prior bytes/metadata",
+      "Final removal clears installed/enabled/selection and retains immutable package bytes",
+      "Unchanged Runner rejects timeout/forced cleanup/remaining observed PIDs; outer subreaper still required"
+    ],
+    "limits": [
+      "Static review only; no manager executed by this agent",
+      "Install/select/remove do not execute worker code and do not prove broker activation",
+      "Inventory checks files, not empty-directory metadata; claim is existing catalog/config/package file preservation",
+      "Imported acceptance_support is hash-bound here; runtime should remain wrapped by source fingerprinting and unchanged subreaper"
+    ]
+  },
+  "pending": [
+    "Fresh manager build/artifact receipt",
+    "Actual eight-command manager runtime report",
+    "Publication binding"
+  ],
+  "checkout_edited": false,
+  "rust_commands_run": false,
+  "git_mutations": false
+}

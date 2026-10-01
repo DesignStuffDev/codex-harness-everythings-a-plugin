@@ -104,6 +104,7 @@ fn fixture(source: &str, config: Value, timeout_ms: u64) -> (tempfile::TempDir, 
     let binding = ComponentBinding {
         plugin_id: "launch-fixture".into(),
         spec: ComponentSpec {
+            service_requirements: None,
             kind: "presentation".into(),
             name: "fixture".into(),
             contract_version: 1,

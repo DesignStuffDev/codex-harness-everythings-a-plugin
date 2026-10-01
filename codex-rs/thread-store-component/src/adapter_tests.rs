@@ -116,6 +116,7 @@ impl Fixture {
         let binding = ComponentBinding {
             plugin_id: "storage.lifecycle".to_owned(),
             spec: ComponentSpec {
+                service_requirements: None,
                 kind: "thread_store".to_owned(),
                 name: "default".to_owned(),
                 contract_version: 2,

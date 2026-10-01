@@ -1,0 +1,289 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-01T13:37:33.470935+00:00",
+  "milestone": "P03 optional manifest service declarations with inactive catalog guard",
+  "classification": "custom infrastructure, not native extraction",
+  "status": "focused_tests_passed_lint_format_manager_gate_pending",
+  "publication_commit": null,
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "tree": "147ac2447134294359c4071b0aeb495922760db7",
+    "exact_import": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "note": "This slice adds no native extraction. Existing custom path absence is taken from exact-import lineage records; new custom files have no upstream source mapping."
+  },
+  "source": {
+    "stage_manifest_sha256": "2705a5c51b656e556f7fc488f28e2e0cdbcf5f1318fd88c316927f311a4efc9a",
+    "adoption_report": {
+      "path": "/workspace/acceptance/p03-service-declarations-adoption.json",
+      "sha256": "5d753356f083bc4b007c268be8b505a146269fb2214d2684f404acac2ac04a74",
+      "bytes": 4373
+    },
+    "adoption_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-service-declarations-adoption.tar.gz",
+      "sha256": "ebadb1441265a31813f723feff6e72119eb7de716486ce0be7e93c44efb856d0",
+      "durability": "in-workspace checkpoint, not proven external backup"
+    },
+    "source_paths": 12,
+    "generated_paths": [
+      "codex-rs/Cargo.lock"
+    ],
+    "scope_paths": 8864,
+    "scope_map_canonical_sha256": "b4e1afbaa98aa24ed50577cffc38f458cea49e0005e8519b5933fe9ae6aac4b3",
+    "all_12_tested_paths_equal_frozen_proposal": true,
+    "both_attempts_same_scope": true,
+    "both_attempts_source_unchanged": true,
+    "recorder_baseline_label": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "baseline_label_is_not_tested_tree": true
+  },
+  "attempts": [
+    {
+      "id": "metadata-01",
+      "command": [
+        "cargo",
+        "metadata",
+        "--offline",
+        "--format-version",
+        "1"
+      ],
+      "exit_code": 101,
+      "executed_tests": 0,
+      "failure": "failed to download android_system_properties v0.1.5: attempting to make an HTTP request, but --offline was specified",
+      "lock_before_sha256": "660c481faa80470cde9eccd4d7bd8e563b32d567cde293d2c4283d3c65a68804",
+      "lock_after_sha256": "4784270f81d7c388c8686e6c85ec3c7d99e73643f179dabde16082f12b34730e",
+      "artifact": {
+        "path": "/workspace/acceptance/p03-service-declarations-metadata-attempt01.json",
+        "sha256": "c913a9c314e9dc4f80ff9bc16bf57412878403c3aeefdb86f3bb2ed8746ff041",
+        "bytes": 605
+      }
+    },
+    {
+      "id": "metadata-linux",
+      "status": "valid target-filtered metadata output; successful completion reported by root",
+      "packages": 1315,
+      "artifact": {
+        "path": "/workspace/acceptance/p03-service-declarations-cargo-metadata-linux.json",
+        "sha256": "996df249fc3be88c5a1d2a9427847e93ab654b8a5e6390bb263aafda0088fecb",
+        "bytes": 7054838
+      },
+      "separate_exit_receipt": null
+    },
+    {
+      "id": "bazel-lock",
+      "command": [
+        "just",
+        "bazel-lock-update"
+      ],
+      "exit_code": 0,
+      "source_unchanged": true,
+      "module_bazel_lock_sha256": "e43ce845fd29b166d0e8750120ec47364ca3aced882dba28efda465236e140e6",
+      "artifact": {
+        "path": "/workspace/acceptance/p03-service-declarations-bazel-lock.source.json",
+        "sha256": "2f2e460a4c416011229da21530f0cbda760d4382b29aceac0d1e1d2357f7e828",
+        "bytes": 2448881
+      }
+    },
+    {
+      "id": "tests-01",
+      "exit_code": 101,
+      "executed_tests": 0,
+      "source_unchanged": true,
+      "failure": "codex-thread-store-component test executable linker terminated with signal 7 (Bus error); concurrent disk exhaustion reported by root. Log does not itself report ENOSPC.",
+      "resource_recovery": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-completed-tui-executable-preservation.json",
+        "sha256": "e8ae8c0ddf8b0c8911584b9e57c15dcea9c75245f1fce715e8d9132d9289b751",
+        "bytes": 41021
+      },
+      "artifact": {
+        "path": "/workspace/acceptance/p03-service-declarations-tests.source.json",
+        "sha256": "2f624131ba572dda2194d34020b8a08e8ec3203c7686d728047317e8337ec5da",
+        "bytes": 2449388
+      },
+      "subreaper": {
+        "path": "/workspace/acceptance/p03-service-declarations-tests.subreaper.json",
+        "sha256": "7586519eee6f2ac734347437b8ac00bc79006347fcd49126d5bb24d504cbeae1",
+        "bytes": 695
+      }
+    },
+    {
+      "id": "tests-02",
+      "exit_code": 0,
+      "executed": 177,
+      "passed": 177,
+      "failed": 0,
+      "skipped": 1,
+      "individual_retries": 0,
+      "by_binary": {
+        "codex-attachment-store-component": 8,
+        "codex-component-api": 6,
+        "codex-component-host": 82,
+        "codex-component-host::bin/codex-component": 6,
+        "codex-file-search-component": 52,
+        "codex-thread-store-component": 23
+      },
+      "new_tests_passed": [
+        "codex-component-api service_requirements_tests::broker_manifest_is_rejected_by_the_legacy_strict_component_schema",
+        "codex-component-api service_requirements_tests::checked_requirements_preserve_exact_operations_and_presence",
+        "codex-component-api service_requirements_tests::declaration_versions_and_service_count_fail_before_use",
+        "codex-component-api service_requirements_tests::descriptors_enforce_utf8_byte_limits_and_duplicate_operations",
+        "codex-component-api service_requirements_tests::legacy_manifest_round_trip_omits_service_requirements",
+        "codex-component-api service_requirements_tests::raw_duplicates_and_unknown_fields_are_not_erased_by_value_conversion",
+        "codex-component-host catalog::service_requirements_tests::broker_declarations_fail_closed_until_runtime_activation"
+      ],
+      "test_command": [
+        "env",
+        "-u",
+        "NO_COLOR",
+        "CARGO_BUILD_JOBS=1",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-component-api",
+        "-p",
+        "codex-component-host",
+        "-p",
+        "codex-file-search-component",
+        "-p",
+        "codex-thread-store-component",
+        "-p",
+        "codex-attachment-store-component"
+      ],
+      "started_utc": "2026-10-01T13:32:39Z",
+      "finished_utc": "2026-10-01T13:33:26Z",
+      "scope_unchanged": true,
+      "artifact": {
+        "path": "/workspace/acceptance/p03-service-declarations-tests-02.source.json",
+        "sha256": "fdad09fce4dafce788d2e4b3e258ae1c099ece70e8e1a37b57dbe87cbd18c827",
+        "bytes": 2449389
+      },
+      "subreaper": {
+        "artifact": {
+          "path": "/workspace/acceptance/p03-service-declarations-tests-02.subreaper.json",
+          "sha256": "1304096cf82251f821b33f4300d44266ae456cbe38e834fedc2a31fcc2524b4b",
+          "bytes": 1005
+        },
+        "enabled": true,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "raw_reaped": [
+          {
+            "pid": 740821,
+            "wait_status": 9,
+            "returncode": -9
+          },
+          {
+            "pid": 740871,
+            "wait_status": 9,
+            "returncode": -9
+          },
+          {
+            "pid": 740877,
+            "wait_status": 9,
+            "returncode": -9
+          },
+          {
+            "pid": 741770,
+            "wait_status": 9,
+            "returncode": -9
+          },
+          {
+            "pid": 740456,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "note": "Four raw descendant returns -9 and command return 0 are preserved; this does not assert every child exited zero."
+      }
+    }
+  ],
+  "dependency_delta": {
+    "Cargo.lock": "Only pretty_assertions edge added to codex-component-api; byte-verified against pre-adoption archive.",
+    "MODULE.bazel.lock": "Generation passed and bytes unchanged."
+  },
+  "pending": [
+    "Scoped lint completion and any exact changes",
+    "Formatting and tested-to-formatted source transition",
+    "Fresh actual manager plain-install / declared-rejection / restoration gate",
+    "Source publication binding"
+  ],
+  "artifacts": {
+    "adoption.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-adoption.json",
+      "sha256": "5d753356f083bc4b007c268be8b505a146269fb2214d2684f404acac2ac04a74",
+      "bytes": 4373
+    },
+    "tests.source.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests.source.json",
+      "sha256": "2f624131ba572dda2194d34020b8a08e8ec3203c7686d728047317e8337ec5da",
+      "bytes": 2449388
+    },
+    "tests-02.source.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests-02.source.json",
+      "sha256": "fdad09fce4dafce788d2e4b3e258ae1c099ece70e8e1a37b57dbe87cbd18c827",
+      "bytes": 2449389
+    },
+    "tests.subreaper.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests.subreaper.json",
+      "sha256": "7586519eee6f2ac734347437b8ac00bc79006347fcd49126d5bb24d504cbeae1",
+      "bytes": 695
+    },
+    "tests-02.subreaper.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests-02.subreaper.json",
+      "sha256": "1304096cf82251f821b33f4300d44266ae456cbe38e834fedc2a31fcc2524b4b",
+      "bytes": 1005
+    },
+    "bazel-lock.source.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-bazel-lock.source.json",
+      "sha256": "2f2e460a4c416011229da21530f0cbda760d4382b29aceac0d1e1d2357f7e828",
+      "bytes": 2448881
+    },
+    "metadata-attempt01.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-metadata-attempt01.json",
+      "sha256": "c913a9c314e9dc4f80ff9bc16bf57412878403c3aeefdb86f3bb2ed8746ff041",
+      "bytes": 605
+    },
+    "tests.log": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests.log",
+      "sha256": "04c9d2537d6611535602e4706e3303fa80698a0db0bf0e391ddff3510d2550fc",
+      "bytes": 24952
+    },
+    "tests-02.log": {
+      "path": "/workspace/acceptance/p03-service-declarations-tests-02.log",
+      "sha256": "0ea33d152b000c0cf39dcb12fa7e5ced50147541557a1fb3ffd44b563b354bfc",
+      "bytes": 26400
+    },
+    "bazel-lock.log": {
+      "path": "/workspace/acceptance/p03-service-declarations-bazel-lock.log",
+      "sha256": "bb156f63252db2b8984ea20782cd949f7fce3a88342a4a1f06fa2c5d3a4bbc28",
+      "bytes": 2592
+    },
+    "cargo-metadata.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-cargo-metadata.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "cargo-metadata-linux.json": {
+      "path": "/workspace/acceptance/p03-service-declarations-cargo-metadata-linux.json",
+      "sha256": "996df249fc3be88c5a1d2a9427847e93ab654b8a5e6390bb263aafda0088fecb",
+      "bytes": 7054838
+    },
+    "resource_preservation": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-completed-tui-executable-preservation.json",
+      "sha256": "e8ae8c0ddf8b0c8911584b9e57c15dcea9c75245f1fce715e8d9132d9289b751",
+      "bytes": 41021
+    }
+  },
+  "non_claims": [
+    "No live broker grant or negotiated activation",
+    "No new native subsystem extraction",
+    "No pre-serde allocator or RSS bound",
+    "No fresh manager executable/runtime gate yet",
+    "No GUI/browser validation in this slice"
+  ]
+}

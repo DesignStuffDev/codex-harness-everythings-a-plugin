@@ -7,6 +7,16 @@ use serde::Deserialize;
 use serde::Serialize;
 use serde_json::Value;
 
+mod service_requirements;
+
+pub use service_requirements::HostServiceRequirement;
+pub use service_requirements::MAX_HOST_SERVICES;
+pub use service_requirements::MAX_SERVICE_OPERATIONS;
+pub use service_requirements::SERVICE_REQUIREMENTS_VERSION;
+pub use service_requirements::ServicePresence;
+pub use service_requirements::ServiceRequirementsError;
+pub use service_requirements::ServiceRequirementsV1;
+
 pub const COMPONENT_API_VERSION: u32 = 1;
 /// Storage v2 preserves trusted native state before the implementation applies
 /// its own persistence encoding. Version 1 used a lossy extra history round trip.
@@ -25,6 +35,9 @@ pub struct ComponentSpec {
     pub contract_version: u32,
     #[serde(default)]
     pub metadata: Value,
+    /// A declaration requests services; only negotiated host grants authorize calls.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub service_requirements: Option<ServiceRequirementsV1>,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
@@ -58,3 +71,7 @@ pub struct ComponentSettings {
     #[serde(default)]
     pub selections: BTreeMap<String, String>,
 }
+
+#[cfg(test)]
+#[path = "service_requirements_tests.rs"]
+mod service_requirements_tests;

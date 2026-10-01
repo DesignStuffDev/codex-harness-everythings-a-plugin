@@ -1,0 +1,576 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "generated_utc": "2026-10-01T13:43:11.722138+00:00",
+  "evidence_kind": "real_manager_plain_package_and_inactive_service_rejection",
+  "classification": "custom component declaration infrastructure; no native subsystem extraction",
+  "publication_commit": null,
+  "build": {
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "-p",
+      "codex-component-host",
+      "--bin",
+      "codex-component"
+    ],
+    "exit_code": 0,
+    "scope_paths": 8864,
+    "source_unchanged": true,
+    "artifact": {
+      "name": "codex-component",
+      "path": "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+      "bytes": 6746832,
+      "sha256": "e34edd90256bafb3b3aec94360a4de2ee885e0082085df7b91d33449aea748fb",
+      "mode": "0o555",
+      "nlink": 1
+    },
+    "artifact_preserved_after_runtime": {
+      "sha256": "e34edd90256bafb3b3aec94360a4de2ee885e0082085df7b91d33449aea748fb",
+      "bytes": 6746832,
+      "mtime_ns": 1790862000096257789,
+      "mode": 365
+    },
+    "source_bindings": [
+      {
+        "path": "codex-rs/attachment-store-component/src/adapter_tests.rs",
+        "tested_preformat_sha256": "1b3aaa91177e459ce86c4625fe2d94a3e9ded192fc0aeadf9cb2e646460f4fe2",
+        "built_runtime_sha256": "1b3aaa91177e459ce86c4625fe2d94a3e9ded192fc0aeadf9cb2e646460f4fe2",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/component-api/Cargo.toml",
+        "tested_preformat_sha256": "6538cb86b82de50241d16bf716a4b5a9e1fca294c2ad6a966afa3a3c8bb7b429",
+        "built_runtime_sha256": "6538cb86b82de50241d16bf716a4b5a9e1fca294c2ad6a966afa3a3c8bb7b429",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/component-api/src/lib.rs",
+        "tested_preformat_sha256": "ac641ebd572db2af0114344d5403b834299b69999b326d7fc4af2cb09fb40c7e",
+        "built_runtime_sha256": "ac641ebd572db2af0114344d5403b834299b69999b326d7fc4af2cb09fb40c7e",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/component-api/src/service_requirements.rs",
+        "tested_preformat_sha256": "1bbc50dded0d379290fbbbba9a3f6df6e2b6fe58eb4885b8bb09cbef7245fa7e",
+        "built_runtime_sha256": "7605dc554a695eaf5ed79c2d8fd082ad1adeec7c56ca8b5f72a056a892202cd2",
+        "format_only_transition": true
+      },
+      {
+        "path": "codex-rs/component-api/src/service_requirements_tests.rs",
+        "tested_preformat_sha256": "3caf4244bc5aaa4ced9c282bd806fbe3dc85a86031969221976385cf93739013",
+        "built_runtime_sha256": "fbc2fe5eb643ac1e4e7805ca0150745685dcfb4a29f4584ccfbbf706f3c94501",
+        "format_only_transition": true
+      },
+      {
+        "path": "codex-rs/component-host/src/catalog.rs",
+        "tested_preformat_sha256": "07dbe4fb5903684216536350fc1731ae201fd11361e142af6b6b19c8a75952db",
+        "built_runtime_sha256": "07dbe4fb5903684216536350fc1731ae201fd11361e142af6b6b19c8a75952db",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/component-host/src/catalog_service_requirements_tests.rs",
+        "tested_preformat_sha256": "40fcc962a55915f3259247724fcbd396e7d54a34252384a289548e5e2d785931",
+        "built_runtime_sha256": "b249505dab8fda1d70a48f32ab4f2fdc91960bf6837b720f4481a885369a93d5",
+        "format_only_transition": true
+      },
+      {
+        "path": "codex-rs/component-host/src/launch_tests.rs",
+        "tested_preformat_sha256": "c443241f63d2646b44cfbb697d6b1f20dbb9d91a46228e4286ed454846c3f5e3",
+        "built_runtime_sha256": "c443241f63d2646b44cfbb697d6b1f20dbb9d91a46228e4286ed454846c3f5e3",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/component-host/src/process_tests.rs",
+        "tested_preformat_sha256": "5c5bb76d9fe532bbd08c31aa93735fd7baf2e94fefd2f6e0897185d0b5830c06",
+        "built_runtime_sha256": "5c5bb76d9fe532bbd08c31aa93735fd7baf2e94fefd2f6e0897185d0b5830c06",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/component-host/src/session_tests.rs",
+        "tested_preformat_sha256": "2ac2e826077221ceb3d48c87129c4eb18d65b73fd940ac6439d80581ae9dce06",
+        "built_runtime_sha256": "2ac2e826077221ceb3d48c87129c4eb18d65b73fd940ac6439d80581ae9dce06",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process_test_fixture.rs",
+        "tested_preformat_sha256": "12d4b2f6779afc9b3397352fb41989ebcfe965d6c9ef3b5e8e54859002a094f0",
+        "built_runtime_sha256": "12d4b2f6779afc9b3397352fb41989ebcfe965d6c9ef3b5e8e54859002a094f0",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/thread-store-component/src/adapter_tests.rs",
+        "tested_preformat_sha256": "1fbc5e15d00615b064af37a737ec961655623b221d18794fd0c81cfa1589e262",
+        "built_runtime_sha256": "1fbc5e15d00615b064af37a737ec961655623b221d18794fd0c81cfa1589e262",
+        "format_only_transition": false
+      },
+      {
+        "path": "codex-rs/Cargo.lock",
+        "built_runtime_sha256": "4784270f81d7c388c8686e6c85ec3c7d99e73643f179dabde16082f12b34730e",
+        "classification": "generated single pretty_assertions dev-dependency edge"
+      }
+    ]
+  },
+  "runtime": {
+    "command": [
+      "python3",
+      "-B",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-service-declarations-manager-runtime.subreaper.json",
+      "--",
+      "python3",
+      "-B",
+      "/tmp/p03-service-declarations-manager-acceptance.py",
+      "--manager",
+      "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+      "--artifact-receipt",
+      "/workspace/acceptance/p03-service-declarations-manager-artifact.json",
+      "--worker-proof",
+      "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "--work-dir",
+      "/tmp/p03-service-declarations-manager-runtime"
+    ],
+    "started_utc": "2026-10-01T13:40:22Z",
+    "finished_utc": "2026-10-01T13:40:24Z",
+    "exit_code": 0,
+    "scope_unchanged": true,
+    "scope_matches_build_and_formatted_source": true,
+    "commands": [
+      {
+        "label": "plain-install",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "install",
+          "/tmp/p03-service-declarations-manager-runtime/plain-package"
+        ],
+        "status": 0,
+        "pid": 742971,
+        "observed_processes": [
+          {
+            "pid": 742971,
+            "parent": 742970,
+            "group": 742971,
+            "start_ticks": 10094311,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.010692192998249084,
+        "stdout_fingerprint": {
+          "sha256": "69dfbe6e6408cb38c6abe107274f7b6fb05b1850051d3a969614d3be2f9e3df5",
+          "bytes": 25,
+          "mtime_ns": 1790862022929009449,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862022922624031,
+          "mode": 384
+        }
+      },
+      {
+        "label": "plain-select",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "select",
+          "file_search",
+          "default",
+          "native.file-search-local"
+        ],
+        "status": 0,
+        "pid": 742976,
+        "observed_processes": [
+          {
+            "pid": 742976,
+            "parent": 742970,
+            "group": 742976,
+            "start_ticks": 10094312,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.010715917000197805,
+        "stdout_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862022933780407,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862022933780407,
+          "mode": 384
+        }
+      },
+      {
+        "label": "plain-list",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "list"
+        ],
+        "status": 0,
+        "pid": 742981,
+        "observed_processes": [
+          {
+            "pid": 742981,
+            "parent": 742970,
+            "group": 742981,
+            "start_ticks": 10094313,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.010840600996743888,
+        "stdout_fingerprint": {
+          "sha256": "54d3f4766f33faf55f398e5eb7a349bb34c61a23d023d3b4a9b103e993e903d7",
+          "bytes": 238,
+          "mtime_ns": 1790862022947004062,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862022944926319,
+          "mode": 384
+        }
+      },
+      {
+        "label": "reject-required",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "install",
+          "/tmp/p03-service-declarations-manager-runtime/declared-required"
+        ],
+        "status": 1,
+        "pid": 742986,
+        "observed_processes": [
+          {
+            "pid": 742986,
+            "parent": 742970,
+            "group": 742986,
+            "start_ticks": 10094317,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.010046069990494289,
+        "stdout_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862022984234552,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "17391f7c97c513100041d1eb5ca79409df48907b5a82fb9c8d620a3e6955193f",
+          "bytes": 64,
+          "mtime_ns": 1790862022987109456,
+          "mode": 384
+        }
+      },
+      {
+        "label": "reject-optional",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "install",
+          "/tmp/p03-service-declarations-manager-runtime/declared-optional"
+        ],
+        "status": 1,
+        "pid": 742991,
+        "observed_processes": [
+          {
+            "pid": 742991,
+            "parent": 742970,
+            "group": 742991,
+            "start_ticks": 10094319,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.010065077993203886,
+        "stdout_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862023010799984,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "17391f7c97c513100041d1eb5ca79409df48907b5a82fb9c8d620a3e6955193f",
+          "bytes": 64,
+          "mtime_ns": 1790862023013479590,
+          "mode": 384
+        }
+      },
+      {
+        "label": "list-after-rejections",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "list"
+        ],
+        "status": 0,
+        "pid": 742996,
+        "observed_processes": [
+          {
+            "pid": 742996,
+            "parent": 742970,
+            "group": 742996,
+            "start_ticks": 10094322,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.009793977995286696,
+        "stdout_fingerprint": {
+          "sha256": "54d3f4766f33faf55f398e5eb7a349bb34c61a23d023d3b4a9b103e993e903d7",
+          "bytes": 238,
+          "mtime_ns": 1790862023035224136,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862023032845134,
+          "mode": 384
+        }
+      },
+      {
+        "label": "plain-remove",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "remove",
+          "native.file-search-local"
+        ],
+        "status": 0,
+        "pid": 743001,
+        "observed_processes": [
+          {
+            "pid": 743001,
+            "parent": 742970,
+            "group": 743001,
+            "start_ticks": 10094323,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.009311576999607496,
+        "stdout_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862023043267819,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862023043267819,
+          "mode": 384
+        }
+      },
+      {
+        "label": "list-after-removal",
+        "argv": [
+          "/workspace/component-checkpoint-candidate-p03-declarations-20261001/codex-component",
+          "--codex-home",
+          "/tmp/p03-service-declarations-manager-runtime/home",
+          "list"
+        ],
+        "status": 0,
+        "pid": 743006,
+        "observed_processes": [
+          {
+            "pid": 743006,
+            "parent": 742970,
+            "group": 743006,
+            "start_ticks": 10094324,
+            "state": "Z"
+          }
+        ],
+        "remaining_pids": [],
+        "all_observed_pids_absent": true,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.009673980996012688,
+        "stdout_fingerprint": {
+          "sha256": "deebb6115a873e64652f5ced811a57275f3718a80cdec09a4e9cf82498976989",
+          "bytes": 59,
+          "mtime_ns": 1790862023055180585,
+          "mode": 384
+        },
+        "stderr_fingerprint": {
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0,
+          "mtime_ns": 1790862023053276603,
+          "mode": 384
+        }
+      }
+    ],
+    "expected_statuses": {
+      "zero": 6,
+      "rejection_one": 2
+    },
+    "rejections": [
+      {
+        "presence": "required",
+        "status": 1,
+        "home_unchanged": true
+      },
+      {
+        "presence": "optional",
+        "status": 1,
+        "home_unchanged": true
+      }
+    ],
+    "plain_install_select_remove": true,
+    "selected_catalog_unchanged_after_rejections": true,
+    "immutable_object_retained": true,
+    "original_package_unchanged": true,
+    "all_bound_inputs_unchanged": true,
+    "all_observed_command_pids_absent": true,
+    "observed_command_pid_count": 8,
+    "no_timeout_or_emergency_cleanup": true
+  },
+  "strict_subreaper": {
+    "enabled": true,
+    "command_returncode": 0,
+    "exit_status": 0,
+    "runner_error": null,
+    "raw_reaped": [
+      {
+        "pid": 742970,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ]
+  },
+  "reused_native_package": {
+    "path": "/workspace/acceptance/p02b-search-independent-04/package",
+    "proof_sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+    "source_parked": true,
+    "worker": {
+      "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "bytes": 10362672,
+      "mtime_ns": 1790849466208049771,
+      "mode": 448
+    },
+    "manifest": {
+      "sha256": "aa744e7e4ddb1509ac8a7acb47adb5f3bfa2d0d3d3d737d42b7a9e98fb23977a",
+      "bytes": 351,
+      "mtime_ns": 1790849466293629588,
+      "mode": 384
+    },
+    "mode_of_use": "Installed/copied/catalogued only; worker executable not invoked in this gate.",
+    "separately_built_in_this_gate": false
+  },
+  "prior_results_preserved": {
+    "focused_suite": "177 passed, 1 skipped, zero retries; failed metadata/link attempts retained separately.",
+    "format": "Only three new files mechanically reformatted; no test rerun solely for formatting.",
+    "prior_artifacts_not_rewritten": true
+  },
+  "artifacts": {
+    "build_source": {
+      "path": "/workspace/acceptance/p03-service-declarations-manager-build.source.json",
+      "sha256": "2a30f1006e4fe3651e8bc6a3f7688db3cd62c481509b43d3183c186cd4785cea",
+      "bytes": 2448960
+    },
+    "build_log": {
+      "path": "/workspace/acceptance/p03-service-declarations-manager-build.log",
+      "sha256": "0f767c8046f6782ec7c48419208dae71bd689d4367594b579c62d5704efc30c1",
+      "bytes": 284
+    },
+    "artifact_receipt": {
+      "path": "/workspace/acceptance/p03-service-declarations-manager-artifact.json",
+      "sha256": "7808b74dc40824b725f016d774b46d420387af0bb9b63a30ce9ecf904fced7df",
+      "bytes": 876
+    },
+    "runtime_source": {
+      "path": "/workspace/acceptance/p03-service-declarations-manager-runtime.source.json",
+      "sha256": "72c92862f0a83b8a9595ac72555a83e8d1bd909c10b11d617ad89bd2be0c65cb",
+      "bytes": 2449496
+    },
+    "runtime_log": {
+      "path": "/workspace/acceptance/p03-service-declarations-manager-runtime.log",
+      "sha256": "6f1240b2a9c5d0c7b6de14937cfeda9fbe73bb6033fae5be36756d0df2f5f74c",
+      "bytes": 70
+    },
+    "runtime_subreaper": {
+      "path": "/workspace/acceptance/p03-service-declarations-manager-runtime.subreaper.json",
+      "sha256": "ddfb61b939ec467e6394208916fb0bb6ca01e76da4375119163c81133212e00a",
+      "bytes": 771
+    },
+    "runtime_report": {
+      "path": "/tmp/p03-service-declarations-manager-runtime/manager-acceptance.json",
+      "sha256": "9eec8458e1aef2597c132af28a9255e20c66f1efd48f895c6b496959be810871",
+      "bytes": 14077
+    },
+    "independent_worker04_proof": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+      "bytes": 81383
+    },
+    "reviewed_acceptance_script": {
+      "path": "/tmp/p03-service-declarations-manager-acceptance.py",
+      "sha256": "9bdb2c388a5f23db2bb4f126085c0431923121d9e745f87a468f2b604e33f65b",
+      "bytes": 6949
+    },
+    "prior_test_results": {
+      "path": "/tmp/p03-service-declarations-tested-evidence-stage/p03-service-declarations-results.json",
+      "sha256": "d8f08663a81f0922a5f93cb8adcaf95f700af997bffb0d4b191d7814db15ebec",
+      "bytes": 11547
+    },
+    "postformat_review": {
+      "path": "/tmp/p03-service-declarations-postformat-review/p03-service-declarations-postformat-review.json",
+      "sha256": "e915bf67d9143b0f450b927ec83cb14f879a611fcb598ecef522b5093b3f0c38",
+      "bytes": 7161
+    }
+  },
+  "next_queue": [
+    "Review and validate separate broker-only budget DTO draft; runtime remains disabled.",
+    "Freeze strict versioned offer/acknowledgement and canonical exact-grant comparison before negotiation implementation.",
+    "Implement accepted retained ownership/accounting/leaf guard activation in separately reviewed slices; remove inactive catalog guard only with complete coordinated negotiation gates."
+  ],
+  "not_demonstrated": [
+    "Active broker negotiation or granted host service execution",
+    "Further native subsystem extraction",
+    "Full CLI/GUI behavior on the newly built manager",
+    "Pre-serde allocation or measured RSS bounds",
+    "New independent worker build in this manager gate"
+  ]
+}

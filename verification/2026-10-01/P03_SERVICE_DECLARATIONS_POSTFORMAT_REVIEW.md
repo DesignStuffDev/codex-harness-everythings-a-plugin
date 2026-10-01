@@ -1,0 +1,9 @@
+# Declaration post-test format and manager-runner review
+
+Scoped five-package `just fix` exited 0 and changed no recorded source. `just fmt` exited 0 and changed only the three new files: declaration implementation, declaration tests, and catalog rejection test. Full diffs show wrapping/indentation and optional trailing commas; predicates, string literals, diagnostics and all assertions remain intact. The exact tested preimages and formatted snapshots are preserved here with their hashes and `formatting.diff`. All other recorded paths remain unchanged. No tests were rerun solely for this mechanical transition.
+
+The manager acceptance script has no definite static blocker at the reviewed SHA recorded in JSON. Its eight commands match current Install/Select/List/Remove behavior. Both service-declaration variants must fail with the actual inactive-guard diagnostic, before the existing plugin ID check; after each rejection the complete existing home file inventory must match. The final removal clears activation/selection while retaining immutable object content. The unchanged helper rejects timeouts, forced cleanup and remaining observed PIDs; the outer strict subreaper remains required.
+
+The script binds its new manager to a successful unchanged-source build receipt, and the copied native worker04 package to its independent build proof and exact inventory. Input files and original package are re-fingerprinted after the gate. Python syntax parsing passed without importing or running it. This review does not claim build completion, manager execution, worker execution or an activated broker. Empty-directory metadata is outside the helper's file-inventory comparison; existing catalog/config/package files are covered.
+
+The original 177-pass/1-skipped evidence remains unchanged. Fresh manager build/runtime results and source publication are still pending in this review snapshot.

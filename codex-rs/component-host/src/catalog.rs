@@ -246,6 +246,11 @@ pub(crate) fn read_manifest(package: &Path) -> Result<ComponentManifest> {
     );
     let mut keys = BTreeSet::new();
     for spec in &manifest.components {
+        // Remove only with coordinated, negotiated broker activation.
+        ensure!(
+            spec.service_requirements.is_none(),
+            "host service requirements are not supported by this host"
+        );
         ensure!(
             matches!(
                 spec.kind.as_str(),
@@ -321,3 +326,7 @@ fn absolute(path: &Path) -> Result<PathBuf> {
 #[cfg(test)]
 #[path = "catalog_tests.rs"]
 mod tests;
+
+#[cfg(test)]
+#[path = "catalog_service_requirements_tests.rs"]
+mod service_requirements_tests;

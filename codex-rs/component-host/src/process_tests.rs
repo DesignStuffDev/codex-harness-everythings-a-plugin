@@ -130,6 +130,7 @@ impl Fixture {
         let binding = ComponentBinding {
             plugin_id: "fixture".to_owned(),
             spec: ComponentSpec {
+                service_requirements: None,
                 kind: "tool".to_owned(),
                 name: "fixture".to_owned(),
                 contract_version: 1,

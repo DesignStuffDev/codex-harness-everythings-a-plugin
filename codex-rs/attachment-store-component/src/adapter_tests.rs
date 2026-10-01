@@ -72,6 +72,7 @@ impl Fixture {
         let binding = ComponentBinding {
             plugin_id: "attachment-fixture".to_owned(),
             spec: ComponentSpec {
+                service_requirements: None,
                 kind: "attachment_store".to_owned(),
                 name: "default".to_owned(),
                 contract_version: 1,
