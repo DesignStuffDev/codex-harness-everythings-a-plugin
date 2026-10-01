@@ -7,6 +7,8 @@ use super::CodexAuth;
 use super::ExternalAuth;
 use super::RefreshTokenFailedError;
 use super::auth_source::AuthOwnerUpdate;
+use super::auth_source::AuthSourceRevision;
+use super::auth_source::InstallIntent;
 use super::same_owner;
 use std::fmt;
 use std::sync::Arc;
@@ -42,6 +44,8 @@ pub(super) enum AuthLoadError {
     CacheUnavailable,
     #[error("cached authentication credentials changed")]
     CredentialsChanged,
+    #[error("external authentication source or install intent changed")]
+    SourceChanged,
 }
 
 #[derive(Debug)]
@@ -122,14 +126,33 @@ impl AuthManager {
         update: AuthOwnerUpdate,
         policy: CachePolicy<'_>,
     ) -> Result<CacheChange, AuthLoadError> {
-        let (mut update, source) = match update {
-            AuthOwnerUpdate::Cache(update) => (update, SourceChange::Keep),
-            AuthOwnerUpdate::Install { provider, auth } => (
+        let (mut update, source, install) = match update {
+            AuthOwnerUpdate::Cache(update) => (update, SourceChange::Keep, None),
+            AuthOwnerUpdate::Install {
+                provider,
+                auth,
+                context,
+            } => (
                 AuthLoadUpdate::Replace(Some(auth)),
                 SourceChange::Install(provider),
+                Some(context),
             ),
-            AuthOwnerUpdate::ClearExternal => (AuthLoadUpdate::Replace(None), SourceChange::Clear),
+            AuthOwnerUpdate::ClearExternal => {
+                (AuthLoadUpdate::Replace(None), SourceChange::Clear, None)
+            }
         };
+        // An Install always uses its admitted policy/cache, regardless of the caller's cache mode.
+        let policy = match &install {
+            Some(context) => CachePolicy::Captured {
+                policy: &context.policy,
+                revision: &context.cache,
+            },
+            None => policy,
+        };
+        let mut next_source = (!matches!(source, SourceChange::Keep)).then(AuthSourceRevision::new);
+        let mut next_intent = matches!(source, SourceChange::Clear).then(InstallIntent::new);
+        let mut retired_source = None;
+        let mut retired_intent = None;
         // Declared before locks so even unwinding drops trait-backed auth only after lock release.
         let retired_provider;
         let mut retired_auth = None;
@@ -140,6 +163,15 @@ impl AuthManager {
             .inner
             .write()
             .map_err(|_| AuthLoadError::CacheUnavailable)?;
+        if let Some(context) = &install
+            && let Err(error) = context.check_owner(&cached)
+        {
+            drop(cached);
+            return Err(error);
+        }
+        if let Some(intent) = next_intent.take() {
+            retired_intent = Some(std::mem::replace(&mut cached.install_intent, intent));
+        }
         if matches!(source, SourceChange::Clear) && cached.external_auth.is_none() {
             return Ok(CacheChange {
                 changed: false,
@@ -215,6 +247,9 @@ impl AuthManager {
             SourceChange::Install(provider) => cached.external_auth.replace(provider),
             SourceChange::Clear => cached.external_auth.take(),
         };
+        if let Some(revision) = next_source.take() {
+            retired_source = Some(std::mem::replace(&mut cached.source_revision, revision));
+        }
         if let Some(revision) = next_revision.take() {
             retired_revision = Some(std::mem::replace(&mut cached.revision, revision));
         }
@@ -237,6 +272,8 @@ impl AuthManager {
         drop(cached);
         drop((
             retired_provider,
+            retired_source,
+            retired_intent,
             retired_auth,
             retired_failure,
             retired_revision,

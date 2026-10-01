@@ -1,15 +1,57 @@
-//! Paired native source/cache publication. Admission ordering and source fencing are separate.
+//! Latest-admitted external installation. Reload/refresh source fencing remains separate.
 use super::AuthCredentialsStoreMode;
 use super::AuthKeyringBackendKind;
 use super::AuthManager;
+use super::AuthPolicyStamp;
+use super::CachedAuth;
 use super::CodexAuth;
 use super::ExternalAuth;
 use super::RefreshTokenError;
+use super::auth_reload::AuthCacheRevision;
+use super::auth_reload::AuthLoadError;
 use super::auth_reload::AuthLoadUpdate;
 use super::auth_reload::CachePolicy;
 use super::permanent_external_auth_error;
 use super::save_auth;
+use super::validate_auth_restrictions;
 use std::sync::Arc;
+
+/// Retained identities prevent source/intent ABA without allocating a growing ticket ledger.
+#[derive(Clone, PartialEq, Eq)]
+pub(super) struct AuthSourceRevision(AuthCacheRevision);
+impl AuthSourceRevision {
+    pub(super) fn new() -> Self {
+        Self(AuthCacheRevision::new())
+    }
+}
+#[derive(Clone, PartialEq, Eq)]
+pub(super) struct InstallIntent(AuthCacheRevision);
+impl InstallIntent {
+    pub(super) fn new() -> Self {
+        Self(AuthCacheRevision::new())
+    }
+}
+
+pub(super) struct InstallContext {
+    pub(super) intent: InstallIntent,
+    pub(super) source: AuthSourceRevision,
+    pub(super) cache: AuthCacheRevision,
+    pub(super) policy: AuthPolicyStamp,
+}
+impl InstallContext {
+    pub(super) fn check_owner(&self, cached: &CachedAuth) -> Result<(), AuthLoadError> {
+        if self.intent != cached.install_intent || self.source != cached.source_revision {
+            return Err(AuthLoadError::SourceChanged);
+        }
+        if self.cache != cached.revision {
+            return Err(AuthLoadError::CredentialsChanged);
+        }
+        Ok(())
+    }
+}
+fn install_error(error: AuthLoadError) -> RefreshTokenError {
+    RefreshTokenError::Transient(std::io::Error::other(error))
+}
 
 /// Owned update forms keep provider installation paired with its prepared credentials.
 pub(super) enum AuthOwnerUpdate {
@@ -17,6 +59,7 @@ pub(super) enum AuthOwnerUpdate {
     Install {
         provider: Arc<dyn ExternalAuth>,
         auth: CodexAuth,
+        context: InstallContext,
     },
     ClearExternal,
 }
@@ -38,24 +81,74 @@ impl AuthManager {
         &self,
         external_auth: Arc<dyn ExternalAuth>,
     ) -> Result<(), RefreshTokenError> {
-        let auth = self.resolve_external_auth(external_auth.as_ref()).await?;
+        let policy = self
+            .auth_policy_snapshot()
+            .map_err(AuthLoadError::Policy)
+            .map_err(install_error)?;
+        let intent = InstallIntent::new();
+        let retired_intent;
+        let context;
+        {
+            let mut cached = self
+                .inner
+                .write()
+                .map_err(|_| AuthLoadError::CacheUnavailable)
+                .map_err(install_error)?;
+            context = InstallContext {
+                intent: intent.clone(),
+                source: cached.source_revision.clone(),
+                cache: cached.revision.clone(),
+                policy: policy.stamp(),
+            };
+            retired_intent = std::mem::replace(&mut cached.install_intent, intent);
+        }
+        drop(retired_intent);
+        // Validating after admission proves the captured policy was current at admission.
+        // A failed/cancelled newer attempt never restores the superseded intent.
+        self.check_install_context(&context)
+            .map_err(install_error)?;
+        let auth = external_auth
+            .resolve()
+            .await
+            .map_err(|error| external_auth.classify_error(error))?;
+        self.check_install_context(&context)
+            .map_err(install_error)?;
+        validate_auth_restrictions(
+            Some(policy.allowed_login_methods()),
+            policy.effective_chatgpt_workspaces(),
+            &auth,
+        )
+        .map_err(|error| external_auth.classify_error(std::io::Error::other(error)))?;
         self.persist_external_auth(&auth)?;
         self.replace_auth_owner(
             AuthOwnerUpdate::Install {
                 provider: external_auth,
                 auth,
+                context,
             },
             CachePolicy::Unfenced,
         )
-        .map_err(|error| RefreshTokenError::Transient(std::io::Error::other(error)))?;
+        .map_err(install_error)?;
         Ok(())
+    }
+
+    fn check_install_context(&self, context: &InstallContext) -> Result<(), AuthLoadError> {
+        {
+            let cached = self
+                .inner
+                .read()
+                .map_err(|_| AuthLoadError::CacheUnavailable)?;
+            context.check_owner(&cached)?;
+        }
+        self.validate_policy_stamp(&context.policy)
+            .map_err(AuthLoadError::Policy)
     }
 
     pub fn clear_external_auth(&self) {
         if self.workload_identity_selected {
             return;
         }
-        // The owner tests presence and clears the matching cache within one write guard.
+        // Invalidate pending installs even when no external source is active.
         let _ = self.replace_auth_owner(AuthOwnerUpdate::ClearExternal, CachePolicy::Unfenced);
     }
 

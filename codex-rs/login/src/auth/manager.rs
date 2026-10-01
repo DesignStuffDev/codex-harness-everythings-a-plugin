@@ -11,6 +11,8 @@ use auth_reload::CachePolicy;
 use auth_reload::ExternalLoadOrigin;
 use auth_reload::LoadedAuth;
 use auth_reload::NativePolicyRejection;
+use auth_source::AuthSourceRevision;
+use auth_source::InstallIntent;
 #[path = "workspace_policy.rs"]
 mod workspace_policy;
 mod workspace_routing;
@@ -1838,6 +1840,8 @@ struct CachedAuth {
     auth: Option<CodexAuth>,
     revision: AuthCacheRevision,
     external_auth: Option<Arc<dyn ExternalAuth>>,
+    source_revision: AuthSourceRevision,
+    install_intent: InstallIntent,
     /// Permanent refresh failure cached for the current auth snapshot so
     /// later refresh attempts for the same credentials fail fast without network.
     permanent_refresh_failure: Option<AuthScopedRefreshFailure>,
@@ -2239,6 +2243,8 @@ impl AuthManager {
                 permanent_refresh_failure: None,
                 revision: AuthCacheRevision::new(),
                 external_auth: None,
+                source_revision: AuthSourceRevision::new(),
+                install_intent: InstallIntent::new(),
             }),
             auth_change_tx,
             auth_change_state_tx: watch::channel(AuthChangeState::default()).0,
@@ -2271,6 +2277,8 @@ impl AuthManager {
             permanent_refresh_failure: None,
             revision: AuthCacheRevision::new(),
             external_auth: None,
+            source_revision: AuthSourceRevision::new(),
+            install_intent: InstallIntent::new(),
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
 
@@ -2303,6 +2311,8 @@ impl AuthManager {
             permanent_refresh_failure: None,
             revision: AuthCacheRevision::new(),
             external_auth: None,
+            source_revision: AuthSourceRevision::new(),
+            install_intent: InstallIntent::new(),
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
         Arc::new(Self {
@@ -2338,6 +2348,8 @@ impl AuthManager {
             permanent_refresh_failure: None,
             revision: AuthCacheRevision::new(),
             external_auth: None,
+            source_revision: AuthSourceRevision::new(),
+            install_intent: InstallIntent::new(),
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
         Arc::new(Self {
@@ -2375,6 +2387,8 @@ impl AuthManager {
                 permanent_refresh_failure: None,
                 revision: AuthCacheRevision::new(),
                 external_auth: Some(Arc::new(BearerTokenRefresher::new(config))),
+                source_revision: AuthSourceRevision::new(),
+                install_intent: InstallIntent::new(),
             }),
             auth_change_tx,
             auth_change_state_tx: watch::channel(AuthChangeState::default()).0,
@@ -2873,18 +2887,6 @@ impl AuthManager {
                 .is_none_or(|auth| auth.is_api_key_auth() || auth.supports_unauthorized_recovery())
     }
 
-    async fn resolve_external_auth(
-        &self,
-        external_auth: &dyn ExternalAuth,
-    ) -> Result<CodexAuth, RefreshTokenError> {
-        let auth = external_auth
-            .resolve()
-            .await
-            .map_err(|error| external_auth.classify_error(error))?;
-        self.validate_external_auth(&auth, external_auth)?;
-        Ok(auth)
-    }
-
     /// Attempt to refresh the token by first performing a guarded reload from
     /// the active auth source. If the loaded token differs from the cached token,
     /// we can assume that the source already refreshed it. Otherwise, ask the
@@ -3162,3 +3164,7 @@ mod account_user_id_tests;
 #[cfg(test)]
 #[path = "auth_source_tests.rs"]
 mod auth_source_tests;
+
+#[cfg(test)]
+#[path = "auth_install_tests.rs"]
+mod auth_install_tests;
