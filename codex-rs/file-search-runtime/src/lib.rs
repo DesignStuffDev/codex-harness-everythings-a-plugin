@@ -6,6 +6,7 @@
 
 mod cli;
 mod cli_reporter;
+mod interactive_policy;
 mod observation;
 mod policy;
 mod provider;
@@ -38,3 +39,6 @@ mod selection_tests;
 
 #[cfg(test)]
 mod tests;
+
+pub use interactive_policy::interactive_allocation;
+pub use interactive_policy::interactive_policy;

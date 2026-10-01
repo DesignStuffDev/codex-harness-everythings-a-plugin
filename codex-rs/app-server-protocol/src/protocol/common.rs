@@ -2013,6 +2013,8 @@ server_notification_definitions! {
     ConfigWarning => "configWarning" (v2::ConfigWarningNotification),
     FuzzyFileSearchSessionUpdated => "fuzzyFileSearch/sessionUpdated" (FuzzyFileSearchSessionUpdatedNotification),
     FuzzyFileSearchSessionCompleted => "fuzzyFileSearch/sessionCompleted" (FuzzyFileSearchSessionCompletedNotification),
+    #[experimental("fuzzyFileSearch/sessionFailed")]
+    FuzzyFileSearchSessionFailed => "fuzzyFileSearch/sessionFailed" (v2::FuzzyFileSearchSessionFailedNotification),
     #[experimental("thread/realtime/started")]
     ThreadRealtimeStarted => "thread/realtime/started" (v2::ThreadRealtimeStartedNotification),
     #[experimental("thread/realtime/itemAdded")]

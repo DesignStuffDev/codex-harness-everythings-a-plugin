@@ -57,29 +57,39 @@ async fn websocket_search_sessions_are_private_and_survive_another_connection_cl
             })),
         )
         .await?;
-        // Session startup has its own empty-query snapshot/completion cycle.
-        // Consume it with the response so it cannot be mistaken for the first
-        // typed query or for a notification leaked from the other connection.
-        read_search_cycle(client, 2, "", &[]).await?;
+        read_response_for_id(client, 2).await?;
+        // Query zero is internal startup state; the runtime suppresses its
+        // callbacks. Explicitly admit an empty query and consume its snapshot
+        // and completion before checking either connection for leaked events.
+        send_request(
+            client,
+            "fuzzyFileSearch/sessionUpdate",
+            3,
+            Some(json!({
+                "sessionId": SESSION_ID, "query": ""
+            })),
+        )
+        .await?;
+        read_search_cycle(client, 3, "", &[]).await?;
     }
 
-    query_and_wait(&mut first, 3, "alpha", "alpha-first.txt").await?;
+    query_and_wait(&mut first, 4, "alpha", "alpha-first.txt").await?;
     assert_no_search_notifications(&mut second).await?;
-    query_and_wait(&mut second, 3, "alpha", "alpha-second.txt").await?;
+    query_and_wait(&mut second, 4, "alpha", "alpha-second.txt").await?;
     assert_no_search_notifications(&mut first).await?;
 
     first.close(None).await?;
-    query_and_wait(&mut second, 4, "second", "alpha-second.txt").await?;
+    query_and_wait(&mut second, 5, "second", "alpha-second.txt").await?;
     send_request(
         &mut second,
         "fuzzyFileSearch/sessionStop",
-        5,
+        6,
         Some(json!({
             "sessionId": SESSION_ID
         })),
     )
     .await?;
-    read_response_for_id(&mut second, 5).await?;
+    read_response_for_id(&mut second, 6).await?;
     // Every earlier frame has been consumed up through the stop acknowledgement.
     // There is no grace period in which a post-stop search update is accepted.
     assert_no_search_notifications(&mut second).await?;
@@ -125,10 +135,14 @@ async fn read_search_cycle(
                 JSONRPCMessage::Response(value) if value.id == RequestId::Integer(id) => {
                     response = true
                 }
+                JSONRPCMessage::Response(value) => {
+                    bail!("unexpected search response identity: {:?}", value.id)
+                }
                 JSONRPCMessage::Error(error) => bail!("unexpected RPC error: {error:?}"),
                 JSONRPCMessage::Notification(value)
                     if value.method == "fuzzyFileSearch/sessionUpdated" =>
                 {
+                    assert!(!completed, "search snapshot must precede completion");
                     let update: FuzzyFileSearchSessionUpdatedNotification =
                         serde_json::from_value(value.params.unwrap_or_default())?;
                     assert_eq!(
@@ -143,10 +157,19 @@ async fn read_search_cycle(
                 {
                     assert_eq!(value.params, Some(json!({"sessionId": SESSION_ID})));
                     assert!(
+                        !completed,
+                        "search completion must be emitted once per query"
+                    );
+                    assert!(
                         snapshot_received,
                         "completion must follow its query snapshot"
                     );
                     completed = true;
+                }
+                JSONRPCMessage::Notification(value)
+                    if value.method == "fuzzyFileSearch/sessionFailed" =>
+                {
+                    bail!("unexpected search failure: {:?}", value.params)
                 }
                 _ => {}
             }

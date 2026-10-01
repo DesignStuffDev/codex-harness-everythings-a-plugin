@@ -1913,6 +1913,60 @@
       ],
       "type": "object"
     },
+    "FuzzyFileSearchSessionError": {
+      "properties": {
+        "kind": {
+          "$ref": "#/definitions/FuzzyFileSearchSessionErrorKind"
+        },
+        "message": {
+          "description": "Diagnostic bounded by the emitting adapter to 2048 UTF-8 bytes.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "message"
+      ],
+      "type": "object"
+    },
+    "FuzzyFileSearchSessionErrorKind": {
+      "description": "Stable wire categories independent of the selected search implementation.",
+      "enum": [
+        "invalidInput",
+        "unsupportedVersion",
+        "unsupportedOption",
+        "unknownLease",
+        "closedLease",
+        "staleEpoch",
+        "resourceExhausted",
+        "searchFailed",
+        "transportLost",
+        "forcedShutdown"
+      ],
+      "type": "string"
+    },
+    "FuzzyFileSearchSessionFailedNotification": {
+      "description": "An operation failure in a fuzzy file-search session.\n\nThis notification does not confirm that session cleanup has completed. The session stop response and server shutdown own their cleanup results.",
+      "properties": {
+        "error": {
+          "$ref": "#/definitions/FuzzyFileSearchSessionError"
+        },
+        "query": {
+          "description": "Query associated with the failure, bounded by the effective search policy.",
+          "type": "string"
+        },
+        "sessionId": {
+          "description": "Caller-supplied session ID, limited to 256 UTF-8 bytes at admission.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error",
+        "query",
+        "sessionId"
+      ],
+      "type": "object"
+    },
     "FuzzyFileSearchSessionUpdatedNotification": {
       "properties": {
         "files": {
@@ -8378,6 +8432,26 @@
         "params"
       ],
       "title": "FuzzyFileSearch/sessionCompletedNotification",
+      "type": "object"
+    },
+    {
+      "properties": {
+        "method": {
+          "enum": [
+            "fuzzyFileSearch/sessionFailed"
+          ],
+          "title": "FuzzyFileSearch/sessionFailedNotificationMethod",
+          "type": "string"
+        },
+        "params": {
+          "$ref": "#/definitions/FuzzyFileSearchSessionFailedNotification"
+        }
+      },
+      "required": [
+        "method",
+        "params"
+      ],
+      "title": "FuzzyFileSearch/sessionFailedNotification",
       "type": "object"
     },
     {

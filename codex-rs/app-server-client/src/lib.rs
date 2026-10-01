@@ -16,6 +16,7 @@
 //! runtime remain bounded; the local consumer event queue is unbounded so
 //! unread notifications cannot prevent request responses from being delivered.
 
+mod file_search;
 mod path;
 mod remote;
 mod shutdown;
@@ -55,6 +56,7 @@ pub use codex_core::otel_init::build_provider as build_otel_provider;
 pub use codex_exec_server::EnvironmentManager;
 pub use codex_exec_server::ExecServerRuntimeOptions;
 use codex_feedback::CodexFeedback;
+use codex_file_search_runtime::FileSearchScopeFactory;
 use codex_protocol::protocol::SessionSource;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use serde::de::DeserializeOwned;
@@ -328,6 +330,8 @@ pub struct InProcessAppServerClient {
     event_rx: mpsc::UnboundedReceiver<InProcessServerEvent>,
     worker_handle: tokio::task::JoinHandle<()>,
     shutdown_runtime: tokio::runtime::Handle,
+    // Weak capability from this exact runtime; never owns the provider.
+    file_search_factory: Option<FileSearchScopeFactory>,
 }
 
 #[derive(Clone)]
@@ -353,8 +357,8 @@ impl InProcessAppServerClient {
     /// Request queues remain bounded without blocking on unread notifications.
     pub async fn start(args: InProcessClientStartArgs) -> IoResult<Self> {
         let channel_capacity = args.channel_capacity.max(1);
-        let mut handle =
-            codex_app_server::in_process::start(args.into_runtime_start_args()).await?;
+        let handle = codex_app_server::in_process::start(args.into_runtime_start_args()).await?;
+        let (mut handle, file_search_factory) = file_search::capture(handle).await?;
         let request_sender = handle.sender();
         let (command_tx, mut command_rx) = mpsc::channel::<ClientCommand>(channel_capacity);
         // e9996ec62a preserved transcript events by awaiting a bounded queue, but that can
@@ -463,6 +467,7 @@ impl InProcessAppServerClient {
             event_rx,
             worker_handle,
             shutdown_runtime: tokio::runtime::Handle::current(),
+            file_search_factory: Some(file_search_factory),
         })
     }
 
@@ -2046,6 +2051,7 @@ mod tests {
             event_rx,
             worker_handle,
             shutdown_runtime: tokio::runtime::Handle::current(),
+            file_search_factory: None,
         };
 
         let event = timeout(Duration::from_secs(2), client.next_event())
@@ -2154,6 +2160,7 @@ mod tests {
             event_rx,
             worker_handle,
             shutdown_runtime: tokio::runtime::Handle::current(),
+            file_search_factory: None,
         };
 
         client.shutdown().await.expect("shutdown should complete");

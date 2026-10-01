@@ -32,6 +32,7 @@ pub(super) fn start(
         event_rx,
         worker_handle,
         shutdown_runtime,
+        file_search_factory: _,
     } = client;
     drop(event_rx);
     let (completed, completion) = oneshot::channel();

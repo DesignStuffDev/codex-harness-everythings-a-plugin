@@ -122,6 +122,7 @@ pub(crate) fn without_notification_media(notification: ServerNotification) -> Se
         | ServerNotification::ConfigWarning(_)
         | ServerNotification::FuzzyFileSearchSessionUpdated(_)
         | ServerNotification::FuzzyFileSearchSessionCompleted(_)
+        | ServerNotification::FuzzyFileSearchSessionFailed(_)
         | ServerNotification::ThreadRealtimeStarted(_)
         | ServerNotification::ThreadRealtimeItemAdded(_)
         | ServerNotification::ThreadRealtimeItemStarted(_)

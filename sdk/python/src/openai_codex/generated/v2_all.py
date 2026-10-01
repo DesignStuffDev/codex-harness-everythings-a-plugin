@@ -1823,6 +1823,19 @@ class FuzzyFileSearchSessionCompletedNotification(BaseModel):
     session_id: Annotated[str, Field(alias="sessionId")]
 
 
+class FuzzyFileSearchSessionErrorKind(Enum):
+    invalid_input = "invalidInput"
+    unsupported_version = "unsupportedVersion"
+    unsupported_option = "unsupportedOption"
+    unknown_lease = "unknownLease"
+    closed_lease = "closedLease"
+    stale_epoch = "staleEpoch"
+    resource_exhausted = "resourceExhausted"
+    search_failed = "searchFailed"
+    transport_lost = "transportLost"
+    forced_shutdown = "forcedShutdown"
+
+
 class FuzzyFileSearchSessionUpdatedNotification(BaseModel):
     model_config = ConfigDict(
         populate_by_name=True,
@@ -8219,6 +8232,36 @@ class FunctionCallOutputContentItem(
     ]
 
 
+class FuzzyFileSearchSessionError(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    kind: FuzzyFileSearchSessionErrorKind
+    message: Annotated[
+        str, Field(description="Diagnostic bounded by the emitting adapter to 2048 UTF-8 bytes.")
+    ]
+
+
+class FuzzyFileSearchSessionFailedNotification(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    error: FuzzyFileSearchSessionError
+    query: Annotated[
+        str,
+        Field(
+            description="Query associated with the failure, bounded by the effective search policy."
+        ),
+    ]
+    session_id: Annotated[
+        str,
+        Field(
+            alias="sessionId",
+            description="Caller-supplied session ID, limited to 256 UTF-8 bytes at admission.",
+        ),
+    ]
+
+
 class GatewayOAuthChangedNotification(BaseModel):
     model_config = ConfigDict(
         populate_by_name=True,
@@ -9478,6 +9521,24 @@ class ConfigWarningServerNotification(BaseModel):
     ] = None
     method: Annotated[Literal["configWarning"], Field(title="ConfigWarningNotificationMethod")]
     params: ConfigWarningNotification
+
+
+class FuzzyFileSearchSessionFailedServerNotification(BaseModel):
+    model_config = ConfigDict(
+        populate_by_name=True,
+    )
+    emitted_at_ms: Annotated[
+        int | None,
+        Field(
+            alias="emittedAtMs",
+            description="Unix timestamp (in milliseconds) when app-server emitted this notification.",
+        ),
+    ] = None
+    method: Annotated[
+        Literal["fuzzyFileSearch/sessionFailed"],
+        Field(title="FuzzyFileSearch/sessionFailedNotificationMethod"),
+    ]
+    params: FuzzyFileSearchSessionFailedNotification
 
 
 class ThreadRealtimeStartedServerNotification(BaseModel):
@@ -12968,6 +13029,7 @@ class ServerNotification(
         | ConfigWarningServerNotification
         | FuzzyFileSearchSessionUpdatedServerNotification
         | FuzzyFileSearchSessionCompletedServerNotification
+        | FuzzyFileSearchSessionFailedServerNotification
         | ThreadRealtimeStartedServerNotification
         | ThreadRealtimeItemAddedServerNotification
         | ThreadRealtimeItemStartedServerNotification
@@ -13058,6 +13120,7 @@ class ServerNotification(
         | ConfigWarningServerNotification
         | FuzzyFileSearchSessionUpdatedServerNotification
         | FuzzyFileSearchSessionCompletedServerNotification
+        | FuzzyFileSearchSessionFailedServerNotification
         | ThreadRealtimeStartedServerNotification
         | ThreadRealtimeItemAddedServerNotification
         | ThreadRealtimeItemStartedServerNotification

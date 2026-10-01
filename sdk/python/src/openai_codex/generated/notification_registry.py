@@ -26,6 +26,7 @@ from .v2_all import FileChangeOutputDeltaNotification
 from .v2_all import FileChangePatchUpdatedNotification
 from .v2_all import FsChangedNotification
 from .v2_all import FuzzyFileSearchSessionCompletedNotification
+from .v2_all import FuzzyFileSearchSessionFailedNotification
 from .v2_all import FuzzyFileSearchSessionUpdatedNotification
 from .v2_all import GatewayOAuthChangedNotification
 from .v2_all import GuardianWarningNotification
@@ -110,6 +111,7 @@ KnownNotificationPayload: TypeAlias = (
     | FileChangePatchUpdatedNotification
     | FsChangedNotification
     | FuzzyFileSearchSessionCompletedNotification
+    | FuzzyFileSearchSessionFailedNotification
     | FuzzyFileSearchSessionUpdatedNotification
     | GatewayOAuthChangedNotification
     | GuardianWarningNotification
@@ -190,6 +192,7 @@ NOTIFICATION_MODELS: dict[str, type[KnownNotificationPayload]] = {
     "externalAgentConfig/import/progress": ExternalAgentConfigImportProgressNotification,
     "fs/changed": FsChangedNotification,
     "fuzzyFileSearch/sessionCompleted": FuzzyFileSearchSessionCompletedNotification,
+    "fuzzyFileSearch/sessionFailed": FuzzyFileSearchSessionFailedNotification,
     "fuzzyFileSearch/sessionUpdated": FuzzyFileSearchSessionUpdatedNotification,
     "guardianWarning": GuardianWarningNotification,
     "hook/completed": HookCompletedNotification,

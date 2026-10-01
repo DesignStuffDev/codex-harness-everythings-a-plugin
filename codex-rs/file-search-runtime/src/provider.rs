@@ -75,6 +75,17 @@ impl Drop for FileSearchProvider {
 }
 
 impl FileSearchScopeFactory {
+    /// Immutable selected-provider ceilings for a consumer's bounded inputs and
+    /// scope allowance. This weak capability cannot reselect or revive a closed
+    /// provider and does not change any resource reservation.
+    pub fn effective_policy(&self) -> Result<RuntimePolicy, SearchError> {
+        let provider = self.inner.upgrade().ok_or_else(closed)?;
+        if lock(&provider.state).closing {
+            return Err(closed());
+        }
+        Ok(provider.policy)
+    }
+
     pub fn new_scope(&self, limits: ScopeLimits) -> Result<FileSearchScope, SearchError> {
         let provider = self.inner.upgrade().ok_or_else(closed)?;
         limits.validate_within(&provider.policy.provider)?;

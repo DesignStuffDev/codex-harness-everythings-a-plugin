@@ -1,13 +1,16 @@
 //! Connection-owned search admission, retained startup and joined shutdown.
 
 use std::collections::HashMap;
-use std::num::NonZero;
 use std::sync::Arc;
 use std::sync::Mutex;
+use std::sync::OnceLock;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 
-use codex_file_search::FileSearchOwner;
+use codex_file_search_runtime::FileSearchScope;
+
+use crate::fuzzy_file_search::close_result;
+use crate::outgoing_message::ConnectionId;
 use tokio::sync::watch;
 use tokio_util::task::TaskTracker;
 
@@ -18,7 +21,7 @@ use crate::fuzzy_file_search::PublisherFailures;
 const MAX_SEARCHES_PER_CONNECTION: usize = 16;
 
 pub(crate) struct SearchConnectionState {
-    pub(super) native: FileSearchOwner,
+    pub(super) scope: OnceLock<FileSearchScope>,
     pub(super) state: Mutex<State>,
     pub(super) startups: TaskTracker,
     pub(super) publishers: TaskTracker,
@@ -34,12 +37,9 @@ impl std::fmt::Debug for SearchConnectionState {
 }
 
 impl Default for SearchConnectionState {
-    #[expect(clippy::expect_used)]
     fn default() -> Self {
         Self {
-            native: FileSearchOwner::new(
-                NonZero::new(MAX_SEARCHES_PER_CONNECTION).expect("search capacity is nonzero"),
-            ),
+            scope: OnceLock::new(),
             state: Mutex::new(State::default()),
             startups: TaskTracker::new(),
             publishers: TaskTracker::new(),
@@ -51,8 +51,10 @@ impl Default for SearchConnectionState {
 #[derive(Default)]
 pub(super) struct State {
     pub(super) closed: bool,
+    pub(super) connection_id: Option<ConnectionId>,
     next_id: u64,
     pub(super) sessions: HashMap<String, SessionEntry>,
+    pub(super) pending: HashMap<String, u64>,
     pub(super) one_shots: HashMap<u64, Arc<AtomicBool>>,
     pub(super) tokens: HashMap<String, u64>,
 }
@@ -61,7 +63,14 @@ impl State {
     pub(super) fn admit(&mut self) -> anyhow::Result<u64> {
         anyhow::ensure!(!self.closed, "search connection is closed");
         anyhow::ensure!(
-            self.sessions.len() + self.one_shots.len() < MAX_SEARCHES_PER_CONNECTION,
+            self.sessions.len()
+                + self.one_shots.len()
+                + self
+                    .pending
+                    .keys()
+                    .filter(|id| !self.sessions.contains_key(*id))
+                    .count()
+                < MAX_SEARCHES_PER_CONNECTION,
             "search connection capacity is exhausted"
         );
         self.next_id = self
@@ -129,7 +138,9 @@ impl SearchConnectionState {
         for session in state.sessions.values() {
             session.request_close();
         }
-        self.native.request_shutdown();
+        if let Some(scope) = self.scope.get() {
+            scope.request_shutdown();
+        }
     }
 
     pub(super) async fn shutdown(&self) -> anyhow::Result<()> {
@@ -149,7 +160,9 @@ impl SearchConnectionState {
                 self.failures.record(&format!("{error:#}"));
             }
         }
-        if let Err(error) = self.native.shutdown().await {
+        if let Some(scope) = self.scope.get()
+            && let Err(error) = close_result(scope.shutdown().await)
+        {
             self.failures.record(&format!("{error:#}"));
         }
         self.publishers.close();
@@ -213,7 +226,18 @@ impl Drop for StartWaiter {
             && let Some(entry) = state.sessions.remove(&self.session_id)
         {
             entry.request_close();
-            // Managed native and publisher owners retain cleanup on drop.
+            // Runtime and publisher owners retain cleanup on drop.
         }
+    }
+}
+
+/// Dropping an RPC observation requests cancellation without releasing its
+/// admitted slot; the retained task owns OneShotGuard until a cleanup receipt.
+/// Unconfirmed remains quarantined by the runtime scope after this guard ends.
+pub(super) struct OneShotWaiter(pub(super) Arc<AtomicBool>);
+
+impl Drop for OneShotWaiter {
+    fn drop(&mut self) {
+        self.0.store(true, Ordering::Release);
     }
 }

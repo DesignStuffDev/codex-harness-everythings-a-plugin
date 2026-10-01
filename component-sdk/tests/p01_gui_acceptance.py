@@ -1,6 +1,8 @@
 """P01 real Chromium/UI, manager SIGINT and cold-engine recovery acceptance.
 
 Requires frozen binaries and a passed manual_migration_acceptance.py report.
+Optional --search-build-report installs the independently built native search
+worker into a fresh manual-migration fixture before both GUI cycles.
 Uses the installed deterministic model fixture, not a live provider. This is the
 Playwright fallback, not the unavailable in-app Browser. All artifacts are private.
 """
@@ -361,7 +363,14 @@ def main():
         action="store_true",
         help="Also exercise desktop file references through real native search",
     )
+    parser.add_argument(
+        "--search-build-report",
+        type=Path,
+        help="Install the independently built native search worker into this fresh fixture",
+    )
     args = parser.parse_args()
+    if args.search_build_report and not args.exercise_file_search:
+        parser.error("--search-build-report requires --exercise-file-search")
     if sys.platform != "linux" or not hasattr(signal, "pidfd_send_signal"):
         parser.error("Linux /proc, pidfds and child-subreaper support are required")
     host, codex = args.host.resolve(strict=True), args.codex.resolve(strict=True)
@@ -440,6 +449,30 @@ def main():
             ),
             CODEX_BROWSER_BIN=os.environ.get("CODEX_BROWSER_BIN", "/usr/bin/chromium"),
         )
+        selected_search_worker = None
+        if args.search_build_report:
+            import gui_selected_search_acceptance
+
+            report["selected_search"] = {}
+            selected_search_worker = gui_selected_search_acceptance.install(
+                args.search_build_report,
+                host,
+                manual_path,
+                manual,
+                fixture,
+                work,
+                environment,
+                OwnedProcess,
+                drain_subreaper,
+                report["selected_search"],
+            )
+            # The original end-of-run immutability assertion now covers the
+            # independently installed search package as well as storage and GUI.
+            package_before = {
+                str(p.relative_to(installed)): fingerprint(p)
+                for p in installed.rglob("*")
+                if p.is_file()
+            }
         search_fixture = None
         if args.exercise_file_search:
             import desktop_search_acceptance
@@ -452,6 +485,8 @@ def main():
                 ),
                 "fixture": search_fixture,
             }
+            if selected_search_worker is not None:
+                report["file_search"]["backend"] = report["selected_search"]["backend"]
         nonce = uuid4().hex[:12]
         persisted = [
             "Preserve this real legacy conversation through manual migration.",
@@ -517,6 +552,13 @@ def main():
                     browser, reference_turn, "GUI fixture response: " + reference_prompt
                 )
                 run["file_search"] = dict(search_result, reference_turn=reference_turn)
+                if selected_search_worker is not None:
+                    run["file_search"]["backend"] = report["selected_search"]["backend"]
+                    run["selected_search_workers"] = (
+                        gui_selected_search_acceptance.observed_worker(
+                            manager, selected_search_worker
+                        )
+                    )
                 if cycle == 1:
                     persisted.append(reference_prompt)
             prompt = (
@@ -615,7 +657,26 @@ def main():
             assert any(p["ppid"] == manager.process.pid for p in tracked), (
                 "Presentation child not observed"
             )
+            if selected_search_worker is not None:
+                run["selected_search_workers"] = (
+                    gui_selected_search_acceptance.observed_worker(
+                        manager, selected_search_worker
+                    )
+                )
+                assert (
+                    fingerprint(selected_search_worker)["sha256"]
+                    == (
+                        report["selected_search"]["installed_worker_fingerprint"][
+                            "sha256"
+                        ]
+                    )
+                ), "Installed search worker changed during GUI exercise"
             stop_manager(manager, run)
+            if selected_search_worker is not None:
+                gui_selected_search_acceptance.assert_worker_absent(
+                    run["selected_search_workers"]
+                )
+                run["selected_search_workers_absent"] = True
             browser.close()
             run.update(
                 processes=manager.snapshot(),

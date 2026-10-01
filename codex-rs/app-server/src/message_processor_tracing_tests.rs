@@ -114,6 +114,7 @@ struct TracingHarness {
     outgoing_rx: mpsc::Receiver<crate::outgoing_message::OutgoingEnvelope>,
     session: Arc<ConnectionSessionState>,
     tracing: &'static TestTracing,
+    search_lifecycle: crate::file_search_services::SearchShutdownGuard,
 }
 
 impl TracingHarness {
@@ -126,13 +127,15 @@ impl TracingHarness {
             /*enable_codex_api_key_env*/ false,
         )
         .await?;
-        let (processor, outgoing_rx) = build_test_processor(config, auth_manager).await;
+        let (processor, outgoing_rx, search_lifecycle) =
+            build_test_processor(config, auth_manager).await;
         let tracing = init_test_tracing();
         tracing.exporter.reset();
         tracing::callsite::rebuild_interest_cache();
         let mut harness = Self {
             _server: server,
             _codex_home: codex_home,
+            search_lifecycle,
             processor,
             outgoing_rx,
             session: Arc::new(ConnectionSessionState::new(
@@ -175,6 +178,10 @@ impl TracingHarness {
             .drain_background_tasks()
             .await
             .expect("background cleanup");
+        self.search_lifecycle
+            .finish()
+            .await
+            .expect("search provider cleanup");
     }
 
     async fn request<T>(&mut self, request: ClientRequest, trace: Option<W3cTraceContext>) -> T
@@ -244,6 +251,7 @@ pub(super) async fn build_test_processor(
 ) -> (
     Arc<MessageProcessor>,
     mpsc::Receiver<crate::outgoing_message::OutgoingEnvelope>,
+    crate::file_search_services::SearchShutdownGuard,
 ) {
     let (outgoing_tx, outgoing_rx) = mpsc::channel(16);
     let config_manager = ConfigManager::new(
@@ -263,7 +271,11 @@ pub(super) async fn build_test_processor(
         outgoing_tx,
         analytics_events_client.clone(),
     ));
+    let (search_context, search_lifecycle) = crate::file_search_services::start(&config.codex_home)
+        .await
+        .expect("search provider");
     let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+        search_context,
         persistence: codex_core::PersistenceServices {
             thread_store: codex_core::thread_store_from_config(&config, None),
             host_state_db: None,
@@ -289,7 +301,7 @@ pub(super) async fn build_test_processor(
         remote_control_handle: None,
         plugin_startup_tasks: Some(PluginStartupConfig::Current),
     }));
-    (processor, outgoing_rx)
+    (processor, outgoing_rx, search_lifecycle)
 }
 
 fn run_current_thread_test_with_stack<F>(name: &str, future: F) -> Result<()>

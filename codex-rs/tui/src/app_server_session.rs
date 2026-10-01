@@ -527,6 +527,14 @@ impl AppServerSession {
         matches!(&self.client, AppServerClient::InProcess(_))
     }
 
+    /// Returns the embedded runtime's weak search capability. Remote transports,
+    /// including a local daemon, require a separately owned local provider.
+    pub(crate) fn file_search_scope_factory(
+        &self,
+    ) -> std::io::Result<Option<codex_file_search_runtime::FileSearchScopeFactory>> {
+        self.client.file_search_scope_factory()
+    }
+
     /// Carry capabilities that may exist only in memory when the optional cache is unwritable.
     pub(crate) fn inherit_task_tool_capabilities(&mut self, previous: &Self) {
         self.task_tool_threads.extend(&previous.task_tool_threads);

@@ -106,7 +106,8 @@ delivery = {{ kind = "header", name = "X-Gateway-Authorization" }}
         provider.api_auth().await?.to_auth_headers()["x-gateway-authorization"],
         "Bearer old-access"
     );
-    let (processor, mut outgoing) = build_test_processor(config, auth_manager).await;
+    let (processor, mut outgoing, search_lifecycle) =
+        build_test_processor(config, auth_manager).await;
     let session = Arc::new(ConnectionSessionState::new(
         crate::transport::ConnectionOrigin::Stdio,
     ));
@@ -187,6 +188,7 @@ delivery = {{ kind = "header", name = "X-Gateway-Authorization" }}
     );
     processor.shutdown_threads().await;
     processor.drain_background_tasks().await?;
+    search_lifecycle.finish().await?;
     Ok(())
 }
 
@@ -227,7 +229,8 @@ delivery = {{ kind = "header", name = "X-Gateway-Authorization" }}
         &auth_manager,
         json!({"access_token": "expired", "refresh_token": "old-refresh", "expires_at": 0}),
     );
-    let (processor, mut outgoing) = build_test_processor(Arc::new(config), auth_manager).await;
+    let (processor, mut outgoing, search_lifecycle) =
+        build_test_processor(Arc::new(config), auth_manager).await;
     let session = Arc::new(ConnectionSessionState::new(
         crate::transport::ConnectionOrigin::Stdio,
     ));
@@ -274,5 +277,6 @@ delivery = {{ kind = "header", name = "X-Gateway-Authorization" }}
     assert!(server.received_requests().await.unwrap().is_empty());
     processor.shutdown_threads().await;
     processor.drain_background_tasks().await?;
+    search_lifecycle.finish().await?;
     Ok(())
 }

@@ -21,6 +21,7 @@ fn client(
         event_rx,
         worker_handle,
         shutdown_runtime: Handle::current(),
+        file_search_factory: None,
     }
 }
 
