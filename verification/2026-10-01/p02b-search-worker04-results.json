@@ -1,0 +1,655 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B independent native search worker04 build audit",
+  "publication": {
+    "status": "Pre-format worker/API source published on WIP; build artifacts remain cloud-local",
+    "commit": "272993ff0e6376e7ba52403e3b52d7f16449cd16",
+    "tree": "93201cd97a14b351edda30d35318a80a8402db64",
+    "note": "Worker04 build predates later Python formatting; exact build inputs and lock override remain authoritative."
+  },
+  "independent_build": {
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+      "bytes": 81383
+    },
+    "passed": true,
+    "started_utc": "2026-10-01T10:10:13.919745+00:00",
+    "commands": [
+      {
+        "label": "export",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "export",
+          "--repo",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--package",
+          "codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-04/source"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.19912683400616515,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 1,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/export.stdout",
+          "sha256": "a21c4e1a302eb234e97349ef873cad306367ab9b770202ad6878e1bb4869d1de",
+          "bytes": 56
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/export.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "label": "compiler",
+        "argv": [
+          "rustc",
+          "-vV"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-04/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.03510077198734507,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 1,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/compiler.stdout",
+          "sha256": "4fdff2578428e9c5c08ddd7a0d3079c1a106b1cdaa46e73e46f7cd32b0fb9cad",
+          "bytes": 196
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/compiler.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "label": "metadata",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--offline",
+          "--filter-platform",
+          "x86_64-unknown-linux-gnu",
+          "--format-version",
+          "1"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-04/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.16937563399551436,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 1,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/metadata.stdout",
+          "sha256": "7dca65f6c0861598d806f60c2cb53ca63e3d52f16a1eb29a486ab80fde054819",
+          "bytes": 524180
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/metadata.stderr",
+          "sha256": "568517c4d0b17a66c97b78e847532667bcbc9b5131568e1d079c0af84466fb77",
+          "bytes": 1034
+        }
+      },
+      {
+        "label": "metadata-normalized",
+        "argv": [
+          "cargo",
+          "metadata",
+          "--offline",
+          "--filter-platform",
+          "x86_64-unknown-linux-gnu",
+          "--format-version",
+          "1"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-04/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.10481211099249776,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 1,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/metadata-normalized.stdout",
+          "sha256": "7dca65f6c0861598d806f60c2cb53ca63e3d52f16a1eb29a486ab80fde054819",
+          "bytes": 524180
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/metadata-normalized.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "label": "build",
+        "argv": [
+          "cargo",
+          "build",
+          "--offline",
+          "--locked",
+          "--profile",
+          "dev-small",
+          "-j",
+          "1",
+          "-p",
+          "codex-file-search-local-plugin",
+          "--bin",
+          "codex-file-search-local-plugin",
+          "--message-format=json-render-diagnostics"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-04/source/codex-rs",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 50.9336794349947,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 193,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/build.stdout",
+          "sha256": "fdfb15b8aefb2313271daf447c724a6b9f3ff1e2fec6aa2e9dffdab08c1b592a",
+          "bytes": 107299
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/build.stderr",
+          "sha256": "7e24594c6d287b1c64fbdab118b0c9914a23c4d1dae2b011a01c1d32674807d6",
+          "bytes": 4201
+        }
+      },
+      {
+        "label": "assemble",
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+          "assemble",
+          "--repo",
+          "/workspace/acceptance/p02b-search-independent-04/source",
+          "--binary",
+          "/workspace/component-search-independent-target-04/dev-small/codex-file-search-local-plugin",
+          "--output",
+          "/workspace/acceptance/p02b-search-independent-04/package",
+          "--id",
+          "native.file-search-local",
+          "--kind",
+          "file_search",
+          "--name",
+          "default",
+          "--contract-version",
+          "1",
+          "--version",
+          "0.2.0",
+          "--metadata",
+          "{\"preparing_cancel_receipt\":1}"
+        ],
+        "cwd": "/workspace/codex-harness-everythings-a-plugin",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.06433542699960526,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 1,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/assemble.stdout",
+          "sha256": "a99e8b5e8fea26b7a55650eed6683a4cfe46e378e337adb679982e6f04865f0c",
+          "bytes": 57
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/assemble.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      },
+      {
+        "label": "libraries",
+        "argv": [
+          "ldd",
+          "/workspace/acceptance/p02b-search-independent-04/package/codex-file-search-local-plugin"
+        ],
+        "cwd": "/workspace/acceptance/p02b-search-independent-04",
+        "status": 0,
+        "timed_out": false,
+        "emergency_forced_cleanup": false,
+        "elapsed_seconds": 0.009455823004827835,
+        "all_observed_pids_absent": true,
+        "observed_process_count": 1,
+        "stdout": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/libraries.stdout",
+          "sha256": "c1962fac00ce3b948294461c1ebdf27692f56d534734762da7704c1ec6393f54",
+          "bytes": 297
+        },
+        "stderr": {
+          "path": "/workspace/acceptance/p02b-search-independent-04/libraries.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "bytes": 0
+        }
+      }
+    ],
+    "build_artifact": {
+      "binary": "/workspace/component-search-independent-target-04/dev-small/codex-file-search-local-plugin",
+      "fingerprint": {
+        "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+        "bytes": 10362672,
+        "mtime_ns": 1790849466208049771,
+        "mode": 448
+      },
+      "target_source": "/workspace/acceptance/p02b-search-independent-04/source/codex-rs/file-search-local-plugin/src/main.rs",
+      "fresh": false,
+      "package_id": "path+file:///workspace/acceptance/p02b-search-independent-04/source/codex-rs/file-search-local-plugin#codex-file-search-local-plugin@0.0.0",
+      "separate_initially_empty_target": true,
+      "profile": "dev-small",
+      "incremental": false
+    },
+    "separate_initially_empty_target": true,
+    "cargo_fresh_false_means_compiled_not_reused": true,
+    "profile": "dev-small",
+    "jobs": 1,
+    "incremental": false,
+    "offline_locked": true,
+    "registry_and_toolchain_cache_reuse": true
+  },
+  "subreaper": {
+    "report": {
+      "path": "/workspace/acceptance/p02b-search-independent-04.subreaper.json",
+      "sha256": "d63932c7ae1afd0fcb91eccdcd9551ca747bff74f58caaf042b260143b4b874c",
+      "bytes": 901
+    },
+    "command": [
+      "python3",
+      "component-sdk/tests/file_search/build_worker.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--cli",
+      "/workspace/component-checkpoint-candidate-p02b-full-cli-20261001/codex",
+      "--manager",
+      "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+      "--work-dir",
+      "/workspace/acceptance/p02b-search-independent-04",
+      "--target-dir",
+      "/workspace/component-search-independent-target-04",
+      "--package-version",
+      "0.2.0",
+      "--component-metadata",
+      "{\"preparing_cancel_receipt\":1}"
+    ],
+    "exit_status": 0,
+    "runner_error": null,
+    "reaped": [
+      {
+        "pid": 601739,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ]
+  },
+  "frozen_binaries": {
+    "before_equals_after": true,
+    "current_files_independently_verified": true,
+    "values": {
+      "cli": {
+        "path": "/workspace/component-checkpoint-candidate-p02b-full-cli-20261001/codex",
+        "sha256": "7a63e9406d1605bac0a84e1b703735caeb211ceccf148337acf07614c7c0032d",
+        "bytes": 634206672,
+        "mtime_ns": 1790843283645670101,
+        "mode": 365,
+        "hardlinks": 1
+      },
+      "manager": {
+        "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+        "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+        "bytes": 6575272,
+        "mtime_ns": 1790835039120093093,
+        "mode": 448,
+        "hardlinks": 1
+      }
+    }
+  },
+  "package": {
+    "path": "/workspace/acceptance/p02b-search-independent-04/package",
+    "manifest": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/package/codex-component.json",
+      "sha256": "aa744e7e4ddb1509ac8a7acb47adb5f3bfa2d0d3d3d737d42b7a9e98fb23977a",
+      "bytes": 351
+    },
+    "declaration": {
+      "version": "0.2.0",
+      "contract_version": 1,
+      "metadata": {
+        "preparing_cancel_receipt": 1
+      },
+      "capabilities_are_declared_not_runtime_proof": true
+    },
+    "binary": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/package/codex-file-search-local-plugin",
+      "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+      "bytes": 10362672,
+      "mtime_ns": 1790849466208049771,
+      "mode": 448
+    },
+    "all_43_files_fully_fingerprinted_and_verified": true,
+    "file_count": 43,
+    "cargo_crate_version": "0.0.0",
+    "package_version": "0.2.0",
+    "installed_runtime_proven": false,
+    "preparing_capability_runtime_proven": false,
+    "notice_files": [
+      {
+        "path": "/workspace/acceptance/p02b-search-independent-04/package/LICENSE",
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      {
+        "path": "/workspace/acceptance/p02b-search-independent-04/package/NOTICE",
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      {
+        "path": "/workspace/acceptance/p02b-search-independent-04/package/THIRD_PARTY_NOTICES.json",
+        "sha256": "7400e6646ad6ecf36cd3f673068228d2ff1e1f14e6dc555c2dd921ebad520221",
+        "bytes": 17223
+      },
+      {
+        "path": "/workspace/acceptance/p02b-search-independent-04/package/third-party/nucleo/LICENSE",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "bytes": 16725
+      },
+      {
+        "path": "/workspace/acceptance/p02b-search-independent-04/package/third-party/nucleo/PROVENANCE.md",
+        "sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "bytes": 8181
+      },
+      {
+        "path": "/workspace/acceptance/p02b-search-independent-04/package/third-party/nucleo/matcher/LICENSE",
+        "sha256": "1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+        "bytes": 16725
+      }
+    ]
+  },
+  "source": {
+    "preserved_at": "/workspace/acceptance/p02b-search-independent-04/source.parked",
+    "original_build_source_path_absent": true,
+    "inventory": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/source-inventory.json",
+      "sha256": "b516c4c241ef817366bd0a98eafb75c58360ec8611d1ee0e720a994b6544ddb1",
+      "bytes": 56947
+    },
+    "original_inventory": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/original-source-inventory.json",
+      "sha256": "caba6aafd7420ae32d2f1a998c09a1c9f798eea9e9f3474b35d35ad401402208",
+      "bytes": 54099
+    },
+    "source_files": 196,
+    "source_bytes": 2008051,
+    "hash_matches_without_resolution_exception": 195,
+    "resolution_exceptions": [
+      {
+        "path": "codex-rs/Cargo.lock",
+        "inventory_export_sha256": "660c481faa80470cde9eccd4d7bd8e563b32d567cde293d2c4283d3c65a68804",
+        "actual_preserved_sha256": "dbe166dc08aa0c038fd4e7d9c5625e3f0a66af08b0c9e61c014b1f1192c6c3ac"
+      }
+    ],
+    "local_crates": [
+      {
+        "name": "codex-component-api",
+        "path": "codex-rs/component-api"
+      },
+      {
+        "name": "codex-component-host",
+        "path": "codex-rs/component-host"
+      },
+      {
+        "name": "codex-component-path-codec",
+        "path": "codex-rs/component-path-codec"
+      },
+      {
+        "name": "codex-file-search",
+        "path": "codex-rs/file-search"
+      },
+      {
+        "name": "codex-file-search-api",
+        "path": "codex-rs/file-search-api"
+      },
+      {
+        "name": "codex-file-search-component",
+        "path": "codex-rs/file-search-component"
+      },
+      {
+        "name": "codex-file-search-local-plugin",
+        "path": "codex-rs/file-search-local-plugin"
+      },
+      {
+        "name": "nucleo",
+        "path": "codex-rs/third-party/nucleo"
+      },
+      {
+        "name": "nucleo-matcher",
+        "path": "codex-rs/third-party/nucleo/matcher"
+      },
+      {
+        "name": "codex-utils-absolute-path",
+        "path": "codex-rs/utils/absolute-path"
+      }
+    ],
+    "local_crate_count": 10,
+    "resolved_package_count": 102,
+    "resolved_lock_record_count": 141,
+    "all_local_paths_inside_export": true,
+    "new_lock_identities": 0,
+    "excluded_engines": [
+      "codex-app-server",
+      "codex-cli",
+      "codex-core",
+      "codex-file-search-runtime",
+      "codex-tui",
+      "core_test_support"
+    ],
+    "registry_and_git_sources_vendored": false,
+    "inventory_independent_build_verified_field": false,
+    "inventory_flag_note": "Exporter inventory records pre-build state. Successful independent-build.json is the later proof; the frozen inventory is not rewritten to fabricate it.",
+    "key_bindings": [
+      {
+        "path": "codex-rs/file-search-api/src/backend.rs",
+        "source_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434",
+        "export_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434"
+      },
+      {
+        "path": "codex-rs/file-search-api/src/startup.rs",
+        "source_sha256": "2156e5237d68f6b4f28066315e778bec1fe8ec31036d87e3854fb90b6d2abdcf",
+        "export_sha256": "2156e5237d68f6b4f28066315e778bec1fe8ec31036d87e3854fb90b6d2abdcf"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner.rs",
+        "source_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd",
+        "export_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+      },
+      {
+        "path": "codex-rs/file-search/src/async_owner_start.rs",
+        "source_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da",
+        "export_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da"
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend.rs",
+        "source_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039",
+        "export_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039"
+      },
+      {
+        "path": "codex-rs/file-search/src/native_backend_start.rs",
+        "source_sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5",
+        "export_sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/process.rs",
+        "source_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975",
+        "export_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_open.rs",
+        "source_sha256": "3f8b4d5de9a494def2a7c45f15f9830b32e4811f44c8c6826b8357e23ca5a61e",
+        "export_sha256": "3f8b4d5de9a494def2a7c45f15f9830b32e4811f44c8c6826b8357e23ca5a61e"
+      },
+      {
+        "path": "codex-rs/file-search-component/src/service_lease.rs",
+        "source_sha256": "c4c67d94ce81f0d61f5a3edf50ce3ff76124526c3949c195c93085da733776ba",
+        "export_sha256": "c4c67d94ce81f0d61f5a3edf50ce3ff76124526c3949c195c93085da733776ba"
+      },
+      {
+        "path": "codex-rs/file-search-local-plugin/src/main.rs",
+        "source_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+        "export_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2"
+      },
+      {
+        "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+        "source_sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+        "export_sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76"
+      }
+    ]
+  },
+  "normalization": {
+    "applies_to": "isolated export only",
+    "removed_declarations": [
+      {
+        "patch_origin": "crates-io",
+        "alias": "crossterm",
+        "declaration": {
+          "git": "https://github.com/openai-oss-forks/crossterm",
+          "rev": "efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4"
+        },
+        "unused_identity": {
+          "name": "crossterm",
+          "version": "0.29.0",
+          "source": "git+https://github.com/openai-oss-forks/crossterm?rev=efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4#efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4"
+        },
+        "package_name_absent_from_full_lock": true
+      },
+      {
+        "patch_origin": "crates-io",
+        "alias": "tokio-tungstenite",
+        "declaration": {
+          "git": "https://github.com/openai-oss-forks/tokio-tungstenite",
+          "rev": "0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186"
+        },
+        "unused_identity": {
+          "name": "tokio-tungstenite",
+          "version": "0.28.0",
+          "source": "git+https://github.com/openai-oss-forks/tokio-tungstenite?rev=0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186#0e5b2d73aa18dd9f0a50ee9ff199d5aef7594186"
+        },
+        "package_name_absent_from_full_lock": true
+      },
+      {
+        "patch_origin": "crates-io",
+        "alias": "tungstenite",
+        "declaration": {
+          "git": "https://github.com/openai-oss-forks/tungstenite-rs",
+          "rev": "4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+        },
+        "unused_identity": {
+          "name": "tungstenite",
+          "version": "0.27.0",
+          "source": "git+https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+        },
+        "package_name_absent_from_full_lock": true
+      },
+      {
+        "patch_origin": "ssh://git@github.com/openai-oss-forks/tungstenite-rs.git",
+        "alias": "tungstenite",
+        "declaration": {
+          "git": "https://github.com/openai-oss-forks/tungstenite-rs",
+          "rev": "4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+        },
+        "unused_identity": {
+          "name": "tungstenite",
+          "version": "0.27.0",
+          "source": "git+https://github.com/openai-oss-forks/tungstenite-rs?rev=4fffad30fe373adbdcffab9545e9e9bf4f2fc19f#4fffad30fe373adbdcffab9545e9e9bf4f2fc19f"
+        },
+        "package_name_absent_from_full_lock": true
+      }
+    ],
+    "exact_full_lock_package_records_independently_compared_equal": true,
+    "metadata_packages_resolve_members_independently_compared_equal": true,
+    "manifest_before": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/manifest-before-patch-normalization.toml",
+      "sha256": "53e69208982d6fbc9ebda933ff5ecc73bc3e9907235e3d843ebe1151af1f99bb",
+      "bytes": 3747
+    },
+    "manifest_after": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/source.parked/codex-rs/Cargo.toml",
+      "sha256": "1ec40d7a370dab8aed2a166aeaffc697d477b99d5b4f7e51604fefac935394c6",
+      "bytes": 3072
+    },
+    "original_export_lock": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/original-export.lock",
+      "sha256": "660c481faa80470cde9eccd4d7bd8e563b32d567cde293d2c4283d3c65a68804",
+      "bytes": 410913
+    },
+    "resolved_lock_before_patch_normalization": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/lock-before-patch-normalization.lock",
+      "sha256": "321db592f2bd99b3df21448a85029695060d97c535864aa38f10f7d6741162d0",
+      "bytes": 33484
+    },
+    "resolved_lock_after": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/source.parked/codex-rs/Cargo.lock",
+      "sha256": "dbe166dc08aa0c038fd4e7d9c5625e3f0a66af08b0c9e61c014b1f1192c6c3ac",
+      "bytes": 32642
+    },
+    "locked_build_preserved_bytes": true
+  },
+  "tooling": {
+    "build_worker.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/build_worker.py",
+      "sha256": "3930c33a0b3eb98546d85e64d0a930a547624f8c7d523b81766c7f581097eafa",
+      "bytes": 16157
+    },
+    "acceptance_support.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/acceptance_support.py",
+      "sha256": "838cee4184dbb0f29cf164fa186dbef5f43c004f993cc003fa3291075ebec194",
+      "bytes": 9352
+    },
+    "lock_patch_normalization.py": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/lock_patch_normalization.py",
+      "sha256": "29e38337bf222419a5fc38ae35e98c6e53890de9b91af14022c1a0a1c70ddaa7",
+      "bytes": 5789
+    },
+    "exporter": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/rust_component_package.py",
+      "sha256": "e0509034d5eb8f7932081792407fd574fc7459e8202112297d72b7d96c1d16d7",
+      "bytes": 34624
+    }
+  },
+  "runtime_followup": {
+    "status": "not_run_by_this_audit",
+    "recommended_runner": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/file_search/app_server_acceptance.py",
+    "recommended_mode": "codex",
+    "server": "/workspace/component-checkpoint-candidate-p02b-full-cli-20261001/codex",
+    "server_sha256": "7a63e9406d1605bac0a84e1b703735caeb211ceccf148337acf07614c7c0032d",
+    "server_build_report": "/workspace/acceptance/p02b-full-cli-build.source.json",
+    "manager": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+    "worker_build_report": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+    "work_directory_requirement": "fresh, outside checkout",
+    "why_not_standalone_cli_runner": "cli_acceptance.py invokes standalone search flags directly. Frozen7a63 is full codex with app-server mode; substituting older standalone CLI02 would correctly violate worker04 exact frozen CLI fingerprint proof.",
+    "assertions_retained": [
+      "exact native/installed one-shot parity",
+      "concurrent streams and sibling isolation",
+      "real resource exhaustion",
+      "selected failure without fallback",
+      "removal/native restoration",
+      "strict observed descendant absence",
+      "unchanged binary/package fingerprints"
+    ],
+    "limits": "Backward wire interoperability must be executed; old host cannot prove newly added host-side Preparing cancellation behavior."
+  },
+  "limitations": [
+    "Build and library linkage inspection only: no installed worker execution or consumer acceptance is recorded here.",
+    "Version0.2.0/contract1/preparing_cancel_receipt1 are declarations, not runtime or compatibility proof.",
+    "Source export excludes full core/app-server/CLI/runtime/TUI engine crates; no additional native subsystem extraction follows from this build.",
+    "Registry/git dependencies were reused from existing caches, not vendored; isolated local source closure does not imply network-independent rebuilding on a fresh machine.",
+    "Source and package artifacts remain inside this cloud filesystem; no external artifact durability or publication is claimed.",
+    "No fresh UI host, GUI cycle, Browser check, upstream update or whole-harness completion claim."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "kind": "historical_worker04_tooling_format_transition",
+  "report": "/workspace/acceptance/p02b-preparing-app-server-format.source.json",
+  "report_sha256": "b01d4bbe5babddb7ca2b3fd0a363ed25964a292148809cf12196f23cc0ac7484",
+  "returncode": 0,
+  "finished_utc": "2026-10-01T10:24:16Z",
+  "python_changed": [
+    {
+      "path": "component-sdk/rust_component_package.py",
+      "historical_preformat_sha256": "e0509034d5eb8f7932081792407fd574fc7459e8202112297d72b7d96c1d16d7",
+      "postformat_sha256": "9db1b06d566301e8797bcc9417f28c073bb755aacda3e1ecd708de5bf7153963"
+    },
+    {
+      "path": "component-sdk/tests/file_search/build_worker.py",
+      "historical_preformat_sha256": "3930c33a0b3eb98546d85e64d0a930a547624f8c7d523b81766c7f581097eafa",
+      "postformat_sha256": "10ad1202857a4a7950d1ed81d85c7e57761b0eb707d267ee3e4a31ee6cd85ed9"
+    },
+    {
+      "path": "component-sdk/tests/test_rust_package.py",
+      "historical_preformat_sha256": "8bfd734f9ecf98c3b3177ba96e864af02971b2cc3fb1b7fa0e83ca22c165c08b",
+      "postformat_sha256": "8368aff6533fd3d78a9f9b743524d972b1893ed66524eb91f039243c476232fd"
+    }
+  ],
+  "qualification": "Worker04 evidence binds the pre-format bytes used by its build. These later source hashes are not that build input. Parent reported formatting-only changes; no test rerun solely for formatting. This note does not add installed runtime proof."
+}

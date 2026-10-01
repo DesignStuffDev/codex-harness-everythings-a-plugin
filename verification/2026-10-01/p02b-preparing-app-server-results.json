@@ -1,0 +1,779 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B App Server consumer owned Preparing cancellation",
+  "generated_utc": "2026-10-01T10:38:45.603235+00:00",
+  "publication": {
+    "status": "WIP source published and remote verified; accepted main runtime unchanged",
+    "commit": "9bd3bc30f4259245b3e4c769840289fcda0d2dcd",
+    "tree": "0065b61fb7058cc014f795e29f8b1d2028fdbea1",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "note": "Exact post-format AS/client source passed460understrict runner. Public pending sessionStop remains separate; three historical review slices not individually compiled."
+  },
+  "new_native_subsystem_extracted": false,
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "source_identity": {
+    "scope": "Eight adopted AS consumer paths plus four previously adopted AS/client fixtures. Test reports capture10142 actual source fingerprints.",
+    "runner_baseline_annotation": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "baseline_annotation_is_tested_commit": false,
+    "map_hash_format": "SHA256 of sorted-key compact UTF-8 JSON; full source maps remain in hashed original source reports.",
+    "files": [
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+        "preimage_sha256": "32b5098f5916b163aab5672e59fa0c512222990a69310bb982a2d2bbb7535ede",
+        "adopted_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+        "first_test_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+        "post_fix_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+        "post_format_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+        "strict_test_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+        "audit_current_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search/startup.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+        "first_test_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+        "post_fix_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+        "post_format_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+        "strict_test_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+        "audit_current_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "preimage_sha256": "5c9203e9899cb4638a2ef97783ae102c2bd398206c5f4329a3c3ec77d4839e3d",
+        "adopted_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+        "first_test_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+        "post_fix_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+        "post_format_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+        "strict_test_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+        "audit_current_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+        "preimage_sha256": "33a79d5598bd8399ef4e8c28ac42c69ba070c7d48f1b8248c305a8482cbecad1",
+        "adopted_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+        "first_test_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+        "post_fix_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+        "post_format_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+        "strict_test_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+        "audit_current_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/preparing_fixture.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+        "first_test_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+        "post_fix_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+        "post_format_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+        "strict_test_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+        "audit_current_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/preparing_tests.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+        "first_test_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+        "post_fix_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+        "post_format_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+        "strict_test_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+        "audit_current_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+        "preimage_sha256": "1a351b25b79766f92810a190eb6a72c467b94fcd6e07b08c326785ddfd6bcf96",
+        "adopted_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+        "first_test_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+        "post_fix_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+        "post_format_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+        "strict_test_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+        "audit_current_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search.rs",
+        "preimage_sha256": "07ea7b2c53bda4e97a8edd219e82e205ad79cba147e040b0272b9a0a8b577d96",
+        "adopted_sha256": "d2ae4523db018914a259fab9afb0f58b0fc0fbf887715baad77691b684c7e4d9",
+        "first_test_sha256": "d2ae4523db018914a259fab9afb0f58b0fc0fbf887715baad77691b684c7e4d9",
+        "post_fix_sha256": "d419a4520648cadbe25d574b2e41189b3e0715a482633c2f911e967116d5bf5e",
+        "post_format_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+        "strict_test_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+        "audit_current_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+        "audit_current_matches_strict_test": true,
+        "source_group": "eight AS consumer integration paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+        "preimage_sha256": "30ea65c89f40451f26216a2396e8e8f7d40efeefb9e05d62b8dd59524afdbea4",
+        "adopted_sha256": "6617e8567b89a984d6ba06135924635eee18d7f3e9b71eedae1f28cf124b191d",
+        "first_test_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+        "post_fix_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+        "post_format_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+        "strict_test_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+        "audit_current_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+        "audit_current_matches_strict_test": true,
+        "source_group": "four earlier AS/client required-begin fixture paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/runtime_start_fixture.rs",
+        "preimage_sha256": null,
+        "adopted_sha256": "34780e278b8de100dc42dc88e3e0bd1e1c296e6b81bc839085923bd84e3e5c25",
+        "first_test_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+        "post_fix_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+        "post_format_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+        "strict_test_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+        "audit_current_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+        "audit_current_matches_strict_test": true,
+        "source_group": "four earlier AS/client required-begin fixture paths"
+      },
+      {
+        "path": "codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+        "preimage_sha256": "db5ea0110024d744f4f78891b22244fe96aaaa82b4c4419e063485cbf6f6a8b5",
+        "adopted_sha256": "a72d0ad882fdeb23d1bb259b7abd171a474d5e0c2fa2a5709dcc1b7d72e95eeb",
+        "first_test_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+        "post_fix_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+        "post_format_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+        "strict_test_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+        "audit_current_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+        "audit_current_matches_strict_test": true,
+        "source_group": "four earlier AS/client required-begin fixture paths"
+      },
+      {
+        "path": "codex-rs/app-server-client/src/file_search_tests.rs",
+        "preimage_sha256": "18e40636219d10fdad6408b78bf399555882493847cb4827717be0a5c1b75eed",
+        "adopted_sha256": "b95ff367b92c96c6df0314aef238e66fe7cb9ae04327edcadd16d966eab6ab3c",
+        "first_test_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+        "post_fix_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+        "post_format_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+        "strict_test_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+        "audit_current_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+        "audit_current_matches_strict_test": true,
+        "source_group": "four earlier AS/client required-begin fixture paths"
+      }
+    ],
+    "unchanged_strict_runner": {
+      "path": "component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+    },
+    "source_report_transitions": [
+      {
+        "from": "p02b-preparing-app-server-tests",
+        "to": "p02b-preparing-app-server-fix",
+        "intervening_recorded_source_changes": []
+      },
+      {
+        "from": "p02b-preparing-app-server-fix",
+        "to": "p02b-preparing-app-server-format",
+        "intervening_recorded_source_changes": []
+      },
+      {
+        "from": "p02b-preparing-app-server-format",
+        "to": "p02b-preparing-app-server-tests-02",
+        "intervening_recorded_source_changes": []
+      }
+    ]
+  },
+  "runs": [
+    {
+      "id": "p02b-preparing-app-server-tests",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-tests.source.json",
+        "sha256": "ffc34452df9df4341d0e387528c7dd7f7dfccfc0350ab2f03bdbf6f9458aaeab",
+        "bytes": 2820968
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-tests.log",
+        "sha256": "b9fdb53ec9f95340598576460762805feca03bba53894a34045b5fcf6250ae69",
+        "bytes": 73390
+      },
+      "command": [
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-app-server-client",
+        "--lib"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:13:53Z",
+      "finished_utc": "2026-10-01T10:19:28Z",
+      "exit_status": 0,
+      "source_before_count": 10142,
+      "source_after_count": 10142,
+      "source_before_map_sha256": "75d3a3fa923312e4fda89d9cb26bb5a8573de1307dc256256efd16c9aba7aab4",
+      "source_after_map_sha256": "75d3a3fa923312e4fda89d9cb26bb5a8573de1307dc256256efd16c9aba7aab4",
+      "source_unchanged": true,
+      "changed_source": [],
+      "result": {
+        "executed": 460,
+        "passed": 460,
+        "failed": 0,
+        "skipped": 0,
+        "retries": 0,
+        "by_test_binary": {
+          "codex-app-server": 418,
+          "codex-app-server-client": 42
+        }
+      },
+      "subreaper": {
+        "enabled": false,
+        "receipt": null,
+        "limitation": "Initial command omitted strict subreaper; passing tests establish no runner descendant-reaping receipt."
+      }
+    },
+    {
+      "id": "p02b-preparing-app-server-fix",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-fix.source.json",
+        "sha256": "678e3a74a0a346b2134ff57d775595af297670e8fcecb41c633f572328a7e2fc",
+        "bytes": 2820929
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-fix.log",
+        "sha256": "d707bc97bd4fa825859a15a5da05501f21a07d2f2c60783ae2601a3c13482c6c",
+        "bytes": 5715
+      },
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-app-server-client"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:19:50Z",
+      "finished_utc": "2026-10-01T10:23:17Z",
+      "exit_status": 0,
+      "source_before_count": 10142,
+      "source_after_count": 10142,
+      "source_before_map_sha256": "75d3a3fa923312e4fda89d9cb26bb5a8573de1307dc256256efd16c9aba7aab4",
+      "source_after_map_sha256": "df04205a5b6c31d860e85fb8150c3924093726f5f883788d88409290e2c84e9b",
+      "source_unchanged": false,
+      "changed_source": [
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "before_sha256": "d2ae4523db018914a259fab9afb0f58b0fc0fbf887715baad77691b684c7e4d9",
+          "after_sha256": "d419a4520648cadbe25d574b2e41189b3e0715a482633c2f911e967116d5bf5e"
+        }
+      ],
+      "result": {
+        "changes": 1,
+        "description": "One Clippy let-and-return simplification in SearchRequestProcessor; no test assertions changed."
+      }
+    },
+    {
+      "id": "p02b-preparing-app-server-format",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-format.source.json",
+        "sha256": "b01d4bbe5babddb7ca2b3fd0a363ed25964a292148809cf12196f23cc0ac7484",
+        "bytes": 2820854
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-format.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "command": [
+        "just",
+        "fmt"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:23:54Z",
+      "finished_utc": "2026-10-01T10:24:16Z",
+      "exit_status": 0,
+      "source_before_count": 10142,
+      "source_after_count": 10142,
+      "source_before_map_sha256": "df04205a5b6c31d860e85fb8150c3924093726f5f883788d88409290e2c84e9b",
+      "source_after_map_sha256": "0d35c3c783408b80ee9ded71103c63740c7e09f34e824b2ffba8aa5befea5b30",
+      "source_unchanged": false,
+      "changed_source": [
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+          "before_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+          "after_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+          "before_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+          "after_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6"
+        },
+        {
+          "path": "codex-rs/app-server/src/fuzzy_file_search/startup.rs",
+          "before_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+          "after_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search.rs",
+          "before_sha256": "d419a4520648cadbe25d574b2e41189b3e0715a482633c2f911e967116d5bf5e",
+          "after_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+          "before_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+          "after_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/preparing_fixture.rs",
+          "before_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+          "after_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/preparing_tests.rs",
+          "before_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+          "after_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4"
+        },
+        {
+          "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+          "before_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+          "after_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c"
+        },
+        {
+          "path": "component-sdk/rust_component_package.py",
+          "before_sha256": "e0509034d5eb8f7932081792407fd574fc7459e8202112297d72b7d96c1d16d7",
+          "after_sha256": "9db1b06d566301e8797bcc9417f28c073bb755aacda3e1ecd708de5bf7153963"
+        },
+        {
+          "path": "component-sdk/tests/file_search/build_worker.py",
+          "before_sha256": "3930c33a0b3eb98546d85e64d0a930a547624f8c7d523b81766c7f581097eafa",
+          "after_sha256": "10ad1202857a4a7950d1ed81d85c7e57761b0eb707d267ee3e4a31ee6cd85ed9"
+        },
+        {
+          "path": "component-sdk/tests/test_rust_package.py",
+          "before_sha256": "8bfd734f9ecf98c3b3177ba96e864af02971b2cc3fb1b7fa0e83ca22c165c08b",
+          "after_sha256": "8368aff6533fd3d78a9f9b743524d972b1893ed66524eb91f039243c476232fd"
+        }
+      ],
+      "result": {
+        "changed_paths": 11,
+        "app_server_rust_paths": 8,
+        "sdk_python_paths": 3,
+        "description": "just fmt invokes scripts/format.py, including Rust formatting and uv ruff format from repository root. Python metadata-packager paths are not validated by AS/client Rust tests."
+      }
+    },
+    {
+      "id": "p02b-preparing-app-server-tests-02",
+      "source_report": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-tests-02.source.json",
+        "sha256": "bb5b9ecf5fca5224925c4f00e1d86f348185a3cbd736362579c9516247900ba5",
+        "bytes": 2821181
+      },
+      "log": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-tests-02.log",
+        "sha256": "9b0fd1a08cbf556827d8f8c19b285256251bd8db9dbd17518a30864af2817614",
+        "bytes": 68807
+      },
+      "command": [
+        "python3",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p02b-preparing-app-server-tests-02.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-app-server",
+        "-p",
+        "codex-app-server-client",
+        "--lib"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "started_utc": "2026-10-01T10:27:38Z",
+      "finished_utc": "2026-10-01T10:29:26Z",
+      "exit_status": 0,
+      "source_before_count": 10142,
+      "source_after_count": 10142,
+      "source_before_map_sha256": "0d35c3c783408b80ee9ded71103c63740c7e09f34e824b2ffba8aa5befea5b30",
+      "source_after_map_sha256": "0d35c3c783408b80ee9ded71103c63740c7e09f34e824b2ffba8aa5befea5b30",
+      "source_unchanged": true,
+      "changed_source": [],
+      "result": {
+        "executed": 460,
+        "passed": 460,
+        "failed": 0,
+        "skipped": 0,
+        "retries": 0,
+        "by_test_binary": {
+          "codex-app-server": 418,
+          "codex-app-server-client": 42
+        }
+      },
+      "subreaper": {
+        "path": "/workspace/acceptance/p02b-preparing-app-server-tests-02.subreaper.json",
+        "sha256": "942c77b4c1d464fcea36ce5c70512f100b1a1658e1f252acfa3a2131ce4631ac",
+        "bytes": 1861,
+        "enabled": true,
+        "command_pid": 609575,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "reaped": [
+          {
+            "pid": 610436,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 610659,
+            "wait_status": 36096,
+            "returncode": 141
+          },
+          {
+            "pid": 610672,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 610453,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 611129,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 611174,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 611326,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 612245,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 612596,
+            "wait_status": 32768,
+            "returncode": 128
+          },
+          {
+            "pid": 612593,
+            "wait_status": 32768,
+            "returncode": 128
+          },
+          {
+            "pid": 612714,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 612619,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 612789,
+            "wait_status": 32768,
+            "returncode": 128
+          },
+          {
+            "pid": 612784,
+            "wait_status": 32768,
+            "returncode": 128
+          },
+          {
+            "pid": 612734,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 609575,
+            "wait_status": 0,
+            "returncode": 0
+          },
+          {
+            "pid": 612813,
+            "wait_status": 13,
+            "returncode": -13
+          },
+          {
+            "pid": 612795,
+            "wait_status": 13,
+            "returncode": -13
+          }
+        ],
+        "returncode_histogram": {
+          "-13": 9,
+          "141": 1,
+          "0": 4,
+          "128": 4
+        },
+        "limitation": "Actual runner wait records; nonzero descendant statuses are preserved. Not every child exited zero and this is not whole-host/GUI lifecycle proof."
+      }
+    }
+  ],
+  "same_unique_test_set_across_runs": true,
+  "new_direct_processor_tests": [
+    "request_processors::search::preparing_tests::caller_retirement_does_not_hide_a_genuine_closed_lease_constructor_failure",
+    "request_processors::search::preparing_tests::stop_waits_for_pending_constructor_receipt_before_releasing_starting_entry",
+    "request_processors::search::preparing_tests::token_retirement_reaches_pending_owner_and_waits_for_cleanup_without_cancelling_sibling"
+  ],
+  "preservation": {
+    "adoption_reports": [
+      {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-app-server-adoption.json",
+        "sha256": "30eef8aa51089bf0a165d9ec6bd28e25b0a2a26d2b7c6a46906a4e3ab99dc9a9",
+        "bytes": 2316
+      },
+      {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p02b-runtime-and-fixtures-adoption.json",
+        "sha256": "1228b9fcfd7a9b320dd92e5e6f2296e9c5d537bc85faa5caf4426e28f809f2d9",
+        "bytes": 5901
+      }
+    ],
+    "source_archives": [
+      {
+        "archive": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-app-server-proposed.tar.gz",
+          "sha256": "14b8ae32f7860792627858e378e41b9ebe819d35ce731471724fc88903569064",
+          "bytes": 67470
+        },
+        "verified_scope_members": [
+          {
+            "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+            "sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55"
+          },
+          {
+            "path": "codex-rs/app-server/src/fuzzy_file_search/startup.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/fuzzy_file_search/startup.rs",
+            "sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a"
+          },
+          {
+            "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/fuzzy_file_search.rs",
+            "sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/request_processors/search/connection.rs",
+            "sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search/preparing_fixture.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/request_processors/search/preparing_fixture.rs",
+            "sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search/preparing_tests.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/request_processors/search/preparing_tests.rs",
+            "sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/request_processors/search/search_tests.rs",
+            "sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search.rs",
+            "archive_member": "p02b-preparing-consumers-stage/proposed/codex-rs/app-server/src/request_processors/search.rs",
+            "sha256": "d2ae4523db018914a259fab9afb0f58b0fc0fbf887715baad77691b684c7e4d9"
+          }
+        ],
+        "durability": "Checksum-verified in-cloud filesystem checkpoint; not proven outside backup."
+      },
+      {
+        "archive": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02b-runtime-and-fixtures-proposed.tar.gz",
+          "sha256": "7d1de79cee23f4de26a4939da5f00ba961cc8ab6c05d56ff325ab90e2d15c424",
+          "bytes": 117133
+        },
+        "verified_scope_members": [
+          {
+            "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+            "archive_member": "p02b-consumer-fixtures-preparing-stage/proposed/codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+            "sha256": "6617e8567b89a984d6ba06135924635eee18d7f3e9b71eedae1f28cf124b191d"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search/runtime_start_fixture.rs",
+            "archive_member": "p02b-consumer-fixtures-preparing-stage/proposed/codex-rs/app-server/src/request_processors/search/runtime_start_fixture.rs",
+            "sha256": "34780e278b8de100dc42dc88e3e0bd1e1c296e6b81bc839085923bd84e3e5c25"
+          },
+          {
+            "path": "codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+            "archive_member": "p02b-consumer-fixtures-preparing-stage/proposed/codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+            "sha256": "a72d0ad882fdeb23d1bb259b7abd171a474d5e0c2fa2a5709dcc1b7d72e95eeb"
+          },
+          {
+            "path": "codex-rs/app-server-client/src/file_search_tests.rs",
+            "archive_member": "p02b-consumer-fixtures-preparing-stage/proposed/codex-rs/app-server-client/src/file_search_tests.rs",
+            "sha256": "b95ff367b92c96c6df0314aef238e66fe7cb9ae04327edcadd16d966eab6ab3c"
+          }
+        ],
+        "durability": "Checksum-verified in-cloud filesystem checkpoint; not proven outside backup."
+      }
+    ],
+    "generated_library_test_executables": [
+      {
+        "report": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-first-as-cache-preservation.json",
+          "sha256": "75b0c6f32ebc8cecf271b96536815da59cc4b90072886554ad6677c011c43ccd",
+          "bytes": 7606
+        },
+        "gate": {
+          "source_report": "/workspace/acceptance/p02b-preparing-app-server-tests.source.json",
+          "source_report_sha256": "ffc34452df9df4341d0e387528c7dd7f7dfccfc0350ab2f03bdbf6f9458aaeab",
+          "log": "/workspace/acceptance/p02b-preparing-app-server-tests.log",
+          "log_sha256": "b9fdb53ec9f95340598576460762805feca03bba53894a34045b5fcf6250ae69",
+          "recorded_log_hash_matches": true,
+          "command": [
+            "just",
+            "test",
+            "--retries",
+            "0",
+            "-p",
+            "codex-app-server",
+            "-p",
+            "codex-app-server-client",
+            "--lib"
+          ],
+          "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+          "baseline_label": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+          "started_utc": "2026-10-01T10:13:53Z",
+          "finished_utc": "2026-10-01T10:19:28Z",
+          "status": "finished",
+          "returncode": 0,
+          "scoped_source_unchanged": true,
+          "source_before_equals_source_after": true,
+          "pass_counts": {
+            "codex-app-server": 418,
+            "codex-app-server-client": 42
+          },
+          "summary": [
+            "Summary [  16.648s] 460 tests run: 460 passed, 0 skipped"
+          ],
+          "subreaper_used": false,
+          "subreaper_evidence_claimed": false,
+          "source_claim_limit": "The report fingerprints actual tested scoped source; the dirty checkout is not equated with its baseline commit. First gate omitted the strict subreaper runner; successful tests do not establish descendant-reaping evidence."
+        },
+        "artifacts": [
+          {
+            "original_test_binary": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_app_server-71dc1684a7553a56",
+            "original_sha256": "a9e8815b022e2fca8af202725f79f510ed840c846b0fbd1fa7e72c9d2fb04808",
+            "archive_path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-first-as-test-codex_app_server-71dc1684a7553a56-a9e8815b022e.gz",
+            "archive_sha256_recorded_by_preserver": "ee7ef27e67453af720cba3013b0b0cf6136fcc952a07f3c7485b6a195fdd2ece",
+            "archive_bytes": 136643988,
+            "stream_verified_by_preserver": true,
+            "hash_binding_limit": "Fresh post-gate hash of the unique surviving test executable with test-lib fingerprint and mtime within this successful gate. The test runner did not separately emit an executable SHA binding; no stronger cryptographic run attestation is claimed."
+          },
+          {
+            "original_test_binary": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_app_server_client-a90d4f5c830ee6f2",
+            "original_sha256": "552b02db1c90fcbee270e5b0db238483dccba7fb2109a531107cff375e757821",
+            "archive_path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-first-as-test-codex_app_server_client-a90d4f5c830ee6f2-552b02db1c90.gz",
+            "archive_sha256_recorded_by_preserver": "666507a7edbdea9813ea385a6d04bd2c92a916f055d214f022de18d68a19cf61",
+            "archive_bytes": 129460845,
+            "stream_verified_by_preserver": true,
+            "hash_binding_limit": "Fresh post-gate hash of the unique surviving test executable with test-lib fingerprint and mtime within this successful gate. The test runner did not separately emit an executable SHA binding; no stronger cryptographic run attestation is claimed."
+          }
+        ],
+        "audit_limit": "This evidence generator validates the preservation report/gate hashes, not another full decompression of large binary archives."
+      },
+      {
+        "report": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-strict-as-cache-preservation.json",
+          "sha256": "83bf6619c03d956ce0c2036dd14af896c77d96e2530f7841507c645e8ea20b92",
+          "bytes": 7322
+        },
+        "gate": {
+          "source_report": "/workspace/acceptance/p02b-preparing-app-server-tests-02.source.json",
+          "source_report_sha256": "bb5b9ecf5fca5224925c4f00e1d86f348185a3cbd736362579c9516247900ba5",
+          "log": "/workspace/acceptance/p02b-preparing-app-server-tests-02.log",
+          "log_sha256": "9b0fd1a08cbf556827d8f8c19b285256251bd8db9dbd17518a30864af2817614",
+          "subreaper": "/workspace/acceptance/p02b-preparing-app-server-tests-02.subreaper.json",
+          "subreaper_sha256": "942c77b4c1d464fcea36ce5c70512f100b1a1658e1f252acfa3a2131ce4631ac",
+          "subreaper_used": true,
+          "command_returncode": 0,
+          "runner_error": null,
+          "pass_counts": {
+            "codex-app-server": 418,
+            "codex-app-server-client": 42
+          },
+          "scope_unchanged": true
+        },
+        "artifacts": [
+          {
+            "original_test_binary": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_app_server-71dc1684a7553a56",
+            "original_sha256": "c4740bdd78c07977e6c77f6d80fd502e274b58eef45e3e885cdba248669254d3",
+            "archive_path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-strict-as-test-codex_app_server-71dc1684a7553a56-c4740bdd78c0.gz",
+            "archive_sha256_recorded_by_preserver": "262629a37019048bac502af1497856eb1d13c3bc1b42905cb74e9d6e618ad3e0",
+            "archive_bytes": 136643794,
+            "stream_verified_by_preserver": true,
+            "hash_binding_limit": "Fresh post-gate hash of the unique surviving test executable with test-lib fingerprint and mtime within this successful gate. The test runner did not separately emit an executable SHA binding; no stronger cryptographic run attestation is claimed."
+          },
+          {
+            "original_test_binary": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_app_server_client-a90d4f5c830ee6f2",
+            "original_sha256": "cfaacf4876ddcf268820fa84a3c109a57f40c4c05c98a8422d6172b02aa2aa25",
+            "archive_path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-strict-as-test-codex_app_server_client-a90d4f5c830ee6f2-cfaacf4876dd.gz",
+            "archive_sha256_recorded_by_preserver": "bf5ea24e356bd1d807e3362ca0f88619d82b9f367e03ded6a241cd56529b6d3c",
+            "archive_bytes": 129460865,
+            "stream_verified_by_preserver": true,
+            "hash_binding_limit": "Fresh post-gate hash of the unique surviving test executable with test-lib fingerprint and mtime within this successful gate. The test runner did not separately emit an executable SHA binding; no stronger cryptographic run attestation is claimed."
+          }
+        ],
+        "audit_limit": "This evidence generator validates the preservation report/gate hashes, not another full decompression of large binary archives."
+      }
+    ]
+  },
+  "independent_review": {
+    "path": "/tmp/p02b-preparing-app-server-independent-review.md",
+    "sha256": "62150bb7480127a225b9c9ec037a1331c8a769d360cac8e1c0ad85ec13db7aeb",
+    "bytes": 3195
+  },
+  "gui_read_only_audit": {
+    "path": "/tmp/p02b-gui-preparing-audit.md",
+    "sha256": "1741821c7bcfc96a5f0c9497557c40ce025050e1e0eaf7590ee751cfe481efc3",
+    "bytes": 9793
+  },
+  "format_recipe": {
+    "justfile": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/justfile",
+      "sha256": "9d7a65a494c2b771471c1bfd2edef164a4d22e27015966ad3d4b7af4f3ae2402",
+      "bytes": 7519
+    },
+    "format_script": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/scripts/format.py",
+      "sha256": "6509867004a9062f3225be3266c175d65baef1b91ec2787d5af4d23256ad079d",
+      "bytes": 5846
+    },
+    "note": "just fmt delegates Python scripts formatter group to uv run --frozen --project scripts ruff format . from repository root."
+  },
+  "limitations": [
+    "This hardens existing selected-file-search consumer cancellation, not another native subsystem extraction.",
+    "460 is the unique suite size: initial and strict runs execute the same 418 AS and42 client tests; never report920 unique tests.",
+    "Three new Preparing tests call SearchRequestProcessor directly with controlled startup/cleanup gates. They do not exercise public JSON-RPC session serialization or native OS-thread cleanup.",
+    "At this tested source, public sessionStop is serialized behind pending sessionStart for the same session ID. Reader-intent cancellation and its public acceptance are a separate pending slice.",
+    "GUI uses concurrent legacy fuzzyFileSearch with immediate same-token empty-query cancellation; no session protocol migration is implied. New-host real GUI Preparing acceptance is unproved by these library gates.",
+    "No fresh installed worker or frozen full CLI/App Server/GUI binary is established by these --lib runs. Actual native/process API gates remain separate evidence.",
+    "TUI production and fixtures are outside this AS/client test scope.",
+    "Three SDK Python paths were formatted in the same command window; AS/client Rust success does not validate package metadata behavior.",
+    "No in-app Browser checks, upstream-updater completion, release or whole-harness completion claim.",
+    "Source/archive and generated-test executable preservation is cloud-local; root owns publication identity and external durability."
+  ]
+}

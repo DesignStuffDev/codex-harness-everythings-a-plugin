@@ -6,15 +6,16 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
 
 ## Published checkpoint
 
-- Main evidence checkpoint `052f9f5cce8da85bc5904201d83283daf10b68d2` precedes this documentation update.
-  Latest cancellation WIP is `272993ff0e6376e7ba52403e3b52d7f16449cd16`, tree
-  `93201cd97a14b351edda30d35318a80a8402db64`, on `wip/p02b-preparing-cancellation-20261001`.
-  It adds required SDK source revision2, worker service and runtime pending controls, all nine original
-  fixture implementer migrations, and explicit package metadata. API/native/worker169 and runtime55
-  focused tests passed on recorded scopes; AS/TUI fixtures await consumer package gates.
-  Nine review-sized historical commits are not nine independently compiled milestones.
-  Main runtime is still accepted a469cf4 plus additive SDK support. AS production adoption is now
-  in the original checkout under test; TUI production remains staged. Installed new Preparing proof pending.
+- Main evidence checkpoint `956c0c78dae71459f545ba2885acce417182dbcf` precedes this update.
+  Latest cancellation WIP `9bd3bc30f4259245b3e4c769840289fcda0d2dcd`, tree
+  `0065b61fb7058cc014f795e29f8b1d2028fdbea1`, extends `272993ff` on
+  `wip/p02b-preparing-cancellation-20261001` with AS pending controls and packaging formatting.
+  Required SDK source2, native/process/service/runtime controls and nine original fixture migrations
+  are preserved. API/native/worker169, runtime55 and AS/client460 gates passed on separate exact scopes.
+  Historical review-sized commits were not individually compiled. Main runtime remains accepted a469cf4
+  plus additive SDK support. TUI production is adopted; first full regression failed at linking before any test executed.
+  Public sessionStop queues behind pendingStart at this source; its reviewed reader-intent/receipt fix
+  is staged separately. GUI uses concurrent legacy token cancellation and needs no protocol rewrite.
 
 - Latest additive SDK source `d22cea88aa23e35a619d996fc731122450e51313`, tree
   `fbf28305751239cd376cefaec0ea970048096e08`, follows reviewed evidence/roadmap `789be2e7`.
@@ -36,6 +37,19 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
   GUI presentation is additive; model/auth remain adapters. Loop/context/tools/policy are still coupled.
 
 ## Latest verification — separate scopes, no invented total
+
+- [AS Preparing consumer](verification/2026-10-01/P02B_PREPARING_APP_SERVER_EVIDENCE.md):
+  460 unique tests (418 AS +42 client) passed. First run omitted strict subreaper; corrected run includes
+  it, with unchanged source, zero retries/skips, command0/null runner error. Preserve18 raw reap statuses
+  including Git -13/128/141; do not claim every descendant exit0. Lint one let-return and formatting
+  precede the strict run. Direct processor tests do not prove public pending sessionStop.
+- [Worker04 installed compatibility](verification/2026-10-01/P02B_WORKER04_OLD_HOST_COMPAT_EVIDENCE.md):
+  actual unchanged old fullCLI7a63, six manager commands0, four server runs, seven ordered search cases,
+  streams/sibling/ABA/empty/no-match, resource exhaustion, invalid selected config1/no fallback,
+  removal/native restore. All40 tracked process identities absent; subreaper0/null, one adopted Git-13
+  preserved. Worker04 and installed package/hosts unchanged. This proves old-host interoperability,
+  not new-host Preparing, native constructor interruption or GUI behavior.
+
 
 - [Required startup/service](verification/2026-10-01/P02B_REQUIRED_START_SERVICE_EVIDENCE.md):
   169/169 passed (96 native,52 component,21 API), no retries/skips; initial compile101 preserved.
@@ -104,21 +118,31 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
    repository/worktrees, remote refs, preserved index/source, active processes, memory and disk.
 2. This documentation checkpoint records reviewed evidence/lineage/state for source a469cf4.
    Verify the latest remote ref/publication receipt before new work; do not repeat publication blindly.
-3. Required begin_open, both production backends, worker service and runtime are implemented/tested
-   in the WIP checkpoint above. Do not redo them. Independent worker04 is built and parked; preserve it.
-   AS production stage `/tmp/p02b-preparing-consumers-stage` is adopted (8 files), under serialized
-   AS/client library regression `p02b-preparing-app-server-tests`; inspect completion before edits.
-   TUI production `/tmp/p02b-preparing-tui-consumers-stage` and tests `/tmp/p02b-tui-pending-tests-stage`
-   remain staged only; inspect final combined manifest/review before adoption, then run full TUI gate.
-   Complete scoped lint/format, freeze rebuilt full host, test old0.1 and new0.2 installation,
-   cancellation while Preparing with sibling, GUI and manager-only SIGINT/cleanup regression.
-   Preserve first cause, NotAdmitted, pre-spawn guards, actual join and same-lease handoff fences.
-   Worker04 can test backward compatibility using app_server_acceptance.py with frozen fullCLI7a63
-   and server-mode codex; standalone CLI harness expects the distinct CLI02 and would fail fingerprint binding.
+3. Required begin_open, backend/service/runtime and AS consumer controls are implemented/tested above.
+   Worker04 is built/parked and passed old-host installed compatibility. Do not repeat those steps.
+   TUI seven-path stage is adopted; full strict regression `p02b-preparing-tui-tests` failed101 at
+   linking (SIGBUS), zero tests; observed disk0, source unchanged and runner error null. Retired only
+   unusable incomplete generated linker temporary after hash/liveness capture; source/objects/evidence
+   preserved. Obtain sufficient generated-cache headroom before retry; do not equate disk observation
+   with a proven linker errno. Resource audit `/tmp/p02b-preparing-tui-headroom-audit.json` pending.
+   Inspect source/log/subreaper reports and process/resource state before another Rust build. Then scoped
+   lint/format and preserve tested/final hashes. Public pending sessionStop ingress proposal/stage:
+   `/tmp/p02b-public-search-stop-admission-stage`; keep serialization/FIFO, auth fence, bounded16
+   queued Start intents and retained Stop cleanup receipts. Do not normalize missing receipts into success.
+   Assemble/review/test staged installed relay `/tmp/p02b-installed-preparing-gate-stage` and build/freeze
+   new full host. Normal unchanged worker04 acceptance is distinct from its instrumented transport package.
+   Relay holds a genuine successful Open: native Ready, host/process Preparing. Exercise actual legacy
+   token cancellation and GUI clear/root/task/close with real release Joined before unhold, usable sibling,
+   final drain and manager-only SIGINT. Public sessionStop is a separate gate on its fixed dispatcher.
+   Existing GUI completed-HTTP-response barriers prove stale display fencing, not backend Preparing.
+   Preserve native/private owner proof and record earlier pre-admission HTTP reorder as an unverified edge.
 
 4. Complete supported replacement/upgrade/rejection/removal and remaining consumer gates; retain
    remote reconnect/daemon and private rollout lookup as explicit gaps. Move shared ownership into P03.
-5. Follow P03 broker/transport/dependency ownership, then model/provider/auth, turn/agent orchestration,
+5. Follow reviewed [P03 source audit](P03_SOURCE_AUDIT.md): shared codec/retained process owner,
+   negotiated leaf broker, then native catalog after explicit authority-policy and composition prerequisites.
+   Old unlinked broker patches are stale; do not apply them verbatim. General Session/model-v2 and
+   storage-to-search acyclic dependencies remain P03 obligations. Then model/provider/auth, turn/agent orchestration,
    context/history/compaction, tools/execution/security, auxiliary state, configuration/events/platform
    services. Keep native extraction, additive plugins, and adapter-only contracts distinct in inventory.
 6. Retest affected streaming/approvals/cancellation/persistence/recovery and GUI in every relevant cycle.

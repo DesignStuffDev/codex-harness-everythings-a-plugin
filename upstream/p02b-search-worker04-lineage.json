@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B independent native search worker04 build audit",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "publication": {
+    "status": "Pre-format worker/API source published on WIP; build artifacts remain cloud-local",
+    "commit": "272993ff0e6376e7ba52403e3b52d7f16449cd16",
+    "tree": "93201cd97a14b351edda30d35318a80a8402db64",
+    "note": "Worker04 build predates later Python formatting; exact build inputs and lock override remain authoritative."
+  },
+  "full_196_path_inventory": {
+    "path": "/workspace/acceptance/p02b-search-independent-04/source-inventory.json",
+    "sha256": "b516c4c241ef817366bd0a98eafb75c58360ec8611d1ee0e720a994b6544ddb1",
+    "bytes": 56947
+  },
+  "key_source_bindings": [
+    {
+      "path": "codex-rs/file-search-api/src/backend.rs",
+      "source_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434",
+      "export_sha256": "0f1497e33ad4902eca262724352b46d4296aa8131b9e6fdca8e87f77d88ea434"
+    },
+    {
+      "path": "codex-rs/file-search-api/src/startup.rs",
+      "source_sha256": "2156e5237d68f6b4f28066315e778bec1fe8ec31036d87e3854fb90b6d2abdcf",
+      "export_sha256": "2156e5237d68f6b4f28066315e778bec1fe8ec31036d87e3854fb90b6d2abdcf"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner.rs",
+      "source_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd",
+      "export_sha256": "724a9f1f94d26fe98d247be112b3bcd1d25a18b18fb47e1a67498695f291bfdd"
+    },
+    {
+      "path": "codex-rs/file-search/src/async_owner_start.rs",
+      "source_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da",
+      "export_sha256": "4a42a676c571fee4719eca37acc3f68bd7da601df3159918eb402aff12a3c3da"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend.rs",
+      "source_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039",
+      "export_sha256": "38bd3b68e70745cad7509e0be5059cc974627eac8acb60c047f4bf5f084ed039"
+    },
+    {
+      "path": "codex-rs/file-search/src/native_backend_start.rs",
+      "source_sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5",
+      "export_sha256": "f3803b336f024e4cc14cc5f5efaa25005a7696804d03663ca129b3978583c8c5"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/process.rs",
+      "source_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975",
+      "export_sha256": "b8c9f7115b715e668def56c4ee06b09112f69180cfd6f551167ea2de85727975"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_open.rs",
+      "source_sha256": "3f8b4d5de9a494def2a7c45f15f9830b32e4811f44c8c6826b8357e23ca5a61e",
+      "export_sha256": "3f8b4d5de9a494def2a7c45f15f9830b32e4811f44c8c6826b8357e23ca5a61e"
+    },
+    {
+      "path": "codex-rs/file-search-component/src/service_lease.rs",
+      "source_sha256": "c4c67d94ce81f0d61f5a3edf50ce3ff76124526c3949c195c93085da733776ba",
+      "export_sha256": "c4c67d94ce81f0d61f5a3edf50ce3ff76124526c3949c195c93085da733776ba"
+    },
+    {
+      "path": "codex-rs/file-search-local-plugin/src/main.rs",
+      "source_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2",
+      "export_sha256": "ff7df9495625b47d125ed0f5c72fbe01eec637185c431505002d573ff81be2c2"
+    },
+    {
+      "path": "codex-rs/third-party/nucleo/PROVENANCE.md",
+      "source_sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76",
+      "export_sha256": "9484f4e2c301cd83be971d71546608057fb982801128d9c1bdae9fbc63784c76"
+    }
+  ],
+  "package_manifest": {
+    "path": "/workspace/acceptance/p02b-search-independent-04/package/codex-component.json",
+    "sha256": "aa744e7e4ddb1509ac8a7acb47adb5f3bfa2d0d3d3d737d42b7a9e98fb23977a",
+    "bytes": 351
+  },
+  "worker_binary": {
+    "path": "/workspace/acceptance/p02b-search-independent-04/package/codex-file-search-local-plugin",
+    "sha256": "a3f73fed15dd7b19ab0f1daed55a74212d4b2f5d2ba5cdebee2a616d2f2419a1",
+    "bytes": 10362672,
+    "mtime_ns": 1790849466208049771,
+    "mode": 448
+  },
+  "unchanged_host_tuple": {
+    "cli": {
+      "path": "/workspace/component-checkpoint-candidate-p02b-full-cli-20261001/codex",
+      "sha256": "7a63e9406d1605bac0a84e1b703735caeb211ceccf148337acf07614c7c0032d",
+      "bytes": 634206672,
+      "mtime_ns": 1790843283645670101,
+      "mode": 365,
+      "hardlinks": 1
+    },
+    "manager": {
+      "path": "/workspace/component-checkpoint-candidate-p02b-search-cli-20261001-02/codex-component",
+      "sha256": "eb969e83bcff6ebf531907870efa9e071c939712eb48ec4f0ee13a2cab7c048a",
+      "bytes": 6575272,
+      "mtime_ns": 1790835039120093093,
+      "mode": 448,
+      "hardlinks": 1
+    }
+  },
+  "resolution_exception": [
+    {
+      "path": "codex-rs/Cargo.lock",
+      "inventory_export_sha256": "660c481faa80470cde9eccd4d7bd8e563b32d567cde293d2c4283d3c65a68804",
+      "actual_preserved_sha256": "dbe166dc08aa0c038fd4e7d9c5625e3f0a66af08b0c9e61c014b1f1192c6c3ac"
+    }
+  ],
+  "new_subsystem_extracted": false
+}

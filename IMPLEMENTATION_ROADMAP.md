@@ -224,12 +224,15 @@ carrier ownership and handoff, not active native/process Preparing cancellation.
 The [process control gate](verification/2026-10-01/P02B_PREPARING_PROCESS_EVIDENCE.md) passed42,
 the [native owner gate](verification/2026-10-01/P02B_PREPARING_NATIVE_OWNER_EVIDENCE.md) passed88,
 and [native backend gate](verification/2026-10-01/P02B_PREPARING_NATIVE_BACKEND_EVIDENCE.md) passed96
-(overlapping scopes, not a sum). Source is externally preserved on cancellation WIP `272993ff`. Required SDK revision2 and worker
+(overlapping scopes, not a sum). Source is externally preserved on cancellation WIP `9bd3bc30` (required startup base `272993ff`). Required SDK revision2 and worker
 service now pass [169 focused tests](verification/2026-10-01/P02B_REQUIRED_START_SERVICE_EVIDENCE.md);
 runtime pending control passes [55](verification/2026-10-01/P02B_RUNTIME_PREPARING_EVIDENCE.md),
 including six real worker-process cases. New0.2 worker built separately against unchanged frozen
-host fingerprints; metadata alone is not proof. AS/TUI production adoption and installed-host/UI
-Preparing gates remain pending. These strengthen search, not an additional extracted subsystem.
+host fingerprints; metadata alone is not proof. AS consumer controls pass460 strict-run tests; TUI production is adopted; its first regression failed at linking before test execution. Worker04
+passes normal installation against unchanged old fullCLI. Public pending sessionStop still needs
+reader-admitted intent plus retained receipts; unchanged GUI uses concurrent legacy token calls.
+New-host/installed Preparing and GUI gates remain pending. These strengthen search, not an additional
+extracted subsystem. The source audits and exact evidence are linked from EXECUTION_STATE.md.
 The native/process audit annexes refine guard, receipt and handoff requirements. Preserve
 old package compatibility and separately build the updated worker before claiming
 its stronger cancellation behavior.
@@ -252,6 +255,12 @@ each service passes its own native/custom/default gate; no hidden native worker
 left behind when selected service closes.
 
 ### P03 — Shared lifecycle, transport and dependency broker
+
+The reviewed [next-slice source audit](P03_SOURCE_AUDIT.md) grounds implementation in the active
+transport and identifies stale unlinked broker/catalog drafts. Follow its ordered private codec,
+negotiated leaf broker and native catalog prerequisites without silently removing the Session,
+model-v2, authority/configuration or acyclic-dependency obligations below.
+
 
 **Prerequisites:** baseline preserved; no domain activation mixed into this change.
 **Deliver in reviewable stages:** integrate saved session constructor cleanup owner;

@@ -1,0 +1,412 @@
+{
+  "schema_version": 1,
+  "audited_utc": "2026-10-01T10:32:29.011617+00:00",
+  "evidence_kind": "real_installed_worker04_old_frozen_host_backward_compatibility",
+  "passed": true,
+  "run_started_utc": "2026-10-01T10:25:07.861959+00:00",
+  "run_finished_utc": "2026-10-01T10:25:16.339320+00:00",
+  "lineage_path": "upstream/p02b-worker04-old-host-compat-lineage.json",
+  "source_reports": {
+    "acceptance": {
+      "path": "/workspace/acceptance/p02b-worker04-old-host-app-server/app-server-acceptance.json",
+      "sha256": "b1a415f796ccefd7cab257326c4b00da3a130bd49a72c5fb4aee49b3035e70d6",
+      "bytes": 89376
+    },
+    "subreaper": {
+      "path": "/workspace/acceptance/p02b-worker04-old-host-app-server.subreaper.json",
+      "sha256": "e6ac01029ad156bcc5a50251a8a3f3aac2d1b9801d8d322498632a135340920d",
+      "bytes": 1619
+    },
+    "worker_build": {
+      "path": "/workspace/acceptance/p02b-search-independent-04/independent-build.json",
+      "sha256": "32ff6abae383066ff6271d25d8194fd43a705a5a0621ca09d730e715ba9ed948",
+      "bytes": 81383
+    },
+    "frozen_host_build": {
+      "path": "/workspace/acceptance/p02b-full-cli-build.source.json",
+      "sha256": "210f5249d759b5064938b65960a18cf0cbd03dd213acd58afc3b0f3c9e3e5d64",
+      "bytes": 2814663
+    }
+  },
+  "one_shot_parity": {
+    "cases": [
+      "lexical-alpha",
+      "unicode",
+      "beta",
+      "no-match",
+      "empty",
+      "limit50",
+      "multi-root"
+    ],
+    "three_runs_equal_raw_ordered_json": true,
+    "result_counts": {
+      "lexical-alpha": 3,
+      "unicode": 1,
+      "beta": 1,
+      "no-match": 0,
+      "empty": 0,
+      "limit50": 50,
+      "multi-root": 4
+    },
+    "preserved_fields": [
+      "root",
+      "path",
+      "file_name",
+      "match_type",
+      "score",
+      "indices"
+    ],
+    "gitignore_and_unicode_checked": true
+  },
+  "runtime_checks": {
+    "installed_worker_pids": [
+      609100,
+      609261
+    ],
+    "selected_catalog": {
+      "enabled": [
+        "native.file-search-local"
+      ],
+      "installed": {
+        "native.file-search-local": "native.file-search-local-609070-18da60de0c403bab-0"
+      },
+      "selections": {
+        "file_search:default": "native.file-search-local"
+      }
+    },
+    "removed_catalog": {
+      "enabled": [],
+      "installed": {},
+      "selections": {}
+    },
+    "install_input_parked": true,
+    "concurrent_sessions": 2,
+    "concurrent_updates": true,
+    "sibling_after_joined_stop": true,
+    "aba_query_cycles": true,
+    "empty_query_clear": true,
+    "no_match_completion": true,
+    "notifications_after_stop_ack": 0,
+    "active_sibling_drained_on_stdin_eof": true,
+    "resource_failure": {
+      "query_utf8_bytes": 65536,
+      "native_snapshot_cap_bytes": 65536,
+      "kind": "resourceExhausted",
+      "single_failed_notification": true,
+      "retained_operation_cause_at_stop_and_eof": true,
+      "sibling_remains_usable": true,
+      "expected_eof_status": 1,
+      "cleanup_uncertainty_not_reported": true
+    },
+    "invalid_selection": {
+      "status": 1,
+      "before_initialize": true,
+      "stdout_empty": true,
+      "native_fallback_not_used": true
+    },
+    "remove_restores_native_parity_and_streaming": true,
+    "removed_worker_not_observed": true
+  },
+  "lifecycle": {
+    "rpc_observed_count": 34,
+    "command_observed_count": 6,
+    "unique_observed_count": 40,
+    "all_observed_pids_absent_in_original_run": true,
+    "all_40_pids_also_absent_at_audit": true,
+    "per_process_groups": [
+      {
+        "label": "native-baseline",
+        "exit_status": 0,
+        "observed_count": 5,
+        "observed_pids": [
+          608974,
+          608992,
+          609002,
+          609005,
+          609007
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "installed-parity-and-streams",
+        "exit_status": 0,
+        "observed_count": 10,
+        "observed_pids": [
+          609085,
+          609105,
+          609100,
+          609120,
+          609114,
+          609119,
+          609226,
+          609227,
+          609228,
+          609229
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "installed-resource-failure",
+        "exit_status": 1,
+        "observed_count": 10,
+        "observed_pids": [
+          609244,
+          609267,
+          609261,
+          609281,
+          609282,
+          609277,
+          609306,
+          609308,
+          609309,
+          609307
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "removed-native-restored",
+        "exit_status": 0,
+        "observed_count": 9,
+        "observed_pids": [
+          609349,
+          609367,
+          609376,
+          609381,
+          609382,
+          609464,
+          609465,
+          609466,
+          609467
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "install",
+        "exit_status": 0,
+        "observed_count": 1,
+        "observed_pids": [
+          609070
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "select",
+        "exit_status": 0,
+        "observed_count": 1,
+        "observed_pids": [
+          609075
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "list-selected",
+        "exit_status": 0,
+        "observed_count": 1,
+        "observed_pids": [
+          609080
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "selected-failure-no-fallback",
+        "exit_status": 1,
+        "observed_count": 1,
+        "observed_pids": [
+          609320
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "remove",
+        "exit_status": 0,
+        "observed_count": 1,
+        "observed_pids": [
+          609339
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      },
+      {
+        "label": "list-removed",
+        "exit_status": 0,
+        "observed_count": 1,
+        "observed_pids": [
+          609344
+        ],
+        "remaining_pids": [],
+        "forced_cleanup": false
+      }
+    ],
+    "outer_subreaper": {
+      "command_pid": 608973,
+      "command_returncode": 0,
+      "exit_status": 0,
+      "runner_error": null,
+      "reaped_count": 8,
+      "adopted_count": 7,
+      "reaped": [
+        {
+          "pid": 609002,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 609227,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 609243,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 609307,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 609319,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 609465,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 609490,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 608973,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "adopted_nonzero_status_explanation": "PID609002 was observed as /usr/local/bin/git and was reaped with SIGPIPE (-13); six other adopted descendants and the acceptance harness exited0. Do not report all adopted statuses as0.",
+      "all_eight_reaped_pids_also_absent_at_audit": true
+    },
+    "forced_cleanup_used": false,
+    "retry_pass_claimed": false
+  },
+  "immutability": {
+    "frozen_binaries_unchanged": true,
+    "independent_package_unchanged": true,
+    "build_proof_unchanged": true,
+    "server_proof_unchanged": true,
+    "tooling_unchanged": true,
+    "subreaper_unchanged": true,
+    "installed_package_unchanged": true
+  },
+  "independent_audit": {
+    "checks": [
+      "acceptance passed",
+      "outer subreaper success",
+      "frozen_binaries_unchanged",
+      "independent_package_unchanged",
+      "build_proof_unchanged",
+      "server_proof_unchanged",
+      "tooling_unchanged",
+      "subreaper_unchanged",
+      "installed_package_unchanged",
+      "install_input_parked_before_execution",
+      "fresh bound app_server_build_report",
+      "fresh bound worker_build_report",
+      "fresh bound subreaper",
+      "host and manager reported exact before/after fingerprint equality",
+      "fresh server metadata matches recorded immutable hash identity",
+      "fresh manager metadata matches recorded immutable hash identity",
+      "fresh tooling cli_acceptance.py",
+      "fresh tooling app_server_acceptance.py",
+      "fresh tooling tui_acceptance.py",
+      "fresh tooling test_lock_patch_normalization.py",
+      "fresh tooling pty_case.py",
+      "fresh tooling lock_patch_normalization.py",
+      "fresh tooling acceptance_support.py",
+      "fresh tooling test_terminal.py",
+      "fresh tooling rpc_support.py",
+      "fresh tooling search_cases.py",
+      "fresh tooling terminal.py",
+      "fresh tooling build_worker.py",
+      "fresh complete independent package inventory",
+      "fresh complete installed object inventory",
+      "fresh installed worker equals independent build artifact",
+      "fresh exported inventory",
+      "only final resolved Cargo.lock differs from export inventory",
+      "independent fresh build and parked source proof",
+      "source/install input original paths remain parked",
+      "fresh RPC log native-baseline.stdin.ndjson",
+      "fresh RPC log native-baseline.stdout.ndjson",
+      "fresh RPC log native-baseline.stderr",
+      "fresh RPC log installed-parity-and-streams.stdin.ndjson",
+      "fresh RPC log installed-parity-and-streams.stdout.ndjson",
+      "fresh RPC log installed-parity-and-streams.stderr",
+      "fresh RPC log installed-resource-failure.stdin.ndjson",
+      "fresh RPC log installed-resource-failure.stdout.ndjson",
+      "fresh RPC log installed-resource-failure.stderr",
+      "fresh RPC log removed-native-restored.stdin.ndjson",
+      "fresh RPC log removed-native-restored.stdout.ndjson",
+      "fresh RPC log removed-native-restored.stderr",
+      "fresh command log install.stdout",
+      "fresh command log install.stderr",
+      "fresh command log select.stdout",
+      "fresh command log select.stderr",
+      "fresh command log list-selected.stdout",
+      "fresh command log list-selected.stderr",
+      "fresh command log selected-failure-no-fallback.stdout",
+      "fresh command log selected-failure-no-fallback.stderr",
+      "fresh command log remove.stdout",
+      "fresh command log remove.stderr",
+      "fresh command log list-removed.stdout",
+      "fresh command log list-removed.stderr",
+      "seven logged one-shots native-baseline",
+      "raw ordered result equality native-baseline",
+      "seven logged one-shots installed-parity-and-streams",
+      "raw ordered result equality installed-parity-and-streams",
+      "seven logged one-shots removed-native-restored",
+      "raw ordered result equality removed-native-restored",
+      "selected installed provider catalog",
+      "remove clears installed/enabled/selected catalog",
+      "unsupported selected configuration refuses startup without protocol output",
+      "recorded absence without forced cleanup native-baseline",
+      "recorded absence without forced cleanup installed-parity-and-streams",
+      "recorded absence without forced cleanup installed-resource-failure",
+      "recorded absence without forced cleanup removed-native-restored",
+      "recorded absence without forced cleanup install",
+      "recorded absence without forced cleanup select",
+      "recorded absence without forced cleanup list-selected",
+      "recorded absence without forced cleanup selected-failure-no-fallback",
+      "recorded absence without forced cleanup remove",
+      "recorded absence without forced cleanup list-removed",
+      "40 unique observed identities across RPC and commands",
+      "fresh literal absence of all 40 observed PIDs including zombies",
+      "seven adopted descendants plus harness reaped",
+      "adopted statuses preserved including Git SIGPIPE",
+      "fresh absence of all eight reaped PIDs",
+      "raw single bounded typed native exhaustion notification"
+    ],
+    "fresh_host_payload_rehashed": false,
+    "host_audit_limit": "Acceptance already hashed host and manager before/after. Audit rechecked current metadata and preserved report hashes, avoiding another 634MB host payload read during root Rust activity. All package/tooling/raw log/source hashes described above were independently verified.",
+    "no_runtime_commands_rerun": true,
+    "no_checkout_edits_rust_or_git": true
+  },
+  "not_proven": [
+    "No newly linked host was executed by this run.",
+    "No delayed native-constructor or Preparing cancellation race was induced.",
+    "No TUI, GUI, Browser, model turn or multiple-client-connection interaction was exercised.",
+    "No claim of full-harness extraction or v1 completion.",
+    "Cloud-local reports/parked source are not an externally durable backup merely because they are checksum-bound."
+  ],
+  "lineage_sha256": "a66bc8806c7af68574aa21b719e4b9e117dfa0b5ca1aea684738c9c44edcefcf"
+}

@@ -1,0 +1,298 @@
+{
+  "schema_version": 1,
+  "milestone": "P02B App Server consumer owned Preparing cancellation",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  },
+  "publication": {
+    "status": "WIP source published and remote verified; accepted main runtime unchanged",
+    "commit": "9bd3bc30f4259245b3e4c769840289fcda0d2dcd",
+    "tree": "0065b61fb7058cc014f795e29f8b1d2028fdbea1",
+    "branch": "wip/p02b-preparing-cancellation-20261001",
+    "note": "Exact post-format AS/client source passed460understrict runner. Public pending sessionStop remains separate; three historical review slices not individually compiled."
+  },
+  "results_file": "verification/2026-10-01/p02b-preparing-app-server-results.json",
+  "new_native_subsystem_extracted": false,
+  "prior_lineage": {
+    "path": "upstream/p02b-app-server-lineage.json",
+    "sha256": "fdf265ba937de629477ca87f4cfa248ede0e69fc5a2c5b1e40220c18ca52771e",
+    "note": "Original upstream blob/path/symbol anchors below are carried forward from the existing provenance record, not re-read from Git by this worker."
+  },
+  "original_upstream_anchors": [
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "implementation_commit": null,
+      "blob": "f8cd61e3ad079d51616c7901b66dba0ae3ee002d",
+      "sha256": "542eb1e54f23b86c89d86c7a2435c5c426aa236c1274e5f41b50f37737a07282",
+      "symbols": [
+        {
+          "anchor": "pub(crate) async fn run_fuzzy_file_search(",
+          "line": 21
+        },
+        {
+          "anchor": "pub(crate) fn start_fuzzy_file_search_session(",
+          "line": 118
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "implementation_commit": null,
+      "blob": "d683c6f10a87f2d3f599c710f6262fceb9a7628a",
+      "sha256": "bcaabab1344202ec866bc41fa86201a25e9b8149da50cf0f6794fe0a64dba908",
+      "symbols": [
+        {
+          "anchor": "pub(crate) struct SearchRequestProcessor {",
+          "line": 24
+        },
+        {
+          "anchor": "pub(crate) async fn fuzzy_file_search_session_stop(",
+          "line": 125
+        }
+      ]
+    }
+  ],
+  "rows": [
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/publisher.rs",
+      "preimage_sha256": "32b5098f5916b163aab5672e59fa0c512222990a69310bb982a2d2bbb7535ede",
+      "adopted_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+      "first_test_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+      "post_fix_sha256": "a2c3a1d75b70e6b69c2688bd77300e4f3e0eda649bc7d3a3105ef07f7a527c55",
+      "post_format_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+      "strict_test_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+      "audit_current_sha256": "8a96f0a8958d6d19d204d5101f887e203e1b3ae268c4a51ef31b97000af648a6",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search/startup.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+      "first_test_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+      "post_fix_sha256": "e22e1b882ce9125699ae53556064235c0b4f2bb9739d98f3f0659d89cca1511a",
+      "post_format_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+      "strict_test_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+      "audit_current_sha256": "5456538edabfe1b0e5e047cd8013f2cd2ebda1e0c5817a712834947a34453327",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/fuzzy_file_search.rs",
+      "preimage_sha256": "5c9203e9899cb4638a2ef97783ae102c2bd398206c5f4329a3c3ec77d4839e3d",
+      "adopted_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+      "first_test_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+      "post_fix_sha256": "5fe6dacfc737edbfdffe16c7957b77e52aeed448eafee861774e5ad30428f9d5",
+      "post_format_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+      "strict_test_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+      "audit_current_sha256": "277b0009b0be34eaf4f1f8878f4d51f07c5a2626c02bfb21b58d261b1ea915a3",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs"
+      ],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/connection.rs",
+      "preimage_sha256": "33a79d5598bd8399ef4e8c28ac42c69ba070c7d48f1b8248c305a8482cbecad1",
+      "adopted_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+      "first_test_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+      "post_fix_sha256": "4d80df39152a4c027f6066fc4a17d47709143233205160eb8367bfbbcf764bf3",
+      "post_format_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+      "strict_test_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+      "audit_current_sha256": "668030ebd9752ba8a3b00566a26b1a375c971f30722b5b6377beb122e6306ec4",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/preparing_fixture.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+      "first_test_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+      "post_fix_sha256": "8efde134c274d128345aa78744c01d98318ceafc0ddc4b968b8fbdcaec849499",
+      "post_format_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+      "strict_test_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+      "audit_current_sha256": "b46968feb1eba9056074915af5d1b07a279cc7f3399564b02bf9a9b436e1a515",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/preparing_tests.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+      "first_test_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+      "post_fix_sha256": "f214d2b1fee1494418998803807af0ac38c5ae65fb0d811079ba4d53f45b0dad",
+      "post_format_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+      "strict_test_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+      "audit_current_sha256": "1333e495bee62bb9040a4074c7303f3b5c71bbce0a49c28c056d3e9ed58146d4",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/search_tests.rs",
+      "preimage_sha256": "1a351b25b79766f92810a190eb6a72c467b94fcd6e07b08c326785ddfd6bcf96",
+      "adopted_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+      "first_test_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+      "post_fix_sha256": "406c583bbaafd4948e555b2aea41617c2434d13dffcaa54cb646240d21f52ac9",
+      "post_format_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+      "strict_test_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+      "audit_current_sha256": "bcf24192a1f7610ab09915f9a64360992b2cbbab4bcb7beb2e235ccbb8ac867c",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search.rs",
+      "preimage_sha256": "07ea7b2c53bda4e97a8edd219e82e205ad79cba147e040b0272b9a0a8b577d96",
+      "adopted_sha256": "d2ae4523db018914a259fab9afb0f58b0fc0fbf887715baad77691b684c7e4d9",
+      "first_test_sha256": "d2ae4523db018914a259fab9afb0f58b0fc0fbf887715baad77691b684c7e4d9",
+      "post_fix_sha256": "d419a4520648cadbe25d574b2e41189b3e0715a482633c2f911e967116d5bf5e",
+      "post_format_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+      "strict_test_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+      "audit_current_sha256": "a73e69d1bba2cae803a37bae37e5ff7100dff08c2a184dc70e3c3495d7eebec4",
+      "audit_current_matches_strict_test": true,
+      "source_group": "eight AS consumer integration paths",
+      "classification": "custom Preparing lifecycle integration on existing AS native-search consumer",
+      "original_upstream_paths": [
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "related_native_consumer_anchors": [
+        "codex-rs/app-server/src/fuzzy_file_search.rs",
+        "codex-rs/app-server/src/request_processors/search.rs"
+      ],
+      "intentional_delta": "Retained exact pending-start cancellation authority, publication/handoff fences, independently owned finish/receipt drainage, outside-lock hooks and original error/cleanup retention."
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+      "preimage_sha256": "30ea65c89f40451f26216a2396e8e8f7d40efeefb9e05d62b8dd59524afdbea4",
+      "adopted_sha256": "6617e8567b89a984d6ba06135924635eee18d7f3e9b71eedae1f28cf124b191d",
+      "first_test_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+      "post_fix_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+      "post_format_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+      "strict_test_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+      "audit_current_sha256": "683817a8e3dd90db96a63603072da35db7aa4cf20966e8907aed279d6e0ad11b",
+      "audit_current_matches_strict_test": true,
+      "source_group": "four earlier AS/client required-begin fixture paths",
+      "classification": "controlled trait/lifecycle fixture adaptation",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [],
+      "intentional_delta": "Required owned begin_open fixture implementation; existing lifecycle and error assertions retained."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/runtime_start_fixture.rs",
+      "preimage_sha256": null,
+      "adopted_sha256": "34780e278b8de100dc42dc88e3e0bd1e1c296e6b81bc839085923bd84e3e5c25",
+      "first_test_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+      "post_fix_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+      "post_format_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+      "strict_test_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+      "audit_current_sha256": "da940191e158e5db60fe27f12737e4799ccfd307e212d423773fb818c6f8d777",
+      "audit_current_matches_strict_test": true,
+      "source_group": "four earlier AS/client required-begin fixture paths",
+      "classification": "controlled trait/lifecycle fixture adaptation",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [],
+      "intentional_delta": "Required owned begin_open fixture implementation; existing lifecycle and error assertions retained."
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/search/runtime_tests.rs",
+      "preimage_sha256": "db5ea0110024d744f4f78891b22244fe96aaaa82b4c4419e063485cbf6f6a8b5",
+      "adopted_sha256": "a72d0ad882fdeb23d1bb259b7abd171a474d5e0c2fa2a5709dcc1b7d72e95eeb",
+      "first_test_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+      "post_fix_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+      "post_format_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+      "strict_test_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+      "audit_current_sha256": "80b17cae2ebc83322665f23aa6c3e0283ed60bf0479805f08d94015a012311f3",
+      "audit_current_matches_strict_test": true,
+      "source_group": "four earlier AS/client required-begin fixture paths",
+      "classification": "controlled trait/lifecycle fixture adaptation",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [],
+      "intentional_delta": "Required owned begin_open fixture implementation; existing lifecycle and error assertions retained."
+    },
+    {
+      "path": "codex-rs/app-server-client/src/file_search_tests.rs",
+      "preimage_sha256": "18e40636219d10fdad6408b78bf399555882493847cb4827717be0a5c1b75eed",
+      "adopted_sha256": "b95ff367b92c96c6df0314aef238e66fe7cb9ae04327edcadd16d966eab6ab3c",
+      "first_test_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+      "post_fix_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+      "post_format_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+      "strict_test_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+      "audit_current_sha256": "9bbfce2ea8c94bd1f7b5f62115b6accd56fecfb3b4f7d16bde4719aa185b47c4",
+      "audit_current_matches_strict_test": true,
+      "source_group": "four earlier AS/client required-begin fixture paths",
+      "classification": "controlled trait/lifecycle fixture adaptation",
+      "original_upstream_paths": [],
+      "related_native_consumer_anchors": [],
+      "intentional_delta": "Required owned begin_open fixture implementation; existing lifecycle and error assertions retained."
+    }
+  ],
+  "contract": {
+    "kind": "file_search",
+    "name": "default",
+    "wire_contract_version": 1,
+    "preparing_control": "Rust SDK begin_open/control/finish required ownership contract; source metadata is not runtime proof"
+  },
+  "remaining": [
+    "This hardens existing selected-file-search consumer cancellation, not another native subsystem extraction.",
+    "460 is the unique suite size: initial and strict runs execute the same 418 AS and42 client tests; never report920 unique tests.",
+    "Three new Preparing tests call SearchRequestProcessor directly with controlled startup/cleanup gates. They do not exercise public JSON-RPC session serialization or native OS-thread cleanup.",
+    "At this tested source, public sessionStop is serialized behind pending sessionStart for the same session ID. Reader-intent cancellation and its public acceptance are a separate pending slice.",
+    "GUI uses concurrent legacy fuzzyFileSearch with immediate same-token empty-query cancellation; no session protocol migration is implied. New-host real GUI Preparing acceptance is unproved by these library gates.",
+    "No fresh installed worker or frozen full CLI/App Server/GUI binary is established by these --lib runs. Actual native/process API gates remain separate evidence.",
+    "TUI production and fixtures are outside this AS/client test scope.",
+    "Three SDK Python paths were formatted in the same command window; AS/client Rust success does not validate package metadata behavior.",
+    "No in-app Browser checks, upstream-updater completion, release or whole-harness completion claim.",
+    "Source/archive and generated-test executable preservation is cloud-local; root owns publication identity and external durability."
+  ]
+}
