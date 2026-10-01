@@ -6,16 +6,16 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
 
 ## Published checkpoint
 
-- Main evidence checkpoint `956c0c78dae71459f545ba2885acce417182dbcf` precedes this update.
+- Main evidence checkpoint `64e5362567c14fee220ea4644b74a20c7940ed34` precedes this update.
   Latest cancellation WIP `9bd3bc30f4259245b3e4c769840289fcda0d2dcd`, tree
   `0065b61fb7058cc014f795e29f8b1d2028fdbea1`, extends `272993ff` on
   `wip/p02b-preparing-cancellation-20261001` with AS pending controls and packaging formatting.
   Required SDK source2, native/process/service/runtime controls and nine original fixture migrations
   are preserved. API/native/worker169, runtime55 and AS/client460 gates passed on separate exact scopes.
   Historical review-sized commits were not individually compiled. Main runtime remains accepted a469cf4
-  plus additive SDK support. TUI production is adopted; first full regression failed at linking before any test executed.
-  Public sessionStop queues behind pendingStart at this source; its reviewed reader-intent/receipt fix
-  is staged separately. GUI uses concurrent legacy token cancellation and needs no protocol rewrite.
+  plus additive SDK support. TUI and the reviewed ten-path public Stop ingress fix are adopted locally;
+  new combined consumer regression and full-host gates are pending. The published WIP still queues
+  public Stop behind Start. GUI uses concurrent legacy token cancellation and needs no protocol rewrite.
 
 - Latest additive SDK source `d22cea88aa23e35a619d996fc731122450e51313`, tree
   `fbf28305751239cd376cefaec0ea970048096e08`, follows reviewed evidence/roadmap `789be2e7`.
@@ -44,7 +44,8 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
   including Git -13/128/141; do not claim every descendant exit0. Lint one let-return and formatting
   precede the strict run. Direct processor tests do not prove public pending sessionStop.
 - [Worker04 installed compatibility](verification/2026-10-01/P02B_WORKER04_OLD_HOST_COMPAT_EVIDENCE.md):
-  actual unchanged old fullCLI7a63, six manager commands0, four server runs, seven ordered search cases,
+  actual unchanged old fullCLI7a63, five manager commands0 plus one invalid-config startup command1,
+  four RPC server runs (three0, retained-resource-error1), seven ordered search cases,
   streams/sibling/ABA/empty/no-match, resource exhaustion, invalid selected config1/no fallback,
   removal/native restore. All40 tracked process identities absent; subreaper0/null, one adopted Git-13
   preserved. Worker04 and installed package/hosts unchanged. This proves old-host interoperability,
@@ -120,16 +121,27 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
    Verify the latest remote ref/publication receipt before new work; do not repeat publication blindly.
 3. Required begin_open, backend/service/runtime and AS consumer controls are implemented/tested above.
    Worker04 is built/parked and passed old-host installed compatibility. Do not repeat those steps.
-   TUI seven-path stage is adopted; full strict regression `p02b-preparing-tui-tests` failed101 at
-   linking (SIGBUS), zero tests; observed disk0, source unchanged and runner error null. Retired only
-   unusable incomplete generated linker temporary after hash/liveness capture; source/objects/evidence
-   preserved. Obtain sufficient generated-cache headroom before retry; do not equate disk observation
-   with a proven linker errno. Resource audit `/tmp/p02b-preparing-tui-headroom-audit.json` pending.
-   Inspect source/log/subreaper reports and process/resource state before another Rust build. Then scoped
-   lint/format and preserve tested/final hashes. Public pending sessionStop ingress proposal/stage:
-   `/tmp/p02b-public-search-stop-admission-stage`; keep serialization/FIFO, auth fence, bounded16
-   queued Start intents and retained Stop cleanup receipts. Do not normalize missing receipts into success.
-   Assemble/review/test staged installed relay `/tmp/p02b-installed-preparing-gate-stage` and build/freeze
+   TUI seven-path stage is adopted. First full strict regression failed101 at linking (SIGBUS), zero
+   tests; disk0 was observed but is not a proven linker errno. Second full run executed5650:
+   5633pass/17fail/8skip, exit100/null runner error. Existing10144 source entries stayed identical;
+   two generated .snap.new files made the complete map10146. Those counterexamples were archived
+   byte-exact before removing only generated files; original snapshots were never accepted/changed.
+   All23 file_search cases passed, but the aggregate failed. Failure audit /tmp/p02b-tui-failure-audit.md:
+   nine explicit storage/I/O failures (including the worktree terminal screen), four render failures
+   under inherited NO_COLOR=1, one missing full CLI and three unresolved PTY child exits.
+   Do not attribute all17 to disk. Detailed preserved counterevidence:
+   [TUI Preparing regression](verification/2026-10-01/P02B_PREPARING_TUI_CONSUMER_EVIDENCE.md).
+   /tmp is a separate tmpfs and reached100%; overlay free space alone is insufficient preflight.
+   Five old inactive generated test executables were compressed/verified before retiring tmpfs copies;
+   live metadata symlink backings and all current/failed fixtures remain protected. Obtain adequate
+   free space on both mounts. Run combined AS/client/TUI library gates with explicit env -u NO_COLOR,
+   then scoped lint/format, build/freeze new full CLI, and run full TUI integration with supported
+   CARGO_BIN_EXE_codex pointing to that exact new binary. Do not silently reuse the old frozen CLI.
+   Public Stop ten-path source is locally adopted from /tmp/p02b-public-search-stop-admission-stage
+   manifest1749f435; reviewed FIFO/auth/bounded16 queued intents/retained receipts are uncompiled here.
+   Archive p02b-public-stop-proposed.tar.gz SHA64bdf94d64b8cbede8180babe291b210d5e43ebd3a9ade3350ee935993e19ca1.
+   Prior460 AS tests predate that fix. Never normalize missing receipts into success.
+   Run reviewed staged installed relay `/tmp/p02b-installed-preparing-runner-stage-02` and build/freeze
    new full host. Normal unchanged worker04 acceptance is distinct from its instrumented transport package.
    Relay holds a genuine successful Open: native Ready, host/process Preparing. Exercise actual legacy
    token cancellation and GUI clear/root/task/close with real release Joined before unhold, usable sibling,
@@ -147,6 +159,9 @@ Full v1 is incomplete. This records verified partial milestones and the ordered 
    services. Keep native extraction, additive plugins, and adapter-only contracts distinct in inventory.
 6. Retest affected streaming/approvals/cancellation/persistence/recovery and GUI in every relevant cycle.
    Actual in-app Browser remains unavailable here; use truthful fallback evidence without blocking core work.
+   Reviewed unexecuted GUI Preparing clear gate: /tmp/p02b-gui-preparing-stage-02; require a new-host
+   normal GUI pass and a second fresh migration fixture before its instrumented run. Other causal
+   retirement triggers and SIGINT with Open still held remain separate subsequent gates.
 7. Implement required P18U upstream integration/update component after contracts stabilize: original
    path/symbol maps, isolated chosen-revision candidate, compatibility/security/real-host/UI gates,
    migration, coordinated host/plugin versions, rollback artifacts and independent bootstrap recovery.
@@ -185,6 +200,8 @@ Preserve independent search package03, storage0.2 packages, old frozen AS/CLI/GU
 Source `/workspace/toolchains/component-verification-env.sh`; Rust 1.95/jobs1/debug0/incremental0.
 One owner serializes Rust; use just test/scoped fix/fmt and required schemas/Bazel lock. Wrapper
 `/tmp/run-p02-check.py` records actual scopes; old run-component-regression.py has a stale source label.
-Check resource/mapping state before builds; never erase active caches, unverified source or mapped files.
+Check resource/mapping state before builds, including both /workspace and separate /tmp tmpfs.
+TUI ANSI tests require command-scoped env -u NO_COLOR; full integration needs an explicitly verified
+CARGO_BIN_EXE_codex. Never erase active caches, unverified source or mapped files.
 Optional `/workspace/remote-viewer-setup` remains separate; no verified local-browser bridge/preview.
 Do not reset/replace this VM or let optional viewer networking stop component implementation.

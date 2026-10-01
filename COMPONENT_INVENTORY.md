@@ -131,8 +131,18 @@ TUI and the additive GUI file picker. See [standalone evidence](verification/202
 and [TUI/full CLI evidence](verification/2026-10-01/P02B_TUI_CONSUMER_EVIDENCE.md).
 The latter includes 5,620 passing TUI tests and real terminal, storage/migration and
 GUI checks with immutable host/package hashes and manager-only Ctrl+C drainage.
-App Server/TUI themselves remain compiled adapters. Preparing cancellation and
-private rollout lookup remain queued; C18 as a whole is not extracted.
+App Server/TUI themselves remain compiled adapters. Preparing cancellation is
+an active, separately preserved WIP milestone; private rollout lookup remains
+queued. C18 as a whole is not extracted.
+
+The subsequent worker04 package is independently built at version 0.2.0 with
+unchanged wire contract 1. Its [installed old-host compatibility gate](verification/2026-10-01/P02B_WORKER04_OLD_HOST_COMPAT_EVIDENCE.md)
+passed without rebuilding the accepted full CLI. New required Rust source API2,
+native/process/runtime pending controls and App Server consumer changes have
+separate focused evidence; the new full-host/TUI/GUI Preparing gates remain
+pending in [EXECUTION_STATE.md](EXECUTION_STATE.md). Package capability metadata
+is a declaration, not proof of those new host behaviors. Preserve the accepted
+0.1.0 package and its original runtime evidence independently.
 
 | Owner | Newly accepted workspace member | Classification |
 | --- | --- | --- |

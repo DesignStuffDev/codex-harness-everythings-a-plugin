@@ -228,9 +228,14 @@ and [native backend gate](verification/2026-10-01/P02B_PREPARING_NATIVE_BACKEND_
 service now pass [169 focused tests](verification/2026-10-01/P02B_REQUIRED_START_SERVICE_EVIDENCE.md);
 runtime pending control passes [55](verification/2026-10-01/P02B_RUNTIME_PREPARING_EVIDENCE.md),
 including six real worker-process cases. New0.2 worker built separately against unchanged frozen
-host fingerprints; metadata alone is not proof. AS consumer controls pass460 strict-run tests; TUI production is adopted; its first regression failed at linking before test execution. Worker04
-passes normal installation against unchanged old fullCLI. Public pending sessionStop still needs
-reader-admitted intent plus retained receipts; unchanged GUI uses concurrent legacy token calls.
+host fingerprints; metadata alone is not proof. AS consumer controls pass460 strict-run tests.
+TUI production is adopted: first full regression failed at linking with zero tests; second executed
+5650 with5633pass/17fail/8skip. Failures include full /tmp tmpfs, inherited NO_COLOR, missing full CLI
+and unresolved I/O/PTY exits; preserve each diagnostic. No original snapshots were accepted/changed.
+Worker04 passes normal installation against unchanged old fullCLI. Reviewed public pending Stop
+reader-intent/retained-receipt source is now locally adopted, uncompiled; the prior460 pass does not
+cover it. Run combined consumer library checks after resource repair, then full integration against
+an explicitly identified new host. Unchanged GUI uses concurrent legacy token calls.
 New-host/installed Preparing and GUI gates remain pending. These strengthen search, not an additional
 extracted subsystem. The source audits and exact evidence are linked from EXECUTION_STATE.md.
 The native/process audit annexes refine guard, receipt and handoff requirements. Preserve

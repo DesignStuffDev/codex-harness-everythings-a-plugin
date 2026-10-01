@@ -127,6 +127,23 @@ public ticket/control/receipt symbols and their exact tested/formatted bytes.
 This is additive contract infrastructure; the required native/process cancellation
 integration and installed updated-worker acceptance remain separate work.
 
+The later Preparing maps separately retain the [native owner](upstream/p02b-preparing-native-owner-lineage.json),
+[native backend](upstream/p02b-preparing-native-backend-lineage.json),
+[process control](upstream/p02b-preparing-process-lineage.json),
+[required startup/service API](upstream/p02b-required-start-service-lineage.json),
+[runtime](upstream/p02b-runtime-preparing-lineage.json) and
+[App Server consumer](upstream/p02b-preparing-app-server-lineage.json) changes.
+These are versioned customizations on the same upstream pin, preserved on the
+cancellation WIP branch with their actual tested/formatted source transitions.
+They do not establish a new accepted full-host checkpoint. The
+[worker04 build map](upstream/p02b-search-worker04-lineage.json) and
+[old-host compatibility map](upstream/p02b-worker04-old-host-compat-lineage.json)
+distinguish source API revision 2 from unchanged wire contract 1 and package
+version 0.2.0. Installed interoperability with the accepted host passed; newer
+host Preparing and GUI gates remain separate. An updater must preserve these
+distinctions instead of treating a package version or successful merge as proof
+that every consumer has upgraded safely.
+
 ## Separately installable maintenance service
 
 Proposed selector: `maintenance:upstream`, contract version 1. This kind is not
@@ -302,3 +319,8 @@ at each checkpoint, preserving prior snapshots. Track new upstream revisions,
 renames and deletions explicitly; mark semantic equivalence unknown until reviewed
 and tested. This initial map is a baseline inventory, not a completed updater or
 proof that all Codex functionality is already independently replaceable.
+
+The [TUI Preparing failure map](upstream/p02b-preparing-tui-consumer-lineage.json)
+retains both exact failed regression snapshots, the passing controlled lifecycle cases,
+and the later public Stop fix as explicitly outside those tested snapshots. Failed
+acceptance is preserved for maintenance analysis; it is not an accepted host version.

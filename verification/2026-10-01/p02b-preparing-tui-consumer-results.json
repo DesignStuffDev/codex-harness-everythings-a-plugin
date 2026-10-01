@@ -1,0 +1,440 @@
+{
+  "schema": "p02b-preparing-tui-consumer-results-v1",
+  "status": "failed_full_regression_with_focused_preparing_cases_passing",
+  "date": "2026-10-01",
+  "artifact_references": {
+    "p02b-preparing-tui-tests.source.json": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests.source.json",
+      "sha256": "d8c8c7963f068cb1121e13e978e02aac3b77c477a4226dbddfce862a1edff10b"
+    },
+    "p02b-preparing-tui-tests.log": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests.log",
+      "sha256": "c2e239c82b72a8716d570f777965418d45746b5e1f93bcd22ee13fb4b157580e"
+    },
+    "p02b-preparing-tui-tests.subreaper.json": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests.subreaper.json",
+      "sha256": "a4594150297b801ca0e0d3314373bcaa9b1cd9e1b2a8f8797626fecf7bc851a1"
+    },
+    "p02b-preparing-tui-tests-02.source.json": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.source.json",
+      "sha256": "d687c38619c699ffd242da2da3a8705b2007efc7388ed81ea94d356dcfa66545"
+    },
+    "p02b-preparing-tui-tests-02.log": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.log",
+      "sha256": "a6115499b9bac55101ae975e99cdb7944d16008f3678db05bc991eeda6d93bb7"
+    },
+    "p02b-preparing-tui-tests-02.subreaper.json": {
+      "path": "/workspace/acceptance/p02b-preparing-tui-tests-02.subreaper.json",
+      "sha256": "32c05f40bec42238b2b55e2b3ce758c316f6568e76a63acfea0047958680ec31"
+    }
+  },
+  "first_attempt": {
+    "started_utc": "2026-10-01T10:35:41Z",
+    "finished_utc": "2026-10-01T10:43:49Z",
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p02b-preparing-tui-tests.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--retries",
+      "0",
+      "-p",
+      "codex-tui"
+    ],
+    "exit_code": 101,
+    "tests_executed": 0,
+    "failure": "linker cc/ld failed with SIGBUS; no test result",
+    "scoped_source_unchanged": true,
+    "strict_subreaper": {
+      "command": [
+        "just",
+        "test",
+        "--retries",
+        "0",
+        "-p",
+        "codex-tui"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 613414,
+          "wait_status": 25856,
+          "returncode": 101
+        }
+      ],
+      "command_pid": 613414,
+      "command_wait_status": 25856,
+      "command_returncode": 101,
+      "runner_error": null,
+      "exit_status": 101,
+      "elapsed_seconds": 483.4814512800076
+    }
+  },
+  "retry02": {
+    "started_utc": "2026-10-01T10:54:28Z",
+    "finished_utc": "2026-10-01T11:07:21Z",
+    "command": [
+      "python3",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p02b-preparing-tui-tests-02.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--retries",
+      "0",
+      "-p",
+      "codex-tui"
+    ],
+    "exit_code": 100,
+    "binaries": 6,
+    "executed": 5650,
+    "passed": 5633,
+    "failed": 17,
+    "skipped": 8,
+    "test_execution_elapsed_seconds": 232.737,
+    "per_nonempty_binary": {
+      "codex-tui": {
+        "pass": 5615,
+        "fail": 12
+      },
+      "codex-tui::all": {
+        "pass": 17,
+        "fail": 5
+      },
+      "codex-tui::manager_dependency_regression": {
+        "pass": 1
+      }
+    },
+    "scoped_source_unchanged": false,
+    "during_run_changes": [
+      {
+        "path": "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_owned_wide_frames.snap.new",
+        "before_sha256": null,
+        "after_sha256": "9410fcdbfb557e64d6eb65a0f5eaadbe39cb59d3bd8af5c3c0b077446d1bc283"
+      },
+      {
+        "path": "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_single_column_frames.snap.new",
+        "before_sha256": null,
+        "after_sha256": "bbc87c9d9a6da0bc01e68ae5e4c9ec8206b570cf855e09e7ca48ff228966ea09"
+      }
+    ],
+    "existing_source_and_expected_snapshots_unchanged": true,
+    "strict_subreaper": {
+      "subreaper": true,
+      "command_pid": 615295,
+      "command_wait_status": 25600,
+      "command_returncode": 100,
+      "runner_error": null,
+      "exit_status": 100,
+      "elapsed_seconds": 769.5347878280008,
+      "reaped_entries": 631,
+      "adopted_descendant_entries": 630,
+      "returncode_histogram": {
+        "-13": 283,
+        "0": 139,
+        "100": 1,
+        "128": 162,
+        "141": 46
+      },
+      "claim_limit": "Runner completed and recorded all listed reaps; this is not an all-zero descendant status or passing-suite claim."
+    }
+  },
+  "focused_passing_tests": [
+    {
+      "status": "PASS",
+      "seconds": 0.024,
+      "ordinal": 3657,
+      "binary": "codex-tui",
+      "test": "file_search::pending_tests::dropping_ui_receiver_cancels_preparing_without_a_frame_or_open_release",
+      "log_line": 3934
+    },
+    {
+      "status": "PASS",
+      "seconds": 0.026,
+      "ordinal": 3659,
+      "binary": "codex-tui",
+      "test": "file_search::pending_tests::each_manager_retirement_cancels_preparing_before_open_and_retains_join",
+      "log_line": 3936
+    },
+    {
+      "status": "PASS",
+      "seconds": 0.025,
+      "ordinal": 3660,
+      "binary": "codex-tui",
+      "test": "file_search::pending_tests::late_genuine_failure_survives_retirement_with_original_cleanup_certainty",
+      "log_line": 3937
+    },
+    {
+      "status": "PASS",
+      "seconds": 0.025,
+      "ordinal": 3661,
+      "binary": "codex-tui",
+      "test": "file_search::pending_tests::nonempty_b_c_preserve_pending_lease_and_handoff_only_latest_query",
+      "log_line": 3938
+    },
+    {
+      "status": "PASS",
+      "seconds": 0.032,
+      "ordinal": 3662,
+      "binary": "codex-tui",
+      "test": "file_search::pending_tests::retiring_old_preparing_lease_drains_it_before_new_root_c_handoff",
+      "log_line": 3939
+    },
+    {
+      "status": "PASS",
+      "seconds": 0.024,
+      "ordinal": 3663,
+      "binary": "codex-tui",
+      "test": "file_search::test_support::startup_tests::lost_fixture_runtime_retains_original_failure_and_unconfirmed_cleanup",
+      "log_line": 3940
+    },
+    {
+      "status": "PASS",
+      "seconds": 0.026,
+      "ordinal": 3664,
+      "binary": "codex-tui",
+      "test": "file_search::test_support::startup_tests::abandoned_start_drains_without_open_gate_and_does_not_cancel_its_sibling",
+      "log_line": 3941
+    }
+  ],
+  "new_pending_functions": 5,
+  "new_pending_scenarios_authored": 9,
+  "owned_fixture_regressions": 2,
+  "failures": [
+    {
+      "status": "FAIL",
+      "seconds": 0.144,
+      "ordinal": 812,
+      "binary": "codex-tui",
+      "test": "app::tests::session_lifecycle_requests::remote_legacy_history_start_retries_unsupported_paginated_variant",
+      "log_line": 888,
+      "log_end_line": 906,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.241,
+      "ordinal": 813,
+      "binary": "codex-tui",
+      "test": "app::tests::session_lifecycle_requests::remote_legacy_history_start_negotiates_once_for_resume_and_fork",
+      "log_line": 907,
+      "log_end_line": 928,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.138,
+      "ordinal": 970,
+      "binary": "codex-tui",
+      "test": "app::thread_title::tests::slash_rename_generates_editable_title_through_embedded_app_server",
+      "log_line": 1085,
+      "log_end_line": 1103,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.503,
+      "ordinal": 1051,
+      "binary": "codex-tui",
+      "test": "app_server_session::tests::connected_thread_start_preserves_flex_without_catalog_support",
+      "log_line": 1184,
+      "log_end_line": 1202,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.033,
+      "ordinal": 3464,
+      "binary": "codex-tui",
+      "test": "custom_terminal::tests::cursor::terminal_draw_omits_cursor_style_without_an_owned_glyph",
+      "log_line": 3615,
+      "log_end_line": 3639,
+      "observed_diagnostic_category": "terminal_render_assertion",
+      "diagnostic": "Cursor/color assertion or snapshot mismatch; NO_COLOR=1 and TERM=dumb were observed separately. Corrected environment rerun still required."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.022,
+      "ordinal": 3466,
+      "binary": "codex-tui",
+      "test": "custom_terminal::tests::cursor::terminal_draw_repairs_styled_anchor_on_cursor_only_frames",
+      "log_line": 3641,
+      "log_end_line": 3669,
+      "observed_diagnostic_category": "terminal_render_assertion",
+      "diagnostic": "Cursor/color assertion or snapshot mismatch; NO_COLOR=1 and TERM=dumb were observed separately. Corrected environment rerun still required."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.073,
+      "ordinal": 3468,
+      "binary": "codex-tui",
+      "test": "custom_terminal::tests::cursor::terminal_draw_repairs_single_column_without_scrolling",
+      "log_line": 3671,
+      "log_end_line": 3709,
+      "observed_diagnostic_category": "terminal_render_assertion",
+      "diagnostic": "Cursor/color assertion or snapshot mismatch; NO_COLOR=1 and TERM=dumb were observed separately. Corrected environment rerun still required."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.082,
+      "ordinal": 3469,
+      "binary": "codex-tui",
+      "test": "custom_terminal::tests::cursor::terminal_draw_repairs_owned_wide_hyperlink_after_skipped_glyphs",
+      "log_line": 3710,
+      "log_end_line": 3746,
+      "observed_diagnostic_category": "terminal_render_assertion",
+      "diagnostic": "Cursor/color assertion or snapshot mismatch; NO_COLOR=1 and TERM=dumb were observed separately. Corrected environment rerun still required."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.03,
+      "ordinal": 4874,
+      "binary": "codex-tui",
+      "test": "status::tests::status_snapshot_shows_chatgpt_plan_without_email",
+      "log_line": 5151,
+      "log_end_line": 5169,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.129,
+      "ordinal": 5144,
+      "binary": "codex-tui",
+      "test": "tests::latest_session_lookup_falls_back_for_rollout_missing_from_state_db",
+      "log_line": 5439,
+      "log_end_line": 5457,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.091,
+      "ordinal": 5162,
+      "binary": "codex-tui",
+      "test": "tests::startup_resume_and_fork_use_configured_or_explicit_cwd",
+      "log_line": 5475,
+      "log_end_line": 5493,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.358,
+      "ordinal": 5165,
+      "binary": "codex-tui",
+      "test": "tests::server_account_requirement_controls_login_screen",
+      "log_line": 5496,
+      "log_end_line": 5514,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.347,
+      "ordinal": 5629,
+      "binary": "codex-tui::all",
+      "test": "suite::focus_palette::external_editor::external_editors_keep_the_screen_and_return_the_draft",
+      "log_line": 5978,
+      "log_end_line": 5993,
+      "observed_diagnostic_category": "child_exit_1",
+      "diagnostic": "CLI child exited1 while waiting for expected terminal text; no specific root cause proven by this log."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 1.366,
+      "ordinal": 5631,
+      "binary": "codex-tui::all",
+      "test": "suite::daemon_compatibility::incompatible_daemon_falls_back_for_default_and_explicit_features",
+      "log_line": 5995,
+      "log_end_line": 6010,
+      "observed_diagnostic_category": "child_exit_1",
+      "diagnostic": "CLI child exited1 while waiting for expected terminal text; no specific root cause proven by this log."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.189,
+      "ordinal": 5633,
+      "binary": "codex-tui::all",
+      "test": "suite::focus_palette::no_daemon_skips_startup_and_discovery",
+      "log_line": 6012,
+      "log_end_line": 6027,
+      "observed_diagnostic_category": "child_exit_1",
+      "diagnostic": "CLI child exited1 while waiting for expected terminal text; no specific root cause proven by this log."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 0.011,
+      "ordinal": 5634,
+      "binary": "codex-tui::all",
+      "test": "suite::provider_defaults::history_lookup_uses_server_provider_with_local_and_embedded_servers",
+      "log_line": 6028,
+      "log_end_line": 6045,
+      "observed_diagnostic_category": "missing_cli_fixture",
+      "diagnostic": "CARGO_BIN_EXE_codex absent and target/debug/codex unavailable."
+    },
+    {
+      "status": "FAIL",
+      "seconds": 33.714,
+      "ordinal": 5650,
+      "binary": "codex-tui::all",
+      "test": "suite::worktree_stack::picker_side_worktree_fork_and_cd_run_on_the_production_stack",
+      "log_line": 6062,
+      "log_end_line": 6123,
+      "observed_diagnostic_category": "storage_or_io_error",
+      "diagnostic": "Explicit SQLite disk-full/disk-I/O or OS ENOSPC diagnostic; worktree case exposes ENOSPC in the terminal screen."
+    }
+  ],
+  "diagnostic_category_counts": {
+    "storage_or_io_error": 9,
+    "terminal_render_assertion": 4,
+    "child_exit_1": 3,
+    "missing_cli_fixture": 1
+  },
+  "failed_snapshot_preservation": {
+    "gate": "/workspace/acceptance/p02b-preparing-tui-tests-02.source.json",
+    "gate_sha256": "d687c38619c699ffd242da2da3a8705b2007efc7388ed81ea94d356dcfa66545",
+    "archive": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-tui-tests-02-generated-snapshots.tar.gz",
+    "archive_sha256": "27cf4e34f6c1e5ac27873f616d8643209dc535642547de506eab93f5b3f5362e",
+    "files": {
+      "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_single_column_frames.snap.new": "bbc87c9d9a6da0bc01e68ae5e4c9ec8206b570cf855e09e7ca48ff228966ea09",
+      "codex-rs/tui/src/custom_terminal/tests/snapshots/codex_tui__custom_terminal__tests__cursor__cursor_style_owned_wide_frames.snap.new": "9410fcdbfb557e64d6eb65a0f5eaadbe39cb59d3bd8af5c3c0b077446d1bc283"
+    },
+    "action": "only newly generated failed-run .snap.new files archived byte-exact then removed; original snapshots/source untouched; no snapshot acceptance",
+    "safe_color_environment_observed": {
+      "NO_COLOR": "1",
+      "TERM": "dumb"
+    },
+    "prior_color_probe": "/workspace/acceptance/p02-tui-cursor-color-env.source.json",
+    "durability": "cloud-local counterevidence",
+    "report": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p02b-preparing-tui-tests-02-generated-snapshots.tar.json",
+      "sha256": "916b0f82ebb3d1a74a1eda89bd4260c63032cf0e24d0e5a9608b336dd217300a"
+    },
+    "independently_verified_archive_hash_and_member_bytes": true,
+    "original_expected_snapshots_unchanged_during_test": true,
+    "accepted": false
+  },
+  "limits": [
+    "Full TUI gate failed; 5633 passing tests do not constitute a passing regression gate.",
+    "Controlled backend/production TUI facade tests are not new full Codex CLI, installed-worker, native-constructor or graphical UI/browser proof.",
+    "The idle-ready/no-delivery/no-other-signal receiver-close gap is not covered by this stage.",
+    "Later PublicStop production adoption and subsequent environment-corrected gates are outside these two tested source snapshots.",
+    "No assertion weakening or acceptance of failed expected snapshots is included.",
+    "Source baseline f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad is a report label, not a claim that the dirty tested tree equals that commit."
+  ],
+  "next_gates": [
+    "Restore stable overlay and /tmp capacity with exact byte-preserving cache archives.",
+    "Run combined AS/client/TUI library gate with NO_COLOR unset; preserve failures and source fingerprints.",
+    "Build the new full Codex CLI and bind CARGO_BIN_EXE_codex explicitly for the complete TUI integration gate.",
+    "Run new-host installed-worker and GUI/runtime acceptance separately; do not infer these from controlled unit tests."
+  ]
+}
