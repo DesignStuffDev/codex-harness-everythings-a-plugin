@@ -232,3 +232,120 @@ fn failed_group_signal_cannot_be_promoted_by_direct_child_and_pipe_exit() {
     assert_eq!(late.message, error.message);
     assert_eq!(late.cleanup, CommandCleanup::Unknown);
 }
+
+#[test]
+fn late_stop_between_flag_and_deadline_observation_still_signals_child() {
+    use super::CommandCleanup;
+    use super::CommandFailureKind;
+    use super::OwnedBackgroundCommand;
+    use crate::CommandCancellation;
+    use crate::CommandControl;
+    struct LateStop(CommandControl);
+    impl CommandCancellation for LateStop {
+        fn is_cancelled(&self) -> bool {
+            self.0.is_cancelled()
+        }
+        fn deadline(&self) -> Option<Instant> {
+            if !self.0.is_cancelled() {
+                self.0.request_stop(Instant::now() + Duration::from_secs(1));
+            }
+            self.0.deadline()
+        }
+    }
+    let owner = OwnedBackgroundCommand::register();
+    let mut child = Command::new("/bin/sleep");
+    child.arg("60");
+    owner
+        .spawn(&mut child, "late-stop fixture", &AtomicBool::new(false))
+        .unwrap();
+    let error = owner
+        .wait(
+            "late-stop fixture",
+            Duration::from_secs(5),
+            &LateStop(CommandControl::default()),
+        )
+        .unwrap_err();
+    // Cleanup even when the regression assertion fails; the exact fixture has no helpers.
+    owner.stop_and_observe("late-stop fixture recovery", Duration::ZERO);
+    assert_eq!(error.cause, CommandFailureKind::Cancelled);
+    assert_eq!(error.cleanup, CommandCleanup::DirectChildAndPipes);
+}
+
+#[test]
+fn owner_deadline_shortening_interrupts_cleanup_without_resetting_unknown() {
+    use super::CommandCleanup;
+    use super::OwnedBackgroundCommand;
+    use crate::CommandCancellation;
+    use crate::CommandControl;
+    use std::sync::Arc;
+    use std::sync::Mutex;
+    use std::sync::PoisonError;
+    use std::sync::mpsc;
+    struct ObservedControl {
+        control: Arc<CommandControl>,
+        cleanup_started: Mutex<Option<mpsc::Sender<()>>>,
+    }
+    impl CommandCancellation for ObservedControl {
+        fn is_cancelled(&self) -> bool {
+            self.control.is_cancelled()
+        }
+        fn deadline(&self) -> Option<Instant> {
+            if let Some(sender) = self
+                .cleanup_started
+                .lock()
+                .unwrap_or_else(PoisonError::into_inner)
+                .take()
+            {
+                let _ = sender.send(());
+            }
+            self.control.deadline()
+        }
+        fn wait_for_change(&self, timeout: Duration) {
+            self.control.wait_for_change(timeout);
+        }
+    }
+    let owner = OwnedBackgroundCommand::register();
+    owner.lock().force_signal_error = true;
+    let mut child = Command::new("/bin/sleep");
+    child.arg("60");
+    owner
+        .spawn(&mut child, "deadline fixture", &AtomicBool::new(false))
+        .unwrap();
+    let control = Arc::new(CommandControl::default());
+    control.request_stop(Instant::now() + Duration::from_secs(10));
+    let (tx, rx) = mpsc::channel();
+    let observed = ObservedControl {
+        control: Arc::clone(&control),
+        cleanup_started: Mutex::new(Some(tx)),
+    };
+    let waiting_owner = Arc::clone(&owner);
+    let wait = std::thread::spawn(move || {
+        waiting_owner.wait("deadline fixture", Duration::from_secs(30), &observed)
+    });
+    let started = rx.recv_timeout(Duration::from_secs(3));
+    let shortened_at = Instant::now();
+    let earlier = shortened_at + Duration::from_millis(50);
+    control.request_stop(earlier);
+    control.request_stop(earlier + Duration::from_secs(30));
+    let error = wait.join().unwrap().unwrap_err();
+    let elapsed = shortened_at.elapsed();
+    // Test-only external fixture recovery permits signaling again and reaps the
+    // exact helper-free child. The public Unknown observation stays immutable.
+    owner.lock().force_signal_error = false;
+    let cleanup = owner.stop_and_observe("deadline fixture recovery", Duration::ZERO);
+    assert!(started.is_ok());
+    assert_eq!(control.deadline(), Some(earlier));
+    assert!(
+        elapsed < Duration::from_secs(1),
+        "cleanup ignored shortened owner deadline: {elapsed:?}"
+    );
+    assert_eq!(error.cleanup, CommandCleanup::Unknown);
+    assert_eq!(cleanup, CommandCleanup::DirectChildAndPipes);
+    assert_eq!(
+        owner
+            .wait("late", Duration::ZERO, &AtomicBool::new(false))
+            .unwrap_err()
+            .message,
+        error.message
+    );
+}

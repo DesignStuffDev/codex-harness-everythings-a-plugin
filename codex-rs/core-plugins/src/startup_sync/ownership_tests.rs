@@ -7,7 +7,7 @@ use wiremock::MockServer;
 
 const SHA: &str = "1111111111111111111111111111111111111111";
 
-fn fixture_git(root: &Path, pause: &str) -> anyhow::Result<PathBuf> {
+pub(super) fn fixture_git(root: &Path, pause: &str) -> anyhow::Result<PathBuf> {
     let git = root.join("fixture-git");
     // Only the selected native command waits; no descendants are created by
     // that wait (exec preserves the child PID). This is a test recovery fence.
@@ -37,7 +37,7 @@ esac
     Ok(git)
 }
 
-fn wait_for_fixture_pid(path: &Path) -> anyhow::Result<u32> {
+pub(super) fn wait_for_fixture_pid(path: &Path) -> anyhow::Result<u32> {
     let deadline = Instant::now() + Duration::from_secs(3);
     loop {
         if let Ok(value) = std::fs::read_to_string(path)
@@ -54,7 +54,7 @@ fn wait_for_fixture_pid(path: &Path) -> anyhow::Result<u32> {
     }
 }
 
-fn wait_for_fixture_exec(path: &Path) -> anyhow::Result<u32> {
+pub(super) fn wait_for_fixture_exec(path: &Path) -> anyhow::Result<u32> {
     let pid = wait_for_fixture_pid(path)?;
     let executable = std::fs::canonicalize("/bin/sleep")?;
     let deadline = Instant::now() + Duration::from_secs(3);
@@ -70,7 +70,7 @@ fn wait_for_fixture_exec(path: &Path) -> anyhow::Result<u32> {
     }
 }
 
-fn independently_open_lock(home: &Path) -> anyhow::Result<File> {
+pub(super) fn independently_open_lock(home: &Path) -> anyhow::Result<File> {
     Ok(File::options()
         .write(true)
         .open(home.join(super::super::CURATED_PLUGINS_SYNC_LOCK_FILE))?)
@@ -79,7 +79,7 @@ fn independently_open_lock(home: &Path) -> anyhow::Result<File> {
 // There is deliberately no production clear-on-reap API. These tests know their
 // exact child execs sleep with no helpers; verify the child is gone before releasing
 // their isolated registry. General direct-child observation is not a recovery fence.
-fn release_fixture_after_external_fence(
+pub(super) fn release_fixture_after_external_fence(
     registry: &AttemptRegistry,
     pid: Option<u32>,
 ) -> anyhow::Result<()> {

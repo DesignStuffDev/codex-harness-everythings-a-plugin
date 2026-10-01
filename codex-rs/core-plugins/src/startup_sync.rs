@@ -26,6 +26,7 @@ mod ownership;
 pub(crate) mod worker;
 use ownership::ATTEMPTS;
 use ownership::SyncAttempt;
+pub(crate) use ownership::SyncControl;
 pub(crate) use ownership::SyncFailure;
 
 const GITHUB_API_BASE_URL: &str = "https://api.github.com";
@@ -86,13 +87,18 @@ pub fn sync_openai_plugins_repo(
     codex_home: &Path,
     http_client_factory: HttpClientFactory,
 ) -> Result<String, String> {
-    sync_openai_plugins_repo_owned(codex_home, http_client_factory)
-        .map_err(|error| error.to_string())
+    sync_openai_plugins_repo_owned(
+        codex_home,
+        http_client_factory,
+        Arc::new(SyncControl::default()),
+    )
+    .map_err(|error| error.to_string())
 }
 
 pub(crate) fn sync_openai_plugins_repo_owned(
     codex_home: &Path,
     http_client_factory: HttpClientFactory,
+    control: Arc<SyncControl>,
 ) -> Result<String, SyncFailure> {
     // Keep Git-only egress working without trusting workspace PATH entries.
     let git_binary = codex_utils_path::system_executable("git");
@@ -100,7 +106,7 @@ pub(crate) fn sync_openai_plugins_repo_owned(
     // The resolver prefers the real CLT/Xcode executable when installed.
     #[cfg(target_os = "macos")]
     let git_binary = git_binary.filter(|path| path != Path::new("/usr/bin/git"));
-    ATTEMPTS.run(codex_home, |attempt| {
+    ATTEMPTS.run_controlled(codex_home, control, |attempt| {
         attempt.run(
             git_binary.as_deref(),
             GITHUB_API_BASE_URL,
@@ -162,6 +168,11 @@ impl SyncAttempt {
                     emit_curated_plugins_startup_sync_final_metric("git", "failure");
                     return Err(err);
                 }
+                if let Err(stopped) = self.admit_stage() {
+                    emit_curated_plugins_startup_sync_metric("git", "failure");
+                    emit_curated_plugins_startup_sync_final_metric("git", "failure");
+                    return Err(stopped);
+                }
                 if git_binary.is_some() {
                     emit_curated_plugins_startup_sync_metric("git", "failure");
                     warn!(
@@ -185,6 +196,10 @@ impl SyncAttempt {
                         if !http_err.permits_fallback() {
                             emit_curated_plugins_startup_sync_final_metric("http", "failure");
                             return Err(http_err);
+                        }
+                        if let Err(stopped) = self.admit_stage() {
+                            emit_curated_plugins_startup_sync_final_metric("http", "failure");
+                            return Err(stopped);
                         }
                         if has_local_curated_plugins_snapshot(codex_home) {
                             emit_curated_plugins_startup_sync_final_metric("http", "failure");
@@ -234,6 +249,7 @@ fn sync_openai_plugins_repo_via_git_owned(
     codex_home: &Path,
     git_binary: &Path,
 ) -> Result<String, SyncFailure> {
+    attempt.admit_stage()?;
     let repo_path = curated_plugins_repo_path(codex_home);
     let sha_path = codex_home.join(CURATED_PLUGINS_SHA_FILE);
     let remote_sha = git_ls_remote_head_sha(attempt, codex_home, git_binary)?;
@@ -276,9 +292,13 @@ fn sync_openai_plugins_repo_via_git_owned(
     }
 
     ensure_marketplace_manifest_exists(staged_repo_dir.as_path())?;
-    activate_curated_repo(attempt, &repo_path, &staged_repo_dir)
-        .map_err(SyncFailure::Publication)?;
-    write_curated_plugins_sha(&sha_path, &remote_sha).map_err(SyncFailure::Publication)?;
+    publish_curated_repo(
+        attempt,
+        &repo_path,
+        &staged_repo_dir,
+        &sha_path,
+        &remote_sha,
+    )?;
     Ok(remote_sha)
 }
 
@@ -375,6 +395,7 @@ fn sync_openai_plugins_repo_via_http_owned(
     api_base_url: &str,
     http_client_factory: &HttpClientFactory,
 ) -> Result<String, SyncFailure> {
+    attempt.admit_stage()?;
     let repo_path = curated_plugins_repo_path(codex_home);
     let sha_path = codex_home.join(CURATED_PLUGINS_SHA_FILE);
     let runtime = tokio::runtime::Builder::new_current_thread()
@@ -384,6 +405,7 @@ fn sync_openai_plugins_repo_via_http_owned(
     let http_clients = StartupSyncHttpClient::new(http_client_factory);
     let remote_sha =
         runtime.block_on(fetch_curated_repo_remote_sha(&http_clients, api_base_url))?;
+    attempt.admit_stage()?;
     let local_sha = read_sha_file(&sha_path);
 
     if local_sha.as_deref() == Some(remote_sha.as_str()) && repo_path.is_dir() {
@@ -399,9 +421,13 @@ fn sync_openai_plugins_repo_via_http_owned(
     ))?;
     extract_zipball_to_dir(&zipball_bytes, staged_repo_dir.as_path())?;
     ensure_marketplace_manifest_exists(staged_repo_dir.as_path())?;
-    activate_curated_repo(attempt, &repo_path, &staged_repo_dir)
-        .map_err(SyncFailure::Publication)?;
-    write_curated_plugins_sha(&sha_path, &remote_sha).map_err(SyncFailure::Publication)?;
+    publish_curated_repo(
+        attempt,
+        &repo_path,
+        &staged_repo_dir,
+        &sha_path,
+        &remote_sha,
+    )?;
     Ok(remote_sha)
 }
 
@@ -411,6 +437,7 @@ fn sync_openai_plugins_repo_via_backup_archive(
     backup_archive_api_url: &str,
     http_client_factory: &HttpClientFactory,
 ) -> Result<String, SyncFailure> {
+    attempt.admit_stage()?;
     let repo_path = curated_plugins_repo_path(codex_home);
     let sha_path = curated_plugins_sha_path(codex_home);
     let runtime = tokio::runtime::Builder::new_current_thread()
@@ -428,9 +455,13 @@ fn sync_openai_plugins_repo_via_backup_archive(
     ensure_marketplace_manifest_exists(staged_repo_dir.as_path())?;
     let export_version = read_extracted_backup_archive_git_sha(staged_repo_dir.as_path())?
         .unwrap_or_else(|| CURATED_PLUGINS_BACKUP_ARCHIVE_FALLBACK_VERSION.to_string());
-    activate_curated_repo(attempt, &repo_path, &staged_repo_dir)
-        .map_err(SyncFailure::Publication)?;
-    write_curated_plugins_sha(&sha_path, &export_version).map_err(SyncFailure::Publication)?;
+    publish_curated_repo(
+        attempt,
+        &repo_path,
+        &staged_repo_dir,
+        &sha_path,
+        &export_version,
+    )?;
     Ok(export_version)
 }
 
@@ -589,6 +620,33 @@ fn ensure_marketplace_manifest_exists(repo_path: &Path) -> Result<(), String> {
         "curated plugins archive missing marketplace manifest at {}",
         repo_path.join(".agents/plugins/marketplace.json").display()
     ))
+}
+
+fn publish_curated_repo(
+    attempt: &SyncAttempt,
+    repo_path: &Path,
+    staged: &Path,
+    sha_path: &Path,
+    version: &str,
+) -> Result<(), SyncFailure> {
+    attempt.admit_publication()?;
+    // Stop requests after admission must not split activation from its SHA write.
+    activate_curated_repo(attempt, repo_path, staged).map_err(SyncFailure::Publication)?;
+    #[cfg(test)]
+    {
+        let hook = {
+            attempt
+                .after_activation
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner)
+                .take()
+        };
+        if let Some(hook) = hook {
+            hook();
+        }
+    }
+    write_curated_plugins_sha(sha_path, version).map_err(SyncFailure::Publication)?;
+    attempt.admit_stage()
 }
 
 fn activate_curated_repo(

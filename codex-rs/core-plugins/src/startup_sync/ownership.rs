@@ -1,6 +1,7 @@
 //! Primary attempt custody. Errors returned to callers are non-owning observations.
 #[cfg(target_os = "linux")]
 use codex_utils_pty::CommandCleanup;
+pub(crate) use codex_utils_pty::CommandControl as SyncControl;
 #[cfg(target_os = "linux")]
 use codex_utils_pty::CommandFailure;
 #[cfg(target_os = "linux")]
@@ -17,11 +18,15 @@ use std::sync::PoisonError;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 use std::time::Duration;
+use std::time::Instant;
 use tempfile::TempDir;
 
 #[derive(Clone, Debug)]
 pub(crate) enum SyncFailure {
     Ordinary(String),
+    Stopped {
+        publication_may_have_occurred: bool,
+    },
     #[cfg(target_os = "linux")]
     Transport(CommandFailure),
     Publication(String),
@@ -47,7 +52,7 @@ impl SyncFailure {
     }
     pub(crate) fn retains_resources(&self) -> bool {
         match self {
-            Self::Ordinary(_) => false,
+            Self::Ordinary(_) | Self::Stopped { .. } => false,
             #[cfg(not(target_os = "linux"))]
             Self::LegacyUnverified(_) => false,
             #[cfg(target_os = "linux")]
@@ -69,12 +74,17 @@ impl std::fmt::Display for SyncFailure {
             Self::Transport(error) => std::fmt::Display::fmt(error, f),
             #[cfg(not(target_os = "linux"))]
             Self::LegacyUnverified(message) => f.write_str(message),
+            Self::Stopped { publication_may_have_occurred: false } => f.write_str("curated sync stopped before next stage admission"),
+            Self::Stopped { publication_may_have_occurred: true } => f.write_str("curated sync stopped; publication may have occurred"),
             Self::Unwind => f.write_str("curated sync worker unwound; cleanup outcome unknown; attempt quarantined"),
             Self::Quarantined => f.write_str("curated sync is quarantined; external termination or fencing is required before recovery"),
         }
     }
 }
 impl std::error::Error for SyncFailure {}
+
+#[cfg(test)]
+type PublicationHook = Box<dyn FnOnce() + Send>;
 
 #[derive(Default)]
 struct Resources {
@@ -88,9 +98,15 @@ struct AttemptState {
     resources: Option<Resources>,
     outcome: Option<Result<String, SyncFailure>>,
     uncertainty: Option<SyncFailure>,
+    publication_admitted: bool,
 }
 pub(super) struct SyncAttempt {
     pub(super) home: PathBuf,
+    pub(super) control: Arc<SyncControl>,
+    #[cfg(test)]
+    pub(super) after_activation: Mutex<Option<PublicationHook>>,
+    #[cfg(all(test, target_os = "linux"))]
+    lock_waiting: Mutex<Option<std::sync::mpsc::Sender<()>>>,
     generation: u64,
     quarantined: AtomicBool,
     state: Mutex<AttemptState>,
@@ -130,11 +146,17 @@ impl AttemptRegistry {
             .iter()
             .any(|attempt| attempt.home == home && attempt.quarantined.load(Ordering::Acquire))
     }
-    fn reserve(
+    fn reserve_controlled(
         &self,
         home: &Path,
+        control: Arc<SyncControl>,
         #[cfg(all(test, target_os = "linux"))] hook: Option<CommandHook>,
     ) -> Result<Arc<SyncAttempt>, SyncFailure> {
+        if control.is_cancelled() {
+            return Err(SyncFailure::Stopped {
+                publication_may_have_occurred: false,
+            });
+        }
         std::fs::create_dir_all(home.join(".tmp"))
             .map_err(|err| format!("failed to create curated plugins sync directory: {err}"))?;
         let home = home
@@ -151,12 +173,18 @@ impl AttemptRegistry {
         state.next = state.next.checked_add(1).ok_or(SyncFailure::Quarantined)?;
         let attempt = Arc::new(SyncAttempt {
             home,
+            control,
+            #[cfg(test)]
+            after_activation: Mutex::new(None),
+            #[cfg(all(test, target_os = "linux"))]
+            lock_waiting: Mutex::new(None),
             generation: state.next,
             quarantined: AtomicBool::new(false),
             state: Mutex::new(AttemptState {
                 resources: Some(Resources::default()),
                 outcome: None,
                 uncertainty: None,
+                publication_admitted: false,
             }),
             #[cfg(all(test, target_os = "linux"))]
             hook,
@@ -164,26 +192,55 @@ impl AttemptRegistry {
         state.attempts.push(Arc::clone(&attempt));
         Ok(attempt)
     }
+    #[cfg(all(test, target_os = "linux"))]
+    fn reserve(
+        &self,
+        home: &Path,
+        hook: Option<CommandHook>,
+    ) -> Result<Arc<SyncAttempt>, SyncFailure> {
+        self.reserve_controlled(home, Arc::new(SyncControl::default()), hook)
+    }
+    #[cfg(test)]
     pub(super) fn run(
         &self,
         home: &Path,
         run: impl FnOnce(&Arc<SyncAttempt>) -> Result<String, SyncFailure>,
     ) -> Result<String, SyncFailure> {
-        self.run_inner(
+        self.run_controlled(home, Arc::new(SyncControl::default()), run)
+    }
+    pub(super) fn run_controlled(
+        &self,
+        home: &Path,
+        control: Arc<SyncControl>,
+        run: impl FnOnce(&Arc<SyncAttempt>) -> Result<String, SyncFailure>,
+    ) -> Result<String, SyncFailure> {
+        self.run_inner_controlled(
             home,
+            control,
             #[cfg(all(test, target_os = "linux"))]
             None,
             run,
         )
     }
+    #[cfg(all(test, target_os = "linux"))]
     fn run_inner(
         &self,
         home: &Path,
+        hook: Option<CommandHook>,
+        run: impl FnOnce(&Arc<SyncAttempt>) -> Result<String, SyncFailure>,
+    ) -> Result<String, SyncFailure> {
+        self.run_inner_controlled(home, Arc::new(SyncControl::default()), hook, run)
+    }
+    fn run_inner_controlled(
+        &self,
+        home: &Path,
+        control: Arc<SyncControl>,
         #[cfg(all(test, target_os = "linux"))] hook: Option<CommandHook>,
         run: impl FnOnce(&Arc<SyncAttempt>) -> Result<String, SyncFailure>,
     ) -> Result<String, SyncFailure> {
-        let attempt = self.reserve(
+        let attempt = self.reserve_controlled(
             home,
+            control,
             #[cfg(all(test, target_os = "linux"))]
             hook,
         )?;
@@ -199,9 +256,17 @@ impl AttemptRegistry {
         attempt: &Arc<SyncAttempt>,
         result: Result<String, SyncFailure>,
     ) -> Result<String, SyncFailure> {
-        let result = match &attempt.lock().uncertainty {
-            Some(error) => Err(error.clone()),
-            None => result,
+        let result = {
+            let state = attempt.lock();
+            match &state.uncertainty {
+                Some(error) => Err(error.clone()),
+                None if result.is_ok() && attempt.control.is_cancelled() => {
+                    Err(SyncFailure::Stopped {
+                        publication_may_have_occurred: state.publication_admitted,
+                    })
+                }
+                None => result,
+            }
         };
         let retain = result.as_ref().is_err_and(SyncFailure::retains_resources);
         #[cfg(target_os = "linux")]
@@ -227,7 +292,11 @@ impl AttemptRegistry {
             // Latch uncertainty before supplementary cleanup. A later direct reap
             // never releases this attempt or changes its original outcome.
             command.quarantine("curated sync attempt quarantined".to_string());
-            command.stop_and_observe("quarantined curated Git command", Duration::ZERO);
+            command.stop_and_observe_with_control(
+                "quarantined curated Git command",
+                Duration::ZERO,
+                attempt.control.as_ref(),
+            );
         }
         if !retain {
             let removed = {
@@ -252,6 +321,8 @@ impl SyncAttempt {
         self.state.lock().unwrap_or_else(PoisonError::into_inner)
     }
     fn acquire_lock(&self, registry: &AttemptRegistry) -> Result<(), SyncFailure> {
+        self.admit_stage()?;
+        let deadline = Instant::now() + Duration::from_secs(30);
         let file = File::options()
             .write(true)
             .create(true)
@@ -259,13 +330,39 @@ impl SyncAttempt {
             .open(self.home.join(super::CURATED_PLUGINS_SYNC_LOCK_FILE))
             .map_err(|err| format!("failed to open curated plugins sync lock: {err}"))?;
         loop {
+            self.admit_stage()?;
             if registry.blocked(&self.home) {
                 return Err(SyncFailure::Quarantined);
             }
+            let effective_deadline = self
+                .control
+                .deadline()
+                .map_or(deadline, |owner| owner.min(deadline));
+            if Instant::now() >= effective_deadline {
+                self.admit_stage()?;
+                return Err(SyncFailure::Ordinary(
+                    "timed out waiting for curated plugins sync lock".to_string(),
+                ));
+            }
             match file.try_lock() {
-                Ok(()) => break,
+                Ok(()) => {
+                    self.admit_stage()?;
+                    break;
+                }
                 Err(std::fs::TryLockError::WouldBlock) => {
-                    std::thread::sleep(Duration::from_millis(5))
+                    #[cfg(all(test, target_os = "linux"))]
+                    if let Some(sender) = self
+                        .lock_waiting
+                        .lock()
+                        .unwrap_or_else(PoisonError::into_inner)
+                        .take()
+                    {
+                        let _ = sender.send(());
+                    }
+                    self.control.wait_for_change(
+                        Duration::from_millis(5)
+                            .min(effective_deadline.saturating_duration_since(Instant::now())),
+                    );
                 }
                 Err(std::fs::TryLockError::Error(err)) => {
                     return Err(format!("failed to lock curated plugins sync: {err}").into());
@@ -277,6 +374,25 @@ impl SyncAttempt {
         let mut state = self.lock();
         let resources = state.resources.as_mut().ok_or(SyncFailure::Quarantined)?;
         resources.lock = Some(file);
+        Ok(())
+    }
+    pub(super) fn admit_stage(&self) -> Result<(), SyncFailure> {
+        let state = self.lock();
+        if let Some(error) = &state.uncertainty {
+            return Err(error.clone());
+        }
+        if self.control.is_cancelled() {
+            return Err(SyncFailure::Stopped {
+                publication_may_have_occurred: state.publication_admitted,
+            });
+        }
+        Ok(())
+    }
+    pub(super) fn admit_publication(&self) -> Result<(), SyncFailure> {
+        self.admit_stage()?;
+        // Activation plus SHA write is one admitted region. A stop after this
+        // point cannot split that pair; it prevents admission of subsequent work.
+        self.lock().publication_admitted = true;
         Ok(())
     }
     pub(super) fn keep_directory(&self, directory: TempDir) -> Result<PathBuf, SyncFailure> {
@@ -304,9 +420,7 @@ impl SyncAttempt {
         context: &str,
         timeout: Duration,
     ) -> Result<std::process::Output, SyncFailure> {
-        if let Some(error) = &self.lock().uncertainty {
-            return Err(error.clone());
-        }
+        self.admit_stage()?;
         let result = (|| {
             let owner = OwnedBackgroundCommand::register();
             // Register with the whole attempt before anything can spawn.
@@ -317,7 +431,7 @@ impl SyncAttempt {
                 .commands
                 .push(Arc::clone(&owner));
             owner
-                .spawn(command, context, &AtomicBool::new(false))
+                .spawn(command, context, self.control.as_ref())
                 .map_err(SyncFailure::Transport)?;
             #[cfg(all(test, target_os = "linux"))]
             if let Some(hook) = &self.hook
@@ -338,7 +452,7 @@ impl SyncAttempt {
                 return Err(SyncFailure::Transport(failure));
             }
             owner
-                .wait(context, timeout, &AtomicBool::new(false))
+                .wait(context, timeout, self.control.as_ref())
                 .map_err(SyncFailure::Transport)
         })();
         result.map_err(|error| self.observe_failure(error))
@@ -350,6 +464,7 @@ impl SyncAttempt {
         context: &str,
         timeout: Duration,
     ) -> Result<std::process::Output, SyncFailure> {
+        self.admit_stage()?;
         // The existing non-Linux runner is unchanged. Linux process custody does
         // not establish equivalent non-Linux cleanup or host-shutdown guarantees.
         super::run_git_command_with_timeout(command, context, timeout)
@@ -360,3 +475,7 @@ impl SyncAttempt {
 #[cfg(all(test, target_os = "linux"))]
 #[path = "ownership_tests.rs"]
 mod tests;
+
+#[cfg(all(test, target_os = "linux"))]
+#[path = "cancellation_tests.rs"]
+mod cancellation_tests;

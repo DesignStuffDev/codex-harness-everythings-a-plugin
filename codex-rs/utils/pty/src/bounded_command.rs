@@ -1,4 +1,5 @@
 //! Registered ownership for bounded Linux commands. Unknown cleanup is sticky.
+use crate::CommandCancellation;
 use crate::child::reaper::ChildToReap;
 use crate::child::reaper::{self};
 use std::io::Read;
@@ -16,7 +17,6 @@ use std::sync::Mutex;
 use std::sync::MutexGuard;
 use std::sync::PoisonError;
 use std::sync::atomic::AtomicBool;
-use std::sync::atomic::Ordering;
 use std::sync::mpsc::Sender;
 use std::time::Duration;
 use std::time::Instant;
@@ -137,7 +137,7 @@ impl OwnedBackgroundCommand {
         self: &Arc<Self>,
         command: &mut Command,
         context: &str,
-        cancelled: &AtomicBool,
+        cancelled: &impl CommandCancellation,
     ) -> Result<(), CommandFailure> {
         let mut state = self.lock();
         if let Some(error) = &state.unknown {
@@ -162,7 +162,7 @@ impl OwnedBackgroundCommand {
         }
         state.started = true;
         let result = (|| {
-            if cancelled.load(Ordering::Acquire) {
+            if cancelled.is_cancelled() {
                 return Err(CommandFailure::new(
                     CommandFailureKind::Cancelled,
                     CommandCleanup::NotStarted,
@@ -237,7 +237,7 @@ impl OwnedBackgroundCommand {
         self: &Arc<Self>,
         context: &str,
         timeout: Duration,
-        cancelled: &AtomicBool,
+        cancelled: &impl CommandCancellation,
     ) -> Result<Output, CommandFailure> {
         let mut state = self.lock();
         if state.retired {
@@ -326,14 +326,37 @@ impl OwnedBackgroundCommand {
     /// May stop/reap an identity still owned by this slot, but never clears an
     /// earlier Unknown registration. Direct-child observation is not recovery.
     pub fn stop_and_observe(self: &Arc<Self>, context: &str, timeout: Duration) -> CommandCleanup {
+        self.stop_and_observe_with_control(context, timeout, &AtomicBool::new(true))
+    }
+    /// Supplemental stop/observation using the owner's existing cleanup deadline.
+    /// It never clears Unknown and is not a shutdown-completion operation.
+    pub fn stop_and_observe_with_control(
+        self: &Arc<Self>,
+        context: &str,
+        timeout: Duration,
+        control: &impl CommandCancellation,
+    ) -> CommandCleanup {
         {
             let state = self.lock();
             if state.group.is_none() {
                 return state.last_cleanup.unwrap_or(CommandCleanup::Unknown);
             }
         }
-        let _ = self.wait(context, timeout, &AtomicBool::new(true));
+        let _ = self.wait(context, timeout, &ForcedStop(control));
         self.last_cleanup().unwrap_or(CommandCleanup::Unknown)
+    }
+}
+
+struct ForcedStop<'a, C>(&'a C);
+impl<C: CommandCancellation> CommandCancellation for ForcedStop<'_, C> {
+    fn is_cancelled(&self) -> bool {
+        true
+    }
+    fn deadline(&self) -> Option<Instant> {
+        self.0.deadline()
+    }
+    fn wait_for_change(&self, timeout: Duration) {
+        self.0.wait_for_change(timeout);
     }
 }
 
@@ -412,7 +435,7 @@ fn poll_group(
     mut stderr_pipe: &mut ChildStderr,
     context: &str,
     timeout: Duration,
-    cancelled: &AtomicBool,
+    cancelled: &impl CommandCancellation,
     #[cfg(test)] force_signal_error: bool,
 ) -> Result<Output, CommandFailure> {
     let mut failure = set_nonblocking(stdout_pipe)
@@ -429,7 +452,7 @@ fn poll_group(
     let mut stdout_closed = false;
     let mut stderr_closed = false;
     loop {
-        if failure.is_none() && cancelled.load(Ordering::Acquire) {
+        if failure.is_none() && cancelled.is_cancelled() {
             cause = CommandFailureKind::Cancelled;
             failure = Some(format!("{context} cancelled"));
         }
@@ -546,6 +569,9 @@ fn poll_group(
                 }),
             };
         }
+        if let (Some(owner_deadline), Some(local)) = (cancelled.deadline(), cleanup_deadline) {
+            cleanup_deadline = Some(local.min(owner_deadline));
+        }
         if cleanup_deadline.is_some_and(|deadline| Instant::now() >= deadline) {
             return Err(CommandFailure::new(
                 cause,
@@ -556,7 +582,10 @@ fn poll_group(
                 ),
             ));
         }
-        std::thread::sleep(POLL_INTERVAL);
+        let wait = cleanup_deadline.map_or(POLL_INTERVAL, |limit| {
+            POLL_INTERVAL.min(limit.saturating_duration_since(Instant::now()))
+        });
+        cancelled.wait_for_change(wait);
     }
 }
 

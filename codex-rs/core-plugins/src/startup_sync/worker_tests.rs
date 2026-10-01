@@ -55,7 +55,7 @@ fn completed_worker_waits_for_handle_and_stale_outcome_cannot_change_retry() -> 
     let gate = Arc::new(WorkerGate::default());
     let (completed_tx, completed_rx) = mpsc::channel();
     let started = gate.start_with_spawn(
-        || Err(SyncFailure::Ordinary("first attempt failed".to_string())),
+        |_| Err(SyncFailure::Ordinary("first attempt failed".to_string())),
         |job| {
             let handle = std::thread::spawn(move || {
                 job();
@@ -78,7 +78,7 @@ fn completed_worker_waits_for_handle_and_stale_outcome_cannot_change_retry() -> 
                 assert!(record.handle.is_none());
             }
             assert!(
-                !gate.start(|| Ok(()))?,
+                !gate.start(|_| Ok(()))?,
                 "completion without a handle must not admit a retry"
             );
             Ok(handle)
@@ -93,7 +93,7 @@ fn completed_worker_waits_for_handle_and_stale_outcome_cannot_change_retry() -> 
         .context("first generation")?
         .generation;
     let (release_tx, release_rx) = mpsc::channel();
-    assert!(gate.start(move || {
+    assert!(gate.start(move |_| {
         release_rx
             .recv_timeout(Duration::from_secs(5))
             .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
@@ -131,12 +131,12 @@ fn completed_worker_waits_for_handle_and_stale_outcome_cannot_change_retry() -> 
 #[test]
 fn success_latches_across_later_callers_and_retains_native_handle() -> anyhow::Result<()> {
     let gate = Arc::new(WorkerGate::default());
-    assert!(gate.start(|| Ok(()))?);
+    assert!(gate.start(|_| Ok(()))?);
     wait_for_finished(&gate)?;
     let effects = Arc::new(AtomicUsize::new(0));
     for _home in ["first-home", "another-home"] {
         let effects = Arc::clone(&effects);
-        assert!(!gate.start(move || {
+        assert!(!gate.start(move |_| {
             effects.fetch_add(1, Ordering::SeqCst);
             Ok(())
         })?);
@@ -155,7 +155,7 @@ fn success_latches_across_later_callers_and_retains_native_handle() -> anyhow::R
 #[test]
 fn unknown_observation_survives_late_success_and_dropped_observer() -> anyhow::Result<()> {
     let gate = Arc::new(WorkerGate::default());
-    assert!(gate.start(|| Err(SyncFailure::Quarantined))?);
+    assert!(gate.start(|_| Err(SyncFailure::Quarantined))?);
     wait_for_finished(&gate)?;
     let generation = {
         let state = gate.lock();
@@ -165,7 +165,7 @@ fn unknown_observation_survives_late_success_and_dropped_observer() -> anyhow::R
         record.generation
     };
     gate.complete(generation, Ok(()));
-    assert!(!gate.start(|| Ok(()))?);
+    assert!(!gate.start(|_| Ok(()))?);
     {
         let state = gate.lock();
         let record = state.active.as_ref().context("quarantine remains")?;
@@ -187,9 +187,9 @@ fn unknown_observation_survives_late_success_and_dropped_observer() -> anyhow::R
 #[test]
 fn unwind_anywhere_in_worker_quarantines_the_generation() -> anyhow::Result<()> {
     let gate = Arc::new(WorkerGate::default());
-    assert!(gate.start(|| panic!("fixture callback panic"))?);
+    assert!(gate.start(|_| panic!("fixture callback panic"))?);
     wait_for_finished(&gate)?;
-    assert!(!gate.start(|| Ok(()))?);
+    assert!(!gate.start(|_| Ok(()))?);
     {
         let state = gate.lock();
         let record = state.active.as_ref().context("unwind generation")?;
@@ -221,7 +221,7 @@ fn spawn_failure_and_rejected_admission_drop_captures_outside_gate_lock() -> any
         dropped: dropped_tx.clone(),
     };
     let error = gate.start_with_spawn(
-        move || {
+        move |_| {
             drop(probe);
             Ok(())
         },
@@ -230,7 +230,7 @@ fn spawn_failure_and_rejected_admission_drop_captures_outside_gate_lock() -> any
     assert!(error.is_err());
     assert!(dropped_rx.recv_timeout(Duration::from_secs(5))?);
     assert!(gate.lock().active.is_none());
-    assert!(gate.start(|| Ok(()))?);
+    assert!(gate.start(|_| Ok(()))?);
     wait_for_finished(&gate)?;
     assert_eq!(
         gate.lock()
@@ -244,7 +244,7 @@ fn spawn_failure_and_rejected_admission_drop_captures_outside_gate_lock() -> any
         gate: Arc::clone(&gate),
         dropped: dropped_tx,
     };
-    assert!(!gate.start(move || {
+    assert!(!gate.start(move |_| {
         drop(probe);
         Ok(())
     })?);
@@ -255,7 +255,7 @@ fn spawn_failure_and_rejected_admission_drop_captures_outside_gate_lock() -> any
 #[test]
 fn stale_handle_is_retained_without_overwriting_the_current_worker() -> anyhow::Result<()> {
     let gate = Arc::new(WorkerGate::default());
-    assert!(gate.start(|| Ok(()))?);
+    assert!(gate.start(|_| Ok(()))?);
     wait_for_finished(&gate)?;
     let actual_worker = gate
         .lock()
@@ -283,6 +283,152 @@ fn stale_handle_is_retained_without_overwriting_the_current_worker() -> anyhow::
             actual_worker,
         );
     }
-    assert!(!gate.start(|| Ok(()))?);
+    assert!(!gate.start(|_| Ok(()))?);
     join_fixture(&gate)
+}
+
+#[test]
+fn stop_before_first_start_closes_admission_without_spawning() -> anyhow::Result<()> {
+    let gate = Arc::new(WorkerGate::default());
+    gate.request_stop(Instant::now());
+    let started = gate.start_with_spawn(
+        |_| panic!("closed gate must not run work"),
+        |_| panic!("closed gate must not spawn a worker"),
+    )?;
+    assert!(!started);
+    let state = gate.lock();
+    assert!(state.closing);
+    assert_eq!(state.next_generation, 0);
+    assert!(state.active.is_none());
+    Ok(())
+}
+
+#[test]
+fn stop_before_handle_attachment_keeps_the_exact_worker_owned() -> anyhow::Result<()> {
+    let gate = Arc::new(WorkerGate::default());
+    let (release_tx, release_rx) = mpsc::channel();
+    let deadline = Instant::now() + Duration::from_secs(2);
+    assert!(gate.start_with_spawn(
+        |_| panic!("stopped worker must not enter sync"),
+        |job| {
+            let handle = std::thread::spawn(move || {
+                if release_rx.recv_timeout(Duration::from_secs(5)).is_ok() {
+                    job();
+                }
+            });
+            gate.request_stop(deadline);
+            {
+                let state = gate.lock();
+                assert!(state.closing);
+                let record = state
+                    .active
+                    .as_ref()
+                    .ok_or_else(|| io::Error::other("reserved worker"))?;
+                assert!(record.handle.is_none());
+                assert!(record.control.is_cancelled());
+                assert_eq!(record.control.deadline(), Some(deadline));
+            }
+            release_tx.send(()).map_err(io::Error::other)?;
+            Ok(handle)
+        },
+    )?);
+    wait_for_finished(&gate)?;
+    {
+        let state = gate.lock();
+        let record = state.active.as_ref().context("stopped worker retained")?;
+        assert!(state.closing);
+        assert!(record.handle.is_some());
+        assert!(matches!(
+            &record.outcome,
+            Some(Err(SyncFailure::Stopped {
+                publication_may_have_occurred: false
+            }))
+        ));
+    }
+    assert!(!gate.start(|_| Ok(()))?);
+    join_fixture(&gate)
+}
+
+#[test]
+fn worker_receives_registered_control_and_repeated_stop_keeps_earliest_deadline()
+-> anyhow::Result<()> {
+    let gate = Arc::new(WorkerGate::default());
+    let (control_tx, control_rx) = mpsc::channel();
+    let (release_tx, release_rx) = mpsc::channel();
+    assert!(gate.start(move |control| {
+        control_tx
+            .send(Arc::clone(&control))
+            .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
+        release_rx
+            .recv_timeout(Duration::from_secs(5))
+            .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
+        assert!(control.is_cancelled());
+        Err(SyncFailure::Stopped {
+            publication_may_have_occurred: false,
+        })
+    })?);
+    let worker_control = control_rx.recv_timeout(Duration::from_secs(5))?;
+    let registered_control = Arc::clone(
+        &gate
+            .lock()
+            .active
+            .as_ref()
+            .context("registered control")?
+            .control,
+    );
+    assert!(Arc::ptr_eq(&worker_control, &registered_control));
+    let first = Instant::now() + Duration::from_secs(5);
+    let earlier = first - Duration::from_secs(2);
+    gate.request_stop(first);
+    gate.request_stop(first + Duration::from_secs(4));
+    assert_eq!(worker_control.deadline(), Some(first));
+    gate.request_stop(earlier);
+    assert!(worker_control.is_cancelled());
+    assert_eq!(worker_control.deadline(), Some(earlier));
+    release_tx.send(())?;
+    wait_for_finished(&gate)?;
+    assert!(gate.lock().closing);
+    assert!(!gate.start(|_| Ok(()))?);
+    join_fixture(&gate)
+}
+
+#[test]
+fn stop_after_ordinary_failure_prevents_retry_admission() -> anyhow::Result<()> {
+    let gate = Arc::new(WorkerGate::default());
+    assert!(gate.start(|_| Err(SyncFailure::Ordinary("fixture failure".to_string())))?);
+    wait_for_finished(&gate)?;
+    gate.request_stop(Instant::now());
+    assert!(!gate.start(|_| Ok(()))?);
+    {
+        let state = gate.lock();
+        assert!(state.closing);
+        let record = state
+            .active
+            .as_ref()
+            .context("failed worker remains owned")?;
+        assert_eq!(record.generation, Generation(1));
+        assert!(matches!(
+            &record.outcome,
+            Some(Err(SyncFailure::Ordinary(_)))
+        ));
+        assert!(record.handle.is_some());
+    }
+    join_fixture(&gate)
+}
+
+#[test]
+fn spawn_failure_after_stop_cannot_reopen_admission() -> anyhow::Result<()> {
+    let gate = Arc::new(WorkerGate::default());
+    let error = gate.start_with_spawn(
+        |_| Ok(()),
+        |_| {
+            gate.request_stop(Instant::now());
+            Err(io::Error::other("fixture spawn failure after stop"))
+        },
+    );
+    assert!(error.is_err());
+    assert!(gate.lock().active.is_none());
+    assert!(gate.lock().closing);
+    assert!(!gate.start(|_| Ok(()))?);
+    Ok(())
 }

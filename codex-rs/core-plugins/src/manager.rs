@@ -78,6 +78,7 @@ use crate::remote_plugin_id_resolver::RemotePluginIdResolver;
 use crate::remote_plugin_id_resolver::persisted_remote_plugin_id_for_installation;
 use crate::skill_snapshots::new_plugin_skill_snapshots;
 use crate::startup_sync::OPENAI_PLUGINS_GIT_URL;
+use crate::startup_sync::SyncControl;
 use crate::startup_sync::SyncFailure;
 use crate::startup_sync::curated_plugins_api_marketplace_path;
 use crate::startup_sync::curated_plugins_repo_path;
@@ -148,11 +149,39 @@ use tracing::warn;
 static CURATED_REPO_SYNC_WORKER: OnceLock<Arc<WorkerGate>> = OnceLock::new();
 
 fn run_curated_sync(
+    control: &SyncControl,
     sync: impl FnOnce() -> Result<String, SyncFailure>,
     refresh: impl FnOnce(String) -> Result<(), SyncFailure>,
 ) -> Result<(), SyncFailure> {
+    if control.is_cancelled() {
+        return Err(SyncFailure::Stopped {
+            publication_may_have_occurred: false,
+        });
+    }
     let version = sync()?;
+    if control.is_cancelled() {
+        return Err(SyncFailure::Stopped {
+            publication_may_have_occurred: true,
+        });
+    }
     refresh(version)
+}
+
+fn guard_curated_sync_callback(
+    control: &Arc<SyncControl>,
+    callback: Option<EffectivePluginsChangedCallback>,
+) -> Option<EffectivePluginsChangedCallback> {
+    callback.map(|callback| {
+        let control = Arc::clone(control);
+        let guarded: EffectivePluginsChangedCallback = Arc::new(move |change| {
+            // Cache clearing may have waited since the prior checkpoint. Check
+            // again before invoking the existing runtime dispatch wrapper.
+            if !control.is_cancelled() {
+                callback(change);
+            }
+        });
+        guarded
+    })
 }
 
 const FEATURED_PLUGIN_IDS_CACHE_TTL: std::time::Duration =
@@ -751,6 +780,19 @@ impl PluginsManager {
 
     fn remote_global_catalog_active(&self, config: &PluginsConfigInput) -> bool {
         config.remote_plugin_enabled && self.auth_mode().is_some_and(AuthMode::uses_codex_backend)
+    }
+
+    /// Requests cooperative stop of the process-wide curated repository worker.
+    ///
+    /// This closes admission, including before the first worker starts, and
+    /// shares the deadline with the registered worker. It requests stop; it does
+    /// not wait for completion or establish that cleanup finished. Active HTTP
+    /// requests, callbacks already queued on a runtime, and integration with
+    /// host shutdown remain outside this stop request's completion guarantees.
+    pub fn request_curated_repo_sync_stop(&self, deadline: Instant) {
+        CURATED_REPO_SYNC_WORKER
+            .get_or_init(|| Arc::new(WorkerGate::default()))
+            .request_stop(deadline);
     }
 
     /// Starts the local curated marketplace sync when the remote catalog is unavailable.
@@ -3329,20 +3371,33 @@ impl PluginsManager {
         let manager = Arc::clone(self);
         let codex_home = self.codex_home.clone();
         let gate = CURATED_REPO_SYNC_WORKER.get_or_init(|| Arc::new(WorkerGate::default()));
-        if let Err(err) = gate.start(move || {
+        if let Err(err) = gate.start(move |control| {
+            let on_effective_plugins_changed =
+                guard_curated_sync_callback(&control, on_effective_plugins_changed);
             run_curated_sync(
+                &control,
                 || {
-                    sync_openai_plugins_repo_owned(codex_home.as_path(), http_client_factory)
-                        .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
+                    sync_openai_plugins_repo_owned(
+                        codex_home.as_path(),
+                        http_client_factory,
+                        Arc::clone(&control),
+                    )
+                    .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
                 },
                 |curated_plugin_version| {
                     let configured_curated_plugin_ids =
                         configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
-                    match refresh_curated_plugin_cache(
+                    let refreshed = refresh_curated_plugin_cache(
                         codex_home.as_path(),
                         &curated_plugin_version,
                         &configured_curated_plugin_ids,
-                    ) {
+                    );
+                    if control.is_cancelled() {
+                        return Err(SyncFailure::Stopped {
+                            publication_may_have_occurred: true,
+                        });
+                    }
+                    match refreshed {
                         Ok(cache_refreshed) => {
                             manager.clear_caches_after_marketplace_source_refresh(
                                 cache_refreshed,

@@ -192,11 +192,18 @@ fn curated_sync_failure_never_enters_cache_refresh_or_callback_stage() {
         SyncFailure::Publication("fixture publication uncertainty".to_string()),
         SyncFailure::Unwind,
         SyncFailure::Quarantined,
+        SyncFailure::Stopped {
+            publication_may_have_occurred: false,
+        },
+        SyncFailure::Stopped {
+            publication_may_have_occurred: true,
+        },
     ] {
         let mut refreshes = 0;
         let mut callbacks = 0;
         let expected_message = failure.to_string();
         let outcome = run_curated_sync(
+            &SyncControl::default(),
             || Err(failure),
             |_| {
                 refreshes += 1;
@@ -211,6 +218,116 @@ fn curated_sync_failure_never_enters_cache_refresh_or_callback_stage() {
         assert_eq!(refreshes, 0);
         assert_eq!(callbacks, 0);
     }
+}
+
+#[test]
+fn curated_sync_stop_before_work_blocks_sync_and_refresh() {
+    let control = SyncControl::default();
+    control.request_stop(Instant::now());
+    let mut syncs = 0;
+    let mut refreshes = 0;
+    let outcome = run_curated_sync(
+        &control,
+        || {
+            syncs += 1;
+            Ok("fixture-version".to_string())
+        },
+        |_| {
+            refreshes += 1;
+            Ok(())
+        },
+    );
+    assert!(matches!(
+        outcome,
+        Err(SyncFailure::Stopped {
+            publication_may_have_occurred: false
+        })
+    ));
+    assert_eq!(syncs, 0);
+    assert_eq!(refreshes, 0);
+}
+
+#[test]
+fn curated_sync_late_stop_blocks_cache_and_callback_admission() {
+    let control = SyncControl::default();
+    let mut refreshes = 0;
+    let mut callbacks = 0;
+    let outcome = run_curated_sync(
+        &control,
+        || {
+            control.request_stop(Instant::now());
+            Ok("already-published-version".to_string())
+        },
+        |_| {
+            refreshes += 1;
+            callbacks += 1;
+            Ok(())
+        },
+    );
+    assert!(matches!(
+        outcome,
+        Err(SyncFailure::Stopped {
+            publication_may_have_occurred: true
+        })
+    ));
+    assert_eq!(refreshes, 0);
+    assert_eq!(callbacks, 0);
+}
+
+#[test]
+fn curated_sync_stop_during_admitted_cache_clear_blocks_fresh_callback() -> anyhow::Result<()> {
+    let tmp = TempDir::new()?;
+    let manager = Arc::new(test_plugins_manager(tmp.path().to_path_buf()));
+    let control = Arc::new(SyncControl::default());
+    let callbacks = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let observed_callbacks = Arc::clone(&callbacks);
+    let callback: EffectivePluginsChangedCallback = Arc::new(move |_| {
+        observed_callbacks.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+    });
+    let callback = guard_curated_sync_callback(&control, Some(callback));
+    let cache_guard = manager
+        .loaded_plugins_cache
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner);
+    let original_generation = cache_guard.generation;
+    let worker_manager = Arc::clone(&manager);
+    let worker_control = Arc::clone(&control);
+    let (admitted_tx, admitted_rx) = std::sync::mpsc::channel();
+    let worker = std::thread::spawn(move || {
+        run_curated_sync(
+            &worker_control,
+            || Ok("fixture-published-version".to_string()),
+            |_| {
+                admitted_tx
+                    .send(())
+                    .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
+                worker_manager
+                    .clear_caches_after_marketplace_source_refresh(true, callback.as_ref());
+                Ok(())
+            },
+        )
+    });
+    let admitted = admitted_rx.recv_timeout(Duration::from_secs(5));
+    control.request_stop(Instant::now());
+    drop(cache_guard);
+    let outcome = worker
+        .join()
+        .map_err(|_| anyhow::anyhow!("fixture worker panicked"))?;
+    admitted?;
+    assert!(
+        outcome.is_ok(),
+        "already admitted cache clearing may finish"
+    );
+    assert_eq!(
+        manager
+            .loaded_plugins_cache
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .generation,
+        original_generation.wrapping_add(1)
+    );
+    assert_eq!(callbacks.load(std::sync::atomic::Ordering::SeqCst), 0);
+    Ok(())
 }
 
 #[test]

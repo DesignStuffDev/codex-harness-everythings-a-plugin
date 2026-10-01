@@ -5,6 +5,7 @@
 //! Quarantine has no production reset: recovering it requires an external
 //! termination/fencing guarantee, not merely reaping this native worker.
 
+use super::SyncControl;
 use super::SyncFailure;
 use std::io;
 use std::panic::AssertUnwindSafe;
@@ -14,6 +15,7 @@ use std::sync::Mutex;
 use std::sync::MutexGuard;
 use std::sync::PoisonError;
 use std::thread::JoinHandle;
+use std::time::Instant;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 struct Generation(u64);
@@ -28,6 +30,7 @@ enum Phase {
 struct WorkerRecord {
     generation: Generation,
     phase: Phase,
+    control: Arc<SyncControl>,
     // The first observation is immutable, including after a later join.
     outcome: Option<Result<(), SyncFailure>>,
     handle: Option<JoinHandle<()>>,
@@ -35,6 +38,7 @@ struct WorkerRecord {
 
 #[derive(Default)]
 struct State {
+    closing: bool,
     next_generation: u64,
     active: Option<WorkerRecord>,
     // Fail closed if a future caller violates the exact-generation attachment
@@ -54,7 +58,7 @@ impl WorkerGate {
 
     pub(crate) fn start(
         self: &Arc<Self>,
-        work: impl FnOnce() -> Result<(), SyncFailure> + Send + 'static,
+        work: impl FnOnce(Arc<SyncControl>) -> Result<(), SyncFailure> + Send + 'static,
     ) -> io::Result<bool> {
         self.start_with_spawn(work, |job| {
             std::thread::Builder::new()
@@ -65,15 +69,23 @@ impl WorkerGate {
 
     fn start_with_spawn(
         self: &Arc<Self>,
-        work: impl FnOnce() -> Result<(), SyncFailure> + Send + 'static,
+        work: impl FnOnce(Arc<SyncControl>) -> Result<(), SyncFailure> + Send + 'static,
         spawn: impl FnOnce(Box<dyn FnOnce() + Send>) -> io::Result<JoinHandle<()>>,
     ) -> io::Result<bool> {
-        let Some(generation) = self.reserve() else {
+        let Some((generation, control)) = self.reserve() else {
             return Ok(false);
         };
         let gate = Arc::clone(self);
         let job = Box::new(move || {
-            let outcome = catch_unwind(AssertUnwindSafe(work)).unwrap_or_else(|_| {
+            let outcome = catch_unwind(AssertUnwindSafe(|| {
+                if control.is_cancelled() {
+                    return Err(SyncFailure::Stopped {
+                        publication_may_have_occurred: false,
+                    });
+                }
+                work(control)
+            }))
+            .unwrap_or_else(|_| {
                 tracing::warn!(
                     "curated plugins worker unwound; keeping its generation quarantined"
                 );
@@ -105,24 +117,42 @@ impl WorkerGate {
         }
     }
 
-    fn reserve(&self) -> Option<Generation> {
+    pub(crate) fn request_stop(&self, deadline: Instant) {
+        let control = {
+            let mut state = self.lock();
+            state.closing = true;
+            state
+                .active
+                .as_ref()
+                .map(|record| Arc::clone(&record.control))
+        };
+        // Closing is independent of the worker outcome. Signalling can never
+        // hold the registry mutex or reopen admission after a later completion.
+        if let Some(control) = control {
+            control.request_stop(deadline);
+        }
+    }
+
+    fn reserve(&self) -> Option<(Generation, Arc<SyncControl>)> {
         loop {
             let (generation, handle) = {
                 let mut state = self.lock();
-                if !state.unexpected_handles.is_empty() {
+                if state.closing || !state.unexpected_handles.is_empty() {
                     return None;
                 }
                 let Some(record) = state.active.as_mut() else {
                     let next = state.next_generation.checked_add(1)?;
                     state.next_generation = next;
                     let generation = Generation(next);
+                    let control = Arc::new(SyncControl::default());
                     state.active = Some(WorkerRecord {
                         generation,
                         phase: Phase::Running,
+                        control: Arc::clone(&control),
                         outcome: None,
                         handle: None,
                     });
-                    return Some(generation);
+                    return Some((generation, control));
                 };
                 if record.phase != Phase::Running
                     || record.outcome.is_none()

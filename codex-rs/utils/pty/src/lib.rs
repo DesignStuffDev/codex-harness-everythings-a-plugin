@@ -1,3 +1,6 @@
+mod command_control;
+pub use command_control::CommandCancellation;
+pub use command_control::CommandControl;
 #[cfg(target_os = "linux")]
 mod bounded_command;
 #[cfg(target_os = "linux")]
