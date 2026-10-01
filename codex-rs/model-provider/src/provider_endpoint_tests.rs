@@ -414,3 +414,6 @@ async fn capability_and_native_manager_share_gateway_credentials_after_rotation(
         expected
     );
 }
+
+#[path = "provider_endpoint_cache_revision_tests.rs"]
+mod cache_revision_tests;

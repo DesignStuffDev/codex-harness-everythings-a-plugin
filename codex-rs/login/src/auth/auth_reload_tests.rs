@@ -459,3 +459,6 @@ async fn actual_native_agent_identity_policy_rejection_is_not_a_storage_error() 
 
 #[path = "auth_acquisition_tests.rs"]
 mod acquisition_tests;
+
+#[path = "auth_cache_revision_tests.rs"]
+mod cache_revision_tests;

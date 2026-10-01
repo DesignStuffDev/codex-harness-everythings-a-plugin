@@ -2,6 +2,7 @@
 mod auth_acquisition;
 #[path = "auth_reload.rs"]
 mod auth_reload;
+use auth_reload::AuthCacheRevision;
 use auth_reload::AuthLoadError;
 use auth_reload::AuthLoadUpdate;
 use auth_reload::CachePolicy;
@@ -1833,6 +1834,7 @@ impl AuthDotJson {
 #[derive(Clone)]
 struct CachedAuth {
     auth: Option<CodexAuth>,
+    revision: AuthCacheRevision,
     /// Permanent refresh failure cached for the current auth snapshot so
     /// later refresh attempts for the same credentials fail fast without network.
     permanent_refresh_failure: Option<AuthScopedRefreshFailure>,
@@ -2233,6 +2235,7 @@ impl AuthManager {
             inner: RwLock::new(CachedAuth {
                 auth: managed_auth,
                 permanent_refresh_failure: None,
+                revision: AuthCacheRevision::new(),
             }),
             auth_change_tx,
             auth_change_state_tx: watch::channel(AuthChangeState::default()).0,
@@ -2264,6 +2267,7 @@ impl AuthManager {
         let cached = CachedAuth {
             auth,
             permanent_refresh_failure: None,
+            revision: AuthCacheRevision::new(),
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
 
@@ -2295,6 +2299,7 @@ impl AuthManager {
         let cached = CachedAuth {
             auth: Some(auth),
             permanent_refresh_failure: None,
+            revision: AuthCacheRevision::new(),
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
         Arc::new(Self {
@@ -2329,6 +2334,7 @@ impl AuthManager {
         let cached = CachedAuth {
             auth: Some(auth),
             permanent_refresh_failure: None,
+            revision: AuthCacheRevision::new(),
         };
         let (auth_change_tx, _auth_change_rx) = watch::channel(0);
         Arc::new(Self {
@@ -2365,6 +2371,7 @@ impl AuthManager {
             inner: RwLock::new(CachedAuth {
                 auth: None,
                 permanent_refresh_failure: None,
+                revision: AuthCacheRevision::new(),
             }),
             auth_change_tx,
             auth_change_state_tx: watch::channel(AuthChangeState::default()).0,
@@ -2610,6 +2617,13 @@ impl AuthManager {
 
     async fn load_auth(&self) -> Result<LoadedAuth, AuthLoadError> {
         let policy = self.auth_policy_snapshot().map_err(AuthLoadError::Policy)?;
+        // Capture before source selection and any await; a later cache transition rejects this load.
+        let revision = self
+            .inner
+            .read()
+            .map_err(|_| AuthLoadError::CacheUnavailable)?
+            .revision
+            .clone();
         let update = if let Some(external_auth) = self.external_auth_provider() {
             let cached_auth = self.auth_cached();
             if cached_auth
@@ -2692,6 +2706,7 @@ impl AuthManager {
             .map_err(AuthLoadError::Policy)?;
         Ok(LoadedAuth {
             policy: policy.stamp(),
+            revision,
             update,
         })
     }

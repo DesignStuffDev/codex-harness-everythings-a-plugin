@@ -6,6 +6,29 @@ use super::AuthScopedRefreshFailure;
 use super::CodexAuth;
 use super::RefreshTokenFailedError;
 use super::same_owner;
+use std::fmt;
+use std::sync::Arc;
+
+/// Exact credential-cache identity, retained by loads so transitions cannot alias after ABA.
+/// This does not identify external sources or mutations outside cache replacement.
+#[derive(Clone)]
+pub(super) struct AuthCacheRevision(Arc<()>);
+impl AuthCacheRevision {
+    pub(super) fn new() -> Self {
+        Self(Arc::new(()))
+    }
+}
+impl PartialEq for AuthCacheRevision {
+    fn eq(&self, other: &Self) -> bool {
+        Arc::ptr_eq(&self.0, &other.0)
+    }
+}
+impl Eq for AuthCacheRevision {}
+impl fmt::Debug for AuthCacheRevision {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        formatter.write_str("AuthCacheRevision(..)")
+    }
+}
 
 #[derive(Debug, thiserror::Error)]
 pub(super) enum AuthLoadError {
@@ -15,11 +38,14 @@ pub(super) enum AuthLoadError {
     Source(std::io::Error),
     #[error("cached authentication state is unavailable")]
     CacheUnavailable,
+    #[error("cached authentication credentials changed")]
+    CredentialsChanged,
 }
 
 #[derive(Debug)]
 pub(super) struct LoadedAuth {
     pub(super) policy: AuthPolicyStamp,
+    pub(super) revision: AuthCacheRevision,
     pub(super) update: AuthLoadUpdate,
 }
 
@@ -50,7 +76,10 @@ pub(super) enum ExternalLoadOrigin {
 }
 pub(super) enum CachePolicy<'a> {
     Unfenced,
-    Captured(&'a AuthPolicyStamp),
+    Captured {
+        policy: &'a AuthPolicyStamp,
+        revision: &'a AuthCacheRevision,
+    },
 }
 pub(super) struct CacheChange {
     pub(super) changed: bool,
@@ -62,7 +91,13 @@ impl AuthManager {
         &self,
         loaded: LoadedAuth,
     ) -> Result<CacheChange, AuthLoadError> {
-        self.replace_auth_cache(loaded.update, CachePolicy::Captured(&loaded.policy))
+        self.replace_auth_cache(
+            loaded.update,
+            CachePolicy::Captured {
+                policy: &loaded.policy,
+                revision: &loaded.revision,
+            },
+        )
     }
 
     pub(super) fn replace_auth_cache(
@@ -73,10 +108,18 @@ impl AuthManager {
         // Declared before locks so even unwinding drops trait-backed auth only after lock release.
         let mut retired_auth = None;
         let mut retired_failure = None;
+        let mut retired_revision = None;
+        let mut next_revision = None;
         let mut cached = self
             .inner
             .write()
             .map_err(|_| AuthLoadError::CacheUnavailable)?;
+        if let CachePolicy::Captured { revision, .. } = &policy
+            && &cached.revision != *revision
+        {
+            drop(cached);
+            return Err(AuthLoadError::CredentialsChanged);
+        }
         let (changed, credentials_changed, owner_changed, failure) = match &update {
             AuthLoadUpdate::Replace(auth) => {
                 let changed = !Self::auths_equal(cached.auth.as_ref(), auth.as_ref());
@@ -105,15 +148,21 @@ impl AuthManager {
                 (false, false, false, failure)
             }
         };
+        // Allocate outside the policy guard and retain old identities until after all locks.
+        if credentials_changed {
+            next_revision = Some(AuthCacheRevision::new());
+        }
         let policy_guard = match policy {
             CachePolicy::Unfenced => None,
-            CachePolicy::Captured(stamp) => match self.workspace_policy.lock_current(stamp) {
-                Ok(guard) => Some(guard),
-                Err(error) => {
-                    drop(cached);
-                    return Err(AuthLoadError::Policy(error));
+            CachePolicy::Captured { policy, .. } => {
+                match self.workspace_policy.lock_current(policy) {
+                    Ok(guard) => Some(guard),
+                    Err(error) => {
+                        drop(cached);
+                        return Err(AuthLoadError::Policy(error));
+                    }
                 }
-            },
+            }
         };
         // Only owned swaps occur under policy lock; this is the policy commit linearization point.
         match &mut update {
@@ -128,6 +177,9 @@ impl AuthManager {
                     retired_failure = cached.permanent_refresh_failure.replace(failure);
                 }
             }
+        }
+        if let Some(revision) = next_revision.take() {
+            retired_revision = Some(std::mem::replace(&mut cached.revision, revision));
         }
         drop(policy_guard);
         // Preserve coherent credentials/revisions; no policy lock is held during wakeups.
@@ -146,7 +198,7 @@ impl AuthManager {
             self.auth_change_tx.send_modify(|revision| *revision += 1);
         }
         drop(cached);
-        drop((retired_auth, retired_failure));
+        drop((retired_auth, retired_failure, retired_revision));
         tracing::info!("Reloaded auth, changed: {changed}");
         Ok(CacheChange {
             changed,
