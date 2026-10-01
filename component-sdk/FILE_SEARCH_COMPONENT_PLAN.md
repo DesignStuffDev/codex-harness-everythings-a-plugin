@@ -1,10 +1,17 @@
-# File-search component — P02a planned, not implemented
+# File-search component — P02a implementation and remaining contract
 
 This is a source-grounded proposal for the next search extraction in the
 [canonical roadmap](../IMPLEMENTATION_ROADMAP.md#p02--native-search-and-workspace-services).
-It records a read-only audit and proposed acceptance gates, not implementation or
-runtime proof. P01 verification remains separate. Do not count this document, an
-existing native crate, or a new adapter as completed extraction.
+The native lifetime prerequisite and presentation changes are being verified in
+the working tree. The independently installed search service below is **not yet
+implemented**. P01 verification remains separate. Do not count this document,
+native lifetime repairs, or a new adapter as completed extraction.
+
+The starting-state descriptions below refer to the P01 source checkpoint
+`5d2f2a026ae6ce0c42cf56bb2f3b01971e4bf0bb`; they explain why the lifetime changes
+are needed. Accepted implementation and exact test results belong in the execution
+state and checkpoint evidence, rather than silently converting planned gates into
+passed checks.
 
 ## Existing behavior and all four consumers
 
@@ -99,6 +106,32 @@ the native walker/matcher/pool were joined.
 
 ## Stage B: version 1 contract and actual presentation integration
 
+### Chosen package boundaries
+
+| Package | Owned responsibility |
+| --- | --- |
+| `codex-file-search-api` | Neutral options, matches, snapshots, reporter/owner/session contracts and typed failures; no Core, history, native matcher or client UI dependency. |
+| Existing `codex-file-search` | Native traversal/matching and owned worker lifecycle. Re-export moved value types where needed for existing compiled callers. |
+| `codex-file-search-component` | Versioned DTOs, process client and generic service dispatcher; depend on the neutral API and component transport, not the native algorithm. |
+| `codex-file-search-runtime` | Startup selection and native/process composition. Move the standalone binary's composition here to avoid an implementation/adapter dependency cycle. |
+| `codex-file-search-local-plugin` | Independently built native executable composed from the native implementation and generic dispatcher. |
+| `codex-component-path-codec` | Existing same-OS path encoding, extracted without history/protocol dependencies; state codec re-exports its existing API unchanged. |
+
+These are agreed implementation boundaries, not existing installed packages.
+App Server composes a process-wide provider before creating connection scopes;
+TUI selects before its outer search runtime; standalone resolves the Codex home
+and selection before opening a patterned query. No-pattern directory listing
+does not need a search process. A connection scope closes only its own leases;
+global shutdown closes the provider. Enforce aggregate capacity as well as
+per-connection limits so additional connections cannot create unlimited workers.
+
+The existing synchronous query method cannot acknowledge a remote RPC. If kept
+for client compatibility, it means bounded local admission to one retained,
+ordered/coalescing update worker. Document that distinction; remote rejection must
+remain observable through the session's failure/close result. Never block a UI
+thread or hold its state mutex across a remote call. Final facade signatures and
+scope ownership must be agreed before consumer substitution.
+
 Introduce a typed service facade and `file_search:default`, contract version 1.
 Native implementation and process adapter implement the same facade. A separate
 native executable package uses the existing search algorithm, not an unchanged
@@ -128,9 +161,15 @@ snapshot long-poll avoids adding a second transport during P02a.
 
 Host-generated lease identities must not be reused in the same process session.
 Validate `contract_version` in `open` even after manifest validation. Reserve
-control capacity before admitting `open`, using `ComponentSession::call_with_cleanup`.
-Dropping its result/lease guard queues release without competing for ordinary RPC
-capacity. The service owns accepted work independently of request waiters.
+control capacity before admitting `open`. The current
+`ComponentSession::call_with_cleanup` returns its cleanup handle only on success;
+an error or dropped waiter queues release but does not wait for its receipt.
+Add a paired-admission API returning the pending response and reserved cleanup
+handle immediately after admission, so the retained search owner can await release
+on an observed startup failure. Keep the existing storage convenience method's
+semantics unchanged. Dropping the reserved guard still queues release without
+competing for ordinary RPC capacity. Never describe a queued release as joined
+cleanup. The service owns accepted work independently of request waiters.
 Release arriving before an open handler runs must prevent that handler from
 creating an orphan session; bound any release-before-open tombstones.
 
@@ -187,6 +226,11 @@ tests, not claims about current enforcement:
   Preserve tested native defaults; do not silently clamp caller options.
 - Coalesce pending full snapshots into a bounded latest-value slot, not an
   unbounded callback/event queue. Bound error text and retained tombstones too.
+- Bound/coalesce native query admission as well as the process-facing queue.
+  Physical frame limits alone do not bound logical messages: the accepted storage
+  transport deliberately allows large logical payloads. Add opt-in per-session
+  logical request/reply limits before spooling/deserialization for search, keeping
+  existing storage transport defaults and its large-history tests unchanged.
 - Configure and negotiate an index resource budget separately from result count.
   Native indexing currently grows with the tree. Exhaustion must produce an
   explicit typed resource error or declared incomplete result, never silently
@@ -266,7 +310,8 @@ tests and TUI popup/mention snapshots. The existing App Server cancellation-toke
 test does not cancel an earlier request using that token, and stop quietness
 allows a 250 ms grace; neither substitutes for the new lifecycle gates. Run
 rollout/thread-store lookup regressions for Stage A and for any later fallback
-injection. No checks listed here have been run as part of this planning audit.
+injection. This list is the acceptance specification; execution-state/evidence
+files distinguish actual runs from pending checks.
 
 ## Watchers remain a separate P02b service
 

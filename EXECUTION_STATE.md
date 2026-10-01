@@ -18,22 +18,32 @@ Inventory: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
   (`wip/recovered-next-components-20260930`). Do not merge it wholesale.
 - Upstream pin: `d42056091aded7feb1d88ac7e83972108b2aa478`.
 - Repository: `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
-- P02a native search ownership work has started separately in the working tree.
-  Its new edits and vendored dependency changes are **not verified or included in
-  the P01 source commit**. Inspect and preserve them before any next step.
+- P02a native search ownership, App Server/TUI lifecycle and GUI file-picker work
+  are staged in the working tree, **not included in the P01 source commit**.
+  Native search's latest 35/35 tests passed with unchanged scoped source and the
+  subreaper. App Server tests are still compiling; the TUI reconnect sender fix
+  awaits its rerun. This is partial verification, not an accepted P02 checkpoint.
+  There is still no independently installed search implementation.
+- Upstream maintenance remains required. Its release gates explicitly require a
+  later pinned upstream revision, unchanged compatible custom-plugin packages,
+  both breaking-update rejection and failed-activation recovery through an
+  external bootstrap. No updater, schedule or live update is active.
 
 ## Ordered next actions
 
 1. Verify the original environment, checkout, remote refs, source/index state and
    active commands. Read the P01 evidence and compare actual blobs to the accepted
    source commit; original HEAD/index deliberately remain at the upstream import.
-2. Finish P02a1 native file-search ownership: joined matcher/walker and actual Rayon
-   threads; failure-aware synchronous run. Review the small pinned Nucleo change,
-   retain MPL-2.0 notices/provenance, verify separate source export and inventory
-   any added manifests. Never confuse cancellation requested with joined cleanup.
-3. Repair TUI reporter ownership/cycles and stale generations; App Server connection
-   ownership, ordered notifications and joined close. Agree these semantics before
-   enabling the proposed file_search1 process adapter. Detailed gates are in
+2. Finish P02a1 verification: latest native search is 35/35; pinned Nucleo/matcher
+   tests previously passed 35/35 and SDK packaging passed 19/19. Retain MPL-2.0
+   notices/source, verify export and inventory added manifests. Native lifetime
+   repairs alone do not extract search. Never confuse requested and joined close.
+3. Finish App Server search/embedded cleanup/public RPC tests, then rerun TUI after
+   the reconnect fix that sends results through the rotated event channel. The
+   prior 11/11 TUI result predates that fix. Build and test the new real host;
+   GUI 0.2.0's 87/87 Chromium commands used the unchanged frozen P01 host, so do
+   not present them as evidence for the new App Server code. Agree lifecycle
+   semantics before enabling the file_search1 process adapter. Detailed gates are in
    [FILE_SEARCH_COMPONENT_PLAN.md](component-sdk/FILE_SEARCH_COMPONENT_PLAN.md).
 4. Independently package native/custom search workers, install without rebuilding
    the frozen host, exercise real clients, then regress existing storage and GUI.
@@ -125,6 +135,16 @@ P01 incremental source snapshots and original logs remain there. Snapshot
 `p01-source-20261001T011110Z.tar.gz` SHA256
 `5b4aa470b8e883eacf421cc99a8e4730b2cfd0431139051ee0f3df13e854787b`
 was member-hash verified before the final documentation additions.
+New P02 incremental snapshot `p01-source-20261001T020951Z.tar.gz` (historical
+filename prefix) contains 99 changed paths versus `06d3540c73510120cd8a08a1d9d3429718bda9bf`;
+SHA256 `63f61bc3be47019d9b44aa742c79816d231a2c3840de7958145473e9ee2486e3`.
+Its members were verified; it predates the reconnect fix and these documentation
+edits. The earlier `020257Z` snapshot failed member verification and is marked
+unverified; do not use it as a verified recovery point. Save another snapshot
+before publication. Current private native evidence:
+`/workspace/acceptance/p02-native-final-startup-corrected.{log,source.json,subreaper.json}`.
+App Server run: `/workspace/acceptance/p02-app-server-search-unit.*`; inspect its
+terminal status instead of assuming completion. Preserve original failures.
 Cloud-local archives are not externally durable backups. GitHub protects only the
 source included in its published refs; preserve newer work before further edits.
 Never publish credentials, private bearer URLs, caches, binaries or runtime homes.

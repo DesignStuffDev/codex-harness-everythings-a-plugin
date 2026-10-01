@@ -155,6 +155,11 @@ backend. State upgrade and downgrade support must be explicit per owner.
 - External package proof: export/build outside source, remove source access,
   install native and custom replacements, verify real behavior, remove/deselect
   and verify restoration; compare host hashes across installation.
+- Upstream compatibility proof: retain compatible, already-installed custom
+  replacement and additive packages across the candidate host update. Verify
+  their package digests are unchanged and exercise their actual behavior without
+  rebuilding them. Rebuilding every plugin with the candidate cannot establish
+  this compatibility gate.
 - Actual CLI/engine and GUI: streaming, tool execution, approvals, interruption,
   persistence, cold resume, and manager Launch Ctrl+C cleanup through gateway,
   app-server and storage. Recheck existing UI features each development cycle.

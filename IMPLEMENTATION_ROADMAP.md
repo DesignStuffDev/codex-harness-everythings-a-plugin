@@ -485,11 +485,13 @@ and [upstream/lineage.json](upstream/lineage.json) for the concrete workflow/led
    the updated host or maintenance component cannot start. Never claim binary
    rollback reverses an incompatible data migration.
 
-**Acceptance:** integrate at least one real, distinct upstream Codex revision into
-an isolated candidate, prove custom native-replacement and additive plugin behavior
-survives, and preserve both UI and headless recovery. Introduce a breaking contract
-or failed-update case, verify that promotion is refused or safely rolled back, and
-recover the prior state/composition with the host intentionally unavailable.
+**Acceptance:** integrate at least one real, later pinned upstream Codex revision
+into an isolated candidate. Prove compatible, already-installed custom replacement
+and additive plugins still work with their package digests unchanged, without
+rebuilding those plugins; preserve both UI and headless recovery. Exercise both
+rejection of a breaking/incompatible candidate and rollback after a controlled
+failed activation. Recover the prior state/composition through the external
+bootstrap with the candidate host intentionally unavailable.
 **Regression:** upstream/fork contract corpus, independent builds, installation/
 upgrade lifecycle, old-data migration, security boundaries and actual GUI/manager
 shutdown. **Exit:** exact provenance, dependency impact and rollback are reproducible;
