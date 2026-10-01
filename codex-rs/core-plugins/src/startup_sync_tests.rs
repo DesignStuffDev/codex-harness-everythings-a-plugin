@@ -1344,6 +1344,13 @@ async fn sync_openai_plugins_repo_skips_export_archive_when_snapshot_exists() {
         read_curated_plugins_sha(tmp.path()).as_deref(),
         Some(TEST_CURATED_PLUGIN_SHA)
     );
+    let sync_lock = File::options()
+        .write(true)
+        .open(tmp.path().join(CURATED_PLUGINS_SYNC_LOCK_FILE))
+        .expect("open existing sync lock after failed fallback");
+    sync_lock
+        .try_lock()
+        .expect("failed sync must release its stable lock after returning");
 }
 
 #[test]

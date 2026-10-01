@@ -101,65 +101,108 @@ fn sync_openai_plugins_repo_with_transport_overrides(
     backup_archive_api_url: &str,
     http_client_factory: &HttpClientFactory,
 ) -> Result<String, String> {
-    let _file_guard = lock_curated_plugins_startup_sync(codex_home)?;
+    LockedSyncAttempt::acquire(codex_home)?.run(
+        git_binary,
+        api_base_url,
+        backup_archive_api_url,
+        http_client_factory,
+    )
+}
 
-    let git_sync_result = match git_binary {
-        Some(git_binary) => sync_openai_plugins_repo_via_git(codex_home, git_binary),
-        None => Err("no Git executable found in trusted installation directories".to_string()),
-    };
+/// Private ownership boundary for the existing synchronous, locked sync attempt.
+/// This mechanical prerequisite does not retain uncertain cleanup or add cancellation.
+struct LockedSyncAttempt<'a> {
+    codex_home: &'a Path,
+    file_guard: File,
+}
 
-    match git_sync_result {
-        Ok(remote_sha) => {
-            emit_curated_plugins_startup_sync_metric("git", "success");
-            emit_curated_plugins_startup_sync_final_metric("git", "success");
-            Ok(remote_sha)
-        }
-        Err(err) => {
-            if git_binary.is_some() {
-                emit_curated_plugins_startup_sync_metric("git", "failure");
-                warn!(
-                    error = %err,
-                    "git sync failed for curated plugin sync; falling back to GitHub HTTP"
-                );
+impl<'a> LockedSyncAttempt<'a> {
+    fn acquire(codex_home: &'a Path) -> Result<Self, String> {
+        Ok(Self {
+            codex_home,
+            file_guard: lock_curated_plugins_startup_sync(codex_home)?,
+        })
+    }
+
+    fn run(
+        self,
+        git_binary: Option<&Path>,
+        api_base_url: &str,
+        backup_archive_api_url: &str,
+        http_client_factory: &HttpClientFactory,
+    ) -> Result<String, String> {
+        // Keep the File as the first local, exactly as in the original facade.
+        // Transport locals and their TempDirs finish dropping before this unlocks.
+        let Self {
+            codex_home,
+            file_guard: _file_guard,
+        } = self;
+
+        let git_sync_result = match git_binary {
+            Some(git_binary) => sync_openai_plugins_repo_via_git(codex_home, git_binary),
+            None => Err("no Git executable found in trusted installation directories".to_string()),
+        };
+
+        match git_sync_result {
+            Ok(remote_sha) => {
+                emit_curated_plugins_startup_sync_metric("git", "success");
+                emit_curated_plugins_startup_sync_final_metric("git", "success");
+                Ok(remote_sha)
             }
-            match sync_openai_plugins_repo_via_http(codex_home, api_base_url, http_client_factory) {
-                Ok(remote_sha) => {
-                    emit_curated_plugins_startup_sync_metric("http", "success");
-                    emit_curated_plugins_startup_sync_final_metric("http", "success");
-                    Ok(remote_sha)
+            Err(err) => {
+                if git_binary.is_some() {
+                    emit_curated_plugins_startup_sync_metric("git", "failure");
+                    warn!(
+                        error = %err,
+                        "git sync failed for curated plugin sync; falling back to GitHub HTTP"
+                    );
                 }
-                Err(http_err) => {
-                    emit_curated_plugins_startup_sync_metric("http", "failure");
-                    if has_local_curated_plugins_snapshot(codex_home) {
-                        emit_curated_plugins_startup_sync_final_metric("http", "failure");
-                        warn!(
-                            error = %http_err,
-                            "GitHub HTTP sync failed for curated plugin sync; skipping export archive fallback because a local curated plugins snapshot already exists"
-                        );
-                        Err(format!(
-                            "git sync failed for curated plugin sync: {err}; GitHub HTTP sync failed for curated plugin sync: {http_err}; export archive fallback skipped because a local curated plugins snapshot already exists"
-                        ))
-                    } else {
-                        // The export archive is a lagging backup path. Only use it to bootstrap a
-                        // missing local curated snapshot, never to refresh an existing one.
-                        warn!(
-                            error = %http_err,
-                            backup_archive_api_url,
-                            "GitHub HTTP sync failed for curated plugin sync; falling back to export archive"
-                        );
-                        let result = sync_openai_plugins_repo_via_backup_archive(
-                            codex_home,
-                            backup_archive_api_url,
-                            http_client_factory,
-                        );
-                        let status = if result.is_ok() { "success" } else { "failure" };
-                        emit_curated_plugins_startup_sync_metric("export_archive", status);
-                        emit_curated_plugins_startup_sync_final_metric("export_archive", status);
-                        result.map_err(|export_err| {
-                            format!(
-                                "git sync failed for curated plugin sync: {err}; GitHub HTTP sync failed for curated plugin sync: {http_err}; export archive sync failed for curated plugin sync: {export_err}"
-                            )
-                        })
+                match sync_openai_plugins_repo_via_http(
+                    codex_home,
+                    api_base_url,
+                    http_client_factory,
+                ) {
+                    Ok(remote_sha) => {
+                        emit_curated_plugins_startup_sync_metric("http", "success");
+                        emit_curated_plugins_startup_sync_final_metric("http", "success");
+                        Ok(remote_sha)
+                    }
+                    Err(http_err) => {
+                        emit_curated_plugins_startup_sync_metric("http", "failure");
+                        if has_local_curated_plugins_snapshot(codex_home) {
+                            emit_curated_plugins_startup_sync_final_metric("http", "failure");
+                            warn!(
+                                error = %http_err,
+                                "GitHub HTTP sync failed for curated plugin sync; skipping export archive fallback because a local curated plugins snapshot already exists"
+                            );
+                            Err(format!(
+                                "git sync failed for curated plugin sync: {err}; GitHub HTTP sync failed for curated plugin sync: {http_err}; export archive fallback skipped because a local curated plugins snapshot already exists"
+                            ))
+                        } else {
+                            // The export archive is a lagging backup path. Only use it to bootstrap a
+                            // missing local curated snapshot, never to refresh an existing one.
+                            warn!(
+                                error = %http_err,
+                                backup_archive_api_url,
+                                "GitHub HTTP sync failed for curated plugin sync; falling back to export archive"
+                            );
+                            let result = sync_openai_plugins_repo_via_backup_archive(
+                                codex_home,
+                                backup_archive_api_url,
+                                http_client_factory,
+                            );
+                            let status = if result.is_ok() { "success" } else { "failure" };
+                            emit_curated_plugins_startup_sync_metric("export_archive", status);
+                            emit_curated_plugins_startup_sync_final_metric(
+                                "export_archive",
+                                status,
+                            );
+                            result.map_err(|export_err| {
+                                format!(
+                                    "git sync failed for curated plugin sync: {err}; GitHub HTTP sync failed for curated plugin sync: {http_err}; export archive sync failed for curated plugin sync: {export_err}"
+                                )
+                            })
+                        }
                     }
                 }
             }
