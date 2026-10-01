@@ -50,3 +50,7 @@ mod tests;
 #[cfg(test)]
 #[path = "close_contract_tests.rs"]
 mod close_tests;
+
+/// Rust source SDK revision requiring owned per-start cancellation from backends.
+/// This is independent of the installed component JSON wire contract version.
+pub const FILE_SEARCH_SOURCE_CONTRACT_REVISION: u32 = 2;

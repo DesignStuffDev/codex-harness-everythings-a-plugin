@@ -241,3 +241,82 @@ fn destructor_contains_hook_unwind_without_replacing_outer_unwind() {
     assert_eq!(probe.calls.load(Ordering::SeqCst), 1);
     assert_eq!(calls_at_drop.load(Ordering::SeqCst), 1);
 }
+
+// Admission probes test the public default observer contract only. They do not
+// run a matcher or manufacture cleanup proof for accepted backend work.
+struct AdmissionProbe {
+    calls: AtomicUsize,
+    control: Arc<CancellationProbe>,
+    rejection: Option<SearchStartError>,
+}
+impl codex_file_search_api::SearchBackend for AdmissionProbe {
+    fn begin_open(
+        &self,
+        request: codex_file_search_api::SearchOpen,
+    ) -> Result<PendingSearchStart, SearchStartError> {
+        self.calls.fetch_add(1, Ordering::SeqCst);
+        assert_eq!(
+            request.roots,
+            vec![std::path::PathBuf::from("explicit-root")]
+        );
+        match &self.rejection {
+            Some(error) => Err(error.clone()),
+            None => Ok(ticket(&self.control, Box::pin(pending()))),
+        }
+    }
+    fn request_shutdown(&self) {
+        unreachable!("admission probe only")
+    }
+    fn shutdown(&self) -> SearchCloseFuture<'_> {
+        unreachable!("admission probe only")
+    }
+}
+fn probe_request() -> codex_file_search_api::SearchOpen {
+    let one = std::num::NonZeroUsize::MIN;
+    codex_file_search_api::SearchOpen {
+        roots: vec!["explicit-root".into()],
+        options: codex_file_search_api::FileSearchOptions::default(),
+        budget: codex_file_search_api::SearchBudget {
+            max_index_entries: one,
+            max_index_bytes: one,
+            max_worker_threads: one,
+        },
+    }
+}
+#[test]
+fn default_open_reserves_before_poll_and_unpolled_drop_reaches_its_control() {
+    use codex_file_search_api::SearchBackend;
+    let backend = AdmissionProbe {
+        calls: AtomicUsize::new(0),
+        control: Arc::new(CancellationProbe::default()),
+        rejection: None,
+    };
+    let observer = backend.open(probe_request());
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 1);
+    assert_eq!(backend.control.calls.load(Ordering::SeqCst), 0);
+    drop(observer);
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 1);
+    assert_eq!(backend.control.calls.load(Ordering::SeqCst), 1);
+}
+#[test]
+fn default_open_preserves_synchronous_rejection_without_cancel_or_readmission() {
+    use codex_file_search_api::SearchBackend;
+    let expected = SearchStartError {
+        operation: SearchError::new(SearchErrorKind::ResourceExhausted, "admission full"),
+        cleanup: StartCleanup::NotAdmitted,
+    };
+    let backend = AdmissionProbe {
+        calls: AtomicUsize::new(0),
+        control: Arc::new(CancellationProbe::default()),
+        rejection: Some(expected.clone()),
+    };
+    let mut observer = backend.open(probe_request());
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 1);
+    let Poll::Ready(Err(actual)) = poll_once(observer.as_mut()) else {
+        panic!("expected immediate rejection");
+    };
+    assert_eq!(actual, expected);
+    drop(observer);
+    assert_eq!(backend.calls.load(Ordering::SeqCst), 1);
+    assert_eq!(backend.control.calls.load(Ordering::SeqCst), 0);
+}

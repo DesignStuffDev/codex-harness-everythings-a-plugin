@@ -1,5 +1,6 @@
 use crate::FileSearchOptions;
 use crate::FileSearchSnapshot;
+use crate::PendingSearchStart;
 use crate::SearchBudget;
 use crate::SearchCloseOutcome;
 use crate::SearchError;
@@ -184,7 +185,22 @@ impl SearchPoll {
 /// loss invalidates leases; never silently reconnect or replay accepted work.
 /// Backend selection/configuration stays fixed for this provider's lifetime.
 pub trait SearchBackend: Send + Sync {
-    fn open(&self, request: SearchOpen) -> SearchStartFuture<'_>;
+    /// Reserve one bounded start and return its cancellation authority immediately.
+    ///
+    /// Retain ownership before publishing the ticket. Cancellation must reach
+    /// actual Preparing work, survive observer abandonment and target only this
+    /// lease. Do not implement this by wrapping an uncancellable startup future.
+    /// Reject synchronously with NotAdmitted when no work was accepted.
+    fn begin_open(&self, request: SearchOpen) -> Result<PendingSearchStart, SearchStartError>;
+
+    /// Convenience observer over the required owned start. Admission occurs on
+    /// this call; dropping the returned future before polling requests release.
+    fn open(&self, request: SearchOpen) -> SearchStartFuture<'_> {
+        match self.begin_open(request) {
+            Ok(pending) => pending.finish(),
+            Err(error) => Box::pin(async move { Err(error) }),
+        }
+    }
 
     /// Nonblocking, idempotent admission fence and cleanup request for all work.
     fn request_shutdown(&self);

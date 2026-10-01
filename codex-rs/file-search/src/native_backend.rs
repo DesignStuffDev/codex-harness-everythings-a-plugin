@@ -16,7 +16,6 @@ use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
 use codex_file_search_api::SearchOpen;
 use codex_file_search_api::SearchStartError;
-use codex_file_search_api::SearchStartFuture;
 use codex_file_search_api::StartCleanup;
 use tokio::runtime::Handle;
 use tokio::sync::oneshot;
@@ -84,11 +83,8 @@ impl NativeSearchBackend {
 }
 
 impl SearchBackend for NativeSearchBackend {
-    fn open(&self, request: SearchOpen) -> SearchStartFuture<'_> {
-        match self.begin_open(request) {
-            Ok(pending) => pending.finish(),
-            Err(error) => Box::pin(async move { Err(error) }),
-        }
+    fn begin_open(&self, request: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
+        NativeSearchBackend::begin_open(self, request)
     }
 
     fn request_shutdown(&self) {
