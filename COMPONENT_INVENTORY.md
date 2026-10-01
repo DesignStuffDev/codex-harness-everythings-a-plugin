@@ -283,3 +283,13 @@ now pass, but two storage lifecycle checks fail on surviving Git descendants; se
 This source has no overall full-host acceptance. Extraction counts and the upstream
 pin do not change. P18U's integration/recovery gates remain
 required, with no active polling or live update.
+
+## C05/C06 installation-ordering prerequisite
+
+[Source `65511842`](verification/2026-10-01/P03_INSTALL_ORDER_EVIDENCE.md) adds ordered native auth installation
+and clear invalidation; 400 scoped tests pass. This changes compiled ownership,
+not the count of independently installed native subsystems. Source-aware reload,
+refresh, persistent writes, catalog/broker activation and real installed-auth
+acceptance remain open. Current full-host acceptance is also blocked by inherited
+curated-sync shutdown; successful GUI checks on source `99e6802f` do not validate
+this newer source. [Exact mapping](upstream/p03-native-install-order-lineage.json).

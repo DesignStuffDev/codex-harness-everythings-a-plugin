@@ -100,3 +100,10 @@ now pass, but two storage lifecycle checks fail on surviving Git descendants; se
 This source has no overall full-host acceptance. Extraction counts and the upstream
 pin do not change. P18U's integration/recovery gates remain
 required, with no active polling or live update.
+
+Native installation-order source `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`
+(tree `ed564f68f3297cd65b65321d1f41f79b4f9c4031`, parent `63dded3a`) is
+mapped in [its lineage](upstream/p03-native-install-order-lineage.json); [scoped evidence](verification/2026-10-01/P03_INSTALL_ORDER_EVIDENCE.md)
+retains six baseline failures, 400 passes and mechanical format transitions.
+Original Codex remains `d42056091aded7feb1d88ac7e83972108b2aa478`. Neither this
+native prerequisite nor the separately staged curated-sync repair advances that pin.

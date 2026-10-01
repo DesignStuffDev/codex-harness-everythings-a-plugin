@@ -856,3 +856,22 @@ source/installer work remains staged independently; disabling the feature or
 extending the test drain would not repair the default lifecycle. Record exact
 upstream/customization lineage and test this failure with a controlled held child,
 then rerun default-feature installed storage and GUI acceptance.
+
+## Native authentication installation ordering checkpoint
+
+Source `65511842d7051b2a1f5cc52917f3ebb5c03be4f3` adds latest-admitted install
+intent and retained source identity under the native credential owner. Newer
+failed/cancelled attempts and clear invalidate older pending installs; captured
+policy/cache changes reject stale publication. Equal credential installs retain
+watch compatibility while source identity advances. [Evidence](verification/2026-10-01/P03_INSTALL_ORDER_EVIDENCE.md)
+preserves six baseline assertion failures and **400 passing login/provider tests**,
+clean lint and two mechanical formatter changes. [Lineage](upstream/p03-native-install-order-lineage.json)
+binds original upstream anchors and intentional private support separately.
+
+This is a compiled native prerequisite. It does not establish source-aware
+load/refresh publication, conditional persistent writes, installed auth/catalog
+selection or broker activation. No newer full CLI/UI acceptance is claimed. The
+curated startup lifecycle failure remains the next full-host gate; its bounded
+transport proposal is archived and uncompiled. Complete transport, cancellable
+pipeline and actual owned host shutdown, then rerun unchanged storage/migration/GUI
+checks before claiming recovery. P18U remains required and unimplemented.

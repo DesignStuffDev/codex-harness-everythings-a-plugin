@@ -1,0 +1,960 @@
+{
+  "schema_version": 1,
+  "status": "compiled_native_install_order_prerequisite",
+  "component_inventory_owner": "C06 native authentication remains coupled",
+  "base_source_commit": "99e6802fd478e55686559aefdd6ae79177a45397",
+  "base_source_tree": "651cca62fb376fed10b50872165edda8d9b099e3",
+  "published_owner_lineage": {
+    "path": "upstream/p03-native-source-owner-lineage.json",
+    "sha256": "0269141acdce4503614f5e10bec94b30c5f8869efb9a52bf410b111dbe2fbfe2",
+    "bytes": 28740
+  },
+  "relation_to_owner_lineage": "extends; historical source-owner map remains unchanged",
+  "prior_candidate_manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-stage/MANIFEST.json",
+    "sha256": "7c0b113d1a0b03e86cd8350a06899ec807f5621e7e43857eb4d9132f19515f31",
+    "bytes": 4252
+  },
+  "upstream_anchor_basis": {
+    "original_upstream": {
+      "repository": "https://github.com/openai/codex",
+      "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "sha256": "d2081e3e4f2f339a7a1aa52ea62d8485e7785c2b0a12dde1a7f470019d56dc2a",
+      "bytes": 119014,
+      "literal_anchors": [
+        {
+          "literal": "struct CachedAuth {",
+          "lines": [
+            1797
+          ]
+        },
+        {
+          "literal": "pub struct AuthManager {",
+          "lines": [
+            2043
+          ]
+        },
+        {
+          "literal": "external_auth: RwLock<Option<Arc<dyn ExternalAuth>>>",
+          "lines": [
+            2060
+          ]
+        },
+        {
+          "literal": "pub async fn set_external_auth(",
+          "lines": [
+            2660
+          ]
+        },
+        {
+          "literal": "async fn install_external_auth(",
+          "lines": [
+            2672
+          ]
+        },
+        {
+          "literal": "pub fn clear_external_auth(",
+          "lines": [
+            2688
+          ]
+        },
+        {
+          "literal": "fn external_auth_provider(",
+          "lines": [
+            2814
+          ]
+        },
+        {
+          "literal": "fn commit_external_auth(",
+          "lines": [
+            3052
+          ]
+        },
+        {
+          "literal": "async fn resolve_external_auth(",
+          "lines": [
+            2829
+          ]
+        },
+        {
+          "literal": "async fn refresh_external_auth(",
+          "lines": [
+            3025
+          ]
+        },
+        {
+          "literal": "fn validate_external_auth(",
+          "lines": [
+            3073
+          ]
+        },
+        {
+          "literal": "fn set_cached_auth(",
+          "lines": [
+            2627
+          ]
+        },
+        {
+          "literal": "async fn load_auth(&self)",
+          "lines": [
+            2574
+          ]
+        },
+        {
+          "literal": "async fn new_from_auth_config(",
+          "lines": [
+            2178
+          ]
+        },
+        {
+          "literal": "pub fn external_bearer_only(",
+          "lines": [
+            2327
+          ]
+        }
+      ],
+      "project_private_paths_absent_at_upstream_pin": {
+        "codex-rs/login/src/auth/auth_source.rs": true,
+        "codex-rs/login/src/auth/auth_reload.rs": true,
+        "codex-rs/login/src/auth/auth_source_tests.rs": true
+      },
+      "verification": "Evidence author independently read immutable ls-tree and cat-file with optional locks and lazy fetch disabled; no source/object/Git writes. Literal anchors do not establish semantic equivalence.",
+      "proof": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-source-owner-evidence-stage/ORIGINAL_UPSTREAM_ANCHORS.json",
+        "sha256": "0360411e029a4496ba6e3012514b7a296249f099261850f50dba1a240b2ae9f2",
+        "bytes": 2278
+      }
+    },
+    "independent_verification_this_pass": "Verified the preserved anchor proof digest and current four source files against publication receipt; no Git object read, lazy fetch, network or repository mutation performed. Original upstream object/line assertions are inherited from the bound proof, not freshly independently re-derived."
+  },
+  "native_boundaries": [
+    {
+      "upstream_symbol": "CachedAuth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        1797
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "struct CachedAuth {",
+          "lines": [
+            1839
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "source_revision: AuthSourceRevision,",
+          "lines": [
+            1843
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "install_intent: InstallIntent,",
+          "lines": [
+            1844
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Extend the existing native owner with project-private retained source/intent identities."
+    },
+    {
+      "upstream_symbol": "AuthManager::set_external_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2660
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub async fn set_external_auth(",
+          "lines": [
+            68
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405,
+          "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Unchanged public ABI and workload replacement denial."
+    },
+    {
+      "upstream_symbol": "AuthManager::install_external_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2672
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub(super) async fn install_external_auth(",
+          "lines": [
+            80
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405,
+          "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "literal": "pub(super) fn replace_auth_owner(",
+          "lines": [
+            124
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+          "bytes": 10206,
+          "computed_git_blob": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Reserve latest-admitted intent and condition paired publication on source/cache/policy and intent."
+    },
+    {
+      "upstream_symbol": "AuthManager::clear_external_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2688
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub fn clear_external_auth(",
+          "lines": [
+            147
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405,
+          "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "literal": "pub(super) fn replace_auth_owner(",
+          "lines": [
+            124
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+          "bytes": 10206,
+          "computed_git_blob": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Invalidate pending installs even with no active source; preserve native cache/failure when absent."
+    },
+    {
+      "upstream_symbol": "AuthManager::resolve_external_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2829
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "let auth = external_auth",
+          "lines": [
+            110
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405,
+          "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Remove the now-unused private wrapper; inline real resolution/classification with captured-policy restriction validation in install."
+    },
+    {
+      "upstream_symbol": "AuthManager::new_from_auth_config",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2178
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn new_from_auth_config(",
+          "lines": [
+            2220
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Initialize source and install identities; all five constructors updated."
+    },
+    {
+      "upstream_symbol": "AuthManager::external_bearer_only",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2327
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "pub fn external_bearer_only(",
+          "lines": [
+            2381
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Initialize new identities while preserving initial command-backed provider."
+    },
+    {
+      "upstream_symbol": "AuthManager::commit_external_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        3052
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "pub(super) fn commit_external_auth(",
+          "lines": [
+            162
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405,
+          "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "source_bytes": "final_checkout"
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "literal": "fn persist_external_auth(",
+          "lines": [
+            168
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405,
+          "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Existing cache-only refresh and pre-publication persistence remain unfenced by source."
+    },
+    {
+      "upstream_symbol": "AuthManager::load_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        2574
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn load_auth(&self)",
+          "lines": [
+            2634
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Existing source selection and cache/policy publication retained; source-aware load fencing remains deferred."
+    },
+    {
+      "upstream_symbol": "AuthManager::refresh_external_auth",
+      "upstream_repository": "https://github.com/openai/codex",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "upstream_path": "codex-rs/login/src/auth/manager.rs",
+      "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "upstream_declaration_lines": [
+        3025
+      ],
+      "classification": "native_adaptation",
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "literal": "async fn refresh_external_auth(",
+          "lines": [
+            3074
+          ],
+          "source_layer": "final_formatted_source",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317,
+          "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "source_bytes": "final_checkout"
+        }
+      ],
+      "scope": "Existing callback/refresh path retained; source success/failure publication remains deferred."
+    }
+  ],
+  "project_custom_support": [
+    {
+      "symbol": "AuthSourceRevision",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "pub(super) struct AuthSourceRevision",
+        "lines": [
+          21
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private source identity wrapper; reuses the existing retained AuthCacheRevision Arc identity primitive, not copied upstream code."
+    },
+    {
+      "symbol": "InstallIntent",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "pub(super) struct InstallIntent",
+        "lines": [
+          28
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private latest-admitted identity; one retained intent per owner."
+    },
+    {
+      "symbol": "InstallContext",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "pub(super) struct InstallContext",
+        "lines": [
+          35
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private owned source/cache/policy/intent capture."
+    },
+    {
+      "symbol": "InstallContext::check_owner",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "pub(super) fn check_owner(",
+        "lines": [
+          42
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private bounded identity comparison."
+    },
+    {
+      "symbol": "AuthManager::check_install_context",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "fn check_install_context(",
+        "lines": [
+          135
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private early owner/policy eligibility check; final owner commit independently rechecks."
+    },
+    {
+      "symbol": "install_error",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "fn install_error(",
+        "lines": [
+          52
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private native conflict/error to Transient conversion; bypasses provider classification."
+    },
+    {
+      "symbol": "AuthOwnerUpdate",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "literal": "pub(super) enum AuthOwnerUpdate",
+        "lines": [
+          57
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+        "bytes": 6405,
+        "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "Extends existing project-private owned update forms with admitted install context."
+    },
+    {
+      "symbol": "AuthLoadError::SourceChanged",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "literal": "    SourceChanged,",
+        "lines": [
+          48
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+        "bytes": 10206,
+        "computed_git_blob": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "New project-private stale source/intent error; not a public wire or stored-schema change."
+    },
+    {
+      "symbol": "AuthManager::replace_auth_owner",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "literal": "pub(super) fn replace_auth_owner(",
+        "lines": [
+          124
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+        "bytes": 10206,
+        "computed_git_blob": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "project_authored_private_support",
+      "ancestry": "Extends existing project-private conditional owner publisher; existing notifications and retirement ordering preserved."
+    }
+  ],
+  "tests": [
+    {
+      "name": "newer_install_wins_over_held_older_install_even_with_equal_credentials",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn newer_install_wins_over_held_older_install_even_with_equal_credentials(",
+        "lines": [
+          106
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "fail",
+      "red_outcome": "fail",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "clear_invalidates_initial_install_and_preserves_native_state",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn clear_invalidates_initial_install_and_preserves_native_state(",
+        "lines": [
+          137
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "fail",
+      "red_outcome": "fail",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "failed_or_cancelled_newer_install_never_revives_older_install",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn failed_or_cancelled_newer_install_never_revives_older_install(",
+        "lines": [
+          185
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "fail",
+      "red_outcome": "fail",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "policy_aba_rejects_install_without_provider_classification",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn policy_aba_rejects_install_without_provider_classification(",
+        "lines": [
+          229
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "fail",
+      "red_outcome": "fail",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "cache_change_and_aba_reject_install_and_preserve_current_failure",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn cache_change_and_aba_reject_install_and_preserve_current_failure(",
+        "lines": [
+          252
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "fail",
+      "red_outcome": "fail",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "unpolled_install_does_not_supersede_legitimate_current_install",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn unpolled_install_does_not_supersede_legitimate_current_install(",
+        "lines": [
+          288
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "pass",
+      "red_outcome": "pass",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "stale_provider_error_retains_classification_without_poisoning_winner",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn stale_provider_error_retains_classification_without_poisoning_winner(",
+        "lines": [
+          305
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "pass",
+      "red_outcome": "pass",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "poisoned_owner_rejects_install_before_resolving_provider",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn poisoned_owner_rejects_install_before_resolving_provider(",
+        "lines": [
+          328
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "fail",
+      "red_outcome": "fail",
+      "green_outcome": "pass"
+    },
+    {
+      "name": "workload_public_noops_do_not_supersede_private_initial_install",
+      "location": {
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "literal": "async fn workload_public_noops_do_not_supersede_private_initial_install(",
+        "lines": [
+          347
+        ],
+        "source_layer": "final_formatted_source",
+        "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "bytes": 14891,
+        "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+        "source_bytes": "final_checkout"
+      },
+      "classification": "new_project_private_baseline_compatible_test",
+      "executed": true,
+      "prior_static_prediction": "pass",
+      "red_outcome": "pass",
+      "green_outcome": "pass"
+    }
+  ],
+  "source_paths": [
+    {
+      "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+      "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+      "bytes": 14891,
+      "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_reload.rs",
+      "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+      "bytes": 10206,
+      "computed_git_blob": "182d6fff9ecef3c55f3603020017dd95ce051f26"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source.rs",
+      "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+      "bytes": 6405,
+      "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212"
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+      "bytes": 121317,
+      "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372"
+    }
+  ],
+  "unchanged_published_test_path": {
+    "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+    "sha256": "52255b4e459277d827173b0cee5ded07a724f177d8fc83d2f99814ec506efb6b",
+    "bytes": 9154
+  },
+  "impact": {
+    "upstream_pin_changed": false,
+    "public_api_changed": false,
+    "component_contract_changed": false,
+    "persistent_schema_changed": false,
+    "dependency_changed": false,
+    "new_installed_component": false,
+    "source_identity_consumed_by_load_refresh": false,
+    "conditional_persistence": false,
+    "historical_maps_modified": false,
+    "current_index_semantic_closure_claim": false,
+    "computed_blob_ids_inserted_into_git": false
+  },
+  "evidence": "Actual red and full green scoped native tests, separate lint/format evidence, and final source receipt; no fresh full-host or installed auth proof.",
+  "scope_limits": [
+    "source-aware load/recovery capture",
+    "refresh success and outer failure fencing",
+    "conditional persistence",
+    "provider-retained work",
+    "request/catalog authority",
+    "installed activation"
+  ],
+  "finalized": true,
+  "full_host_acceptance_passed": false,
+  "installed_auth_proof": false,
+  "candidate_provenance": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-finalbase-stage/PROVENANCE.json",
+    "sha256": "4dfedc05c57372c4df7869e1638145da4de6638a52e53cf1aa8dd7501b68ae4a",
+    "bytes": 30041
+  },
+  "red_report": {
+    "path": "/workspace/acceptance/p03-install-order-red.source.json",
+    "sha256": "731a9cd670cccea2d6c4573a56d207b97bd81d4b8eff97a22028a9f317ca8f77",
+    "bytes": 2455354
+  },
+  "green_report": {
+    "path": "/workspace/acceptance/p03-install-order-tests.source.json",
+    "sha256": "660add8a17a76d31dbf81bb4a6ee0be07e35be96a3328682abee678a62a449b7",
+    "bytes": 2455333
+  },
+  "source_publication": {
+    "receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-created-source-commit.json",
+      "sha256": "958b1d41f2a534bcc9487a8022c9844fd02af168bf1f9de6c0a854a77fa1fd4d",
+      "bytes": 1443
+    },
+    "details": {
+      "source_commit": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3",
+      "source_tree": "ed564f68f3297cd65b65321d1f41f79b4f9c4031",
+      "parent": "63dded3a250527fae51fa61d1e24b70a4029044b",
+      "manifest": "/tmp/p03-install-order-publication-manifest.json",
+      "files": [
+        {
+          "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+          "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+          "bytes": 14891
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+          "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+          "bytes": 10206
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317
+        }
+      ],
+      "all_scoped_matching_entries": 8889,
+      "published_main": false
+    },
+    "manifest_receipt": {
+      "path": "/tmp/p03-install-order-publication-manifest.json",
+      "sha256": "01dae0dd3541e183c72b6d8ab9e0be45062bbf734abf964450270f8c63f21096",
+      "bytes": 1624
+    },
+    "manifest": {
+      "parent": "63dded3a250527fae51fa61d1e24b70a4029044b",
+      "base_tree": "bd5fe63ddb68ed216c2e5a60f81c0607dd337e8c",
+      "tree": "ed564f68f3297cd65b65321d1f41f79b4f9c4031",
+      "files": [
+        {
+          "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+          "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+          "bytes": 14891
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+          "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+          "bytes": 10206
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317
+        }
+      ],
+      "all_scoped_matching_entries": 8889,
+      "archive": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-verified-source.tar.gz",
+      "archive_sha256": "acd1b14e7a2df8de788ae4bec63ccb8d367ef45f3f6272695d71940a9ec7ed89",
+      "original_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59"
+    }
+  },
+  "scoped_tests_passed": true
+}

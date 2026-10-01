@@ -558,3 +558,12 @@ now pass, but two storage lifecycle checks fail on surviving Git descendants; se
 This source has no overall full-host acceptance. Extraction counts and the upstream
 pin do not change. P18U's integration/recovery gates remain
 required, with no active polling or live update.
+
+The [native install-order map](upstream/p03-native-install-order-lineage.json) binds source
+`65511842d7051b2a1f5cc52917f3ebb5c03be4f3`, tree
+`ed564f68f3297cd65b65321d1f41f79b4f9c4031`, to original upstream auth
+installation/clear and the project's private source/cache policy owner. Its
+[evidence](verification/2026-10-01/P03_INSTALL_ORDER_EVIDENCE.md) distinguishes the unchanged nine red/green
+tests, 400 scoped passes and mechanical formatting. It adds no installed component
+or later upstream revision. The curated-sync failure shows why successful builds
+and merges cannot replace P18U's lifecycle/security/runtime gates.

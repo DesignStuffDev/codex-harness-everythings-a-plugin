@@ -1,0 +1,713 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_install_order_prerequisite",
+  "finalized": true,
+  "passed": true,
+  "created_utc": "2026-10-01T20:49:14.805428+00:00",
+  "candidate": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-finalbase-stage/MANIFEST.json",
+    "sha256": "63ed01b3beba1933dea700b05e24628720a68f4460a4c59f18c134cc97e93fb9",
+    "bytes": 6947
+  },
+  "candidate_provenance": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-finalbase-stage/PROVENANCE.json",
+    "sha256": "4dfedc05c57372c4df7869e1638145da4de6638a52e53cf1aa8dd7501b68ae4a",
+    "bytes": 30041
+  },
+  "candidate_rebase_review": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-finalbase-stage/REBASE_REVIEW.json",
+    "sha256": "ae28ca4a0fab9fd5d475284464c0b16321b60afbfd8afe51d4a7c73cc642a7e6",
+    "bytes": 3042
+  },
+  "candidate_archive": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-finalbase-unadopted-stage.tar.gz",
+    "sha256": "2fce7459d7386b9b59e318defcfd6e1bc970dc6cb4f9b96abdacdab959f3f6f5",
+    "bytes": 164178
+  },
+  "candidate_archive_receipt": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-finalbase-unadopted-stage.tar.json",
+    "sha256": "f44291c28773009cfab9b2a6d94d9cb0d26a35ea4238fa148e6248daac33b0fc",
+    "bytes": 7339
+  },
+  "candidate_archive_verification": "Receipt bound; no decompressed-member re-verification by this evidence author in this pass.",
+  "source_base": {
+    "source_commit": "99e6802fd478e55686559aefdd6ae79177a45397",
+    "source_tree": "651cca62fb376fed10b50872165edda8d9b099e3",
+    "published_owner_lineage": {
+      "path": "upstream/p03-native-source-owner-lineage.json",
+      "sha256": "0269141acdce4503614f5e10bec94b30c5f8869efb9a52bf410b111dbe2fbfe2",
+      "bytes": 28740
+    }
+  },
+  "tests_adoption": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-tests_only-adoption.json",
+    "sha256": "e51764678686dfc93938d3ab841c73295752b663645ed807e523e6713638102f",
+    "bytes": 3236
+  },
+  "production_adoption": null,
+  "source_paths": [
+    {
+      "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+      "base": null,
+      "tests_only": {
+        "sha256": "168da6c4fe1cded025ed624d935d2f197be74ebb53c9841c1a932e17df20692d",
+        "bytes": 14293
+      },
+      "proposed": {
+        "sha256": "168da6c4fe1cded025ed624d935d2f197be74ebb53c9841c1a932e17df20692d",
+        "bytes": 14293
+      },
+      "preimage": null,
+      "prior_proposed": {
+        "sha256": "168da6c4fe1cded025ed624d935d2f197be74ebb53c9841c1a932e17df20692d",
+        "bytes": 14293
+      }
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_reload.rs",
+      "base": {
+        "sha256": "eb9768e9864d32af0d3accd7e5440ef27bfa152fe3a9f28e20eb11140a07ab75",
+        "bytes": 8736
+      },
+      "tests_only": {
+        "sha256": "eb9768e9864d32af0d3accd7e5440ef27bfa152fe3a9f28e20eb11140a07ab75",
+        "bytes": 8736
+      },
+      "proposed": {
+        "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+        "bytes": 10206
+      },
+      "preimage": {
+        "sha256": "eb9768e9864d32af0d3accd7e5440ef27bfa152fe3a9f28e20eb11140a07ab75",
+        "bytes": 8736
+      },
+      "prior_proposed": {
+        "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+        "bytes": 10206
+      }
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source.rs",
+      "base": {
+        "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+        "bytes": 3188
+      },
+      "tests_only": {
+        "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+        "bytes": 3188
+      },
+      "proposed": {
+        "sha256": "3f401507b18693c5181333e858f01fa234ef7f20b30d247c6a4f680427b9bbc4",
+        "bytes": 6379
+      },
+      "preimage": {
+        "sha256": "eac181e56fac9597d43c765b7ba2b7d042eba628317e0de399d54523305361ad",
+        "bytes": 3188
+      },
+      "prior_proposed": {
+        "sha256": "3f401507b18693c5181333e858f01fa234ef7f20b30d247c6a4f680427b9bbc4",
+        "bytes": 6379
+      }
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "base": {
+        "sha256": "271a19abba415005f36d2b21249cd29baa4eb63a2ec9b1a1ecdb2078da44650e",
+        "bytes": 120922
+      },
+      "tests_only": {
+        "sha256": "6d0e5215a95f1290010251eae2fa26d58be3f2a41ae52d46d1fa4242f444b4c1",
+        "bytes": 120994
+      },
+      "proposed": {
+        "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+        "bytes": 121317
+      },
+      "preimage": {
+        "sha256": "271a19abba415005f36d2b21249cd29baa4eb63a2ec9b1a1ecdb2078da44650e",
+        "bytes": 120922
+      },
+      "prior_proposed": {
+        "sha256": "c1bbcda5b687418811b036c99c50a8f1189000d5cee307348b1d7bceb444d72e",
+        "bytes": 121317
+      }
+    }
+  ],
+  "authored_test_functions": 9,
+  "red_gate": {
+    "status": "finished",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-install-order-red.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-login",
+      "-E",
+      "test(auth::manager::auth_install_tests::)"
+    ],
+    "started_utc": "2026-10-01T20:35:28Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-install-order-red.source.json",
+      "sha256": "731a9cd670cccea2d6c4573a56d207b97bd81d4b8eff97a22028a9f317ca8f77",
+      "bytes": 2455354
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-install-order-red.log",
+      "sha256": "8112ed23f6a39802c663f7422b341945d9979118ec6f39e89ff3fe030a38d92b",
+      "bytes": 9529
+    },
+    "returncode": 100,
+    "finished_utc": "2026-10-01T20:38:19Z",
+    "source_entries_before": 8889,
+    "source_entries_after": 8889,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "6a8da12566f38a4cab7a463702590a5aeed417a6ba1d09930d72f4b61f522582",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "strict_report": {
+      "path": "/workspace/acceptance/p03-install-order-red.subreaper.json",
+      "sha256": "81e3fbd13289ca7e38264adc3d6c276a2f763969db5e0c57dc89bfe5ca5d1595",
+      "bytes": 504
+    },
+    "strict": {
+      "command": [
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login",
+        "-E",
+        "test(auth::manager::auth_install_tests::)"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 828179,
+          "wait_status": 25600,
+          "returncode": 100
+        }
+      ],
+      "command_pid": 828179,
+      "command_wait_status": 25600,
+      "command_returncode": 100,
+      "runner_error": null,
+      "exit_status": 100,
+      "elapsed_seconds": 167.8806218989921
+    },
+    "nonzero_reaps_other_than_command": [],
+    "test_run": {
+      "summary_available": true,
+      "run": 9,
+      "passed": 3,
+      "failed": 6,
+      "filtered": 283,
+      "test_seconds": 0.061,
+      "binaries_reported_by_nextest": 2,
+      "retry_events_reported": 0,
+      "pass_counts_by_binary": {
+        "codex-login": 3
+      },
+      "passing_tests": [
+        "auth::manager::auth_install_tests::unpolled_install_does_not_supersede_legitimate_current_install",
+        "auth::manager::auth_install_tests::stale_provider_error_retains_classification_without_poisoning_winner",
+        "auth::manager::auth_install_tests::workload_public_noops_do_not_supersede_private_initial_install"
+      ],
+      "failing_tests": [
+        "auth::manager::auth_install_tests::clear_invalidates_initial_install_and_preserves_native_state",
+        "auth::manager::auth_install_tests::cache_change_and_aba_reject_install_and_preserve_current_failure",
+        "auth::manager::auth_install_tests::newer_install_wins_over_held_older_install_even_with_equal_credentials",
+        "auth::manager::auth_install_tests::failed_or_cancelled_newer_install_never_revives_older_install",
+        "auth::manager::auth_install_tests::policy_aba_rejects_install_without_provider_classification",
+        "auth::manager::auth_install_tests::poisoned_owner_rejects_install_before_resolving_provider"
+      ],
+      "compile_finished_lines": [
+        "Finished `test` profile [unoptimized] target(s) in 2m 45s"
+      ]
+    },
+    "exact_tests_only_and_production_base_verified": true,
+    "executed_binary_preservation_claimed": false,
+    "failures": [
+      {
+        "test": "newer_install_wins_over_held_older_install_even_with_equal_credentials",
+        "line": 114,
+        "observed": "Held older install did not return the expected Transient rejection after a newer equal-credential installation.",
+        "limit": "Failed in the first winner_key=initial variant; the different-credential variant and later owner/cache/notification assertions were not reached.",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "line_source": "exact unformatted test file executed by red gate"
+      },
+      {
+        "test": "clear_invalidates_initial_install_and_preserves_native_state",
+        "line": 142,
+        "observed": "Pending initial installation did not return the expected Transient rejection after clear with no active external source.",
+        "limit": "Failed in the first native=false variant; native=true and later state/failure/reload assertions were not reached.",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "line_source": "exact unformatted test file executed by red gate"
+      },
+      {
+        "test": "failed_or_cancelled_newer_install_never_revives_older_install",
+        "line": 186,
+        "observed": "Held older install did not return the expected Transient rejection after the newer admission failed with its provider-classified error.",
+        "limit": "Failed in cancel=false; the cancellation variant and later exact owner/failure/notification assertions were not reached.",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "line_source": "exact unformatted test file executed by red gate"
+      },
+      {
+        "test": "policy_aba_rejects_install_without_provider_classification",
+        "line": 206,
+        "observed": "Held install did not return the expected Transient rejection after policy changed and returned to the original value.",
+        "limit": "Later owner and classifier-count assertions were not reached.",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "line_source": "exact unformatted test file executed by red gate"
+      },
+      {
+        "test": "cache_change_and_aba_reject_install_and_preserve_current_failure",
+        "line": 232,
+        "observed": "Held install did not return the expected Transient rejection after real current-provider refresh changed the credential cache.",
+        "limit": "Failed in aba=false; the cache-ABA variant and later failure/notification/classification assertions were not reached.",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "line_source": "exact unformatted test file executed by red gate"
+      },
+      {
+        "test": "poisoned_owner_rejects_install_before_resolving_provider",
+        "line": 285,
+        "observed": "Provider resolve count was 1 instead of 0 after deliberately poisoning the owner, although installation returned Transient.",
+        "limit": "The caught panic at line 281 is intentional fixture setup. The actual red failure is the later resolve-count assertion; the following classifier-count assertion was not reached.",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "line_source": "exact unformatted test file executed by red gate"
+      }
+    ]
+  },
+  "green_gate": {
+    "status": "finished",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-install-order-tests.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-login",
+      "-p",
+      "codex-model-provider"
+    ],
+    "started_utc": "2026-10-01T20:39:15Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-install-order-tests.source.json",
+      "sha256": "660add8a17a76d31dbf81bb4a6ee0be07e35be96a3328682abee678a62a449b7",
+      "bytes": 2455333
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-install-order-tests.log",
+      "sha256": "0c98757b7eca199aff2008ee7908829b6e541ef83f042cb1b8455265819953cb",
+      "bytes": 55121
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T20:45:05Z",
+    "source_entries_before": 8889,
+    "source_entries_after": 8889,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "ef11ae93c57909b6a6c81caacb13052332308ecbc59fafc4d3fc766843bda5f1",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "strict_report": {
+      "path": "/workspace/acceptance/p03-install-order-tests.subreaper.json",
+      "sha256": "aaaf057218cdbdf1d84aa2d3fd5375388d12405d644c76dca7fd7bed829064b4",
+      "bytes": 551
+    },
+    "strict": {
+      "command": [
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-login",
+        "-p",
+        "codex-model-provider"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 830991,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 828884,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 828884,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 347.67478189300164
+    },
+    "nonzero_reaps_other_than_command": [
+      {
+        "pid": 830991,
+        "wait_status": 9,
+        "returncode": -9
+      }
+    ],
+    "nonzero_reap_limit": "Executable attribution and cause are unknown unless separately demonstrated; the runner records no executable identity for these reaps.",
+    "test_run": {
+      "summary_available": true,
+      "run": 400,
+      "passed": 400,
+      "failed": 0,
+      "filtered": 0,
+      "test_seconds": 166.651,
+      "binaries_reported_by_nextest": 3,
+      "retry_events_reported": 0,
+      "pass_counts_by_binary": {
+        "codex-login": 250,
+        "codex-login::all": 42,
+        "codex-model-provider": 108
+      },
+      "failing_tests": [],
+      "compile_finished_lines": [
+        "Finished `test` profile [unoptimized] target(s) in 2m 58s"
+      ],
+      "login_total": 292,
+      "model_provider_total": 108
+    },
+    "red_to_green_changed_paths": [
+      "codex-rs/login/src/auth/auth_reload.rs",
+      "codex-rs/login/src/auth/auth_source.rs",
+      "codex-rs/login/src/auth/manager.rs"
+    ],
+    "new_test_file_unchanged_from_red": true,
+    "reviewed_proposal_matches_tested_source": true,
+    "new_tests_individually_passed": [
+      "auth::manager::auth_install_tests::cache_change_and_aba_reject_install_and_preserve_current_failure",
+      "auth::manager::auth_install_tests::clear_invalidates_initial_install_and_preserves_native_state",
+      "auth::manager::auth_install_tests::failed_or_cancelled_newer_install_never_revives_older_install",
+      "auth::manager::auth_install_tests::newer_install_wins_over_held_older_install_even_with_equal_credentials",
+      "auth::manager::auth_install_tests::poisoned_owner_rejects_install_before_resolving_provider",
+      "auth::manager::auth_install_tests::policy_aba_rejects_install_without_provider_classification",
+      "auth::manager::auth_install_tests::stale_provider_error_retains_classification_without_poisoning_winner",
+      "auth::manager::auth_install_tests::unpolled_install_does_not_supersede_legitimate_current_install",
+      "auth::manager::auth_install_tests::workload_public_noops_do_not_supersede_private_initial_install"
+    ]
+  },
+  "lint_gate": {
+    "status": "finished",
+    "command": [
+      "env",
+      "-u",
+      "NO_COLOR",
+      "just",
+      "fix",
+      "-p",
+      "codex-login",
+      "-p",
+      "codex-model-provider"
+    ],
+    "started_utc": "2026-10-01T20:45:14Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-install-order-fix.source.json",
+      "sha256": "35b8b16d9b381d3782332804485cdc283ce4ceafec2295b08cfdad9208447b93",
+      "bytes": 2455137
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-install-order-fix.log",
+      "sha256": "242ed0e9949adc60d46f5b540cf4a13674f66687ddf18978e24ffc49093bc5fc",
+      "bytes": 2200
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T20:46:34Z",
+    "source_entries_before": 8889,
+    "source_entries_after": 8889,
+    "source_before_after_equal": true,
+    "source_map_canonical_sha256": "ef11ae93c57909b6a6c81caacb13052332308ecbc59fafc4d3fc766843bda5f1",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "warning_lines_logged": 0,
+    "all_green_entries_equal_lint_input": true
+  },
+  "format_gate": {
+    "status": "finished",
+    "command": [
+      "env",
+      "-u",
+      "NO_COLOR",
+      "just",
+      "fmt"
+    ],
+    "started_utc": "2026-10-01T20:47:16Z",
+    "source_report": {
+      "path": "/workspace/acceptance/p03-install-order-fmt.source.json",
+      "sha256": "fc17dccaaa9c86c0c9d0886d6b4231061118a9f527c4ba336750c366061c495a",
+      "bytes": 2867449
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-install-order-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "returncode": 0,
+    "finished_utc": "2026-10-01T20:47:37Z",
+    "source_entries_before": 10339,
+    "source_entries_after": 10339,
+    "source_before_after_equal": false,
+    "source_map_canonical_sha256": "f4e93b1371f5872580e25401b203303caa42a910dac2a596a6c20aed7a5a91cb",
+    "log_matches_wrapper_digest": true,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "repository_before": {
+      "path": "/workspace/acceptance/p03-install-order-fmt-repository.before.json",
+      "sha256": "ef7c85e606cf51af61107b2685a76fbc1b006a0a9e77e22c4cbf8fee9bec5751",
+      "bytes": 1316108
+    },
+    "repository_after": {
+      "path": "/workspace/acceptance/p03-install-order-fmt-repository.after.json",
+      "sha256": "e25089720e88e9b40ad0c78ba8d5673a377af6eefbbb035f59b7f6e56ea83dc2",
+      "bytes": 1316108
+    },
+    "repository_transition": {
+      "path": "/workspace/acceptance/p03-install-order-fmt-repository.transition.json",
+      "sha256": "e5f4053e26e9d81473e5e37e8d4be3bf9faff9f8c2217deab36d911fcbaa90b4",
+      "bytes": 942
+    },
+    "repository_entries": 9788,
+    "changed_paths": [
+      "codex-rs/login/src/auth/auth_install_tests.rs",
+      "codex-rs/login/src/auth/auth_source.rs"
+    ],
+    "independent_review": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-evidence-stage/FORMAT_REVIEW.json",
+      "sha256": "341ff1a07606701c02d46f56517a352f2d9181fcca1ca88e361a5e04990952b4",
+      "bytes": 1835
+    },
+    "review": {
+      "status": "independently_reviewed_mechanical_only",
+      "created_utc": "2026-10-01T20:48:25.837289+00:00",
+      "green_to_fix_source_maps_equal": true,
+      "all_green_entries_match_format_input": true,
+      "repository_entries_before": 9788,
+      "repository_entries_after": 9788,
+      "changed": [
+        {
+          "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+          "before_sha256": "168da6c4fe1cded025ed624d935d2f197be74ebb53c9841c1a932e17df20692d",
+          "after_sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+          "review": "Full unified diff independently read: expression/assertion wrapping, call layout and chain wrapping only; no semantic change.",
+          "all_whitespace_removed_text_equal": true
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "before_sha256": "3f401507b18693c5181333e858f01fa234ef7f20b30d247c6a4f680427b9bbc4",
+          "after_sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "review": "Full unified diff independently read: expression/assertion wrapping, call layout and chain wrapping only; no semantic change.",
+          "all_whitespace_removed_text_equal": true
+        }
+      ],
+      "full_diff": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-evidence-stage/green-to-formatted.patch",
+        "sha256": "f66d7eb3ddcb5242019ad23b7c0bdc7aee89b0c3ea257384331d508eeb67b5b5",
+        "bytes": 10561
+      },
+      "transition": {
+        "path": "/workspace/acceptance/p03-install-order-fmt-repository.transition.json",
+        "sha256": "e5f4053e26e9d81473e5e37e8d4be3bf9faff9f8c2217deab36d911fcbaa90b4",
+        "bytes": 942
+      },
+      "tests_repeated_after_formatting": false,
+      "scope": "Manual full-diff review of both changed files, with exact before/after hash checks; text normalization is supplementary, not a semantic proof."
+    },
+    "tests_repeated_after_formatting": false
+  },
+  "contracts": [
+    "First-polled install reserves the latest admitted intent and captures source, credential revision and policy. An unpolled future does not reserve intent.",
+    "A failed or cancelled newer admission never restores eligibility to older work; a successful equal-credential install advances source identity independently of credential notification.",
+    "Final paired provider/credential publication checks admitted intent/source/cache under the owner guard and captured policy under its exact policy guard.",
+    "Clear with no active external source invalidates pending installs while preserving native credentials, failure, revisions and notifications; workload public replacement/clear restrictions remain.",
+    "Real provider errors retain provider classification; native conflicts become Transient without invoking provider classification. Poisoned owner rejects before provider resolution.",
+    "Provider callbacks and trait-backed retirement remain outside owner/policy guards. Public ABI, component contracts, dependencies and persisted schemas remain unchanged."
+  ],
+  "limits": [
+    "Compiled native installation-order prerequisite only; no installed auth/catalog component, broker activation or independent auth extraction.",
+    "Source identity is retained and advanced by installation, but load/recovery and refresh success/outer failure still do not consume it. Installer behavior alone does not distinguish source revision from intent invalidation.",
+    "Ephemeral persistence remains outside locks and before final memory publication: a denied attempt can leave storage side effects. No conditional persistence, durable logout or provider-retained-work settlement is established.",
+    "Request/catalog authority, per-retry dispatch, response lifetime and complete provenance/updater closure remain outside this scope.",
+    "Source-owner full-host evidence remains mixed/failed: both storage strict lifecycle attempts exited 125. Its source99/CLI c711 checkpoint does not validate this installer change; full-host acceptance remains blocked by the unrelated curated-sync lifecycle repair.",
+    "Red source maps, logs, strict reports and immutable candidate archive preserve the regression evidence. No retained red executable is claimed. Cloud-local archives do not establish external durability.",
+    "Original upstream anchors are inherited from the exact final-base provenance and its bound immutable proof. This pass refreshes destination hashes and lines; it does not re-derive original upstream objects."
+  ],
+  "no_rust_or_test_execution_by_evidence_author": true,
+  "fresh_full_cli_gui_or_installed_plugin_proof": false,
+  "full_host_acceptance_passed": false,
+  "prior_failed_runtime_evidence": {
+    "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md",
+    "sha256": "9c92e0255e0ab33a5c7173f9e332c9b56f7666ffe68dd5652df3b35bc7c52c1e",
+    "bytes": 8221
+  },
+  "source_publication": {
+    "receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-created-source-commit.json",
+      "sha256": "958b1d41f2a534bcc9487a8022c9844fd02af168bf1f9de6c0a854a77fa1fd4d",
+      "bytes": 1443
+    },
+    "details": {
+      "source_commit": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3",
+      "source_tree": "ed564f68f3297cd65b65321d1f41f79b4f9c4031",
+      "parent": "63dded3a250527fae51fa61d1e24b70a4029044b",
+      "manifest": "/tmp/p03-install-order-publication-manifest.json",
+      "files": [
+        {
+          "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+          "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+          "bytes": 14891
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+          "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+          "bytes": 10206
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317
+        }
+      ],
+      "all_scoped_matching_entries": 8889,
+      "published_main": false
+    },
+    "manifest_receipt": {
+      "path": "/tmp/p03-install-order-publication-manifest.json",
+      "sha256": "01dae0dd3541e183c72b6d8ab9e0be45062bbf734abf964450270f8c63f21096",
+      "bytes": 1624
+    },
+    "manifest": {
+      "parent": "63dded3a250527fae51fa61d1e24b70a4029044b",
+      "base_tree": "bd5fe63ddb68ed216c2e5a60f81c0607dd337e8c",
+      "tree": "ed564f68f3297cd65b65321d1f41f79b4f9c4031",
+      "files": [
+        {
+          "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "6ec43385eb4fefc4acb2a67158834423630b38f7",
+          "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+          "bytes": 14891
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_reload.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "182d6fff9ecef3c55f3603020017dd95ce051f26",
+          "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+          "bytes": 10206
+        },
+        {
+          "path": "codex-rs/login/src/auth/auth_source.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212",
+          "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+          "bytes": 6405
+        },
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372",
+          "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+          "bytes": 121317
+        }
+      ],
+      "all_scoped_matching_entries": 8889,
+      "archive": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-verified-source.tar.gz",
+      "archive_sha256": "acd1b14e7a2df8de788ae4bec63ccb8d367ef45f3f6272695d71940a9ec7ed89",
+      "original_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59"
+    }
+  },
+  "final_source_paths": [
+    {
+      "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+      "sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+      "bytes": 14891,
+      "computed_git_blob": "6ec43385eb4fefc4acb2a67158834423630b38f7"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_reload.rs",
+      "sha256": "61bf026a41b97d7d5fc76d61898d8a7e21e1a4802703bfc7ef92982e9f661e23",
+      "bytes": 10206,
+      "computed_git_blob": "182d6fff9ecef3c55f3603020017dd95ce051f26"
+    },
+    {
+      "path": "codex-rs/login/src/auth/auth_source.rs",
+      "sha256": "0fd842da4d695fc70b04faca14c9912c3682668fef03a96f4954105481f0ec35",
+      "bytes": 6405,
+      "computed_git_blob": "1ce159569663f7ccbfb93a028ed8acdb5a2d8212"
+    },
+    {
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "sha256": "fd71a2d1c068bb7160d966e3d8c0e5d7ecd2e79053208b522fd74e767c883abc",
+      "bytes": 121317,
+      "computed_git_blob": "5fb33ef0ec7f011290ef6a290ce7b969e1ba2372"
+    }
+  ],
+  "source_archive": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-install-order-verified-source.tar.gz",
+    "sha256": "acd1b14e7a2df8de788ae4bec63ccb8d367ef45f3f6272695d71940a9ec7ed89",
+    "bytes": 28756
+  },
+  "final_scoped_source": {
+    "entries": 8889,
+    "current_entries_independently_rechecked": 8889,
+    "source_map_canonical_sha256": "255c89c8c3cc025603c02a9bb33a9677122b8482c694ba86e62aad27fd450564",
+    "basis": "Completed format after-map projected onto exact green scope; independent final rehash."
+  },
+  "unchanged_source_owner_tests": {
+    "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+    "sha256": "52255b4e459277d827173b0cee5ded07a724f177d8fc83d2f99814ec506efb6b",
+    "bytes": 9154,
+    "equal_in_red_green_final": true
+  },
+  "scoped_tests_passed": true,
+  "red_reproduction_confirmed": true,
+  "finalized_utc": "2026-10-01T20:49:14.997995+00:00"
+}
