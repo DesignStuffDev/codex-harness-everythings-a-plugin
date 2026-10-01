@@ -1,0 +1,914 @@
+{
+  "schema_version": 1,
+  "kind": "codex-native-policy-epoch-lineage",
+  "status": "PASSED scoped native policy prerequisite with exact tested/formatted source transitions; publication and broader runtime remain separate",
+  "source": {
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "published_parent": "8db2c4e10feab061c7dec542a2125cdac6b2290f",
+    "published_parent_tree": "27c78ca6aeb7ac45dbe078276ed66f5cde42542d",
+    "base_receipt": {
+      "path": "/workspace/acceptance/p03-native-policy-epoch-source-base.json",
+      "sha256": "b6e2df61343b2d629251737fb25730274da0447e621550b0107941e80cf7ab58",
+      "bytes": 1724
+    },
+    "stage_manifest": {
+      "path": "/tmp/p03-native-policy-epoch-implementation-stage/FINAL_MANIFEST.json",
+      "sha256": "f41a6db2abec6c77ab287967a4332953544ef88aeeef5b760abb09ad3d9ca3a9",
+      "bytes": 4905
+    },
+    "source_bindings": {
+      "path": "/tmp/p03-native-policy-epoch-implementation-stage/SOURCE_BINDINGS.json",
+      "sha256": "d8405bd521a076a8809da74abc5440501d02d7794e42401023090b2dc042b41f",
+      "bytes": 3750
+    },
+    "adoption_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-epoch-adoption.json",
+      "sha256": "78ffc8040cf7df0e2841644c0064fd9055c3ba835c46ffc79ddcc5f062da125c",
+      "bytes": 2147
+    },
+    "source_archive_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-epoch-staged-source.json",
+      "sha256": "e4286603541011e90a3935853b086d5f80fef6d1ac80f3248c6a8adfae025bf5",
+      "bytes": 532
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-epoch-staged-source.tar.gz",
+      "sha256": "aad6f1776be15251ee53309740c7d1b44abbd2c3a95dbd0c2dbe3d8b99006ac9",
+      "bytes": 231683
+    },
+    "archive_durability": "Verified in this cloud filesystem only; not externally durable by itself.",
+    "source_paths": [
+      {
+        "path": "codex-rs/app-server/src/config_manager_service_tests.rs",
+        "parent_sha256": "7602ba37f943a86ec4092082f78b7ea8d966eead0aeaa17534956e53e98a89b1",
+        "adopted_and_initial_failed_gate_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+        "bytes": 95111,
+        "additions": 1,
+        "removals": 1,
+        "successful_test_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+        "formatted_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+        "final_publication_sha256": null,
+        "login_gate_scoped_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+        "app_server_retry_scoped_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+        "formatted_bytes": 95111,
+        "final_source_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+        "final_source_bytes": 95111
+      },
+      {
+        "path": "codex-rs/login/src/auth/auth_tests.rs",
+        "parent_sha256": "4d8666d4f83f1c49444db4ae0ad5d724fe6bb34b143057da05142d02bea1906a",
+        "adopted_and_initial_failed_gate_sha256": "0fdc29b86e5a68769bd46f4928e2a1dca0c7305305b955410753d43ade0bfd38",
+        "bytes": 106725,
+        "additions": 2,
+        "removals": 2,
+        "successful_test_sha256": "0fdc29b86e5a68769bd46f4928e2a1dca0c7305305b955410753d43ade0bfd38",
+        "formatted_sha256": "ccd7ffa1d0ca6ff4fad5f87d60e01bc0dc1b22e026394e58927d45babd6ffdc3",
+        "final_publication_sha256": null,
+        "login_gate_scoped_sha256": "0fdc29b86e5a68769bd46f4928e2a1dca0c7305305b955410753d43ade0bfd38",
+        "formatted_bytes": 106769,
+        "final_source_sha256": "ccd7ffa1d0ca6ff4fad5f87d60e01bc0dc1b22e026394e58927d45babd6ffdc3",
+        "final_source_bytes": 106769
+      },
+      {
+        "path": "codex-rs/login/src/auth/manager.rs",
+        "parent_sha256": "2d1fae596b899a39b8db8af3a32ab944838b31a8972349f631fcb94e4f4f062c",
+        "adopted_and_initial_failed_gate_sha256": "5964311d0aa5a439debd9bb085af295b9153edbfdf4e7bd4651f63237a014dd4",
+        "bytes": 120983,
+        "additions": 61,
+        "removals": 47,
+        "successful_test_sha256": "5964311d0aa5a439debd9bb085af295b9153edbfdf4e7bd4651f63237a014dd4",
+        "formatted_sha256": "881c0f4766045aadecc2e34d174f2c20f667bb203b1632ab023e26e21f5abb01",
+        "final_publication_sha256": null,
+        "login_gate_scoped_sha256": "5964311d0aa5a439debd9bb085af295b9153edbfdf4e7bd4651f63237a014dd4",
+        "formatted_bytes": 121200,
+        "final_source_sha256": "881c0f4766045aadecc2e34d174f2c20f667bb203b1632ab023e26e21f5abb01",
+        "final_source_bytes": 121200
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy.rs",
+        "parent_sha256": null,
+        "adopted_and_initial_failed_gate_sha256": "1e1798139eb03d86bf56f51968e118a552488dd29398fe053a988defbd4d72d5",
+        "bytes": 4986,
+        "additions": 129,
+        "removals": 0,
+        "successful_test_sha256": "1e1798139eb03d86bf56f51968e118a552488dd29398fe053a988defbd4d72d5",
+        "formatted_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+        "final_publication_sha256": null,
+        "login_gate_scoped_sha256": "1e1798139eb03d86bf56f51968e118a552488dd29398fe053a988defbd4d72d5",
+        "formatted_bytes": 5644,
+        "final_source_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+        "final_source_bytes": 5644
+      },
+      {
+        "path": "codex-rs/login/src/auth/workspace_policy_tests.rs",
+        "parent_sha256": null,
+        "adopted_and_initial_failed_gate_sha256": "643d60f0989491b005802938d5dea8870a451eec8e49dcf9c110e210f143978a",
+        "bytes": 11011,
+        "additions": 206,
+        "removals": 0,
+        "successful_test_sha256": "643d60f0989491b005802938d5dea8870a451eec8e49dcf9c110e210f143978a",
+        "formatted_sha256": "5407ff9393e1f030765d9dd3bf6383b1b7d618bd76d868c270d4c094e425a7f2",
+        "final_publication_sha256": null,
+        "login_gate_scoped_sha256": "643d60f0989491b005802938d5dea8870a451eec8e49dcf9c110e210f143978a",
+        "formatted_bytes": 12234,
+        "final_source_sha256": "5407ff9393e1f030765d9dd3bf6383b1b7d618bd76d868c270d4c094e425a7f2",
+        "final_source_bytes": 12234
+      },
+      {
+        "path": "codex-rs/login/src/lib.rs",
+        "parent_sha256": "5199e453f230c5e80d4b3fa2fc128dbc2783f667ad205530d85a3ab4a269fb08",
+        "adopted_and_initial_failed_gate_sha256": "951a88f196b1f47e9d5f247c134f76ff48aca08097ecfc823fcb3f6838ab50ad",
+        "bytes": 3011,
+        "additions": 3,
+        "removals": 0,
+        "successful_test_sha256": "951a88f196b1f47e9d5f247c134f76ff48aca08097ecfc823fcb3f6838ab50ad",
+        "formatted_sha256": "951a88f196b1f47e9d5f247c134f76ff48aca08097ecfc823fcb3f6838ab50ad",
+        "final_publication_sha256": null,
+        "login_gate_scoped_sha256": "951a88f196b1f47e9d5f247c134f76ff48aca08097ecfc823fcb3f6838ab50ad",
+        "formatted_bytes": 3011,
+        "final_source_sha256": "951a88f196b1f47e9d5f247c134f76ff48aca08097ecfc823fcb3f6838ab50ad",
+        "final_source_bytes": 3011
+      }
+    ],
+    "final_source_status": "Exact final formatted six-path source; new publication commit is not yet recorded. Tested pre-format identities remain separate.",
+    "upstream_native_anchor_proof": {
+      "receipt": {
+        "path": "/workspace/acceptance/p03-native-policy-original-anchors.json",
+        "sha256": "ed8253ef032a25a54a175251bb72b7800d13f3224f1ff034475bc1c45b40174b",
+        "bytes": 2506
+      },
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "git_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+      "sha256": "d2081e3e4f2f339a7a1aa52ea62d8485e7785c2b0a12dde1a7f470019d56dc2a",
+      "bytes": 119014,
+      "literal_declaration_anchors": [
+        {
+          "symbol": "AuthManager",
+          "matches": [
+            {
+              "line": 2043,
+              "declaration": "pub struct AuthManager {"
+            }
+          ]
+        },
+        {
+          "symbol": "set_forced_chatgpt_workspace_id",
+          "matches": [
+            {
+              "line": 2698,
+              "declaration": "pub fn set_forced_chatgpt_workspace_id("
+            }
+          ]
+        },
+        {
+          "symbol": "forced_chatgpt_workspace_id",
+          "matches": [
+            {
+              "line": 2085,
+              "declaration": "fn forced_chatgpt_workspace_id("
+            },
+            {
+              "line": 2706,
+              "declaration": "pub fn forced_chatgpt_workspace_id("
+            }
+          ]
+        },
+        {
+          "symbol": "effective_chatgpt_workspaces",
+          "matches": [
+            {
+              "line": 1202,
+              "declaration": "pub fn effective_chatgpt_workspaces("
+            },
+            {
+              "line": 2713,
+              "declaration": "pub fn effective_chatgpt_workspaces("
+            }
+          ]
+        },
+        {
+          "symbol": "allowed_login_methods",
+          "matches": [
+            {
+              "line": 1250,
+              "declaration": "fn allowed_login_methods("
+            },
+            {
+              "line": 2728,
+              "declaration": "pub fn allowed_login_methods("
+            }
+          ]
+        },
+        {
+          "symbol": "is_login_method_allowed",
+          "matches": [
+            {
+              "line": 1195,
+              "declaration": "pub fn is_login_method_allowed("
+            },
+            {
+              "line": 2718,
+              "declaration": "pub fn is_login_method_allowed("
+            }
+          ]
+        },
+        {
+          "symbol": "load_auth",
+          "matches": [
+            {
+              "line": 1227,
+              "declaration": "pub async fn load_auth("
+            },
+            {
+              "line": 1489,
+              "declaration": "async fn load_auth("
+            },
+            {
+              "line": 2573,
+              "declaration": "async fn load_auth("
+            }
+          ]
+        },
+        {
+          "symbol": "validate_external_auth",
+          "matches": [
+            {
+              "line": 3072,
+              "declaration": "fn validate_external_auth("
+            }
+          ]
+        }
+      ],
+      "limitation": "Read-only pinned Git blob and declaration matches only; not a complete semantic/call/dependency graph.",
+      "authority": "Root read the exact pinned local Git blob without fetch or mutation; evidence finalization verified this digest-bound receipt, not a separate Git read.",
+      "complete_semantic_closure": false
+    },
+    "publication_context": {
+      "recorded_published_parent_and_tree_role": "The existing published_parent/published_parent_tree fields identify the exact tested and adopted native SOURCE BASE, not a promise about the immediate Git parent of the later publication commit.",
+      "source_base_commit": "8db2c4e10feab061c7dec542a2125cdac6b2290f",
+      "source_base_tree": "27c78ca6aeb7ac45dbe078276ed66f5cde42542d",
+      "publication_sequence": "Root plans a metadata-only followup commit with no Rust changes, followed by the native policy commit. This separation does not relabel tested source or alter native preimages.",
+      "actual_immediate_publication_parent": "Recorded later in the root publication receipt; not assigned by this evidence record.",
+      "actual_publication_commit_and_ref": "Recorded later in the root publication receipt.",
+      "tested_and_formatted_source_hashes_unchanged": true
+    }
+  },
+  "origin_authority": "Root read the pinned upstream manager.rs Git blob and recorded eight native symbol groups with literal declaration matches. The bound root receipt supplies original blob/SHA256/line anchors. Evidence finalization verified that receipt and current destination bytes without another Git read. Literal presence does not establish full semantic/call/dependency equivalence; new policy types remain original custom support.",
+  "boundaries": [
+    {
+      "origin": {
+        "repository": "https://github.com/openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/login/src/auth/manager.rs",
+        "symbols": [
+          "AuthManager",
+          "AuthManager::set_forced_chatgpt_workspace_id",
+          "AuthManager::forced_chatgpt_workspace_id",
+          "AuthManager::effective_chatgpt_workspaces",
+          "AuthManager::allowed_login_methods",
+          "AuthManager::is_login_method_allowed",
+          "AuthManager::load_auth",
+          "AuthManager::validate_external_auth"
+        ],
+        "blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+        "mapping_ref": {
+          "path": "upstream/CHECKPOINT_LINEAGE_INDEX.json",
+          "sha256": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+          "pointer": "/paths/433/before"
+        },
+        "symbol_status": "Eight recorded native symbol groups have literal declaration matches in the pinned blob. Duplicate-name matches retain their exact lines; full semantic/owner equivalence remains unverified.",
+        "sha256": "d2081e3e4f2f339a7a1aa52ea62d8485e7785c2b0a12dde1a7f470019d56dc2a",
+        "bytes": 119014,
+        "literal_declaration_anchors": [
+          {
+            "symbol": "AuthManager",
+            "matches": [
+              {
+                "line": 2043,
+                "declaration": "pub struct AuthManager {"
+              }
+            ]
+          },
+          {
+            "symbol": "set_forced_chatgpt_workspace_id",
+            "matches": [
+              {
+                "line": 2698,
+                "declaration": "pub fn set_forced_chatgpt_workspace_id("
+              }
+            ]
+          },
+          {
+            "symbol": "forced_chatgpt_workspace_id",
+            "matches": [
+              {
+                "line": 2085,
+                "declaration": "fn forced_chatgpt_workspace_id("
+              },
+              {
+                "line": 2706,
+                "declaration": "pub fn forced_chatgpt_workspace_id("
+              }
+            ]
+          },
+          {
+            "symbol": "effective_chatgpt_workspaces",
+            "matches": [
+              {
+                "line": 1202,
+                "declaration": "pub fn effective_chatgpt_workspaces("
+              },
+              {
+                "line": 2713,
+                "declaration": "pub fn effective_chatgpt_workspaces("
+              }
+            ]
+          },
+          {
+            "symbol": "allowed_login_methods",
+            "matches": [
+              {
+                "line": 1250,
+                "declaration": "fn allowed_login_methods("
+              },
+              {
+                "line": 2728,
+                "declaration": "pub fn allowed_login_methods("
+              }
+            ]
+          },
+          {
+            "symbol": "is_login_method_allowed",
+            "matches": [
+              {
+                "line": 1195,
+                "declaration": "pub fn is_login_method_allowed("
+              },
+              {
+                "line": 2718,
+                "declaration": "pub fn is_login_method_allowed("
+              }
+            ]
+          },
+          {
+            "symbol": "load_auth",
+            "matches": [
+              {
+                "line": 1227,
+                "declaration": "pub async fn load_auth("
+              },
+              {
+                "line": 1489,
+                "declaration": "async fn load_auth("
+              },
+              {
+                "line": 2573,
+                "declaration": "async fn load_auth("
+              }
+            ]
+          },
+          {
+            "symbol": "validate_external_auth",
+            "matches": [
+              {
+                "line": 3072,
+                "declaration": "fn validate_external_auth("
+              }
+            ]
+          }
+        ],
+        "root_read_only_anchor_receipt": {
+          "path": "/workspace/acceptance/p03-native-policy-original-anchors.json",
+          "sha256": "ed8253ef032a25a54a175251bb72b7800d13f3224f1ff034475bc1c45b40174b",
+          "bytes": 2506
+        }
+      },
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/manager.rs",
+          "symbols": [
+            "AuthManager::auth_policy_snapshot",
+            "AuthManager::auth_policy_changes",
+            "AuthManager::validate_policy_stamp",
+            "AuthManager::load_auth",
+            "AuthManager::validate_external_auth"
+          ],
+          "final_sha256": "881c0f4766045aadecc2e34d174f2c20f667bb203b1632ab023e26e21f5abb01",
+          "final_bytes": 121200,
+          "final_blob": "5788883c13a443a20a10fb507a3d824402cb33d2",
+          "literal_anchors": [
+            {
+              "text": "pub fn set_forced_chatgpt_workspace_id(",
+              "lines": [
+                2717
+              ]
+            },
+            {
+              "text": "pub fn auth_policy_snapshot(",
+              "lines": [
+                2725
+              ]
+            },
+            {
+              "text": "pub fn auth_policy_changes(",
+              "lines": [
+                2731
+              ]
+            },
+            {
+              "text": "pub fn validate_policy_stamp(",
+              "lines": [
+                2735
+              ]
+            },
+            {
+              "text": "async fn load_auth(&self)",
+              "lines": [
+                2592
+              ]
+            },
+            {
+              "text": "fn validate_external_auth(",
+              "lines": [
+                3122
+              ]
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/login/src/auth/workspace_policy.rs",
+          "symbols": [
+            "WorkspacePolicy",
+            "WorkspacePolicy::access",
+            "WorkspacePolicy::set",
+            "WorkspacePolicy::snapshot",
+            "WorkspacePolicy::validate"
+          ],
+          "final_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+          "final_bytes": 5644,
+          "final_blob": "e5359a6c07b3074bf51592afe9d50104a96fd08b",
+          "literal_anchors": [
+            {
+              "text": "pub(super) struct WorkspacePolicy",
+              "lines": [
+                74
+              ]
+            },
+            {
+              "text": "fn access<T>(",
+              "lines": [
+                98
+              ]
+            },
+            {
+              "text": "pub(super) fn set(",
+              "lines": [
+                121
+              ]
+            },
+            {
+              "text": "pub(super) fn snapshot(",
+              "lines": [
+                136
+              ]
+            },
+            {
+              "text": "pub(super) fn validate(",
+              "lines": [
+                161
+              ]
+            },
+            {
+              "text": "pub(super) fn changes(",
+              "lines": [
+                175
+              ]
+            },
+            {
+              "text": "pub struct AuthPolicyStamp",
+              "lines": [
+                21
+              ]
+            },
+            {
+              "text": "pub struct AuthPolicySnapshot",
+              "lines": [
+                41
+              ]
+            },
+            {
+              "text": "pub enum AuthPolicyError",
+              "lines": [
+                10
+              ]
+            }
+          ]
+        }
+      ],
+      "relation": "native_adaptation_with_custom_support",
+      "change": "Replaces manager-local forced-workspace RwLock with one owner-bound monotonic policy state, exact snapshots, separate wakeups and sticky fail-closed policy observation. Native auth loading and restriction validation read checked snapshots.",
+      "semantic_limits": "This is connected synchronous native policy storage/observation, not separately installed replacement or post-await authorization. managed_auth_policy and forced_login_method remain immutable manager inputs."
+    },
+    {
+      "origin": null,
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/workspace_policy.rs",
+          "symbols": [
+            "AuthPolicyStamp",
+            "AuthPolicySnapshot",
+            "AuthPolicyError"
+          ],
+          "final_sha256": "7951babd2a7d5d2e22aa05383134926a4a25addf21ce541ecb53d9b86f459d28",
+          "final_bytes": 5644,
+          "final_blob": "e5359a6c07b3074bf51592afe9d50104a96fd08b",
+          "literal_anchors": [
+            {
+              "text": "pub(super) struct WorkspacePolicy",
+              "lines": [
+                74
+              ]
+            },
+            {
+              "text": "fn access<T>(",
+              "lines": [
+                98
+              ]
+            },
+            {
+              "text": "pub(super) fn set(",
+              "lines": [
+                121
+              ]
+            },
+            {
+              "text": "pub(super) fn snapshot(",
+              "lines": [
+                136
+              ]
+            },
+            {
+              "text": "pub(super) fn validate(",
+              "lines": [
+                161
+              ]
+            },
+            {
+              "text": "pub(super) fn changes(",
+              "lines": [
+                175
+              ]
+            },
+            {
+              "text": "pub struct AuthPolicyStamp",
+              "lines": [
+                21
+              ]
+            },
+            {
+              "text": "pub struct AuthPolicySnapshot",
+              "lines": [
+                41
+              ]
+            },
+            {
+              "text": "pub enum AuthPolicyError",
+              "lines": [
+                10
+              ]
+            }
+          ]
+        },
+        {
+          "path": "codex-rs/login/src/lib.rs",
+          "symbols": [
+            "AuthPolicyError",
+            "AuthPolicySnapshot",
+            "AuthPolicyStamp"
+          ],
+          "final_sha256": "951a88f196b1f47e9d5f247c134f76ff48aca08097ecfc823fcb3f6838ab50ad",
+          "final_bytes": 3011,
+          "final_blob": "a579dcc26bd33ddec8e56ba4ed342ee1465eb8d2",
+          "literal_anchors": [
+            {
+              "text": "pub use auth::AuthPolicyError;",
+              "lines": [
+                45
+              ]
+            },
+            {
+              "text": "pub use auth::AuthPolicySnapshot;",
+              "lines": [
+                46
+              ]
+            },
+            {
+              "text": "pub use auth::AuthPolicyStamp;",
+              "lines": [
+                47
+              ]
+            }
+          ]
+        }
+      ],
+      "relation": "original_custom",
+      "change": "Opaque retained allocation identity plus numeric epoch distinguishes manager ownership; redacted Debug, no serialization; typed Changed/Unavailable/RevisionExhausted; additive checked-policy exports."
+    },
+    {
+      "origin": {
+        "path": "codex-rs/login/src/auth/auth_tests.rs",
+        "role": "Existing external-header restriction and refresh assertions"
+      },
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/auth_tests.rs",
+          "final_sha256": "ccd7ffa1d0ca6ff4fad5f87d60e01bc0dc1b22e026394e58927d45babd6ffdc3",
+          "final_bytes": 106769,
+          "final_blob": "4c56ad404b42bc1273330e56228a067c69eb55ff",
+          "literal_anchors": []
+        },
+        {
+          "path": "codex-rs/app-server/src/config_manager_service_tests.rs",
+          "symbol": "allowed_login_methods_follow_current_forced_workspaces",
+          "final_sha256": "aa72d0bd80ec14fbb901799bdd76b042f49be722f770c135e0b6851c75c0e2e2",
+          "final_bytes": 95111,
+          "final_blob": "271e9cdbf1ca9129d0cbd724f8551bceb0da110f",
+          "literal_anchors": [
+            {
+              "text": "async fn allowed_login_methods_follow_current_forced_workspaces",
+              "lines": [
+                2713
+              ]
+            }
+          ]
+        }
+      ],
+      "relation": "native_test_callsite_adaptation",
+      "change": "Three active setter callsites consume Result while retaining their original authorization assertions."
+    },
+    {
+      "origin": null,
+      "destinations": [
+        {
+          "path": "codex-rs/login/src/auth/workspace_policy_tests.rs",
+          "symbols": [
+            "coalesced_workspace_changes_cannot_revive_stamps_or_impersonate_auth_changes",
+            "managed_intersection_and_empty_policy_preserve_native_validation",
+            "equal_epochs_from_different_managers_do_not_share_authority_or_revoke_network",
+            "overflow_and_poison_permanently_deny_native_policy_decisions",
+            "concurrent_snapshots_bind_exact_value_to_revision",
+            "unavailable_policy_blocks_native_load_even_with_valid_stored_api_auth",
+            "unavailable_policy_blocks_external_permanent_failure_cached_return"
+          ],
+          "final_sha256": "5407ff9393e1f030765d9dd3bf6383b1b7d618bd76d868c270d4c094e425a7f2",
+          "final_bytes": 12234,
+          "final_blob": "cc96a3cbb0e4223b6644d7fb10315af21d478334",
+          "literal_anchors": [
+            {
+              "text": "coalesced_workspace_changes_cannot_revive_stamps_or_impersonate_auth_changes(",
+              "lines": [
+                37
+              ]
+            },
+            {
+              "text": "managed_intersection_and_empty_policy_preserve_native_validation(",
+              "lines": [
+                81
+              ]
+            },
+            {
+              "text": "equal_epochs_from_different_managers_do_not_share_authority_or_revoke_network(",
+              "lines": [
+                129
+              ]
+            },
+            {
+              "text": "overflow_and_poison_permanently_deny_native_policy_decisions(",
+              "lines": [
+                161
+              ]
+            },
+            {
+              "text": "concurrent_snapshots_bind_exact_value_to_revision(",
+              "lines": [
+                236
+              ]
+            },
+            {
+              "text": "unavailable_policy_blocks_native_load_even_with_valid_stored_api_auth(",
+              "lines": [
+                267
+              ]
+            },
+            {
+              "text": "unavailable_policy_blocks_external_permanent_failure_cached_return(",
+              "lines": [
+                291
+              ]
+            }
+          ]
+        }
+      ],
+      "relation": "original_custom_tests",
+      "change": "Seven actual native-manager tests are authored for coalescing, intersection/empty policy, cross-owner isolation, sticky overflow/poison, concurrent snapshot/value pairing and stored/external cached-return load refusal. All seven passed in the 256-test login retry; the separate focused App Server retry passed one test with 425 filtered skips; scoped lint and global formatting completed with exit 0. The later mechanical source transition is separately reviewed, without a post-format retest claim."
+    }
+  ],
+  "preserved_dependencies": [
+    {
+      "path": "codex-rs/config/src/auth_policy.rs",
+      "symbol": "ManagedAuthPolicy",
+      "role": "Existing effective workspace and allowed-method computation retained"
+    },
+    {
+      "path": "codex-rs/login/src/auth/change_state.rs",
+      "role": "Credential/auth owner and legacy auth watches remain separate and unchanged"
+    },
+    {
+      "path": "codex-rs/http-client/src/network_policy.rs",
+      "role": "Independent network permits/revisions are not invalidated by this local policy setter"
+    }
+  ],
+  "intentional_api_change": {
+    "symbol": "AuthManager::set_forced_chatgpt_workspace_id",
+    "before": "unit return",
+    "after": "Result<(), AuthPolicyError>",
+    "wire_schema_change": false,
+    "dependencies_changed": false
+  },
+  "limits": [
+    "Production-connected native AuthManager policy publication and checked-read prerequisite; not an independently installable auth/catalog/provider component, broker activation or new native domain extraction.",
+    "Snapshot/stamp validates a manager-local synchronous observation. It is not a serializable grant and does not authorize later asynchronous work.",
+    "Post-await auth loading, agent identity resolution, external-auth commit/ephemeral persistence, copied credentials, in-flight HTTP, catalog cache writes and host mirror publication are not fenced by this slice.",
+    "auth_cached() retains its existing behavior, including exposing cached credentials after policy exhaustion. No credential revocation or NetworkPolicy revision hardening is claimed.",
+    "NetworkPolicy is not invalidated by workspace-policy mutation; independently owned managers sharing it are not globally revoked.",
+    "Setter changes source API from unit return to Result; three active existing test callsites were adapted. The unlinked model-provider/component_catalog_tests.rs draft was deliberately not activated and needs adaptation when integrated.",
+    "None and Some(empty) remain distinct; legacy workspace Option projections alone do not deny API login. Actual checked native authorization handles policy failure.",
+    "No full CLI/UI/in-app Browser/live-provider/runtime installation test has run for this policy source. Prior d04 runtime results remain historical and do not cover this newer slice.",
+    "No whole-harness completion, release/updater acceptance or rollback proof is implied.",
+    "Login ran 256 tests with zero skips. The separate App Server gate ran one selected test; 425 were filtered out. This is not 257 tests of broad App Server coverage.",
+    "All successful tests used the recorded pre-format source. Three argument comments and four mechanically formatted files were independently reviewed after testing; no post-format retest is claimed.",
+    "The later private reload/publication candidate remains separately staged, unadopted and untested. Its policy-stale commit fence is not part of these seven tested policy-observation cases."
+  ],
+  "login_gate": {
+    "source_report": {
+      "path": "/workspace/acceptance/p03-native-policy-login-tests-retry.source.json",
+      "sha256": "d830d6f29199e45c48b1dc080cfc7003584e6739938ab7ead92a9fb9764b4d73",
+      "bytes": 2453158
+    },
+    "tests_passed": 256,
+    "new_tests_passed": 7,
+    "same_8880_source_entries_as_initial_failure": true,
+    "finalized_evidence": true
+  },
+  "app_server_first_attempt": {
+    "source_report": {
+      "path": "/workspace/acceptance/p03-native-policy-app-server-tests.source.json",
+      "sha256": "416e623523e7d05114319b7f44099b4319e6b94f45a12cd5307a8af5a3ff02a8",
+      "bytes": 2453255
+    },
+    "strict_runner_report": {
+      "path": "/workspace/acceptance/p03-native-policy-app-server-tests.subreaper.json",
+      "sha256": "f670004680644b0178a2f0f6a5a460f680f87c468fb6cbfd6c63c886a5551788",
+      "bytes": 605
+    },
+    "returncode": 101,
+    "tests_executed": 0,
+    "failure": "SIGBUS at lib-test link; observed zero disk headroom is separate, not an ENOSPC diagnostic.",
+    "same_8880_source_entries_as_initial_login_failure_and_successful_login_retry": true,
+    "failed_partial_preservation_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-app-server-failed-link-preservation.json",
+      "sha256": "20a076bd0667f94ed2dc727f6bd1ff1f47f670ed802693f80b3808e044f186f2",
+      "bytes": 1966
+    },
+    "retry_status": "passed_on_separate_retry",
+    "finalized_evidence": true
+  },
+  "app_server_retry": {
+    "source_report": {
+      "path": "/workspace/acceptance/p03-native-policy-app-server-tests-retry.source.json",
+      "sha256": "8080bca96ac1d6da312f0c4f48a0648f9626231e171b51d85c8d6d0e61c04972",
+      "bytes": 2453259
+    },
+    "strict_runner_report": {
+      "path": "/workspace/acceptance/p03-native-policy-app-server-tests-retry.subreaper.json",
+      "sha256": "735de5dcfe6c5f6450dfa5613d7d7ef2d869dc0f529c2d7443bab580e5d59bb1",
+      "bytes": 590
+    },
+    "returncode": 0,
+    "tests_passed": 1,
+    "tests_skipped_filtered": 425,
+    "same_8880_source_entries_across_all_eight_before_after_maps": true,
+    "finalized_evidence": true
+  },
+  "source_chain": {
+    "all_eight_test_attempt_maps_equal": true,
+    "test_source_entries": 8880,
+    "tested_map_sha256": "b52c26b5935e19241ae43cb69238e2f17b1706def0a6977840718af7dd3d05e6",
+    "argument_comment_transition": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-native-policy-argument-comment-transition.json",
+      "sha256": "5806da9490374de02586d4577ebec963569aa588d0f4411232c90fdcf57d0c8a",
+      "bytes": 367
+    },
+    "argument_comment_changes": 3,
+    "argument_comment_reconstruction_exact": true,
+    "argument_comment_patch": {
+      "path": "/tmp/p03-native-policy-evidence-stage/review/argument-comments.patch",
+      "sha256": "069dcea9c85769a2d551bfe9f379b73837f7b59f8633840d30bba091314bcd6e",
+      "bytes": 1552
+    },
+    "test_to_lint_common_path_changes": [
+      "codex-rs/login/src/auth/workspace_policy_tests.rs"
+    ],
+    "lint_scope_extra_paths": [
+      "upstream/CHECKPOINT_LINEAGE_INDEX.json",
+      "upstream/CHECKPOINT_LINEAGE_PUBLICATION_RECEIPT.json",
+      "upstream/CHECKPOINT_LINEAGE_README.md",
+      "upstream/lineage.json",
+      "upstream/p01-migration-lineage.json",
+      "upstream/p02-search-lineage.json",
+      "upstream/p02b-app-server-lineage.json",
+      "upstream/p02b-bounded-lineage.json",
+      "upstream/p02b-contract-lineage.json",
+      "upstream/p02b-integration-lineage.json",
+      "upstream/p02b-matrix-lineage.json",
+      "upstream/p02b-native-backend-lineage.json",
+      "upstream/p02b-preparing-app-server-lineage.json",
+      "upstream/p02b-preparing-native-backend-lineage.json",
+      "upstream/p02b-preparing-native-owner-lineage.json",
+      "upstream/p02b-preparing-process-lineage.json",
+      "upstream/p02b-preparing-tui-consumer-lineage.json",
+      "upstream/p02b-public-stop-lineage.json",
+      "upstream/p02b-required-start-service-lineage.json",
+      "upstream/p02b-runtime-preparing-lineage.json",
+      "upstream/p02b-search-worker04-lineage.json",
+      "upstream/p02b-selected-search-lineage.json",
+      "upstream/p02b-startup-sdk-lineage.json",
+      "upstream/p02b-tui-consumer-lineage.json",
+      "upstream/p02b-worker04-old-host-compat-lineage.json",
+      "upstream/p03-broker-design-bindings.json",
+      "upstream/p03-broker-grants-lineage.json",
+      "upstream/p03-broker-limits-lineage.json",
+      "upstream/p03-broker-offer-lineage.json",
+      "upstream/p03-provider-endpoint-lineage.json",
+      "upstream/p03-service-declarations-lineage.json",
+      "upstream/p03-wire-slice1-lineage.json",
+      "upstream/test_validate_checkpoint_lineage.py",
+      "upstream/validate_checkpoint_lineage.py"
+    ],
+    "lint_scope_extra_paths_count": 34,
+    "lint_source_entries": 8914,
+    "lint_before_after_equal": true,
+    "all_lint_paths_equal_format_input": true,
+    "format_wrapper_source_entries": 10326,
+    "format_repository_git_visible_entries": 9753,
+    "format_changed_paths": [
+      "codex-rs/login/src/auth/auth_tests.rs",
+      "codex-rs/login/src/auth/manager.rs",
+      "codex-rs/login/src/auth/workspace_policy.rs",
+      "codex-rs/login/src/auth/workspace_policy_tests.rs"
+    ],
+    "formatting_review_patch": {
+      "path": "/tmp/p03-native-policy-evidence-stage/review/formatting.patch",
+      "sha256": "be402cc47f97330f202510bd95233105f77b978446e3c6620bca3b282356b55b",
+      "bytes": 25224
+    },
+    "semantic_or_assertion_change_found": false,
+    "tests_rerun_after_mechanical_transition": false,
+    "canonical_map_encoding": "json.dumps(sort_keys=True,separators=(comma,colon),ensure_ascii=True), UTF-8; no trailing newline",
+    "wrapper_baseline_is_metadata_not_clean_commit_proof": true
+  },
+  "scope_passes": {
+    "login": {
+      "passed": 256,
+      "skipped": 0
+    },
+    "app_server_selected": {
+      "passed": 1,
+      "filtered_skipped": 425
+    },
+    "scoped_lint_exit": 0,
+    "global_format_exit": 0,
+    "no_postformat_retest": true,
+    "full_host_or_ui_acceptance": false
+  },
+  "contract_scope": {
+    "setter_source_api": {
+      "before": "unit return",
+      "after": "Result<(), AuthPolicyError>"
+    },
+    "new_native_api": [
+      "AuthPolicyError",
+      "AuthPolicyStamp",
+      "AuthPolicySnapshot",
+      "AuthManager::auth_policy_snapshot",
+      "AuthManager::auth_policy_changes",
+      "AuthManager::validate_policy_stamp"
+    ],
+    "serialization_or_wire_change": false,
+    "broker_grant_or_async_commit_fence": false,
+    "manager_local_owner_and_epoch": true,
+    "network_and_credential_ownership_unchanged": true
+  },
+  "complete_semantic_closure": false
+}

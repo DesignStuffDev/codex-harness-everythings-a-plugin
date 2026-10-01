@@ -37,7 +37,9 @@ Later accepted source and extraction checkpoints are recorded in
 [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md); the original upstream pin above
 has not advanced. Its [current provenance closure](UPSTREAM_MAINTENANCE.md#current-provenance-closure)
 distinguishes the existing immutable lineage records from the still-required
-normalized current ownership/evidence index. The separate
+complete current ownership/evidence closure. The pinned checkpoint index and
+read-only checker are implemented maintenance support, with unresolved semantic
+and update-acceptance obligations recorded explicitly. The separate
 `wip/recovered-next-components-20260930` branch preserves newer unverified source;
 its README and WIP_STATUS explain that copied older evidence is not proof of its
 newer implementation. Neither branch claims complete harness compartmentalization.

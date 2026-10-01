@@ -1542,7 +1542,9 @@ async fn external_header_auth_obeys_workspace_policy() {
         let auth = external_header_auth(account_id);
         let expected_auth = should_succeed.then_some(auth.clone());
         let manager = AuthManager::from_optional_auth_for_testing(/*auth*/ None);
-        manager.set_forced_chatgpt_workspace_id(Some(vec![WORKSPACE_ID_ALLOWED.to_string()]));
+        manager
+            .set_forced_chatgpt_workspace_id(Some(vec![WORKSPACE_ID_ALLOWED.to_string()]))
+            .unwrap();
 
         let result = manager
             .set_external_auth(Arc::new(StaticExternalAuth(auth)))
@@ -1558,7 +1560,9 @@ async fn external_header_auth_rejects_a_disallowed_workspace_on_refresh() {
     let allowed_auth = external_header_auth(Some(WORKSPACE_ID_ALLOWED));
     let disallowed_auth = external_header_auth(Some(WORKSPACE_ID_DISALLOWED));
     let manager = AuthManager::from_optional_auth_for_testing(/*auth*/ None);
-    manager.set_forced_chatgpt_workspace_id(Some(vec![WORKSPACE_ID_ALLOWED.to_string()]));
+    manager
+        .set_forced_chatgpt_workspace_id(Some(vec![WORKSPACE_ID_ALLOWED.to_string()]))
+        .unwrap();
     manager
         .set_external_auth(Arc::new(RefreshingExternalAuth {
             initial: allowed_auth.clone(),

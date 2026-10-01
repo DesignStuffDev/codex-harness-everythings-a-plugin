@@ -188,6 +188,15 @@ exposing it is not catalog extraction. The subsequent
 separately binds the compiled host and existing installed storage/search/GUI behavior
 to the exact published source; no later official upstream revision was integrated.
 
+The subsequent native workspace-policy change has its own
+[original/current boundary map](upstream/p03-native-policy-lineage.json) and
+[scoped test evidence](verification/2026-10-01/P03_NATIVE_POLICY_EVIDENCE.md): 256 login
+passes and one targeted App Server pass, with 425 App Server tests filtered out.
+Its source chain includes the original failed builds, unchanged-source retries,
+three argument comments, unchanged lint and mechanical formatting. It remains a
+compiled native prerequisite; the earlier d04 full-host proof does not cover it.
+The frozen d04 ownership index is not silently advanced by adding this map.
+
 The remaining current-provenance work is concrete:
 
 1. Complete semantic ownership/impact coverage in the existing checkpoint-scoped

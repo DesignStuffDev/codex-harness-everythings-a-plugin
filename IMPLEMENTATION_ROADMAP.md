@@ -348,6 +348,15 @@ now passes on exact published `d04d5a7` source: unchanged installed storage, mig
 search and two cold GUI/manager-shutdown cycles. It adds consumer regression evidence,
 not a catalog/provider plugin, live-model test or in-app Browser verification.
 
+The native workspace-policy prerequisite now passes 256 login tests and the focused
+App Server policy test (425 unrelated tests filtered), followed by unchanged scoped
+lint and reviewed formatting. [Evidence](verification/2026-10-01/P03_NATIVE_POLICY_EVIDENCE.md)
+binds all six source paths and preserves both failed compilation attempts separately.
+Atomic manager-local snapshots reject old A→B→A revisions and fail closed on revision
+exhaustion or detected poison. This is compiled native policy support, not installed
+auth extraction. Asynchronous credential publication, owner changes, persistence,
+request dispatch and cache publication still need their actual production fences.
+
 ### P04 — Configuration, credentials and native authentication
 
 **Prerequisites:** P03 capability/owner semantics.

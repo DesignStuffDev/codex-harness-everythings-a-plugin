@@ -1,4 +1,11 @@
+#[path = "workspace_policy.rs"]
+mod workspace_policy;
 mod workspace_routing;
+
+pub use workspace_policy::AuthPolicyError;
+pub use workspace_policy::AuthPolicySnapshot;
+pub use workspace_policy::AuthPolicyStamp;
+use workspace_policy::WorkspacePolicy;
 
 use chrono::Utc;
 use http::StatusCode;
@@ -2064,7 +2071,7 @@ pub struct AuthManager {
     auth_credentials_store_mode: AuthCredentialsStoreMode,
     keyring_backend_kind: AuthKeyringBackendKind,
     forced_login_method: Option<ForcedLoginMethod>,
-    forced_chatgpt_workspace_id: RwLock<Option<Vec<String>>>,
+    workspace_policy: WorkspacePolicy,
     managed_auth_policy: ManagedAuthPolicy,
     chatgpt_base_url: Option<String>,
     agent_identity_authapi_base_url: Option<String>,
@@ -2127,10 +2134,7 @@ impl Debug for AuthManager {
             )
             .field("keyring_backend_kind", &self.keyring_backend_kind)
             .field("forced_login_method", &self.forced_login_method)
-            .field(
-                "forced_chatgpt_workspace_id",
-                &self.forced_chatgpt_workspace_id,
-            )
+            .field("workspace_policy", &self.workspace_policy)
             .field("managed_auth_policy", &self.managed_auth_policy)
             .field("chatgpt_base_url", &self.chatgpt_base_url)
             .field("auth_route_config", &self.auth_route_config)
@@ -2221,7 +2225,7 @@ impl AuthManager {
             auth_credentials_store_mode,
             keyring_backend_kind,
             forced_login_method,
-            forced_chatgpt_workspace_id: RwLock::new(forced_chatgpt_workspace_id),
+            workspace_policy: WorkspacePolicy::new(forced_chatgpt_workspace_id),
             managed_auth_policy,
             chatgpt_base_url,
             agent_identity_authapi_base_url,
@@ -2257,7 +2261,7 @@ impl AuthManager {
             auth_credentials_store_mode: AuthCredentialsStoreMode::File,
             keyring_backend_kind: AuthKeyringBackendKind::default(),
             forced_login_method: None,
-            forced_chatgpt_workspace_id: RwLock::new(None),
+            workspace_policy: WorkspacePolicy::new(/*forced*/ None),
             managed_auth_policy: ManagedAuthPolicy::default(),
             chatgpt_base_url: None,
             agent_identity_authapi_base_url: default_agent_identity_authapi_base_url(),
@@ -2287,7 +2291,7 @@ impl AuthManager {
             auth_credentials_store_mode: AuthCredentialsStoreMode::File,
             keyring_backend_kind: AuthKeyringBackendKind::default(),
             forced_login_method: None,
-            forced_chatgpt_workspace_id: RwLock::new(None),
+            workspace_policy: WorkspacePolicy::new(/*forced*/ None),
             managed_auth_policy: ManagedAuthPolicy::default(),
             chatgpt_base_url: None,
             agent_identity_authapi_base_url: default_agent_identity_authapi_base_url(),
@@ -2321,7 +2325,7 @@ impl AuthManager {
             auth_credentials_store_mode: AuthCredentialsStoreMode::File,
             keyring_backend_kind: AuthKeyringBackendKind::default(),
             forced_login_method: None,
-            forced_chatgpt_workspace_id: RwLock::new(None),
+            workspace_policy: WorkspacePolicy::new(/*forced*/ None),
             managed_auth_policy: ManagedAuthPolicy::default(),
             chatgpt_base_url: None,
             agent_identity_authapi_base_url: Some(
@@ -2353,7 +2357,7 @@ impl AuthManager {
             auth_credentials_store_mode: AuthCredentialsStoreMode::File,
             keyring_backend_kind: AuthKeyringBackendKind::default(),
             forced_login_method: None,
-            forced_chatgpt_workspace_id: RwLock::new(None),
+            workspace_policy: WorkspacePolicy::new(/*forced*/ None),
             managed_auth_policy: ManagedAuthPolicy::default(),
             chatgpt_base_url: None,
             agent_identity_authapi_base_url: default_agent_identity_authapi_base_url(),
@@ -2586,6 +2590,7 @@ impl AuthManager {
     }
 
     async fn load_auth(&self) -> Option<CodexAuth> {
+        let policy = self.auth_policy_snapshot().ok()?;
         if let Some(external_auth) = self.external_auth_provider() {
             let cached_auth = self.auth_cached();
             if cached_auth
@@ -2612,14 +2617,12 @@ impl AuthManager {
             };
         }
 
-        let allowed_login_methods = self.allowed_login_methods();
-        let effective_chatgpt_workspaces = self.effective_chatgpt_workspaces();
         load_auth(
             &self.codex_home,
             self.enable_codex_api_key_env,
             self.auth_credentials_store_mode,
-            Some(&allowed_login_methods),
-            effective_chatgpt_workspaces.as_deref(),
+            Some(policy.allowed_login_methods()),
+            policy.effective_chatgpt_workspaces(),
             self.chatgpt_base_url.as_deref(),
             self.keyring_backend_kind,
             self.agent_identity_authapi_base_url.as_deref(),
@@ -2630,8 +2633,8 @@ impl AuthManager {
         .flatten()
         .filter(|auth| {
             validate_auth_restrictions(
-                Some(&allowed_login_methods),
-                effective_chatgpt_workspaces.as_deref(),
+                Some(policy.allowed_login_methods()),
+                policy.effective_chatgpt_workspaces(),
                 auth,
             )
             .is_ok()
@@ -2710,40 +2713,62 @@ impl AuthManager {
         }
     }
 
-    pub fn set_forced_chatgpt_workspace_id(&self, workspace_id: Option<Vec<String>>) {
-        if let Ok(mut guard) = self.forced_chatgpt_workspace_id.write()
-            && *guard != workspace_id
-        {
-            *guard = workspace_id;
-        }
+    /// Publishes an exact policy change, invalidating previously captured policy stamps.
+    pub fn set_forced_chatgpt_workspace_id(
+        &self,
+        workspace_id: Option<Vec<String>>,
+    ) -> Result<(), AuthPolicyError> {
+        self.workspace_policy.set(workspace_id)
     }
 
+    /// Captures synchronous policy decisions; it does not authorize later asynchronous work.
+    pub fn auth_policy_snapshot(&self) -> Result<AuthPolicySnapshot, AuthPolicyError> {
+        self.workspace_policy
+            .snapshot(&self.managed_auth_policy, self.forced_login_method)
+    }
+
+    /// Wakeups may coalesce. Read a checked snapshot after each wakeup.
+    pub fn auth_policy_changes(&self) -> watch::Receiver<()> {
+        self.workspace_policy.changes()
+    }
+
+    pub fn validate_policy_stamp(&self, stamp: &AuthPolicyStamp) -> Result<(), AuthPolicyError> {
+        self.workspace_policy.validate(stamp)
+    }
+
+    /// Legacy projection: unavailable policy projects to no workspaces, not unrestricted.
+    /// Use a checked snapshot for authorization; this alone does not deny API login.
     pub fn forced_chatgpt_workspace_id(&self) -> Option<Vec<String>> {
-        self.forced_chatgpt_workspace_id
-            .read()
-            .ok()
-            .and_then(|guard| guard.clone())
+        self.auth_policy_snapshot()
+            .map(|snapshot| {
+                snapshot
+                    .forced_chatgpt_workspace_id()
+                    .map(<[String]>::to_vec)
+            })
+            .unwrap_or_else(|_| Some(Vec::new()))
     }
 
+    /// Legacy workspace projection; checked authorization also denies API login on failure.
     pub fn effective_chatgpt_workspaces(&self) -> Option<Vec<String>> {
-        self.managed_auth_policy
-            .effective_chatgpt_workspaces(self.forced_chatgpt_workspace_id().as_deref())
+        self.auth_policy_snapshot()
+            .map(|snapshot| {
+                snapshot
+                    .effective_chatgpt_workspaces()
+                    .map(<[String]>::to_vec)
+            })
+            .unwrap_or_else(|_| Some(Vec::new()))
     }
 
     pub fn is_login_method_allowed(&self, method: ForcedLoginMethod) -> bool {
-        self.managed_auth_policy.allows_login_method(
-            method,
-            self.forced_login_method,
-            self.forced_chatgpt_workspace_id().as_deref(),
-        )
+        self.auth_policy_snapshot()
+            .is_ok_and(|snapshot| snapshot.allowed_login_methods().contains(&method))
     }
 
-    /// Returns the login methods permitted by the current effective authentication policy.
+    /// Returns permitted login methods, or none when policy cannot be checked.
     pub fn allowed_login_methods(&self) -> Vec<ForcedLoginMethod> {
-        self.managed_auth_policy.allowed_login_methods(
-            self.forced_login_method,
-            self.forced_chatgpt_workspace_id().as_deref(),
-        )
+        self.auth_policy_snapshot()
+            .map(|snapshot| snapshot.allowed_login_methods().to_vec())
+            .unwrap_or_default()
     }
 
     pub fn has_external_auth(&self) -> bool {
@@ -3099,10 +3124,12 @@ impl AuthManager {
         auth: &CodexAuth,
         external_auth: &dyn ExternalAuth,
     ) -> Result<(), RefreshTokenError> {
-        let allowed_login_methods = self.allowed_login_methods();
+        let policy = self
+            .auth_policy_snapshot()
+            .map_err(|error| external_auth.classify_error(std::io::Error::other(error)))?;
         validate_auth_restrictions(
-            Some(&allowed_login_methods),
-            self.effective_chatgpt_workspaces().as_deref(),
+            Some(policy.allowed_login_methods()),
+            policy.effective_chatgpt_workspaces(),
             auth,
         )
         .map_err(|error| external_auth.classify_error(std::io::Error::other(error)))

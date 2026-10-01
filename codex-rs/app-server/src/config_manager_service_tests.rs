@@ -2745,7 +2745,7 @@ async fn allowed_login_methods_follow_current_forced_workspaces() -> Result<()> 
             vec![ForcedLoginMethod::Api, ForcedLoginMethod::Chatgpt],
         ),
     ] {
-        auth.set_forced_chatgpt_workspace_id(workspaces);
+        auth.set_forced_chatgpt_workspace_id(workspaces)?;
         assert_eq!(auth.allowed_login_methods(), expected);
     }
     Ok(())
