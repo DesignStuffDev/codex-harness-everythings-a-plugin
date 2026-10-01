@@ -19,13 +19,14 @@ use tokio::sync::oneshot;
 use tokio::sync::watch;
 use tokio::time::timeout;
 
+use crate::session_reply::PendingComponentReply;
 use crate::session_wire::Header;
 use crate::session_wire::Outgoing;
 use crate::session_wire::Payload;
 use crate::session_wire::SessionComponent;
 
 pub(super) const CALL_SLOTS: usize = 32;
-type Completion = std::result::Result<Payload, String>;
+pub(super) type Completion = std::result::Result<Payload, String>;
 pub(super) type FinalStatus = Option<std::result::Result<(), String>>;
 
 /// A persistent process shared by calls. Cancelling a waiter never replays or
@@ -211,6 +212,41 @@ impl ComponentSession {
         })
         .await
         .context("component request wait timed out; accepted operation outcome is unknown")?
+    }
+
+    /// Reserve ordinary and cleanup capacity, then return both handles as soon
+    /// as the request is admitted. Admission uses the session timeout. Errors or
+    /// cancellation before admission send no request; there is no await between
+    /// admission and returning the handles.
+    ///
+    /// The caller owns the cleanup guard independently of response observation.
+    /// Retain it across startup failure or cancellation, and explicitly await
+    /// `release` to observe cleanup. Dropping the guard only queues cleanup.
+    pub async fn start_with_cleanup(
+        &self,
+        method: &str,
+        params: Value,
+        cleanup_method: &str,
+        cleanup_params: Value,
+    ) -> Result<(PendingComponentReply, DeferredControl)> {
+        let (response, cleanup) = timeout(
+            self.inner.timeout,
+            self.start(
+                method,
+                params,
+                Some((cleanup_method.to_owned(), cleanup_params)),
+            ),
+        )
+        .await
+        .context("component admission timed out; no request was submitted")??;
+        let cleanup = cleanup.context("component cleanup reservation missing")?;
+        Ok((
+            PendingComponentReply {
+                response,
+                inner: Arc::clone(&self.inner),
+            },
+            cleanup,
+        ))
     }
 
     /// Reserve both ordinary and cleanup capacity before submitting a call.

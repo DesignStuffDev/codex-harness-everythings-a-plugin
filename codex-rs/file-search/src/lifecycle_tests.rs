@@ -308,3 +308,44 @@ fn dropping_session_eventually_releases_reporter_ownership() {
         .expect("drop must eventually drain workers and release reporter");
     assert!(weak_reporter.upgrade().is_none());
 }
+
+#[test]
+fn query_flood_during_a_blocked_reporter_does_not_delay_close_admission() {
+    let root = tree();
+    let (release_tx, release) = bounded(1);
+    let (reporter, observations) = probe(Callback::Block(release));
+    let session = create_session(
+        vec![root.path().to_path_buf()],
+        FileSearchOptions::default(),
+        reporter,
+        /*cancel_flag*/ None,
+    )
+    .unwrap();
+    session.update_query_tagged("needle", 1).unwrap();
+    observations.wait_for_match();
+    let (requested_tx, requested) = bounded(1);
+    let (closed_tx, closed) = bounded(1);
+    let closer = thread::spawn(move || {
+        for query_id in 2..=10_000 {
+            session.update_query_tagged("other", query_id).unwrap();
+        }
+        session.request_close();
+        requested_tx.send(()).unwrap();
+        closed_tx.send(session.close()).unwrap();
+    });
+    let request_result = requested.recv_timeout(WAIT);
+    let early_close = closed.try_recv();
+    let closed_early = early_close.is_ok();
+    release_tx.send(()).unwrap();
+    let close_result = early_close.or_else(|_| closed.recv_timeout(WAIT).map_err(|_| ()));
+    closer.join().unwrap();
+    request_result.expect("bounded query ingress and shutdown must not wait for the reporter");
+    assert!(
+        !closed_early,
+        "close must still wait for the in-flight callback"
+    );
+    close_result
+        .expect("close must join after the reporter is released")
+        .unwrap();
+    observations.dropped.recv_timeout(WAIT).unwrap();
+}

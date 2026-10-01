@@ -174,7 +174,7 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
         fn on_complete(&self) {}
     }
     let root = tempfile::tempdir().unwrap();
-    let (work_tx, work_rx) = crossbeam_channel::unbounded();
+    let (work_tx, work_rx) = crate::work_queue::WorkSender::channel();
     let (updates, observed) = crossbeam_channel::unbounded();
     let inner = Arc::new(SessionInner {
         search_directories: vec![root.path().into()],
@@ -242,6 +242,7 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
     // The only pool thread is now blocked before it can compute apple-b.
     second_started.recv_timeout(Duration::from_secs(5)).unwrap();
     while work_rx.try_recv().is_ok() {}
+    work_tx.take();
     work_tx
         .send(WorkSignal::QueryUpdated {
             query: "apple-b".into(),
@@ -282,4 +283,110 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
             .collect::<Vec<_>>(),
         vec![std::path::PathBuf::from("apple-b.txt")]
     );
+}
+
+#[test]
+fn completed_walk_publishes_a_fresh_snapshot_even_when_nucleo_did_not_change() {
+    use crate::FileMatch;
+    use crate::FileSearchSnapshot;
+    use crate::IndexedEntry;
+    use crate::MatchType;
+    use crate::SessionReporter;
+    use nucleo::Utf32String;
+    use std::sync::Mutex;
+
+    #[derive(Debug, PartialEq, Eq)]
+    enum Observation {
+        Snapshot(FileSearchSnapshot),
+        Complete(u64),
+    }
+    struct Reporter(crossbeam_channel::Sender<Observation>);
+    impl SessionReporter for Reporter {
+        fn on_update(&self, snapshot: &FileSearchSnapshot) {
+            self.0
+                .send(Observation::Snapshot(snapshot.clone()))
+                .unwrap();
+        }
+        fn on_complete(&self) {
+            panic!("matcher must report tagged completion");
+        }
+        fn on_complete_tagged(&self, query_id: u64) {
+            self.0.send(Observation::Complete(query_id)).unwrap();
+        }
+    }
+
+    let root = tempfile::tempdir().unwrap();
+    let (work_tx, work_rx) = crate::work_queue::WorkSender::channel();
+    let (updates, observed) = crossbeam_channel::unbounded();
+    let inner = Arc::new(SessionInner {
+        search_directories: vec![root.path().into()],
+        limit: 20,
+        threads: 1,
+        compute_indices: false,
+        respect_gitignore: true,
+        cancelled: Arc::new(AtomicBool::new(false)),
+        shutdown: Arc::new(AtomicBool::new(false)),
+        last_query_id: Mutex::new(0),
+        reporter: Arc::new(Reporter(updates)),
+        work_tx: work_tx.clone(),
+    });
+    let mut pool_threads = PoolThreads::default();
+    let pool = pool_threads.build(1, |_| {}, spawn_pool_thread).unwrap();
+    let mut nucleo = Nucleo::new_with_thread_pool(
+        Config::DEFAULT.match_paths(),
+        Arc::new(|| {}),
+        pool,
+        /*columns*/ 1,
+    );
+    let injector = nucleo.injector();
+    injector.push(
+        IndexedEntry {
+            full_path: Arc::from(root.path().join("needle.txt").to_str().unwrap()),
+            match_type: MatchType::File,
+        },
+        |_, columns| columns[0] = Utf32String::from("needle.txt"),
+    );
+    drop(injector);
+    let deadline = std::time::Instant::now() + Duration::from_secs(5);
+    while nucleo.tick(/*timeout*/ 10).running {
+        assert!(std::time::Instant::now() < deadline);
+    }
+    assert_eq!(
+        nucleo.tick(/*timeout*/ 10),
+        nucleo::Status {
+            changed: false,
+            running: false,
+        }
+    );
+    work_tx.send(WorkSignal::WalkComplete).unwrap();
+    let worker_inner = inner.clone();
+    let matcher = thread::spawn(move || {
+        let result = matcher_worker(worker_inner, work_rx, &mut nucleo);
+        nucleo.shutdown();
+        result
+    });
+    let snapshot = observed.recv_timeout(Duration::from_secs(5));
+    let complete = observed.recv_timeout(Duration::from_secs(5));
+    inner.shutdown.store(true, Ordering::Release);
+    work_tx.send(WorkSignal::Shutdown).unwrap();
+    matcher.join().unwrap().unwrap();
+    assert_eq!(pool_threads.join(), Vec::<String>::new());
+    assert_eq!(
+        snapshot.unwrap(),
+        Observation::Snapshot(FileSearchSnapshot {
+            query_id: 0,
+            query: String::new(),
+            matches: vec![FileMatch {
+                score: 0,
+                path: "needle.txt".into(),
+                match_type: MatchType::File,
+                root: root.path().into(),
+                indices: None,
+            }],
+            total_match_count: 1,
+            scanned_file_count: 1,
+            walk_complete: true,
+        })
+    );
+    assert_eq!(complete.unwrap(), Observation::Complete(0));
 }

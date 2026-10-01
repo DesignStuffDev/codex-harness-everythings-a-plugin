@@ -23,6 +23,7 @@ send_lock = threading.Lock()
 state_lock = threading.Lock()
 workers = []
 leases = {}
+lease_workers = {}
 assemblies = {}
 
 def frame(value):
@@ -43,6 +44,11 @@ def wait_gate(name):
     while not state.joinpath(name).exists():
         time.sleep(0.005)
 
+def lease_work(lease, event):
+    event.wait()
+    wait_gate('join_gate')
+    state.joinpath('worker_finished').write_text(lease)
+
 def handle(request, params):
     method = request['method']
     with state_lock:
@@ -58,13 +64,28 @@ def handle(request, params):
     elif method == 'prepare':
         with state_lock:
             event = leases.setdefault(params['lease'], threading.Event())
+            if params.get('owned_worker'):
+                worker = threading.Thread(target=lease_work, args=(params['lease'], event))
+                lease_workers[params['lease']] = worker
+                worker.start()
+                workers.append(worker)
         state.joinpath('prepare_started').write_text('yes')
+        if params.get('fail'):
+            frame({'type': 'error', 'id': request['id'], 'message': 'prepare rejected'})
+            return
         if params.get('wait'):
             wait_gate('prepare_gate')
     elif method == 'release':
         with state_lock:
             event = leases.setdefault(params['lease'], threading.Event())
             event.set()
+            worker = lease_workers.get(params['lease'])
+        state.joinpath('release_started').write_text('yes')
+        if params.get('fail'):
+            frame({'type': 'error', 'id': request['id'], 'message': 'release failed'})
+            return
+        if worker is not None:
+            worker.join()
         state.joinpath('released').write_text('yes')
     elif method == 'delete':
         state.joinpath('delete_started').write_text('yes')
@@ -86,6 +107,8 @@ for line in sys.stdin:
         assemblies[message['id']][1].extend(base64.b64decode(message['data']))
     elif kind == 'end':
         request, body = assemblies.pop(message['id'])
+        with state.joinpath('wire_accepted').open('a') as record:
+            record.write(request['method'] + '\n')
         worker = threading.Thread(target=handle, args=(request, json.loads(body)))
         worker.start()
         workers.append(worker)
@@ -375,3 +398,6 @@ async fn invalid_methods_are_rejected_without_disrupting_accepted_calls() {
 
 #[path = "session_reaping_tests.rs"]
 mod reaping;
+
+#[path = "session_start_tests.rs"]
+mod paired_start;

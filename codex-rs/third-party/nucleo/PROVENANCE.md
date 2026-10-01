@@ -1,6 +1,6 @@
 # Vendored Nucleo
 
-This directory contains Nucleo 0.5.0 and its unchanged Nucleo Matcher 0.3.1
+This directory contains Nucleo 0.5.0 and its Nucleo Matcher 0.3.1
 dependency from <https://github.com/helix-editor/nucleo>, pinned to commit
 `4253de9faabb4e5c6d81d946a5e35a90f87347ee`. The source was copied from the
 existing Cargo Git checkout of that exact revision, without its `.git` metadata.
@@ -36,6 +36,17 @@ copied: the enclosing harness controls dependency resolution.
 - `src/shutdown_tests.rs`: exercises real matching on a supplied scoped pool and
   shutdown waiting for a running native worker notification. These are local
   behavioral tests; the upstream matcher and high-level tests are retained.
+
+- `matcher/src/matrix.rs`: corrects an inherited matrix-view extent in
+  `MatrixLayout::fieds_from_ptr`. Its raw slice now uses the same
+  `(haystack_len + 1 - needle_len) * needle_len` cell count as the reserved
+  layout. The previous expression multiplied by `haystack_len`, which could
+  cause `MatrixSlab::alloc` to form a mutable slice beyond its owned slab for
+  admitted inputs with a shorter needle. Matching scores and selection rules
+  are unchanged.
+- `matcher/src/matrix_extent_tests.rs`: validates ASCII and Unicode matrix
+  extents using raw pointer metadata without creating potentially invalid
+  references. This permits safely demonstrating the regression before the fix.
 
 ## Ownership and limits
 
