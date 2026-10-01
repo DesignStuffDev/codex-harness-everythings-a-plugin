@@ -11,7 +11,11 @@ tool executor, context management, policy, and other subsystems are not yet all
 independently replaceable. The GUI is our own new client of the real App Server;
 it is not the official desktop application's source or an extracted native TUI.
 
-- [Component inventory and remaining boundaries](COMPONENTS.md)
+- [Canonical implementation roadmap](IMPLEMENTATION_ROADMAP.md)
+- [Execution state and ordered next actions](EXECUTION_STATE.md)
+- [Complete source/component inventory](COMPONENT_INVENTORY.md)
+- [Upstream update and recovery workflow](UPSTREAM_MAINTENANCE.md)
+- [Historical component checkpoint](COMPONENTS.md)
 - [Validation evidence and limitations](VALIDATION.md)
 - [Recovery and publication checkpoint](RECOVERY.md)
 - [Plugin SDK, templates and packaging](component-sdk/README.md)
