@@ -138,12 +138,21 @@ async fn github_http_routes_repository_ref_and_zipball_urls() {
     let (http_clients, selected_urls) = RecordingHttpClientSelector::new();
     let http_clients = StartupSyncHttpClient::route_aware(http_clients);
 
-    let remote_sha = fetch_curated_repo_remote_sha(&http_clients, &api_base_url)
-        .await
-        .expect("remote SHA request should succeed");
-    let downloaded_zipball = fetch_curated_repo_zipball(&http_clients, &api_base_url, &remote_sha)
-        .await
-        .expect("zipball request should succeed");
+    let (remote_sha, downloaded_zipball) = tokio::task::spawn_blocking(move || {
+        with_registered_http_attempt(|attempt, runtime| {
+            runtime.block_on(async {
+                let remote_sha =
+                    fetch_curated_repo_remote_sha(attempt, &http_clients, &api_base_url).await?;
+                let bytes =
+                    fetch_curated_repo_zipball(attempt, &http_clients, &api_base_url, &remote_sha)
+                        .await?;
+                Ok((remote_sha, bytes))
+            })
+        })
+    })
+    .await
+    .expect("native HTTP probe should join")
+    .expect("HTTP probe should succeed");
 
     assert_eq!(remote_sha, sha);
     assert_eq!(downloaded_zipball, zipball);
@@ -183,9 +192,19 @@ async fn backup_archive_routes_metadata_and_backend_supplied_download_urls() {
     let (http_clients, selected_urls) = RecordingHttpClientSelector::new();
     let http_clients = StartupSyncHttpClient::route_aware(http_clients);
 
-    let body = fetch_curated_repo_backup_archive_zip(&http_clients, &metadata_url)
-        .await
-        .expect("backup archive download should succeed");
+    let probe_url = metadata_url.clone();
+    let body = tokio::task::spawn_blocking(move || {
+        with_registered_http_attempt(|attempt, runtime| {
+            runtime.block_on(fetch_curated_repo_backup_archive_zip(
+                attempt,
+                &http_clients,
+                &probe_url,
+            ))
+        })
+    })
+    .await
+    .expect("native HTTP probe should join")
+    .expect("backup archive download should succeed");
 
     assert_eq!(body, b"archive");
     let controller = codex_http_client::NetworkPolicyController::default();
@@ -1478,4 +1497,23 @@ fn curated_repo_backup_archive_zip_bytes(sha: &str) -> Vec<u8> {
         .expect("write plugin manifest");
 
     writer.finish().expect("finish zip writer").into_inner()
+}
+
+fn with_registered_http_attempt<T>(
+    action: impl FnOnce(&Arc<SyncAttempt>, &tokio::runtime::Runtime) -> Result<T, SyncFailure>,
+) -> Result<T, String> {
+    let home = tempfile::tempdir().map_err(|error| error.to_string())?;
+    let mut value = None;
+    ATTEMPTS
+        .run(home.path(), |attempt| {
+            let runtime = tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .map_err(|error| error.to_string())?;
+            value = Some(action(attempt, &runtime)?);
+            drop(runtime);
+            Ok(String::new())
+        })
+        .map_err(|error| error.to_string())?;
+    value.ok_or_else(|| "HTTP probe returned no value".to_string())
 }

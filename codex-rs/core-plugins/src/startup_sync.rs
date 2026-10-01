@@ -21,6 +21,7 @@ use tempfile::TempDir;
 use tracing::warn;
 use zip::ZipArchive;
 
+mod bounded_http;
 mod http_client;
 mod ownership;
 pub(crate) mod worker;
@@ -398,36 +399,43 @@ fn sync_openai_plugins_repo_via_http_owned(
     attempt.admit_stage()?;
     let repo_path = curated_plugins_repo_path(codex_home);
     let sha_path = codex_home.join(CURATED_PLUGINS_SHA_FILE);
-    let runtime = tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .map_err(|err| format!("failed to create curated plugins sync runtime: {err}"))?;
-    let http_clients = StartupSyncHttpClient::new(http_client_factory);
-    let remote_sha =
-        runtime.block_on(fetch_curated_repo_remote_sha(&http_clients, api_base_url))?;
+    let fetched = {
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .map_err(|err| format!("failed to create curated plugins sync runtime: {err}"))?;
+        let result = {
+            let http_clients = StartupSyncHttpClient::new(http_client_factory);
+            runtime.block_on(async {
+                let remote_sha =
+                    fetch_curated_repo_remote_sha(attempt, &http_clients, api_base_url).await?;
+                attempt.admit_stage()?;
+                if read_sha_file(&sha_path).as_deref() == Some(remote_sha.as_str())
+                    && repo_path.is_dir()
+                {
+                    return Ok::<_, SyncFailure>((remote_sha, None));
+                }
+                let staged = attempt
+                    .keep_directory(prepare_curated_repo_parent_and_temp_dir(&repo_path)?)?;
+                let bytes =
+                    fetch_curated_repo_zipball(attempt, &http_clients, api_base_url, &remote_sha)
+                        .await?;
+                Ok((remote_sha, Some((staged, bytes))))
+            })
+        };
+        // Ordinary teardown stays on this registered native worker. Blocking
+        // client/DNS work can keep this pending beyond the owner stop deadline.
+        drop(runtime);
+        result
+    };
     attempt.admit_stage()?;
-    let local_sha = read_sha_file(&sha_path);
-
-    if local_sha.as_deref() == Some(remote_sha.as_str()) && repo_path.is_dir() {
+    let (remote_sha, downloaded) = fetched?;
+    let Some((staged, bytes)) = downloaded else {
         return Ok(remote_sha);
-    }
-
-    let staged_repo_dir =
-        attempt.keep_directory(prepare_curated_repo_parent_and_temp_dir(&repo_path)?)?;
-    let zipball_bytes = runtime.block_on(fetch_curated_repo_zipball(
-        &http_clients,
-        api_base_url,
-        &remote_sha,
-    ))?;
-    extract_zipball_to_dir(&zipball_bytes, staged_repo_dir.as_path())?;
-    ensure_marketplace_manifest_exists(staged_repo_dir.as_path())?;
-    publish_curated_repo(
-        attempt,
-        &repo_path,
-        &staged_repo_dir,
-        &sha_path,
-        &remote_sha,
-    )?;
+    };
+    extract_zipball_to_dir(&bytes, &staged)?;
+    ensure_marketplace_manifest_exists(&staged)?;
+    publish_curated_repo(attempt, &repo_path, &staged, &sha_path, &remote_sha)?;
     Ok(remote_sha)
 }
 
@@ -440,28 +448,31 @@ fn sync_openai_plugins_repo_via_backup_archive(
     attempt.admit_stage()?;
     let repo_path = curated_plugins_repo_path(codex_home);
     let sha_path = curated_plugins_sha_path(codex_home);
-    let runtime = tokio::runtime::Builder::new_current_thread()
-        .enable_all()
-        .build()
-        .map_err(|err| format!("failed to create curated plugins sync runtime: {err}"))?;
-    let staged_repo_dir =
-        attempt.keep_directory(prepare_curated_repo_parent_and_temp_dir(&repo_path)?)?;
-    let http_clients = StartupSyncHttpClient::new(http_client_factory);
-    let zipball_bytes = runtime.block_on(fetch_curated_repo_backup_archive_zip(
-        &http_clients,
-        backup_archive_api_url,
-    ))?;
-    extract_zipball_to_dir(&zipball_bytes, staged_repo_dir.as_path())?;
-    ensure_marketplace_manifest_exists(staged_repo_dir.as_path())?;
-    let export_version = read_extracted_backup_archive_git_sha(staged_repo_dir.as_path())?
+    let staged = attempt.keep_directory(prepare_curated_repo_parent_and_temp_dir(&repo_path)?)?;
+    let fetched = {
+        let runtime = tokio::runtime::Builder::new_current_thread()
+            .enable_all()
+            .build()
+            .map_err(|err| format!("failed to create curated plugins sync runtime: {err}"))?;
+        let result = {
+            let http_clients = StartupSyncHttpClient::new(http_client_factory);
+            runtime.block_on(fetch_curated_repo_backup_archive_zip(
+                attempt,
+                &http_clients,
+                backup_archive_api_url,
+            ))
+        };
+        // Do not detach runtime cleanup or transfer it to an unowned thread.
+        drop(runtime);
+        result
+    };
+    attempt.admit_stage()?;
+    let bytes = fetched?;
+    extract_zipball_to_dir(&bytes, &staged)?;
+    ensure_marketplace_manifest_exists(&staged)?;
+    let export_version = read_extracted_backup_archive_git_sha(&staged)?
         .unwrap_or_else(|| CURATED_PLUGINS_BACKUP_ARCHIVE_FALLBACK_VERSION.to_string());
-    publish_curated_repo(
-        attempt,
-        &repo_path,
-        &staged_repo_dir,
-        &sha_path,
-        &export_version,
-    )?;
+    publish_curated_repo(attempt, &repo_path, &staged, &sha_path, &export_version)?;
     Ok(export_version)
 }
 
@@ -916,47 +927,65 @@ fn ensure_git_success(output: &Output, context: &str) -> Result<(), String> {
 }
 
 async fn fetch_curated_repo_remote_sha(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     api_base_url: &str,
-) -> Result<String, String> {
+) -> Result<String, SyncFailure> {
     let api_base_url = api_base_url.trim_end_matches('/');
     let repo_url = format!("{api_base_url}/repos/{OPENAI_PLUGINS_OWNER}/{OPENAI_PLUGINS_REPO}");
-    let repo_body =
-        fetch_github_text(http_clients, &repo_url, "get curated plugins repository").await?;
+    let repo_body = fetch_github_text(
+        attempt,
+        http_clients,
+        &repo_url,
+        "get curated plugins repository",
+    )
+    .await?;
+    let repo_display = bounded_http::diagnostic_url(&repo_url);
     let repo_summary: GitHubRepositorySummary =
         serde_json::from_str(&repo_body).map_err(|err| {
-            format!("failed to parse curated plugins repository response from {repo_url}: {err}")
+            format!(
+                "failed to parse curated plugins repository response from {repo_display}: {err}"
+            )
         })?;
     if repo_summary.default_branch.is_empty() {
         return Err(format!(
-            "curated plugins repository response from {repo_url} did not include a default branch"
-        ));
+            "curated plugins repository response from {repo_display} did not include a default branch"
+        ).into());
     }
 
     let git_ref_url = format!("{repo_url}/git/ref/heads/{}", repo_summary.default_branch);
-    let git_ref_body =
-        fetch_github_text(http_clients, &git_ref_url, "get curated plugins HEAD ref").await?;
+    let git_ref_body = fetch_github_text(
+        attempt,
+        http_clients,
+        &git_ref_url,
+        "get curated plugins HEAD ref",
+    )
+    .await?;
+    let ref_display = bounded_http::diagnostic_url(&git_ref_url);
     let git_ref: GitHubGitRefSummary = serde_json::from_str(&git_ref_body).map_err(|err| {
-        format!("failed to parse curated plugins ref response from {git_ref_url}: {err}")
+        format!("failed to parse curated plugins ref response from {ref_display}: {err}")
     })?;
     if git_ref.object.sha.is_empty() {
         return Err(format!(
-            "curated plugins ref response from {git_ref_url} did not include a HEAD sha"
-        ));
+            "curated plugins ref response from {ref_display} did not include a HEAD sha"
+        )
+        .into());
     }
 
     Ok(git_ref.object.sha)
 }
 
 async fn fetch_curated_repo_zipball(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     api_base_url: &str,
     remote_sha: &str,
-) -> Result<Vec<u8>, String> {
+) -> Result<Vec<u8>, SyncFailure> {
     let api_base_url = api_base_url.trim_end_matches('/');
     let repo_url = format!("{api_base_url}/repos/{OPENAI_PLUGINS_OWNER}/{OPENAI_PLUGINS_REPO}");
     let zipball_url = format!("{repo_url}/zipball/{remote_sha}");
     fetch_github_bytes(
+        attempt,
         http_clients,
         &zipball_url,
         "download curated plugins archive",
@@ -965,28 +994,32 @@ async fn fetch_curated_repo_zipball(
 }
 
 async fn fetch_curated_repo_backup_archive_zip(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     backup_archive_api_url: &str,
-) -> Result<Vec<u8>, String> {
+) -> Result<Vec<u8>, SyncFailure> {
     let export_body = fetch_public_text(
+        attempt,
         http_clients,
         backup_archive_api_url,
         "get curated plugins export archive metadata",
     )
     .await?;
+    let export_display = bounded_http::diagnostic_url(backup_archive_api_url);
     let export_response: CuratedPluginsBackupArchiveResponse = serde_json::from_str(&export_body)
         .map_err(|err| {
-            format!(
-                "failed to parse curated plugins backup archive response from {backup_archive_api_url}: {err}"
-            )
-        })?;
+        format!(
+            "failed to parse curated plugins backup archive response from {export_display}: {err}"
+        )
+    })?;
     if export_response.download_url.is_empty() {
         return Err(format!(
-            "curated plugins backup archive response from {backup_archive_api_url} did not include a download URL"
-        ));
+            "curated plugins backup archive response from {export_display} did not include a download URL"
+        ).into());
     }
 
     fetch_public_bytes(
+        attempt,
         http_clients,
         &export_response.download_url,
         "download curated plugins export archive",
@@ -1085,95 +1118,61 @@ fn read_git_ref_sha(git_dir: &Path, reference: &str) -> Result<String, String> {
 }
 
 async fn fetch_github_text(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     url: &str,
     context: &str,
-) -> Result<String, String> {
-    let response = github_request(http_clients, url)
-        .send()
-        .await
-        .map_err(|err| format!("failed to {context} from {url}: {err}"))?;
-    let status = response.status();
-    let body = response
-        .text()
-        .await
-        .map_err(|err| format!("failed to {context} from {url}: {err}"))?;
-    if !status.is_success() {
-        return Err(format!(
-            "{context} from {url} failed with status {status}: {body}"
-        ));
-    }
-    Ok(body)
+) -> Result<String, SyncFailure> {
+    bounded_http::fetch_text(
+        attempt,
+        github_request(http_clients, url),
+        url,
+        context,
+        bounded_http::METADATA_LIMITS,
+    )
+    .await
 }
-
 async fn fetch_github_bytes(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     url: &str,
     context: &str,
-) -> Result<Vec<u8>, String> {
-    let response = github_request(http_clients, url)
-        .send()
-        .await
-        .map_err(|err| format!("failed to {context} from {url}: {err}"))?;
-    let status = response.status();
-    let body = response
-        .bytes()
-        .await
-        .map_err(|err| format!("failed to read {context} response from {url}: {err}"))?;
-    if !status.is_success() {
-        let body_text = String::from_utf8_lossy(&body);
-        return Err(format!(
-            "{context} from {url} failed with status {status}: {body_text}"
-        ));
-    }
-    Ok(body.to_vec())
+) -> Result<Vec<u8>, SyncFailure> {
+    bounded_http::fetch_bytes(
+        attempt,
+        github_request(http_clients, url),
+        url,
+        context,
+        bounded_http::ARCHIVE_LIMITS,
+    )
+    .await
 }
-
 async fn fetch_public_text(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     url: &str,
     context: &str,
-) -> Result<String, String> {
-    let response = startup_sync_request(http_clients, url)
-        .timeout(CURATED_PLUGINS_BACKUP_ARCHIVE_TIMEOUT)
-        .send()
-        .await
-        .map_err(|err| format!("failed to {context} from {url}: {err}"))?;
-    let status = response.status();
-    let body = response
-        .text()
-        .await
-        .map_err(|err| format!("failed to {context} from {url}: {err}"))?;
-    if !status.is_success() {
-        return Err(format!(
-            "{context} from {url} failed with status {status}: {body}"
-        ));
-    }
-    Ok(body)
+) -> Result<String, SyncFailure> {
+    let request =
+        startup_sync_request(http_clients, url).timeout(CURATED_PLUGINS_BACKUP_ARCHIVE_TIMEOUT);
+    bounded_http::fetch_text(
+        attempt,
+        request,
+        url,
+        context,
+        bounded_http::METADATA_LIMITS,
+    )
+    .await
 }
-
 async fn fetch_public_bytes(
+    attempt: &SyncAttempt,
     http_clients: &StartupSyncHttpClient,
     url: &str,
     context: &str,
-) -> Result<Vec<u8>, String> {
-    let response = startup_sync_request(http_clients, url)
-        .timeout(CURATED_PLUGINS_BACKUP_ARCHIVE_TIMEOUT)
-        .send()
-        .await
-        .map_err(|err| format!("failed to {context} from {url}: {err}"))?;
-    let status = response.status();
-    let body = response
-        .bytes()
-        .await
-        .map_err(|err| format!("failed to read {context} response from {url}: {err}"))?;
-    if !status.is_success() {
-        let body_text = String::from_utf8_lossy(&body);
-        return Err(format!(
-            "{context} from {url} failed with status {status}: {body_text}"
-        ));
-    }
-    Ok(body.to_vec())
+) -> Result<Vec<u8>, SyncFailure> {
+    let request =
+        startup_sync_request(http_clients, url).timeout(CURATED_PLUGINS_BACKUP_ARCHIVE_TIMEOUT);
+    bounded_http::fetch_bytes(attempt, request, url, context, bounded_http::ARCHIVE_LIMITS).await
 }
 
 fn github_request(http_clients: &StartupSyncHttpClient, url: &str) -> RequestBuilder {
