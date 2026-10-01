@@ -952,3 +952,21 @@ cooperative checkpoints must not be labeled universal hard bounds. Review these 
 before adoption. Then finish publication recovery, queued work and actual shutdown integration,
 followed by unchanged real-host/UI gates. P00M lineage closure and P18U upstream update/rollback
 remain required and incomplete; no polling or live update is configured.
+
+### HTTP await and teardown checkpoint (source922)
+
+C2a is integrated at `92212516ad4d12bcf60546ee5f879b983ed44682`; [evidence](verification/2026-10-01/P03_CURATED_HTTP_AWAIT_EVIDENCE.md)
+and [lineage](upstream/p03-curated-http-await-lineage.json) bind the actual policy-aware request/body
+path, original metadata charset/BOM behavior and retained ordinary Runtime teardown. First scoped
+run580/580 passed with strict0/null; lint/style/format transitions retain exact source identities.
+The byte/deadline defaults above are now implemented for HTTP, while extraction remains unchanged.
+This establishes neither a hard blocking-work join deadline nor installed-component/full-host proof.
+
+C2b will independently add cooperative extraction limits. The [shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRATION_AUDIT.md)
+pins21 source files at sourcecb9 and identifies remaining native ownership gaps: queued callbacks
+and config work, process-global stop conflicting with embedded TUI replacement, and a45s stdio
+watchdog that can preempt longer storage/GUI cleanup. Implement exact completion/callback scopes,
+an explicit process-final owner distinct from embedded leases, publication recovery and coordinated
+drain deadlines before new full-host promotion. Slow-cleanup tests must go beyond the previously
+fast Ctrl+C cases; forced/deadline exits retain uncertainty. These repairs remain prerequisites
+for installed auth/catalog, not substitutes for further extraction. P00M/P18U/P19 gates remain.

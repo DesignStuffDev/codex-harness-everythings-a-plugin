@@ -1,0 +1,636 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_http_await_prerequisite_development_candidate",
+  "finalized": true,
+  "original_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "files": [
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync.rs",
+        "sha256": "78fe0eaf8813eab2fa3d4a5398a06cf01152deca69f12c931821d5ca35c5e93d",
+        "bytes": 39271,
+        "computed_git_blob": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+        "symbols": [
+          {
+            "literal": "fn sync_openai_plugins_repo_via_http",
+            "lines": [
+              307
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo_via_backup_archive",
+            "lines": [
+              340
+            ]
+          },
+          {
+            "literal": "async fn fetch_github_text",
+            "lines": [
+              921
+            ]
+          },
+          {
+            "literal": "async fn fetch_github_bytes",
+            "lines": [
+              943
+            ]
+          },
+          {
+            "literal": "async fn fetch_public_text",
+            "lines": [
+              966
+            ]
+          },
+          {
+            "literal": "async fn fetch_public_bytes",
+            "lines": [
+              989
+            ]
+          },
+          {
+            "literal": "fn extract_zipball_to_dir",
+            "lines": [
+              1033
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+        "sha256": "be942464de3d77716bad3ee4dc249f5c56d36d61e97c9555f0c560e447120f9e",
+        "bytes": 49955,
+        "computed_git_blob": "8695c7a4390c6d24cd8b33825a5f65db68292d58",
+        "symbols": []
+      }
+    ]
+  },
+  "base": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "source_commit": "cb9f7409071e64293801e52b21a2fc1d1a87de6f",
+    "source_tree": "9c07e9c6e1a66be41cd675c290d4c593d336cbbc",
+    "candidate_commit": "8d1216a30362ba7ecd5fba35c1051bb22cc88dd6",
+    "candidate_tree": "a39fa49b8bea87e9801101e94fe73ae7a12acc64",
+    "candidate_branch": "work/p03-curated-sync-lifecycle",
+    "main_commit": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "main_native_source": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3"
+  },
+  "mapping": [
+    {
+      "upstream_path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "upstream_symbols": [
+        "sync_openai_plugins_repo_via_http",
+        "sync_openai_plugins_repo_via_backup_archive"
+      ],
+      "destinations": [
+        "codex-rs/core-plugins/src/startup_sync.rs::sync_openai_plugins_repo_via_http_owned/sync_openai_plugins_repo_via_backup_archive"
+      ],
+      "classification": "intentional_native_http_lifecycle_change",
+      "changes": [
+        "Same registered attempt controls all nested metadata, archive URL and body requests. Typed stop forbids later transport/publication admission.",
+        "Policy-aware clients drop before ordinary synchronous Runtime teardown on the actual registered native worker, then stage admission is checked again. No detached runtime destruction or bounded teardown claim."
+      ]
+    },
+    {
+      "upstream_path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "upstream_symbols": [
+        "fetch_github_text",
+        "fetch_github_bytes",
+        "fetch_public_text",
+        "fetch_public_bytes"
+      ],
+      "destinations": [
+        "codex-rs/core-plugins/src/startup_sync/bounded_http.rs::await_io/collect/fetch_text/fetch_bytes",
+        "codex-rs/core-plugins/src/startup_sync.rs::fetch_github_text/fetch_github_bytes/fetch_public_text/fetch_public_bytes"
+      ],
+      "classification": "intentional_native_observed_body_and_cancellation_contract",
+      "changes": [
+        "One absolute 30s budget spans each send and complete body; stage control checked before/after every await.",
+        "Response owner drops the response on early return; Content-Length rejects early and cumulative observed chunks are checked before append.",
+        "Metadata 1 MiB, archive 64 MiB, retained error diagnostic 8 KiB; diagnostic URL 1 KiB. Limits are compatibility policy, not all-memory/wire caps.",
+        "Successful metadata retains response headers and bounded owned bytes, reconstructing local HttpResponse for unchanged charset/BOM/replacement decoder; no new request/client, archives remain raw.",
+        "Existing request routing, route pool, policy wrapper, headers/proxy/DNS behavior remains delegated to current helpers."
+      ]
+    },
+    {
+      "upstream_path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+      "destinations": [
+        "codex-rs/core-plugins/src/startup_sync_tests.rs",
+        "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs"
+      ],
+      "classification": "existing_policy_regressions_and_new_real_http_fixtures",
+      "changes": [
+        "Two prior route/policy assertions run typed helpers inside registered native probes, preserving assertions.",
+        "Eight new test functions with eleven fixture cases cover blocked headers/body, content-length and observed overflow, exact cap, diagnostic prefix, one absolute deadline, typed pipeline stop and charset/BOM compatibility.",
+        "Server/native fixture workers explicitly join; fixture drop releases stalled peers on assertion failure. Independent stable lock acquisition checks attempt completion."
+      ]
+    },
+    {
+      "upstream_path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "upstream_symbols": [
+        "extract_zipball_to_dir"
+      ],
+      "destinations": [
+        "codex-rs/core-plugins/src/startup_sync.rs::extract_zipball_to_dir"
+      ],
+      "classification": "unchanged_extraction_deferred_to_C2b",
+      "upstream_to_test_input_equal": true,
+      "bytes": 2555,
+      "sha256": "26f95e2a648b7f6e0e7d2cc27e162dc1cac4b84ed605a3973aba16bf4f23df3c",
+      "boundary": "From fn extract_zipball_to_dir through the blank line before #[cfg(unix)] on apply_zip_permissions; includes final two newlines.",
+      "upstream_to_final_equal": true
+    }
+  ],
+  "source_paths": [
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "e61e39532e38c4c4713e83c357bf0bcf38b66e3fd07d9284b3893924d6e33b3c",
+      "first_run_input": {
+        "sha256": "e61e39532e38c4c4713e83c357bf0bcf38b66e3fd07d9284b3893924d6e33b3c",
+        "bytes": 6058,
+        "computed_git_blob": "1153dec81c13171d2e4d1ead1b1381c129a64c62"
+      },
+      "tested": {
+        "sha256": "e61e39532e38c4c4713e83c357bf0bcf38b66e3fd07d9284b3893924d6e33b3c",
+        "bytes": 6058,
+        "computed_git_blob": "1153dec81c13171d2e4d1ead1b1381c129a64c62"
+      },
+      "final": {
+        "sha256": "162c3b3e567ac4b7db626c2f14d078687a2a47c464c1d9185e9add7905c82d33",
+        "bytes": 6635,
+        "computed_git_blob": "0a14d102f4e418e13831f002a7440d0e1d05472f"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "8f2a6a2fbdecaee09615bbe0a23b43b8c75fdc01a558d437620b6d05087647c4",
+      "first_run_input": {
+        "sha256": "8f2a6a2fbdecaee09615bbe0a23b43b8c75fdc01a558d437620b6d05087647c4",
+        "bytes": 19772,
+        "computed_git_blob": "0cbc3eab325b03f25dd5d63a027d389cf79a8bec"
+      },
+      "tested": {
+        "sha256": "8f2a6a2fbdecaee09615bbe0a23b43b8c75fdc01a558d437620b6d05087647c4",
+        "bytes": 19772,
+        "computed_git_blob": "0cbc3eab325b03f25dd5d63a027d389cf79a8bec"
+      },
+      "final": {
+        "sha256": "19d5169a1901c3ca60a6d0aca51e0df2822a00b9c76de1fad2eac9b0ef8c381c",
+        "bytes": 24750,
+        "computed_git_blob": "db650e486c4143562e6f266dcd6aabdf30df830c"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "new_file": false,
+      "preimage_sha256": "d8e0b6b0ed1c21d77b681466efcd209a41fbef4996ff55453a7be088de39d2b1",
+      "proposal_sha256": "7a9d832a839be1c30956436e4533f16a4505312df645c18daba188b51c50cc57",
+      "first_run_input": {
+        "sha256": "7a9d832a839be1c30956436e4533f16a4505312df645c18daba188b51c50cc57",
+        "bytes": 43989,
+        "computed_git_blob": "74d2216255597ba8aa65f5949313f3e93a7dd8d6"
+      },
+      "tested": {
+        "sha256": "7a9d832a839be1c30956436e4533f16a4505312df645c18daba188b51c50cc57",
+        "bytes": 43989,
+        "computed_git_blob": "74d2216255597ba8aa65f5949313f3e93a7dd8d6"
+      },
+      "final": {
+        "sha256": "3c5a8ad269fb435df5c7327dd17c1ea918c0688c3ed49d83531e0161f83a0ed0",
+        "bytes": 44641,
+        "computed_git_blob": "84a3e014673039f5f7ed46fadd5125871bc3015d"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "93d08ce74cb9656e00e039b0528c653ac57d1a92473104ff40c2ce5d8f4f12bb",
+      "proposal_sha256": "18f2dd785e496bfc121134798ad1b2e759e1a71d32d98e3f11d919738aa109f8",
+      "first_run_input": {
+        "sha256": "18f2dd785e496bfc121134798ad1b2e759e1a71d32d98e3f11d919738aa109f8",
+        "bytes": 51274,
+        "computed_git_blob": "54b2a95ad81b0e3d246e49ae14f9ba9b3344d33f"
+      },
+      "tested": {
+        "sha256": "18f2dd785e496bfc121134798ad1b2e759e1a71d32d98e3f11d919738aa109f8",
+        "bytes": 51274,
+        "computed_git_blob": "54b2a95ad81b0e3d246e49ae14f9ba9b3344d33f"
+      },
+      "final": {
+        "sha256": "b70340f9eb56d1730a70ba18612ea546a2f2ebc7075a8672a279db4888428ab4",
+        "bytes": 51592,
+        "computed_git_blob": "31b02d0048190f7ea23705d4974325b2bfddb00e"
+      }
+    }
+  ],
+  "inputs": {
+    "proposal_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-c2a-http-proposal-02/MANIFEST.json",
+      "sha256": "b6622ba70f3dc045c699ae683eee8514aca2c4526eb9e81c2dd5a6df7d09df20",
+      "bytes": 4338
+    },
+    "proposal_provenance": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-c2a-http-proposal-02/PROVENANCE.json",
+      "sha256": "efffb4e884e1f6a93f88b689903b77e08d289b5d417ef3ad188d09e14d37217e",
+      "bytes": 2797
+    },
+    "proposal_diff_counts": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-c2a-http-proposal-02/DIFF_COUNTS.json",
+      "sha256": "3b358413827a5020923e53c50963039604c463d0759e31ef72aa4d5492a8c6d1",
+      "bytes": 1466
+    },
+    "adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-adoption.json",
+      "sha256": "f0a61162d6f3c1e9f805efddaa8f2be784dc6001f8696f6871e42c0760293c5c",
+      "bytes": 1912
+    },
+    "preserved_proposal_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-proposal-preserved.tar.gz",
+      "sha256": "82fafc4a652e4a9b6cc0872ba9fee4b8bf658aa5bcdee59823ab7e0e19a04422",
+      "bytes": 77965
+    },
+    "strict_runner": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    }
+  },
+  "evidence": "verification/2026-10-01/p03-curated-http-await-results.json",
+  "limits": [
+    "Native HTTP send/body await control and observed byte budgets only; no new independently installable subsystem, catalog/auth component or completed harness extraction.",
+    "The 1 MiB metadata/64 MiB archive/8 KiB diagnostic limits are intentional compatibility choices, not measured upstream maxima. Counters cover HTTP-wrapper-observed bytes, not unframed wire bytes, headers, expanded ZIP output or total process memory.",
+    "Cancellation and 30s per-request send+body deadline are cooperative. Client construction, DNS, underlying blocking work and ordinary Runtime teardown may keep the registered native worker pending beyond the deadline.",
+    "No detached drain, bounded native join or complete host-shutdown receipt is introduced. Quarantine remains irreversible; restart alone is not safe recovery.",
+    "Original ZIP extractor is unchanged. C2b extraction budgets remain pending rebase and are not included.",
+    "Queued callback/config ownership, actual process-final integration and recoverable publication journaling remain open. Existing activation+SHA admitted-region behavior is preserved.",
+    "No fresh full CLI/installed-package/GUI/in-app Browser/live-provider or cross-platform runtime acceptance. Earlier full-host descendant failures are not cleared; main is not promoted.",
+    "Detailed reports and archives are cloud-local recovery checkpoints, not proven external backups. Source publication is recorded separately.",
+    "Upstream provenance mapping is maintained; installed maintenance updater, isolated upstream integration/rollback and polling remain unimplemented."
+  ],
+  "source_commit": "92212516ad4d12bcf60546ee5f879b983ed44682",
+  "promoted_to_main": false,
+  "full_host_acceptance_passed": false,
+  "format_transition": {
+    "command": [
+      "bash",
+      "-c",
+      "set -e\npython3 -c 'from pathlib import Path; p=Path('\\''/workspace/codex-harness-everythings-a-plugin/codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs'\\''); s=p.read_text(); assert s.count('\\''/*observed*/'\\'')==1; p.write_text(s.replace('\\''/*observed*/'\\'','\\''/*observed_chunk*/'\\''))'\njust fmt"
+    ],
+    "started_utc": "2026-10-01T23:23:50Z",
+    "finished_utc": "2026-10-01T23:24:10Z",
+    "returncode": 0,
+    "status": "passed",
+    "source_entries": 8900,
+    "source_unchanged": false,
+    "changed_paths": [
+      "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+      "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync.rs",
+      "codex-rs/core-plugins/src/startup_sync_tests.rs"
+    ],
+    "log_matches_wrapper_hash": true,
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-http-await-fmt.source.json",
+        "sha256": "cfa7874e3e9289533a56d9f18afe2a0abd057d8dfe31da90342d14e173131673",
+        "bytes": 2458180
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-http-await-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "review": "Recorded just fmt plus a single observed\u2192observed_chunk argument-comment label correction. All four final source hashes match actual after-map; maps form consecutive green\u2192lint\u2192comments\u2192format transitions. Exact diffs and intermediate bytes are preserved. No exhaustive independent semantic review of every formatting line or new execution of final formatted bytes is claimed; no tests repeated solely for style."
+  },
+  "argument_comment_transition": {
+    "command": [
+      "python3",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-argument-comments.py"
+    ],
+    "started_utc": "2026-10-01T23:23:19Z",
+    "finished_utc": "2026-10-01T23:23:20Z",
+    "returncode": 0,
+    "status": "passed",
+    "source_entries": 8900,
+    "source_unchanged": false,
+    "changed_paths": [
+      "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+      "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs"
+    ],
+    "log_matches_wrapper_hash": true,
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-http-await-argument-comments.source.json",
+        "sha256": "e403eafdc429af013c67e883c1678287778295b4afd975d573875e5372cded3b",
+        "bytes": 2457942
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-http-await-argument-comments.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "script": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-argument-comments.py",
+      "sha256": "1f6f2d6b9f461f72f1bd47e6f75a63220f57beb1814820d4503f012ad9d82c3d",
+      "bytes": 800
+    },
+    "review": "Independently reconstructed argument-name comment additions in two files; stripping those additions exactly recovers lint bytes and resulting hashes equal comments after-map. Intermediate observed label was corrected to actual parameter observed_chunk during the following recorded formatting step."
+  },
+  "final_diff_counts": [
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+      "added": 201,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+      "added": 721,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "added": 138,
+      "removed": 139
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+      "added": 47,
+      "removed": 9
+    }
+  ],
+  "finalized_utc": "2026-10-01T23:35:58.583955+00:00",
+  "source_binding": {
+    "commit": "92212516ad4d12bcf60546ee5f879b983ed44682",
+    "tree": "746d93dcdc89de6882dba313d4ad3626d33b0ad0",
+    "parent": "8d1216a30362ba7ecd5fba35c1051bb22cc88dd6",
+    "candidate_branch": "work/p03-curated-sync-lifecycle",
+    "branch_update_observed_by_evidence_worker": false,
+    "commit_metadata_independently_read_back_from_GitHub": true,
+    "all_four_file_contents_independently_read_back_at_commit": true,
+    "commit_url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/92212516ad4d12bcf60546ee5f879b983ed44682",
+    "tree_parent_binding_basis": "Root source-created receipt and source manifest record the GitHub create_commit request/response binding. Connector commit readback exposes commit identity but no tree/parent field; neither field is claimed independently observed in that response.",
+    "local_tree_all_four_blobs_and_archive_verified": true,
+    "exact_base_tree_diff_matches_four_file_counts": true,
+    "local_commit_absence_expected": "Commits are created through the GitHub connector and intentionally are not installed into local Git objects; local HEAD/index retain the established upstream context. Local tree:path reads verified exact source blobs.",
+    "source_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-source-manifest.json",
+      "sha256": "0b97794bcf6e04c0987d4d879c8c5865be17f2ec94180fa64ebfee77ff34ebb5",
+      "bytes": 1860
+    },
+    "source_created_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-source-created.json",
+      "sha256": "08fd9762cf52065e84bbd3d0dcf1e3315cc6fb514e7d6bd222a7574470d4812a",
+      "bytes": 194
+    },
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-source.tar.gz",
+      "sha256": "7f32137a371421dd3e0066e97a1128f9e74d8e7ea787853f21bb78b12b291067",
+      "bytes": 24652
+    },
+    "archive_members_verified": 4,
+    "archive_scope": "Four final source files only; cloud-local checkpoint, not a full backup. These four files also have verified GitHub commit readback. No branch advancement is claimed here.",
+    "root_manifest_base_blobs_checked": 9885,
+    "root_manifest_only_reviewed_source_paths_changed": true,
+    "root_manifest_original_index_unchanged": true,
+    "root_preflight_note": "First temp-index check compared followed symlink contents to Git symlink blob and stopped before add/archive; corrected checker reads symlink target bytes. Original index/source never changed.",
+    "preflight_note_scope": "Archiving/index-comparison bookkeeping only; not a source change, compiler failure or failed test run.",
+    "remote_commit_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-evidence-stage/observations/github-commit-readback.json",
+      "sha256": "5635eb7ab5321d254b957c3daa5121a4d76171f3d19375f18c2f4efa5aa1f30e",
+      "bytes": 52762
+    },
+    "remote_files": [
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+        "sha256": "162c3b3e567ac4b7db626c2f14d078687a2a47c464c1d9185e9add7905c82d33",
+        "git_blob": "0a14d102f4e418e13831f002a7440d0e1d05472f",
+        "bytes": 6635,
+        "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+        "receipt": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-evidence-stage/observations/github-readback/codex-rs/core-plugins/src/startup_sync/bounded_http.rs.json",
+          "sha256": "af55d5a2a0a2051e8a3d790f51ae940530217b64d12831707571675fbd691af5",
+          "bytes": 7311
+        }
+      },
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+        "sha256": "19d5169a1901c3ca60a6d0aca51e0df2822a00b9c76de1fad2eac9b0ef8c381c",
+        "git_blob": "db650e486c4143562e6f266dcd6aabdf30df830c",
+        "bytes": 24750,
+        "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+        "receipt": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-evidence-stage/observations/github-readback/codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs.json",
+          "sha256": "c2530b2b087877e2b1ff18405320ed30406b50ec24e0d314314e778536249b1a",
+          "bytes": 26170
+        }
+      },
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync.rs",
+        "sha256": "3c5a8ad269fb435df5c7327dd17c1ea918c0688c3ed49d83531e0161f83a0ed0",
+        "git_blob": "84a3e014673039f5f7ed46fadd5125871bc3015d",
+        "bytes": 44641,
+        "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync.rs",
+        "receipt": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-evidence-stage/observations/github-readback/codex-rs/core-plugins/src/startup_sync.rs.json",
+          "sha256": "148e613e0e36e65da6e8ddb720db5272f289023d788ffe333874bae0ce184531",
+          "bytes": 46753
+        }
+      },
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+        "sha256": "b70340f9eb56d1730a70ba18612ea546a2f2ebc7075a8672a279db4888428ab4",
+        "git_blob": "31b02d0048190f7ea23705d4974325b2bfddb00e",
+        "bytes": 51592,
+        "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync_tests.rs",
+        "receipt": {
+          "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-evidence-stage/observations/github-readback/codex-rs/core-plugins/src/startup_sync_tests.rs.json",
+          "sha256": "738f99ab4b4111e0e967b436a999d6974c2226d68e0d1ccace6a5dd51e567c23",
+          "bytes": 54954
+        }
+      }
+    ]
+  },
+  "source_snapshots": {
+    "location": "/workspace/recovery-backups/20260930T165936Z/p03-curated-http-await-evidence-stage/observations",
+    "scope": "Recovery-local exact bytes preserved before and after each recorded transition; not repository publications.",
+    "stages": {
+      "green-source": [
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+          "sha256": "e61e39532e38c4c4713e83c357bf0bcf38b66e3fd07d9284b3893924d6e33b3c",
+          "bytes": 6058
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+          "sha256": "8f2a6a2fbdecaee09615bbe0a23b43b8c75fdc01a558d437620b6d05087647c4",
+          "bytes": 19772
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync.rs",
+          "sha256": "7a9d832a839be1c30956436e4533f16a4505312df645c18daba188b51c50cc57",
+          "bytes": 43989
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+          "sha256": "18f2dd785e496bfc121134798ad1b2e759e1a71d32d98e3f11d919738aa109f8",
+          "bytes": 51274
+        }
+      ],
+      "lint-source": [
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+          "sha256": "e61e39532e38c4c4713e83c357bf0bcf38b66e3fd07d9284b3893924d6e33b3c",
+          "bytes": 6058
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+          "sha256": "76750d8aef56d07b9595a861a947838569b68121afd71431833977e5d8f591ae",
+          "bytes": 19748
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync.rs",
+          "sha256": "7a9d832a839be1c30956436e4533f16a4505312df645c18daba188b51c50cc57",
+          "bytes": 43989
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+          "sha256": "18f2dd785e496bfc121134798ad1b2e759e1a71d32d98e3f11d919738aa109f8",
+          "bytes": 51274
+        }
+      ],
+      "argument-comment-source": [
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+          "sha256": "6b9c634527e18b05e920bea8bf8d22cfbe76b2d169fbb2bb4f6158b55bb4132b",
+          "bytes": 6084
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+          "sha256": "f00a89f692b01a6cefa225e903f734aae83296429601e59e7e27d90fb4aa7078",
+          "bytes": 20204
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync.rs",
+          "sha256": "7a9d832a839be1c30956436e4533f16a4505312df645c18daba188b51c50cc57",
+          "bytes": 43989
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+          "sha256": "18f2dd785e496bfc121134798ad1b2e759e1a71d32d98e3f11d919738aa109f8",
+          "bytes": 51274
+        }
+      ],
+      "final-source": [
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+          "sha256": "162c3b3e567ac4b7db626c2f14d078687a2a47c464c1d9185e9add7905c82d33",
+          "bytes": 6635
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+          "sha256": "19d5169a1901c3ca60a6d0aca51e0df2822a00b9c76de1fad2eac9b0ef8c381c",
+          "bytes": 24750
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync.rs",
+          "sha256": "3c5a8ad269fb435df5c7327dd17c1ea918c0688c3ed49d83531e0161f83a0ed0",
+          "bytes": 44641
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+          "sha256": "b70340f9eb56d1730a70ba18612ea546a2f2ebc7075a8672a279db4888428ab4",
+          "bytes": 51592
+        }
+      ]
+    }
+  },
+  "final_source_anchors": [
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/bounded_http.rs",
+      "symbols": [
+        {
+          "literal": "async fn await_io",
+          "line": 30,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http.rs#L30"
+        },
+        {
+          "literal": "pub(super) async fn fetch_text",
+          "line": 102,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http.rs#L102"
+        },
+        {
+          "literal": "async fn collect",
+          "line": 132,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http.rs#L132"
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs",
+      "symbols": [
+        {
+          "literal": "fn cancellation_interrupts_stalled_headers_and_stalled_chunk_body",
+          "line": 401,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs#L401"
+        },
+        {
+          "literal": "fn bounded_text_preserves_response_charset_and_bom_override",
+          "line": 561,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs#L561"
+        },
+        {
+          "literal": "fn stopped_pipeline_http_request_never_admits_export_or_publication",
+          "line": 686,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync/bounded_http_tests.rs#L686"
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "symbols": [
+        {
+          "literal": "fn sync_openai_plugins_repo_via_http_owned",
+          "line": 393,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync.rs#L393"
+        },
+        {
+          "literal": "fn sync_openai_plugins_repo_via_backup_archive",
+          "line": 442,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync.rs#L442"
+        },
+        {
+          "literal": "fn extract_zipball_to_dir",
+          "line": 1198,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync.rs#L1198"
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync_tests.rs",
+      "symbols": [
+        {
+          "literal": "async fn github_http_routes_repository_ref_and_zipball_urls",
+          "line": 128,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync_tests.rs#L128"
+        },
+        {
+          "literal": "async fn backup_archive_routes_metadata_and_backend_supplied_download_urls",
+          "line": 166,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync_tests.rs#L166"
+        },
+        {
+          "literal": "fn with_registered_http_attempt",
+          "line": 1502,
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/92212516ad4d12bcf60546ee5f879b983ed44682/codex-rs/core-plugins/src/startup_sync_tests.rs#L1502"
+        }
+      ]
+    }
+  ]
+}

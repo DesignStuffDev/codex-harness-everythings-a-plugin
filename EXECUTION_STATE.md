@@ -16,19 +16,20 @@ Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`; exact-tree im
 Last verified main: `781080f7e3c8bfe1953378001d777dff33d74bc3`, tree
 `22cf918cf77f16d5d947a59b968e342cde7f71d0`. Main source remains native installer
 `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`; later main changes are documentation.
-The previous candidate publication is `34c2b7c8f8a1a8e9ba400b9651f5965e2f1e38e4`;
-receipt `p03-curated-retained-owner-publication.json` verifies both refs and seventeen changed blobs.
+The previous candidate publication is `8d1216a30362ba7ecd5fba35c1051bb22cc88dd6`;
+receipt `p03-curated-shared-control-publication.json` verifies both refs and eighteen changed blobs.
 
 **Active development source**, present in the owning checkout:
-`cb9f7409071e64293801e52b21a2fc1d1a87de6f`, tree
-`9c07e9c6e1a66be41cd675c290d4c593d336cbbc`, parent candidate `34c2b7c8`.
-This adds one shared stop/deadline control across worker admission, stable-lock waiting,
-Git cleanup and downstream stage/callback admission. Its destination remains
+`92212516ad4d12bcf60546ee5f879b983ed44682`, tree
+`746d93dcdc89de6882dba313d4ad3626d33b0ad0`, parent candidate `8d1216a3`.
+This propagates the exact stop control through policy-aware HTTP send/body reads, with one
+request deadline, observed byte caps and existing charset/BOM decoding. Ordinary client/runtime
+teardown finishes on the retained native worker before later stages. Its destination remains
 `work/p03-curated-sync-lifecycle`, **not main**.
-Before continuing, verify `p03-curated-shared-control-publication.json` and the remote branch;
+Before continuing, verify `p03-curated-http-await-publication.json` and the remote branch;
 this file cannot contain its own eventual documentation commit SHA. The native checkpoint
-has scoped proof, not full-host acceptance. C2 HTTP/body cancellation and bounded extraction
-are being staged separately in recovery; they are not adopted or tested by this checkpoint.
+has scoped proof, not full-host acceptance. C2b bounded extraction is staged separately;
+the original extractor is unchanged by this checkpoint.
 
 Local HEAD/index remain upstream; local main is stale. Use exact reviewed temporary
 indices and connector publication; do not reset/rebase/rewrite the real index.
@@ -107,6 +108,18 @@ This is no new installed subsystem. Current HTTP operations, queued callbacks, t
 publication and actual host-shutdown integration remain pending. A stop request is not a join
 receipt, and process-local ownership cannot prove safe recovery after host death.
 
+[HTTP-await source922 evidence](verification/2026-10-01/P03_CURATED_HTTP_AWAIT_EVIDENCE.md):
+all real metadata/archive helpers consume bounded policy-aware chunks, with a30s absolute
+request budget, metadata1MiB/archive64MiB caps and8KiB diagnostic prefix. Limits are deliberate
+compatibility constraints, not measured upstream maxima. Metadata retains original charset/BOM
+decoding after bounded collection. First run **580/580** passed (509core-plugins+71PTY),
+no skips/retries, strict0/null; 8,900 scoped files unchanged. Lint made one equivalent test-fixture
+if collapse. Exact argument-comment-only edits and global formatting are recorded separately;
+no tests repeated solely for lint/style. Raw52 adopted statuses have no executable/cause attribution.
+The original extractor remains unchanged. Hidden client/DNS blocking work can keep ordinary
+Runtime teardown pending beyond the stop deadline; the registered native worker still owns it.
+This is no new installed subsystem and no whole-host/UI acceptance.
+
 [Prior full-host checkpoint](verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md),
 source99/CLI c711, remains **mixed/failed**: both storage attempts passed13 behavior checks
 but strict125 found live descendants; migration10 and GUI2cold cycles passed. Actual manager
@@ -116,18 +129,21 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 
 ## Ordered implementation queue
 
-1. Verify sourcecb9 publication/ref and exact-source evidence. Keep main source655 until
-   combined full-host gates pass; preserve C2 proposals independently.
-2. B1a retained ownership and B1b shared cancellation are integrated and scoped-tested.
-   Preserve sticky quarantine and the original outcome; direct-child reaping never clears it.
-   External termination/fencing remains required for recovery; restarting alone is insufficient.
-3. Review/adopt C2 policy-aware HTTP send/body cancellation and chunked extraction. Use one
-   absolute request deadline and observed body/output/count limits; retain the native worker
-   through ordinary Runtime teardown, which may exceed that deadline. Do not claim a hard
-   join bound for hidden resolver/blocking work or a total ZIP-constructor allocation bound.
-   Then implement recoverable repo+SHA publication/journal, tracked callbacks/queued config
-   work and actual in-process/external App Server/CLI shutdown with forced-termination
-   uncertainty. Preserve proxy/DNS policy and the admitted activation/SHA pair.
+1. Verify source922 publication/ref and exact-source evidence. Keep main source655 until
+   combined full-host gates pass; preserve the superseded C2a proposal and pending C2b separately.
+2. B1a retained ownership, B1b shared cancellation and C2a HTTP awaits are scoped-tested.
+   Preserve sticky quarantine and original outcomes; direct-child reaping never clears them.
+   External termination/fencing is required for recovery; restarting alone is insufficient.
+3. Adopt/test frozen `p03-curated-c2b-extraction-proposal` against source922; manifest
+   `d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`. Three paths/five
+   proposed tests; static review and exact replay passed, but no compilation/test/adoption. Do not
+   claim a total ZIP-constructor allocation or decoder/syscall latency bound. Follow the
+   [pinned shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRATION_AUDIT.md):
+   exact native completion and callback scopes; explicit process-final ownership distinct from
+   embedded-server replacement; recoverable repo+SHA journal; both App Server drains and a
+   coordinated watchdog deadline. The current45s stdio watchdog can preempt longer storage/GUI
+   budgets. Keep callbacks/config writes owned, preserve activation/SHA continuity and propagate
+   forced or incomplete cleanup honestly. No indiscriminate global-stop-on-embedded-Drop hook.
 
 4. Build a fresh full CLI and rerun unchanged default-feature installed storage, migration and
    GUI/session/streaming/approvals/cancellation/recovery/actual Launch Ctrl+C gates. Record exact
@@ -147,6 +163,12 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 Recovery root: `/workspace/recovery-backups/20260930T165936Z`.
 Full original two-worktree/Git/SDK/evidence archive `codex-recovered-workspace.tar.zst` SHA256
 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
+Frozen C2b proposal archive `p03-curated-c2b-extraction-proposal-preserved.tar.gz` SHA256
+`3ef1f64c611440cadae1624c6b8512d3011d177ad4827732c120427fba6f7c3e`; local only, unadopted/untested.
+Source922 archive `p03-curated-http-await-source.tar.gz` SHA256
+`7f32137a371421dd3e0066e97a1128f9e74d8e7ea787853f21bb78b12b291067`.
+Corrected C2a proposal archive `p03-curated-http-await-proposal-preserved.tar.gz` SHA256
+`82fafc4a652e4a9b6cc0872ba9fee4b8bf658aa5bcdee59823ab7e0e19a04422`.
 Sourcecb9 archive `p03-curated-shared-control-source.tar.gz` SHA256
 `a40270b0c2c14d395e544c91f30bc80bb56b524bc1719ecd32caa94197569df7`.
 Frozen B1b proposal archive `p03-curated-shared-control-proposal-preserved.tar.gz` SHA256
@@ -193,7 +215,15 @@ records normal expunge removing the generated output base but exiting 36 while w
 server PID 834487 (observed Z); do not report expunge success. About 1.07 GB was free afterward.
 Future Bazel re-expansion/offline operation is unproven; inspect headroom before builds.
 
-Original task environment/config identity is unchanged, revision 1460 observed running/connected;
+The exact unused expanded Bazel V8 source cache was also retired after fresh entry identity,
+process/alias and retained download checksum verification, recovering220,135,424 allocated bytes.
+Receipt `p03-bazel-v8-expanded-cache-retirement.json` SHA256
+`cdab7f82848ebcc7407e192a60cf20b00cca3358f29b83715ee884368912507d`.
+Compressed V8 archive, Cargo static V8 and all Rust/proof/source/runtime files remain.
+Offline Bazel re-expansion remains unproven; about1.25GB was free before C2a compilation.
+Recheck actual headroom before the next command.
+
+Original task environment/config identity is unchanged, revision 1461 observed running/connected;
 restricted package-managers policy still has additional allowed_hosts[]. In-app Browser and
 Context7 are unavailable, and no external preview is proven. Keep the original VM; no reset or
 policy bypass. Upstream libraries/framework docs are required when applicable, not for ordinary

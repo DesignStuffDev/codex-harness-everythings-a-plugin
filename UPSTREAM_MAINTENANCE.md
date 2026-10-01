@@ -615,3 +615,13 @@ teardown, whole-host shutdown, an installed replacement or a later official revi
 Keep this supplement separate from the frozen d04 normalized index. P00M semantic/current-index
 closure and P18U isolated integration, custom-package compatibility and external rollback gates
 remain open.
+
+The [HTTP-await map](upstream/p03-curated-http-await-lineage.json) binds native source
+`92212516ad4d12bcf60546ee5f879b983ed44682` to the upstream HTTP fallback/call paths,
+existing policy-aware response API and custom stop/budget/teardown behavior. Charset/BOM decoding
+is preserved after bounded collection. The original extractor remains unchanged. Its580-test
+result is scoped native evidence; ordinary Runtime teardown may exceed the stop deadline.
+The pinned [shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRATION_AUDIT.md)
+also records process ownership, callbacks and conflicting cleanup budgets for future impact review.
+Neither record advances the frozen d04 index or satisfies later-upstream integration, installed
+maintenance, migration or rollback acceptance. Keep current-index semantic gaps explicit.
