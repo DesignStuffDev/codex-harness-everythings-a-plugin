@@ -108,7 +108,9 @@ def main():
     parser.add_argument("--plan", action="store_true")
     parser.add_argument("--package-version", default="0.1.0")
     parser.add_argument(
-        "--component-metadata", action="append", default=[],
+        "--component-metadata",
+        action="append",
+        default=[],
         help="Bounded inline component JSON object; declaration is not runtime proof",
     )
     args = parser.parse_args()
@@ -120,7 +122,8 @@ def main():
         version = packager["validate_package_version"](args.package_version)
         component_metadata = (
             packager["parse_component_metadata"](args.component_metadata[0])
-            if args.component_metadata else {}
+            if args.component_metadata
+            else {}
         )
     except ValueError as error:
         parser.error(str(error))
@@ -400,7 +403,12 @@ def main():
                 "--version",
                 version,
                 "--metadata",
-                json.dumps(component_metadata, ensure_ascii=False, allow_nan=False, separators=(",", ":")),
+                json.dumps(
+                    component_metadata,
+                    ensure_ascii=False,
+                    allow_nan=False,
+                    separators=(",", ":"),
+                ),
             ],
             cwd=repo,
         )

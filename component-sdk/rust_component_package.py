@@ -529,7 +529,9 @@ def parse_component_metadata(text):
         raise ValueError("component metadata numbers must be finite")
 
     try:
-        value = json.loads(text, object_pairs_hook=unique_object, parse_constant=reject_constant)
+        value = json.loads(
+            text, object_pairs_hook=unique_object, parse_constant=reject_constant
+        )
     except RecursionError as error:
         raise ValueError("component metadata exceeds maximum depth") from error
     if type(value) is not dict:
@@ -570,7 +572,16 @@ def validate_package_version(version):
 
 
 def assemble(
-    repo, binary, output, plugin_id, kind, name, *, contract_version=1, version="0.1.0", metadata=None
+    repo,
+    binary,
+    output,
+    plugin_id,
+    kind,
+    name,
+    *,
+    contract_version=1,
+    version="0.1.0",
+    metadata=None,
 ):
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", plugin_id):
         raise ValueError("invalid plugin ID")
