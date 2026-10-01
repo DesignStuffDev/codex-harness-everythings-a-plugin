@@ -606,3 +606,12 @@ worker generations. Its557-test scoped result is not full-host acceptance, a new
 installed component, or integration of a later official revision. Preserve this
 checkpoint supplement separately from the frozen d04 normalized lineage index;
 P00M current-index closure and all P18U integration/rollback gates remain open.
+
+The [shared cancellation map](upstream/p03-curated-shared-control-lineage.json) binds native
+source `cb9f7409071e64293801e52b21a2fc1d1a87de6f` to the upstream worker/curated-sync
+and PTY call paths and identifies the custom shared control, typed stop and admission rules.
+Its572-test scoped result preserves the source739 custody boundary; it does not prove HTTP
+teardown, whole-host shutdown, an installed replacement or a later official revision integration.
+Keep this supplement separate from the frozen d04 normalized index. P00M semantic/current-index
+closure and P18U isolated integration, custom-package compatibility and external rollback gates
+remain open.

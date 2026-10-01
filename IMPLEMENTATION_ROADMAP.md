@@ -930,3 +930,25 @@ ownership and actual host shutdown. Preserve quarantine through these changes;
 restart alone cannot prove recovery. The full CLI/installed-storage/UI regression
 must still pass before main promotion. P00M mapping continues and P18U remains a
 required, unimplemented release gate; no polling or live update is activated.
+
+### Shared cancellation checkpoint (sourcecb9)
+
+B1b is integrated at `cb9f7409071e64293801e52b21a2fc1d1a87de6f` on the isolated
+development branch. [Evidence](verification/2026-10-01/P03_CURATED_SHARED_CONTROL_EVIDENCE.md)
+and [lineage](upstream/p03-curated-shared-control-lineage.json) bind the shared stop/deadline
+control, worker Closing state, cancellable stable lock and Git cleanup, typed stage admission
+and callback enqueue guard. The admitted activation/SHA pair remains continuous; this is not
+transactional publication. First run572/572 passed, strict0/null, clean lint and a recorded
+formatting transition. This adds no independently installed subsystem or full-host proof.
+
+Next C2 isolates policy-aware HTTP collection and extraction. Chosen proposed defaults are
+a30s absolute request budget, metadata1MiB/archive64MiB/diagnostics8KiB observed response caps,
+and extraction512MiB total/64MiB per file/20,000entries/64KiB chunks/30s. These are deliberate
+compatibility limits, not measured upstream maxima. They require normal and over-limit fixtures.
+Keep response/client/futures inside the native worker and finish ordinary Runtime teardown
+before downstream publication; hidden resolver/client blocking work may delay that teardown.
+ZIP constructor allocation and individual decoder/syscall latency are separate unresolved gates;
+cooperative checkpoints must not be labeled universal hard bounds. Review these limits in C2
+before adoption. Then finish publication recovery, queued work and actual shutdown integration,
+followed by unchanged real-host/UI gates. P00M lineage closure and P18U upstream update/rollback
+remain required and incomplete; no polling or live update is configured.

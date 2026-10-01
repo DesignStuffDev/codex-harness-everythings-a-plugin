@@ -1,0 +1,794 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_stop_control_prerequisite_development_candidate",
+  "finalized": true,
+  "original_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "files": [
+      {
+        "path": "codex-rs/core-plugins/src/startup_sync.rs",
+        "sha256": "78fe0eaf8813eab2fa3d4a5398a06cf01152deca69f12c931821d5ca35c5e93d",
+        "bytes": 39271,
+        "computed_git_blob": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+        "symbols": [
+          {
+            "literal": "fn sync_openai_plugins_repo_with_transport_overrides",
+            "lines": [
+              96
+            ]
+          },
+          {
+            "literal": "fn sync_openai_plugins_repo_via_git",
+            "lines": [
+              185
+            ]
+          },
+          {
+            "literal": "fn activate_curated_repo",
+            "lines": [
+              523
+            ]
+          },
+          {
+            "literal": "fn write_curated_plugins_sha",
+            "lines": [
+              579
+            ]
+          },
+          {
+            "literal": "fn read_local_git_or_sha_file",
+            "lines": [
+              596
+            ]
+          },
+          {
+            "literal": "fn git_head_sha",
+            "lines": [
+              640
+            ]
+          },
+          {
+            "literal": "fn run_git_command_with_timeout",
+            "lines": [
+              683
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/core-plugins/src/manager.rs",
+        "sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153",
+        "bytes": 148748,
+        "computed_git_blob": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+        "symbols": [
+          {
+            "literal": "static CURATED_REPO_SYNC_STARTED",
+            "lines": [
+              148
+            ]
+          },
+          {
+            "literal": "fn start_curated_repo_sync",
+            "lines": [
+              3287
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/core-plugins/src/manager_tests.rs",
+        "sha256": "2761d9ec7b5b52680629d5e79a0382d4ea27c3e003d76551594c28e9299fa0f1",
+        "bytes": 242206,
+        "computed_git_blob": "2ae390470d8d260b51db340d2d2d34b6910ebc52",
+        "symbols": [
+          {
+            "literal": "fn curated_repo_sync_stays_deferred_for_remote_chatgpt_catalog",
+            "lines": [
+              161
+            ]
+          }
+        ]
+      },
+      {
+        "path": "codex-rs/utils/pty/src/lib.rs",
+        "sha256": "5479ac5337702f15345e0c74c9a8712e65cfbe8849505da0312937f7246b6eb6",
+        "bytes": 2446,
+        "computed_git_blob": "c2a0629156831c134a55044512f6a59ea64e4136",
+        "symbols": [
+          {
+            "literal": "pub mod process_group;",
+            "lines": [
+              13
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "base": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "source_commit": "739eb89c537a29f715e79ebf6e6405181fec9744",
+    "source_tree": "772352f15ac5cca9ae63dc43b6d1622722ab132f",
+    "candidate_commit": "34c2b7c8f8a1a8e9ba400b9651f5965e2f1e38e4",
+    "candidate_tree": "46c1a7ac7ebf94223ca920ccc01e33ed22b3e05d",
+    "candidate_branch": "work/p03-curated-sync-lifecycle",
+    "main_commit": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "main_native_source": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3"
+  },
+  "mapping": [
+    {
+      "upstream_path": "codex-rs/core-plugins/src/manager.rs",
+      "upstream_symbols": [
+        "start_curated_repo_sync",
+        "CURATED_REPO_SYNC_STARTED"
+      ],
+      "prior_project_source": "739eb89c537a29f715e79ebf6e6405181fec9744",
+      "destinations": [
+        "codex-rs/core-plugins/src/manager.rs::request_curated_repo_sync_stop/run_curated_sync/guard_curated_sync_callback",
+        "codex-rs/core-plugins/src/startup_sync/worker.rs::WorkerGate"
+      ],
+      "classification": "intentional_native_lifecycle_change",
+      "changes": [
+        "Register one shared control with exact generation before spawning actual native worker.",
+        "Independent Closing admission stays closed when stop precedes startup, races handle attachment, follows failure, or coincides with spawn failure.",
+        "Signal control outside gate mutex. Public manager method requests stop without joining or claiming shutdown completion.",
+        "Cache-stage and immediate callback-dispatch guards use the same control; already admitted cache work and queued callbacks are not revoked."
+      ]
+    },
+    {
+      "upstream_path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "upstream_symbols": [
+        "sync_openai_plugins_repo_with_transport_overrides",
+        "read_local_git_or_sha_file",
+        "activate_curated_repo",
+        "write_curated_plugins_sha",
+        "run_git_command_with_timeout"
+      ],
+      "prior_project_source": "739eb89c537a29f715e79ebf6e6405181fec9744",
+      "destinations": [
+        "codex-rs/core-plugins/src/startup_sync.rs::sync_openai_plugins_repo_owned",
+        "codex-rs/core-plugins/src/startup_sync/ownership.rs::SyncAttempt/SyncFailure/AttemptRegistry"
+      ],
+      "classification": "intentional_native_lifecycle_change",
+      "changes": [
+        "Same control reaches real stable File lock, Git execution, forced supplementary observation and stage admission.",
+        "Lock wait has ordinary 30-second cap, stop checks before/after acquisition, wakeable wait, preserved inode, no unlink.",
+        "Stopped forbids later fallback and stage admission; prior uncertainty remains dominant.",
+        "Activation plus SHA write is admitted as one operation; stop during successful pair finishes SHA write and reports publication may have occurred. This is not journaled atomic publication.",
+        "Check control after HTTP metadata lookup before admitting zipball; nested already-admitted HTTP operations remain blocking."
+      ]
+    },
+    {
+      "upstream_path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "upstream_symbols": [
+        "run_git_command_with_timeout"
+      ],
+      "prior_project_source": "739eb89c537a29f715e79ebf6e6405181fec9744",
+      "destinations": [
+        "codex-rs/utils/pty/src/command_control.rs::CommandCancellation/CommandControl",
+        "codex-rs/utils/pty/src/bounded_command.rs::OwnedBackgroundCommand/poll_group",
+        "codex-rs/utils/pty/src/lib.rs"
+      ],
+      "classification": "project_support_layer_for_existing_native_transport",
+      "changes": [
+        "Atomic stop flag, monotonic earliest absolute deadline and condition-variable wakeup are independent of command-state mutex.",
+        "AtomicBool implements compatibility cancellation trait, retaining existing callers.",
+        "Every Linux polling iteration clamps already-started cleanup to latest owner deadline and bounds wait by remainder.",
+        "Late flag/deadline race cannot skip first group signal or invent cleanup-started state; supplementary cleanup cannot reset expired owner budget or earlier Unknown."
+      ]
+    },
+    {
+      "upstream_path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "prior_project_source": "739eb89c537a29f715e79ebf6e6405181fec9744",
+      "destinations": [
+        "codex-rs/core-plugins/src/manager_tests.rs",
+        "codex-rs/core-plugins/src/startup_sync/cancellation_tests.rs",
+        "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+        "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+        "codex-rs/utils/pty/src/bounded_command_tests.rs"
+      ],
+      "classification": "native_behavior_and_race_regression_tests",
+      "changes": [
+        "Real held lock with observed WouldBlock, stable inode and zero fallback requests.",
+        "Real registered helper-free exec-sleep Git child stopped by same owner control.",
+        "Stop before spawn, before handle attachment and after failed work; deadline request ordering.",
+        "Stop during actual successful publication pair, after HTTP failure before export, and while actual cache mutex blocks.",
+        "Existing B1 custody assertions remain; sibling visibility only supplies existing real fixture helpers."
+      ]
+    }
+  ],
+  "source_paths": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "new_file": false,
+      "preimage_sha256": "a1987efae788c02546c12ab9e6aefcac6340e554a1251fce39f4095a1907569c",
+      "proposal_sha256": "8bb9c66e471d6db5593e709cebf7b299a4be5f14c6c12d524c7760b5ae079afc",
+      "first_run_input": {
+        "sha256": "8bb9c66e471d6db5593e709cebf7b299a4be5f14c6c12d524c7760b5ae079afc",
+        "bytes": 151374,
+        "computed_git_blob": "806b58b0177221796c7cac38651ea2634eafc5b8"
+      },
+      "tested": {
+        "sha256": "8bb9c66e471d6db5593e709cebf7b299a4be5f14c6c12d524c7760b5ae079afc",
+        "bytes": 151374,
+        "computed_git_blob": "806b58b0177221796c7cac38651ea2634eafc5b8"
+      },
+      "final": {
+        "sha256": "0719c863347a08db90d96996779c087527c3aca5370aa2503c86a2c4152e82b1",
+        "bytes": 151560,
+        "computed_git_blob": "5060302397bea4c7f29ac4713a3df62315eb988e"
+      },
+      "final_anchors": [
+        {
+          "literal": "fn run_curated_sync(",
+          "lines": [
+            151
+          ]
+        },
+        {
+          "literal": "fn guard_curated_sync_callback(",
+          "lines": [
+            170
+          ]
+        },
+        {
+          "literal": "pub fn request_curated_repo_sync_stop(",
+          "lines": [
+            792
+          ]
+        },
+        {
+          "literal": "fn start_curated_repo_sync(",
+          "lines": [
+            3353
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "6abc15849b8f22322d1c80a35ab99ca33d840a6909a202ed649bf8b4c5ca677e",
+      "proposal_sha256": "7efd9a31190296639b2ca63853c6bb167fd64ab72bf9ca2b37c3c4a7941e730c",
+      "first_run_input": {
+        "sha256": "7efd9a31190296639b2ca63853c6bb167fd64ab72bf9ca2b37c3c4a7941e730c",
+        "bytes": 246300,
+        "computed_git_blob": "27a54f0c644e7b59b19023c4fc5a80fe887e8cda"
+      },
+      "tested": {
+        "sha256": "7efd9a31190296639b2ca63853c6bb167fd64ab72bf9ca2b37c3c4a7941e730c",
+        "bytes": 246300,
+        "computed_git_blob": "27a54f0c644e7b59b19023c4fc5a80fe887e8cda"
+      },
+      "final": {
+        "sha256": "ebc41b4873be5ef971b5c415aa7a202566ccf72e4cda97e451d9fcc53cb8be78",
+        "bytes": 246630,
+        "computed_git_blob": "673307e8fb894523866677b465ba5ea6f851665a"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/cancellation_tests.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "4666ee380cd28afad31019bc66970a849e2ddb8f2c8b77330617af6438905661",
+      "first_run_input": {
+        "sha256": "4666ee380cd28afad31019bc66970a849e2ddb8f2c8b77330617af6438905661",
+        "bytes": 8010,
+        "computed_git_blob": "6f3971b1c900db00fa17cf92de6b1d348f31b511"
+      },
+      "tested": {
+        "sha256": "4666ee380cd28afad31019bc66970a849e2ddb8f2c8b77330617af6438905661",
+        "bytes": 8010,
+        "computed_git_blob": "6f3971b1c900db00fa17cf92de6b1d348f31b511"
+      },
+      "final": {
+        "sha256": "ddc9ff4545e460cef9d13a19b51761c1977d8fa2a7b9de6627db1a11f84460b7",
+        "bytes": 9107,
+        "computed_git_blob": "1b5df060d4310353801a91f068c22331a5b46ca1"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "new_file": false,
+      "preimage_sha256": "cf5c7cf6a41d92bd8eddfd95bd398eae3059c6fbc62a3a7654bbe2c6060ffb12",
+      "proposal_sha256": "0142e06eaae11b16663a98b589dfaa1312bbfe82e1b1db26f02fe2c48ebeca15",
+      "first_run_input": {
+        "sha256": "0142e06eaae11b16663a98b589dfaa1312bbfe82e1b1db26f02fe2c48ebeca15",
+        "bytes": 16754,
+        "computed_git_blob": "f03682d0734245b96919c0d2e4cfb57d481504ce"
+      },
+      "tested": {
+        "sha256": "0142e06eaae11b16663a98b589dfaa1312bbfe82e1b1db26f02fe2c48ebeca15",
+        "bytes": 16754,
+        "computed_git_blob": "f03682d0734245b96919c0d2e4cfb57d481504ce"
+      },
+      "final": {
+        "sha256": "c816e95c849addded72e7aa06a58ca838cd1dc9a09e286f7b0fadce281f3d92e",
+        "bytes": 17743,
+        "computed_git_blob": "1b31e79f37f5f2ff90fd3ddeb1c67fe1152f0eaf"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub(crate) enum SyncFailure",
+          "lines": [
+            25
+          ]
+        },
+        {
+          "literal": "fn reserve_controlled(",
+          "lines": [
+            149
+          ]
+        },
+        {
+          "literal": "pub(super) fn run_controlled(",
+          "lines": [
+            211
+          ]
+        },
+        {
+          "literal": "fn acquire_lock(",
+          "lines": [
+            323
+          ]
+        },
+        {
+          "literal": "pub(super) fn admit_stage(",
+          "lines": [
+            379
+          ]
+        },
+        {
+          "literal": "pub(super) fn admit_publication(",
+          "lines": [
+            391
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "03a2368e88b63a1911562306c09b086c6f28bade5858531fa509827d10ca08ef",
+      "proposal_sha256": "c4d0d0ab8bf7383840c2049b575decd913b8b8c5917c96fa64080a1d3a31d082",
+      "first_run_input": {
+        "sha256": "c4d0d0ab8bf7383840c2049b575decd913b8b8c5917c96fa64080a1d3a31d082",
+        "bytes": 14983,
+        "computed_git_blob": "683731740f1e6d62be95c5180681432e87662d78"
+      },
+      "tested": {
+        "sha256": "c4d0d0ab8bf7383840c2049b575decd913b8b8c5917c96fa64080a1d3a31d082",
+        "bytes": 14983,
+        "computed_git_blob": "683731740f1e6d62be95c5180681432e87662d78"
+      },
+      "final": {
+        "sha256": "c4d0d0ab8bf7383840c2049b575decd913b8b8c5917c96fa64080a1d3a31d082",
+        "bytes": 14983,
+        "computed_git_blob": "683731740f1e6d62be95c5180681432e87662d78"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "new_file": false,
+      "preimage_sha256": "80c317bdd85efb7202548d04f841f3b5e26688093b705cd3712a4e8e8be5ecec",
+      "proposal_sha256": "af4a8c9511ea790d8976c8995227d1f068947674373e2336cbae5c2bdfbea76f",
+      "first_run_input": {
+        "sha256": "af4a8c9511ea790d8976c8995227d1f068947674373e2336cbae5c2bdfbea76f",
+        "bytes": 7174,
+        "computed_git_blob": "4222d66a418efedcd8ca50ef59d9aaf28940c3ea"
+      },
+      "tested": {
+        "sha256": "af4a8c9511ea790d8976c8995227d1f068947674373e2336cbae5c2bdfbea76f",
+        "bytes": 7174,
+        "computed_git_blob": "4222d66a418efedcd8ca50ef59d9aaf28940c3ea"
+      },
+      "final": {
+        "sha256": "4167e469b515d8649a19da8fcfc8d8e9c060f805c03e987cb592c911975d91bf",
+        "bytes": 7283,
+        "computed_git_blob": "5cc38b3e63a9bb9b039d11b907e809247c37004b"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub(crate) struct WorkerGate",
+          "lines": [
+            50
+          ]
+        },
+        {
+          "literal": "pub(crate) fn request_stop(",
+          "lines": [
+            120
+          ]
+        },
+        {
+          "literal": "fn reserve(",
+          "lines": [
+            136
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "02c0b1e997c745a613b639d32de98cfcc7061fe46045f36f4dca9ff205c96832",
+      "proposal_sha256": "436ef3d91aa8ff99704f8577c6e05e56434f64ad1e55ef92446d98127c32a7ab",
+      "first_run_input": {
+        "sha256": "436ef3d91aa8ff99704f8577c6e05e56434f64ad1e55ef92446d98127c32a7ab",
+        "bytes": 13679,
+        "computed_git_blob": "ada8f05a6e64a58e39ab4ef0581c1c64df4a0036"
+      },
+      "tested": {
+        "sha256": "436ef3d91aa8ff99704f8577c6e05e56434f64ad1e55ef92446d98127c32a7ab",
+        "bytes": 13679,
+        "computed_git_blob": "ada8f05a6e64a58e39ab4ef0581c1c64df4a0036"
+      },
+      "final": {
+        "sha256": "c15359013bfcedae7cf9ba26eaae5e16f0ebc79a6f092e8b3fcb541f667bbcf1",
+        "bytes": 14030,
+        "computed_git_blob": "6982a063a9397d534c3c2f41a7357394d505ed46"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "new_file": false,
+      "preimage_sha256": "47a0682b3aead587a6d029978d1aa8d2ae9351cba3e9ff6d3ed74c802e71c028",
+      "proposal_sha256": "56e2887d3d03aa46cca5bca3b450cbd74fae8b5fe9199b158ea8addb217dd796",
+      "first_run_input": {
+        "sha256": "56e2887d3d03aa46cca5bca3b450cbd74fae8b5fe9199b158ea8addb217dd796",
+        "bytes": 44388,
+        "computed_git_blob": "2f48da490a25ef860e3ee6add8468ecef59f44d2"
+      },
+      "tested": {
+        "sha256": "56e2887d3d03aa46cca5bca3b450cbd74fae8b5fe9199b158ea8addb217dd796",
+        "bytes": 44388,
+        "computed_git_blob": "2f48da490a25ef860e3ee6add8468ecef59f44d2"
+      },
+      "final": {
+        "sha256": "d8e0b6b0ed1c21d77b681466efcd209a41fbef4996ff55453a7be088de39d2b1",
+        "bytes": 44687,
+        "computed_git_blob": "80b0d95232c86ee1bc5672ebb47f7dd348eb6de7"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub(crate) fn sync_openai_plugins_repo_owned(",
+          "lines": [
+            98
+          ]
+        },
+        {
+          "literal": "impl SyncAttempt",
+          "lines": [
+            139
+          ]
+        },
+        {
+          "literal": "fn activate_curated_repo(",
+          "lines": [
+            652
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "new_file": false,
+      "preimage_sha256": "279a93658bb58ff56808afd8a68d2fcd02e7959495a4206692577c8a36595aef",
+      "proposal_sha256": "c2314df995434803983626ece49a78d2e23eadf67149a72bb95f35c6827566aa",
+      "first_run_input": {
+        "sha256": "c2314df995434803983626ece49a78d2e23eadf67149a72bb95f35c6827566aa",
+        "bytes": 21705,
+        "computed_git_blob": "c886be44e09edf1995af316d75619853ed616c09"
+      },
+      "tested": {
+        "sha256": "c2314df995434803983626ece49a78d2e23eadf67149a72bb95f35c6827566aa",
+        "bytes": 21705,
+        "computed_git_blob": "c886be44e09edf1995af316d75619853ed616c09"
+      },
+      "final": {
+        "sha256": "25c3f8de626931640448bc5f3850055394a07286146dea51fa6e0ea2df8be9a5",
+        "bytes": 21789,
+        "computed_git_blob": "e0f5295aa423a1deae2940727c92ec1083635471"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub fn spawn(",
+          "lines": [
+            136
+          ]
+        },
+        {
+          "literal": "pub fn wait(",
+          "lines": [
+            236
+          ]
+        },
+        {
+          "literal": "pub fn stop_and_observe(",
+          "lines": [
+            328
+          ]
+        },
+        {
+          "literal": "fn poll_group(",
+          "lines": [
+            432
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "5db2edf6b47ee281590dcc5cda27fafbd6984fdb120150c0b1615c48240ca3d2",
+      "proposal_sha256": "22268414e7d24df31608db66191b3743a7f74bc24abcad4008a0510975dbc401",
+      "first_run_input": {
+        "sha256": "22268414e7d24df31608db66191b3743a7f74bc24abcad4008a0510975dbc401",
+        "bytes": 12021,
+        "computed_git_blob": "01f546ba36b6a3f039840148e9b1e23f59d59b74"
+      },
+      "tested": {
+        "sha256": "22268414e7d24df31608db66191b3743a7f74bc24abcad4008a0510975dbc401",
+        "bytes": 12021,
+        "computed_git_blob": "01f546ba36b6a3f039840148e9b1e23f59d59b74"
+      },
+      "final": {
+        "sha256": "9b68b6d49f8c663c0dfd5cc7092faad8f36e4c38c81638ce7efe80c866be2e0d",
+        "bytes": 12560,
+        "computed_git_blob": "cd8bbeab103b5dd2b9cbd2ce65b89a85a01efd1b"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/utils/pty/src/command_control.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "954a8e5c1e618afd59e3ada92218a76ed2602e9b9f9be1bcb3f94ebc76f10345",
+      "first_run_input": {
+        "sha256": "954a8e5c1e618afd59e3ada92218a76ed2602e9b9f9be1bcb3f94ebc76f10345",
+        "bytes": 2416,
+        "computed_git_blob": "8124dba818cf252a701fddee42859f817910d8c0"
+      },
+      "tested": {
+        "sha256": "954a8e5c1e618afd59e3ada92218a76ed2602e9b9f9be1bcb3f94ebc76f10345",
+        "bytes": 2416,
+        "computed_git_blob": "8124dba818cf252a701fddee42859f817910d8c0"
+      },
+      "final": {
+        "sha256": "685225ad80644779165cbf2f4924faf751ef54e8dc6a5f5a41102631e1cb4910",
+        "bytes": 2526,
+        "computed_git_blob": "0122bf73550cedbe1d11d4f27386ac6c1b92fbe4"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub trait CommandCancellation",
+          "lines": [
+            12
+          ]
+        },
+        {
+          "literal": "pub struct CommandControl",
+          "lines": [
+            32
+          ]
+        },
+        {
+          "literal": "pub fn request_stop(",
+          "lines": [
+            38
+          ]
+        },
+        {
+          "literal": "pub fn wait_for_change(",
+          "lines": [
+            52
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/utils/pty/src/lib.rs",
+      "new_file": false,
+      "preimage_sha256": "f123161a3359af5ea6157973aa26e743487ea2cf923a187ab6638600bc71d06c",
+      "proposal_sha256": "8e165245317e883b01c823f2f90dd22e879cb66d98ebd1d8e2aaf694a952bde6",
+      "first_run_input": {
+        "sha256": "8e165245317e883b01c823f2f90dd22e879cb66d98ebd1d8e2aaf694a952bde6",
+        "bytes": 2976,
+        "computed_git_blob": "e26f96396d4caf5c5a18ef11f8d19112f80d922f"
+      },
+      "tested": {
+        "sha256": "8e165245317e883b01c823f2f90dd22e879cb66d98ebd1d8e2aaf694a952bde6",
+        "bytes": 2976,
+        "computed_git_blob": "e26f96396d4caf5c5a18ef11f8d19112f80d922f"
+      },
+      "final": {
+        "sha256": "8e165245317e883b01c823f2f90dd22e879cb66d98ebd1d8e2aaf694a952bde6",
+        "bytes": 2976,
+        "computed_git_blob": "e26f96396d4caf5c5a18ef11f8d19112f80d922f"
+      },
+      "final_anchors": []
+    }
+  ],
+  "inputs": {
+    "proposal_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1b-cancellation-proposal/MANIFEST.json",
+      "sha256": "8a107952411d9be0cb3bed440d6ff90d3c15e718b37200abedd4b7c578637463",
+      "bytes": 9519
+    },
+    "proposal_provenance": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1b-cancellation-proposal/PROVENANCE.json",
+      "sha256": "4ed246a8e7b661fc8027438b094406a8bdc08f9a0862a5722b2bce4c828d1843",
+      "bytes": 5014
+    },
+    "proposal_diff_counts": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1b-cancellation-proposal/DIFF_COUNTS.json",
+      "sha256": "63a6734260e4c67010b24cb1e034b65378dbeeaa9c7f72fe8377f5c1ac18fd90",
+      "bytes": 4604
+    },
+    "adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-shared-control-adoption.json",
+      "sha256": "b9d3cb593cdadb304e53ef86ff1eb5e8f212652e0fa8dfd98d475574dcf96f5b",
+      "bytes": 4624
+    },
+    "strict_runner": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    },
+    "preserved_proposal_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-shared-control-proposal-preserved.tar.gz",
+      "sha256": "58a1291c697f9954b17f3a95289165b64c15045b75ae2b2cec46ea801c9a0325",
+      "bytes": 271496
+    }
+  },
+  "evidence": "verification/2026-10-01/p03-curated-shared-control-results.json",
+  "limits": [
+    "Native shared stop-request propagation and stage admission only; no new independently installable subsystem, catalog/auth component or completed harness extraction.",
+    "request_curated_repo_sync_stop requests stop and closes admission; it does not join, report shutdown completion, or integrate actual host shutdown call sites.",
+    "Blocking nested HTTP metadata/export/download/body operations and already-queued callbacks may continue. Per-request HTTP cancellation and complete callback/descendant ownership remain open.",
+    "The admitted activation-plus-SHA-write pair is not a durable transaction/journal or rollback protocol. A stop can report publication_may_have_occurred.",
+    "Prior uncertainty remains irreversible. DirectChildAndPipes does not fence all descendants; quarantine has no production reset and restart alone is not safe recovery.",
+    "Non-Linux Git retains LegacyUnverified behavior; Linux scoped evidence does not establish cross-platform cancellation/cleanup proof.",
+    "No fresh full CLI/installed-package/GUI/in-app Browser/live-provider acceptance. Earlier full-host descendant failures remain unresolved and main is not promoted.",
+    "Detailed reports and archives are cloud-local recovery checkpoints, not proven outside backups. Source commit publication is recorded separately.",
+    "Upstream provenance mapping is maintained; independently installable updater, isolated upstream integration, rollback acceptance and polling remain unimplemented."
+  ],
+  "source_commit": "cb9f7409071e64293801e52b21a2fc1d1a87de6f",
+  "promoted_to_main": false,
+  "full_host_acceptance_passed": false,
+  "format_transition": {
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "started_utc": "2026-10-01T22:58:20Z",
+    "finished_utc": "2026-10-01T22:58:41Z",
+    "returncode": 0,
+    "status": "passed",
+    "source_entries": 8898,
+    "source_unchanged": false,
+    "changed_paths": [
+      "codex-rs/core-plugins/src/manager.rs",
+      "codex-rs/core-plugins/src/manager_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync/cancellation_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync.rs",
+      "codex-rs/utils/pty/src/bounded_command.rs",
+      "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "codex-rs/utils/pty/src/command_control.rs"
+    ],
+    "matches_tested_input": true,
+    "log_matches_wrapper_hash": true,
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-shared-control-fmt.source.json",
+        "sha256": "f65cb664e25748d9e0661cad7378eafb2be4c8797c3bc08a903b6d044af8446d",
+        "bytes": 2457322
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-shared-control-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "review": "Recorded successful just fmt transition after unchanged clean lint; ten changed file hashes independently matched exact post-format map. Formatting diffs preserved under recovery staging. This record does not claim an independent semantic review of every formatted line or a new execution of the final formatted bytes. Tests were not repeated solely for formatting."
+  },
+  "final_diff_counts": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "added": 60,
+      "removed": 5
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "added": 117,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/cancellation_tests.rs",
+      "added": 248,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "added": 134,
+      "removed": 15
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+      "added": 5,
+      "removed": 5
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "added": 37,
+      "removed": 7
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "added": 160,
+      "removed": 14
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "added": 70,
+      "removed": 12
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "added": 37,
+      "removed": 8
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "added": 117,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/utils/pty/src/command_control.rs",
+      "added": 72,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/utils/pty/src/lib.rs",
+      "added": 3,
+      "removed": 0
+    }
+  ],
+  "finalized_utc": "2026-10-01T23:05:33.140302+00:00",
+  "source_binding": {
+    "source_commit": "cb9f7409071e64293801e52b21a2fc1d1a87de6f",
+    "source_tree": "9c07e9c6e1a66be41cd675c290d4c593d336cbbc",
+    "parent": "34c2b7c8f8a1a8e9ba400b9651f5965e2f1e38e4",
+    "branch": "work/p03-curated-sync-lifecycle",
+    "branch_advanced_observed": false,
+    "created_source_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-shared-control-source-created.json",
+      "sha256": "288a8cfdaa4fc01bfbfc2d375249661523c0f5de4a0fbc88323b33afa7478f4c",
+      "bytes": 3712
+    },
+    "source_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-shared-control-source-manifest.json",
+      "sha256": "5e18dfd714e9eef3bdcef40548edeeca9ebb9eb90bee22e74dde253caaae806e",
+      "bytes": 3904
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-shared-control-source.tar.gz",
+      "sha256": "a40270b0c2c14d395e544c91f30bc80bb56b524bc1719ecd32caa94197569df7",
+      "bytes": 86136
+    },
+    "archive_members_independently_verified": 12,
+    "archive_scope": "Twelve changed source files, not a full worktree backup; cloud-local archive.",
+    "remote_readback_basis": "Root created source commit/tree. Evidence worker independently verified receipt, exact archive members, final file blobs and tree diff; no separate network readback. Branch update is not yet observed.",
+    "main_unchanged": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "full_host_acceptance_passed": false
+  }
+}

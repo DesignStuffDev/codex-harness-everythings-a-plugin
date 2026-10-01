@@ -16,18 +16,19 @@ Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`; exact-tree im
 Last verified main: `781080f7e3c8bfe1953378001d777dff33d74bc3`, tree
 `22cf918cf77f16d5d947a59b968e342cde7f71d0`. Main source remains native installer
 `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`; later main changes are documentation.
-The previous candidate publication is `324669d0078af814541bad50ba429402fe48be7e`;
-receipt `p03-curated-locked-attempt-publication.json` verifies both refs and eight changed blobs.
+The previous candidate publication is `34c2b7c8f8a1a8e9ba400b9651f5965e2f1e38e4`;
+receipt `p03-curated-retained-owner-publication.json` verifies both refs and seventeen changed blobs.
 
 **Active development source**, present in the owning checkout:
-`739eb89c537a29f715e79ebf6e6405181fec9744`, tree
-`772352f15ac5cca9ae63dc43b6d1622722ab132f`, parent candidate `324669d0`.
-This adds typed transport outcomes, retained attempt resources and native worker-generation
-ownership to source9a2. Its destination remains `work/p03-curated-sync-lifecycle`, **not main**.
-Before continuing, verify `p03-curated-retained-owner-publication.json` and the remote branch;
-this file cannot contain its own eventual documentation commit SHA. Source739 has scoped
-native proof, not full-host acceptance. B1b shared cancellation control is being staged
-separately in recovery; it is not adopted or tested by this checkpoint.
+`cb9f7409071e64293801e52b21a2fc1d1a87de6f`, tree
+`9c07e9c6e1a66be41cd675c290d4c593d336cbbc`, parent candidate `34c2b7c8`.
+This adds one shared stop/deadline control across worker admission, stable-lock waiting,
+Git cleanup and downstream stage/callback admission. Its destination remains
+`work/p03-curated-sync-lifecycle`, **not main**.
+Before continuing, verify `p03-curated-shared-control-publication.json` and the remote branch;
+this file cannot contain its own eventual documentation commit SHA. The native checkpoint
+has scoped proof, not full-host acceptance. C2 HTTP/body cancellation and bounded extraction
+are being staged separately in recovery; they are not adopted or tested by this checkpoint.
 
 Local HEAD/index remain upstream; local main is stale. Use exact reviewed temporary
 indices and connector publication; do not reset/rebase/rewrite the real index.
@@ -93,6 +94,19 @@ Raw54 adopted statuses have no executable/cause attribution. This adds no instal
 Non-Linux retains legacy unverified transport. Blocking HTTP, cancellation, transactional repo+SHA
 publication, queued callbacks, durable fencing across host death and full-host gates remain open.
 
+[Shared-control sourcecb9 evidence](verification/2026-10-01/P03_CURATED_SHARED_CONTROL_EVIDENCE.md):
+one exact control is reserved before worker spawn; stop closes admission even before first
+start and deadlines only shorten. The control reaches real File-lock waiting and every
+Linux Git operation. Typed stop blocks fallback/new stages and callback enqueue admission;
+an already admitted activation/SHA pair completes before stop is reported. Existing cleanup
+uncertainty remains sticky. **572/572** passed on the first compile/run (501core-plugins+71PTY),
+no skips/retries, strict0/null; 8,898 scoped files unchanged. Scoped lint exited0 without edits
+or warnings; global formatting changed ten paths, with exact before/after maps preserved.
+Raw54 adopted statuses have no executable/cause attribution. No test rerun solely for formatting.
+This is no new installed subsystem. Current HTTP operations, queued callbacks, transactional
+publication and actual host-shutdown integration remain pending. A stop request is not a join
+receipt, and process-local ownership cannot prove safe recovery after host death.
+
 [Prior full-host checkpoint](verification/2026-10-01/P03_SOURCE_OWNER_FULL_HOST_EVIDENCE.md),
 source99/CLI c711, remains **mixed/failed**: both storage attempts passed13 behavior checks
 but strict125 found live descendants; migration10 and GUI2cold cycles passed. Actual manager
@@ -102,19 +116,19 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 
 ## Ordered implementation queue
 
-1. Verify source739 publication/ref, exact-source evidence and the preserved next proposal.
-   Keep main source655 until combined full-host gates pass.
-2. B1a typed outcomes plus retained attempt/admission resources and native worker handles are
-   now integrated and scoped-tested. Preserve sticky quarantine and the original outcome;
-   direct-child reaping never clears it. External termination/fencing remains required for
-   recovery; restarting the host alone is insufficient.
-3. Implement the staged B1b shared control: reserve it before worker spawn, close admission on
-   stop (including before first start), monotonically shorten deadlines, and pass it through
-   cancellable stable file-lock waiting and every Git operation. Typed stop gates fallback,
-   publication and cache admission; never interrupt the activation/SHA pair halfway. Preserve
-   ordinary safe fallback. Continue policy-aware HTTP send/body cancellation, chunked extraction,
-   recoverable repo+SHA publication/journal, tracked callbacks/queued config work, and actual
-   in-process/external App Server/CLI shutdown with honest forced-termination uncertainty.
+1. Verify sourcecb9 publication/ref and exact-source evidence. Keep main source655 until
+   combined full-host gates pass; preserve C2 proposals independently.
+2. B1a retained ownership and B1b shared cancellation are integrated and scoped-tested.
+   Preserve sticky quarantine and the original outcome; direct-child reaping never clears it.
+   External termination/fencing remains required for recovery; restarting alone is insufficient.
+3. Review/adopt C2 policy-aware HTTP send/body cancellation and chunked extraction. Use one
+   absolute request deadline and observed body/output/count limits; retain the native worker
+   through ordinary Runtime teardown, which may exceed that deadline. Do not claim a hard
+   join bound for hidden resolver/blocking work or a total ZIP-constructor allocation bound.
+   Then implement recoverable repo+SHA publication/journal, tracked callbacks/queued config
+   work and actual in-process/external App Server/CLI shutdown with forced-termination
+   uncertainty. Preserve proxy/DNS policy and the admitted activation/SHA pair.
+
 4. Build a fresh full CLI and rerun unchanged default-feature installed storage, migration and
    GUI/session/streaming/approvals/cancellation/recovery/actual Launch Ctrl+C gates. Record exact
    source and package hashes, process identities and strict runner result. Only then consider
@@ -133,6 +147,10 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 Recovery root: `/workspace/recovery-backups/20260930T165936Z`.
 Full original two-worktree/Git/SDK/evidence archive `codex-recovered-workspace.tar.zst` SHA256
 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
+Sourcecb9 archive `p03-curated-shared-control-source.tar.gz` SHA256
+`a40270b0c2c14d395e544c91f30bc80bb56b524bc1719ecd32caa94197569df7`.
+Frozen B1b proposal archive `p03-curated-shared-control-proposal-preserved.tar.gz` SHA256
+`58a1291c697f9954b17f3a95289165b64c15045b75ae2b2cec46ea801c9a0325`.
 Source739 archive `p03-curated-retained-owner-source.tar.gz` SHA256
 `a56c0bdbfc084cb49b0d7ea8cc1bc04803fd051743645ac651f439e904ba2225`.
 Frozen original B1 proposal archive `p03-curated-retained-owner-proposal-preserved.tar.gz`
