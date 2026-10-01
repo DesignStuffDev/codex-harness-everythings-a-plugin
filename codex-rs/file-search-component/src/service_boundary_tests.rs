@@ -59,16 +59,16 @@ async fn bounded_rejection_receipts_do_not_invalidate_an_older_live_lease() {
 #[tokio::test]
 async fn actual_encoded_frame_overflow_returns_domain_exhaustion_and_joins_owner() {
     let backend = Arc::new(Backend {
-        starts: Semaphore::new(1),
-        entered: Semaphore::new(0),
-        start_failure: None,
+        starts: Arc::new(Semaphore::new(1)),
+        entered: Arc::new(Semaphore::new(0)),
+        begin_calls: AtomicUsize::new(0),
+        start_plan: StartPlan::Ready,
+        controls: Mutex::new(Vec::new()),
         shutdown_cleanup: CloseCleanup::Joined,
-        session: Arc::new(Session {
-            polls: Semaphore::new(1),
-            entered: Semaphore::new(0),
-            close_calls: AtomicUsize::new(0),
-            outcome: joined(),
-            snapshot: Some(SearchFrame {
+        session: Arc::new(Session::new(
+            joined(),
+            /*polls*/ 1,
+            Some(SearchFrame {
                 revision: 1,
                 query_id: 0,
                 query: String::new(),
@@ -88,7 +88,7 @@ async fn actual_encoded_frame_overflow_returns_domain_exhaustion_and_joins_owner
                     }],
                 }),
             }),
-        }),
+        )),
     });
     let (service, provider) = service(Arc::clone(&backend)).await;
     let request = open(&provider, 1);

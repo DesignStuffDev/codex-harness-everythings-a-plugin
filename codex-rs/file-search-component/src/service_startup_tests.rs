@@ -31,7 +31,18 @@ fn failing_start(operation: SearchError, cleanup: StartCleanup) -> Arc<Backend> 
     );
     Arc::get_mut(&mut backend)
         .expect("sole fixture owner")
-        .start_failure = Some(SearchStartError { operation, cleanup });
+        .start_plan = StartPlan::Fail(SearchStartError { operation, cleanup });
+    backend
+}
+
+fn cancelled_start(cleanup: StartCleanup) -> Arc<Backend> {
+    let mut backend = failing_start(closed_start(), cleanup.clone());
+    Arc::get_mut(&mut backend)
+        .expect("sole fixture owner")
+        .start_plan = StartPlan::ClosedByCancellation(SearchStartError {
+        operation: closed_start(),
+        cleanup,
+    });
     backend
 }
 
@@ -73,7 +84,7 @@ async fn close_receipt(pending: PendingServiceReply) -> SearchCloseOutcome {
 #[tokio::test]
 async fn explicit_release_before_known_closed_start_has_successful_close_receipt() {
     for cleanup in [StartCleanup::NotAdmitted, StartCleanup::Confirmed] {
-        let backend = failing_start(closed_start(), cleanup);
+        let backend = cancelled_start(cleanup.clone());
         let (service, provider) = service(Arc::clone(&backend)).await;
         let (opening, identity) = opening(&service, &provider, &backend).await;
         let releasing = release(&service, &identity);
@@ -82,7 +93,7 @@ async fn explicit_release_before_known_closed_start_has_successful_close_receipt
             rejected(opening).await,
             SearchStartError {
                 operation: closed_start(),
-                cleanup: StartCleanup::Confirmed,
+                cleanup,
             }
         );
         assert_eq!(close_receipt(releasing).await, joined());
@@ -95,7 +106,7 @@ async fn explicit_release_before_known_closed_start_has_successful_close_receipt
 #[tokio::test]
 async fn explicit_shutdown_before_known_closed_start_does_not_fail_provider() {
     for cleanup in [StartCleanup::NotAdmitted, StartCleanup::Confirmed] {
-        let backend = failing_start(closed_start(), cleanup);
+        let backend = cancelled_start(cleanup.clone());
         let (service, provider) = service(Arc::clone(&backend)).await;
         let (opening, _) = opening(&service, &provider, &backend).await;
         service.request_shutdown();
@@ -104,7 +115,7 @@ async fn explicit_shutdown_before_known_closed_start_does_not_fail_provider() {
             rejected(opening).await,
             SearchStartError {
                 operation: closed_start(),
-                cleanup: StartCleanup::Confirmed,
+                cleanup,
             }
         );
         assert_eq!(service.shutdown().await, joined());
@@ -130,9 +141,36 @@ async fn spontaneous_closed_start_is_not_normalized_by_automatic_error_close() {
 }
 
 #[tokio::test]
+async fn explicit_release_does_not_erase_genuine_closed_start() {
+    for cleanup in [StartCleanup::NotAdmitted, StartCleanup::Confirmed] {
+        let backend = failing_start(closed_start(), cleanup.clone());
+        let (service, provider) = service(Arc::clone(&backend)).await;
+        let (opening, identity) = opening(&service, &provider, &backend).await;
+        let releasing = release(&service, &identity);
+        assert!(*lock(&backend.controls)[0].cancelled.borrow());
+        backend.starts.add_permits(1);
+        assert_eq!(
+            rejected(opening).await,
+            SearchStartError {
+                operation: closed_start(),
+                cleanup,
+            }
+        );
+        let expected = SearchCloseOutcome {
+            operation: Err(closed_start()),
+            cleanup: CloseCleanup::Joined,
+        };
+        assert_eq!(close_receipt(releasing).await, expected);
+        assert_eq!(close_receipt(release(&service, &identity)).await, expected);
+        assert_eq!(service.shutdown().await, expected);
+        assert_eq!(lock(&service.inner.state).used, [0; 3]);
+    }
+}
+
+#[tokio::test]
 async fn explicit_release_does_not_erase_genuine_start_failure() {
     for cleanup in [StartCleanup::NotAdmitted, StartCleanup::Confirmed] {
-        let backend = failing_start(exhausted_start(), cleanup);
+        let backend = failing_start(exhausted_start(), cleanup.clone());
         let (service, provider) = service(Arc::clone(&backend)).await;
         let (opening, identity) = opening(&service, &provider, &backend).await;
         let releasing = release(&service, &identity);
@@ -141,7 +179,7 @@ async fn explicit_release_does_not_erase_genuine_start_failure() {
             rejected(opening).await,
             SearchStartError {
                 operation: exhausted_start(),
-                cleanup: StartCleanup::Confirmed,
+                cleanup,
             }
         );
         let expected = SearchCloseOutcome {
