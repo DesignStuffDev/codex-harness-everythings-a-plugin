@@ -8,6 +8,7 @@ use std::sync::atomic::Ordering;
 use std::time::Duration;
 
 use codex_file_search_api::CloseCleanup;
+use codex_file_search_api::PendingSearchStart;
 use codex_file_search_api::ProviderLimits;
 use codex_file_search_api::ScopeLimits;
 use codex_file_search_api::SearchBackend;
@@ -16,7 +17,7 @@ use codex_file_search_api::SearchCloseFuture;
 use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchErrorKind;
 use codex_file_search_api::SearchOpen;
-use codex_file_search_api::SearchStartFuture;
+use codex_file_search_api::SearchStartError;
 use codex_file_search_runtime::FileSearchProvider;
 use codex_file_search_runtime::FileSearchScopeFactory;
 use codex_file_search_runtime::RuntimePolicy;
@@ -35,7 +36,7 @@ struct Backend {
 }
 
 impl SearchBackend for Backend {
-    fn open(&self, _: SearchOpen) -> SearchStartFuture<'_> {
+    fn begin_open(&self, _: SearchOpen) -> Result<PendingSearchStart, SearchStartError> {
         panic!("accessor tests do not admit backend sessions");
     }
 
