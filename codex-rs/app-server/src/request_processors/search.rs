@@ -602,3 +602,7 @@ mod preparing_fixture;
 #[cfg(test)]
 #[path = "search/preparing_tests.rs"]
 mod preparing_tests;
+
+#[cfg(test)]
+#[path = "search/ingress_tests.rs"]
+mod ingress_tests;
