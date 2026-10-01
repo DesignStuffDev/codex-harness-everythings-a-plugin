@@ -422,3 +422,177 @@ async fn queued_stop_retains_original_failed_start_receipt_after_entry_removal()
         }
     );
 }
+
+#[test]
+fn unpolled_accepted_start_owner_loss_is_not_reported_as_unadmitted_or_joined_stop() {
+    let executor = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .expect("owner runtime");
+    let (processor, provider, _outgoing) = executor.block_on(async { fixture(Vec::new()) });
+    let connection = Arc::new(SearchConnectionState::default());
+    let admission = processor
+        .admit_search_request(ConnectionId(1), &connection, &start(1))
+        .expect("ingress");
+    let request_processor = processor.clone();
+    let request_connection = connection.clone();
+    let mut opening = Box::pin(async move {
+        request_processor
+            .start_search_admitted(
+                ConnectionId(1),
+                request_connection,
+                FuzzyFileSearchSessionStartParams {
+                    session_id: "same".into(),
+                    roots: vec!["/fixture".into()],
+                },
+                admission,
+            )
+            .await
+    });
+    let stopped = executor.block_on(async {
+        assert!(futures::poll!(&mut opening).is_pending());
+        assert!(
+            connection
+                .state
+                .lock()
+                .expect("state")
+                .pending
+                .contains_key("same")
+        );
+        // Return without yielding to the accepted publisher/startup tasks.
+        processor
+            .admit_search_request(ConnectionId(1), &connection, &stop(2))
+            .expect("stop intent")
+    });
+    drop(executor);
+    let observer = tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+        .expect("observer runtime");
+    observer.block_on(async {
+        assert!(opening.await.is_err());
+        assert!(connection.state.lock().expect("state").sessions.is_empty());
+        let error = timeout(
+            Duration::from_secs(2),
+            processor.stop_search_admitted(
+                ConnectionId(1),
+                connection.clone(),
+                FuzzyFileSearchSessionStopParams {
+                    session_id: "same".into(),
+                },
+                stopped,
+            ),
+        )
+        .await
+        .expect("retained loss receipt")
+        .expect_err("accepted loss is uncertain");
+        assert!(error.message.contains("admitted startup owner lost"));
+        assert!(error.message.contains("cleanup unconfirmed"));
+    });
+    drop(processor);
+    drop(provider);
+}
+
+#[tokio::test]
+async fn stop_retains_real_capacity_refusal_even_though_start_admitted_no_work() {
+    let constructors = (0..connection::MAX_SEARCHES_PER_CONNECTION)
+        .map(|_| Start::new(Ok(())))
+        .collect::<Vec<_>>();
+    let (processor, provider, _outgoing) = fixture(constructors.clone());
+    let connection = Arc::new(SearchConnectionState::default());
+    let gate = Arc::new(ConnectionRpcGate::new());
+    let queues = RequestSerializationQueues::default();
+    let (key, access) = RequestSerializationQueueKey::from_scope(
+        ConnectionId(1),
+        start(1).serialization_scope().expect("scope"),
+    );
+    let (hold, held) = oneshot::channel();
+    queues
+        .enqueue(
+            key,
+            access,
+            QueuedInitializedRequest::new(gate.clone(), async move {
+                held.await.expect("queue barrier");
+            }),
+        )
+        .await;
+    let refused = enqueue(
+        &queues,
+        &processor,
+        ConnectionId(1),
+        &connection,
+        &gate,
+        start(1),
+    )
+    .await;
+    // Fill actual processor/provider ownership after the queued ticket exists.
+    // These distinct IDs bypass ingress only to isolate the later engine quota.
+    let mut admitted = Vec::new();
+    for (id, constructor) in constructors.iter().enumerate() {
+        let owned_processor = processor.clone();
+        let owned_connection = connection.clone();
+        admitted.push(tokio::spawn(async move {
+            owned_processor
+                .fuzzy_file_search_session_start_response(
+                    ConnectionId(1),
+                    owned_connection,
+                    FuzzyFileSearchSessionStartParams {
+                        session_id: format!("occupied-{id}"),
+                        roots: vec!["/fixture".into()],
+                    },
+                )
+                .await
+        }));
+        entered(constructor).await;
+    }
+    let stopped = enqueue(
+        &queues,
+        &processor,
+        ConnectionId(1),
+        &connection,
+        &gate,
+        stop(2),
+    )
+    .await;
+    hold.send(()).expect("release request FIFO");
+    assert!(
+        response(refused)
+            .await
+            .expect_err("engine quota refusal")
+            .message
+            .contains("connection capacity is exhausted")
+    );
+    assert!(
+        response(stopped)
+            .await
+            .expect_err("known no-work does not erase real operation failure")
+            .message
+            .contains("connection capacity is exhausted")
+    );
+    assert!(
+        constructors
+            .iter()
+            .all(|start| !start.cancelled.is_cancelled()),
+        "stop preserves other session IDs"
+    );
+    connection.request_shutdown();
+    for constructor in &constructors {
+        cancelled(constructor).await;
+        constructor.release.add_permits(1);
+    }
+    for request in admitted {
+        assert!(request.await.expect("retained direct owner").is_err());
+    }
+    gate.shutdown().await;
+    processor
+        .shutdown()
+        .await
+        .expect("other owned work drains cleanly");
+    assert_eq!(
+        provider.shutdown().await,
+        SearchCloseOutcome {
+            operation: Ok(()),
+            cleanup: CloseCleanup::Joined
+        }
+    );
+}
