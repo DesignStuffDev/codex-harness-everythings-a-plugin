@@ -41,7 +41,10 @@ async fn run_startup_for_test(
         file_search_runtime.clone(),
     )
     .await;
-    file_search_runtime.shutdown().await.map_err(|error| color_eyre::eyre::eyre!(error.to_string()))?;
+    file_search_runtime
+        .shutdown()
+        .await
+        .map_err(|error| color_eyre::eyre::eyre!(error.to_string()))?;
     result
 }
 

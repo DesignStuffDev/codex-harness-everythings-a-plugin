@@ -27,7 +27,6 @@ struct RuntimeInner {
 impl FileSearchRuntime {
     pub(crate) fn new() -> Self {
         // Allow bounded overlap while obsolete sessions finish closing.
-        #[expect(clippy::expect_used, reason = "the fixed session limit is nonzero")]
         const MAX_SESSIONS: NonZero<usize> = NonZero::new(8).expect("eight is nonzero");
         Self(Arc::new(RuntimeInner {
             native: file_search::FileSearchOwner::new(MAX_SESSIONS),
@@ -37,7 +36,11 @@ impl FileSearchRuntime {
     }
 
     fn spawn(&self, task: impl Future<Output = ()> + Send + 'static) -> bool {
-        let closing = self.0.closing.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let closing = self
+            .0
+            .closing
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if *closing {
             return false;
         }
@@ -56,7 +59,11 @@ impl FileSearchRuntime {
 
     pub(crate) async fn shutdown(&self) -> anyhow::Result<()> {
         {
-            let mut closing = self.0.closing.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut closing = self
+                .0
+                .closing
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             *closing = true;
             self.0.tasks.close();
         }
@@ -148,7 +155,11 @@ impl FileSearchManager {
 
     pub(crate) fn update_search_dir(&mut self, new_dir: PathBuf) {
         self.search_dir = new_dir;
-        let session = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner).invalidate();
+        let session = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .invalidate();
         if let Some(session) = session {
             self.runtime.close(session);
         }
@@ -156,12 +167,18 @@ impl FileSearchManager {
 
     /// Recheck queued results at delivery, after any query/CWD/reconnect events.
     pub(crate) fn accepts(&self, request: &FileSearchRequest, query: &str) -> bool {
-        self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner).accepts(request, query)
+        self.state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .accepts(request, query)
     }
 
     pub(crate) fn on_user_query(&self, query: String) {
         let (request, session) = {
-            let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             if query == state.latest_query
                 && (query.is_empty() || state.session.is_some() || state.starting)
             {
@@ -206,25 +223,33 @@ impl FileSearchManager {
         let admission_reporter = Arc::clone(&reporter);
         let admitted = self.runtime.spawn(async move {
             let still_current = admission_reporter.state.upgrade().is_some_and(|state| {
-                let state = state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+                let state = state
+                    .lock()
+                    .unwrap_or_else(std::sync::PoisonError::into_inner);
                 state.same_session(&admission_reporter.generation) && state.starting
             });
             if !still_current {
                 return;
             }
-            let result = runtime.0.native.create(
-                vec![search_dir],
-                file_search::FileSearchOptions {
-                    compute_indices: true,
-                    ..Default::default()
-                },
-                admission_reporter.clone(),
-                /*cancel_flag*/ None,
-            ).await;
+            let result = runtime
+                .0
+                .native
+                .create(
+                    vec![search_dir],
+                    file_search::FileSearchOptions {
+                        compute_indices: true,
+                        ..Default::default()
+                    },
+                    admission_reporter.clone(),
+                    /*cancel_flag*/ None,
+                )
+                .await;
             match result {
                 Ok(session) => {
                     let query = admission_reporter.state.upgrade().and_then(|state| {
-                        let mut state = state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+                        let mut state = state
+                            .lock()
+                            .unwrap_or_else(std::sync::PoisonError::into_inner);
                         if !state.same_session(&admission_reporter.generation) || !state.starting {
                             return None;
                         }
@@ -242,14 +267,22 @@ impl FileSearchManager {
             }
         });
         if !admitted {
-            reporter.failed(&self.runtime, /*query_id*/ None, anyhow::anyhow!("file search is shutting down"));
+            reporter.failed(
+                &self.runtime,
+                /*query_id*/ None,
+                anyhow::anyhow!("file search is shutting down"),
+            );
         }
     }
 }
 
 impl Drop for FileSearchManager {
     fn drop(&mut self) {
-        let session = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner).invalidate();
+        let session = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .invalidate();
         if let Some(session) = session {
             self.runtime.close(session);
         }
@@ -263,16 +296,26 @@ struct TuiSessionReporter {
 }
 
 impl TuiSessionReporter {
-    fn submit(&self, runtime: &FileSearchRuntime, session: &file_search::ManagedFileSearchSession, query: &str, query_id: u64) {
+    fn submit(
+        &self,
+        runtime: &FileSearchRuntime,
+        session: &file_search::ManagedFileSearchSession,
+        query: &str,
+        query_id: u64,
+    ) {
         if let Err(error) = session.update_query_tagged(query, query_id) {
             self.failed(runtime, Some(query_id), error);
         }
     }
 
     fn failed(&self, runtime: &FileSearchRuntime, query_id: Option<u64>, error: anyhow::Error) {
-        let Some(state) = self.state.upgrade() else { return; };
+        let Some(state) = self.state.upgrade() else {
+            return;
+        };
         let (request, query, session) = {
-            let mut state = state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut state = state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             if !state.same_session(&self.generation)
                 || query_id.is_some_and(|id| state.query_id != id)
                 || state.latest_query.is_empty()
@@ -283,21 +326,38 @@ impl TuiSessionReporter {
             // Fence already queued native snapshots even when failure preserves
             // the query text for a later retry.
             state.session_generation = Arc::new(());
-            (state.request(), state.latest_query.clone(), state.session.take())
+            (
+                state.request(),
+                state.latest_query.clone(),
+                state.session.take(),
+            )
         };
         tracing::warn!("file search request failed: {error}");
         if let Some(session) = session {
             runtime.close(session);
         }
-        self.app_tx.send(AppEvent::FileSearchResult { request, query, matches: Vec::new() });
+        self.app_tx.send(AppEvent::FileSearchResult {
+            request,
+            query,
+            matches: Vec::new(),
+        });
     }
 }
 
 impl file_search::SessionReporter for TuiSessionReporter {
     fn on_update(&self, snapshot: &file_search::FileSearchSnapshot) {
-        let Some(state) = self.state.upgrade() else { return; };
-        let request = FileSearchRequest { query_id: snapshot.query_id, ..self.generation.clone() };
-        if !state.lock().unwrap_or_else(std::sync::PoisonError::into_inner).accepts(&request, &snapshot.query) {
+        let Some(state) = self.state.upgrade() else {
+            return;
+        };
+        let request = FileSearchRequest {
+            query_id: snapshot.query_id,
+            ..self.generation.clone()
+        };
+        if !state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .accepts(&request, &snapshot.query)
+        {
             return;
         }
         self.app_tx.send(AppEvent::FileSearchResult {

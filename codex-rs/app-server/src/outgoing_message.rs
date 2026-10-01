@@ -260,9 +260,15 @@ impl OutgoingMessageSender {
         &self,
         connection_id: ConnectionId,
     ) -> anyhow::Result<ConnectionNotificationPermit<'_>> {
-        let permit = self.sender.reserve().await
+        let permit = self
+            .sender
+            .reserve()
+            .await
             .map_err(|_| anyhow::anyhow!("outgoing notification queue is closed"))?;
-        Ok(ConnectionNotificationPermit { connection_id, permit })
+        Ok(ConnectionNotificationPermit {
+            connection_id,
+            permit,
+        })
     }
 
     pub(crate) fn new(

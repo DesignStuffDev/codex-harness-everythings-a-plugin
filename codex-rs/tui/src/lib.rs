@@ -2068,8 +2068,12 @@ async fn run_ratatui_app(
         Err(error) => {
             tracing::warn!("file search shutdown failed: {error}");
             match app_result {
-                Ok(_) => Err(color_eyre::eyre::eyre!("file search shutdown failed: {error}")),
-                Err(app_error) => Err(app_error.wrap_err(format!("file search shutdown failed: {error}"))),
+                Ok(_) => Err(color_eyre::eyre::eyre!(
+                    "file search shutdown failed: {error}"
+                )),
+                Err(app_error) => {
+                    Err(app_error.wrap_err(format!("file search shutdown failed: {error}")))
+                }
             }
         }
     };

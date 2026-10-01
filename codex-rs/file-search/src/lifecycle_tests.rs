@@ -45,12 +45,17 @@ impl SessionReporter for Probe {
     fn on_update(&self, snapshot: &FileSearchSnapshot) {
         let _ = self.updates.send(snapshot.clone());
         if snapshot.query == "needle"
-            && snapshot.matches.iter().any(|entry| entry.path == std::path::Path::new("needle.txt"))
+            && snapshot
+                .matches
+                .iter()
+                .any(|entry| entry.path == std::path::Path::new("needle.txt"))
         {
             match &self.callback {
                 Callback::Observe => {}
                 Callback::Block(release) => {
-                    release.recv().expect("test must release the matched-file callback");
+                    release
+                        .recv()
+                        .expect("test must release the matched-file callback");
                 }
                 Callback::Panic => panic!("deliberate matched-file reporter failure"),
             }
@@ -72,11 +77,15 @@ impl Observations {
     fn wait_for_match(&self) {
         let deadline = Instant::now() + WAIT;
         loop {
-            let snapshot = self.updates
+            let snapshot = self
+                .updates
                 .recv_timeout(deadline.saturating_duration_since(Instant::now()))
                 .expect("real query must find the fixture file");
             if snapshot.query == "needle"
-                && snapshot.matches.iter().any(|entry| entry.path == std::path::Path::new("needle.txt"))
+                && snapshot
+                    .matches
+                    .iter()
+                    .any(|entry| entry.path == std::path::Path::new("needle.txt"))
             {
                 return;
             }
@@ -95,7 +104,11 @@ fn probe(callback: Callback) -> (Arc<Probe>, Observations) {
             dropped: dropped_tx,
             callback,
         }),
-        Observations { updates, completed, dropped },
+        Observations {
+            updates,
+            completed,
+            dropped,
+        },
     )
 }
 
@@ -111,7 +124,9 @@ fn close_bounded(session: FileSearchSession) -> anyhow::Result<()> {
     let closer = thread::spawn(move || {
         let _ = closed_tx.send(session.close());
     });
-    let result = closed.recv_timeout(WAIT).expect("close must join workers within the deadline");
+    let result = closed
+        .recv_timeout(WAIT)
+        .expect("close must join workers within the deadline");
     closer.join().expect("close caller must not panic");
     result
 }
@@ -126,10 +141,17 @@ fn idle_close_joins_workers_and_releases_reporter() {
         FileSearchOptions::default(),
         reporter,
         /*cancel_flag*/ None,
-    ).unwrap();
-    observations.completed.recv_timeout(WAIT).expect("initial walk must become idle");
+    )
+    .unwrap();
+    observations
+        .completed
+        .recv_timeout(WAIT)
+        .expect("initial walk must become idle");
     close_bounded(session).unwrap();
-    observations.dropped.recv_timeout(WAIT).expect("joined workers must release reporter ownership");
+    observations
+        .dropped
+        .recv_timeout(WAIT)
+        .expect("joined workers must release reporter ownership");
     assert!(weak_reporter.upgrade().is_none());
 }
 
@@ -144,7 +166,8 @@ fn close_waits_for_blocked_callback_but_request_close_does_not() {
         FileSearchOptions::default(),
         reporter,
         /*cancel_flag*/ None,
-    ).unwrap();
+    )
+    .unwrap();
     session.update_query("needle");
     observations.wait_for_match();
 
@@ -165,9 +188,15 @@ fn close_waits_for_blocked_callback_but_request_close_does_not() {
         .expect("close must complete after callback release");
     closer.join().expect("close caller must not panic");
     request_result.expect("request_close must return while the callback is blocked");
-    assert!(!closed_early, "consuming close must wait for the in-flight callback");
+    assert!(
+        !closed_early,
+        "consuming close must wait for the in-flight callback"
+    );
     close_result.unwrap();
-    observations.dropped.recv_timeout(WAIT).expect("close must release reporter ownership");
+    observations
+        .dropped
+        .recv_timeout(WAIT)
+        .expect("close must release reporter ownership");
     assert!(weak_reporter.upgrade().is_none());
 }
 
@@ -181,11 +210,18 @@ fn reporter_panic_is_returned_by_close_and_does_not_retain_workers() {
         FileSearchOptions::default(),
         reporter,
         /*cancel_flag*/ None,
-    ).unwrap();
+    )
+    .unwrap();
     session.update_query("needle");
     observations.wait_for_match();
-    assert!(close_bounded(session).is_err(), "worker failure must not be reported as a clean close");
-    observations.dropped.recv_timeout(WAIT).expect("panic cleanup must release reporter ownership");
+    assert!(
+        close_bounded(session).is_err(),
+        "worker failure must not be reported as a clean close"
+    );
+    observations
+        .dropped
+        .recv_timeout(WAIT)
+        .expect("panic cleanup must release reporter ownership");
     assert!(weak_reporter.upgrade().is_none());
 }
 
@@ -198,7 +234,8 @@ fn reporter_panic_wakes_one_shot_waiter_without_completion_callback() {
         FileSearchOptions::default(),
         reporter,
         /*cancel_flag*/ None,
-    ).unwrap();
+    )
+    .unwrap();
     let (waited_tx, waited) = bounded(1);
     let waiter = thread::spawn(move || {
         // This independent reporter never receives on_update or on_complete.
@@ -214,7 +251,10 @@ fn reporter_panic_wakes_one_shot_waiter_without_completion_callback() {
         .expect("reporter panic must wake a one-shot waiter without on_complete");
     waiter.join().expect("one-shot waiter must not panic");
     assert_eq!(snapshot, FileSearchSnapshot::default());
-    assert!(close_bounded(session).is_err(), "worker failure must remain observable after wait");
+    assert!(
+        close_bounded(session).is_err(),
+        "worker failure must remain observable after wait"
+    );
 }
 
 #[test]
@@ -227,14 +267,16 @@ fn explicit_close_does_not_cancel_sibling_using_shared_external_flag() {
         FileSearchOptions::default(),
         first_reporter,
         Some(Arc::clone(&external)),
-    ).unwrap();
+    )
+    .unwrap();
     let (reporter, observations) = probe(Callback::Observe);
     let sibling = create_session(
         vec![root.path().to_path_buf()],
         FileSearchOptions::default(),
         reporter,
         Some(Arc::clone(&external)),
-    ).unwrap();
+    )
+    .unwrap();
 
     first.request_close();
     close_bounded(first).unwrap();
@@ -255,10 +297,14 @@ fn dropping_session_eventually_releases_reporter_ownership() {
         FileSearchOptions::default(),
         reporter,
         /*cancel_flag*/ None,
-    ).unwrap();
+    )
+    .unwrap();
     session.update_query("needle");
     observations.wait_for_match();
     drop(session);
-    observations.dropped.recv_timeout(WAIT).expect("drop must eventually drain workers and release reporter");
+    observations
+        .dropped
+        .recv_timeout(WAIT)
+        .expect("drop must eventually drain workers and release reporter");
     assert!(weak_reporter.upgrade().is_none());
 }

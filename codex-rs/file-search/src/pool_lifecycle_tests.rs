@@ -67,7 +67,10 @@ fn join_waits_beyond_rayon_worker_exit_until_os_thread_finishes() {
     assert_eq!(observed_exit.load(Ordering::Acquire), false);
     assert!(done_rx.try_recv().is_err());
     release_tx.send(()).unwrap();
-    assert_eq!(done_rx.recv_timeout(Duration::from_secs(5)).unwrap(), Vec::<String>::new());
+    assert_eq!(
+        done_rx.recv_timeout(Duration::from_secs(5)).unwrap(),
+        Vec::<String>::new()
+    );
     owner.join().unwrap();
     assert_eq!(observed_exit.load(Ordering::Acquire), true);
 }
@@ -79,10 +82,12 @@ fn pool_thread_panic_is_reported_after_join() {
         .build(
             1,
             |_| {},
-            |worker| thread::Builder::new().spawn(move || {
-                worker.run();
-                panic!("injected OS-thread teardown panic");
-            }),
+            |worker| {
+                thread::Builder::new().spawn(move || {
+                    worker.run();
+                    panic!("injected OS-thread teardown panic");
+                })
+            },
         )
         .unwrap();
     drop(pool);
@@ -96,7 +101,9 @@ fn asynchronous_rayon_task_panic_is_observed_without_aborting() {
     let pool = threads
         .build(
             1,
-            move |_| { let _ = failure_tx.send(()); },
+            move |_| {
+                let _ = failure_tx.send(());
+            },
             spawn_pool_thread,
         )
         .unwrap();
@@ -114,7 +121,8 @@ fn walker_owner_joins_during_supervisor_unwind() {
         crate::FileSearchOptions::default(),
         Arc::new(crate::RunReporter::default()),
         /*cancel_flag*/ None,
-    ).unwrap();
+    )
+    .unwrap();
     let inner = native.inner.clone();
     native.close().unwrap();
     let (release, gate) = bounded(1);
@@ -129,7 +137,10 @@ fn walker_owner_joins_during_supervisor_unwind() {
             Ok(())
         });
         let result = catch_unwind(AssertUnwindSafe(|| {
-            let _walker = WalkerThread { handle: Some(walker), inner };
+            let _walker = WalkerThread {
+                handle: Some(walker),
+                inner,
+            };
             unwinding.send(()).unwrap();
             panic!("injected unexpected supervisor unwind");
         }));
@@ -157,7 +168,9 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
 
     struct Reporter(crossbeam_channel::Sender<FileSearchSnapshot>);
     impl SessionReporter for Reporter {
-        fn on_update(&self, snapshot: &FileSearchSnapshot) { let _ = self.0.send(snapshot.clone()); }
+        fn on_update(&self, snapshot: &FileSearchSnapshot) {
+            let _ = self.0.send(snapshot.clone());
+        }
         fn on_complete(&self) {}
     }
     let root = tempfile::tempdir().unwrap();
@@ -179,7 +192,10 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
     let pool = pool_threads.build(1, |_| {}, spawn_pool_thread).unwrap();
     let (first_release, first_gate) = bounded(1);
     let (first_entered, first_started) = bounded(1);
-    pool.spawn(move || { first_entered.send(()).unwrap(); first_gate.recv().unwrap(); });
+    pool.spawn(move || {
+        first_entered.send(()).unwrap();
+        first_gate.recv().unwrap();
+    });
     first_started.recv_timeout(Duration::from_secs(5)).unwrap();
     let (second_release, second_gate) = bounded(1);
     let (second_entered, second_started) = bounded(1);
@@ -189,27 +205,49 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
         if rayon::current_thread_index().is_some() && !queued.swap(true, Ordering::AcqRel) {
             let gate = second_gate.clone();
             let entered = second_entered.clone();
-            rayon::spawn(move || { entered.send(()).unwrap(); gate.recv().unwrap(); });
+            rayon::spawn(move || {
+                entered.send(()).unwrap();
+                gate.recv().unwrap();
+            });
         }
         let _ = notify_work.send(WorkSignal::NucleoNotify);
     });
-    let mut nucleo = Nucleo::new_with_thread_pool(Config::DEFAULT.match_paths(), notify, pool, /*columns*/ 1);
+    let mut nucleo = Nucleo::new_with_thread_pool(
+        Config::DEFAULT.match_paths(),
+        notify,
+        pool,
+        /*columns*/ 1,
+    );
     let injector = nucleo.injector();
     for name in ["apple.txt", "apple-b.txt"] {
-        injector.push(IndexedEntry {
-            full_path: Arc::from(root.path().join(name).to_str().unwrap()),
-            match_type: MatchType::File,
-        }, |_, columns| columns[0] = Utf32String::from(name));
+        injector.push(
+            IndexedEntry {
+                full_path: Arc::from(root.path().join(name).to_str().unwrap()),
+                match_type: MatchType::File,
+            },
+            |_, columns| columns[0] = Utf32String::from(name),
+        );
     }
     drop(injector);
-    nucleo.pattern.reparse(/*column*/ 0, "apple", CaseMatching::Ignore, Normalization::Smart, /*append*/ false);
+    nucleo.pattern.reparse(
+        /*column*/ 0,
+        "apple",
+        CaseMatching::Ignore,
+        Normalization::Smart,
+        /*append*/ false,
+    );
     assert!(nucleo.tick(/*timeout*/ 0).running);
     first_release.send(()).unwrap();
     // The apple worker has completed, but its changed snapshot is not consumed.
     // The only pool thread is now blocked before it can compute apple-b.
     second_started.recv_timeout(Duration::from_secs(5)).unwrap();
     while work_rx.try_recv().is_ok() {}
-    work_tx.send(WorkSignal::QueryUpdated { query: "apple-b".into(), query_id: 2 }).unwrap();
+    work_tx
+        .send(WorkSignal::QueryUpdated {
+            query: "apple-b".into(),
+            query_id: 2,
+        })
+        .unwrap();
     let worker_inner = inner.clone();
     let matcher = thread::spawn(move || {
         let result = matcher_worker(worker_inner, work_rx, &mut nucleo);
@@ -220,14 +258,28 @@ fn changed_old_pattern_snapshot_is_not_published_with_new_query_identity() {
     second_release.send(()).unwrap();
     let deadline = std::time::Instant::now() + Duration::from_secs(5);
     let final_snapshot = loop {
-        let snapshot = observed.recv_timeout(deadline.saturating_duration_since(std::time::Instant::now())).unwrap();
-        if snapshot.query_id == 2 { break snapshot; }
+        let snapshot = observed
+            .recv_timeout(deadline.saturating_duration_since(std::time::Instant::now()))
+            .unwrap();
+        if snapshot.query_id == 2 {
+            break snapshot;
+        }
     };
     inner.shutdown.store(true, Ordering::Release);
     work_tx.send(WorkSignal::Shutdown).unwrap();
     matcher.join().unwrap().unwrap();
     assert_eq!(pool_threads.join(), Vec::<String>::new());
-    assert!(stale.is_err(), "old apple matches must not be relabeled as apple-b");
+    assert!(
+        stale.is_err(),
+        "old apple matches must not be relabeled as apple-b"
+    );
     assert_eq!(final_snapshot.query, "apple-b");
-    assert_eq!(final_snapshot.matches.iter().map(|item| item.path.clone()).collect::<Vec<_>>(), vec![std::path::PathBuf::from("apple-b.txt")]);
+    assert_eq!(
+        final_snapshot
+            .matches
+            .iter()
+            .map(|item| item.path.clone())
+            .collect::<Vec<_>>(),
+        vec![std::path::PathBuf::from("apple-b.txt")]
+    );
 }

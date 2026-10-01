@@ -22,7 +22,12 @@ Inventory: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
   are staged in the working tree, **not included in the P01 source commit**.
   Native search's latest 35/35 tests passed with unchanged scoped source and the
   subreaper. All 395 App Server library tests passed with unchanged scoped source;
-  public RPC tests remain pending. The TUI reconnect sender fix is under test.
+  13 public RPC cases passed across separate 12-case and 1-case runs. The TUI
+  reconnect sender fix passed 11 focused tests. The full TUI run passed 5,604
+  cases and failed four cursor-color cases under ambient NO_COLOR; all six
+  unchanged cursor tests then passed with that variable unset, using the same
+  executable. This establishes 5,608 distinct passing TUI cases across those
+  environments, not one all-green run; four ignored cases remain unexecuted.
   This is partial verification, not an accepted P02 checkpoint.
   There is still no independently installed search implementation.
 - Upstream maintenance remains required. Its release gates explicitly require a
@@ -39,12 +44,14 @@ Inventory: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
    tests previously passed 35/35 and SDK packaging passed 19/19. Retain MPL-2.0
    notices/source, verify export and inventory added manifests. Native lifetime
    repairs alone do not extract search. Never confuse requested and joined close.
-3. Finish App Server search/embedded cleanup/public RPC tests, then rerun TUI after
-   the reconnect fix that sends results through the rotated event channel. The
-   prior 11/11 TUI result predates that fix. Build and test the new real host;
+3. Finish scoped lint/format and build/test the new real host. App Server
+   library/public RPC and TUI reconnect/regression gates above are complete.
    GUI 0.2.0's 87/87 Chromium commands used the unchanged frozen P01 host, so do
    not present them as evidence for the new App Server code. Agree lifecycle
-   semantics before enabling the file_search1 process adapter. Detailed gates are in
+   semantics before enabling the file_search1 process adapter. Keep a single
+   provider per embedded runtime, with separate App Server connection and local
+   TUI scopes; independent embeddings must retain independent selection and
+   lifetime. Detailed gates are in
    [FILE_SEARCH_COMPONENT_PLAN.md](component-sdk/FILE_SEARCH_COMPONENT_PLAN.md).
 4. Independently package native/custom search workers, install without rebuilding
    the frozen host, exercise real clients, then regress existing storage and GUI.
@@ -149,13 +156,27 @@ failed for insufficient disk space before any test ran. Its space-retry passed
 27 focused cases; `/workspace/acceptance/p02-app-server-lib-regression.*` then
 passed all 395 library cases. Each run has actual source hashes and a subreaper
 report. Current TUI run: `/workspace/acceptance/p02-tui-search-reconnect.*`;
-inspect its terminal status instead of assuming completion. Preserve failures.
+it passed 11/11. The corrected connection test is
+`/workspace/acceptance/p02-app-server-search-connections-corrected.*`, 1/1 with
+unchanged scoped source and successful subreaper drain. Its original twice-failed
+run is retained: the fixture confused the legitimate initial empty-query update
+with the first typed query. The correction validates the startup cycle and keeps
+the isolation and zero-grace post-stop assertions. Preserve all original failures.
 Later member-verified P02 source snapshot `p01-source-20261001T022522Z.tar.gz`
 contains 99 changed paths versus roadmap checkpoint
 `4288e493d3164ef2995808c02cc65e60528ca96e`; SHA256
 `ef4b7dce8d62930f674c8ec00f29203fd31f19bd7e0bd44cd470db896c4b7515`.
 It includes the reconnect fix and proposed Stage B interfaces, before this state
 update. Installed search remains future work.
+External WIP checkpoint `ca7998f636bca102ba6e6dd46b5bc97c4904dfd7` on
+`wip/p02-search-lifecycle-20261001` preserves 100 changed paths, explicitly
+unverified. It predates the unregistered Stage B API/path-codec drafts and latest
+WebSocket fixture correction. Member-verified cloud-local snapshot
+`p01-source-20261001T025406Z.tar.gz` covers 114 changed paths versus main
+`4288e493d3164ef2995808c02cc65e60528ca96e`, SHA256
+`c5dfb6de8a18dfe83115bad4a0bf1aa438bcf3d5a60eb0a83b9239ee4cb45662`.
+Those Stage B crate directories are unregistered/uncompiled and must stay out of
+the Stage A accepted source checkpoint until separately integrated and tested.
 Cloud-local archives are not externally durable backups. GitHub protects only the
 source included in its published refs; preserve newer work before further edits.
 Never publish credentials, private bearer URLs, caches, binaries or runtime homes.

@@ -118,12 +118,39 @@ the native walker/matcher/pool were joined.
 | `codex-component-path-codec` | Existing same-OS path encoding, extracted without history/protocol dependencies; state codec re-exports its existing API unchanged. |
 
 These are agreed implementation boundaries, not existing installed packages.
-App Server composes a process-wide provider before creating connection scopes;
-TUI selects before its outer search runtime; standalone resolves the Codex home
-and selection before opening a patterned query. No-pattern directory listing
-does not need a search process. A connection scope closes only its own leases;
-global shutdown closes the provider. Enforce aggregate capacity as well as
-per-connection limits so additional connections cannot create unlimited workers.
+App Server composes one provider per explicit runtime instance before creating
+connection scopes. Embedded TUI and its App Server share that provider; independent
+embeddings retain independent selection and ownership even in the same process or
+with equal homes. Standalone search resolves the Codex home and selection before
+opening a patterned query. No-pattern directory listing does not need a search
+process. A scope closes only its own leases; runtime shutdown closes the provider.
+Enforce aggregate capacity across all scopes as well as per-scope limits. This is
+a composition-wide bound, not an OS-wide quota over arbitrary independent embeds.
+
+For embedded startup, select after `in_process::start_uninitialized` has applied
+`in_process_bootstrap::configure` effective policy. Inject the provider through
+internal `MessageProcessorArgs`; do not independently construct a second provider
+inside synchronous `MessageProcessor::new` or a connection's `Default`.
+Expose a restricted scope factory from `InProcessClientHandle`, through
+`InProcessAppServerClient`, to the local picker. Factories must not own shutdown
+or keep a closed provider alive, and stale factories must fail without fallback.
+
+TUI obtains its scope from the **final** embedded `AppServerSession` immediately
+before `App::run`: onboarding can replace the initial server. A scope-acquisition
+error must join the already started server. Preserve the outer TUI runtime and
+replace its provider-wide close with scope-only close. Embedded reconnect is
+currently rejected; a future implementation must explicitly rotate providers and
+join the old scope. Remote/daemon TUI instead owns a separate local provider for
+its existing local picker; do not silently send local paths to a remote server.
+
+Provider shutdown fences every scope/factory before joining accepted work, and
+must not wait for public handles to disappear. Keep startup cleanup armed across
+every fallible initialization step. Repair the inherited
+`InProcessAppServerClient::shutdown` fallback that can return success after an
+acknowledgement/worker timeout or abort before relying on it for shared-provider
+cleanup. Required checks include one selected worker shared by embedded clients,
+cross-scope aggregate saturation, separate scope shutdown, whole-provider close,
+two embeds with different selections, and abandoned startup/close waiters.
 
 Dependency direction for these six packages is:
 

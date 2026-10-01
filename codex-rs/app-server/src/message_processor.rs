@@ -42,8 +42,8 @@ use crate::request_processors::PluginRequestProcessor;
 use crate::request_processors::ProcessExecRequestProcessor;
 use crate::request_processors::ProjectRequestProcessor;
 use crate::request_processors::RemoteControlRequestProcessor;
-use crate::request_processors::SearchRequestProcessor;
 use crate::request_processors::SearchConnectionState;
+use crate::request_processors::SearchRequestProcessor;
 use crate::request_processors::ThreadGoalRequestProcessor;
 use crate::request_processors::ThreadQueueRequestProcessor;
 use crate::request_processors::ThreadRequestProcessor;
@@ -1835,17 +1835,29 @@ impl MessageProcessor {
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionStart { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_start_response(connection_id, Arc::clone(&session.searches), params)
+                .fuzzy_file_search_session_start_response(
+                    connection_id,
+                    Arc::clone(&session.searches),
+                    params,
+                )
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionUpdate { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_update_response(connection_id, Arc::clone(&session.searches), params)
+                .fuzzy_file_search_session_update_response(
+                    connection_id,
+                    Arc::clone(&session.searches),
+                    params,
+                )
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::FuzzyFileSearchSessionStop { params, .. } => self
                 .search_processor
-                .fuzzy_file_search_session_stop(connection_id, Arc::clone(&session.searches), params)
+                .fuzzy_file_search_session_stop(
+                    connection_id,
+                    Arc::clone(&session.searches),
+                    params,
+                )
                 .await
                 .map(|response| Some(response.into())),
             ClientRequest::OneOffCommandExec { params, .. } => {

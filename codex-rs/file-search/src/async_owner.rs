@@ -56,7 +56,10 @@ impl std::fmt::Display for FileSearchStartError {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(formatter, "{:#}", self.operation)?;
         if let Some(cleanup) = &self.cleanup {
-            write!(formatter, "; file-search startup cleanup failed: {cleanup:#}")?;
+            write!(
+                formatter,
+                "; file-search startup cleanup failed: {cleanup:#}"
+            )?;
         }
         Ok(())
     }
@@ -105,7 +108,10 @@ struct Completion {
 
 impl Completion {
     fn finish(&self, result: Outcome) {
-        *self.result.lock().unwrap_or_else(std::sync::PoisonError::into_inner) = Some(result);
+        *self
+            .result
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner) = Some(result);
         self.changed.notify_waiters();
     }
 
@@ -114,7 +120,11 @@ impl Completion {
             let changed = self.changed.notified();
             tokio::pin!(changed);
             changed.as_mut().enable();
-            let result = self.result.lock().unwrap_or_else(std::sync::PoisonError::into_inner).clone();
+            let result = self
+                .result
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner)
+                .clone();
             if let Some(result) = result {
                 return result.map_err(anyhow::Error::msg);
             }
@@ -146,36 +156,52 @@ impl FileSearchOwner {
     ) -> anyhow::Result<ManagedFileSearchSession> {
         let runtime = Handle::try_current()?;
         let (id, ready, closed, token) = {
-            let mut state = self.inner.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut state = self
+                .inner
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             if state.stopping {
                 anyhow::bail!("file-search owner is shutting down");
             }
             if state.entries.len() >= self.inner.capacity {
                 anyhow::bail!("file-search owner session capacity reached");
             }
-            let id = state.next_id.checked_add(1).ok_or_else(|| anyhow::anyhow!("file-search session identities exhausted"))?;
+            let id = state
+                .next_id
+                .checked_add(1)
+                .ok_or_else(|| anyhow::anyhow!("file-search session identities exhausted"))?;
             state.next_id = id;
             let ready = Arc::new(Completion::default());
             let closed = Arc::new(Completion::default());
             // Register under the admission lock, before shutdown can observe
             // an empty tracker and before any work is spawned or awaited.
             let token = self.inner.tasks.token();
-            state.entries.insert(id, Entry {
-                phase: Phase::Preparing { released: false },
-                runtime: runtime.clone(),
-                ready: ready.clone(),
-                closed: closed.clone(),
-            });
+            state.entries.insert(
+                id,
+                Entry {
+                    phase: Phase::Preparing { released: false },
+                    runtime: runtime.clone(),
+                    ready: ready.clone(),
+                    closed: closed.clone(),
+                },
+            );
             (id, ready, closed, token)
         };
         let session = ManagedFileSearchSession {
-            lease: Arc::new(Lease { owner: self.inner.clone(), id, closed }),
+            lease: Arc::new(Lease {
+                owner: self.inner.clone(),
+                id,
+                closed,
+            }),
         };
-        let startup = runtime.spawn_blocking(move || create_session(roots, options, reporter, cancel_flag));
+        let startup =
+            runtime.spawn_blocking(move || create_session(roots, options, reporter, cancel_flag));
         let owner = self.inner.clone();
         runtime.spawn(async move {
             let _token = token;
-            let result = startup.await
+            let result = startup
+                .await
                 .map_err(|error| anyhow::anyhow!("file-search startup task failed: {error}"))
                 .and_then(std::convert::identity);
             owner.started(id, result);
@@ -184,7 +210,11 @@ impl FileSearchOwner {
             // An observed rejection acknowledges cleanup too. If this wait is
             // abandoned, the lease still leaves accepted work with the owner.
             let cleanup = session.close().await.err();
-            return Err(FileSearchStartError { operation: start_error, cleanup }.into());
+            return Err(FileSearchStartError {
+                operation: start_error,
+                cleanup,
+            }
+            .into());
         }
         Ok(session)
     }
@@ -199,22 +229,35 @@ impl FileSearchOwner {
     pub async fn shutdown(&self) -> anyhow::Result<()> {
         self.request_shutdown();
         self.inner.tasks.wait().await;
-        let state = self.inner.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let state = self
+            .inner
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         let mut failures = state.failures.clone();
         if !state.entries.is_empty() {
             failures.push("file-search cleanup ended with retained sessions".into());
         }
         if state.omitted_failures != 0 {
-            failures.push(format!("{} additional search cleanup failures omitted", state.omitted_failures));
+            failures.push(format!(
+                "{} additional search cleanup failures omitted",
+                state.omitted_failures
+            ));
         }
-        if failures.is_empty() { Ok(()) } else { anyhow::bail!(failures.join("; ")) }
+        if failures.is_empty() {
+            Ok(())
+        } else {
+            anyhow::bail!(failures.join("; "))
+        }
     }
 }
 
 impl Clone for FileSearchOwner {
     fn clone(&self) -> Self {
         self.inner.owners.fetch_add(1, Ordering::Relaxed);
-        Self { inner: self.inner.clone() }
+        Self {
+            inner: self.inner.clone(),
+        }
     }
 }
 
@@ -247,16 +290,33 @@ impl Drop for Lease {
 
 impl ManagedFileSearchSession {
     pub fn update_query(&self, query: &str) {
-        let state = self.lease.owner.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
-        if let Some(Entry { phase: Phase::Ready(session), .. }) = state.entries.get(&self.lease.id) {
+        let state = self
+            .lease
+            .owner
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        if let Some(Entry {
+            phase: Phase::Ready(session),
+            ..
+        }) = state.entries.get(&self.lease.id)
+        {
             session.update_query(query);
         }
     }
 
     pub fn update_query_tagged(&self, query: &str, query_id: u64) -> anyhow::Result<()> {
-        let state = self.lease.owner.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let state = self
+            .lease
+            .owner
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         match state.entries.get(&self.lease.id) {
-            Some(Entry { phase: Phase::Ready(session), .. }) => session.update_query_tagged(query, query_id),
+            Some(Entry {
+                phase: Phase::Ready(session),
+                ..
+            }) => session.update_query_tagged(query, query_id),
             _ => anyhow::bail!("file-search session is closed"),
         }
     }
@@ -268,9 +328,20 @@ impl ManagedFileSearchSession {
     /// Detects native termination, including failure without a completion callback.
     /// A pending close is finished only after the native join has completed.
     pub fn is_finished(&self) -> bool {
-        let state = self.lease.owner.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let state = self
+            .lease
+            .owner
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         match state.entries.get(&self.lease.id) {
-            Some(Entry { phase: Phase::Ready(session), .. }) => session.supervisor.as_ref().is_none_or(std::thread::JoinHandle::is_finished),
+            Some(Entry {
+                phase: Phase::Ready(session),
+                ..
+            }) => session
+                .supervisor
+                .as_ref()
+                .is_none_or(std::thread::JoinHandle::is_finished),
             Some(_) => false,
             None => true,
         }
@@ -291,10 +362,15 @@ struct CloseJob {
 
 impl OwnerInner {
     fn started(self: &Arc<Self>, id: u64, result: anyhow::Result<FileSearchSession>) {
-        let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         // Startup owns the only transition out of Preparing, so its entry
         // cannot have been removed by a dropped waiter or shutdown.
-        let Some(entry) = state.entries.get_mut(&id) else { return; };
+        let Some(entry) = state.entries.get_mut(&id) else {
+            return;
+        };
         let ready = entry.ready.clone();
         match result {
             Ok(native) => {
@@ -304,7 +380,12 @@ impl OwnerInner {
                 } else {
                     native.request_close();
                     entry.phase = Phase::Closing;
-                    let job = CloseJob { id, native, runtime: entry.runtime.clone(), token: self.tasks.token() };
+                    let job = CloseJob {
+                        id,
+                        native,
+                        runtime: entry.runtime.clone(),
+                        token: self.tasks.token(),
+                    };
                     drop(state);
                     ready.finish(Err("file-search session closed during startup".into()));
                     self.launch_close(job);
@@ -324,10 +405,18 @@ impl OwnerInner {
 
     fn release(self: &Arc<Self>, id: u64) {
         let job = {
-            let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
-            state.entries.get_mut(&id).and_then(|entry| self.prepare_close(id, entry))
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
+            state
+                .entries
+                .get_mut(&id)
+                .and_then(|entry| self.prepare_close(id, entry))
         };
-        if let Some(job) = job { self.launch_close(job); }
+        if let Some(job) = job {
+            self.launch_close(job);
+        }
     }
 
     fn prepare_close(&self, id: u64, entry: &mut Entry) -> Option<CloseJob> {
@@ -339,35 +428,60 @@ impl OwnerInner {
             Phase::Closing => None,
             Phase::Ready(native) => {
                 native.request_close();
-                Some(CloseJob { id, native, runtime: entry.runtime.clone(), token: self.tasks.token() })
+                Some(CloseJob {
+                    id,
+                    native,
+                    runtime: entry.runtime.clone(),
+                    token: self.tasks.token(),
+                })
             }
         }
     }
 
     fn request_shutdown(self: &Arc<Self>) {
         let jobs = {
-            let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             state.stopping = true;
-            let jobs = state.entries.iter_mut().filter_map(|(&id, entry)| self.prepare_close(id, entry)).collect::<Vec<_>>();
+            let jobs = state
+                .entries
+                .iter_mut()
+                .filter_map(|(&id, entry)| self.prepare_close(id, entry))
+                .collect::<Vec<_>>();
             self.tasks.close();
             jobs
         };
-        for job in jobs { self.launch_close(job); }
+        for job in jobs {
+            self.launch_close(job);
+        }
     }
 
     fn launch_close(self: &Arc<Self>, job: CloseJob) {
-        let CloseJob { id, native, runtime, token } = job;
+        let CloseJob {
+            id,
+            native,
+            runtime,
+            token,
+        } = job;
         let close = runtime.spawn_blocking(move || native.close());
         let owner = self.clone();
         runtime.spawn(async move {
             let _token = token;
-            let result = close.await
+            let result = close
+                .await
                 .map_err(|error| anyhow::anyhow!("file-search close task failed: {error}"))
                 .and_then(std::convert::identity)
                 .map_err(bounded_failure);
-            let mut state = owner.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut state = owner
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             if let Some(entry) = state.entries.remove(&id) {
-                if let Err(error) = &result { record_failure(&mut state, error.clone()); }
+                if let Err(error) = &result {
+                    record_failure(&mut state, error.clone());
+                }
                 drop(state);
                 entry.closed.finish(result);
             }
@@ -379,7 +493,9 @@ fn bounded_failure(error: anyhow::Error) -> String {
     let mut message = error.to_string();
     if message.len() > MAX_FAILURE_BYTES {
         let mut end = MAX_FAILURE_BYTES;
-        while !message.is_char_boundary(end) { end -= 1; }
+        while !message.is_char_boundary(end) {
+            end -= 1;
+        }
         message.truncate(end);
     }
     message

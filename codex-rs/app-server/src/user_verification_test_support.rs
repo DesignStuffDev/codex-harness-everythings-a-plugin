@@ -268,7 +268,10 @@ impl Harness {
             .await;
         self.processor.clear_runtime_references();
         self.processor.clear_all_thread_listeners().await;
-        self.processor.drain_background_tasks().await.expect("background cleanup");
+        self.processor
+            .drain_background_tasks()
+            .await
+            .expect("background cleanup");
         self.processor.shutdown_threads().await;
     }
 }

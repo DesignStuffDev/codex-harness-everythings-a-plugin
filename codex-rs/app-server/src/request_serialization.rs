@@ -96,7 +96,10 @@ impl RequestSerializationQueueKey {
                 RequestSerializationAccess::Exclusive,
             ),
             ClientRequestSerializationScope::FuzzyFileSearchSession { session_id } => (
-                Self::FuzzyFileSearchSession { connection_id, session_id },
+                Self::FuzzyFileSearchSession {
+                    connection_id,
+                    session_id,
+                },
                 RequestSerializationAccess::Exclusive,
             ),
             ClientRequestSerializationScope::FsWatch { watch_id } => (

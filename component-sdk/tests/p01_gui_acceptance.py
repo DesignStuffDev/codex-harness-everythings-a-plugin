@@ -356,7 +356,11 @@ def main():
     parser.add_argument("--codex", type=Path, required=True)
     parser.add_argument("--manual-migration-report", type=Path, required=True)
     parser.add_argument("--work-dir", type=Path, required=True)
-    parser.add_argument("--exercise-file-search", action="store_true", help="Also exercise desktop file references through real native search")
+    parser.add_argument(
+        "--exercise-file-search",
+        action="store_true",
+        help="Also exercise desktop file references through real native search",
+    )
     args = parser.parse_args()
     if sys.platform != "linux" or not hasattr(signal, "pidfd_send_signal"):
         parser.error("Linux /proc, pidfds and child-subreaper support are required")
@@ -439,10 +443,13 @@ def main():
         search_fixture = None
         if args.exercise_file_search:
             import desktop_search_acceptance
+
             search_fixture = desktop_search_acceptance.prepare(project, work)
             report["file_search"] = {
                 "backend": "frozen-host native fuzzyFileSearch; selected search component not tested",
-                "helper_fingerprint": fingerprint(SDK / "tests/desktop_search_acceptance.py"),
+                "helper_fingerprint": fingerprint(
+                    SDK / "tests/desktop_search_acceptance.py"
+                ),
                 "fixture": search_fixture,
             }
         nonce = uuid4().hex[:12]
@@ -506,7 +513,9 @@ def main():
                     browser, search_fixture, cycle, thread_id, work, screenshot
                 )
                 reference_turn = submit(browser, reference_prompt)
-                completed(browser, reference_turn, "GUI fixture response: " + reference_prompt)
+                completed(
+                    browser, reference_turn, "GUI fixture response: " + reference_prompt
+                )
                 run["file_search"] = dict(search_result, reference_turn=reference_turn)
                 if cycle == 1:
                     persisted.append(reference_prompt)

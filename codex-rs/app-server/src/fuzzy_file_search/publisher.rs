@@ -24,14 +24,20 @@ pub(crate) struct PublisherFailures(Arc<Mutex<Vec<String>>>);
 
 impl PublisherFailures {
     pub(crate) fn record(&self, error: &str) {
-        let mut failures = self.0.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut failures = self
+            .0
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if failures.len() < 32 {
             failures.push(error.chars().take(1024).collect());
         }
     }
 
     pub(crate) fn result(&self) -> anyhow::Result<()> {
-        let failures = self.0.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let failures = self
+            .0
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if failures.is_empty() {
             Ok(())
         } else {
@@ -76,9 +82,15 @@ impl SearchObserver {
     }
 
     pub(crate) fn set_query(&self, query: String) -> anyhow::Result<u64> {
-        let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         anyhow::ensure!(!state.closed, "file search session is closed");
-        state.query_id = state.query_id.checked_add(1).ok_or_else(|| anyhow::anyhow!("file search query identity exhausted"))?;
+        state.query_id = state
+            .query_id
+            .checked_add(1)
+            .ok_or_else(|| anyhow::anyhow!("file search query identity exhausted"))?;
         state.query = query;
         state.snapshot = None;
         state.complete = false;
@@ -88,25 +100,39 @@ impl SearchObserver {
     }
 
     pub(crate) fn request_close(&self) {
-        let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         state.closed = true;
         self.cancellation.store(true, Ordering::Release);
         self.stop.cancel();
     }
 
     pub(crate) fn is_complete(&self) -> bool {
-        self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner).complete
+        self.state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .complete
     }
 
     pub(crate) fn files(&self) -> Vec<codex_app_server_protocol::FuzzyFileSearchResult> {
-        self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner)
-            .snapshot.as_ref().map(super::collect_files).unwrap_or_default()
+        self.state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .snapshot
+            .as_ref()
+            .map(super::collect_files)
+            .unwrap_or_default()
     }
 }
 
 impl SessionReporter for SearchObserver {
     fn on_update(&self, snapshot: &FileSearchSnapshot) {
-        let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if state.closed || snapshot.query_id != state.query_id || snapshot.query != state.query {
             return;
         }
@@ -120,7 +146,10 @@ impl SessionReporter for SearchObserver {
     }
 
     fn on_complete_tagged(&self, query_id: u64) {
-        let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if state.closed || state.query_id != query_id || state.complete {
             return;
         }
@@ -150,7 +179,8 @@ impl SearchPublisher {
         let joined = TaskTracker::new();
         tasks.spawn(joined.track_future(async move {
             let result = AssertUnwindSafe(publish(&owned, connection_id, session_id, &outgoing))
-                .catch_unwind().await
+                .catch_unwind()
+                .await
                 .unwrap_or_else(|_| Err(anyhow::anyhow!("file search publisher panicked")));
             if let Err(error) = &result {
                 failures.record(&format!("{error:#}"));
@@ -159,7 +189,11 @@ impl SearchPublisher {
             done.send_replace(Some(result.map_err(|error| format!("{error:#}"))));
         }));
         joined.close();
-        Self { observer, completion, joined }
+        Self {
+            observer,
+            completion,
+            joined,
+        }
     }
 
     pub(crate) fn observer(&self) -> &Arc<SearchObserver> {
@@ -197,12 +231,21 @@ async fn publish(
     let mut completed_query = None;
     loop {
         let pending = {
-            let state = observer.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let state = observer
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             if state.closed {
                 return Ok(());
             }
-            let snapshot_revision = state.snapshot.as_ref().map(|_| (state.query_id, state.revision));
-            if snapshot_revision.is_some() && sent_snapshot != snapshot_revision && completed_query != Some(state.query_id) {
+            let snapshot_revision = state
+                .snapshot
+                .as_ref()
+                .map(|_| (state.query_id, state.revision));
+            if snapshot_revision.is_some()
+                && sent_snapshot != snapshot_revision
+                && completed_query != Some(state.query_id)
+            {
                 Some((state.query_id, state.revision, false))
             } else if state.complete && completed_query != Some(state.query_id) {
                 Some((state.query_id, state.revision, true))
@@ -226,19 +269,26 @@ async fn publish(
         };
         // Admission commits under the same short lock as query/close fencing.
         // Native callbacks never hold this lock across an await or client I/O.
-        let state = observer.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let state = observer
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if state.closed || state.query_id != query_id || state.revision != revision {
             continue;
         }
         if completion {
             permit.send(ServerNotification::FuzzyFileSearchSessionCompleted(
-                FuzzyFileSearchSessionCompletedNotification { session_id: session_id.clone() },
+                FuzzyFileSearchSessionCompletedNotification {
+                    session_id: session_id.clone(),
+                },
             ));
             completed_query = Some(query_id);
         } else if let Some(snapshot) = &state.snapshot {
             permit.send(ServerNotification::FuzzyFileSearchSessionUpdated(
                 FuzzyFileSearchSessionUpdatedNotification {
-                    session_id: session_id.clone(), query: state.query.clone(), files: super::collect_files(snapshot),
+                    session_id: session_id.clone(),
+                    query: state.query.clone(),
+                    files: super::collect_files(snapshot),
                 },
             ));
             sent_snapshot = Some((query_id, revision));

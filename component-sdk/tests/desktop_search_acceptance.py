@@ -57,7 +57,12 @@ def wait_result(browser, name):
 def exercise(browser, fixture, cycle, thread_id, work, screenshot):
     root = fixture["root"]
     prefix = f"Review these real file references after restart {cycle}: "
-    expected = prefix + "@" + json.dumps(str(Path(root) / fixture["click"]), ensure_ascii=False) + " "
+    expected = (
+        prefix
+        + "@"
+        + json.dumps(str(Path(root) / fixture["click"]), ensure_ascii=False)
+        + " "
+    )
     before = browser.command(
         f"await page.locator('#prompt').fill({json.dumps(prefix)}); "
         "await page.locator('#prompt').evaluate(n => n.setSelectionRange(n.value.length,n.value.length)); "
@@ -80,9 +85,15 @@ def exercise(browser, fixture, cycle, thread_id, work, screenshot):
         f"if (await page.locator('#prompt').inputValue() !== {json.dumps(expected)}) throw new Error('Click insertion did not preserve draft/quoted path'); "
         "if (await page.locator('#file-picker').isVisible()) throw new Error('Picker did not close'); return {clickInsertion:true};"
     )
-    browser.command("await page.locator('#find-file').click(); await page.locator('#file-query').fill('p02-alpha'); return {keyboardSearch:true};")
+    browser.command(
+        "await page.locator('#find-file').click(); await page.locator('#file-query').fill('p02-alpha'); return {keyboardSearch:true};"
+    )
     wait_result(browser, fixture["keyboard"])
-    expected += "@" + json.dumps(str(Path(root) / fixture["keyboard"]), ensure_ascii=False) + " "
+    expected += (
+        "@"
+        + json.dumps(str(Path(root) / fixture["keyboard"]), ensure_ascii=False)
+        + " "
+    )
     browser.command(
         "await page.locator('#file-query').press('ArrowDown'); await page.locator('#file-query').press('ArrowUp'); await page.locator('#file-query').press('Enter'); "
         f"if (await page.locator('#prompt').inputValue() !== {json.dumps(expected)}) throw new Error('Keyboard insertion changed draft'); "
@@ -90,7 +101,9 @@ def exercise(browser, fixture, cycle, thread_id, work, screenshot):
         "return {keyboardInsertion:true};"
     )
     # Start A, hold its real result, then exercise B -> A with distinct query IDs.
-    browser.command("await page.locator('#find-file').click(); await page.locator('#file-query').fill(''); return {opened:true};")
+    browser.command(
+        "await page.locator('#find-file').click(); await page.locator('#file-query').fill(''); return {opened:true};"
+    )
     hold_real_reply(browser, "p02-alpha", root)
     browser.command(
         "await page.locator('#file-query').fill('p02 beta'); await page.locator('#file-query').fill('p02-alpha'); "
@@ -112,7 +125,14 @@ def exercise(browser, fixture, cycle, thread_id, work, screenshot):
     )
     release_reply(browser)
     wait_result(browser, fixture["alternate"])
-    expected += "@" + json.dumps(str(Path(fixture["alternate_root"]) / fixture["alternate"]), ensure_ascii=False) + " "
+    expected += (
+        "@"
+        + json.dumps(
+            str(Path(fixture["alternate_root"]) / fixture["alternate"]),
+            ensure_ascii=False,
+        )
+        + " "
+    )
     browser.command(
         f"if ((await page.locator('#file-results').innerText()).includes({json.dumps(fixture['original'])})) throw new Error('Earlier root result survived'); "
         "await page.unroute('**/rpc'); "
@@ -120,10 +140,16 @@ def exercise(browser, fixture, cycle, thread_id, work, screenshot):
         f"if (await page.locator('#prompt').inputValue() !== {json.dumps(expected)}) throw new Error('Reference did not retain selected root'); "
         f"await page.locator('#cwd').fill({json.dumps(root)}); return {{newRootInsertion:true}};"
     )
-    browser.command("await page.locator('#find-file').click(); await page.locator('#file-query').fill(''); return {cancelSearch:true};")
+    browser.command(
+        "await page.locator('#find-file').click(); await page.locator('#file-query').fill(''); return {cancelSearch:true};"
+    )
     hold_real_reply(browser, "p02-alpha", root)
-    browser.command("await page.locator('#file-query').press('Escape'); p02Gate.release(); await page.waitForTimeout(200); if (await page.locator('#file-picker').isVisible() || await page.locator('#file-results button').count()) throw new Error('Closed search revived'); await page.unroute('**/rpc'); return {closeFence:true};")
-    browser.command("await page.locator('#find-file').click(); await page.locator('#file-query').fill(''); return {taskSwitchSearch:true};")
+    browser.command(
+        "await page.locator('#file-query').press('Escape'); p02Gate.release(); await page.waitForTimeout(200); if (await page.locator('#file-picker').isVisible() || await page.locator('#file-results button').count()) throw new Error('Closed search revived'); await page.unroute('**/rpc'); return {closeFence:true};"
+    )
+    browser.command(
+        "await page.locator('#find-file').click(); await page.locator('#file-query').fill(''); return {taskSwitchSearch:true};"
+    )
     hold_real_reply(browser, "p02-alpha", root)
     browser.command(
         "await page.locator('#new-task').click(); p02Gate.release(); await page.waitForTimeout(200); "
@@ -137,6 +163,16 @@ def exercise(browser, fixture, cycle, thread_id, work, screenshot):
     return expected.strip(), {
         "passed": True,
         "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
-        "verified": ["real filesystem results", "relative root rejected without RPC or draft/input changes", "click insertion with spaces/quotes/backslash", "keyboard insertion without submitting", "draft preservation", "A-B-A query fence", "root replacement fence", "explicit close fence", "task replacement fence"],
+        "verified": [
+            "real filesystem results",
+            "relative root rejected without RPC or draft/input changes",
+            "click insertion with spaces/quotes/backslash",
+            "keyboard insertion without submitting",
+            "draft preservation",
+            "A-B-A query fence",
+            "root replacement fence",
+            "explicit close fence",
+            "task replacement fence",
+        ],
         "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged",
     }

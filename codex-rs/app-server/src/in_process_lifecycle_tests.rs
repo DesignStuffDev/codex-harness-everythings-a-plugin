@@ -153,15 +153,18 @@ async fn aborting_runtime_fences_storage_without_waiting_for_other_references_to
 async fn processor_cleanup_failure_reaches_client_after_storage_is_joined() {
     let store = ShutdownProbe::new(CloseBehavior::Complete);
     let guard = StoreShutdownGuard::new(store.clone());
-    let mut processor = tokio::spawn(async {
-        Err(IoError::other("search publisher cleanup failed"))
-    });
+    let mut processor =
+        tokio::spawn(async { Err(IoError::other("search publisher cleanup failed")) });
     let error = finish_processor_and_store(&mut processor, &guard)
-        .await.expect_err("search cleanup failure must not become successful shutdown");
+        .await
+        .expect_err("search cleanup failure must not become successful shutdown");
     assert_eq!(error.kind(), ErrorKind::Other);
     assert_eq!(error.to_string(), "search publisher cleanup failed");
     assert_eq!(
-        (store.begun.load(Ordering::Acquire), store.completed.load(Ordering::Acquire)),
+        (
+            store.begun.load(Ordering::Acquire),
+            store.completed.load(Ordering::Acquire)
+        ),
         (true, true)
     );
 }

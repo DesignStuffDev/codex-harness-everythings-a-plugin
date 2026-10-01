@@ -224,7 +224,8 @@ def main():
         report["runtime_libraries"] = libraries
         report["package_files"] = {
             p.relative_to(package).as_posix(): fingerprint(p)
-            for p in sorted(package.rglob("*")) if p.is_file()
+            for p in sorted(package.rglob("*"))
+            if p.is_file()
         }
         # This directory was created exclusively by this run; keep its inventory.
         shutil.rmtree(source)

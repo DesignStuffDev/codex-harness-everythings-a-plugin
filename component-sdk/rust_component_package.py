@@ -149,7 +149,9 @@ class ExportPlan:
                     value, base = original, path
                     if isinstance(value, dict) and value.get("workspace"):
                         if owner != self.workspace:
-                            raise ValueError(f"nested inherited dependency is unsupported: {path}: {alias}")
+                            raise ValueError(
+                                f"nested inherited dependency is unsupported: {path}: {alias}"
+                            )
                         self.aliases.add(alias)
                         value = self.root["workspace"]["dependencies"][alias]
                         base = self.workspace
@@ -175,12 +177,15 @@ class ExportPlan:
         self.export_root = copy.deepcopy(self.root)
         target = self.export_root["workspace"]
         target["members"] = sorted(
-            str(path.relative_to(self.workspace)) for path in self.crates
+            str(path.relative_to(self.workspace))
+            for path in self.crates
             if self.workspace_owners[path] == self.workspace
         )
         target["default-members"] = [str(self.entry.relative_to(self.workspace))]
         excludes = set(target.get("exclude", []))
-        excludes.update(str(path.relative_to(self.workspace)) for path in self.nested_workspaces)
+        excludes.update(
+            str(path.relative_to(self.workspace)) for path in self.nested_workspaces
+        )
         if excludes:
             target["exclude"] = sorted(excludes)
         target["dependencies"] = {
@@ -191,16 +196,26 @@ class ExportPlan:
             if owner not in self.crates:
                 raise ValueError(f"nested workspace root was not retained: {owner}")
             nested = self.crates[owner]["workspace"]
-            selected = {path for path in self.crates if self.workspace_owners[path] == owner}
-            members = sorted(str(path.relative_to(owner)) for path in selected if path != owner)
+            selected = {
+                path for path in self.crates if self.workspace_owners[path] == owner
+            }
+            members = sorted(
+                str(path.relative_to(owner)) for path in selected if path != owner
+            )
             nested["members"] = members
             if "default-members" in nested:
                 defaults = set()
                 for pattern in nested["default-members"]:
                     if Path(pattern).is_absolute() or ".." in Path(pattern).parts:
-                        raise ValueError(f"nested workspace default member is not portable: {pattern}")
+                        raise ValueError(
+                            f"nested workspace default member is not portable: {pattern}"
+                        )
                     matches = [owner] if pattern == "." else owner.glob(pattern)
-                    defaults.update(str(path.relative_to(owner)) for path in matches if path in selected)
+                    defaults.update(
+                        str(path.relative_to(owner))
+                        for path in matches
+                        if path in selected
+                    )
                 if defaults:
                     nested["default-members"] = sorted(defaults)
                 else:
@@ -239,14 +254,18 @@ class ExportPlan:
                     owners.append((current, document))
             current = current.parent
         if len(owners) > 1:
-            raise ValueError(f"multiple nested workspace levels are unsupported: {path}")
+            raise ValueError(
+                f"multiple nested workspace levels are unsupported: {path}"
+            )
         if not owners:
             return self.workspace
         owner, document = owners[0]
         if "package" not in document:
             raise ValueError(f"virtual nested workspaces are unsupported: {owner}")
         if document["workspace"].get("exclude"):
-            raise ValueError(f"nested workspace exclusions require explicit ownership resolution: {owner}")
+            raise ValueError(
+                f"nested workspace exclusions require explicit ownership resolution: {owner}"
+            )
         self.nested_workspaces[owner] = document
         return owner
 
@@ -256,7 +275,9 @@ class ExportPlan:
             isinstance(value, dict) and value.get("workspace")
             for value in document["package"].values()
         ):
-            raise ValueError(f"nested inherited package settings are unsupported: {path}")
+            raise ValueError(
+                f"nested inherited package settings are unsupported: {path}"
+            )
         if document.get("lints", {}).get("workspace"):
             raise ValueError(f"nested inherited lint settings are unsupported: {path}")
 
@@ -370,11 +391,18 @@ class ExportPlan:
             "source_bytes": sum(path.stat().st_size for path in self.files.values()),
             "dev_dependencies_removed": True,
             "all_targets_and_optional_dependencies_included": True,
-            "nested_workspaces": [str(path.relative_to(self.workspace)) for path in sorted(self.nested_workspaces)],
+            "nested_workspaces": [
+                str(path.relative_to(self.workspace))
+                for path in sorted(self.nested_workspaces)
+            ],
             "nested_workspace_owner_retention": [
-                {"path": str(owner.relative_to(self.repo)),
-                 "selected_members": [str(path.relative_to(self.repo)) for path in sorted(members)],
-                 "reason": "Retain the declaring workspace package and its source closure; this is not a dependency edge from the export entry."}
+                {
+                    "path": str(owner.relative_to(self.repo)),
+                    "selected_members": [
+                        str(path.relative_to(self.repo)) for path in sorted(members)
+                    ],
+                    "reason": "Retain the declaring workspace package and its source closure; this is not a dependency edge from the export entry.",
+                }
                 for owner, members in sorted(self.workspace_owner_retentions.items())
             ],
             "warnings": sorted(set(self.warnings)),
@@ -503,7 +531,9 @@ def inventory_path(value):
         raise ValueError("source inventory path must be relative")
     normalized = value.replace("\\", "/")
     path = PurePosixPath(normalized)
-    if path.is_absolute() or any(part in ("", ".", "..") for part in normalized.split("/")):
+    if path.is_absolute() or any(
+        part in ("", ".", "..") for part in normalized.split("/")
+    ):
         raise ValueError(f"unsafe source inventory path: {value}")
     return path
 
@@ -513,7 +543,9 @@ def nucleo_covered_source(repo):
     inventory_file = repo / "COMPONENT_SOURCE_EXPORT.json"
     if not inventory_file.is_file():
         if any(repo.glob("*/third-party/nucleo/Cargo.toml")):
-            raise ValueError("Nucleo source assembly requires a source export inventory")
+            raise ValueError(
+                "Nucleo source assembly requires a source export inventory"
+            )
         return None
     if inventory_file.is_symlink():
         raise ValueError("source export inventory cannot be a symlink")
@@ -526,22 +558,43 @@ def nucleo_covered_source(repo):
         if path in entries:
             raise ValueError(f"duplicate source inventory path: {path}")
         entries[path] = entry
-    selected = {path: entry for path, entry in entries.items() if prefix in path.parents}
-    local = {item["name"]: inventory_path(item["path"]) for item in inventory["local_crates"]}
+    selected = {
+        path: entry for path, entry in entries.items() if prefix in path.parents
+    }
+    local = {
+        item["name"]: inventory_path(item["path"]) for item in inventory["local_crates"]
+    }
     if not selected:
-        if any(name in local for name in ("nucleo", "nucleo-matcher")) or (repo / prefix).exists():
+        if (
+            any(name in local for name in ("nucleo", "nucleo-matcher"))
+            or (repo / prefix).exists()
+        ):
             raise ValueError("Nucleo is present without inventoried covered source")
         return None
-    if local.get("nucleo") != prefix or local.get("nucleo-matcher") != prefix / "matcher":
+    if (
+        local.get("nucleo") != prefix
+        or local.get("nucleo-matcher") != prefix / "matcher"
+    ):
         raise ValueError("Nucleo source inventory does not match its local crate paths")
-    required = ("Cargo.toml", "LICENSE", "README.md", "PROVENANCE.md", "src/lib.rs",
-                "matcher/Cargo.toml", "matcher/LICENSE", "matcher/src/lib.rs")
+    required = (
+        "Cargo.toml",
+        "LICENSE",
+        "README.md",
+        "PROVENANCE.md",
+        "src/lib.rs",
+        "matcher/Cargo.toml",
+        "matcher/LICENSE",
+        "matcher/src/lib.rs",
+    )
     if any(prefix / name not in selected for name in required):
         raise ValueError("Nucleo covered source inventory is incomplete")
     for current in (repo / prefix).rglob("*"):
         if current.is_symlink():
             raise ValueError(f"covered source symlinks are unsupported: {current}")
-        if current.is_file() and PurePosixPath(current.relative_to(repo).as_posix()) not in selected:
+        if (
+            current.is_file()
+            and PurePosixPath(current.relative_to(repo).as_posix()) not in selected
+        ):
             raise ValueError(f"covered source file is absent from inventory: {current}")
     files = []
     for path, entry in sorted(selected.items()):
@@ -553,35 +606,75 @@ def nucleo_covered_source(repo):
             current = current.parent
         if not source.is_file():
             raise ValueError(f"covered source file is missing: {path}")
-        if any(not isinstance(entry.get(key), str) or not re.fullmatch(r"[a-f0-9]{64}", entry[key])
-               for key in ("source_sha256", "export_sha256")):
+        if any(
+            not isinstance(entry.get(key), str)
+            or not re.fullmatch(r"[a-f0-9]{64}", entry[key])
+            for key in ("source_sha256", "export_sha256")
+        ):
             raise ValueError(f"invalid covered source hash: {path}")
-        if entry["source_sha256"] != entry["export_sha256"] and path.name != "Cargo.toml":
-            raise ValueError(f"non-manifest covered source changed during export: {path}")
+        if (
+            entry["source_sha256"] != entry["export_sha256"]
+            and path.name != "Cargo.toml"
+        ):
+            raise ValueError(
+                f"non-manifest covered source changed during export: {path}"
+            )
         if digest(source) != entry["export_sha256"]:
             raise ValueError(f"covered source hash does not match export: {path}")
-        files.append({"source_path": str(path),
-                      "package_path": str(PurePosixPath("third-party/nucleo") / path.relative_to(prefix)),
-                      "source_sha256": entry["source_sha256"], "export_sha256": entry["export_sha256"]})
+        files.append(
+            {
+                "source_path": str(path),
+                "package_path": str(
+                    PurePosixPath("third-party/nucleo") / path.relative_to(prefix)
+                ),
+                "source_sha256": entry["source_sha256"],
+                "export_sha256": entry["export_sha256"],
+            }
+        )
     pin = "4253de9faabb4e5c6d81d946a5e35a90f87347ee"
     upstream = "https://github.com/helix-editor/nucleo"
     provenance = (repo / prefix / "PROVENANCE.md").read_text()
     if pin not in provenance or upstream not in provenance:
-        raise ValueError("Nucleo provenance does not identify the supported upstream pin")
+        raise ValueError(
+            "Nucleo provenance does not identify the supported upstream pin"
+        )
     components = []
-    for directory, name, version in (("", "nucleo", "0.5.0"), ("matcher", "nucleo-matcher", "0.3.1")):
-        package = tomllib.loads((repo / prefix / directory / "Cargo.toml").read_text())["package"]
-        if (package["name"], package["version"], package["license"]) != (name, version, "MPL-2.0"):
-            raise ValueError(f"Nucleo package identity or MPL license does not match: {directory}")
-        components.append({"name": name, "version": version, "license": "MPL-2.0",
-                           "upstream_repository": upstream, "upstream_revision": pin,
-                           "covered_source": str(PurePosixPath("third-party/nucleo") / directory),
-                           "license_file": str(PurePosixPath("third-party/nucleo") / directory / "LICENSE"),
-                           "provenance_file": "third-party/nucleo/PROVENANCE.md"})
-    return {"schema_version": 1,
-            "scope": "Targeted Nucleo covered-source bundle; not a complete transitive-license compliance report.",
-            "source_export_inventory_sha256": digest(inventory_file),
-            "components": components, "files": files}
+    for directory, name, version in (
+        ("", "nucleo", "0.5.0"),
+        ("matcher", "nucleo-matcher", "0.3.1"),
+    ):
+        package = tomllib.loads((repo / prefix / directory / "Cargo.toml").read_text())[
+            "package"
+        ]
+        if (package["name"], package["version"], package["license"]) != (
+            name,
+            version,
+            "MPL-2.0",
+        ):
+            raise ValueError(
+                f"Nucleo package identity or MPL license does not match: {directory}"
+            )
+        components.append(
+            {
+                "name": name,
+                "version": version,
+                "license": "MPL-2.0",
+                "upstream_repository": upstream,
+                "upstream_revision": pin,
+                "covered_source": str(PurePosixPath("third-party/nucleo") / directory),
+                "license_file": str(
+                    PurePosixPath("third-party/nucleo") / directory / "LICENSE"
+                ),
+                "provenance_file": "third-party/nucleo/PROVENANCE.md",
+            }
+        )
+    return {
+        "schema_version": 1,
+        "scope": "Targeted Nucleo covered-source bundle; not a complete transitive-license compliance report.",
+        "source_export_inventory_sha256": digest(inventory_file),
+        "components": components,
+        "files": files,
+    }
 
 
 def main():

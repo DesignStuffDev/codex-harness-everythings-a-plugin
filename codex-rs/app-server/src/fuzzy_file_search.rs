@@ -148,7 +148,10 @@ impl PendingSearchSession {
             )
             .await;
         match session {
-            Ok(session) => Ok(FuzzyFileSearchSession { session, publisher: self.publisher }),
+            Ok(session) => Ok(FuzzyFileSearchSession {
+                session,
+                publisher: self.publisher,
+            }),
             Err(operation) => {
                 // A failed constructor still owns a publisher. Requesting its
                 // stop is insufficient for the joined start/stop acknowledgement.
@@ -172,7 +175,9 @@ fn combine<T>(result: anyhow::Result<T>, cleanup: anyhow::Result<()>) -> anyhow:
     match (result, cleanup) {
         (Ok(value), Ok(())) => Ok(value),
         (Err(error), Ok(())) | (Ok(_), Err(error)) => Err(error),
-        (Err(error), Err(cleanup)) => Err(error.context(format!("search cleanup also failed: {cleanup:#}"))),
+        (Err(error), Err(cleanup)) => {
+            Err(error.context(format!("search cleanup also failed: {cleanup:#}")))
+        }
     }
 }
 
@@ -180,20 +185,30 @@ fn collect_files(snapshot: &file_search::FileSearchSnapshot) -> Vec<FuzzyFileSea
     if snapshot.query.is_empty() {
         return Vec::new();
     }
-    let mut files = snapshot.matches.iter().map(|item| FuzzyFileSearchResult {
-        root: item.root.to_string_lossy().to_string(),
-        path: item.path.to_string_lossy().to_string(),
-        match_type: match item.match_type {
-            file_search::MatchType::File => FuzzyFileSearchMatchType::File,
-            file_search::MatchType::Directory => FuzzyFileSearchMatchType::Directory,
-        },
-        file_name: item.path.file_name().unwrap_or_default().to_string_lossy().to_string(),
-        score: item.score,
-        indices: item.indices.clone(),
-    }).collect::<Vec<_>>();
-    files.sort_by(file_search::cmp_by_score_desc_then_path_asc::<FuzzyFileSearchResult, _, _>(
-        |file| file.score,
-        |file| file.path.as_str(),
-    ));
+    let mut files = snapshot
+        .matches
+        .iter()
+        .map(|item| FuzzyFileSearchResult {
+            root: item.root.to_string_lossy().to_string(),
+            path: item.path.to_string_lossy().to_string(),
+            match_type: match item.match_type {
+                file_search::MatchType::File => FuzzyFileSearchMatchType::File,
+                file_search::MatchType::Directory => FuzzyFileSearchMatchType::Directory,
+            },
+            file_name: item
+                .path
+                .file_name()
+                .unwrap_or_default()
+                .to_string_lossy()
+                .to_string(),
+            score: item.score,
+            indices: item.indices.clone(),
+        })
+        .collect::<Vec<_>>();
+    files.sort_by(file_search::cmp_by_score_desc_then_path_asc::<
+        FuzzyFileSearchResult,
+        _,
+        _,
+    >(|file| file.score, |file| file.path.as_str()));
     files
 }

@@ -33,18 +33,18 @@ use nucleo::pattern::AtomKind;
 #[cfg(test)]
 use nucleo::pattern::Pattern;
 
-mod cli;
 mod async_owner;
+mod cli;
 mod lifecycle;
 
 #[cfg(test)]
 #[path = "lifecycle_tests.rs"]
 mod lifecycle_tests;
 
-pub use cli::Cli;
 pub use async_owner::FileSearchOwner;
 pub use async_owner::FileSearchStartError;
 pub use async_owner::ManagedFileSearchSession;
+pub use cli::Cli;
 
 /// A single match result returned from the search.
 ///
@@ -177,21 +177,30 @@ impl FileSearchSession {
     }
 
     fn submit_query(&self, pattern_text: &str, query_id: Option<u64>) -> anyhow::Result<()> {
-        let mut previous = self.inner.last_query_id.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut previous = self
+            .inner
+            .last_query_id
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if self.inner.shutdown.load(Ordering::Acquire) {
             anyhow::bail!("file-search session is closed");
         }
         let query_id = match query_id {
             Some(id) => id,
-            None => previous.checked_add(1).ok_or_else(|| anyhow::anyhow!("file-search query identities exhausted"))?,
+            None => previous
+                .checked_add(1)
+                .ok_or_else(|| anyhow::anyhow!("file-search query identities exhausted"))?,
         };
         if query_id == 0 || query_id <= *previous {
             anyhow::bail!("file-search query identity must be positive and strictly increasing");
         }
-        self.inner.work_tx.send(WorkSignal::QueryUpdated {
-            query: pattern_text.to_owned(),
-            query_id,
-        }).map_err(|_| anyhow::anyhow!("file-search worker has stopped"))?;
+        self.inner
+            .work_tx
+            .send(WorkSignal::QueryUpdated {
+                query: pattern_text.to_owned(),
+                query_id,
+            })
+            .map_err(|_| anyhow::anyhow!("file-search worker has stopped"))?;
         *previous = query_id;
         Ok(())
     }
@@ -199,7 +208,11 @@ impl FileSearchSession {
     /// Stop accepting work and request cleanup without waiting for workers.
     /// This never changes a cancellation flag shared with another session.
     pub fn request_close(&self) {
-        let _admission = self.inner.last_query_id.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let _admission = self
+            .inner
+            .last_query_id
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if !self.inner.shutdown.swap(true, Ordering::AcqRel) {
             let _ = self.inner.work_tx.send(WorkSignal::Shutdown);
         }
@@ -706,7 +719,10 @@ impl Default for RunReporter {
 
 impl SessionReporter for RunReporter {
     fn on_update(&self, snapshot: &FileSearchSnapshot) {
-        let mut guard = self.snapshot.write().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut guard = self
+            .snapshot
+            .write()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         *guard = snapshot.clone();
     }
 
@@ -719,7 +735,10 @@ impl SessionReporter for RunReporter {
     fn on_complete(&self) {
         // Startup can become idle before the caller submits its first query.
         // That completion must not finish a different one-shot query.
-        let snapshot = self.snapshot.read().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let snapshot = self
+            .snapshot
+            .read()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         if snapshot.query == self.expected_query {
             let _ = self.completed_tx.try_send(());
         }
@@ -732,7 +751,10 @@ impl RunReporter {
             recv(self.completed_rx) -> _ => {},
             recv(session.finished) -> _ => {},
         }
-        self.snapshot.read().unwrap_or_else(std::sync::PoisonError::into_inner).clone()
+        self.snapshot
+            .read()
+            .unwrap_or_else(std::sync::PoisonError::into_inner)
+            .clone()
     }
 }
 

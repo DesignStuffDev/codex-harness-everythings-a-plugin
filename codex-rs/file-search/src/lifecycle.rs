@@ -98,7 +98,10 @@ fn supervise(
     let mut failures = Vec::new();
     match walker {
         Ok(walker) => {
-            let mut walker = WalkerThread { handle: Some(walker), inner: inner.clone() };
+            let mut walker = WalkerThread {
+                handle: Some(walker),
+                inner: inner.clone(),
+            };
             if ready.send(()).is_err() {
                 inner.shutdown.store(true, Ordering::Release);
             }
@@ -142,7 +145,9 @@ struct WalkerThread {
 impl WalkerThread {
     fn join(&mut self) -> anyhow::Result<()> {
         match self.handle.take() {
-            Some(handle) => handle.join().map_err(|_| anyhow::anyhow!("file-search walker supervisor panicked"))?,
+            Some(handle) => handle
+                .join()
+                .map_err(|_| anyhow::anyhow!("file-search walker supervisor panicked"))?,
             None => Ok(()),
         }
     }

@@ -27,7 +27,9 @@ pub(crate) struct SearchConnectionState {
 
 impl std::fmt::Debug for SearchConnectionState {
     fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        formatter.debug_struct("SearchConnectionState").finish_non_exhaustive()
+        formatter
+            .debug_struct("SearchConnectionState")
+            .finish_non_exhaustive()
     }
 }
 
@@ -35,7 +37,9 @@ impl Default for SearchConnectionState {
     #[expect(clippy::expect_used)]
     fn default() -> Self {
         Self {
-            native: FileSearchOwner::new(NonZero::new(MAX_SEARCHES_PER_CONNECTION).expect("search capacity is nonzero")),
+            native: FileSearchOwner::new(
+                NonZero::new(MAX_SEARCHES_PER_CONNECTION).expect("search capacity is nonzero"),
+            ),
             state: Mutex::new(State::default()),
             startups: TaskTracker::new(),
             publishers: TaskTracker::new(),
@@ -56,8 +60,14 @@ pub(super) struct State {
 impl State {
     pub(super) fn admit(&mut self) -> anyhow::Result<u64> {
         anyhow::ensure!(!self.closed, "search connection is closed");
-        anyhow::ensure!(self.sessions.len() + self.one_shots.len() < MAX_SEARCHES_PER_CONNECTION, "search connection capacity is exhausted");
-        self.next_id = self.next_id.checked_add(1).ok_or_else(|| anyhow::anyhow!("search identity exhausted"))?;
+        anyhow::ensure!(
+            self.sessions.len() + self.one_shots.len() < MAX_SEARCHES_PER_CONNECTION,
+            "search connection capacity is exhausted"
+        );
+        self.next_id = self
+            .next_id
+            .checked_add(1)
+            .ok_or_else(|| anyhow::anyhow!("search identity exhausted"))?;
         Ok(self.next_id)
     }
 }
@@ -76,7 +86,9 @@ pub(super) enum SessionEntry {
 
 impl SessionEntry {
     pub(super) fn id(&self) -> u64 {
-        match self { Self::Starting { id, .. } | Self::Ready { id, .. } => *id }
+        match self {
+            Self::Starting { id, .. } | Self::Ready { id, .. } => *id,
+        }
     }
 
     pub(super) fn request_close(&self) {
@@ -94,7 +106,10 @@ impl SessionEntry {
                 if let Some(result) = complete.borrow_and_update().clone() {
                     return result.map_err(anyhow::Error::msg);
                 }
-                complete.changed().await.map_err(|_| anyhow::anyhow!("search startup cleanup acknowledgement lost"))?;
+                complete
+                    .changed()
+                    .await
+                    .map_err(|_| anyhow::anyhow!("search startup cleanup acknowledgement lost"))?;
             },
         }
     }
@@ -103,7 +118,10 @@ impl SessionEntry {
 impl SearchConnectionState {
     /// Fence before waiting for connection RPCs; startup and callbacks share it.
     pub(crate) fn request_shutdown(&self) {
-        let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         state.closed = true;
         for cancellation in state.one_shots.values() {
             cancellation.store(true, Ordering::Release);
@@ -120,7 +138,10 @@ impl SearchConnectionState {
         self.startups.close();
         self.startups.wait().await;
         let sessions = {
-            let mut state = self.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+            let mut state = self
+                .state
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner);
             std::mem::take(&mut state.sessions)
         };
         for (_, session) in sessions {
@@ -153,7 +174,11 @@ pub(super) struct OneShotGuard {
 impl Drop for OneShotGuard {
     fn drop(&mut self) {
         self.cancellation.store(true, Ordering::Release);
-        let mut state = self.connection.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+        let mut state = self
+            .connection
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
         state.one_shots.remove(&self.id);
         if let Some(token) = &self.token
             && state.tokens.get(token) == Some(&self.id)
@@ -173,13 +198,22 @@ pub(super) struct StartWaiter {
 
 impl Drop for StartWaiter {
     fn drop(&mut self) {
-        if !self.armed { return; }
-        let mut state = self.connection.state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
-        if state.sessions.get(&self.session_id).is_some_and(|entry| entry.id() == self.id) {
-            if let Some(entry) = state.sessions.remove(&self.session_id) {
-                entry.request_close();
-                // Managed native and publisher owners retain cleanup on drop.
-            }
+        if !self.armed {
+            return;
+        }
+        let mut state = self
+            .connection
+            .state
+            .lock()
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        if state
+            .sessions
+            .get(&self.session_id)
+            .is_some_and(|entry| entry.id() == self.id)
+            && let Some(entry) = state.sessions.remove(&self.session_id)
+        {
+            entry.request_close();
+            // Managed native and publisher owners retain cleanup on drop.
         }
     }
 }
