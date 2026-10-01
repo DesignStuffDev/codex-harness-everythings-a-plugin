@@ -222,3 +222,18 @@ The proposed permanent kernel is limited to minimal accepted-distribution recove
 ## Inventory audit
 
 The accompanying local audit is `roadmap-inventory-audit.json` in the verified recovery backup directory. It records the actual manifest names/paths, exact-once coverage, additional native/staged packages, non-Rust manifests and existence checks. It is a source inventory audit, not a build or runtime test result. No package manager or compiler was invoked to produce this document.
+
+## Native auth checkpoint: full-host regression
+
+The source checkpoint `e289b6b5` (published with scoped evidence at `f9e922c3`)
+also passed a fresh full CLI build and unchanged installed-package acceptance:
+13 storage commands, 10 migration commands and two cold GUI cycles. Both GUI runs
+terminated normally after first SIGINT to the actual component manager during an
+active turn, with tracked processes absent and no forced cleanup.
+[Runtime evidence and reviewed screenshots](verification/2026-10-01/P03_NATIVE_AUTH_FULL_HOST_EVIDENCE.md)
+bind the exact source, executable and independently built packages. This uses
+Chromium/Playwright and deterministic inference; in-app Browser and live-provider
+proof remain unavailable. Existing native extraction coverage is unchanged, and
+credential/source lifetime, broker/catalog activation and P18U upstream integration/
+rollback remain required work. The next private cache-revision draft is untested
+and is excluded from this runtime checkpoint.
