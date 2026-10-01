@@ -38,6 +38,9 @@ fn query(id: u64, text: &str) -> SearchQuery {
     }
 }
 
+#[path = "process_startup_tests.rs"]
+mod startup;
+
 #[tokio::test]
 async fn process_round_trip_preserves_original_roots_query_and_explicit_cwd() {
     let before = std::env::current_dir().unwrap();

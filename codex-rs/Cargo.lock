@@ -3568,6 +3568,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "codex-file-search-local-plugin"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "codex-component-host",
+ "codex-file-search",
+ "codex-file-search-api",
+ "codex-file-search-component",
+ "codex-utils-cargo-bin",
+ "libc",
+ "pretty_assertions",
+ "serde",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "uuid",
+]
+
+[[package]]
+name = "codex-file-search-runtime"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "codex-component-api",
+ "codex-component-host",
+ "codex-file-search",
+ "codex-file-search-api",
+ "codex-file-search-component",
+ "codex-utils-home-dir",
+ "futures",
+ "pretty_assertions",
+ "serde_json",
+ "tempfile",
+ "tokio",
+ "tokio-util",
+ "uuid",
+]
+
+[[package]]
 name = "codex-file-system"
 version = "0.0.0"
 dependencies = [

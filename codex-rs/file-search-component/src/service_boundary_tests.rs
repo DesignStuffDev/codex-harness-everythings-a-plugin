@@ -61,6 +61,7 @@ async fn actual_encoded_frame_overflow_returns_domain_exhaustion_and_joins_owner
     let backend = Arc::new(Backend {
         starts: Semaphore::new(1),
         entered: Semaphore::new(0),
+        start_failure: None,
         shutdown_cleanup: CloseCleanup::Joined,
         session: Arc::new(Session {
             polls: Semaphore::new(1),

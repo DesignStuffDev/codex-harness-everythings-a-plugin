@@ -21,6 +21,7 @@ use crate::*;
 struct Backend {
     starts: Semaphore,
     entered: Semaphore,
+    start_failure: Option<SearchStartError>,
     session: Arc<Session>,
     shutdown_cleanup: CloseCleanup,
 }
@@ -30,6 +31,9 @@ impl SearchBackend for Backend {
         Box::pin(async move {
             self.entered.add_permits(1);
             self.starts.acquire().await.expect("start gate").forget();
+            if let Some(error) = &self.start_failure {
+                return Err(error.clone());
+            }
             Ok(Arc::clone(&self.session) as Arc<dyn SearchBackendSession>)
         })
     }
@@ -100,6 +104,7 @@ fn backend(outcome: SearchCloseOutcome, starts: usize) -> Arc<Backend> {
     Arc::new(Backend {
         starts: Semaphore::new(starts),
         entered: Semaphore::new(0),
+        start_failure: None,
         shutdown_cleanup: outcome.cleanup.clone(),
         session: Arc::new(Session {
             polls: Semaphore::new(0),
@@ -339,3 +344,6 @@ async fn unconfirmed_close_keeps_reservation_and_fences_provider() {
 
 #[path = "service_boundary_tests.rs"]
 mod boundaries;
+
+#[path = "service_startup_tests.rs"]
+mod startup;

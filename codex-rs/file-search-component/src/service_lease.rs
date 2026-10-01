@@ -8,6 +8,7 @@ use codex_file_search_api::FileSearchOptions;
 use codex_file_search_api::SearchBackendSession;
 use codex_file_search_api::SearchCloseOutcome;
 use codex_file_search_api::SearchError;
+use codex_file_search_api::SearchErrorKind;
 use codex_file_search_api::SearchStartError;
 use codex_file_search_api::StartCleanup;
 use futures::FutureExt;
@@ -40,6 +41,7 @@ pub(crate) struct LeaseState {
     pub(crate) session: Option<Arc<dyn SearchBackendSession>>,
     pub(crate) start_finished: bool,
     pub(crate) start_failure: Option<SearchStartError>,
+    pub(crate) startup_closed_before_result: bool,
     pub(crate) closing: bool,
     pub(crate) close_started: bool,
     pub(crate) polling: bool,
@@ -112,15 +114,32 @@ impl Lease {
             let ready = {
                 let state = lock(&self.state);
                 if state.start_finished && !state.polling && !state.updating {
-                    Some((state.session.clone(), state.start_failure.clone()))
+                    Some((
+                        state.session.clone(),
+                        state.start_failure.clone(),
+                        state.startup_closed_before_result,
+                    ))
                 } else {
                     None
                 }
             };
-            if let Some((session, failure)) = ready {
+            if let Some((session, failure, closed_before_result)) = ready {
                 if let Some(failure) = failure {
+                    // Only a close already requested while Preparing can make
+                    // a proven no-work/fully-joined ClosedLease expected. The
+                    // later automatic failure-close must not create that proof.
+                    let expected_close = closed_before_result
+                        && failure.operation.kind() == SearchErrorKind::ClosedLease
+                        && matches!(
+                            &failure.cleanup,
+                            StartCleanup::NotAdmitted | StartCleanup::Confirmed
+                        );
                     return SearchCloseOutcome {
-                        operation: Err(failure.operation),
+                        operation: if expected_close {
+                            Ok(())
+                        } else {
+                            Err(failure.operation)
+                        },
                         cleanup: match failure.cleanup {
                             StartCleanup::NotAdmitted | StartCleanup::Confirmed => {
                                 CloseCleanup::Joined

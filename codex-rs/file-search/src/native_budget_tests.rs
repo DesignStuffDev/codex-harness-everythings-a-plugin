@@ -365,3 +365,105 @@ fn bounded_unicode_search_preserves_full_legacy_matches_and_highlights() {
     }
     assert_eq!(joined_close(session).operation, Ok(()));
 }
+
+// This is an allocation-floor diagnostic plus real native behavior check, not
+// a benchmark or evidence that the entry ceiling was populated in production.
+#[test]
+fn cli_candidate_profiles_prepay_actual_index_layout_and_preserve_native_matching() {
+    const CEILING: usize = 128 * 1024 * 1024;
+    let empty = tempfile::tempdir().unwrap();
+    let fixture = tempfile::tempdir().unwrap();
+    std::fs::write(fixture.path().join("alpha.txt"), "profile fixture").unwrap();
+    for entries in [100_000, 250_000] {
+        for compute_indices in [false, true] {
+            let options = FileSearchOptions {
+                threads: NonZeroUsize::new(2).unwrap(),
+                compute_indices,
+                ..options()
+            };
+            let floor = fixed_bytes(&options, entries);
+            let mut allocation = budget(entries, floor - 1);
+            allocation.max_worker_threads = NonZeroUsize::new(6).unwrap();
+            let (reporter, observed) = probe();
+            let rejected = create_bounded_session(
+                vec![empty.path().into()],
+                options.clone(),
+                allocation,
+                reporter,
+            )
+            .err()
+            .expect("one byte below the actual target-layout floor must reject");
+            assert_eq!(rejected.cleanup, StartCleanup::NotAdmitted);
+            assert_eq!(
+                rejected.operation.kind(),
+                SearchErrorKind::ResourceExhausted
+            );
+            assert!(observed.try_iter().next().is_none());
+
+            allocation.max_index_bytes = NonZeroUsize::new(floor).unwrap();
+            let (_, ledger) = NativeBudget::prepare(&options, allocation).unwrap();
+            assert_eq!(ledger.state.lock().unwrap().bytes, floor);
+            // The root directory is itself an indexed entry. Prepay its actual
+            // path bytes and real empty UTF32 column plan in addition to floor.
+            let root_payload = empty.path().to_str().unwrap().len()
+                + nucleo::Utf32String::allocation_plan("")
+                    .unwrap()
+                    .charged_bytes();
+            allocation.max_index_bytes = NonZeroUsize::new(floor + root_payload).unwrap();
+            let (reporter, observed) = probe();
+            let session = create_bounded_session(
+                vec![empty.path().into()],
+                options.clone(),
+                allocation,
+                reporter,
+            )
+            .unwrap();
+            session.update_query_tagged("absent", 1).unwrap();
+            let snapshot = settled(&observed, 1);
+            assert!(snapshot.matches.is_empty());
+            assert_eq!(snapshot.total_match_count, 0);
+            let reservation = session.inner.budget.as_ref().unwrap();
+            let reserved = reservation.state.lock().unwrap();
+            assert_eq!(
+                (reserved.entries, reserved.bytes),
+                (1, floor + root_payload)
+            );
+            drop(reserved);
+            assert_eq!(
+                joined_close(session),
+                SearchCloseOutcome {
+                    operation: Ok(()),
+                    cleanup: CloseCleanup::Joined,
+                }
+            );
+
+            assert!(floor < CEILING, "candidate ceiling needs payload headroom");
+            allocation.max_index_bytes = NonZeroUsize::new(CEILING).unwrap();
+            let (reporter, observed) = probe();
+            let session =
+                create_bounded_session(vec![fixture.path().into()], options, allocation, reporter)
+                    .unwrap();
+            session.update_query_tagged("alpha", 1).unwrap();
+            let snapshot = settled(&observed, 1);
+            assert_eq!(snapshot.total_match_count, 1);
+            assert_eq!(snapshot.matches.len(), 1);
+            assert_eq!(snapshot.matches[0].path, std::path::Path::new("alpha.txt"));
+            assert_eq!(
+                snapshot.matches[0].indices,
+                compute_indices.then(|| vec![0, 1, 2, 3, 4])
+            );
+            assert_eq!(
+                joined_close(session),
+                SearchCloseOutcome {
+                    operation: Ok(()),
+                    cleanup: CloseCleanup::Joined,
+                }
+            );
+            eprintln!(
+                "native_cli_profile entries={entries} threads=2 compute_indices={compute_indices} fixed_bytes={floor} empty_root_payload_bytes={root_payload} ceiling_bytes={CEILING} payload_headroom_bytes={} reserved_os_workers=6 pointer_bits={}",
+                CEILING - floor,
+                usize::BITS,
+            );
+        }
+    }
+}

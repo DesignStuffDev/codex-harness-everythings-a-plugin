@@ -211,6 +211,14 @@ async fn run_open(provider: Arc<Provider>, lease: Arc<Lease>, sender: oneshot::S
             lease.request_close();
             let outcome = release_lease(cleanup, &lease).await;
             lease.drain_operations().await;
+            // Caller cancellation can win the reply race, but its synthetic
+            // ClosedLease is not an earlier backend failure. Preserve the real
+            // release cause for the startup observer as well as retained owners.
+            if error.operation.kind() == SearchErrorKind::ClosedLease
+                && let Err(cause) = &outcome.operation
+            {
+                error.operation = cause.clone();
+            }
             // An explicit NotAdmitted receipt already proves no native work.
             // Still consume the guard so rejected-open metadata can be retired.
             if error.cleanup == StartCleanup::NotAdmitted {

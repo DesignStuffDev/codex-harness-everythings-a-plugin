@@ -397,3 +397,7 @@ impl Drop for ShutdownGuard {
         }
     }
 }
+
+#[cfg(test)]
+#[path = "native_backend_failure_tests.rs"]
+mod failure_tests;

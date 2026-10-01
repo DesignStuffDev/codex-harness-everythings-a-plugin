@@ -59,6 +59,13 @@ pub struct ProcessSearchBackend {
 }
 
 impl ProcessSearchBackend {
+    /// Immutable ceilings accepted by this selected provider. Runtime scope
+    /// accounting must use these values, not assume requested limits survived
+    /// negotiation unchanged.
+    pub fn negotiated_limits(&self) -> &crate::ServiceLimits {
+        &self.inner.limits
+    }
+
     /// Connect using an explicit immutable child cwd and negotiate bounded
     /// search leases. Cancellation leaves startup owned until its cleanup has
     /// been observed. A failed selected implementation never falls back.

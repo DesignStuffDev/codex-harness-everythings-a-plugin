@@ -39,39 +39,56 @@ impl Drop for NativeLease {
 impl SearchBackendSession for NativeLease {
     fn update_query(&self, query: SearchQuery) -> SearchFuture<'_, QueryAccepted> {
         Box::pin(async move {
-            let mut state = lock(&self.inner.state);
-            if state.closing {
-                return Err(state.failure.clone().unwrap_or_else(closed));
+            {
+                let mut state = lock(&self.inner.state);
+                if let Some(error) = &state.failure {
+                    return Err(error.clone());
+                }
+                if !state.closing {
+                    query
+                        .validate_after(state.frame.query_id, self.inner.limits.max_query_bytes)?;
+                    if state.frame.revision == u64::MAX {
+                        state.fail(exhausted("native file-search frame revisions exhausted"));
+                        drop(state);
+                        self.inner.changed.send_replace(());
+                        return Err(exhausted("native file-search frame revisions exhausted"));
+                    }
+                    let text = crate::native_output::exact_string(&query.text)?;
+                    let id = query.id;
+                    drop(query);
+                    // Enqueue and identity transition share this fence. Native
+                    // callbacks cannot publish an obsolete identity between them.
+                    if let Some(native) = &state.native
+                        && native.update_query_tagged(&text, id.get()).is_ok()
+                    {
+                        state.frame = SearchFrame {
+                            revision: state.frame.revision + 1,
+                            query_id: id.get(),
+                            query: text,
+                            snapshot: None,
+                            phase: SearchPhase::Running,
+                        };
+                        drop(state);
+                        self.inner.changed.send_replace(());
+                        return Ok(QueryAccepted { id });
+                    }
+                } else {
+                    drop(query);
+                }
             }
-            query.validate_after(state.frame.query_id, self.inner.limits.max_query_bytes)?;
-            if state.frame.revision == u64::MAX {
-                state.fail(exhausted("native file-search frame revisions exhausted"));
-                drop(state);
-                self.inner.changed.send_replace(());
-                return Err(exhausted("native file-search frame revisions exhausted"));
-            }
-            let text = crate::native_output::exact_string(&query.text)?;
-            let id = query.id;
-            drop(query);
-            let Some(native) = &state.native else {
-                return Err(closed());
-            };
-            // Enqueue and identity transition share this fence. Native callbacks
-            // cannot publish an obsolete identity between these two operations.
-            if native.update_query_tagged(&text, id.get()).is_err() {
-                return Err(state.failure.clone().unwrap_or_else(closed));
-            }
-            let frame = SearchFrame {
-                revision: state.frame.revision + 1,
-                query_id: id.get(),
-                query: text,
-                snapshot: None,
-                phase: SearchPhase::Running,
-            };
-            state.frame = frame;
-            drop(state);
-            self.inner.changed.send_replace(());
-            Ok(QueryAccepted { id })
+            // Native failure closes admission before its terminal callback can
+            // acquire the bridge lock. Join outside that lock before inventing a
+            // ClosedLease error, or it can hide the actual resource/worker error.
+            // The existing lifecycle actor retains cleanup if this waiter drops.
+            self.inner.request_close();
+            let outcome = observe_close(self.inner.closed.subscribe()).await;
+            Err(match outcome.operation {
+                Err(error) => error,
+                Ok(()) => match outcome.cleanup {
+                    CloseCleanup::Joined => closed(),
+                    CloseCleanup::Unconfirmed(error) => error,
+                },
+            })
         })
     }
 
@@ -92,6 +109,9 @@ impl SearchBackendSession for NativeLease {
     }
 }
 
+#[cfg(test)]
+type BeforeError = Arc<dyn Fn(&SearchError) + Send + Sync>;
+
 pub(super) struct NativeSession {
     pub(super) id: u64,
     pub(super) allocation: [usize; 3],
@@ -99,6 +119,8 @@ pub(super) struct NativeSession {
     pub(super) state: Mutex<SessionState>,
     pub(super) changed: watch::Sender<()>,
     pub(super) closed: watch::Sender<Option<SearchCloseOutcome>>,
+    #[cfg(test)]
+    pub(super) before_error: Mutex<Option<BeforeError>>,
 }
 
 pub(super) struct SessionState {
@@ -120,6 +142,8 @@ impl NativeSession {
             limits,
             changed,
             closed,
+            #[cfg(test)]
+            before_error: Mutex::new(None),
             state: Mutex::new(SessionState {
                 frame: SearchFrame {
                     revision: 0,
@@ -295,6 +319,13 @@ impl SessionReporter for SessionReporterBridge {
     }
 
     fn on_error(&self, error: &SearchError) {
+        #[cfg(test)]
+        {
+            let before_error = lock(&self.0.before_error).clone();
+            if let Some(before_error) = before_error {
+                before_error(error);
+            }
+        }
         self.0.fail(error.clone());
     }
 }

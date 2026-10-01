@@ -148,11 +148,12 @@ def record(name, text='yes'):
 def frame(value):
     with send_lock: print(json.dumps(value), flush=True)
 
-def reply(request, params, value):
+def reply(request, params, value, error=None):
     identity = dict(params['identity'])
     if config.get('bad_identity') and request['method'].endswith('next_snapshot'):
         identity['session_epoch'] = '999'
-    envelope = {'contract_version':1,'method':request['method'],'identity':identity,'reply':{'status':'ok','result':value}}
+    outcome = {'status':'ok','result':value} if error is None else {'status':'error','error':error}
+    envelope = {'contract_version':1,'method':request['method'],'identity':identity,'reply':outcome}
     body = json.dumps(envelope).encode()
     frame({'type':'result_start','id':request['id'],'bytes':len(body)})
     chunks = 0
@@ -168,6 +169,8 @@ def close_outcome(unconfirmed=False):
     operation = {'status':'ok'}
     if config.get('operation_error'):
         operation = {'status':'error','error':{'kind':'search_failed','message':'original search failure'}}
+    if config.get('resource_error'):
+        operation = {'status':'error','error':{'kind':'resource_exhausted','message':'original resource exhaustion'}}
     cleanup = {'status':'joined'}
     if unconfirmed:
         cleanup = {'status':'unconfirmed','error':{'kind':'transport_lost','message':'cleanup proof unavailable'}}
@@ -183,7 +186,11 @@ def handle(request, params, lease):
         if config.get('hold_open'): wait_gate('open_gate',lease['stop'])
         lease_limits = {key:limits[key] for key in ['max_query_utf8_bytes','max_matches','max_frame_bytes','max_poll_wait_ms']}
         lease_limits.update(max_pending_polls=1,max_in_flight_updates=1)
-        reply(request,params,{'initial_cursor':'0','limits':lease_limits,'budget':params['budget']})
+        if config.get('open_error'):
+            error = {'operation':{'kind':'search_failed','message':'earlier startup failure'},'cleanup':{'status':'confirmed'}}
+            reply(request,params,None,error)
+        else:
+            reply(request,params,{'initial_cursor':'0','limits':lease_limits,'budget':params['budget']})
         lease['open_done'].set()
     elif method == 'update_query':
         if config.get('hold_update'): wait_gate('update_gate',lease['stop'])

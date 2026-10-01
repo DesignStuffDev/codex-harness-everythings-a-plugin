@@ -89,6 +89,9 @@ impl Inner {
                         )
                     }
                     Err(error) => {
+                        // Capture the fence before this failure's automatic
+                        // request_close; that later close is not caller intent.
+                        state.startup_closed_before_result = state.closing;
                         state.start_failure = Some(error.clone());
                         (true, Err(error))
                     }
@@ -98,11 +101,17 @@ impl Inner {
             let result = if closing {
                 lease.request_close();
                 let outcome = lease.outcome().await;
+                let operation = result
+                    .err()
+                    .map(|error| error.operation)
+                    .unwrap_or_else(closed_error);
+                let operation = if operation.kind() == SearchErrorKind::ClosedLease {
+                    outcome.operation.err().unwrap_or(operation)
+                } else {
+                    operation
+                };
                 Err(SearchStartError {
-                    operation: result
-                        .err()
-                        .map(|error| error.operation)
-                        .unwrap_or_else(closed_error),
+                    operation,
                     cleanup: outcome.cleanup.into(),
                 })
             } else {

@@ -98,6 +98,9 @@ pub trait Reporter {
     fn warn_no_search_pattern(&self, search_directory: &Path);
 }
 
+/// Legacy compiled-native entry point, retained for embedding compatibility.
+/// The standalone executable now selects its backend through
+/// `codex-file-search-runtime`; this function does not perform component selection.
 pub async fn run_main<T: Reporter>(
     Cli {
         pattern,
