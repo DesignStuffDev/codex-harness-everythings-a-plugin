@@ -909,3 +909,24 @@ or full-host gate advances. Next is the atomic typed-outcome/resource-custody/ma
 admission transition: unknown cleanup retains resources and blocks retry; later direct
 reap cannot clear it. Recovery requires external termination/fencing evidence, not merely
 restarting the host. Keep this candidate separate from main until combined host/UI gates pass.
+
+
+### Retained native sync ownership checkpoint (source739)
+
+B1a is now integrated at `739eb89c537a29f715e79ebf6e6405181fec9744` on the
+isolated lifecycle development branch. [Exact evidence](verification/2026-10-01/P03_CURATED_RETAINED_OWNER_EVIDENCE.md)
+and [lineage](upstream/p03-curated-retained-owner-lineage.json) bind typed transport
+outcomes, primary attempt resource custody and exact worker generations to the real
+native pipeline. Unknown cleanup, publication uncertainty and unwind retain locks,
+staging and admission despite discarded errors; later direct-child evidence never
+clears quarantine. Ordinary confirmed failure keeps the existing fallback policy.
+The scoped gate passed557/557 with strict process cleanup; two compiler failures
+remain preserved. Lint/format transitions are recorded separately.
+
+This is a native lifecycle prerequisite, not another installable component or a
+full-host shutdown result. Next is B1b shared stop/deadline control across worker,
+lock and Git, followed by HTTP/body cancellation, recoverable publication, callback
+ownership and actual host shutdown. Preserve quarantine through these changes;
+restart alone cannot prove recovery. The full CLI/installed-storage/UI regression
+must still pass before main promotion. P00M mapping continues and P18U remains a
+required, unimplemented release gate; no polling or live update is activated.

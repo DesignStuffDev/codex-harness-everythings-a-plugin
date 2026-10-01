@@ -596,3 +596,13 @@ source9a2's private native ownership seam to the exact pinned upstream facade bo
 separating unchanged behavior from the added error-path lock assertion and formatter
 layout. Its 476-pass scope is not retained-cleanup, installed-component, full-host or
 later-upstream proof. The same remaining P18U integration/rollback gates apply.
+
+
+The [retained native sync owner map](upstream/p03-curated-retained-owner-lineage.json)
+binds source `739eb89c537a29f715e79ebf6e6405181fec9744` to upstream curated-sync,
+manager admission and inherited PTY custody primitives. It distinguishes original
+fallback/policy behavior from custom typed failures, attempt quarantine and retained
+worker generations. Its557-test scoped result is not full-host acceptance, a new
+installed component, or integration of a later official revision. Preserve this
+checkpoint supplement separately from the frozen d04 normalized lineage index;
+P00M current-index closure and all P18U integration/rollback gates remain open.

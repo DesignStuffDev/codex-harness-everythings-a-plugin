@@ -1,0 +1,854 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_prerequisite_development_candidate",
+  "finalized": true,
+  "created_utc": "2026-10-01T22:32:29.125679+00:00",
+  "base": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "source_commit": "9a2be0abfa51d5baf932301ab3158b4b4aef8f19",
+    "source_tree": "64cff8e15da51074ca8c95fae3d7be96202e51e4",
+    "candidate_commit": "324669d0078af814541bad50ba429402fe48be7e",
+    "candidate_tree": "97395e9b204ebfbd2b959145faf0a06681e02011",
+    "candidate_branch": "work/p03-curated-sync-lifecycle",
+    "main_commit": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "main_native_source": "65511842d7051b2a1f5cc52917f3ebb5c03be4f3"
+  },
+  "inputs": {
+    "proposal_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1-semantic-owner-proposal/MANIFEST.json",
+      "sha256": "17f381e06129fe0dc0a4cbc5a69525fef1504e1125c46f093a11a6bc97609a09",
+      "bytes": 7647
+    },
+    "proposal_provenance": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1-semantic-owner-proposal/PROVENANCE.json",
+      "sha256": "c859af555473e5e0eb171b18c2464aded598061f145a15d33856a2b54476df83",
+      "bytes": 4444
+    },
+    "proposal_diff_counts": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-b1-semantic-owner-proposal/DIFF_COUNTS.json",
+      "sha256": "462e7d9a6736b94b820e2d8e3b07be132f5ab3927eb8681f253fde97f8969447",
+      "bytes": 3834
+    },
+    "adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-adoption.json",
+      "sha256": "c660c955b16e6be5540625c964f33cb0c50661570eb0fbb84f6ad1e1fb07a747",
+      "bytes": 3877
+    },
+    "preserved_proposal_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-proposal-preserved.tar.gz",
+      "sha256": "bf18fe1df4cee764d10d631c000b58e9292c396d0c96794f3a12feb037568f25",
+      "bytes": 339276
+    },
+    "compiler_repair": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-evidence-stage/compiler-repair.diff",
+      "sha256": "4c9890dac7ef449f9a080d453ea8365ee8b068a0bd152727626f0484a4149f6b",
+      "bytes": 740
+    },
+    "strict_runner": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    },
+    "compile_repair_preimage": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-compile-repair-preimages/codex-rs/core-plugins/src/marketplace_policy/curated_loading_tests.rs",
+      "sha256": "5ea9bfb02e7fce18b0d41c3b200ca38fe3284912baa5d7ecd58202c4bccd22ca",
+      "bytes": 4367
+    },
+    "policy_compile_repair": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-evidence-stage/policy-compile-repair.diff",
+      "sha256": "c57b55b6900301149bf961d1533afe76d0c76a5b83a3f8b3f91aa1017bc29a0c",
+      "bytes": 727
+    }
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "new_file": false,
+      "preimage_sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153",
+      "proposal_sha256": "683596777e59fdaf4e9276a04974012f8468cd0c6e878d9b22459b3912f7b81d",
+      "final": {
+        "sha256": "a1987efae788c02546c12ab9e6aefcac6340e554a1251fce39f4095a1907569c",
+        "bytes": 149370,
+        "computed_git_blob": "d0a591e9ac916751f73e8b3012be5c05ba8d2e71"
+      },
+      "earlier_second_run_input": {
+        "sha256": "683596777e59fdaf4e9276a04974012f8468cd0c6e878d9b22459b3912f7b81d",
+        "bytes": 149370,
+        "computed_git_blob": "8a3fa11ec7c0e51cc31c0e1d79dbf69a84cdbd14"
+      },
+      "tested": {
+        "sha256": "683596777e59fdaf4e9276a04974012f8468cd0c6e878d9b22459b3912f7b81d",
+        "bytes": 149370,
+        "computed_git_blob": "8a3fa11ec7c0e51cc31c0e1d79dbf69a84cdbd14"
+      },
+      "final_anchors": [
+        {
+          "literal": "static CURATED_REPO_SYNC_WORKER",
+          "lines": [
+            148
+          ]
+        },
+        {
+          "literal": "fn start_curated_repo_sync",
+          "lines": [
+            3311
+          ]
+        },
+        {
+          "literal": "fn run_curated_sync_and_refresh",
+          "lines": []
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "2761d9ec7b5b52680629d5e79a0382d4ea27c3e003d76551594c28e9299fa0f1",
+      "proposal_sha256": "06ada648a1a24fce921d5f256fc829c6152cc48c279b33743044d2aedc5c8476",
+      "final": {
+        "sha256": "6abc15849b8f22322d1c80a35ab99ca33d840a6909a202ed649bf8b4c5ca677e",
+        "bytes": 242980,
+        "computed_git_blob": "b1df6538a0a1bca797f6478c7289a081a90a1215"
+      },
+      "earlier_second_run_input": {
+        "sha256": "06ada648a1a24fce921d5f256fc829c6152cc48c279b33743044d2aedc5c8476",
+        "bytes": 242946,
+        "computed_git_blob": "82b1a53cca2fad74256708208d99c7b06cc8a28d"
+      },
+      "tested": {
+        "sha256": "06ada648a1a24fce921d5f256fc829c6152cc48c279b33743044d2aedc5c8476",
+        "bytes": 242946,
+        "computed_git_blob": "82b1a53cca2fad74256708208d99c7b06cc8a28d"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "2ba3f378c270c0418133d6fe1912061118ce7801a7ac1444dc6966ccc155a1c3",
+      "final": {
+        "sha256": "cf5c7cf6a41d92bd8eddfd95bd398eae3059c6fbc62a3a7654bbe2c6060ffb12",
+        "bytes": 13153,
+        "computed_git_blob": "e5d074745e0d8dc94c22a412c84dd9c7a786a210"
+      },
+      "earlier_second_run_input": {
+        "sha256": "2ba3f378c270c0418133d6fe1912061118ce7801a7ac1444dc6966ccc155a1c3",
+        "bytes": 11460,
+        "computed_git_blob": "9d9285b1a95e94739c0f7a8989e681532de899ce"
+      },
+      "tested": {
+        "sha256": "2ba3f378c270c0418133d6fe1912061118ce7801a7ac1444dc6966ccc155a1c3",
+        "bytes": 11460,
+        "computed_git_blob": "9d9285b1a95e94739c0f7a8989e681532de899ce"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub(crate) enum SyncFailure",
+          "lines": [
+            23
+          ]
+        },
+        {
+          "literal": "struct Resources",
+          "lines": [
+            80
+          ]
+        },
+        {
+          "literal": "pub(super) struct SyncAttempt",
+          "lines": [
+            92
+          ]
+        },
+        {
+          "literal": "pub(super) struct AttemptRegistry",
+          "lines": [
+            113
+          ]
+        },
+        {
+          "literal": "fn finish(",
+          "lines": [
+            197
+          ]
+        },
+        {
+          "literal": "fn observe_failure(",
+          "lines": [
+            292
+          ]
+        },
+        {
+          "literal": "pub(super) fn command(",
+          "lines": [
+            301,
+            347
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "fc26f20a8c73f456da9db77ce06ff99b641c231a20c3449193141e6494495065",
+      "final": {
+        "sha256": "03a2368e88b63a1911562306c09b086c6f28bade5858531fa509827d10ca08ef",
+        "bytes": 14928,
+        "computed_git_blob": "40cb701efbd4cec535e86f908fee958e6fc99a34"
+      },
+      "earlier_second_run_input": {
+        "sha256": "fc26f20a8c73f456da9db77ce06ff99b641c231a20c3449193141e6494495065",
+        "bytes": 12994,
+        "computed_git_blob": "a8bedfe35a97f4b68d195a209b7a3e43333a1fd6"
+      },
+      "tested": {
+        "sha256": "fc26f20a8c73f456da9db77ce06ff99b641c231a20c3449193141e6494495065",
+        "bytes": 12994,
+        "computed_git_blob": "a8bedfe35a97f4b68d195a209b7a3e43333a1fd6"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "abcba229aa225602ba72dade65ca78e9c1b5db4295a3a5da3bd87b8b83ef3582",
+      "final": {
+        "sha256": "80c317bdd85efb7202548d04f841f3b5e26688093b705cd3712a4e8e8be5ecec",
+        "bytes": 6155,
+        "computed_git_blob": "33e939888c752d5ac2f3dd1c9bbc23b55e869406"
+      },
+      "earlier_second_run_input": {
+        "sha256": "abcba229aa225602ba72dade65ca78e9c1b5db4295a3a5da3bd87b8b83ef3582",
+        "bytes": 6117,
+        "computed_git_blob": "c3d3119aaef99f624680d4b68e5b484241596140"
+      },
+      "tested": {
+        "sha256": "abcba229aa225602ba72dade65ca78e9c1b5db4295a3a5da3bd87b8b83ef3582",
+        "bytes": 6117,
+        "computed_git_blob": "c3d3119aaef99f624680d4b68e5b484241596140"
+      },
+      "final_anchors": [
+        {
+          "literal": "enum Phase",
+          "lines": [
+            22
+          ]
+        },
+        {
+          "literal": "pub(crate) struct WorkerGate",
+          "lines": [
+            46
+          ]
+        },
+        {
+          "literal": "fn reserve(",
+          "lines": [
+            108
+          ]
+        },
+        {
+          "literal": "fn complete(",
+          "lines": [
+            153
+          ]
+        },
+        {
+          "literal": "fn attach(",
+          "lines": [
+            169
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "new_file": true,
+      "preimage_sha256": null,
+      "proposal_sha256": "28e6807e5bf282c8e3cf3f17e667b12a9d794151b8a8cb78b87ef09457726d44",
+      "final": {
+        "sha256": "02c0b1e997c745a613b639d32de98cfcc7061fe46045f36f4dca9ff205c96832",
+        "bytes": 9000,
+        "computed_git_blob": "7c65d99881266056dfccf40ea38ff84634a7cf0d"
+      },
+      "earlier_second_run_input": {
+        "sha256": "28e6807e5bf282c8e3cf3f17e667b12a9d794151b8a8cb78b87ef09457726d44",
+        "bytes": 8274,
+        "computed_git_blob": "628acb0c86b7b9758d597702964d8c11e7e48462"
+      },
+      "tested": {
+        "sha256": "28e6807e5bf282c8e3cf3f17e667b12a9d794151b8a8cb78b87ef09457726d44",
+        "bytes": 8274,
+        "computed_git_blob": "628acb0c86b7b9758d597702964d8c11e7e48462"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "new_file": false,
+      "preimage_sha256": "a6f4752a88d0efe0555a27ca55362f755ce3ec6b6b8ee1e4a5afebf5fe90413b",
+      "proposal_sha256": "21e7685b02fd26e3864e5fe4091aebb8f6a145750371dcbbf24b1204ba75ea4c",
+      "final": {
+        "sha256": "47a0682b3aead587a6d029978d1aa8d2ae9351cba3e9ff6d3ed74c802e71c028",
+        "bytes": 43311,
+        "computed_git_blob": "ee9571077cb5a032d03ea23b6e40fb3562848bee"
+      },
+      "earlier_second_run_input": {
+        "sha256": "21e7685b02fd26e3864e5fe4091aebb8f6a145750371dcbbf24b1204ba75ea4c",
+        "bytes": 42531,
+        "computed_git_blob": "4c481326001833442dacd2520aae135b3d17d059"
+      },
+      "tested": {
+        "sha256": "21e7685b02fd26e3864e5fe4091aebb8f6a145750371dcbbf24b1204ba75ea4c",
+        "bytes": 42531,
+        "computed_git_blob": "4c481326001833442dacd2520aae135b3d17d059"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub(crate) fn sync_openai_plugins_repo_owned",
+          "lines": [
+            93
+          ]
+        },
+        {
+          "literal": "impl SyncAttempt",
+          "lines": [
+            133
+          ]
+        },
+        {
+          "literal": "fn read_local_git_or_sha_file",
+          "lines": [
+            673
+          ]
+        },
+        {
+          "literal": "fn activate_curated_repo",
+          "lines": [
+            594
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "new_file": false,
+      "preimage_sha256": "685ec608b97fad7d2118b21384f7e1d72bc3b3e34b9c48fbe0239c25a1004f3a",
+      "proposal_sha256": "b8f135eb90c89238dcf11ef2fdf2fec87de0c5bc31af55b7b436947658232cd1",
+      "final": {
+        "sha256": "279a93658bb58ff56808afd8a68d2fcd02e7959495a4206692577c8a36595aef",
+        "bytes": 20664,
+        "computed_git_blob": "a05192b1e2411c663bd5602a93f2d091408250dc"
+      },
+      "earlier_second_run_input": {
+        "sha256": "074be169cdd5e82578fd5d1d95b379d57b639396a34d3cc048423f6318b7eca3",
+        "bytes": 18074,
+        "computed_git_blob": "e74968efda775bcc39b13c0b69bc605399754f59"
+      },
+      "tested": {
+        "sha256": "074be169cdd5e82578fd5d1d95b379d57b639396a34d3cc048423f6318b7eca3",
+        "bytes": 18074,
+        "computed_git_blob": "e74968efda775bcc39b13c0b69bc605399754f59"
+      },
+      "final_anchors": [
+        {
+          "literal": "pub enum CommandCleanup",
+          "lines": [
+            36
+          ]
+        },
+        {
+          "literal": "pub struct OwnedBackgroundCommand",
+          "lines": [
+            106
+          ]
+        },
+        {
+          "literal": "pub fn register(",
+          "lines": [
+            111
+          ]
+        },
+        {
+          "literal": "pub fn wait(",
+          "lines": [
+            236
+          ]
+        },
+        {
+          "literal": "pub fn stop_and_observe(",
+          "lines": [
+            328
+          ]
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "f399d4574d3ffab3f9082c90593f2d7003fbea5941df606fc6cedeb88ed2c72d",
+      "proposal_sha256": "bcd62546d4dfc31766b3c147d47b2fd6c943c4860972caf4ae04cf347a5d3c9a",
+      "final": {
+        "sha256": "5db2edf6b47ee281590dcc5cda27fafbd6984fdb120150c0b1615c48240ca3d2",
+        "bytes": 8264,
+        "computed_git_blob": "46fc733b414e93bdf93e38ed4c98ade9f62f7e2b"
+      },
+      "earlier_second_run_input": {
+        "sha256": "bcd62546d4dfc31766b3c147d47b2fd6c943c4860972caf4ae04cf347a5d3c9a",
+        "bytes": 7701,
+        "computed_git_blob": "961051562fffb10e47aa12101ea83b281c8c5b72"
+      },
+      "tested": {
+        "sha256": "bcd62546d4dfc31766b3c147d47b2fd6c943c4860972caf4ae04cf347a5d3c9a",
+        "bytes": 7701,
+        "computed_git_blob": "961051562fffb10e47aa12101ea83b281c8c5b72"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/utils/pty/src/lib.rs",
+      "new_file": false,
+      "preimage_sha256": "155ff194f6ebbcf1d3473c00988d8fba1d7a411470520db696cf214314800dff",
+      "proposal_sha256": "99f4ceb2aa13e46580520bffe39552db4d83237c011deb8f9c9fd399963038b5",
+      "final": {
+        "sha256": "f123161a3359af5ea6157973aa26e743487ea2cf923a187ab6638600bc71d06c",
+        "bytes": 2868,
+        "computed_git_blob": "7f99b7f4751ffbbbf5162a390cd032920b6193d0"
+      },
+      "earlier_second_run_input": {
+        "sha256": "99f4ceb2aa13e46580520bffe39552db4d83237c011deb8f9c9fd399963038b5",
+        "bytes": 2658,
+        "computed_git_blob": "72d7f2db4ad7b4dfe22e6d302bff6514cd11355e"
+      },
+      "tested": {
+        "sha256": "99f4ceb2aa13e46580520bffe39552db4d83237c011deb8f9c9fd399963038b5",
+        "bytes": 2658,
+        "computed_git_blob": "72d7f2db4ad7b4dfe22e6d302bff6514cd11355e"
+      },
+      "final_anchors": []
+    },
+    {
+      "path": "codex-rs/core-plugins/src/marketplace_policy/curated_loading_tests.rs",
+      "new_file": false,
+      "preimage_sha256": "5ea9bfb02e7fce18b0d41c3b200ca38fe3284912baa5d7ecd58202c4bccd22ca",
+      "proposal_sha256": null,
+      "tested": {
+        "sha256": "e584ab4bbbbde982b94772c7c208284b8fb331b6157769976d34c9bb95968ec1",
+        "bytes": 4394,
+        "computed_git_blob": "cb6e477a51c061cc096c69f6efcaf14400e5dcb3"
+      },
+      "final": {
+        "sha256": "e584ab4bbbbde982b94772c7c208284b8fb331b6157769976d34c9bb95968ec1",
+        "bytes": 4394,
+        "computed_git_blob": "cb6e477a51c061cc096c69f6efcaf14400e5dcb3"
+      },
+      "final_anchors": []
+    }
+  ],
+  "tests": {
+    "status": "passed",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-curated-retained-owner-tests-03.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-core-plugins",
+      "-p",
+      "codex-utils-pty"
+    ],
+    "started_utc": "2026-10-01T22:30:39Z",
+    "finished_utc": "2026-10-01T22:31:24Z",
+    "returncode": 0,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "source_entries": 8896,
+    "source_unchanged": true,
+    "source_map_sha256": "e877fdb8d3736ddb1276b5a3cce48941ceed22ed64e2c33df9f39b290babcbb8",
+    "source_map_hash_method": "SHA-256 of canonical compact sorted JSON source_before, UTF-8, no final newline.",
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-tests-03.source.json",
+        "sha256": "267cbd75e92c559484d900e2df3fb680b1d84f0d9b94002bc12ab090de9466bd",
+        "bytes": 2457129
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-tests-03.log",
+        "sha256": "876bec13228a744961e93555dd78d25dd1e86e9f3d6b9c0fe50193097c0a6cc8",
+        "bytes": 74083
+      },
+      "subreaper.json": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-tests-03.subreaper.json",
+        "sha256": "5c7bbd7da98f3273b0239f93096a4dd6c9827f9a9a77739304783e7bf9b59339",
+        "bytes": 4744
+      }
+    },
+    "log_matches_wrapper_hash": true,
+    "strict_exit_status": 0,
+    "strict_runner_error": null,
+    "strict_elapsed_seconds": 42.985734768008115,
+    "raw_reaps": 54,
+    "reap_counts_by_returncode": {
+      "0": 36,
+      "128": 2,
+      "-9": 14,
+      "-15": 1,
+      "-13": 1
+    },
+    "reap_scope": "Raw PID/wait statuses only; no executable or cause attribution.",
+    "tests": 557,
+    "passed": 557,
+    "failed": 0,
+    "skipped": 0,
+    "retries": 0,
+    "test_seconds": 13.358,
+    "tests_by_package": {
+      "codex-core-plugins": 488,
+      "codex-utils-pty": 69
+    }
+  },
+  "lint": {
+    "status": "passed",
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-core-plugins",
+      "-p",
+      "codex-utils-pty"
+    ],
+    "started_utc": "2026-10-01T22:31:53Z",
+    "finished_utc": "2026-10-01T22:32:57Z",
+    "returncode": 0,
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "source_entries": 8896,
+    "source_unchanged": false,
+    "source_map_sha256": "e877fdb8d3736ddb1276b5a3cce48941ceed22ed64e2c33df9f39b290babcbb8",
+    "source_map_hash_method": "SHA-256 of canonical compact sorted JSON source_before, UTF-8, no final newline.",
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-fix.source.json",
+        "sha256": "2d3b20fe07fb741226aa159149464215909e28f82a11d6edd2619ffb89ad0d48",
+        "bytes": 2456885
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-fix.log",
+        "sha256": "5afd4aa6a12943f3eafdecfb0afcc13c92386732b47b2b1c1004387f9078c30f",
+        "bytes": 2934
+      }
+    },
+    "log_matches_wrapper_hash": true,
+    "changed_paths": [
+      "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+      "codex-rs/utils/pty/src/bounded_command.rs"
+    ],
+    "matches_tested_input": true,
+    "review": "Independent exact green-to-lint diff in three files: nested if/if-let conditions collapsed with unchanged branch bodies and short-circuit order; no assertion, fixture, deadline or cleanup-budget changes. Four applied Clippy fixes.",
+    "warnings": 0
+  },
+  "format": {
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "started_utc": "2026-10-01T22:33:20Z",
+    "finished_utc": "2026-10-01T22:33:40Z",
+    "returncode": 0,
+    "status": "passed",
+    "source_entries": 8896,
+    "source_unchanged": false,
+    "changed_paths": [
+      "codex-rs/core-plugins/src/manager.rs",
+      "codex-rs/core-plugins/src/manager_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync.rs",
+      "codex-rs/utils/pty/src/bounded_command.rs",
+      "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "codex-rs/utils/pty/src/lib.rs"
+    ],
+    "matches_lint_output": true,
+    "log_matches_wrapper_hash": true,
+    "artifacts": {
+      "source.json": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-fmt.source.json",
+        "sha256": "daa44995f37e1c5e49a56a45cef895aa3dc036c00642f7a620b995dc8a054b4e",
+        "bytes": 2456816
+      },
+      "log": {
+        "path": "/workspace/acceptance/p03-curated-retained-owner-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    },
+    "review": "Observed formatting changes: import splitting/reordering with cfg propagation, call/match/closure layouts, optional braces and trailing commas only. Evidence worker independently bound every changed file to exact lint/fmt maps and inspected differences; tests were not repeated solely for lint/fmt."
+  },
+  "source_commit": "739eb89c537a29f715e79ebf6e6405181fec9744",
+  "branch_publication_observed": false,
+  "promoted_to_main": false,
+  "full_host_acceptance_passed": false,
+  "limits": [
+    "This changes native curated-sync process custody and admission; it is not an independently installed subsystem, catalog/auth component or complete harness extraction.",
+    "DirectChildAndPipes is bounded direct-child reaping plus pipe EOF, not a universal descendant fence. Earlier Unknown is irreversible.",
+    "Quarantine has no production clear/reset or durable recovery protocol. Restart alone is not safe recovery: a helper can outlive its host.",
+    "Actual host cancellation/shutdown, cancellable lock waits, blocking HTTP/body cancellation and a recoverable repo-plus-SHA publication transaction/journal remain open.",
+    "Non-Linux LegacyUnverified preserves prior compatibility behavior; Linux results establish no cross-platform cleanup proof.",
+    "No fresh full CLI, installed storage/package, GUI, in-app Browser or live-provider acceptance. Earlier full-host descendant failures are not cleared by scoped tests.",
+    "Main remains separate. Cloud-local archives and detailed reports are not proven external backups.",
+    "Upstream maintenance mapping is updated, but no upstream update integration, installable maintenance component, polling or live update was performed."
+  ],
+  "no_execution_or_repository_mutation_by_evidence_worker": true,
+  "proposal_changed_lines": 1661,
+  "proposal_production_changed_lines": 1086,
+  "proposal_test_changed_lines": 575,
+  "atomic_size_rationale": "Typed command ownership, attempt resources and manager admission must activate coherently; a partial adoption could reopen fallback/retry/unlock after unknown cleanup. Four new private modules keep the new ownership and worker responsibilities separate. Final diff counts pending.",
+  "failed_compiles": [
+    {
+      "status": "failed_compilation_before_tests",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-curated-retained-owner-tests.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-core-plugins",
+        "-p",
+        "codex-utils-pty"
+      ],
+      "started_utc": "2026-10-01T22:27:41Z",
+      "finished_utc": "2026-10-01T22:27:45Z",
+      "returncode": 101,
+      "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+      "source_entries": 8896,
+      "source_map_sha256": "9a3663a26ef7cc8fd2fc4a4b10ff55f776a9d01fbcab5c840be80d304dc92184",
+      "source_map_hash_method": "SHA-256 of json.dumps(source_before, sort_keys=True, separators=(comma, colon)), encoded UTF-8, no final newline.",
+      "source_unchanged": true,
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p03-curated-retained-owner-tests.source.json",
+          "sha256": "7193a3c0016ccc7b3f7afd39781ab269e3cd550eb29658bdd5c6e2e13be8db6b",
+          "bytes": 2457128
+        },
+        "log": {
+          "path": "/workspace/acceptance/p03-curated-retained-owner-tests.log",
+          "sha256": "8a10d3bc1bebe4058c5b6309dba5f6923c52eb51137fd35ce909e527fc419e82",
+          "bytes": 2397
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p03-curated-retained-owner-tests.subreaper.json",
+          "sha256": "a227f3f8f4f7b4d3381513540c5271d8c26cb6d2333311d9adc05a672f9f3033",
+          "bytes": 485
+        }
+      },
+      "log_matches_wrapper_hash": true,
+      "strict_exit_status": 101,
+      "strict_runner_error": null,
+      "strict_elapsed_seconds": 3.322268395975698,
+      "raw_reaps": 1,
+      "reap_counts_by_returncode": {
+        "101": 1
+      },
+      "reap_scope": "Raw PID/wait statuses only; no executable or cause attribution.",
+      "tests_executed": 0,
+      "error": "E0277: extra references to &mut ChildStdout and ChildStderr do not implement AsRawFd; no test binary ran."
+    },
+    {
+      "status": "failed_compilation_before_tests",
+      "command": [
+        "python3",
+        "../component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-curated-retained-owner-tests-02.subreaper.json",
+        "--",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "--test-threads",
+        "2",
+        "-p",
+        "codex-core-plugins",
+        "-p",
+        "codex-utils-pty"
+      ],
+      "started_utc": "2026-10-01T22:28:05Z",
+      "finished_utc": "2026-10-01T22:30:04Z",
+      "returncode": 101,
+      "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+      "source_entries": 8896,
+      "source_unchanged": true,
+      "source_map_sha256": "a67402eba2029fd94a97479dfb0c58a318f5dc73114e694604e68b01c0b1ad78",
+      "source_map_hash_method": "SHA-256 of canonical compact sorted JSON source_before, UTF-8, no final newline.",
+      "artifacts": {
+        "source.json": {
+          "path": "/workspace/acceptance/p03-curated-retained-owner-tests-02.source.json",
+          "sha256": "e07d287e6b14b09cc3cbe3f5204cf2082d4cdc4f96a6a8973689b7bb9441709b",
+          "bytes": 2457131
+        },
+        "log": {
+          "path": "/workspace/acceptance/p03-curated-retained-owner-tests-02.log",
+          "sha256": "e2530cf4dcafae0a84271695abda642dc90a2aa9fab2cc8a03cc7fa5ddbd92ca",
+          "bytes": 4005
+        },
+        "subreaper.json": {
+          "path": "/workspace/acceptance/p03-curated-retained-owner-tests-02.subreaper.json",
+          "sha256": "4de2aa2635a0f15f24cb43780c36d710c8ba39fe15dcc826308a17b05ba4630a",
+          "bytes": 486
+        }
+      },
+      "log_matches_wrapper_hash": true,
+      "strict_exit_status": 101,
+      "strict_runner_error": null,
+      "strict_elapsed_seconds": 117.37883326501469,
+      "raw_reaps": 1,
+      "reap_counts_by_returncode": {
+        "101": 1
+      },
+      "reap_scope": "Raw PID/wait statuses only; no executable or cause attribution.",
+      "tests_executed": 0,
+      "error": "E0425: legacy marketplace_policy/curated_loading_tests.rs still referenced removed global CURATED_REPO_SYNC_STARTED Boolean; no test binary ran."
+    }
+  ],
+  "compiler_repairs": [
+    {
+      "changed_paths": [
+        "codex-rs/utils/pty/src/bounded_command.rs"
+      ],
+      "scope": "Two extra borrow operators removed from set_nonblocking pipe arguments. No fixture, assertion or cleanup budget change. Exact diff retained.",
+      "before_map_entries": 8896,
+      "after_map_entries": 8896
+    },
+    {
+      "changed_paths": [
+        "codex-rs/core-plugins/src/marketplace_policy/curated_loading_tests.rs"
+      ],
+      "scope": "Replace removed global-Boolean assertion with same actual dispatch closure counter used by manager tests; policy-blocked input must dispatch zero starts. Earlier policy assertions and fixture inputs preserved.",
+      "preimage": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-compile-repair-preimages/codex-rs/core-plugins/src/marketplace_policy/curated_loading_tests.rs",
+        "sha256": "5ea9bfb02e7fce18b0d41c3b200ca38fe3284912baa5d7ecd58202c4bccd22ca",
+        "bytes": 4367
+      },
+      "tested": {
+        "sha256": "e584ab4bbbbde982b94772c7c208284b8fb331b6157769976d34c9bb95968ec1",
+        "bytes": 4394,
+        "computed_git_blob": "cb6e477a51c061cc096c69f6efcaf14400e5dcb3"
+      }
+    }
+  ],
+  "final_diff_counts": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "added": 60,
+      "removed": 39
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "added": 34,
+      "removed": 4
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership.rs",
+      "added": 362,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/ownership_tests.rs",
+      "added": 402,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "added": 184,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "added": 288,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "added": 194,
+      "removed": 119
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command.rs",
+      "added": 380,
+      "removed": 66
+    },
+    {
+      "path": "codex-rs/utils/pty/src/bounded_command_tests.rs",
+      "added": 128,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/utils/pty/src/lib.rs",
+      "added": 8,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core-plugins/src/marketplace_policy/curated_loading_tests.rs",
+      "added": 6,
+      "removed": 3
+    }
+  ],
+  "final_diff_lines": 2277,
+  "final_production_changed_lines": 1412,
+  "final_test_changed_lines": 865,
+  "final_diff_count_method": "Independently verified both per-file git diff --no-index preimages/final bytes and git diff-tree --numstat between exact candidate tree 97395e9b and source tree 772352f1.",
+  "finalized_utc": "2026-10-01T22:37:02.505528+00:00",
+  "source_binding": {
+    "source_commit": "739eb89c537a29f715e79ebf6e6405181fec9744",
+    "source_tree": "772352f15ac5cca9ae63dc43b6d1622722ab132f",
+    "parent": "324669d0078af814541bad50ba429402fe48be7e",
+    "branch": "work/p03-curated-sync-lifecycle",
+    "branch_advanced_observed": false,
+    "created_source_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-created-source-commit.json",
+      "sha256": "e573a698e765290e1d6c7333b9f184b474698371dd6bbb3032fc224ddc066120",
+      "bytes": 3945
+    },
+    "source_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-source-manifest.json",
+      "sha256": "acc19e5bd9ebcb95fb2619a8a2495caaaf940c1d2a62d1d4420d3e77182e99d9",
+      "bytes": 3632
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-retained-owner-source.tar.gz",
+      "sha256": "a56c0bdbfc084cb49b0d7ea8cc1bc04803fd051743645ac651f439e904ba2225",
+      "bytes": 80792
+    },
+    "archive_members_independently_verified": 11,
+    "archive_scope": "Eleven changed source files, not a full worktree backup; cloud-local archive.",
+    "remote_readback_basis": "Root reports created commit/tree. Evidence worker independently verified exact archive members, manifest file blobs and tree diff; no separate network readback. Branch update is not yet observed.",
+    "main_unchanged": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "full_host_acceptance_passed": false
+  },
+  "full_tree_comparison": {
+    "base_blobs_checked_by_root": 9873,
+    "only_reviewed_source_paths_changed": true,
+    "evidence_worker_scope": "Independently compared exact two tree objects for eleven changed paths, final blobs and source archive; did not repeat full workspace scan."
+  }
+}
