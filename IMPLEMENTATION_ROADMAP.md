@@ -55,6 +55,10 @@ report retained no-upstream-advance, unavailable composition and historical owne
 blockers. This is additive review support, not a native extraction, update application,
 later-revision integration or rollback result. The complete P18U release gates below
 remain required; see [evidence](verification/2026-10-02/p18u-installed-impact/README.md).
+Published/read-back checkpoint: `914cc59374c1149463e78bc33851d83e3f14d0a4` on the
+existing WIP branch. Fresh migration and two Chromium GUI cycles also passed; the
+next native auth-install slice remains source-only pending the documented
+[capacity gate](verification/2026-10-02/p18u-installed-impact/NEXT_NATIVE_CAPACITY.md).
 
 ## 1. Endpoint and scope
 

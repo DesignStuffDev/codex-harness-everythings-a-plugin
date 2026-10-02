@@ -16,16 +16,17 @@ Full earlier receipts/actions are preserved in
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Last verified publication: `ad2fc04768ff7abc8bbd623de462dee6d9b69c07`, tree
-  `eadf6d886f35b8b2af9b27086de3d139c9512c24`, on
+- Last verified publication: `914cc59374c1149463e78bc33851d83e3f14d0a4`, tree
+  `0f692771abe238cac759b2a034b5f8c820165236`, on
   `wip/p03-process-final-and-mcp-preservation-20261002`.
-  All24 selected files/608,325B and both refs read back. This checkpoint publishes
-  exact source42 production/all12 runtime evidence, screenshots, preservation receipts,
-  causal-test drafts and the updated roadmap/ledger. Prior15bd9d1 records scoped lint,
-  34c0281 records409 package cases,047e91e preserves actual source42.
+  All31 selected files/727,161B and both refs were read back. This publishes the
+  additive maintenance package,50 focused cases,23 acceptance commands (19 manager),
+  fresh migration/GUI evidence/screenshots, source mapping and unadopted auth archive.
+  Previous ad2fc047 publishes source42 production/all12 runtime evidence. Source42
+  itself is047e91e;15bd9d1 records scoped lint and34c0281 the409 package cases.
   Main remains `781080f7e3c8bfe1953378001d777dff33d74bc3`; no promotion implied.
-- Publication receipt R/p03-auth-refresh-runtime-publication-01/PUBLICATION.json,
-  SHA256 `e268c61b6d8effffe46d8806f297e9fade57f781afd7ae62d0561e15b00bcbee`.
+- Publication receipt R/p18u-installed-impact-publication-01/PUBLICATION.json,
+  SHA256 `1676e842e956b3d32dc5c5b9ae971937a6f74c7109bd6f16c111dbb2c001e31f`.
 - R = `/workspace/recovery-backups/20260930T165936Z`;
   A = `/workspace/acceptance`. Full two-worktree/Git/SDK/evidence archive:
   R/codex-recovered-workspace.tar.zst, SHA256
@@ -122,7 +123,7 @@ No runtime source or tests changed after acceptance; original receipts retain930
 [Evidence](verification/2026-10-02/p18u-installed-impact/README.md),
 [GUI supplement](verification/2026-10-02/p18u-installed-impact/GUI_README.md),
 [source mapping](upstream/p18u-installed-impact-lineage.json).
-Publication pending on the existing WIP branch; main promotion remains blocked.
+Published and read back at914cc593 on the existing WIP branch; main promotion remains blocked.
 
 The maintenance adapter’s active Git cancellation remains fixture-only. Real later-upstream integration,
 coordinated versions/migrations, candidate activation and failed-update/state
@@ -148,11 +149,12 @@ and remote-viewer processes. Never replay actions after selector reuse.
 
 ## Ordered next actions
 
-1. Publish the accepted additive maintenance reviewer and separate current-source GUI
-   supplement on the existing WIP branch; preserve the unadopted auth-install cohort
-   source archive with explicit untested status. Then review resource admission for
-   the coherent8-path external-token-install ownership slice (432 preformat changed
-   lines), without adopting an untestable Rust candidate. R/p03-ephemeral-token-install-
+1. Preserve verified914cc593 and resolve native-build capacity before adopting the
+   coherent8-path external-token-install ownership slice (432 preformat changed
+   lines). [Capacity checkpoint](verification/2026-10-02/p18u-installed-impact/NEXT_NATIVE_CAPACITY.md)
+   records the actual missing outputs and exact recoverable duplicate plan. Current
+   established validation cannot fit; the duplicate-only option does not solve it.
+   Do not repeat the build or retire copies under unchanged assumptions. R/p03-ephemeral-token-install-
    cohort-proposal-01 remains unadopted/uncompiled; source-only archive35477172 is
    staged under verification/2026-10-02/unadopted-proposals/ephemeral-token-install-cohort.
    Do not count auth custody support or the additive reviewer as native extraction.

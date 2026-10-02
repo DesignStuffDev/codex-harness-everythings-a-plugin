@@ -1,0 +1,55 @@
+{
+  "utc": "2026-10-02T22:35:14Z",
+  "scope": "read-only capacity audit; no native adoption or duplicate retirement",
+  "overlay_free": 444788736,
+  "tmp_free": 391753728,
+  "hard_unused": 989130752,
+  "memory_events": "low 0\nhigh 0\nmax 22801516\noom 10\noom_kill 5\noom_group_kill 0\n",
+  "established_focused_output_comparators": {
+    "core_tui_pairs_allocated": 442593280,
+    "login_lib_elf": 154402816,
+    "cli_lib_elf": 195485696,
+    "total_before_growth_link_overlap_scratch": 792481792,
+    "full_login_extra": 138260480,
+    "provider_extra": 109973504,
+    "production_cli_coexisting_new_elf": 635999960
+  },
+  "prior_admission_floors": {
+    "tmp_focused": 536870912,
+    "hard_unused_focused": 2147483648
+  },
+  "duplicate_only_plan": {
+    "root": "/workspace/recovery-backups/20260930T165936Z/p18u-stopped-test-storage-duplicate-plan-01",
+    "exact_copies": 10,
+    "potential_tmpfs_release": 712048640,
+    "overlay_gain": 0,
+    "planned_archive_cap": 83886080,
+    "executed": false,
+    "receipts": {
+      "PLAN.json": {
+        "sha256": "8e60bd8b26c324f3a32c148777d554fbee9acf7a3c0c63c4dde470a221caa92c",
+        "bytes": 3463
+      },
+      "INDEX.json": {
+        "sha256": "31c6e13b54576bc28908c746b623321d3933ab6cd43b7996cdae283641ffe22b",
+        "bytes": 17807
+      },
+      "MANIFEST.json": {
+        "sha256": "a71f753ccd807ef73d6be94e8fdc152994b2f30f874bf2eec4d9538481211074",
+        "bytes": 845
+      },
+      "README.md": {
+        "sha256": "ce8d55ac65a8c49769ac95b815c70583c64b95051f8093a912f4f525f7cd60b5",
+        "bytes": 1445
+      }
+    }
+  },
+  "limits": [
+    "Comparators are previous allocated artifacts, not a certified upper build bound.",
+    "Tmpfs and SHM charge the same16GiB memory cgroup.",
+    "Clean-page advice cannot create overlay capacity.",
+    "A narrower package selection changes proven feature closure and does not close production/runtime gates.",
+    "Archive/index and restoration proof are prerequisites for any later exact retirement; no copies retired now.",
+    "Do not reset/recreate environment or delete source/recovery archives to satisfy this gate."
+  ]
+}
