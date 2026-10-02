@@ -1019,3 +1019,38 @@ No production caller/callback scope was included in source27d, and source922's p
 successes are not proof of that missing integration. This prerequisite adds no independently
 installed component. C2b extraction, publication recovery, native auth/catalog extraction, all
 remaining P04–P19 subsystems and P18U real upstream update/rollback acceptance remain required.
+
+
+### Curated callback ownership and actual routing (source0c1) — 2026-10-02
+
+Ordered commits `8d3beeff520177c3dee7562d168253ed7bdeafda` (scope/export/tests,3 paths) and
+`0c1ed130daf3dc36768e35109c576336d9f66005` (actual routing/lifetime guards,13 paths) extend
+publication6856/source27d. [Evidence](verification/2026-10-02/P03_CURATED_CALLBACK_SCOPE_EVIDENCE.md)
+and [lineage](upstream/p03-curated-callback-scope-lineage.json) bind adoption, failed/green tests,
+post-test lexical lint correction, final formatting and both source commit trees. Only their
+combined integration ran: **953/953** library tests passed (429 App Server+524 core-plugins),
+zero skips/retries and unchanged strict0/null. Initial link failure101 ran no tests and coincided
+with disk exhaustion; it remains separately preserved. First lint warned, a reviewed two-brace
+test scope correction followed, second lint was clean, and13 final formatting changes were
+reviewed as nonsemantic. Tests were not rerun solely for lint/style.
+
+Real curated startup/account callbacks now reserve per-processor custody before spawning and
+retain exact handles/failures through cancellation. Local lifetime guards await admitted bodies
+before later thread cleanup and remain reachable after processor failure. Generic callbacks and
+immediate account refresh retain their previous paths. This advances the native prerequisite
+and actual caller routing; it adds no independently installable component or whole-host result.
+
+**Next gate:** exact ownership and joining of MCP refresh/prewarm descendants; callback return or
+invalidation acknowledgement alone is insufficient. Complete registry admission fencing against
+late scopes and native completion delivery to replacement/sibling generations, then actual binary
+process-final authority for success/error/early returns with one absolute deadline and explicit
+force/uncertainty policy. Test held production Git/HTTPS, registration/completion races, cancelled
+observers, slow cleanup and same-process replacement, followed by a source-bound rebuilt CLI and
+unchanged installed storage/migration/GUI Launch streaming/approval/cancel/recovery/shutdown gates.
+Source922's passing full-host result stays separate; its CLI is now archive-restorable, with mutable
+aliases intentionally dangling. No current callback full-host or in-app Browser proof exists.
+
+Keep C2b extraction, repository/SHA recovery journal, host-death fencing, native auth/catalog,
+remaining P04–P19 extraction and P18U real upstream integration/rollback on the ordered queue.
+Main stays source655 until the combined host contract gates pass. Viewer connectivity is optional;
+P00M provenance and verified source/evidence checkpoints continue without it.

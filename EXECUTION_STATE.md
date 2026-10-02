@@ -16,25 +16,31 @@ Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`; exact-tree im
 Last verified main: `781080f7e3c8bfe1953378001d777dff33d74bc3`, tree
 `22cf918cf77f16d5d947a59b968e342cde7f71d0`. Main source remains native installer
 `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`; later main changes are documentation.
-The preceding verified candidate publication is `2ac44529d0dfa261c6d2a09005a34b3ee22754ed`,
-tree `a25f9c7a740124967f2c7dbf93627d2baf6d370a`; receipt
-`p03-source922-runtime-publication.json` verifies source922's full-host evidence and both refs.
+The preceding verified candidate publication is `6856eb25b2570ecebe036d07a3a515b708893b9d`,
+tree `7ab60abde432f41b9c602413a6d1534da33910b7`; receipt
+`p03-worker-completion-publication.json` verifies its 11 changed blobs and both refs.
 
 **Active development source**, present in the owning checkout:
-`27d004ccd824b54a86400cee215af7ccd1148c76`, tree
-`2fa75acdf837420041e35d72ec2c157be1d0a37d`, parent `2ac44529`.
-This adds exact native-worker completion observation and a process-final begin API to the
-retained curated worker. First scoped compile/run passed 587 tests; lint and formatting are
-recorded separately below. No production process-final caller or owned callback scope is added.
-Its destination remains `work/p03-curated-sync-lifecycle`, **not main**.
-Before continuing, verify `p03-worker-completion-publication.json` and the remote branch;
-this file cannot contain its own eventual documentation commit SHA. Source-created receipt
-records six remote blob readbacks before branch advancement. Until that publication is verified,
-`2ac44529` remains the last verified branch ref; do not infer branch movement from commit creation.
+`0c1ed130daf3dc36768e35109c576336d9f66005`, tree
+`f2b6c900d8225325affc0252d6f6680f500e0e5a`. It adds actual curated callback routing and local
+lifetime guards (13 paths) on scope/export/tests commit `8d3beeff520177c3dee7562d168253ed7bdeafda`,
+tree `75dbe7618f88f6a36ef9784ab5592c496c28331d` (3 paths), parented on `6856eb25`.
+Only the combined source was scoped-tested: 953 library tests passed; failed-link, lint and
+format transitions are recorded below. No binary-wide final authority, global registry fence,
+MCP descendant-join or replacement-delivery acceptance is claimed. These native prerequisites
+add no independently installed component. Destination remains `work/p03-curated-sync-lifecycle`,
+**not main**. Before continuing, verify `p03-curated-callback-publication.json` and remote branch;
+this document cannot contain its own eventual evidence commit SHA. The source readback receipt
+verifies 16 blobs but did not move the branch; until the publication receipt is verified,
+`6856eb25` is the last verified branch ref.
+
 The latest full CLI/runtime proof remains **source922**, commit
 `92212516ad4d12bcf60546ee5f879b983ed44682`, tree
-`746d93dcdc89de6882dba313d4ad3626d33b0ad0`; do not relabel that binary for source27d.
-C2b bounded extraction is staged separately; the original extractor remains unchanged.
+`746d93dcdc89de6882dba313d4ad3626d33b0ad0`; publication `2ac44529d0dfa261c6d2a09005a34b3ee22754ed`,
+tree `a25f9c7a740124967f2c7dbf93627d2baf6d370a`. Do not relabel that proof for source27d or
+source0c1. Its inactive CLI is now recoverably retired; restore and reverify its archive in an
+isolated location or rebuild the current source. C2b remains staged separately and unadopted;
+the original extractor is unchanged.
 
 Local HEAD/index remain upstream; local main is stale. Use exact reviewed temporary
 indices and connector publication; do not reset/rebase/rewrite the real index.
@@ -176,48 +182,72 @@ This is preparatory native lifecycle work, **not another installed component or 
 No production caller or callback ownership was added. Native TLS teardown, synchronous join
 and panic-payload destruction can exceed an observer deadline; !pending does not imply success,
 clear quarantine, establish descendant fencing or prove durability. Source922's passing full-host
-checks remain separate. Callback scope and real process-final authority/integration are next.
+checks remain separate. The callback checkpoint below adds local scope/routing; process-final authority/integration remains open.
 The preserved completion proposal was adopted with a pretest cancellation-assertion lint fix and
-exact parameter comments; its original bytes remain in recovery. Separately staged callback and
-C2b proposals remain unadopted. The held-startup shutdown runplan retains native default startup,
+exact parameter comments; its original bytes remain in recovery. The callback proposal was subsequently adopted as recorded below; C2b remains unadopted. The held-startup shutdown runplan retains native default startup,
 strict arguments and private-report projection rules.
+
+## Curated callback ownership and routing checkpoint — 2026-10-02
+
+[Source0c1 callback evidence](verification/2026-10-02/P03_CURATED_CALLBACK_SCOPE_EVIDENCE.md)
+and [lineage](upstream/p03-curated-callback-scope-lineage.json) bind the two ordered source commits.
+Per-processor scopes reserve strong custody before spawning; close/admission linearize under one
+mutex. Exact handles and original failures remain owned through pending/cancelled observers.
+Real curated startup/account actions now use this scope. Embedded/external guards close local
+admission and await accepted callback bodies before later teardown; outer guards survive processor
+failure. Generic marketplace/remote callbacks and immediate account refresh are unchanged.
+
+Attempt01 failed during libtest linking (signal 7 / Bus error, exit101), executing zero tests;
+zero free disk was observed. The unchanged-source retry passed **953/953** (429 App Server +
+524 core-plugins), zero skips/retries, strict0/null. All 11 new cases passed. Raw49 reaps include
+12 nonzero statuses without executable/cause attribution. Both 8,906-entry maps equal
+`dbcac4b64bb506cc7058d14ceccfad05477147644b9bc501379c345cd287fbb3`.
+First lint preserved source but warned about a test's lexical guard scope. A reviewed two-brace
+correction ended the existing synchronous block before its await; second scoped lint was clean
+and unchanged, map `795a1cdc60c34becb591139f921a01393e66b178efc1c98bda61d5cf35935a54`.
+Reviewed global formatting changed 13 paths, final map
+`c4c476492f356181b4552fdaaa7bab1b4465837a5dc10dab8068b19c83f2bdd4`.
+No tests repeated solely for lint/style. Only combined library tests ran; the first source commit
+was not independently tested and no fresh full CLI/UI gate ran.
+
+This is native lifecycle prerequisite work, not new component extraction or whole-host repair.
+MCP invalidation/reload awaits do not establish custody/termination of delegated prewarm work.
+Replacement B still cannot receive the native worker's completion captured for A. A process-wide
+registry closing fence and actual binary final authority/callers are still absent. Deadlines do
+not guarantee bounded synchronous teardown or clear uncertainty/quarantine.
 
 ## Ordered implementation queue
 
-1. Verify source27d's final evidence publication/ref against its six-file source manifest and
-   exact test/style maps. Keep source922's latest full-host result separate and main source655
-   unchanged until the combined shutdown contract gates pass. Preserve pending C2b separately.
-2. B1a retained ownership, B1b shared cancellation and C2a HTTP awaits are scoped-tested.
-   Preserve sticky quarantine and original outcomes; direct-child reaping never clears them.
-   External termination/fencing is required for recovery; restarting alone is insufficient.
-3. Source922's fresh runtime gate and source27d's separate completion primitive now pass their
-   recorded scopes. Source922 CLI and prior preformat core proof ELF are archived before reuse.
-   Next review/rebase the staged callback scope onto source27d; register admitted async work
-   before spawn/enqueue and retain exact handles through awaited completion while dependencies
-   live. Add explicit binary-owned process-final authority and actual success/error/shutdown
-   callers as one host-repair acceptance, preserving embedded replacement/sibling scopes.
-   Pending/cancelled observers retain custody; native finalization may outlast observation
-   deadlines, so independent watchdog/uncertainty policy must remain explicit. Never turn
-   !pending or a joined uncertain outcome into success. Complete late-owner visibility review
-   before treating callback close/acknowledgement as drain completion.
-4. Run deliberately held production Git/HTTPS with exec success/error and App Server EOF/SIGTERM,
-   then repeat unchanged installed storage, migration, GUI/session/streaming/approval/cancel/
-   recovery/actual Launch Ctrl+C gates on the actual repaired source. Coordinate the45s stdio
-   watchdog with longer storage/GUI budgets and exercise slow cleanup, forced uncertainty and
-   embedded replacement. Only then consider nonforce main promotion. Preserve the separately
-   frozen C2b archive-extraction proposal (`d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`),
-   still unadopted/untested, and implement its cooperative limits as a separate slice. Complete
-   recoverable repository/SHA journal and host-death fencing; no total ZIP-constructor memory
-   bound or hard native-blocking deadline is implied by cooperative checks. Follow the
+1. Verify source0c1's evidence publication/ref against its 16-file source manifest and all
+   failed/tested/lint/formatted maps. Keep main source655 unchanged and source922 runtime proof
+   separate. Preserve C2b and process-final/replacement proposals separately until reviewed.
+2. Complete exact MCP refresh/prewarm ownership, registry late-owner admission fencing and
+   home/generation-aware replacement completion delivery. Retain exact task/native custody
+   across close, cancellation and observer expiry; test registration-versus-completion and
+   replacement/sibling races. Merely awaiting an invalidation request is insufficient.
+3. Add explicit binary-owned process-final authority on actual success/error/early-return paths,
+   distinct from embedded leases. Use one absolute shared deadline, coordinated watchdog/force
+   policy and explicit uncertain outcomes. Preserve sticky quarantine and original outcomes;
+   !pending, direct-child reap and native join do not independently prove success or durability.
+4. Rebuild the exact repaired CLI; run held production Git/HTTPS with exec success/error and
+   App Server EOF/SIGTERM, then unchanged installed storage/migration/GUI session, streaming,
+   approval, cancellation, recovery and actual Launch Ctrl+C gates. Exercise slow cleanup,
+   forced uncertainty and same-process replacement. Coordinate the45s stdio watchdog with
+   longer storage/GUI budgets. Only then consider nonforce main promotion. Never reinterpret
+   older source99 failures using later zombie observations.
+5. Adopt/test C2b cooperative extraction as a separate slice after rebasing against the frozen
+   source; preserved proposal `d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`
+   remains unadopted/untested. Complete recoverable repository/SHA journal and host-death fencing;
+   restarting alone is insufficient. Cooperative checks do not prove bounded ZIP-constructor
+   memory or hard native-blocking deadlines. Follow the
    [shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRATION_AUDIT.md).
-5. Resume native auth load/refresh/persistence authority, independently installed auth/catalog,
-   then every remaining P04–P19 subsystem and kernel audit. This lifecycle repair is prerequisite
-   work, not a substitute for extracting actual components.
-6. P00M provenance closure continues now. P18U must deliver separately installed maintenance,
-   isolated real later-upstream integration preserving custom packages, semantic/security review,
-   coordinated host/plugin/schema versions and external bootstrap recovery/rollback. Updater
-   remains unimplemented; no periodic polling or live update follows from the roadmap addition.
-   Remote viewer transport is optional and independent of extraction.
+6. Resume native auth load/refresh/persistence authority and independently installed auth/catalog,
+   then all remaining P04–P19 subsystems and kernel audit. These lifecycle repairs do not replace
+   actual extraction. P00M mapping continues; P18U must deliver independently installed maintenance,
+   isolated real later-upstream integration preserving custom packages, semantic/security gates,
+   version/schema coordination and external bootstrap rollback. Updater remains unimplemented;
+   no periodic polling/live update follows from this roadmap. Optional viewer transport stays
+   independent. Continue feasible checkpoints; no perpetual unattended runtime is guaranteed.
 
 ## Preservation and operational limits
 
@@ -252,8 +282,10 @@ Original completion proposal: `p03-curated-worker-completion-proposal-preserved.
 Source922 CLI, all four source wrappers and strict runtime receipts are preserved in
 `p03-source922-cli-preserved.tar.zst`, SHA256
 `32a3ec3233a54369e8bfe95f313d4cc3dec8a87be09f447836b2a21d061f7ef5` (138,845,342 bytes).
-Its receipt binds the exact CLI and two hardlinks/eight historical aliases; no CLI retirement
-was performed. The old HTTP-await core proof ELF was archived before completion tests reused
+Its receipt binds the exact CLI and two hardlinks/eight historical aliases. After all 17 archive
+members and fresh process/reference guards were checked, both inactive hardlinks were retired to
+recover626,188,288 allocated bytes; retirement receipt `p03-source922-cli-recoverable-retirement.json`
+SHA256 `ca99e3555a1080cbfd320ae5fa18e42b4e090227196a7bf72b53aecc34aae41f`. The old HTTP-await core proof ELF was archived before completion tests reused
 its mutable target: `p03-http-await-core-proof-preserved.tar.zst`, SHA256
 `8650fb77202d9028d4df79d5529775a8d50bbd7ca217727d5dddf73b946396f4` (45,943,911 bytes).
 It preserves the 509-case core executable from the 580-test cohort and separately binds tested
@@ -266,9 +298,10 @@ and reference verification to recover625,934,336 allocated bytes. Archive
 `68102a992d8d7ebe3105933d5377c9ec215ed5d51c8f814891555f81fb098222`;
 retirement receipt `p03-source-owner-cli-recoverable-retirement.json` SHA256
 `4e08e878403129680208a6fac8c0e52c194f8bfad2353d247c03b1c0a3e9f0ba`.
-Eight historical mutable-target symlink paths remain unchanged. The later source922 build
-repopulated their shared target; alias names do not establish old source99 identity. Verify the
-current binary hash or restore an isolated archived target before reusing historical commands.
+Eight historical mutable-target symlink paths remain unchanged. Source922 previously repopulated
+their shared target; after its recoverable retirement they intentionally dangle. Alias names never
+establish source identity. Restore an isolated archived target or rebuild and hash/source-bind
+a new binary before reusing historical commands.
 Original GUI PID371365 still uses the
 separate frozen `/workspace/verified-component-checkpoint-v2-20260930/codex`; leave it intact.
 Three inactive installer proof ELFs are verified in `p03-install-order-green-test-executables.tar.zst`
@@ -278,10 +311,22 @@ SHA256 `f289ec637ffccf8d400b335daa6c811b282162689fe58ca36acd47b2b8084fb8`; recei
 This binds preformat400-test source separately from formatted source655. Their3build aliases
 were retired after verification; Cargo metadata/source and current transport tests remain.
 
+Callback source0c1: `p03-curated-callback-source.tar.gz`, SHA256
+`2e29ff6603bd1711a920315d92a4b6cf842562f17b5ad7a04962723d58abf4f8` (140,474 bytes,17 members).
+Frozen original callback proposal: `p03-curated-callback-scope-proposal-preserved.tar.gz`, SHA256
+`66af7d8f0cebcca306d28fccb97571a1fd6a7e3b61096a7b6fd77cfa93be3f5a` (63 members).
+The prior587 core proof is separately preserved in `p03-worker-completion-core-proof-preserved.tar.zst`,
+SHA256 `053932884dae358433597d7776c0066fd2e1c97e99df0f087f1bfb4bc0469232` (46,063,416 bytes,35 members).
+It binds the516-core subset of the587 cohort; current archival hash is not a test-time ELF hash.
+Current953 core71/AppServer bafa proof executables still need guarded preservation before their
+mutable targets are reused. Do not delete them or the old failed2cf proof without explicit
+archive/ref verification. Keep failed01 and green02 maps/logs/strict receipts separate.
+
 No Rust/runtime command is active at this checkpoint. Additional exact unused Cargo artifacts
 were retired under guarded manifests to build source922 and the completion tests; retain receipts
 `p03-source922-build-cache-retirement.json`, `p03-source922-postbuild-cache-retirement.json` and
-`p03-worker-completion-build-cache-retirement.json`. Source, depfiles/fingerprints, static V8,
+`p03-worker-completion-build-cache-retirement.json`, `p03-callback-cache-retirement.json` and
+`p03-callback-failed-link-temp-retirement.json`. Source, depfiles/fingerprints, static V8,
 proof archives and the frozen GUI were preserved. No broad cargo clean is authorized.
 Before commands verify current disk/cgroup headroom, not a historical estimate. `/tmp` is nearly full. Source
 `/workspace/toolchains/component-verification-env.sh`; set `CARGO_BUILD_JOBS=1` and
