@@ -489,16 +489,23 @@ class BridgeShutdownTests(unittest.TestCase):
     def test_forced_escalation_is_bounded_and_never_reports_durable_success(self):
         for last in (-9, subprocess.TimeoutExpired("fixture", 0)):
             with self.subTest(last=type(last).__name__):
-                bridge = self.bridge([
-                    subprocess.TimeoutExpired("fixture", 207),
-                    subprocess.TimeoutExpired("fixture", 2),
-                    last,
-                ])
+                bridge = self.bridge(
+                    [
+                        subprocess.TimeoutExpired("fixture", 207),
+                        subprocess.TimeoutExpired("fixture", 2),
+                        last,
+                    ]
+                )
                 # Graceful wait consumes207, TERM consumes the remaining2;
                 # KILL receipt and reader join cannot receive a fresh budget.
-                with patch("desktop_ui.gateway.time.monotonic", side_effect=[100, 100, 307, 309, 309]):
+                with patch(
+                    "desktop_ui.gateway.time.monotonic",
+                    side_effect=[100, 100, 307, 309, 309],
+                ):
                     for _ in range(2):
-                        with self.assertRaisesRegex(RuntimeError, "write outcome unknown"):
+                        with self.assertRaisesRegex(
+                            RuntimeError, "write outcome unknown"
+                        ):
                             bridge.close()
                 self.assertEqual(
                     [call.kwargs for call in bridge.child.wait.call_args_list],
@@ -523,9 +530,15 @@ class BridgeShutdownTests(unittest.TestCase):
         for status in (7, 124, 125, 126):
             with self.subTest(status=status):
                 bridge = self.bridge([status])
-                reason = {124: "watchdog deadline expired", 125: "watchdog unavailable", 126: "forced process shutdown requested"}.get(status)
+                reason = {
+                    124: "watchdog deadline expired",
+                    125: "watchdog unavailable",
+                    126: "forced process shutdown requested",
+                }.get(status)
                 for _ in range(2):
-                    with self.assertRaisesRegex(RuntimeError, "write outcome unknown") as caught:
+                    with self.assertRaisesRegex(
+                        RuntimeError, "write outcome unknown"
+                    ) as caught:
                         bridge.close()
                     if reason:
                         self.assertIn(reason, str(caught.exception))

@@ -255,7 +255,10 @@ where
             std::panic::resume_unwind(payload)
         }
     };
-    match (result, codex_utils_process::process_shutdown::finish_after_runtime()) {
+    match (
+        result,
+        codex_utils_process::process_shutdown::finish_after_runtime(),
+    ) {
         (Ok(()), cleanup) => cleanup.map_err(Into::into),
         (Err(error), Ok(())) => Err(error),
         (Err(error), Err(cleanup)) => Err(error.context(cleanup)),

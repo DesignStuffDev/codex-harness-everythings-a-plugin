@@ -2,14 +2,21 @@
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
 Current runtime checkpoint: original VM recovered; current58 build, installed storage/migration,
-ordinary/search GUI and slow normal/forced Launch shutdown passed. Held Git/HTTP and same-process
-replacement remain in P03; this is not another extracted subsystem. See the
+ordinary/search GUI and slow normal/forced Launch shutdown passed. The newer stage passed 431
+App Server library tests and three same-home curated callback replacement cases, with separate
+formatting provenance. Held Git/HTTP, MCP custody and newer production/GUI gates remain in P03.
+This is not another extracted subsystem. See the [replacement evidence](verification/2026-10-02/P03_REPLACEMENT_EVIDENCE.md) and
 [exact evidence and limits](verification/2026-10-02/P03_RECOVERED_HOST_EVIDENCE.md).
 
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical
 [COMPONENTS.md](COMPONENTS.md), [VALIDATION.md](VALIDATION.md), and the domain plans
 remain supporting evidence/designs; they do not supersede this ordered plan.
+
+P18U now has a bounded [offline impact-report precursor](upstream/UPSTREAM_IMPACT_README.md):
+17 planner fixtures and 22 existing lineage checks passed; real local-object planning correctly
+remains unresolved. It is not an installed updater, revision integration or rollback result.
+The complete P18U release gates below remain required.
 
 ## 1. Endpoint and scope
 

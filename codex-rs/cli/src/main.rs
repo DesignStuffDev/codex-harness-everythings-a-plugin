@@ -1297,7 +1297,9 @@ async fn cli_main(
                         // Do not print a receipt here: stderr can block. Native worker,
                         // callback, and storage cleanup remain explicitly unconfirmed.
                         // Runtime teardown can wait forever for blocked rollout I/O.
-                        std::process::exit(codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE);
+                        std::process::exit(
+                            codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE,
+                        );
                     }
                 }
                 Some(AppServerSubcommand::Daemon(daemon_cli)) => match daemon_cli.subcommand {

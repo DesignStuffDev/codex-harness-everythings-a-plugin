@@ -79,70 +79,78 @@ struct AppServerArgs {
 fn main() -> anyhow::Result<()> {
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
-        let process_final = codex_utils_process::process_shutdown::ProcessFinalCapability::for_executable();
+        let process_final =
+            codex_utils_process::process_shutdown::ProcessFinalCapability::for_executable();
         let result: anyhow::Result<()> = async {
-        let AppServerArgs {
-            config_overrides,
-            code_mode_host,
-            listen,
-            session_source,
-            auth,
-            strict_config,
-            #[cfg(debug_assertions)]
-            disable_plugin_startup_tasks_for_tests,
-            remote_control,
-            managed_daemon,
-        } = AppServerArgs::parse();
-        let loader_overrides = if disable_managed_config_from_debug_env() {
-            LoaderOverrides::without_managed_config_for_tests()
-        } else {
-            managed_config_path_from_debug_env()
-                .map(LoaderOverrides::with_managed_config_path_for_tests)
-                .unwrap_or_default()
-        };
-        let transport = listen;
-        let auth = auth.try_into_settings()?;
-        let mut runtime_options = AppServerRuntimeOptions {
-            code_mode_host_transport: code_mode_host.into(),
-            managed_daemon,
-            process_final: Some(process_final.clone()),
-            ..Default::default()
-        };
-        #[cfg(debug_assertions)]
-        if disable_plugin_startup_tasks_for_tests {
-            runtime_options.plugin_startup_tasks = PluginStartupTasks::Skip;
-        }
-        runtime_options.remote_control_startup_mode =
-            match (remote_control, remote_control_disabled) {
-                (true, _) => codex_app_server::RemoteControlStartupMode::EnabledEphemeral,
-                (false, true) => codex_app_server::RemoteControlStartupMode::DisabledEphemeral,
-                (false, false) => codex_app_server::RemoteControlStartupMode::ResolvePersisted,
+            let AppServerArgs {
+                config_overrides,
+                code_mode_host,
+                listen,
+                session_source,
+                auth,
+                strict_config,
+                #[cfg(debug_assertions)]
+                disable_plugin_startup_tasks_for_tests,
+                remote_control,
+                managed_daemon,
+            } = AppServerArgs::parse();
+            let loader_overrides = if disable_managed_config_from_debug_env() {
+                LoaderOverrides::without_managed_config_for_tests()
+            } else {
+                managed_config_path_from_debug_env()
+                    .map(LoaderOverrides::with_managed_config_path_for_tests)
+                    .unwrap_or_default()
             };
+            let transport = listen;
+            let auth = auth.try_into_settings()?;
+            let mut runtime_options = AppServerRuntimeOptions {
+                code_mode_host_transport: code_mode_host.into(),
+                managed_daemon,
+                process_final: Some(process_final.clone()),
+                ..Default::default()
+            };
+            #[cfg(debug_assertions)]
+            if disable_plugin_startup_tasks_for_tests {
+                runtime_options.plugin_startup_tasks = PluginStartupTasks::Skip;
+            }
+            runtime_options.remote_control_startup_mode =
+                match (remote_control, remote_control_disabled) {
+                    (true, _) => codex_app_server::RemoteControlStartupMode::EnabledEphemeral,
+                    (false, true) => codex_app_server::RemoteControlStartupMode::DisabledEphemeral,
+                    (false, false) => codex_app_server::RemoteControlStartupMode::ResolvePersisted,
+                };
 
-        let exit = run_main_with_transport_options(
-            arg0_paths,
-            config_overrides,
-            loader_overrides,
-            strict_config,
-            /*default_analytics_enabled*/ false,
-            transport,
-            session_source,
-            auth,
-            runtime_options,
-        )
-        .await?;
-        if exit == codex_app_server::AppServerExit::Forced {
-            // Runtime teardown can wait forever for blocked rollout I/O.
-            let deadline = process_final.begin().graceful();
-            let _shutdown = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline);
-            std::process::exit(codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE);
+            let exit = run_main_with_transport_options(
+                arg0_paths,
+                config_overrides,
+                loader_overrides,
+                strict_config,
+                /*default_analytics_enabled*/ false,
+                transport,
+                session_source,
+                auth,
+                runtime_options,
+            )
+            .await?;
+            if exit == codex_app_server::AppServerExit::Forced {
+                // Runtime teardown can wait forever for blocked rollout I/O.
+                let deadline = process_final.begin().graceful();
+                let _shutdown =
+                    codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline);
+                std::process::exit(
+                    codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE,
+                );
+            }
+            Ok(())
         }
-        Ok(())
-        }.await;
+        .await;
         let deadline = process_final.begin().graceful();
         let observed = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline)
-            .wait_until(deadline).await;
-        if observed.is_complete() { result } else {
+            .wait_until(deadline)
+            .await;
+        if observed.is_complete() {
+            result
+        } else {
             match result {
                 Ok(()) => Err(anyhow::anyhow!("curated process cleanup is unconfirmed")),
                 Err(error) => Err(error.context("curated process cleanup is unconfirmed")),

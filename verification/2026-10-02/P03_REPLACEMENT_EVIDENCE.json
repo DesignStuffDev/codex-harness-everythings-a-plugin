@@ -1,0 +1,573 @@
+{
+  "failed_runtime01": {
+    "cases": [
+      {
+        "backend_returncode_counts": {
+          "0": 10
+        },
+        "case": "pending",
+        "child_returncode": -6,
+        "child_stderr": {
+          "bytes": 106,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01-cases/pending/child.stderr",
+          "sha256": "e0d1ff06b815310658a14f73046b812202bdd62d935f5653614c52ca1e48569a"
+        },
+        "child_stdout": {
+          "bytes": 93,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01-cases/pending/child.stdout",
+          "sha256": "dbac6bdfdc6d57f5c5a5181eca9ed4b9ea2b4998943dbe64474a103730a23bb5"
+        },
+        "classification": "Failed pending before B: SIGABRT (-6), Tokio worker stack overflow; preserved failure, not accepted runtime proof.",
+        "events": [
+          "a_started"
+        ],
+        "fixture_error_count": 0,
+        "forced_cleanup_count": 0,
+        "git_request_count": 2,
+        "held_git_executable_sha256": [
+          "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e"
+        ],
+        "held_git_observation_count": 1,
+        "mcp_call_count": 0,
+        "mcp_shutdown_custody": "not established by this acceptance",
+        "model_request_count": 0,
+        "new_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01-cases/pending/new-inventory.json",
+          "sha256": "61be55ac609f7bdcf2d13940968a7b25812c53ff133be2e7955f34702e2808a2"
+        },
+        "old_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01-cases/pending/old-inventory.json",
+          "sha256": "7552353b4888abc3fc65eeb0a0d49876e54af581fc592abb91b4f1a3b555d4f4"
+        },
+        "passed": false,
+        "raw_result": {
+          "bytes": 903,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01-cases/pending/result.json",
+          "sha256": "78479e9d4944b31ce0558fdec43ec298e2129e26cf16573b5c2822e2d2ea9d00"
+        },
+        "stack_overflow_diagnostic_present": true,
+        "whole_host_clean": false
+      }
+    ],
+    "remaining_cases": "not executed after pending failure",
+    "source": {
+      "candidate_manifest_sha256": "f1de7507547c6749d908bb9ab7f3b7c341c65fcef1ea30dcd5e0b003abe4ba87",
+      "finished_utc": "2026-10-02T09:55:17Z",
+      "identity_rule": "Actual scoped byte map; stale local-main reference is not the tested source identity.",
+      "log": {
+        "bytes": 823,
+        "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01.log",
+        "sha256": "84addabfb867cab72f2a55013fed7c643c638621bcfb72f9501b8612b51df9fb"
+      },
+      "receipt": {
+        "bytes": 2483546,
+        "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01.source.json",
+        "sha256": "406055ca5fcd2d90971aa94f81892beb775d1de1e549139382b742924b327605"
+      },
+      "returncode": 1,
+      "scoped_source_count": 8928,
+      "scoped_source_map_sha256": "5c05f63775805c7133b33b800f5034696ecb0d7e1d7e2ca2d9dd2334223f22ff",
+      "source_unchanged": true,
+      "started_utc": "2026-10-02T09:55:15Z"
+    },
+    "strict": {
+      "adopted_count": 4,
+      "adopted_returncode_counts": {
+        "-13": 1,
+        "0": 2,
+        "1": 1
+      },
+      "command_returncode": 1,
+      "elapsed_seconds": 0.7704248650115915,
+      "exit_status": 1,
+      "receipt": {
+        "bytes": 1121,
+        "path": "/workspace/acceptance/p03-replacement-stage3-runtime-01.strict.json",
+        "sha256": "1c92c0eba463eb4a7aa942d6e7dcf6ceabae263121c1400399122f1f99f981fb"
+      },
+      "runner_error": null,
+      "subreaper": true
+    }
+  },
+  "limits": [
+    "This acceptance is a lifecycle prerequisite, not separately installed component replacement or live component hot swapping.",
+    "MCP shutdown transport custody is not established; whole_host_clean remains false.",
+    "Model and MCP services are deterministic fixtures, not live model-provider or external MCP-service validation.",
+    "Production CLI/manager rebuild, new-source eight-case held Git/HTTP matrix and GUI regressions remain pending for the new native stage.",
+    "Scoped lint passed after separately recorded test-only corrections. No full workspace suite was run.",
+    "Current58 storage, migration, slow-storage and GUI passes retain their older source identities; they are not transferred to the new native stage.",
+    "Formatter results are a separately reviewed transition; no post-format native build or runtime rerun is claimed."
+  ],
+  "passed_runtime02": {
+    "all_cases_passed": true,
+    "cases": [
+      {
+        "backend_returncode_counts": {
+          "0": 12
+        },
+        "case": "pending",
+        "child": {
+          "a_final": {
+            "completed": 0,
+            "failed": 0,
+            "pending": 0,
+            "suppressed": 0
+          },
+          "a_old_typed_metadata_skill_mcp": true,
+          "b_before_final_wait": {
+            "admission_closed": false,
+            "awaiting_handle": 0,
+            "completed": 0,
+            "failed": 0,
+            "finished_unjoined": 1,
+            "joining": 0,
+            "running": 0,
+            "suppressed": 0,
+            "unexpected": 0
+          },
+          "b_final": {
+            "completed": 1,
+            "failed": 0,
+            "pending": 0,
+            "suppressed": 0
+          },
+          "b_interrupt_hook_version": "version2",
+          "b_new_typed_metadata_skill_mcp": true,
+          "case": "pending",
+          "cleanup_ok": true,
+          "curated_process_final": {
+            "clean": true,
+            "generation": 1,
+            "native_joined": true,
+            "quarantined": false,
+            "remaining_registered_callbacks": {
+              "completed": 0,
+              "failed": 0,
+              "pending": 0,
+              "suppressed": 0
+            },
+            "sync_succeeded": true,
+            "unexpected_handles": 0
+          },
+          "existing_b_before_state": true,
+          "generation": 1,
+          "hook_invocations": 1,
+          "operation_ok": true,
+          "passed": true,
+          "passive_observation_did_not_initialize": true,
+          "receipt_version": 1
+        },
+        "child_returncode": 0,
+        "child_stderr": {
+          "bytes": 0,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/pending/child.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "child_stdout": {
+          "bytes": 194,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/pending/child.stdout",
+          "sha256": "dfed5ca89a5f654bc8ddd13e48f31511ec1e5a4136a010aec9cdf4a8cd93def0"
+        },
+        "events": [
+          "a_started",
+          "a_closed",
+          "b_ready",
+          "behavior_verified",
+          "complete"
+        ],
+        "fixture_error_count": 0,
+        "forced_cleanup_count": 0,
+        "git_request_count": 4,
+        "held_git_executable_sha256": [
+          "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e"
+        ],
+        "held_git_observation_count": 1,
+        "mcp_call_count": 3,
+        "mcp_shutdown_custody": "not established by this acceptance",
+        "model_request_count": 1,
+        "native_child_receipt": {
+          "bytes": 1207,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/pending/home/curated-replacement-child.json",
+          "sha256": "41554ec1defdd4145a234357dd467294e647105488ba9858e85c16ebf21130f5"
+        },
+        "new_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/pending/new-inventory.json",
+          "sha256": "14e23c4631463eb8658be2f694aa3fc7d8f4ff8b0633812551811ff82d3d69ce"
+        },
+        "old_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/pending/old-inventory.json",
+          "sha256": "512afa7b186b8599ed9e0971d1133d257102e62e4e2a665ae13ccb50ac9d1526"
+        },
+        "passed": true,
+        "raw_result": {
+          "bytes": 2942,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/pending/result.json",
+          "sha256": "48a03f13a0cd07c8d105078565c5f548e03c0621f61d2e7fabe2d050b4370b4f"
+        },
+        "whole_host_clean": false
+      },
+      {
+        "backend_returncode_counts": {
+          "0": 12
+        },
+        "case": "replay",
+        "child": {
+          "a_final": {
+            "completed": 0,
+            "failed": 0,
+            "pending": 0,
+            "suppressed": 0
+          },
+          "a_old_typed_metadata_skill_mcp": true,
+          "b_before_final_wait": {
+            "admission_closed": false,
+            "awaiting_handle": 0,
+            "completed": 0,
+            "failed": 0,
+            "finished_unjoined": 1,
+            "joining": 0,
+            "running": 0,
+            "suppressed": 0,
+            "unexpected": 0
+          },
+          "b_final": {
+            "completed": 1,
+            "failed": 0,
+            "pending": 0,
+            "suppressed": 0
+          },
+          "b_interrupt_hook_version": "version2",
+          "b_new_typed_metadata_skill_mcp": true,
+          "case": "replay",
+          "cleanup_ok": true,
+          "curated_process_final": {
+            "clean": true,
+            "generation": 1,
+            "native_joined": true,
+            "quarantined": false,
+            "remaining_registered_callbacks": {
+              "completed": 0,
+              "failed": 0,
+              "pending": 0,
+              "suppressed": 0
+            },
+            "sync_succeeded": true,
+            "unexpected_handles": 0
+          },
+          "existing_b_before_state": false,
+          "generation": 1,
+          "hook_invocations": 1,
+          "operation_ok": true,
+          "passed": true,
+          "passive_observation_did_not_initialize": true,
+          "receipt_version": 1
+        },
+        "child_returncode": 0,
+        "child_stderr": {
+          "bytes": 0,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/replay/child.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "child_stdout": {
+          "bytes": 194,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/replay/child.stdout",
+          "sha256": "2c203bef7db73a857a59129895f2889eef4b06b04371536ea21234927dd41167"
+        },
+        "events": [
+          "a_started",
+          "a_closed",
+          "b_ready",
+          "behavior_verified",
+          "complete"
+        ],
+        "fixture_error_count": 0,
+        "forced_cleanup_count": 0,
+        "git_request_count": 4,
+        "held_git_executable_sha256": [
+          "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e"
+        ],
+        "held_git_observation_count": 1,
+        "mcp_call_count": 2,
+        "mcp_shutdown_custody": "not established by this acceptance",
+        "model_request_count": 1,
+        "native_child_receipt": {
+          "bytes": 1207,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/replay/home/curated-replacement-child.json",
+          "sha256": "8c1bf01832aa104c83e26f9294f2b460fc7bb866ec63f135b904226f407c8251"
+        },
+        "new_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/replay/new-inventory.json",
+          "sha256": "a5026bed2943ed9e92c5d7773f3191b0d57e6f421fc0e81b73ffa587cf8c3b88"
+        },
+        "old_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/replay/old-inventory.json",
+          "sha256": "20c51b2b49f213f53c04492ae42abe092f75af5bc43a7089be962ec3c2c8da32"
+        },
+        "passed": true,
+        "raw_result": {
+          "bytes": 2925,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/replay/result.json",
+          "sha256": "679d5a3c20608a5c7a8b8122df5ebe89fcba1d492292c0e5a79f26b031306c49"
+        },
+        "whole_host_clean": false
+      },
+      {
+        "backend_returncode_counts": {
+          "0": 12
+        },
+        "case": "race",
+        "child": {
+          "a_final": {
+            "completed": 0,
+            "failed": 0,
+            "pending": 0,
+            "suppressed": 0
+          },
+          "a_old_typed_metadata_skill_mcp": true,
+          "b_before_final_wait": {
+            "admission_closed": false,
+            "awaiting_handle": 0,
+            "completed": 0,
+            "failed": 0,
+            "finished_unjoined": 1,
+            "joining": 0,
+            "running": 0,
+            "suppressed": 0,
+            "unexpected": 0
+          },
+          "b_final": {
+            "completed": 1,
+            "failed": 0,
+            "pending": 0,
+            "suppressed": 0
+          },
+          "b_interrupt_hook_version": "version2",
+          "b_new_typed_metadata_skill_mcp": true,
+          "case": "race",
+          "cleanup_ok": true,
+          "curated_process_final": {
+            "clean": true,
+            "generation": 1,
+            "native_joined": true,
+            "quarantined": false,
+            "remaining_registered_callbacks": {
+              "completed": 0,
+              "failed": 0,
+              "pending": 0,
+              "suppressed": 0
+            },
+            "sync_succeeded": true,
+            "unexpected_handles": 0
+          },
+          "existing_b_before_state": false,
+          "generation": 1,
+          "hook_invocations": 1,
+          "operation_ok": true,
+          "passed": true,
+          "passive_observation_did_not_initialize": true,
+          "receipt_version": 1
+        },
+        "child_returncode": 0,
+        "child_stderr": {
+          "bytes": 0,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/race/child.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "child_stdout": {
+          "bytes": 194,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/race/child.stdout",
+          "sha256": "59db8fc0426c2307f1c01977359f20e03ba5a9310faf208676eb62d40d8de9a9"
+        },
+        "events": [
+          "a_started",
+          "a_closed",
+          "race_start",
+          "b_ready",
+          "behavior_verified",
+          "complete"
+        ],
+        "fixture_error_count": 0,
+        "forced_cleanup_count": 0,
+        "git_request_count": 4,
+        "held_git_executable_sha256": [
+          "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e"
+        ],
+        "held_git_observation_count": 1,
+        "mcp_call_count": 2,
+        "mcp_shutdown_custody": "not established by this acceptance",
+        "model_request_count": 1,
+        "native_child_receipt": {
+          "bytes": 1205,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/race/home/curated-replacement-child.json",
+          "sha256": "f0ad78648f1348d81b503360bda86a3642f7c0c8f2a9170a499a45f8abb0b16d"
+        },
+        "new_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/race/new-inventory.json",
+          "sha256": "5d4ef9938386d940b0d49bb6c39e97d832cb8cc4d6874ed3f7e3d205f63cf2cf"
+        },
+        "old_inventory": {
+          "bytes": 816,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/race/old-inventory.json",
+          "sha256": "da76377308452a47e0a8d6f476d0e1cb8f002fd808c90c87e70a90e9814cc5d5"
+        },
+        "passed": true,
+        "raw_result": {
+          "bytes": 2962,
+          "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/race/result.json",
+          "sha256": "52f8012e84fcc5063fa497954162ea3f66b9a8b0c30edaaa69f0c9aad4be05fd"
+        },
+        "whole_host_clean": false
+      }
+    ],
+    "interpretation": "Actual trusted Git and real native App Server in-process lifecycle, with deterministic local smart-HTTP Git, model-stream and MCP service fixtures. Pending exercises an existing B thread/turn before refresh; replay observes completed native work before B; race releases work beside B start without proving every possible lock interleaving.",
+    "parent_timeout_seconds": 120,
+    "source": {
+      "candidate_manifest_sha256": "0b0eecb1cc712862592236899c9229b64e7d718266d2340f556db7717be95fcd",
+      "finished_utc": "2026-10-02T09:56:48Z",
+      "identity_rule": "Actual scoped byte map; stale local-main reference is not the tested source identity.",
+      "log": {
+        "bytes": 0,
+        "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "receipt": {
+        "bytes": 2483566,
+        "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02.source.json",
+        "sha256": "dc4b773923d92d39fd5da27646414acc08de7a9e1fd1e48c3f10f2a75edfcd47"
+      },
+      "returncode": 0,
+      "scoped_source_count": 8928,
+      "scoped_source_map_sha256": "6e7b4081ba8317e5d264a598aa5f9669a422f69fecdd000613311a0d7fa1db35",
+      "source_unchanged": true,
+      "started_utc": "2026-10-02T09:56:42Z"
+    },
+    "strict": {
+      "adopted_count": 10,
+      "adopted_returncode_counts": {
+        "0": 10
+      },
+      "command_returncode": 0,
+      "elapsed_seconds": 5.204782658984186,
+      "exit_status": 0,
+      "receipt": {
+        "bytes": 1593,
+        "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02.strict.json",
+        "sha256": "aaa006da837d0b1131e8c8f181df3c2b5a5f4486a28bf9a8d42f8f6eb866c345"
+      },
+      "runner_error": null,
+      "subreaper": true
+    },
+    "summary": {
+      "bytes": 315,
+      "path": "/workspace/acceptance/p03-replacement-stage3-runtime-02-cases/summary.json",
+      "sha256": "fe1e4c1cbf2f3a411cdf3b8a59b8b8bab698a68b661b2b9865ad3ffcb7ee9080"
+    },
+    "test_elf_sha256": "26777e075411f0a4e7b6761d106aad0c365a2c342bc5ff74a8aa49adf2ca3291",
+    "trusted_git_sha256": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+    "whole_host_clean": false
+  },
+  "preparation_manifest_sha256": "f065a2e36d74a6674ddc2599019757b137457b5a66d98b73c824b5c48e09e2f8",
+  "schema": "p03-curated-replacement-sanitized-evidence-v1",
+  "scope": "Native curated startup worker and callback lifetime acceptance across same-home in-process server A close and server B start. No newly extracted component; not component-plugin hot swapping.",
+  "stack_correction": {
+    "RUST_MIN_STACK": 8388608,
+    "adoption": {
+      "bytes": 876,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-parent-stack-correction-01/ADOPTION.json",
+      "sha256": "87a960ab0bcae446ab4d56f91597ab240c4f94d0403c4ca2bf567252d71245cc"
+    },
+    "assertions_and_deadlines_unchanged": true,
+    "changes_only": [
+      "component-sdk/tests/curated_replacement_acceptance.py",
+      "component-sdk/tests/curated_replacement_acceptance.md"
+    ],
+    "explanation": "Set child environment before launching the fresh test ELF. Tokio default thread builder delegates stack size to Rust; direct parent lacked the recipe environment. Runtime01 remains failed.",
+    "matches_repository_just_test": true,
+    "native_build_source_unchanged": true
+  },
+  "status": "scoped_runtime_gate_passed_with_remaining_platform_gates",
+  "subsequent_lint_evidence": "P03_REPLACEMENT_LINT_EVIDENCE.json",
+  "suite": {
+    "binary_receipt": {
+      "bytes": 1102,
+      "path": "/workspace/acceptance/p03-replacement-stage2-tests-01.binary.json",
+      "sha256": "8d8ac9496e946feb62ec1867f496b2e3050ad27f86e3f6aad381bdfc67d14fd7"
+    },
+    "compiler_receipt": {
+      "bytes": 1612,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage2-compiler-observation-01/COMPILER.json",
+      "sha256": "a6b23a201619f7702bdfc3204381901ed9477822e99b13786dafae14c4abcbd1"
+    },
+    "executed": 431,
+    "failed": 0,
+    "junit": {
+      "bytes": 90828,
+      "path": "/workspace/acceptance/p03-replacement-stage2-tests-01.junit.xml",
+      "sha256": "a7735120b0f9d96daef493cc9fc4f6beb87514fbf79a57910470625f4146a886"
+    },
+    "ordinary_suite_ignored_helper": 1,
+    "passed": 431,
+    "recipe": [
+      "just",
+      "test",
+      "-p",
+      "codex-app-server",
+      "--lib"
+    ],
+    "source": {
+      "candidate_manifest_sha256": "2b435c5b0f74b2eaa65483a8ea9ddab613c46313e5a2304a7481d25019032626",
+      "finished_utc": "2026-10-02T09:54:20Z",
+      "identity_rule": "Actual scoped byte map; stale local-main reference is not the tested source identity.",
+      "log": {
+        "bytes": 77551,
+        "path": "/workspace/acceptance/p03-replacement-stage2-tests-01.log",
+        "sha256": "15c4f7d83ccab35221ac619a64b9f3c010a0871d1be74a0ad53c357fc999f160"
+      },
+      "receipt": {
+        "bytes": 2482018,
+        "path": "/workspace/acceptance/p03-replacement-stage2-tests-01.source.json",
+        "sha256": "deed880a7621103fad6959c75260298233851de2c85b77874bec8260620278b0"
+      },
+      "returncode": 0,
+      "scoped_source_count": 8926,
+      "scoped_source_map_sha256": "1d8ccc03b00f0e2a39573d96220f1695d2c1817d74ef846aa0e0a141a1946d4b",
+      "source_unchanged": true,
+      "started_utc": "2026-10-02T09:47:00Z"
+    },
+    "strict": {
+      "adopted_count": 10,
+      "adopted_returncode_counts": {
+        "-13": 6,
+        "-9": 1,
+        "0": 2,
+        "141": 1
+      },
+      "command_returncode": 0,
+      "elapsed_seconds": 437.00573530598194,
+      "exit_status": 0,
+      "receipt": {
+        "bytes": 1122,
+        "path": "/workspace/acceptance/p03-replacement-stage2-tests-01.strict.json",
+        "sha256": "ba061f601476257518b8c2f71ef43edb0898f2bc95f09fa27aa1fa8900cf9aa4"
+      },
+      "runner_error": null,
+      "subreaper": true
+    },
+    "strict_note": "Strict wrapper exited successfully, but adopted suite subprocesses did not all exit zero; retain their exact returncode distribution. This differs from runtime02 all-zero descendants.",
+    "test_elf": {
+      "bytes": 511849288,
+      "elf_binding": "Compiler output selection observed during build; exact output hashed after successful scoped suite, not a per-test exec-fd hash",
+      "executable": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_app_server-4a5773d640636e8f",
+      "sha256": "26777e075411f0a4e7b6761d106aad0c365a2c342bc5ff74a8aa49adf2ca3291",
+      "source_count": 8926,
+      "source_map_sha256": "1d8ccc03b00f0e2a39573d96220f1695d2c1817d74ef846aa0e0a141a1946d4b"
+    }
+  }
+}

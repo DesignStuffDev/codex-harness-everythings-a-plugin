@@ -10,7 +10,11 @@ fn missing_output_schema_returns_an_error_instead_of_exiting() -> anyhow::Result
     let Err(error) = result else {
         panic!("missing schema must return an error");
     };
-    assert!(error.to_string().contains("Failed to read output schema file"));
+    assert!(
+        error
+            .to_string()
+            .contains("Failed to read output schema file")
+    );
     Ok(())
 }
 

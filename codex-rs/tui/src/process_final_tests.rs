@@ -53,18 +53,29 @@ fn cleanup_failure_preserves_a_fatal_exit_message() {
     let report = anyhow::Error::new(error);
 
     assert_eq!(report.to_string(), "curated cleanup failed");
-    assert!(report.chain().any(|cause| cause.to_string() == "fatal app failure"));
+    assert!(
+        report
+            .chain()
+            .any(|cause| cause.to_string() == "fatal app failure")
+    );
 }
 
 #[test]
 fn cleanup_failure_preserves_an_operation_error_and_its_kind() {
     let error = attach_cleanup_error(
-        Err(io::Error::new(io::ErrorKind::PermissionDenied, "request denied")),
+        Err(io::Error::new(
+            io::ErrorKind::PermissionDenied,
+            "request denied",
+        )),
         "curated cleanup failed".to_string(),
     );
 
     assert_eq!(error.kind(), io::ErrorKind::PermissionDenied);
     let report = anyhow::Error::new(error);
     assert_eq!(report.to_string(), "curated cleanup failed");
-    assert!(report.chain().any(|cause| cause.to_string() == "request denied"));
+    assert!(
+        report
+            .chain()
+            .any(|cause| cause.to_string() == "request denied")
+    );
 }

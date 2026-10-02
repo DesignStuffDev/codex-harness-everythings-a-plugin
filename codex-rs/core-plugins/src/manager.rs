@@ -785,8 +785,8 @@ impl PluginsManager {
     /// one, close admission, cancel work, or dispatch callbacks. A successful
     /// operation has published the generation's success latch; callback bodies,
     /// native joining, descendants and publication durability remain separate.
-    pub fn observe_curated_repo_sync(
-    ) -> Option<crate::startup_sync::CuratedSyncLifecycleObservation> {
+    pub fn observe_curated_repo_sync()
+    -> Option<crate::startup_sync::CuratedSyncLifecycleObservation> {
         CURATED_REPO_SYNC_WORKER.get().map(|gate| gate.observe())
     }
 
@@ -3367,68 +3367,75 @@ impl PluginsManager {
         let manager = Arc::clone(self);
         let codex_home = self.codex_home.clone();
         let gate = CURATED_REPO_SYNC_WORKER.get_or_init(|| Arc::new(WorkerGate::default()));
-        let admission = gate.start_for_home(codex_home.to_path_buf(), on_effective_plugins_changed, move |control| {
-            run_curated_sync(
-                &control,
-                || {
-                    sync_openai_plugins_repo_owned(
-                        codex_home.as_path(),
-                        http_client_factory,
-                        Arc::clone(&control),
-                    )
-                    .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
-                },
-                |curated_plugin_version| {
-                    let configured_curated_plugin_ids =
-                        configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
-                    let refreshed = refresh_curated_plugin_cache(
-                        codex_home.as_path(),
-                        &curated_plugin_version,
-                        &configured_curated_plugin_ids,
-                    );
-                    if control.is_cancelled() {
-                        return Err(SyncFailure::Stopped {
-                            publication_may_have_occurred: true,
-                        });
-                    }
-                    match refreshed {
-                        // Each same-home scope receives successful completion,
-                        // even if its manager loaded before this unchanged cache
-                        // was observed. Its owned action clears its own caches.
-                        Ok(cache_refreshed) => {
-                            // Preserve cache invalidation for callers which
-                            // explicitly request no callback subscription.
-                            if !scoped_callback {
-                                manager.clear_caches_after_marketplace_source_refresh(
-                                    cache_refreshed, /*on_effective_plugins_changed*/ None,
-                                );
-                            }
-                            Ok(())
-                        },
-                        Err(err) => {
-                            // Preserve invalidation after a partial on-disk cache
-                            // refresh failure; no success notification is sent.
-                            manager.clear_cache();
-                            warn!("failed to refresh curated plugin cache after sync: {err}");
-                            Err(SyncFailure::Ordinary(format!(
-                                "failed to refresh curated plugin cache after sync: {err}"
-                            )))
+        let admission = gate.start_for_home(
+            codex_home.to_path_buf(),
+            on_effective_plugins_changed,
+            move |control| {
+                run_curated_sync(
+                    &control,
+                    || {
+                        sync_openai_plugins_repo_owned(
+                            codex_home.as_path(),
+                            http_client_factory,
+                            Arc::clone(&control),
+                        )
+                        .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
+                    },
+                    |curated_plugin_version| {
+                        let configured_curated_plugin_ids =
+                            configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
+                        let refreshed = refresh_curated_plugin_cache(
+                            codex_home.as_path(),
+                            &curated_plugin_version,
+                            &configured_curated_plugin_ids,
+                        );
+                        if control.is_cancelled() {
+                            return Err(SyncFailure::Stopped {
+                                publication_may_have_occurred: true,
+                            });
                         }
-                    }
-                },
-            )
-        });
+                        match refreshed {
+                            // Each same-home scope receives successful completion,
+                            // even if its manager loaded before this unchanged cache
+                            // was observed. Its owned action clears its own caches.
+                            Ok(cache_refreshed) => {
+                                // Preserve cache invalidation for callers which
+                                // explicitly request no callback subscription.
+                                if !scoped_callback {
+                                    manager.clear_caches_after_marketplace_source_refresh(
+                                        cache_refreshed,
+                                        /*on_effective_plugins_changed*/ None,
+                                    );
+                                }
+                                Ok(())
+                            }
+                            Err(err) => {
+                                // Preserve invalidation after a partial on-disk cache
+                                // refresh failure; no success notification is sent.
+                                manager.clear_cache();
+                                warn!("failed to refresh curated plugin cache after sync: {err}");
+                                Err(SyncFailure::Ordinary(format!(
+                                    "failed to refresh curated plugin cache after sync: {err}"
+                                )))
+                            }
+                        }
+                    },
+                )
+            },
+        );
         match admission {
             Err(err) => warn!("failed to start curated plugins repo sync task: {err}"),
             Ok(crate::startup_sync::worker::HomeAdmission::UnsupportedHome) => warn!(
                 "curated sync for a different home is unsupported while this process retains another home's worker generation"
             ),
-            Ok(crate::startup_sync::worker::HomeAdmission::Started
+            Ok(
+                crate::startup_sync::worker::HomeAdmission::Started
                 | crate::startup_sync::worker::HomeAdmission::Subscribed
                 | crate::startup_sync::worker::HomeAdmission::Replayed
                 | crate::startup_sync::worker::HomeAdmission::AlreadyRegistered
                 | crate::startup_sync::worker::HomeAdmission::Closed
-                | crate::startup_sync::worker::HomeAdmission::Unavailable) => {}
+                | crate::startup_sync::worker::HomeAdmission::Unavailable,
+            ) => {}
         }
     }
 

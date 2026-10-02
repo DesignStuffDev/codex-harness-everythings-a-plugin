@@ -192,29 +192,37 @@ async fn stdio_shutdown_allows_storage_hold_past_45_seconds(shutdown: Shutdown) 
     let path = codex_home.path().join("held-write");
     let status = Command::new("mkfifo").arg(&path).status()?;
     assert!(status.success(), "failed to create FIFO: {status}");
-    let mut reader = std::fs::File::from(pipe::OpenOptions::new()
-        .open_receiver(&path)?.into_nonblocking_fd()?);
+    let mut reader = std::fs::File::from(
+        pipe::OpenOptions::new()
+            .open_receiver(&path)?
+            .into_nonblocking_fd()?,
+    );
     let mut app = TestAppServer::builder()
-        .with_codex_home(codex_home.path()).without_auto_env()
-        .build_initialized().await?;
+        .with_codex_home(codex_home.path())
+        .without_auto_env()
+        .build_initialized()
+        .await?;
     let size = 1024 * 1024;
     app.send_fs_write_file_request(FsWriteFileParams {
         path: AbsolutePathBuf::try_from(path)?,
         data_base64: STANDARD.encode(vec![b'x'; size]),
-    }).await?;
+    })
+    .await?;
     let mut first_byte = [0];
     timeout(Duration::from_secs(10), async {
         loop {
             match reader.read(&mut first_byte) {
-                Ok(0) => {},
+                Ok(0) => {}
                 Ok(_) => break,
-                Err(error) if error.kind() == ErrorKind::WouldBlock => {},
+                Err(error) if error.kind() == ErrorKind::WouldBlock => {}
                 Err(error) => return Err(error),
             }
             sleep(Duration::from_millis(20)).await;
         }
         Ok::<_, std::io::Error>(())
-    }).await.context("filesystem write did not start")??;
+    })
+    .await
+    .context("filesystem write did not start")??;
     assert_eq!(first_byte, [b'x']);
     let shutdown_at = Instant::now();
     let still_held = match shutdown {
@@ -224,7 +232,10 @@ async fn stdio_shutdown_allows_storage_hold_past_45_seconds(shutdown: Shutdown) 
             timeout(Duration::from_secs(46), app.wait_for_exit()).await
         }
     };
-    assert!(still_held.is_err(), "host exited while native storage remained held");
+    assert!(
+        still_held.is_err(),
+        "host exited while native storage remained held"
+    );
     assert!(shutdown_at.elapsed() > Duration::from_secs(45));
     // Release the observed native write, then demand an ordinary success
     // exit without a fallback SIGTERM or forced kill on this success path.
@@ -238,17 +249,23 @@ async fn stdio_shutdown_allows_storage_hold_past_45_seconds(shutdown: Shutdown) 
                 Ok(count) => bytes += count,
                 Err(error) if error.kind() == ErrorKind::WouldBlock => {
                     sleep(Duration::from_millis(20)).await;
-                },
+                }
                 Err(error) => return Err(error),
             }
         }
         Ok::<_, std::io::Error>(bytes)
-    }).await.context("released storage write did not finish")??;
+    })
+    .await
+    .context("released storage write did not finish")??;
     assert_eq!(bytes, size);
     let remaining = Duration::from_secs(200).saturating_sub(shutdown_at.elapsed());
-    let status = timeout(remaining, app.shutdown_gracefully()).await
+    let status = timeout(remaining, app.shutdown_gracefully())
+        .await
         .context("host did not finish after storage release")??;
-    assert!(status.success(), "released storage did not exit cleanly: {status}");
+    assert!(
+        status.success(),
+        "released storage did not exit cleanly: {status}"
+    );
     Ok(())
 }
 

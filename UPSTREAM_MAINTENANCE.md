@@ -1,10 +1,19 @@
 # Upstream maintenance and recovery contract
 
-Status: **required, planned component; no updater is implemented or activated**.
+Status: **required component; offline planning support exists, installed updater and activation do not**.
 This workflow preserves a maintainable OpenAI Codex fork as native services become
 independently installable. It does not count as extraction of an existing engine
 subsystem. It must ship as its own replaceable package, with an external recovery
 entrypoint that still works if the candidate harness cannot start.
+
+The initial [offline impact planner](upstream/UPSTREAM_IMPACT_README.md) compares exact local
+revision trees and joins changed paths to the existing historical lineage index. It retains
+missing mappings, ambiguous owners and semantic/security/migration uncertainty. Seventeen
+planner fixtures and 22 existing lineage fixtures passed; a real local-object call at the same
+upstream revision returned the expected unresolved exit 2. [Evidence](verification/2026-10-02/P18U_OFFLINE_IMPACT_EVIDENCE.json).
+This support tool performs no fetch, candidate preparation, install, migration or activation.
+It does not satisfy later-upstream integration, independently installed maintenance or rollback
+acceptance. Current normalized provenance remains incomplete; no periodic polling was enabled.
 
 ## Recorded starting point
 

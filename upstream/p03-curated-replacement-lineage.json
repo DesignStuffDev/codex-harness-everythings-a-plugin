@@ -1,0 +1,201 @@
+{
+  "classification": {
+    "mechanical_changes": "Only formatter layout/import/module-order changes in 38 already-owned files; no new implementation ownership",
+    "native_wiring": "codex-rs/app-server/src/in_process.rs adds only a Linux test module, using actual start/client lifecycle",
+    "new_extracted_subsystems": 0,
+    "project_authored_acceptance": [
+      "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+      "component-sdk/tests/curated_replacement_acceptance.py",
+      "component-sdk/tests/curated_replacement_acceptance.md"
+    ],
+    "source_symbols_exercised": [
+      "in_process::start",
+      "InProcessClient::shutdown",
+      "PluginsManager::observe_curated_repo_sync",
+      "CuratedCallbackScope::activity"
+    ]
+  },
+  "identity_limits": [
+    "Published commit3cc is the stage1 base, not a claim that uncommitted stage2/SDK/fmt candidates are Git trees.",
+    "63 and65 are selected manifest path counts, not counts of extracted subsystems or native-only files.",
+    "Stale local-main reference f2cc6c2 is not an actual tested/published source identity.",
+    "Current58 receipts and prior failures remain immutable and distinct."
+  ],
+  "map_hash_algorithm": "SHA256 of UTF-8 json.dumps(path_to_sha256, sort_keys=True, separators=(comma,colon)); excludes a trailing newline. Full maps remain in referenced original receipts.",
+  "mechanical_formatter_transition": {
+    "actual_source_count": 8928,
+    "actual_source_map_sha256": "4bfe3b7338738b53ed01dff0775b0ce172160fca4db2bc5765fc02d5697527b0",
+    "authoritative_candidate_manifest": {
+      "bytes": 17107,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-formatted-source-v2.json",
+      "sha256": "7d9b57fc03f0e64b45ef257f7e850c662da380cad0244d3e0e5f162cd0b74c97"
+    },
+    "changed_count": 38,
+    "changes": {
+      "bytes": 10355,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-format-transition-01/CHANGES.json",
+      "sha256": "bab7b765fe5869f7d71fe930939f12c1d7dcfb6d0b99a491857e48554e504b2c"
+    },
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "frozen_artifact_inventory": {
+      "bytes": 14778,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-frozen-evidence-format-scope-proposal-01/FROZEN_ARTIFACTS.json",
+      "sha256": "042b9de0e7d444ae716cf2a17007ec10e79dac77807f4388a10d21d783e6d8b1"
+    },
+    "frozen_artifacts_all_current_hashes_match": true,
+    "frozen_artifacts_count": 60,
+    "full_source_record": {
+      "bytes": 1232563,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-format-transition-01/FINAL_SOURCE.json",
+      "sha256": "0b532910b6fdf605e6a84b26877847905a6d24264a538746a2bd8eac0f73e7e3"
+    },
+    "log": {
+      "bytes": 0,
+      "path": "/workspace/acceptance/p03-replacement-format-01.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "metadata_correction": "Original16f3 retained an inherited native_build_source_unchanged:true. Authoritative v2 sets false and mechanical_transition_after_tested_source:true; all65 source entries and full4bfe source map are unchanged. FINAL_SOURCE retains its historical original-manifest reference.",
+    "native_byte_identity_with_tested_source": false,
+    "no_post_format_native_test_claim": true,
+    "patch": {
+      "bytes": 193178,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-format-transition-01/format.patch",
+      "sha256": "8e48c1244b2e2ef2b9679b2309cd62d5d4e6ff20fd5be73816a1751fab5bcb89"
+    },
+    "python_ast_equal_recorded": true,
+    "python_count": 4,
+    "result": {
+      "bytes": 148,
+      "path": "/workspace/acceptance/p03-replacement-format-01.result.json",
+      "sha256": "8b1e8303749712cadf2eaf51e4e68cd2e34ea1c255c1eff90aab01cd4e845166"
+    },
+    "returncode": 0,
+    "reviewed_mechanical_transition": true,
+    "rust_count": 34,
+    "rust_review": "All34 pre/post hashes verified; independent source review found only mechanical formatting/import/module ordering and no altered assertions, ownership, cancellation, deadlines or error propagation.",
+    "selected_candidate_count": 65,
+    "superseded_candidate_manifest": {
+      "bytes": 16801,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-formatted-source.json",
+      "sha256": "16f3d289edecbf1873852c8829a35a6354eea75ab66dddc8689345bf5593c79e"
+    }
+  },
+  "preformat_preservation": {
+    "archive_sha256": "e6ab98fe2bd9625c10fe67979eaf308b4f7e4ee7892548482ff0750d9847df5e",
+    "externally_durable": false,
+    "note": "Checksum-verified VM-local preservation only; this archive is not proven external backup.",
+    "receipt": {
+      "bytes": 2215059,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-current-source-before-format-01.json",
+      "sha256": "118ac88dbd33f26dccd057243430e6b781ee7aceb2275cdba00a01006c525aa4"
+    },
+    "source_and_relevant_git_metadata": true,
+    "source_count": 9946
+  },
+  "published_reconstruction_artifacts": {
+    "format_changes": "verification/2026-10-02/P03_REPLACEMENT_FORMAT_CHANGES.json",
+    "format_patch": "verification/2026-10-02/P03_REPLACEMENT_FORMAT.patch",
+    "formatted_source_manifest": "verification/2026-10-02/P03_REPLACEMENT_SOURCE_MANIFEST.json"
+  },
+  "published_stage1": {
+    "actual_source_count": 8925,
+    "actual_source_map_sha256": "6f11c7510a48fe24f500abca6fa90364b70fff79c96d1d9c781473a1b353b72d",
+    "commit": "3ccba58b1077e9372458fe2994a72f30ee643e41",
+    "parent": "f8a5905bb666846a7885171280d9454a9b8a269b",
+    "publication_receipt": {
+      "bytes": 9483,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-observation-stage1-publication/PUBLICATION.json",
+      "sha256": "837fca78339d58e5d7fd245f7be31ae2a99e525ecf83d48a58b175204691db8d"
+    },
+    "selected_candidate_count": 62,
+    "source_receipt": {
+      "bytes": 2481569,
+      "path": "/workspace/acceptance/p03-observation-stage1-tests-01.source.json",
+      "sha256": "6f4fe93279527ebbfb5ab2d914375acb0d91cc873e3059ac3f824a7f6f367254"
+    },
+    "tree": "df32f16bb0e64073d820b6ba24ea701a1a4b65e5"
+  },
+  "schema": "p03-curated-replacement-source-lineage-v1",
+  "stage2_native_acceptance_child": {
+    "actual_source_count": 8926,
+    "actual_source_map_sha256": "1d8ccc03b00f0e2a39573d96220f1695d2c1817d74ef846aa0e0a141a1946d4b",
+    "delta_from_stage1": {
+      "added": [
+        "codex-rs/app-server/src/in_process_curated_replacement_tests.rs"
+      ],
+      "changed": [
+        "codex-rs/app-server/src/in_process.rs"
+      ],
+      "removed": []
+    },
+    "manifest": {
+      "bytes": 16053,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage2-source.json",
+      "sha256": "2b435c5b0f74b2eaa65483a8ea9ddab613c46313e5a2304a7481d25019032626"
+    },
+    "proof": "431 ordinary library tests passed; ignored runtime child was subsequently exercised by the parent against the bound ELF.",
+    "selected_candidate_count": 63,
+    "selected_native_count": 58,
+    "selected_sdk_count": 5
+  },
+  "stage3_sdk_initial": {
+    "actual_source_count": 8928,
+    "actual_source_map_sha256": "5c05f63775805c7133b33b800f5034696ecb0d7e1d7e2ca2d9dd2334223f22ff",
+    "delta_from_stage2": {
+      "added": [
+        "component-sdk/tests/curated_replacement_acceptance.md",
+        "component-sdk/tests/curated_replacement_acceptance.py"
+      ],
+      "changed": [],
+      "removed": []
+    },
+    "manifest": {
+      "bytes": 16542,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage3-source.json",
+      "sha256": "f1de7507547c6749d908bb9ab7f3b7c341c65fcef1ea30dcd5e0b003abe4ba87"
+    },
+    "native_byte_identity_with_stage2": true,
+    "runtime01": "failed and preserved",
+    "selected_candidate_count": 65,
+    "selected_native_count": 58,
+    "selected_sdk_count": 7
+  },
+  "stage3_stack_correction": {
+    "actual_source_count": 8928,
+    "actual_source_map_sha256": "6e7b4081ba8317e5d264a598aa5f9669a422f69fecdd000613311a0d7fa1db35",
+    "delta_from_sdk": {
+      "added": [],
+      "changed": [
+        "component-sdk/tests/curated_replacement_acceptance.md",
+        "component-sdk/tests/curated_replacement_acceptance.py"
+      ],
+      "removed": []
+    },
+    "manifest": {
+      "bytes": 16556,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage3-stack-source.json",
+      "sha256": "0b0eecb1cc712862592236899c9229b64e7d718266d2340f556db7717be95fcd"
+    },
+    "native_byte_identity_with_stage2": true,
+    "runtime02": "pending/replay/race passed against exact stage2 test ELF",
+    "selected_candidate_count": 65
+  },
+  "subsequent_lint_transition": {
+    "classification": "mechanical test-only changes; not extraction or fresh runtime proof",
+    "evidence": "verification/2026-10-02/P03_REPLACEMENT_LINT_EVIDENCE.json",
+    "final_manifest": "verification/2026-10-02/P03_REPLACEMENT_FINAL_SOURCE_MANIFEST.json",
+    "final_manifest_sha256": "bfad182c433bf88ec31b65d1e4d4234385b15be2f1e160645ab1bfff2ebb9040",
+    "patch": "verification/2026-10-02/P03_REPLACEMENT_LINT.patch",
+    "runtime_acceptance_after_transition": false,
+    "scope_count": 8928,
+    "scope_map_sha256": "1c54717dd95ff85361d33076863129435f9516d3f815ff8690263fdda083549a"
+  },
+  "upstream": {
+    "preceding_native_mapping": "upstream/p03-curated-observation-lineage.json",
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+  }
+}

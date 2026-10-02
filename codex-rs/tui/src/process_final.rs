@@ -38,9 +38,7 @@ pub(crate) fn begin_after_result<T>(result: &std::io::Result<T>) {
 }
 
 /// Observe final ownership while the TUI's tracing and telemetry guards are alive.
-pub(crate) async fn finish(
-    result: std::io::Result<AppExitInfo>,
-) -> std::io::Result<AppExitInfo> {
+pub(crate) async fn finish(result: std::io::Result<AppExitInfo>) -> std::io::Result<AppExitInfo> {
     if !is_final_result(&result) {
         return result;
     }
@@ -66,10 +64,7 @@ pub(crate) async fn finish(
     ))
 }
 
-fn attach_cleanup_error(
-    result: std::io::Result<AppExitInfo>,
-    cleanup: String,
-) -> std::io::Error {
+fn attach_cleanup_error(result: std::io::Result<AppExitInfo>, cleanup: String) -> std::io::Error {
     match result {
         Ok(info) => match info.exit_reason {
             ExitReason::Fatal(message) => {
@@ -80,10 +75,7 @@ fn attach_cleanup_error(
             | ExitReason::TurnInterrupted
             | ExitReason::ThreadRemoved => std::io::Error::other(cleanup),
         },
-        Err(error) => std::io::Error::new(
-            error.kind(),
-            anyhow::Error::new(error).context(cleanup),
-        ),
+        Err(error) => std::io::Error::new(error.kind(), anyhow::Error::new(error).context(cleanup)),
     }
 }
 

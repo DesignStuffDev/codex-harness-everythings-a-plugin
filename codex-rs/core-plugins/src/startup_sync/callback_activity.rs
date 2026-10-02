@@ -35,9 +35,9 @@ impl CuratedCallbackScope {
         let state = lock(&self.state);
         let mut observed = CuratedCallbackActivity {
             admission_closed: state.closed
-                || registry.as_ref().is_none_or(|registry| {
-                    registry.closing.load(Ordering::Acquire)
-                }),
+                || registry
+                    .as_ref()
+                    .is_none_or(|registry| registry.closing.load(Ordering::Acquire)),
             unexpected: state.unexpected.len(),
             ..Default::default()
         };

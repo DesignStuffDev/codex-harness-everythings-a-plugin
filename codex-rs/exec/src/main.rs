@@ -38,8 +38,7 @@ fn main() -> anyhow::Result<()> {
             .prepend_root_overrides(top_cli.config_overrides);
 
         let process_final = ProcessFinalCapability::for_executable();
-        let operation =
-            run_main_with_process_final(inner, arg0_paths, process_final.clone()).await;
+        let operation = run_main_with_process_final(inner, arg0_paths, process_final.clone()).await;
         process_final::finish(operation, &process_final).await
     })
 }

@@ -1,1 +1,6 @@
 extend-exclude = ["sdk/python", "codex-rs/vendor"]
+
+[format]
+# These inert source copies are hash-bound historical evidence, not active code.
+# Preserve their exact bytes; active SDK/tests and other verification scripts stay formatted.
+exclude = ["verification/2026-10-02/recovered-gate-proposals/**"]

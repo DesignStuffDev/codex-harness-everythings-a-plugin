@@ -185,7 +185,10 @@ impl CuratedCallbackScope {
         let scope = Arc::new(Self {
             runtime,
             registry: Arc::downgrade(registry),
-            state: Mutex::new(ScopeState { closed, ..ScopeState::default() }),
+            state: Mutex::new(ScopeState {
+                closed,
+                ..ScopeState::default()
+            }),
         });
         if !closed {
             scopes.push(Arc::clone(&scope));
@@ -356,9 +359,10 @@ impl CuratedSyncCallback {
             let admitted = {
                 let registry = scope.registry.upgrade();
                 let state = lock(&scope.state);
-                !state.closed && registry.as_ref().is_some_and(|registry| {
-                    !registry.closing.load(Ordering::Acquire)
-                })
+                !state.closed
+                    && registry
+                        .as_ref()
+                        .is_some_and(|registry| !registry.closing.load(Ordering::Acquire))
             };
             if admitted {
                 action().await;

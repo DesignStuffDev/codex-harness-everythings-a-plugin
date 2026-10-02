@@ -442,7 +442,11 @@ async fn managed_force_shutdown_exits_with_blocked_rollout_writer() -> Result<()
 
 async fn wait_forced(server: &mut Child) -> Result<()> {
     let status = timeout(Duration::from_secs(/*secs*/ 10), server.wait()).await??;
-    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
+    assert_eq!(
+        status.code(),
+        Some(126),
+        "forced cleanup must remain unconfirmed"
+    );
     Ok(())
 }
 

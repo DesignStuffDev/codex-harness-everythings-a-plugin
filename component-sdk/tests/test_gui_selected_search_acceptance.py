@@ -78,8 +78,12 @@ class SearchReuseProofTests(unittest.TestCase):
         before = fingerprint(self.proof_path), inventory(self.package)
         self.old_host.unlink()  # Historical host need not remain installed.
         proof_path, proof, package, _ = self.validate_reuse()
-        self.assertEqual((proof_path, proof, package), (self.proof_path, self.proof, self.package))
-        self.assertEqual(before, (fingerprint(self.proof_path), inventory(self.package)))
+        self.assertEqual(
+            (proof_path, proof, package), (self.proof_path, self.proof, self.package)
+        )
+        self.assertEqual(
+            before, (fingerprint(self.proof_path), inventory(self.package))
+        )
 
     def test_modified_package_is_rejected(self):
         self.worker.write_bytes(b"substituted worker")
@@ -105,19 +109,25 @@ class SearchReuseProofTests(unittest.TestCase):
 
     def test_modified_source_inventory_is_rejected(self):
         self.source_inventory.write_text('{"revision":"substituted"}\n')
-        with self.assertRaisesRegex(AssertionError, "source paths or inventory changed"):
+        with self.assertRaisesRegex(
+            AssertionError, "source paths or inventory changed"
+        ):
             self.validate_reuse()
 
     def test_restored_original_source_path_is_rejected(self):
         (self.artifacts / "source").mkdir()
-        with self.assertRaisesRegex(AssertionError, "source paths or inventory changed"):
+        with self.assertRaisesRegex(
+            AssertionError, "source paths or inventory changed"
+        ):
             self.validate_reuse()
 
     def test_explicit_pin_does_not_waive_original_build_consistency(self):
         self.proof["frozen_binaries_after"] = {"manager": fingerprint(self.host)}
         self.write_proof()
         self.pin = fingerprint(self.proof_path)["sha256"]
-        with self.assertRaisesRegex(AssertionError, "original independent-build binaries changed"):
+        with self.assertRaisesRegex(
+            AssertionError, "original independent-build binaries changed"
+        ):
             self.validate_reuse()
 
     def test_explicit_pin_does_not_waive_source_provenance(self):

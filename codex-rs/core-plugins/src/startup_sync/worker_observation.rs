@@ -48,11 +48,11 @@ impl WorkerGate {
         let operation = record.and_then(|record| match &record.outcome {
             None => None,
             Some(Ok(())) => Some(CuratedSyncOperationDisposition::Succeeded),
-            Some(Err(SyncFailure::Stopped { publication_may_have_occurred })) => {
-                Some(CuratedSyncOperationDisposition::Stopped {
-                    publication_may_have_occurred: *publication_may_have_occurred,
-                })
-            }
+            Some(Err(SyncFailure::Stopped {
+                publication_may_have_occurred,
+            })) => Some(CuratedSyncOperationDisposition::Stopped {
+                publication_may_have_occurred: *publication_may_have_occurred,
+            }),
             Some(Err(error)) => Some(if error.retains_resources() {
                 CuratedSyncOperationDisposition::Uncertain
             } else {
@@ -66,7 +66,10 @@ impl WorkerGate {
                 record.native_completion
             }),
             native_handle_finished: record.and_then(|record| {
-                record.handle.as_ref().map(std::thread::JoinHandle::is_finished)
+                record
+                    .handle
+                    .as_ref()
+                    .map(std::thread::JoinHandle::is_finished)
             }),
             operation,
             quarantined: !state.unexpected_handles.is_empty()

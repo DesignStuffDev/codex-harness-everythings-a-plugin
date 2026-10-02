@@ -298,15 +298,21 @@ mod search_services;
 // budget. Paused time verifies budget composition; installed-host acceptance
 // remains a separate required runtime gate.
 async fn finish_with_slow_store(primary: IoResult<()>) -> IoResult<()> {
-    let store = ShutdownProbe::new(CloseBehavior::Delayed(std::time::Duration::from_secs(/*secs*/ 46)));
+    let store = ShutdownProbe::new(CloseBehavior::Delayed(std::time::Duration::from_secs(
+        /*secs*/ 46,
+    )));
     let guard = StoreShutdownGuard::new(store.clone());
     let mut processor = tokio::spawn(async move { primary });
     let search_home = tempfile::tempdir()?;
     let (_, search_guard) = crate::file_search_services::start(search_home.path()).await?;
     let started = tokio::time::Instant::now();
     let result = finish_processor_and_services(
-        &mut processor, &guard, &search_guard, &CuratedCallbackGuard::new(),
-    ).await;
+        &mut processor,
+        &guard,
+        &search_guard,
+        &CuratedCallbackGuard::new(),
+    )
+    .await;
     assert!(store.begun.load(Ordering::Acquire));
     assert!(store.completed.load(Ordering::Acquire));
     assert!(started.elapsed() >= std::time::Duration::from_secs(/*secs*/ 46));

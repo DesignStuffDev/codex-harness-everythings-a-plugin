@@ -1,0 +1,100 @@
+{
+  "checks": {
+    "lineage_regression": {
+      "log_sha256": "0087ae4bde32898134126877e1c523b0e12f8de2ed9932bfb4e0f6cf843024df",
+      "passed": true,
+      "receipt_sha256": "ac3bd57593ea5474c41e98d8d0b50df87c08d155ac28aa77d840d1e07a4362bd",
+      "scope": "existing lineage corruption fixtures",
+      "strict_sha256": "17d6d87946f6e2a7ac145f8cc32af7e56ff49d963809b84710a1c6cee630b20d",
+      "tests": 22
+    },
+    "planner_fixtures": {
+      "log_sha256": "2439fdcdce3e13d797471600876d813b2f9ab781be81da3d55cfd20b3e624c06",
+      "passed": true,
+      "receipt_sha256": "5d6d962f0a2160e75c4fdfc9d283074570be0b991a4dfaa17142ea4dc726f2e6",
+      "scope": "17 in-memory fixtures only; no real Git/runtime/updater/rollback",
+      "strict_sha256": "c0040abe3a154a2d1fe73b9af5aeb7cf5e29b02996a520ce8a3cfa73ade5fe83",
+      "tests": 17
+    }
+  },
+  "classification": "Project-authored read-only maintenance support, not installed updater or native extraction",
+  "independently_installed_maintenance_component": false,
+  "limitations": [
+    "Local-object invocation used the same upstream revision, not a later revision integration.",
+    "Normalized lineage still describes d04d5a7; current composition coverage remains unresolved.",
+    "Planner never clears semantic, security, dependency, contract or migration gates.",
+    "Output bounds do not provide new streaming-memory/process supervision.",
+    "No polling, fetch, source mutation, host activation or deployment enabled."
+  ],
+  "local_git_report": {
+    "index_sha256": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+    "invalid": 0,
+    "planner_sha256": "8d04341f2a011b670731733b3a3d4a23327550a2bddf17884405c59a3350acd2",
+    "report_sha256": "fdf8f492d69d77e1cd068e7fd103d0a90fd3a3bbc80f502adb5e7c9075eabd8c",
+    "returncode": 2,
+    "scope": "Real local Git adapter, same upstream revision/no update advance, stale current-composition coverage; not upstream integration or rollback",
+    "status": "unresolved",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "strict_error": null,
+    "strict_exit": 2,
+    "strict_sha256": "281355bedf95b1779cddbe1685790eebe392b3157a8ba51051dfb8728b8deac9",
+    "summary": {
+      "changed_paths_reported": 0,
+      "changed_paths_total": 0,
+      "matched_paths_do_not_establish_compatibility": true,
+      "path_inventory_complete": true,
+      "retained_detail_bytes_compact_json": 0,
+      "unresolved_counts": {}
+    },
+    "unresolved": [
+      "existing_lineage_findings_remain_unresolved",
+      "lineage_does_not_cover_requested_composition",
+      "requested_composition_commit_unavailable",
+      "no_upstream_revision_advance",
+      "no_upstream_tree_change",
+      "candidate_authenticity_and_later_revision_ancestry",
+      "current_composition_source_and_ownership_closure",
+      "symbol_and_transitive_dependency_impact",
+      "contract_and_coordinated_package_sdk_versions",
+      "permissions_credentials_sandbox_security_review",
+      "persistent_schema_migration_and_downgrade_review",
+      "license_notice_and_platform_review",
+      "isolated_customization_preserving_candidate",
+      "real_host_independent_plugin_headless_and_gui_regression",
+      "real_later_upstream_revision_integration",
+      "incompatible_update_refusal_and_failed_activation_state_recovery",
+      "separately_installed_maintenance_and_external_recovery_entrypoint"
+    ],
+    "validator_sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c"
+  },
+  "mechanical_format": {
+    "changes": [
+      {
+        "formatted_sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+        "path": "upstream/plan_upstream_impact.py",
+        "python_ast_equal": true,
+        "tested_sha256": "8d04341f2a011b670731733b3a3d4a23327550a2bddf17884405c59a3350acd2"
+      },
+      {
+        "formatted_sha256": "b57e2a2e0f1c048a7f2e8cc869cfe6c58e9c2c8996138d8b8c86f926b5c7d685",
+        "path": "upstream/test_plan_upstream_impact.py",
+        "python_ast_equal": true,
+        "tested_sha256": "033986cf520d5a078a9dd3622ba9f00bc9950b7e33b1600d234f0d4af9ccfcda"
+      }
+    ],
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "p03_scoped_source_unchanged": true,
+    "returncode": 0
+  },
+  "newly_extracted_native_subsystems": 0,
+  "published_base_interpretation": "Historical published base; new planner source identity is given by its exact tested and formatted hashes, not this commit.",
+  "published_base_reference": "3ccba58b1077e9372458fe2994a72f30ee643e41",
+  "schema": "p18u-offline-impact-support-evidence-v1",
+  "source_unchanged_during_tests": true,
+  "upstream_integration_or_rollback_demonstrated": false,
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+}

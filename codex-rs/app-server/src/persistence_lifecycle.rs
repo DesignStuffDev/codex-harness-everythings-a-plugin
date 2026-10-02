@@ -27,7 +27,12 @@ impl StoreShutdownGuard {
 
     pub(crate) async fn finish<T>(&self, result: io::Result<T>) -> io::Result<T> {
         self.begin_shutdown();
-        let shutdown = match timeout_at(crate::process_final::deadline_after(Duration::from_secs(120)), self.store.shutdown()).await {
+        let shutdown = match timeout_at(
+            crate::process_final::deadline_after(Duration::from_secs(120)),
+            self.store.shutdown(),
+        )
+        .await
+        {
             Ok(Ok(())) => Ok(()),
             Ok(Err(_)) => Err(io::Error::other(
                 "thread-store shutdown failed; accepted write outcomes may be unknown",

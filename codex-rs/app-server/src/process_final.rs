@@ -36,7 +36,12 @@ pub(crate) async fn phase<T>(future: impl Future<Output = io::Result<T>>) -> io:
     match codex_utils_process::process_shutdown::current() {
         Some(deadline) => tokio::time::timeout_at(Instant::from_std(deadline.graceful()), future)
             .await
-            .map_err(|_| io::Error::new(io::ErrorKind::TimedOut, "process shutdown phase timed out; cleanup is unconfirmed"))?,
+            .map_err(|_| {
+                io::Error::new(
+                    io::ErrorKind::TimedOut,
+                    "process shutdown phase timed out; cleanup is unconfirmed",
+                )
+            })?,
         None => future.await,
     }
 }
@@ -44,7 +49,8 @@ pub(crate) async fn phase<T>(future: impl Future<Output = io::Result<T>>) -> io:
 pub(crate) async fn join<T>(mut handle: JoinHandle<T>) -> io::Result<T> {
     let outcome = match codex_utils_process::process_shutdown::current() {
         Some(deadline) => {
-            match tokio::time::timeout_at(Instant::from_std(deadline.graceful()), &mut handle).await {
+            match tokio::time::timeout_at(Instant::from_std(deadline.graceful()), &mut handle).await
+            {
                 Ok(outcome) => outcome,
                 Err(_) => {
                     handle.abort();
@@ -52,9 +58,15 @@ pub(crate) async fn join<T>(mut handle: JoinHandle<T>) -> io::Result<T> {
                     // with the deadline. Native blocking work can still outlive
                     // async cancellation; the watchdog stays armed.
                     let detail = match handle.await {
-                        Err(error) if error.is_panic() => "shutdown task timed out and panicked; cleanup is unconfirmed",
-                        Err(_) => "shutdown task timed out and was cancelled; cleanup is unconfirmed",
-                        Ok(_) => "shutdown task completed after its deadline; cleanup is unconfirmed",
+                        Err(error) if error.is_panic() => {
+                            "shutdown task timed out and panicked; cleanup is unconfirmed"
+                        }
+                        Err(_) => {
+                            "shutdown task timed out and was cancelled; cleanup is unconfirmed"
+                        }
+                        Ok(_) => {
+                            "shutdown task completed after its deadline; cleanup is unconfirmed"
+                        }
                     };
                     return Err(io::Error::new(io::ErrorKind::TimedOut, detail));
                 }
@@ -69,10 +81,16 @@ pub(crate) async fn finish<T>(
     result: io::Result<T>,
     capability: Option<&ProcessFinalCapability>,
 ) -> io::Result<T> {
-    let Some(capability) = capability else { return result; };
+    let Some(capability) = capability else {
+        return result;
+    };
     let deadline = capability.begin().graceful();
-    let observed = CuratedProcessShutdown::begin(deadline).wait_until(deadline).await;
-    let cleanup = if observed.is_complete() { Ok(()) } else {
+    let observed = CuratedProcessShutdown::begin(deadline)
+        .wait_until(deadline)
+        .await;
+    let cleanup = if observed.is_complete() {
+        Ok(())
+    } else {
         Err(io::Error::other(format!(
             "curated process cleanup unconfirmed: {} callbacks pending, {} failed",
             observed.callbacks.pending, observed.callbacks.failed,

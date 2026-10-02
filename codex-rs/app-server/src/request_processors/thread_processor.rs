@@ -1287,8 +1287,12 @@ impl ThreadRequestProcessor {
         let deadline = crate::process_final::drain_deadline(Duration::from_secs(/*secs*/ 10));
         let budget = deadline.saturating_duration_since(tokio::time::Instant::now());
         let report = crate::process_final::phase(async {
-            Ok(self.thread_manager.shutdown_all_threads_bounded(budget).await)
-        }).await?;
+            Ok(self
+                .thread_manager
+                .shutdown_all_threads_bounded(budget)
+                .await)
+        })
+        .await?;
         let completed = report.completed.len();
         let submit_failed = report.submit_failed.len();
         let timed_out = report.timed_out.len();
@@ -1305,8 +1309,12 @@ impl ThreadRequestProcessor {
             session_completed = completed, session_submit_failed = submit_failed,
             session_timed_out = timed_out, session_loop_report_clean,
             "session shutdown report observed");
-        let sessions = if session_loop_report_clean { Ok(()) } else {
-            Err(std::io::Error::other("session shutdown report contains failed or timed-out threads"))
+        let sessions = if session_loop_report_clean {
+            Ok(())
+        } else {
+            Err(std::io::Error::other(
+                "session shutdown report contains failed or timed-out threads",
+            ))
         };
         // The surrounding StoreShutdownGuard owns the selected store's single
         // final close observation (120s capped by the shared grace). Do not add

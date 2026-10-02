@@ -6,8 +6,8 @@ use super::Phase;
 use crate::startup_sync::CuratedCallbackScope;
 use crate::startup_sync::CuratedSyncCallback;
 use crate::startup_sync::SyncControl;
-use std::sync::Arc;
 use std::path::PathBuf;
+use std::sync::Arc;
 use std::sync::Weak;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -43,7 +43,9 @@ impl AfterUnlock {
     pub(super) fn run(self) {
         match self {
             Self::Dispatch(callback, control) => {
-                if !control.is_cancelled() { callback.dispatch(); }
+                if !control.is_cancelled() {
+                    callback.dispatch();
+                }
             }
             Self::Discard(callback) => drop(callback),
         }
@@ -90,11 +92,17 @@ impl Delivery {
         let identity = callback.scope_identity();
         self.seen.retain(|scope| scope.strong_count() != 0);
         if self.seen.iter().any(|scope| Weak::ptr_eq(scope, &identity)) {
-            return (HomeAdmission::AlreadyRegistered, Some(AfterUnlock::Discard(callback)));
+            return (
+                HomeAdmission::AlreadyRegistered,
+                Some(AfterUnlock::Discard(callback)),
+            );
         }
         self.seen.push(identity);
         if phase == Phase::SuccessLatched {
-            (HomeAdmission::Replayed, Some(AfterUnlock::Dispatch(callback, Arc::clone(&self.control))))
+            (
+                HomeAdmission::Replayed,
+                Some(AfterUnlock::Dispatch(callback, Arc::clone(&self.control))),
+            )
         } else {
             self.pending.push(callback);
             (HomeAdmission::Subscribed, None)

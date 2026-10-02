@@ -28,7 +28,10 @@ impl Drop for OwnedThread {
     fn drop(&mut self) {
         if let Some(thread) = self.0.take() {
             let result = thread.join();
-            assert!(result.is_ok() || std::thread::panicking(), "fixture thread panicked");
+            assert!(
+                result.is_ok() || std::thread::panicking(),
+                "fixture thread panicked"
+            );
         }
     }
 }
@@ -65,22 +68,26 @@ impl Fixture {
         let (stop_tx, stop_rx) = oneshot::channel();
         let runtime = RuntimeThread {
             stop: Some(stop_tx),
-            _thread: OwnedThread::spawn(move || {
-                match tokio::runtime::Builder::new_current_thread().enable_time().build() {
+            _thread: OwnedThread::spawn(
+                move || match tokio::runtime::Builder::new_current_thread()
+                    .enable_time()
+                    .build()
+                {
                     Ok(runtime) => {
                         let _ = ready_tx.send(Ok(runtime.handle().clone()));
                         runtime.block_on(async {
                             let _ = stop_rx.await;
                             let deadline = Instant::now() + BUDGET + BUDGET;
-                            let observed = cleanup_gate.begin_stop(deadline).wait_until(deadline).await;
+                            let observed =
+                                cleanup_gate.begin_stop(deadline).wait_until(deadline).await;
                             assert!(!observed.is_pending(), "fixture worker remained pending");
                         });
                     }
                     Err(error) => {
                         let _ = ready_tx.send(Err(error));
                     }
-                }
-            }),
+                },
+            ),
         };
         let handle = ready_rx.recv_timeout(BUDGET)??;
         let registry = Arc::new(CallbackRegistry::default());
@@ -98,7 +105,11 @@ impl Fixture {
     fn begin(&self, deadline: Instant) -> CuratedProcessShutdown {
         let callbacks = self.registry.begin_close();
         let native = self.gate.begin_stop(deadline);
-        CuratedProcessShutdown { native, callbacks, deadline }
+        CuratedProcessShutdown {
+            native,
+            callbacks,
+            deadline,
+        }
     }
 
     fn held_callback(&self) -> (CuratedSyncCallback, Arc<Semaphore>, mpsc::Receiver<()>) {
@@ -119,21 +130,28 @@ impl Fixture {
         (callback, release, entered_rx)
     }
 
-    fn hold_worker(&mut self, outcome: Result<(), SyncFailure>) -> anyhow::Result<mpsc::Receiver<()>> {
+    fn hold_worker(
+        &mut self,
+        outcome: Result<(), SyncFailure>,
+    ) -> anyhow::Result<mpsc::Receiver<()>> {
         let (entered_tx, entered_rx) = mpsc::channel();
         let (release_tx, release_rx) = mpsc::channel();
         self.worker_release = Some(release_tx);
         assert!(self.gate.start(move |_| {
             let _ = entered_tx.send(());
-            release_rx.recv_timeout(BUDGET)
-                .map_err(|error| SyncFailure::Ordinary(format!("fixture worker release: {error}")))?;
+            release_rx.recv_timeout(BUDGET).map_err(|error| {
+                SyncFailure::Ordinary(format!("fixture worker release: {error}"))
+            })?;
             outcome
         })?);
         Ok(entered_rx)
     }
 
     fn release_worker(&mut self) -> anyhow::Result<()> {
-        self.worker_release.take().context("held fixture worker")?.send(())?;
+        self.worker_release
+            .take()
+            .context("held fixture worker")?
+            .send(())?;
         Ok(())
     }
 }
@@ -152,7 +170,11 @@ impl Drop for Fixture {
 async fn process_fence_rejects_existing_and_later_scope_dispatch() -> anyhow::Result<()> {
     let fixture = Fixture::new()?;
     let callback = fixture.scope.callback(|| async {});
-    assert!(callback.scope_identity().ptr_eq(&Arc::downgrade(&fixture.scope)));
+    assert!(
+        callback
+            .scope_identity()
+            .ptr_eq(&Arc::downgrade(&fixture.scope))
+    );
     let deadline = Instant::now() + BUDGET;
     let stop = fixture.begin(deadline);
     assert!(!callback.dispatch());
@@ -179,7 +201,10 @@ async fn concurrent_registration_cannot_escape_process_snapshot() -> anyhow::Res
         let release = Arc::clone(&release);
         let accepted_tx = accepted_tx.clone();
         threads.push(OwnedThread::spawn(move || {
-            assert!(start_rx.recv_timeout(BUDGET).is_ok(), "registration barrier timed out");
+            assert!(
+                start_rx.recv_timeout(BUDGET).is_ok(),
+                "registration barrier timed out"
+            );
             let scope = CuratedCallbackScope::with_registry(runtime, &registry);
             let callback = scope.callback(move || {
                 let release = Arc::clone(&release);
@@ -205,7 +230,10 @@ async fn concurrent_registration_cannot_escape_process_snapshot() -> anyhow::Res
     release.add_permits(/*n*/ 8);
     let observed = stop.wait_until(deadline).await;
     assert!(observed.is_complete());
-    assert_eq!(observed.callbacks.completed + observed.callbacks.suppressed, accepted);
+    assert_eq!(
+        observed.callbacks.completed + observed.callbacks.suppressed,
+        accepted
+    );
     Ok(())
 }
 
@@ -233,13 +261,18 @@ async fn expired_begin_deadline_cannot_be_extended_by_observer() -> anyhow::Resu
     let observed = tokio::time::timeout(
         Duration::from_secs(/*secs*/ 1),
         stop.wait_until(Instant::now() + BUDGET),
-    ).await?;
+    )
+    .await?;
     assert!(observed.clean_native_ownership());
     assert_eq!(observed.callbacks.pending, 1);
     assert!(!observed.is_complete());
     release.add_permits(/*n*/ 1);
     // A separate observer can still harvest after the first observer expires.
-    let observed = fixture.registry.begin_close().wait_until(Instant::now() + BUDGET).await;
+    let observed = fixture
+        .registry
+        .begin_close()
+        .wait_until(Instant::now() + BUDGET)
+        .await;
     assert_eq!(observed.completed, 1);
     assert!(observed.is_complete());
     Ok(())
@@ -268,9 +301,13 @@ async fn cancelled_aggregate_observer_keeps_pending_scope_reachable() -> anyhow:
 }
 
 #[tokio::test]
-async fn optional_sync_failure_is_nonfatal_after_exact_join_and_callback_completion() -> anyhow::Result<()> {
+async fn optional_sync_failure_is_nonfatal_after_exact_join_and_callback_completion()
+-> anyhow::Result<()> {
     let mut fixture = Fixture::new()?;
-    fixture.hold_worker(Err(SyncFailure::Ordinary("optional sync unavailable".to_string())))?
+    fixture
+        .hold_worker(Err(SyncFailure::Ordinary(
+            "optional sync unavailable".to_string(),
+        )))?
         .recv_timeout(BUDGET)?;
     let (callback, release, entered) = fixture.held_callback();
     assert!(callback.dispatch());
@@ -284,8 +321,14 @@ async fn optional_sync_failure_is_nonfatal_after_exact_join_and_callback_complet
     release.add_permits(/*n*/ 1);
     let observed = stop.wait_until(deadline).await;
     assert_eq!(observed.native.native, CuratedSyncNativeCompletion::Joined);
-    assert_eq!(observed.native.failure().context("original optional sync failure")?.to_string(),
-        "optional sync unavailable");
+    assert_eq!(
+        observed
+            .native
+            .failure()
+            .context("original optional sync failure")?
+            .to_string(),
+        "optional sync unavailable"
+    );
     assert_eq!(observed.callbacks.completed, 1);
     assert!(observed.is_complete());
     Ok(())
@@ -294,7 +337,9 @@ async fn optional_sync_failure_is_nonfatal_after_exact_join_and_callback_complet
 #[tokio::test]
 async fn joined_quarantine_remains_unclean() -> anyhow::Result<()> {
     let mut fixture = Fixture::new()?;
-    fixture.hold_worker(Err(SyncFailure::Quarantined))?.recv_timeout(BUDGET)?;
+    fixture
+        .hold_worker(Err(SyncFailure::Quarantined))?
+        .recv_timeout(BUDGET)?;
     let deadline = Instant::now() + BUDGET;
     let stop = fixture.begin(deadline);
     fixture.release_worker()?;
@@ -320,7 +365,10 @@ async fn callback_panic_remains_failed_across_process_observers() -> anyhow::Res
     let deadline = Instant::now() + BUDGET;
     let observed = fixture.begin(deadline).wait_until(deadline).await;
     assert!(observed.clean_native_ownership());
-    assert_eq!((observed.callbacks.pending, observed.callbacks.failed), (0, 1));
+    assert_eq!(
+        (observed.callbacks.pending, observed.callbacks.failed),
+        (0, 1)
+    );
     assert!(!observed.is_complete());
     let repeated = fixture.begin(deadline).wait_until(deadline).await;
     assert_eq!(repeated.callbacks.failed, 1);

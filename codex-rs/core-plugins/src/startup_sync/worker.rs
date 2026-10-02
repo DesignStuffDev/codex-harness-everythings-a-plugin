@@ -13,9 +13,9 @@ pub(crate) mod observation;
 
 #[path = "worker_delivery.rs"]
 mod delivery;
-pub(crate) use delivery::HomeAdmission;
-use delivery::Delivery;
 use delivery::AfterUnlock;
+use delivery::Delivery;
+pub(crate) use delivery::HomeAdmission;
 use delivery::Registration;
 
 use super::CuratedSyncCallback;
@@ -23,9 +23,9 @@ use super::SyncControl;
 use super::SyncFailure;
 use completion::CuratedSyncNativeCompletion;
 use std::io;
-use std::path::PathBuf;
 use std::panic::AssertUnwindSafe;
 use std::panic::catch_unwind;
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::sync::Mutex;
 use std::sync::MutexGuard;
@@ -125,7 +125,9 @@ impl WorkerGate {
             Reservation::Existing(admission, dispatch) => {
                 // Registration and completion linearize under the worker mutex;
                 // callback scheduling and arbitrary capture destruction do not.
-                if let Some(action) = dispatch { action.run(); }
+                if let Some(action) = dispatch {
+                    action.run();
+                }
                 return Ok(admission);
             }
         };
@@ -216,7 +218,9 @@ impl WorkerGate {
                         outcome: None,
                         handle: None,
                         native_completion: CuratedSyncNativeCompletion::AwaitingHandle,
-                        delivery: registration.take().map(|registration| Delivery::new(registration, Arc::clone(&control))),
+                        delivery: registration
+                            .take()
+                            .map(|registration| Delivery::new(registration, Arc::clone(&control))),
                     });
                     return Reservation::Start(generation, control);
                 };
@@ -228,9 +232,13 @@ impl WorkerGate {
                         return Reservation::Existing(HomeAdmission::Unavailable, None);
                     };
                     let Some(delivery) = &mut record.delivery else {
-                        return Reservation::Existing(HomeAdmission::Unavailable, registration.discard());
+                        return Reservation::Existing(
+                            HomeAdmission::Unavailable,
+                            registration.discard(),
+                        );
                     };
-                    let result = delivery.register(registration, record.phase, record.outcome.is_some());
+                    let result =
+                        delivery.register(registration, record.phase, record.outcome.is_some());
                     return Reservation::Existing(result.0, result.1);
                 }
                 record.native_completion = CuratedSyncNativeCompletion::Joining;
@@ -278,13 +286,19 @@ impl WorkerGate {
         let succeeded = outcome.is_ok();
         let control = Arc::clone(&record.control);
         record.outcome = Some(outcome);
-        let callbacks = record.delivery.as_mut().map(Delivery::take_pending).unwrap_or_default();
+        let callbacks = record
+            .delivery
+            .as_mut()
+            .map(Delivery::take_pending)
+            .unwrap_or_default();
         drop(state);
         // Closed scopes reject late delivery; each admitted action is owned by
         // its current processor, never by the manager which started this thread.
         if succeeded {
             for callback in callbacks {
-                if !control.is_cancelled() { callback.dispatch(); }
+                if !control.is_cancelled() {
+                    callback.dispatch();
+                }
             }
         }
     }

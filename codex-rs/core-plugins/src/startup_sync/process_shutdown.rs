@@ -98,7 +98,9 @@ impl CuratedProcessShutdownObservation {
             return false;
         }
         match self.native.native {
-            CuratedSyncNativeCompletion::Idle | CuratedSyncNativeCompletion::SpawnFailed { .. } => true,
+            CuratedSyncNativeCompletion::Idle | CuratedSyncNativeCompletion::SpawnFailed { .. } => {
+                true
+            }
             CuratedSyncNativeCompletion::Joined => {
                 self.native.sync_succeeded() || self.native.failure().is_some()
             }

@@ -10,11 +10,11 @@ mod event_processor;
 mod event_processor_with_human_output;
 pub(crate) mod event_processor_with_jsonl_output;
 pub(crate) mod exec_events;
-mod worktree;
 mod process_final;
 #[cfg(test)]
 #[path = "process_final_input_tests.rs"]
 mod process_final_input_tests;
+mod worktree;
 
 pub use cli::Cli;
 pub use cli::Command;
@@ -722,7 +722,10 @@ async fn run_main_inner(
         )?;
         #[cfg(target_os = "macos")]
         let local_runtime_paths = local_runtime_paths.with_allowed_symlinked_codex_home(
-            codex_config::allowed_symlinked_codex_home(&config.config_layer_stack, &config.codex_home),
+            codex_config::allowed_symlinked_codex_home(
+                &config.config_layer_stack,
+                &config.codex_home,
+            ),
         );
         let state_db = codex_core::init_state_db(&config).await;
         let environment_manager = if run_loader_overrides.ignore_user_config {
@@ -1016,7 +1019,9 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
         && !dangerously_bypass_approvals_and_sandbox
         && get_git_repo_root(&default_cwd).is_none()
     {
-        anyhow::bail!("Not inside a trusted directory and --skip-git-repo-check was not specified.");
+        anyhow::bail!(
+            "Not inside a trusted directory and --skip-git-repo-check was not specified."
+        );
     }
 
     let mut request_ids = RequestIdSequencer::new();
@@ -2182,10 +2187,16 @@ fn load_output_schema(path: Option<PathBuf>) -> anyhow::Result<Option<Value>> {
         return Ok(None);
     };
     let schema_str = std::fs::read_to_string(&path).map_err(|err| {
-        anyhow::anyhow!("Failed to read output schema file {}: {err}", path.display())
+        anyhow::anyhow!(
+            "Failed to read output schema file {}: {err}",
+            path.display()
+        )
     })?;
     let value = serde_json::from_str::<Value>(&schema_str).map_err(|err| {
-        anyhow::anyhow!("Output schema file {} is not valid JSON: {err}", path.display())
+        anyhow::anyhow!(
+            "Output schema file {} is not valid JSON: {err}",
+            path.display()
+        )
     })?;
     Ok(Some(value))
 }

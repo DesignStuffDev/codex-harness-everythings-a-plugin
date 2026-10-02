@@ -1,0 +1,47 @@
+--- prelint/codex-rs/app-server/src/in_process.rs
++++ corrected-observed/codex-rs/app-server/src/in_process.rs
+@@ -98,7 +98,6 @@
+ pub use codex_state::log_db::LogDbLayer;
+ use tokio::sync::mpsc;
+ use tokio::sync::oneshot;
+-use tokio::time::timeout;
+ use toml::Value as TomlValue;
+ use tracing::warn;
+ 
+@@ -992,6 +991,7 @@
+     use pretty_assertions::assert_eq;
+     use std::path::Path;
+     use tempfile::TempDir;
++    use tokio::time::timeout;
+ 
+     async fn build_test_config(codex_home: &Path) -> Config {
+         match ConfigBuilder::default()
+--- prelint/codex-rs/app-server/src/in_process_curated_replacement_tests.rs
++++ postlint/codex-rs/app-server/src/in_process_curated_replacement_tests.rs
+@@ -287,7 +287,7 @@
+         let scope = match client
+             ._curated_callback_lifecycle
+             .as_ref()
+-            .map(|guard| guard.scope())
++            .map(super::super::curated_callback_lifecycle::CuratedCallbackGuard::scope)
+         {
+             Some(scope) => scope,
+             None => {
+@@ -315,15 +315,14 @@
+                     _ = stopping.cancelled() => break,
+                     event = client.next_event() => match event {
+                         Some(event) => {
+-                            if let InProcessServerEvent::ServerRequest(request) = &event {
+-                                if let Err(error) = client.fail_server_request(request.id().clone(), JSONRPCErrorError {
++                            if let InProcessServerEvent::ServerRequest(request) = &event
++                                && let Err(error) = client.fail_server_request(request.id().clone(), JSONRPCErrorError {
+                                     code: -32603, message: "acceptance fixture cannot approve server requests".into(), data: None,
+                                 }) {
+                                     record.lock().unwrap_or_else(PoisonError::into_inner).observe(event);
+                                     observation = Err(error.into());
+                                     break;
+                                 }
+-                            }
+                             record.lock().unwrap_or_else(PoisonError::into_inner).observe(event);
+                         }
+                         None => { observation = Err(anyhow::anyhow!("runtime event stream closed before requested shutdown")); break; }

@@ -27,22 +27,34 @@ pub struct ProcessShutdownDeadline {
 }
 
 impl ProcessShutdownDeadline {
-    pub fn graceful(self) -> Instant { self.graceful }
-    pub fn hard(self) -> Instant { self.hard }
+    pub fn graceful(self) -> Instant {
+        self.graceful
+    }
+    pub fn hard(self) -> Instant {
+        self.hard
+    }
 }
 
 /// Explicit permission from an executable to start irreversible process-final
 /// shutdown. Ordinary library and embedded-provider lifetimes do not create it.
 #[derive(Clone, Debug, PartialEq, Eq)]
-pub struct ProcessFinalCapability { _private: () }
+pub struct ProcessFinalCapability {
+    _private: (),
+}
 
 impl ProcessFinalCapability {
-    pub fn for_executable() -> Self { Self { _private: () } }
-    pub fn begin(&self) -> ProcessShutdownDeadline { begin() }
+    pub fn for_executable() -> Self {
+        Self { _private: () }
+    }
+    pub fn begin(&self) -> ProcessShutdownDeadline {
+        begin()
+    }
 }
 
 #[derive(Default)]
-struct Clock { watchdog: OnceLock<Arc<Watchdog>> }
+struct Clock {
+    watchdog: OnceLock<Arc<Watchdog>>,
+}
 
 impl Clock {
     fn begin_with(
@@ -51,23 +63,31 @@ impl Clock {
         hard: Duration,
         on_timeout: impl FnOnce() + Send + 'static,
     ) -> ProcessShutdownDeadline {
-        self.watchdog.get_or_init(|| {
-            Watchdog::start(graceful, hard, on_timeout)
-                .unwrap_or_else(|_| std::process::exit(WATCHDOG_UNAVAILABLE_EXIT_CODE))
-        }).deadline
+        self.watchdog
+            .get_or_init(|| {
+                Watchdog::start(graceful, hard, on_timeout)
+                    .unwrap_or_else(|_| std::process::exit(WATCHDOG_UNAVAILABLE_EXIT_CODE))
+            })
+            .deadline
     }
 
     fn finish(&self) -> io::Result<()> {
-        self.watchdog.get().map_or(Ok(()), |watchdog| watchdog.finish())
+        self.watchdog
+            .get()
+            .map_or(Ok(()), |watchdog| watchdog.finish())
     }
 }
 
-static CLOCK: Clock = Clock { watchdog: OnceLock::new() };
+static CLOCK: Clock = Clock {
+    watchdog: OnceLock::new(),
+};
 
 /// Start the first shared deadline without depending on Tokio or logging. Later
 /// calls reuse it. Failure to create its watchdog is an unconfirmed hard exit.
 pub fn begin() -> ProcessShutdownDeadline {
-    CLOCK.begin_with(GRACEFUL_TIMEOUT, HARD_TIMEOUT, || std::process::exit(HARD_TIMEOUT_EXIT_CODE))
+    CLOCK.begin_with(GRACEFUL_TIMEOUT, HARD_TIMEOUT, || {
+        std::process::exit(HARD_TIMEOUT_EXIT_CODE)
+    })
 }
 
 pub fn current() -> Option<ProcessShutdownDeadline> {
@@ -82,7 +102,9 @@ pub fn cap_deadline(local: Instant) -> Instant {
 
 /// Call only after the executable's actual runtime has been dropped and its
 /// native main thread joined. Early disarming would hide blocked teardown.
-pub fn finish_after_runtime() -> io::Result<()> { CLOCK.finish() }
+pub fn finish_after_runtime() -> io::Result<()> {
+    CLOCK.finish()
+}
 
 #[derive(Default)]
 struct WatchdogState {
@@ -107,30 +129,45 @@ impl Watchdog {
     ) -> io::Result<Arc<Self>> {
         let started = Instant::now();
         let watchdog = Arc::new(Self {
-            deadline: ProcessShutdownDeadline { graceful: started + graceful, hard: started + hard },
+            deadline: ProcessShutdownDeadline {
+                graceful: started + graceful,
+                hard: started + hard,
+            },
             state: Mutex::new(WatchdogState::default()),
             changed: Condvar::new(),
         });
         let owner = Arc::clone(&watchdog);
-        let worker = std::thread::Builder::new().name("codex-process-shutdown".to_string()).spawn(move || {
-            let timed_out = {
-                let mut state = owner.state.lock().unwrap_or_else(PoisonError::into_inner);
-                loop {
-                    if state.stopped { break false; }
-                    let now = Instant::now();
-                    if now >= owner.deadline.hard {
-                        state.expired = true;
-                        break true;
+        let worker = std::thread::Builder::new()
+            .name("codex-process-shutdown".to_string())
+            .spawn(move || {
+                let timed_out = {
+                    let mut state = owner.state.lock().unwrap_or_else(PoisonError::into_inner);
+                    loop {
+                        if state.stopped {
+                            break false;
+                        }
+                        let now = Instant::now();
+                        if now >= owner.deadline.hard {
+                            state.expired = true;
+                            break true;
+                        }
+                        let (next, _) = owner
+                            .changed
+                            .wait_timeout(state, owner.deadline.hard - now)
+                            .unwrap_or_else(PoisonError::into_inner);
+                        state = next;
                     }
-                    let (next, _) = owner.changed.wait_timeout(state, owner.deadline.hard - now)
-                        .unwrap_or_else(PoisonError::into_inner);
-                    state = next;
+                };
+                // No logging or user callback runs under the watchdog mutex.
+                if timed_out {
+                    on_timeout();
                 }
-            };
-            // No logging or user callback runs under the watchdog mutex.
-            if timed_out { on_timeout(); }
-        })?;
-        watchdog.state.lock().unwrap_or_else(PoisonError::into_inner).worker = Some(worker);
+            })?;
+        watchdog
+            .state
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner)
+            .worker = Some(worker);
         Ok(watchdog)
     }
 
@@ -143,7 +180,10 @@ impl Watchdog {
                 self.changed.notify_all();
             }
             while state.joining {
-                state = self.changed.wait(state).unwrap_or_else(PoisonError::into_inner);
+                state = self
+                    .changed
+                    .wait(state)
+                    .unwrap_or_else(PoisonError::into_inner);
             }
             let worker = state.worker.take();
             state.joining = worker.is_some();
@@ -161,9 +201,14 @@ impl Watchdog {
         }
         let state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
         if state.expired {
-            Err(io::Error::new(io::ErrorKind::TimedOut, "process shutdown exceeded its independent hard deadline; cleanup is unconfirmed"))
+            Err(io::Error::new(
+                io::ErrorKind::TimedOut,
+                "process shutdown exceeded its independent hard deadline; cleanup is unconfirmed",
+            ))
         } else if state.failed {
-            Err(io::Error::other("process shutdown watchdog failed; cleanup is unconfirmed"))
+            Err(io::Error::other(
+                "process shutdown watchdog failed; cleanup is unconfirmed",
+            ))
         } else {
             Ok(())
         }

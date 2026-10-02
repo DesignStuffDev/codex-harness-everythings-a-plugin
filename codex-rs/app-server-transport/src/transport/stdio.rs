@@ -46,7 +46,9 @@ pub async fn start_stdio_connection(
             .name("app-server-signal".to_string())
             .spawn(move || {
                 if signals.forever().next().is_some() {
-                    if let Some(begin) = on_process_shutdown.as_ref() { begin(); }
+                    if let Some(begin) = on_process_shutdown.as_ref() {
+                        begin();
+                    }
                     shutdown_signal.cancel();
                 }
             })?;
@@ -79,7 +81,9 @@ pub async fn start_stdio_connection(
                 }
             }
             // EOF must arm independently of a blocked Tokio forwarding task.
-            if let Some(begin) = on_stdin_terminal.as_ref() { begin(); }
+            if let Some(begin) = on_stdin_terminal.as_ref() {
+                begin();
+            }
         })?;
 
     // Keep stdout's blocking writes off Tokio's pool too. The forwarding future
@@ -129,7 +133,9 @@ pub async fn start_stdio_connection(
 
         // EOF can finish the transport before RPC or runtime cleanup. Start
         // the same process deadline even if no SIGTERM arrives.
-        if let Some(begin) = on_process_shutdown.as_ref() { begin(); }
+        if let Some(begin) = on_process_shutdown.as_ref() {
+            begin();
+        }
         let _ = transport_event_tx_for_reader
             .send(TransportEvent::ConnectionClosed { connection_id })
             .await;

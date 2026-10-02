@@ -1,0 +1,4508 @@
+--- a/codex-rs/app-server-transport/src/transport/stdio.rs
++++ b/codex-rs/app-server-transport/src/transport/stdio.rs
+@@ -46,7 +46,9 @@
+             .name("app-server-signal".to_string())
+             .spawn(move || {
+                 if signals.forever().next().is_some() {
+-                    if let Some(begin) = on_process_shutdown.as_ref() { begin(); }
++                    if let Some(begin) = on_process_shutdown.as_ref() {
++                        begin();
++                    }
+                     shutdown_signal.cancel();
+                 }
+             })?;
+@@ -79,7 +81,9 @@
+                 }
+             }
+             // EOF must arm independently of a blocked Tokio forwarding task.
+-            if let Some(begin) = on_stdin_terminal.as_ref() { begin(); }
++            if let Some(begin) = on_stdin_terminal.as_ref() {
++                begin();
++            }
+         })?;
+ 
+     // Keep stdout's blocking writes off Tokio's pool too. The forwarding future
+@@ -129,7 +133,9 @@
+ 
+         // EOF can finish the transport before RPC or runtime cleanup. Start
+         // the same process deadline even if no SIGTERM arrives.
+-        if let Some(begin) = on_process_shutdown.as_ref() { begin(); }
++        if let Some(begin) = on_process_shutdown.as_ref() {
++            begin();
++        }
+         let _ = transport_event_tx_for_reader
+             .send(TransportEvent::ConnectionClosed { connection_id })
+             .await;
+--- a/codex-rs/app-server/src/file_search_services.rs
++++ b/codex-rs/app-server/src/file_search_services.rs
+@@ -95,14 +95,17 @@
+     }
+     pub(crate) async fn finish(&self) -> io::Result<()> {
+         self.begin_shutdown();
+-        let outcome = tokio::time::timeout_at(crate::process_final::deadline_after(Duration::from_secs(120)), self.provider.shutdown())
+-            .await
+-            .map_err(|_| {
+-                io::Error::new(
+-                    io::ErrorKind::TimedOut,
+-                    "file-search provider shutdown timed out; owned cleanup is unconfirmed",
+-                )
+-            })?;
++        let outcome = tokio::time::timeout_at(
++            crate::process_final::deadline_after(Duration::from_secs(120)),
++            self.provider.shutdown(),
++        )
++        .await
++        .map_err(|_| {
++            io::Error::new(
++                io::ErrorKind::TimedOut,
++                "file-search provider shutdown timed out; owned cleanup is unconfirmed",
++            )
++        })?;
+         let operation = outcome
+             .operation
+             .err()
+--- a/codex-rs/app-server/src/in_process.rs
++++ b/codex-rs/app-server/src/in_process.rs
+@@ -688,7 +688,10 @@
+             processor.clear_all_thread_listeners().await;
+             let background_cleanup = processor.drain_background_tasks().await;
+             let sessions = processor.shutdown_threads().await;
+-            crate::file_search_services::combine(background_cleanup.map_err(IoError::other), sessions)
++            crate::file_search_services::combine(
++                background_cleanup.map_err(IoError::other),
++                sessions,
++            )
+         });
+         let mut pending_request_responses =
+             HashMap::<RequestId, oneshot::Sender<PendingClientRequestResponse>>::new();
+@@ -871,27 +874,38 @@
+         .await;
+         let _ = outbound_shutdown_tx.send(());
+         let outbound_result = match tokio::time::timeout_at(
+-            crate::process_final::deadline_after(SHUTDOWN_TIMEOUT), &mut outbound_handle,
+-        ).await {
++            crate::process_final::deadline_after(SHUTDOWN_TIMEOUT),
++            &mut outbound_handle,
++        )
++        .await
++        {
+             Ok(Ok(())) => Ok(()),
+-            Ok(Err(_)) => Err(IoError::other("in-process outbound router failed during shutdown")),
++            Ok(Err(_)) => Err(IoError::other(
++                "in-process outbound router failed during shutdown",
++            )),
+             Err(_) => {
+                 outbound_handle.abort();
+                 let detail = match outbound_handle.await {
+-                    Err(error) if error.is_panic() => "in-process outbound router timed out and panicked",
++                    Err(error) if error.is_panic() => {
++                        "in-process outbound router timed out and panicked"
++                    }
+                     Err(_) => "in-process outbound router timed out and was cancelled",
+                     Ok(()) => "in-process outbound router completed after its deadline",
+                 };
+                 Err(IoError::new(ErrorKind::TimedOut, detail))
+             }
+         };
+-        let shutdown_result = crate::file_search_services::combine(shutdown_result, outbound_result);
++        let shutdown_result =
++            crate::file_search_services::combine(shutdown_result, outbound_result);
+ 
+         let analytics_result = tokio::time::timeout_at(
+             crate::process_final::deadline_after(Duration::from_secs(25)),
+             analytics_events_flush_client.flush(),
+-        ).await.map_err(|_| IoError::new(ErrorKind::TimedOut, "analytics shutdown timed out"));
+-        let shutdown_result = crate::file_search_services::combine(shutdown_result, analytics_result);
++        )
++        .await
++        .map_err(|_| IoError::new(ErrorKind::TimedOut, "analytics shutdown timed out"));
++        let shutdown_result =
++            crate::file_search_services::combine(shutdown_result, analytics_result);
+ 
+         if let Some(done_tx) = shutdown_ack {
+             let _ = done_tx.send(());
+@@ -921,7 +935,12 @@
+     // processor; its detached references cannot extend public provider life.
+     search.begin_shutdown();
+     callbacks.begin_close();
+-    let processor_result = match tokio::time::timeout_at(crate::process_final::drain_deadline(PROCESSOR_SHUTDOWN_TIMEOUT), &mut *processor).await {
++    let processor_result = match tokio::time::timeout_at(
++        crate::process_final::drain_deadline(PROCESSOR_SHUTDOWN_TIMEOUT),
++        &mut *processor,
++    )
++    .await
++    {
+         Ok(Ok(result)) => result,
+         Ok(Err(_)) => Err(IoError::other(
+             "in-process request processor failed during shutdown",
+--- a/codex-rs/app-server/src/in_process_curated_replacement_tests.rs
++++ b/codex-rs/app-server/src/in_process_curated_replacement_tests.rs
+@@ -1,37 +1,68 @@
+ //! Real same-process A-to-B acceptance, run once in a parent-owned fresh test ELF.
+ //! The parent owns Git/model/MCP fixtures and the finite child-process deadline.
+ 
+-use super::{InProcessClientSender, InProcessServerEvent, InProcessStartArgs, start};
+-use anyhow::{Context, Result, bail, ensure};
+-use codex_app_server_protocol::{
+-    ClientInfo, ClientRequest, InitializeParams, JSONRPCErrorError,
+-    McpServerStartupState, McpServerToolCallParams, McpServerToolCallResponse,
+-    PluginListParams, PluginListResponse, RequestId, ServerNotification,
+-    SkillsListParams, SkillsListResponse, ThreadStartParams, ThreadStartResponse,
+-    TurnInterruptParams, TurnInterruptResponse, TurnStartParams, TurnStartResponse,
+-    TurnStatus, UserInput,
+-};
++use super::InProcessClientSender;
++use super::InProcessServerEvent;
++use super::InProcessStartArgs;
++use super::start;
++use anyhow::Context;
++use anyhow::Result;
++use anyhow::bail;
++use anyhow::ensure;
++use codex_app_server_protocol::ClientInfo;
++use codex_app_server_protocol::ClientRequest;
++use codex_app_server_protocol::InitializeParams;
++use codex_app_server_protocol::JSONRPCErrorError;
++use codex_app_server_protocol::McpServerStartupState;
++use codex_app_server_protocol::McpServerToolCallParams;
++use codex_app_server_protocol::McpServerToolCallResponse;
++use codex_app_server_protocol::PluginListParams;
++use codex_app_server_protocol::PluginListResponse;
++use codex_app_server_protocol::RequestId;
++use codex_app_server_protocol::ServerNotification;
++use codex_app_server_protocol::SkillsListParams;
++use codex_app_server_protocol::SkillsListResponse;
++use codex_app_server_protocol::ThreadStartParams;
++use codex_app_server_protocol::ThreadStartResponse;
++use codex_app_server_protocol::TurnInterruptParams;
++use codex_app_server_protocol::TurnInterruptResponse;
++use codex_app_server_protocol::TurnStartParams;
++use codex_app_server_protocol::TurnStartResponse;
++use codex_app_server_protocol::TurnStatus;
++use codex_app_server_protocol::UserInput;
+ use codex_arg0::Arg0DispatchPaths;
+-use codex_config::{CloudConfigBundleLoader, LoaderOverrides};
+-use codex_core::config::{ConfigBuilder, ConfigOverrides};
++use codex_config::CloudConfigBundleLoader;
++use codex_config::LoaderOverrides;
++use codex_core::config::ConfigBuilder;
++use codex_core::config::ConfigOverrides;
+ use codex_core_plugins::PluginsManager;
+-use codex_core_plugins::startup_sync::{
+-    CuratedCallbackActivity, CuratedCallbackObservation, CuratedCallbackScope,
+-    CuratedProcessShutdown, CuratedSyncLifecycleObservation,
+-    CuratedSyncNativeCompletion, CuratedSyncOperationDisposition,
+-};
++use codex_core_plugins::startup_sync::CuratedCallbackActivity;
++use codex_core_plugins::startup_sync::CuratedCallbackObservation;
++use codex_core_plugins::startup_sync::CuratedCallbackScope;
++use codex_core_plugins::startup_sync::CuratedProcessShutdown;
++use codex_core_plugins::startup_sync::CuratedSyncLifecycleObservation;
++use codex_core_plugins::startup_sync::CuratedSyncNativeCompletion;
++use codex_core_plugins::startup_sync::CuratedSyncOperationDisposition;
+ use codex_exec_server::EnvironmentManager;
+ use codex_feedback::CodexFeedback;
+ use codex_protocol::protocol::SessionSource;
+ use serde::de::DeserializeOwned;
+-use serde_json::{Value, json};
+-use std::collections::{BTreeSet, HashMap};
++use serde_json::Value;
++use serde_json::json;
++use std::collections::BTreeSet;
++use std::collections::HashMap;
+ use std::fmt;
+ use std::net::SocketAddr;
+-use std::path::{Path, PathBuf};
+-use std::sync::{Arc, Mutex, PoisonError};
+-use std::time::{Duration, Instant};
+-use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
++use std::path::Path;
++use std::path::PathBuf;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::PoisonError;
++use std::time::Duration;
++use std::time::Instant;
++use tokio::io::AsyncBufReadExt;
++use tokio::io::AsyncWriteExt;
++use tokio::io::BufReader;
+ use tokio::net::TcpStream;
+ use tokio::time::timeout;
+ use tokio_util::sync::CancellationToken;
+@@ -42,7 +73,11 @@
+ const TOOL: &str = "replacement_probe";
+ 
+ #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+-enum Case { Pending, Replay, Race }
++enum Case {
++    Pending,
++    Replay,
++    Race,
++}
+ 
+ impl Case {
+     fn parse(value: &str) -> Result<Self> {
+@@ -54,7 +89,11 @@
+         }
+     }
+     fn label(self) -> &'static str {
+-        match self { Self::Pending => "pending", Self::Replay => "replay", Self::Race => "race" }
++        match self {
++            Self::Pending => "pending",
++            Self::Replay => "replay",
++            Self::Race => "race",
++        }
+     }
+ }
+ 
+@@ -62,9 +101,15 @@
+ 
+ impl Control {
+     async fn connect() -> Result<Self> {
+-        let address: SocketAddr = std::env::var("CODEX_TEST_CURATED_REPLACEMENT_CONTROL")?.parse()?;
+-        ensure!(address.ip().is_loopback() && address.port() != 0, "control must be a loopback fixture");
+-        Ok(Self(BufReader::new(timeout(OBSERVE, TcpStream::connect(address)).await??)))
++        let address: SocketAddr =
++            std::env::var("CODEX_TEST_CURATED_REPLACEMENT_CONTROL")?.parse()?;
++        ensure!(
++            address.ip().is_loopback() && address.port() != 0,
++            "control must be a loopback fixture"
++        );
++        Ok(Self(BufReader::new(
++            timeout(OBSERVE, TcpStream::connect(address)).await??,
++        )))
+     }
+ 
+     async fn checkpoint(&mut self, event: &'static str) -> Result<()> {
+@@ -74,12 +119,23 @@
+             self.0.get_mut().write_all(&message).await?;
+             self.0.get_mut().flush().await?;
+             let mut line = String::new();
+-            ensure!(self.0.read_line(&mut line).await? != 0, "control closed before acknowledgement");
+-            ensure!(line.len() <= 4096, "control acknowledgement exceeded fixture bound");
++            ensure!(
++                self.0.read_line(&mut line).await? != 0,
++                "control closed before acknowledgement"
++            );
++            ensure!(
++                line.len() <= 4096,
++                "control acknowledgement exceeded fixture bound"
++            );
+             let ack: Value = serde_json::from_str(&line)?;
+-            ensure!(ack.get("ack").and_then(Value::as_str) == Some(event), "control acknowledgement mismatch");
++            ensure!(
++                ack.get("ack").and_then(Value::as_str) == Some(event),
++                "control acknowledgement mismatch"
++            );
+             Ok::<_, anyhow::Error>(())
+-        }).await.context("control checkpoint deadline")?
++        })
++        .await
++        .context("control checkpoint deadline")?
+     }
+ }
+ 
+@@ -107,14 +163,23 @@
+ impl std::error::Error for EventFailure {}
+ 
+ #[derive(Debug)]
+-struct BothFailures { operation: anyhow::Error, cleanup: anyhow::Error }
++struct BothFailures {
++    operation: anyhow::Error,
++    cleanup: anyhow::Error,
++}
+ impl fmt::Display for BothFailures {
+     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+-        write!(f, "{}; cleanup also failed: {}", self.operation, self.cleanup)
++        write!(
++            f,
++            "{}; cleanup also failed: {}",
++            self.operation, self.cleanup
++        )
+     }
+ }
+ impl std::error::Error for BothFailures {
+-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> { Some(self.operation.as_ref()) }
++    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
++        Some(self.operation.as_ref())
++    }
+ }
+ fn combine(first: Result<()>, second: Result<()>) -> Result<()> {
+     match (first, second) {
+@@ -132,7 +197,9 @@
+ 
+ impl Events {
+     fn check(&self) -> Result<()> {
+-        if let Some(error) = &self.failure { return Err(error.clone().into()); }
++        if let Some(error) = &self.failure {
++            return Err(error.clone().into());
++        }
+         Ok(())
+     }
+     fn observe(&mut self, event: InProcessServerEvent) {
+@@ -148,7 +215,10 @@
+                     }
+                 }
+                 ServerNotification::TurnCompleted(update) => {
+-                    self.turns.insert((update.thread_id.clone(), update.turn.id.clone()), update.turn.status.clone());
++                    self.turns.insert(
++                        (update.thread_id.clone(), update.turn.id.clone()),
++                        update.turn.status.clone(),
++                    );
+                 }
+                 _ => {}
+             },
+@@ -171,37 +241,64 @@
+ 
+ impl Embedded {
+     async fn launch(home: &Path) -> Result<Self> {
+-        let config = Arc::new(ConfigBuilder::default()
+-            .codex_home(home.to_path_buf())
+-            .harness_overrides(ConfigOverrides {
+-                cwd: Some(home.to_path_buf()), bypass_hook_trust: Some(true), ..Default::default()
+-            }).build().await?);
+-        ensure!(config.sqlite_config().home() == home,
+-            "resolved SQLite home differs from fixture home");
++        let config = Arc::new(
++            ConfigBuilder::default()
++                .codex_home(home.to_path_buf())
++                .harness_overrides(ConfigOverrides {
++                    cwd: Some(home.to_path_buf()),
++                    bypass_hook_trust: Some(true),
++                    ..Default::default()
++                })
++                .build()
++                .await?,
++        );
++        ensure!(
++            config.sqlite_config().home() == home,
++            "resolved SQLite home differs from fixture home"
++        );
+         let state_db = codex_rollout::state_db::try_init(config.as_ref()).await?;
+         let mut client = start(InProcessStartArgs {
+-            arg0_paths: Arg0DispatchPaths::default(), config,
+-            cli_overrides: Vec::new(), loader_overrides: LoaderOverrides::default(),
+-            strict_config: false, cloud_config_bundle: CloudConfigBundleLoader::default(),
++            arg0_paths: Arg0DispatchPaths::default(),
++            config,
++            cli_overrides: Vec::new(),
++            loader_overrides: LoaderOverrides::default(),
++            strict_config: false,
++            cloud_config_bundle: CloudConfigBundleLoader::default(),
+             embedded_network_policy: Default::default(),
+             thread_config_loader: Arc::new(codex_config::NoopThreadConfigLoader),
+-            feedback: CodexFeedback::new(), log_db: None, state_db: Some(state_db),
++            feedback: CodexFeedback::new(),
++            log_db: None,
++            state_db: Some(state_db),
+             environment_manager: Arc::new(EnvironmentManager::default_for_tests()),
+-            config_warnings: Vec::new(), session_source: SessionSource::Cli,
++            config_warnings: Vec::new(),
++            session_source: SessionSource::Cli,
+             enable_codex_api_key_env: false,
+             initialize: InitializeParams {
+-                client_info: ClientInfo { name: "curated-replacement-acceptance".into(), title: None, version: "1".into() },
++                client_info: ClientInfo {
++                    name: "curated-replacement-acceptance".into(),
++                    title: None,
++                    version: "1".into(),
++                },
+                 capabilities: None,
+             },
+             channel_capacity: 1024,
+-        }).await?;
+-        let scope = match client._curated_callback_lifecycle.as_ref().map(|guard| guard.scope()) {
++        })
++        .await?;
++        let scope = match client
++            ._curated_callback_lifecycle
++            .as_ref()
++            .map(|guard| guard.scope())
++        {
+             Some(scope) => scope,
+             None => {
+                 let operation = anyhow::anyhow!("real startup did not install callback custody");
+                 return match client.shutdown().await {
+                     Ok(()) => Err(operation),
+-                    Err(cleanup) => Err(BothFailures { operation, cleanup: cleanup.into() }.into()),
++                    Err(cleanup) => Err(BothFailures {
++                        operation,
++                        cleanup: cleanup.into(),
++                    }
++                    .into()),
+                 };
+             }
+         };
+@@ -233,53 +330,121 @@
+                     }
+                 }
+             }
+-            combine(observation, client.shutdown().await.map_err(anyhow::Error::from))
++            combine(
++                observation,
++                client.shutdown().await.map_err(anyhow::Error::from),
++            )
+         });
+-        Ok(Self { sender, scope, events, stop, task: Some(task), next_id: 1 })
+-    }
+-
+-    async fn request<T: DeserializeOwned>(&mut self, make: impl FnOnce(RequestId) -> ClientRequest) -> Result<T> {
+-        self.events.lock().unwrap_or_else(PoisonError::into_inner).check()?;
++        Ok(Self {
++            sender,
++            scope,
++            events,
++            stop,
++            task: Some(task),
++            next_id: 1,
++        })
++    }
++
++    async fn request<T: DeserializeOwned>(
++        &mut self,
++        make: impl FnOnce(RequestId) -> ClientRequest,
++    ) -> Result<T> {
++        self.events
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .check()?;
+         let id = self.next_id;
+         self.next_id += 1;
+-        let response = timeout(OBSERVE, self.sender.request(make(RequestId::Integer(id)))).await??
++        let response = timeout(OBSERVE, self.sender.request(make(RequestId::Integer(id))))
++            .await??
+             .map_err(RpcFailure)?;
+         let parsed = serde_json::from_value(response)?;
+-        self.events.lock().unwrap_or_else(PoisonError::into_inner).check()?;
++        self.events
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .check()?;
+         Ok(parsed)
+     }
+ 
+     async fn thread(&mut self, home: &Path) -> Result<String> {
+-        let response: ThreadStartResponse = self.request(|request_id| ClientRequest::ThreadStart {
+-            request_id, params: ThreadStartParams {
+-                cwd: Some(home.to_string_lossy().into_owned()),
+-                config: Some(HashMap::from([("bypass_hook_trust".into(), json!(true))])),
+-                ..Default::default()
+-            },
+-        }).await?;
++        let response: ThreadStartResponse = self
++            .request(|request_id| ClientRequest::ThreadStart {
++                request_id,
++                params: ThreadStartParams {
++                    cwd: Some(home.to_string_lossy().into_owned()),
++                    config: Some(HashMap::from([("bypass_hook_trust".into(), json!(true))])),
++                    ..Default::default()
++                },
++            })
++            .await?;
+         Ok(response.thread.id)
+     }
+ 
+     async fn metadata(&mut self, home: &Path, version: &str) -> Result<()> {
+-        let plugins: PluginListResponse = self.request(|request_id| ClientRequest::PluginList {
+-            request_id, params: PluginListParams { cwds: None, marketplace_kinds: None, force_refetch: false },
+-        }).await?;
+-        ensure!(plugins.marketplace_load_errors.is_empty(), "typed plugin list contained load errors");
+-        let matching: Vec<_> = plugins.marketplaces.iter().flat_map(|market| &market.plugins)
+-            .filter(|plugin| plugin.id == PLUGIN).collect();
+-        ensure!(matching.len() == 1, "typed plugin identity was missing or duplicated");
++        let plugins: PluginListResponse = self
++            .request(|request_id| ClientRequest::PluginList {
++                request_id,
++                params: PluginListParams {
++                    cwds: None,
++                    marketplace_kinds: None,
++                    force_refetch: false,
++                },
++            })
++            .await?;
++        ensure!(
++            plugins.marketplace_load_errors.is_empty(),
++            "typed plugin list contained load errors"
++        );
++        let matching: Vec<_> = plugins
++            .marketplaces
++            .iter()
++            .flat_map(|market| &market.plugins)
++            .filter(|plugin| plugin.id == PLUGIN)
++            .collect();
++        ensure!(
++            matching.len() == 1,
++            "typed plugin identity was missing or duplicated"
++        );
+         let plugin = matching[0];
+-        ensure!(plugin.installed && plugin.enabled, "fixture plugin is not installed and enabled");
+-        ensure!(plugin.local_version.as_deref() == Some(version), "typed installed plugin version mismatch");
+-        let skills: SkillsListResponse = self.request(|request_id| ClientRequest::SkillsList {
+-            request_id, params: SkillsListParams { cwds: vec![home.to_path_buf()], force_reload: false },
+-        }).await?;
+-        ensure!(skills.data.iter().all(|entry| entry.errors.is_empty()), "typed skills list contained load errors");
+-        let matching: Vec<_> = skills.data.iter().flat_map(|entry| &entry.skills)
+-            .filter(|skill| skill.name == SKILL).collect();
+-        ensure!(matching.len() == 1, "typed skill identity was missing or duplicated");
+-        ensure!(matching[0].enabled && matching[0].plugin_id.as_deref() == Some(PLUGIN), "typed skill ownership mismatch");
+-        ensure!(matching[0].description == version, "typed cached skill description mismatch");
++        ensure!(
++            plugin.installed && plugin.enabled,
++            "fixture plugin is not installed and enabled"
++        );
++        ensure!(
++            plugin.local_version.as_deref() == Some(version),
++            "typed installed plugin version mismatch"
++        );
++        let skills: SkillsListResponse = self
++            .request(|request_id| ClientRequest::SkillsList {
++                request_id,
++                params: SkillsListParams {
++                    cwds: vec![home.to_path_buf()],
++                    force_reload: false,
++                },
++            })
++            .await?;
++        ensure!(
++            skills.data.iter().all(|entry| entry.errors.is_empty()),
++            "typed skills list contained load errors"
++        );
++        let matching: Vec<_> = skills
++            .data
++            .iter()
++            .flat_map(|entry| &entry.skills)
++            .filter(|skill| skill.name == SKILL)
++            .collect();
++        ensure!(
++            matching.len() == 1,
++            "typed skill identity was missing or duplicated"
++        );
++        ensure!(
++            matching[0].enabled && matching[0].plugin_id.as_deref() == Some(PLUGIN),
++            "typed skill ownership mismatch"
++        );
++        ensure!(
++            matching[0].description == version,
++            "typed cached skill description mismatch"
++        );
+         Ok(())
+     }
+ 
+@@ -289,74 +454,131 @@
+                 {
+                     let events = self.events.lock().unwrap_or_else(PoisonError::into_inner);
+                     events.check()?;
+-                    if events.ready.contains(&(thread.to_owned(), server.to_owned())) { return Ok::<_, anyhow::Error>(()); }
++                    if events
++                        .ready
++                        .contains(&(thread.to_owned(), server.to_owned()))
++                    {
++                        return Ok::<_, anyhow::Error>(());
++                    }
+                 }
+                 tokio::time::sleep(Duration::from_millis(10)).await;
+             }
+-        }).await.context("typed MCP Ready deadline")?
++        })
++        .await
++        .context("typed MCP Ready deadline")?
+     }
+ 
+     async fn tool(&mut self, thread: &str, server: &str, version: &str) -> Result<()> {
+         // The caller must have observed this thread/server's Ready notification
+         // before this direct request, which could otherwise drive dirty refresh.
+-        ensure!(self.events.lock().unwrap_or_else(PoisonError::into_inner).ready
+-            .contains(&(thread.to_owned(), server.to_owned())), "MCP tool attempted before typed Ready");
+-        let response: McpServerToolCallResponse = self.request(|request_id| ClientRequest::McpServerToolCall {
+-            request_id, params: McpServerToolCallParams {
+-                thread_id: thread.into(), server: server.into(), tool: TOOL.into(),
+-                arguments: Some(json!({})), meta: None,
+-            },
+-        }).await?;
+-        ensure!(response.is_error != Some(true), "probe tool returned an operation error");
+-        ensure!(response.content == vec![json!({"type": "text", "text": version})], "typed MCP probe version mismatch");
++        ensure!(
++            self.events
++                .lock()
++                .unwrap_or_else(PoisonError::into_inner)
++                .ready
++                .contains(&(thread.to_owned(), server.to_owned())),
++            "MCP tool attempted before typed Ready"
++        );
++        let response: McpServerToolCallResponse = self
++            .request(|request_id| ClientRequest::McpServerToolCall {
++                request_id,
++                params: McpServerToolCallParams {
++                    thread_id: thread.into(),
++                    server: server.into(),
++                    tool: TOOL.into(),
++                    arguments: Some(json!({})),
++                    meta: None,
++                },
++            })
++            .await?;
++        ensure!(
++            response.is_error != Some(true),
++            "probe tool returned an operation error"
++        );
++        ensure!(
++            response.content == vec![json!({"type": "text", "text": version})],
++            "typed MCP probe version mismatch"
++        );
+         Ok(())
+     }
+ 
+     async fn turn(&mut self, thread: &str) -> Result<String> {
+-        let response: TurnStartResponse = self.request(|request_id| ClientRequest::TurnStart {
+-            request_id, params: TurnStartParams {
+-                thread_id: thread.into(), input: vec![UserInput::Text {
+-                    text: "Hold this acceptance turn until explicitly interrupted.".into(), text_elements: Vec::new(),
+-                }], ..Default::default()
+-            },
+-        }).await?;
++        let response: TurnStartResponse = self
++            .request(|request_id| ClientRequest::TurnStart {
++                request_id,
++                params: TurnStartParams {
++                    thread_id: thread.into(),
++                    input: vec![UserInput::Text {
++                        text: "Hold this acceptance turn until explicitly interrupted.".into(),
++                        text_elements: Vec::new(),
++                    }],
++                    ..Default::default()
++                },
++            })
++            .await?;
+         Ok(response.turn.id)
+     }
+ 
+     async fn interrupt(&mut self, thread: &str, turn: &str) -> Result<()> {
+-        let _: TurnInterruptResponse = self.request(|request_id| ClientRequest::TurnInterrupt {
+-            request_id, params: TurnInterruptParams { thread_id: thread.into(), turn_id: turn.into() },
+-        }).await?;
++        let _: TurnInterruptResponse = self
++            .request(|request_id| ClientRequest::TurnInterrupt {
++                request_id,
++                params: TurnInterruptParams {
++                    thread_id: thread.into(),
++                    turn_id: turn.into(),
++                },
++            })
++            .await?;
+         timeout(OBSERVE, async {
+             loop {
+                 {
+                     let events = self.events.lock().unwrap_or_else(PoisonError::into_inner);
+                     events.check()?;
+                     if let Some(status) = events.turns.get(&(thread.into(), turn.into())) {
+-                        ensure!(*status == TurnStatus::Interrupted, "held turn completed without requested interruption");
++                        ensure!(
++                            *status == TurnStatus::Interrupted,
++                            "held turn completed without requested interruption"
++                        );
+                         return Ok::<_, anyhow::Error>(());
+                     }
+                 }
+                 tokio::time::sleep(Duration::from_millis(10)).await;
+             }
+-        }).await.context("interrupted turn completion deadline")?
++        })
++        .await
++        .context("interrupted turn completion deadline")?
+     }
+ 
+     async fn close(&mut self) -> Result<()> {
+         self.stop.cancel();
+-        if let Some(task) = self.task.take() { task.await??; }
+-        self.events.lock().unwrap_or_else(PoisonError::into_inner).check()
++        if let Some(task) = self.task.take() {
++            task.await??;
++        }
++        self.events
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .check()
+     }
+ }
+ 
+ fn native() -> Result<CuratedSyncLifecycleObservation> {
+-    PluginsManager::observe_curated_repo_sync().context("actual startup did not create a curated generation")
++    PluginsManager::observe_curated_repo_sync()
++        .context("actual startup did not create a curated generation")
+ }
+ 
+ fn validate_generation(observed: CuratedSyncLifecycleObservation, generation: u64) -> Result<()> {
+-    ensure!(observed.generation == Some(generation), "curated worker generation changed");
+-    ensure!(!observed.admission_closed, "embedded replacement closed process admission");
+-    ensure!(!observed.quarantined && observed.unexpected_handles == 0, "native ownership is quarantined or unexpected");
++    ensure!(
++        observed.generation == Some(generation),
++        "curated worker generation changed"
++    );
++    ensure!(
++        !observed.admission_closed,
++        "embedded replacement closed process admission"
++    );
++    ensure!(
++        !observed.quarantined && observed.unexpected_handles == 0,
++        "native ownership is quarantined or unexpected"
++    );
+     Ok(())
+ }
+ 
+@@ -366,17 +588,25 @@
+             let observed = native()?;
+             validate_generation(observed, generation)?;
+             if let Some(disposition) = observed.operation {
+-                ensure!(disposition == CuratedSyncOperationDisposition::Succeeded, "real curated operation did not succeed");
++                ensure!(
++                    disposition == CuratedSyncOperationDisposition::Succeeded,
++                    "real curated operation did not succeed"
++                );
+             }
+             if observed.operation == Some(CuratedSyncOperationDisposition::Succeeded)
+                 && observed.native_handle_finished == Some(true)
+             {
+-                ensure!(observed.native == CuratedSyncNativeCompletion::Running, "passive native observation unexpectedly joined the handle");
++                ensure!(
++                    observed.native == CuratedSyncNativeCompletion::Running,
++                    "passive native observation unexpectedly joined the handle"
++                );
+                 return Ok::<_, anyhow::Error>(());
+             }
+             tokio::time::sleep(Duration::from_millis(10)).await;
+         }
+-    }).await.context("real curated native completion deadline")?
++    })
++    .await
++    .context("real curated native completion deadline")?
+ }
+ 
+ fn activity_value(value: CuratedCallbackActivity) -> Value {
+@@ -390,45 +620,88 @@
+     timeout(OBSERVE, async {
+         loop {
+             let state = scope.activity();
+-            ensure!(!state.admission_closed, "B callback scope closed during behavioral proof");
+-            ensure!(state.completed == 0 && state.suppressed == 0 && state.failed == 0 && state.unexpected == 0,
+-                "B callback result was consumed, suppressed, failed or unexpected before final wait");
+-            ensure!(state.finished_unjoined <= 1, "B admitted duplicate callback tasks");
+-            if state.awaiting_handle == 0 && state.running == 0 && state.joining == 0 && state.finished_unjoined == 1 {
++            ensure!(
++                !state.admission_closed,
++                "B callback scope closed during behavioral proof"
++            );
++            ensure!(
++                state.completed == 0
++                    && state.suppressed == 0
++                    && state.failed == 0
++                    && state.unexpected == 0,
++                "B callback result was consumed, suppressed, failed or unexpected before final wait"
++            );
++            ensure!(
++                state.finished_unjoined <= 1,
++                "B admitted duplicate callback tasks"
++            );
++            if state.awaiting_handle == 0
++                && state.running == 0
++                && state.joining == 0
++                && state.finished_unjoined == 1
++            {
+                 return Ok::<_, anyhow::Error>(state);
+             }
+             tokio::time::sleep(Duration::from_millis(10)).await;
+         }
+-    }).await.context("B callback activity deadline")?
++    })
++    .await
++    .context("B callback activity deadline")?
+ }
+ 
+ fn counts(value: CuratedCallbackObservation) -> Value {
+     json!({"pending": value.pending, "completed": value.completed, "suppressed": value.suppressed, "failed": value.failed})
+ }
+ fn exact_counts(value: CuratedCallbackObservation, completed: usize) -> Result<()> {
+-    ensure!(value.pending == 0 && value.completed == completed && value.suppressed == 0 && value.failed == 0,
+-        "final callback counts did not match exact successful actions");
++    ensure!(
++        value.pending == 0
++            && value.completed == completed
++            && value.suppressed == 0
++            && value.failed == 0,
++        "final callback counts did not match exact successful actions"
++    );
+     Ok(())
+ }
+ 
+ #[derive(Default)]
+-struct Trial { a: Option<Embedded>, b: Option<Embedded>, generation: Option<u64>, receipt: Value }
++struct Trial {
++    a: Option<Embedded>,
++    b: Option<Embedded>,
++    generation: Option<u64>,
++    receipt: Value,
++}
+ 
+ impl Trial {
+     async fn exercise(&mut self, home: &Path, case: Case, control: &mut Control) -> Result<()> {
+-        ensure!(!home.join("hook.log").exists() || tokio::fs::read(home.join("hook.log")).await?.is_empty(), "hook log was not initially empty");
++        ensure!(
++            !home.join("hook.log").exists()
++                || tokio::fs::read(home.join("hook.log")).await?.is_empty(),
++            "hook log was not initially empty"
++        );
+         self.receipt = json!({"receipt_version": 1, "case": case.label(), "existing_b_before_state": case == Case::Pending});
+-        ensure!(PluginsManager::observe_curated_repo_sync().is_none(), "fresh process already had a curated gate");
+-        ensure!(PluginsManager::observe_curated_repo_sync().is_none(), "passive observation initialized a curated gate");
++        ensure!(
++            PluginsManager::observe_curated_repo_sync().is_none(),
++            "fresh process already had a curated gate"
++        );
++        ensure!(
++            PluginsManager::observe_curated_repo_sync().is_none(),
++            "passive observation initialized a curated gate"
++        );
+         self.receipt["passive_observation_did_not_initialize"] = json!(true);
+         self.a = Some(Embedded::launch(home).await?);
+         control.checkpoint("a_started").await?;
+         let before = native()?;
+-        let generation = before.generation.context("native worker has no generation")?;
++        let generation = before
++            .generation
++            .context("native worker has no generation")?;
+         self.generation = Some(generation);
+         validate_generation(before, generation)?;
+-        ensure!(before.native == CuratedSyncNativeCompletion::Running && before.native_handle_finished == Some(false)
+-            && before.operation.is_none(), "A did not observe actual held native work");
++        ensure!(
++            before.native == CuratedSyncNativeCompletion::Running
++                && before.native_handle_finished == Some(false)
++                && before.operation.is_none(),
++            "A did not observe actual held native work"
++        );
+         self.receipt["generation"] = json!(generation);
+         let a = self.a.as_mut().context("A missing")?;
+         let a_thread = a.thread(home).await?;
+@@ -439,11 +712,18 @@
+         a.close().await?;
+         exact_counts(a.scope.wait().await, 0)?;
+         validate_generation(native()?, generation)?;
+-        ensure!(native()?.native_handle_finished == Some(false), "A local shutdown did not leave held native generation alive");
++        ensure!(
++            native()?.native_handle_finished == Some(false),
++            "A local shutdown did not leave held native generation alive"
++        );
+         control.checkpoint("a_closed").await?;
+ 
+-        if case == Case::Replay { native_finished(generation).await?; }
+-        if case == Case::Race { control.checkpoint("race_start").await?; }
++        if case == Case::Replay {
++            native_finished(generation).await?;
++        }
++        if case == Case::Race {
++            control.checkpoint("race_start").await?;
++        }
+         self.b = Some(Embedded::launch(home).await?);
+         let b = self.b.as_mut().context("B missing")?;
+         let (thread, turn) = if case == Case::Pending {
+@@ -454,11 +734,17 @@
+             let turn = b.turn(&thread).await?;
+             control.checkpoint("b_ready").await?;
+             (thread, Some(turn))
+-        } else { (String::new(), None) };
++        } else {
++            (String::new(), None)
++        };
+         native_finished(generation).await?;
+         let activity = callback_finished(&b.scope).await?;
+         self.receipt["b_before_final_wait"] = activity_value(activity);
+-        let thread = if case == Case::Pending { thread } else { b.thread(home).await? };
++        let thread = if case == Case::Pending {
++            thread
++        } else {
++            b.thread(home).await?
++        };
+         // Ready precedes requests that can independently drive MCP refresh.
+         b.ready(&thread, "probe-new").await?;
+         b.metadata(home, "version2").await?;
+@@ -475,15 +761,22 @@
+         let hook = timeout(OBSERVE, async {
+             loop {
+                 match tokio::fs::read_to_string(home.join("hook.log")).await {
+-                    Ok(contents) if !contents.is_empty() => return Ok::<_, anyhow::Error>(contents),
+-                    Ok(_) => {},
+-                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {},
++                    Ok(contents) if !contents.is_empty() => {
++                        return Ok::<_, anyhow::Error>(contents);
++                    }
++                    Ok(_) => {}
++                    Err(error) if error.kind() == std::io::ErrorKind::NotFound => {}
+                     Err(error) => return Err(error.into()),
+                 }
+                 tokio::time::sleep(Duration::from_millis(10)).await;
+             }
+-        }).await.context("B Interrupt hook deadline")??;
+-        ensure!(hook.lines().collect::<Vec<_>>() == ["version2"], "hook invocation was old, duplicated, or unexpected");
++        })
++        .await
++        .context("B Interrupt hook deadline")??;
++        ensure!(
++            hook.lines().collect::<Vec<_>>() == ["version2"],
++            "hook invocation was old, duplicated, or unexpected"
++        );
+         self.receipt["b_thread"] = json!(thread);
+         self.receipt["b_turn"] = json!(turn);
+         self.receipt["b_new_typed_metadata_skill_mcp"] = json!(true);
+@@ -497,8 +790,12 @@
+ 
+     async fn finish(&mut self) -> Result<()> {
+         let mut result = Ok(());
+-        if let Some(a) = &mut self.a { result = combine(result, a.close().await); }
+-        if let Some(b) = &mut self.b { result = combine(result, b.close().await); }
++        if let Some(a) = &mut self.a {
++            result = combine(result, a.close().await);
++        }
++        if let Some(b) = &mut self.b {
++            result = combine(result, b.close().await);
++        }
+         if let Some(a) = &self.a {
+             let observed = a.scope.wait().await;
+             self.receipt["a_final"] = counts(observed);
+@@ -510,10 +807,15 @@
+             result = combine(result, exact_counts(observed, 1));
+         }
+         let deadline = Instant::now() + Duration::from_secs(30);
+-        let observed = CuratedProcessShutdown::begin(deadline).wait_until(deadline).await;
+-        let clean = observed.is_complete() && observed.native.native == CuratedSyncNativeCompletion::Joined
+-            && observed.native.sync_succeeded() && observed.native.generation == self.generation
+-            && !observed.native.quarantined && observed.native.unexpected_handles == 0;
++        let observed = CuratedProcessShutdown::begin(deadline)
++            .wait_until(deadline)
++            .await;
++        let clean = observed.is_complete()
++            && observed.native.native == CuratedSyncNativeCompletion::Joined
++            && observed.native.sync_succeeded()
++            && observed.native.generation == self.generation
++            && !observed.native.quarantined
++            && observed.native.unexpected_handles == 0;
+         self.receipt["curated_process_final"] = json!({"clean": clean,
+             "native_joined": observed.native.native == CuratedSyncNativeCompletion::Joined,
+             "sync_succeeded": observed.native.sync_succeeded(), "generation": observed.native.generation,
+@@ -521,8 +823,16 @@
+             "remaining_registered_callbacks": counts(observed.callbacks)});
+         // Local waits retired clean A/B scopes; their own receipts above retain
+         // exact action counts. The global drain only sees remaining scopes.
+-        result = combine(result, if clean { exact_counts(observed.callbacks, 0) }
+-            else { Err(anyhow::anyhow!("final curated native/callback proof was incomplete")) });
++        result = combine(
++            result,
++            if clean {
++                exact_counts(observed.callbacks, 0)
++            } else {
++                Err(anyhow::anyhow!(
++                    "final curated native/callback proof was incomplete"
++                ))
++            },
++        );
+         result
+     }
+ }
+@@ -530,9 +840,14 @@
+ #[tokio::test(flavor = "multi_thread", worker_threads = 4)]
+ #[ignore = "requires one fresh parent-owned child ELF and real Git/model/MCP fixtures"]
+ async fn production_replacement_child() -> Result<()> {
+-    let home = PathBuf::from(std::env::var_os("CODEX_TEST_CURATED_REPLACEMENT_HOME")
+-        .context("curated replacement child sentinel missing")?);
+-    ensure!(home.is_absolute() && home.is_dir(), "fixture home must be an existing absolute directory");
++    let home = PathBuf::from(
++        std::env::var_os("CODEX_TEST_CURATED_REPLACEMENT_HOME")
++            .context("curated replacement child sentinel missing")?,
++    );
++    ensure!(
++        home.is_absolute() && home.is_dir(),
++        "fixture home must be an existing absolute directory"
++    );
+     let case = Case::parse(&std::env::var("CODEX_TEST_CURATED_REPLACEMENT_CASE")?)?;
+     let mut control = Control::connect().await?;
+     let mut trial = Trial::default();
+@@ -546,7 +861,8 @@
+         serialized.push(b'\n');
+         tokio::fs::write(home.join("curated-replacement-child.json"), serialized).await?;
+         Ok::<_, anyhow::Error>(())
+-    }.await;
++    }
++    .await;
+     combine(combine(operation, cleanup), receipt)?;
+     control.checkpoint("complete").await
+ }
+--- a/codex-rs/app-server/src/in_process_lifecycle_tests.rs
++++ b/codex-rs/app-server/src/in_process_lifecycle_tests.rs
+@@ -298,15 +298,21 @@
+ // budget. Paused time verifies budget composition; installed-host acceptance
+ // remains a separate required runtime gate.
+ async fn finish_with_slow_store(primary: IoResult<()>) -> IoResult<()> {
+-    let store = ShutdownProbe::new(CloseBehavior::Delayed(std::time::Duration::from_secs(/*secs*/ 46)));
++    let store = ShutdownProbe::new(CloseBehavior::Delayed(std::time::Duration::from_secs(
++        /*secs*/ 46,
++    )));
+     let guard = StoreShutdownGuard::new(store.clone());
+     let mut processor = tokio::spawn(async move { primary });
+     let search_home = tempfile::tempdir()?;
+     let (_, search_guard) = crate::file_search_services::start(search_home.path()).await?;
+     let started = tokio::time::Instant::now();
+     let result = finish_processor_and_services(
+-        &mut processor, &guard, &search_guard, &CuratedCallbackGuard::new(),
+-    ).await;
++        &mut processor,
++        &guard,
++        &search_guard,
++        &CuratedCallbackGuard::new(),
++    )
++    .await;
+     assert!(store.begun.load(Ordering::Acquire));
+     assert!(store.completed.load(Ordering::Acquire));
+     assert!(started.elapsed() >= std::time::Duration::from_secs(/*secs*/ 46));
+--- a/codex-rs/app-server/src/lib.rs
++++ b/codex-rs/app-server/src/lib.rs
+@@ -133,8 +133,8 @@
+ mod otel_reloader;
+ mod outgoing_message;
+ mod persistence_lifecycle;
++mod plugin_config_reload;
+ mod process_final;
+-mod plugin_config_reload;
+ mod request_processors;
+ mod request_serialization;
+ mod server_request_error;
+--- a/codex-rs/app-server/src/main.rs
++++ b/codex-rs/app-server/src/main.rs
+@@ -79,70 +79,78 @@
+ fn main() -> anyhow::Result<()> {
+     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
+     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
+-        let process_final = codex_utils_process::process_shutdown::ProcessFinalCapability::for_executable();
++        let process_final =
++            codex_utils_process::process_shutdown::ProcessFinalCapability::for_executable();
+         let result: anyhow::Result<()> = async {
+-        let AppServerArgs {
+-            config_overrides,
+-            code_mode_host,
+-            listen,
+-            session_source,
+-            auth,
+-            strict_config,
++            let AppServerArgs {
++                config_overrides,
++                code_mode_host,
++                listen,
++                session_source,
++                auth,
++                strict_config,
++                #[cfg(debug_assertions)]
++                disable_plugin_startup_tasks_for_tests,
++                remote_control,
++                managed_daemon,
++            } = AppServerArgs::parse();
++            let loader_overrides = if disable_managed_config_from_debug_env() {
++                LoaderOverrides::without_managed_config_for_tests()
++            } else {
++                managed_config_path_from_debug_env()
++                    .map(LoaderOverrides::with_managed_config_path_for_tests)
++                    .unwrap_or_default()
++            };
++            let transport = listen;
++            let auth = auth.try_into_settings()?;
++            let mut runtime_options = AppServerRuntimeOptions {
++                code_mode_host_transport: code_mode_host.into(),
++                managed_daemon,
++                process_final: Some(process_final.clone()),
++                ..Default::default()
++            };
+             #[cfg(debug_assertions)]
+-            disable_plugin_startup_tasks_for_tests,
+-            remote_control,
+-            managed_daemon,
+-        } = AppServerArgs::parse();
+-        let loader_overrides = if disable_managed_config_from_debug_env() {
+-            LoaderOverrides::without_managed_config_for_tests()
+-        } else {
+-            managed_config_path_from_debug_env()
+-                .map(LoaderOverrides::with_managed_config_path_for_tests)
+-                .unwrap_or_default()
+-        };
+-        let transport = listen;
+-        let auth = auth.try_into_settings()?;
+-        let mut runtime_options = AppServerRuntimeOptions {
+-            code_mode_host_transport: code_mode_host.into(),
+-            managed_daemon,
+-            process_final: Some(process_final.clone()),
+-            ..Default::default()
+-        };
+-        #[cfg(debug_assertions)]
+-        if disable_plugin_startup_tasks_for_tests {
+-            runtime_options.plugin_startup_tasks = PluginStartupTasks::Skip;
++            if disable_plugin_startup_tasks_for_tests {
++                runtime_options.plugin_startup_tasks = PluginStartupTasks::Skip;
++            }
++            runtime_options.remote_control_startup_mode =
++                match (remote_control, remote_control_disabled) {
++                    (true, _) => codex_app_server::RemoteControlStartupMode::EnabledEphemeral,
++                    (false, true) => codex_app_server::RemoteControlStartupMode::DisabledEphemeral,
++                    (false, false) => codex_app_server::RemoteControlStartupMode::ResolvePersisted,
++                };
++
++            let exit = run_main_with_transport_options(
++                arg0_paths,
++                config_overrides,
++                loader_overrides,
++                strict_config,
++                /*default_analytics_enabled*/ false,
++                transport,
++                session_source,
++                auth,
++                runtime_options,
++            )
++            .await?;
++            if exit == codex_app_server::AppServerExit::Forced {
++                // Runtime teardown can wait forever for blocked rollout I/O.
++                let deadline = process_final.begin().graceful();
++                let _shutdown =
++                    codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline);
++                std::process::exit(
++                    codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE,
++                );
++            }
++            Ok(())
+         }
+-        runtime_options.remote_control_startup_mode =
+-            match (remote_control, remote_control_disabled) {
+-                (true, _) => codex_app_server::RemoteControlStartupMode::EnabledEphemeral,
+-                (false, true) => codex_app_server::RemoteControlStartupMode::DisabledEphemeral,
+-                (false, false) => codex_app_server::RemoteControlStartupMode::ResolvePersisted,
+-            };
+-
+-        let exit = run_main_with_transport_options(
+-            arg0_paths,
+-            config_overrides,
+-            loader_overrides,
+-            strict_config,
+-            /*default_analytics_enabled*/ false,
+-            transport,
+-            session_source,
+-            auth,
+-            runtime_options,
+-        )
+-        .await?;
+-        if exit == codex_app_server::AppServerExit::Forced {
+-            // Runtime teardown can wait forever for blocked rollout I/O.
+-            let deadline = process_final.begin().graceful();
+-            let _shutdown = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline);
+-            std::process::exit(codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE);
+-        }
+-        Ok(())
+-        }.await;
++        .await;
+         let deadline = process_final.begin().graceful();
+         let observed = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline)
+-            .wait_until(deadline).await;
+-        if observed.is_complete() { result } else {
++            .wait_until(deadline)
++            .await;
++        if observed.is_complete() {
++            result
++        } else {
+             match result {
+                 Ok(()) => Err(anyhow::anyhow!("curated process cleanup is unconfirmed")),
+                 Err(error) => Err(error.context("curated process cleanup is unconfirmed")),
+--- a/codex-rs/app-server/src/persistence_lifecycle.rs
++++ b/codex-rs/app-server/src/persistence_lifecycle.rs
+@@ -27,7 +27,12 @@
+ 
+     pub(crate) async fn finish<T>(&self, result: io::Result<T>) -> io::Result<T> {
+         self.begin_shutdown();
+-        let shutdown = match timeout_at(crate::process_final::deadline_after(Duration::from_secs(120)), self.store.shutdown()).await {
++        let shutdown = match timeout_at(
++            crate::process_final::deadline_after(Duration::from_secs(120)),
++            self.store.shutdown(),
++        )
++        .await
++        {
+             Ok(Ok(())) => Ok(()),
+             Ok(Err(_)) => Err(io::Error::other(
+                 "thread-store shutdown failed; accepted write outcomes may be unknown",
+--- a/codex-rs/app-server/src/process_final.rs
++++ b/codex-rs/app-server/src/process_final.rs
+@@ -36,7 +36,12 @@
+     match codex_utils_process::process_shutdown::current() {
+         Some(deadline) => tokio::time::timeout_at(Instant::from_std(deadline.graceful()), future)
+             .await
+-            .map_err(|_| io::Error::new(io::ErrorKind::TimedOut, "process shutdown phase timed out; cleanup is unconfirmed"))?,
++            .map_err(|_| {
++                io::Error::new(
++                    io::ErrorKind::TimedOut,
++                    "process shutdown phase timed out; cleanup is unconfirmed",
++                )
++            })?,
+         None => future.await,
+     }
+ }
+@@ -44,7 +49,8 @@
+ pub(crate) async fn join<T>(mut handle: JoinHandle<T>) -> io::Result<T> {
+     let outcome = match codex_utils_process::process_shutdown::current() {
+         Some(deadline) => {
+-            match tokio::time::timeout_at(Instant::from_std(deadline.graceful()), &mut handle).await {
++            match tokio::time::timeout_at(Instant::from_std(deadline.graceful()), &mut handle).await
++            {
+                 Ok(outcome) => outcome,
+                 Err(_) => {
+                     handle.abort();
+@@ -52,9 +58,15 @@
+                     // with the deadline. Native blocking work can still outlive
+                     // async cancellation; the watchdog stays armed.
+                     let detail = match handle.await {
+-                        Err(error) if error.is_panic() => "shutdown task timed out and panicked; cleanup is unconfirmed",
+-                        Err(_) => "shutdown task timed out and was cancelled; cleanup is unconfirmed",
+-                        Ok(_) => "shutdown task completed after its deadline; cleanup is unconfirmed",
++                        Err(error) if error.is_panic() => {
++                            "shutdown task timed out and panicked; cleanup is unconfirmed"
++                        }
++                        Err(_) => {
++                            "shutdown task timed out and was cancelled; cleanup is unconfirmed"
++                        }
++                        Ok(_) => {
++                            "shutdown task completed after its deadline; cleanup is unconfirmed"
++                        }
+                     };
+                     return Err(io::Error::new(io::ErrorKind::TimedOut, detail));
+                 }
+@@ -69,10 +81,16 @@
+     result: io::Result<T>,
+     capability: Option<&ProcessFinalCapability>,
+ ) -> io::Result<T> {
+-    let Some(capability) = capability else { return result; };
++    let Some(capability) = capability else {
++        return result;
++    };
+     let deadline = capability.begin().graceful();
+-    let observed = CuratedProcessShutdown::begin(deadline).wait_until(deadline).await;
+-    let cleanup = if observed.is_complete() { Ok(()) } else {
++    let observed = CuratedProcessShutdown::begin(deadline)
++        .wait_until(deadline)
++        .await;
++    let cleanup = if observed.is_complete() {
++        Ok(())
++    } else {
+         Err(io::Error::other(format!(
+             "curated process cleanup unconfirmed: {} callbacks pending, {} failed",
+             observed.callbacks.pending, observed.callbacks.failed,
+--- a/codex-rs/app-server/src/request_processors/thread_processor.rs
++++ b/codex-rs/app-server/src/request_processors/thread_processor.rs
+@@ -1287,8 +1287,12 @@
+         let deadline = crate::process_final::drain_deadline(Duration::from_secs(/*secs*/ 10));
+         let budget = deadline.saturating_duration_since(tokio::time::Instant::now());
+         let report = crate::process_final::phase(async {
+-            Ok(self.thread_manager.shutdown_all_threads_bounded(budget).await)
+-        }).await?;
++            Ok(self
++                .thread_manager
++                .shutdown_all_threads_bounded(budget)
++                .await)
++        })
++        .await?;
+         let completed = report.completed.len();
+         let submit_failed = report.submit_failed.len();
+         let timed_out = report.timed_out.len();
+@@ -1305,8 +1309,12 @@
+             session_completed = completed, session_submit_failed = submit_failed,
+             session_timed_out = timed_out, session_loop_report_clean,
+             "session shutdown report observed");
+-        let sessions = if session_loop_report_clean { Ok(()) } else {
+-            Err(std::io::Error::other("session shutdown report contains failed or timed-out threads"))
++        let sessions = if session_loop_report_clean {
++            Ok(())
++        } else {
++            Err(std::io::Error::other(
++                "session shutdown report contains failed or timed-out threads",
++            ))
+         };
+         // The surrounding StoreShutdownGuard owns the selected store's single
+         // final close observation (120s capped by the shared grace). Do not add
+--- a/codex-rs/app-server/tests/suite/v2/connection_handling_stdio_tests.rs
++++ b/codex-rs/app-server/tests/suite/v2/connection_handling_stdio_tests.rs
+@@ -192,29 +192,37 @@
+     let path = codex_home.path().join("held-write");
+     let status = Command::new("mkfifo").arg(&path).status()?;
+     assert!(status.success(), "failed to create FIFO: {status}");
+-    let mut reader = std::fs::File::from(pipe::OpenOptions::new()
+-        .open_receiver(&path)?.into_nonblocking_fd()?);
++    let mut reader = std::fs::File::from(
++        pipe::OpenOptions::new()
++            .open_receiver(&path)?
++            .into_nonblocking_fd()?,
++    );
+     let mut app = TestAppServer::builder()
+-        .with_codex_home(codex_home.path()).without_auto_env()
+-        .build_initialized().await?;
++        .with_codex_home(codex_home.path())
++        .without_auto_env()
++        .build_initialized()
++        .await?;
+     let size = 1024 * 1024;
+     app.send_fs_write_file_request(FsWriteFileParams {
+         path: AbsolutePathBuf::try_from(path)?,
+         data_base64: STANDARD.encode(vec![b'x'; size]),
+-    }).await?;
++    })
++    .await?;
+     let mut first_byte = [0];
+     timeout(Duration::from_secs(10), async {
+         loop {
+             match reader.read(&mut first_byte) {
+-                Ok(0) => {},
++                Ok(0) => {}
+                 Ok(_) => break,
+-                Err(error) if error.kind() == ErrorKind::WouldBlock => {},
++                Err(error) if error.kind() == ErrorKind::WouldBlock => {}
+                 Err(error) => return Err(error),
+             }
+             sleep(Duration::from_millis(20)).await;
+         }
+         Ok::<_, std::io::Error>(())
+-    }).await.context("filesystem write did not start")??;
++    })
++    .await
++    .context("filesystem write did not start")??;
+     assert_eq!(first_byte, [b'x']);
+     let shutdown_at = Instant::now();
+     let still_held = match shutdown {
+@@ -224,7 +232,10 @@
+             timeout(Duration::from_secs(46), app.wait_for_exit()).await
+         }
+     };
+-    assert!(still_held.is_err(), "host exited while native storage remained held");
++    assert!(
++        still_held.is_err(),
++        "host exited while native storage remained held"
++    );
+     assert!(shutdown_at.elapsed() > Duration::from_secs(45));
+     // Release the observed native write, then demand an ordinary success
+     // exit without a fallback SIGTERM or forced kill on this success path.
+@@ -238,17 +249,23 @@
+                 Ok(count) => bytes += count,
+                 Err(error) if error.kind() == ErrorKind::WouldBlock => {
+                     sleep(Duration::from_millis(20)).await;
+-                },
++                }
+                 Err(error) => return Err(error),
+             }
+         }
+         Ok::<_, std::io::Error>(bytes)
+-    }).await.context("released storage write did not finish")??;
++    })
++    .await
++    .context("released storage write did not finish")??;
+     assert_eq!(bytes, size);
+     let remaining = Duration::from_secs(200).saturating_sub(shutdown_at.elapsed());
+-    let status = timeout(remaining, app.shutdown_gracefully()).await
++    let status = timeout(remaining, app.shutdown_gracefully())
++        .await
+         .context("host did not finish after storage release")??;
+-    assert!(status.success(), "released storage did not exit cleanly: {status}");
++    assert!(
++        status.success(),
++        "released storage did not exit cleanly: {status}"
++    );
+     Ok(())
+ }
+ 
+--- a/codex-rs/app-server/tests/suite/v2/connection_handling_websocket_unix.rs
++++ b/codex-rs/app-server/tests/suite/v2/connection_handling_websocket_unix.rs
+@@ -147,7 +147,11 @@
+         "timed out waiting for forced Ctrl-C restart shutdown",
+     )
+     .await?;
+-    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
++    assert_eq!(
++        status.code(),
++        Some(126),
++        "forced cleanup must remain unconfirmed"
++    );
+ 
+     expect_websocket_disconnect(&mut ws).await?;
+ 
+@@ -202,7 +206,11 @@
+         "timed out waiting for forced SIGTERM restart shutdown",
+     )
+     .await?;
+-    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
++    assert_eq!(
++        status.code(),
++        Some(126),
++        "forced cleanup must remain unconfirmed"
++    );
+ 
+     expect_websocket_disconnect(&mut ws).await?;
+ 
+--- a/codex-rs/app-server/tests/suite/v2/daemon_update_recovery.rs
++++ b/codex-rs/app-server/tests/suite/v2/daemon_update_recovery.rs
+@@ -442,7 +442,11 @@
+ 
+ async fn wait_forced(server: &mut Child) -> Result<()> {
+     let status = timeout(Duration::from_secs(/*secs*/ 10), server.wait()).await??;
+-    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
++    assert_eq!(
++        status.code(),
++        Some(126),
++        "forced cleanup must remain unconfirmed"
++    );
+     Ok(())
+ }
+ 
+--- a/codex-rs/arg0/src/lib.rs
++++ b/codex-rs/arg0/src/lib.rs
+@@ -255,7 +255,10 @@
+             std::panic::resume_unwind(payload)
+         }
+     };
+-    match (result, codex_utils_process::process_shutdown::finish_after_runtime()) {
++    match (
++        result,
++        codex_utils_process::process_shutdown::finish_after_runtime(),
++    ) {
+         (Ok(()), cleanup) => cleanup.map_err(Into::into),
+         (Err(error), Ok(())) => Err(error),
+         (Err(error), Err(cleanup)) => Err(error.context(cleanup)),
+--- a/codex-rs/cli/src/main.rs
++++ b/codex-rs/cli/src/main.rs
+@@ -1297,7 +1297,9 @@
+                         // Do not print a receipt here: stderr can block. Native worker,
+                         // callback, and storage cleanup remain explicitly unconfirmed.
+                         // Runtime teardown can wait forever for blocked rollout I/O.
+-                        std::process::exit(codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE);
++                        std::process::exit(
++                            codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE,
++                        );
+                     }
+                 }
+                 Some(AppServerSubcommand::Daemon(daemon_cli)) => match daemon_cli.subcommand {
+--- a/codex-rs/core-plugins/src/manager.rs
++++ b/codex-rs/core-plugins/src/manager.rs
+@@ -785,8 +785,8 @@
+     /// one, close admission, cancel work, or dispatch callbacks. A successful
+     /// operation has published the generation's success latch; callback bodies,
+     /// native joining, descendants and publication durability remain separate.
+-    pub fn observe_curated_repo_sync(
+-    ) -> Option<crate::startup_sync::CuratedSyncLifecycleObservation> {
++    pub fn observe_curated_repo_sync()
++    -> Option<crate::startup_sync::CuratedSyncLifecycleObservation> {
+         CURATED_REPO_SYNC_WORKER.get().map(|gate| gate.observe())
+     }
+ 
+@@ -3367,68 +3367,75 @@
+         let manager = Arc::clone(self);
+         let codex_home = self.codex_home.clone();
+         let gate = CURATED_REPO_SYNC_WORKER.get_or_init(|| Arc::new(WorkerGate::default()));
+-        let admission = gate.start_for_home(codex_home.to_path_buf(), on_effective_plugins_changed, move |control| {
+-            run_curated_sync(
+-                &control,
+-                || {
+-                    sync_openai_plugins_repo_owned(
+-                        codex_home.as_path(),
+-                        http_client_factory,
+-                        Arc::clone(&control),
+-                    )
+-                    .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
+-                },
+-                |curated_plugin_version| {
+-                    let configured_curated_plugin_ids =
+-                        configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
+-                    let refreshed = refresh_curated_plugin_cache(
+-                        codex_home.as_path(),
+-                        &curated_plugin_version,
+-                        &configured_curated_plugin_ids,
+-                    );
+-                    if control.is_cancelled() {
+-                        return Err(SyncFailure::Stopped {
+-                            publication_may_have_occurred: true,
+-                        });
+-                    }
+-                    match refreshed {
+-                        // Each same-home scope receives successful completion,
+-                        // even if its manager loaded before this unchanged cache
+-                        // was observed. Its owned action clears its own caches.
+-                        Ok(cache_refreshed) => {
+-                            // Preserve cache invalidation for callers which
+-                            // explicitly request no callback subscription.
+-                            if !scoped_callback {
+-                                manager.clear_caches_after_marketplace_source_refresh(
+-                                    cache_refreshed, /*on_effective_plugins_changed*/ None,
+-                                );
++        let admission = gate.start_for_home(
++            codex_home.to_path_buf(),
++            on_effective_plugins_changed,
++            move |control| {
++                run_curated_sync(
++                    &control,
++                    || {
++                        sync_openai_plugins_repo_owned(
++                            codex_home.as_path(),
++                            http_client_factory,
++                            Arc::clone(&control),
++                        )
++                        .inspect_err(|err| warn!("failed to sync curated plugins repo: {err}"))
++                    },
++                    |curated_plugin_version| {
++                        let configured_curated_plugin_ids =
++                            configured_curated_plugin_ids_from_codex_home(codex_home.as_path());
++                        let refreshed = refresh_curated_plugin_cache(
++                            codex_home.as_path(),
++                            &curated_plugin_version,
++                            &configured_curated_plugin_ids,
++                        );
++                        if control.is_cancelled() {
++                            return Err(SyncFailure::Stopped {
++                                publication_may_have_occurred: true,
++                            });
++                        }
++                        match refreshed {
++                            // Each same-home scope receives successful completion,
++                            // even if its manager loaded before this unchanged cache
++                            // was observed. Its owned action clears its own caches.
++                            Ok(cache_refreshed) => {
++                                // Preserve cache invalidation for callers which
++                                // explicitly request no callback subscription.
++                                if !scoped_callback {
++                                    manager.clear_caches_after_marketplace_source_refresh(
++                                        cache_refreshed,
++                                        /*on_effective_plugins_changed*/ None,
++                                    );
++                                }
++                                Ok(())
+                             }
+-                            Ok(())
+-                        },
+-                        Err(err) => {
+-                            // Preserve invalidation after a partial on-disk cache
+-                            // refresh failure; no success notification is sent.
+-                            manager.clear_cache();
+-                            warn!("failed to refresh curated plugin cache after sync: {err}");
+-                            Err(SyncFailure::Ordinary(format!(
+-                                "failed to refresh curated plugin cache after sync: {err}"
+-                            )))
++                            Err(err) => {
++                                // Preserve invalidation after a partial on-disk cache
++                                // refresh failure; no success notification is sent.
++                                manager.clear_cache();
++                                warn!("failed to refresh curated plugin cache after sync: {err}");
++                                Err(SyncFailure::Ordinary(format!(
++                                    "failed to refresh curated plugin cache after sync: {err}"
++                                )))
++                            }
+                         }
+-                    }
+-                },
+-            )
+-        });
++                    },
++                )
++            },
++        );
+         match admission {
+             Err(err) => warn!("failed to start curated plugins repo sync task: {err}"),
+             Ok(crate::startup_sync::worker::HomeAdmission::UnsupportedHome) => warn!(
+                 "curated sync for a different home is unsupported while this process retains another home's worker generation"
+             ),
+-            Ok(crate::startup_sync::worker::HomeAdmission::Started
++            Ok(
++                crate::startup_sync::worker::HomeAdmission::Started
+                 | crate::startup_sync::worker::HomeAdmission::Subscribed
+                 | crate::startup_sync::worker::HomeAdmission::Replayed
+                 | crate::startup_sync::worker::HomeAdmission::AlreadyRegistered
+                 | crate::startup_sync::worker::HomeAdmission::Closed
+-                | crate::startup_sync::worker::HomeAdmission::Unavailable) => {}
++                | crate::startup_sync::worker::HomeAdmission::Unavailable,
++            ) => {}
+         }
+     }
+ 
+--- a/codex-rs/core-plugins/src/startup_sync.rs
++++ b/codex-rs/core-plugins/src/startup_sync.rs
+@@ -26,12 +26,12 @@
+ mod http_client;
+ mod ownership;
+ mod process_shutdown;
++pub use callback_scope::CuratedCallbackObservation;
++pub use callback_scope::CuratedCallbackScope;
++pub use callback_scope::CuratedSyncCallback;
++pub use callback_scope::activity::CuratedCallbackActivity;
+ pub use process_shutdown::CuratedProcessShutdown;
+ pub use process_shutdown::CuratedProcessShutdownObservation;
+-pub use callback_scope::CuratedCallbackObservation;
+-pub use callback_scope::activity::CuratedCallbackActivity;
+-pub use callback_scope::CuratedCallbackScope;
+-pub use callback_scope::CuratedSyncCallback;
+ pub(crate) mod worker;
+ use ownership::ATTEMPTS;
+ use ownership::SyncAttempt;
+--- a/codex-rs/core-plugins/src/startup_sync/callback_activity.rs
++++ b/codex-rs/core-plugins/src/startup_sync/callback_activity.rs
+@@ -35,9 +35,9 @@
+         let state = lock(&self.state);
+         let mut observed = CuratedCallbackActivity {
+             admission_closed: state.closed
+-                || registry.as_ref().is_none_or(|registry| {
+-                    registry.closing.load(Ordering::Acquire)
+-                }),
++                || registry
++                    .as_ref()
++                    .is_none_or(|registry| registry.closing.load(Ordering::Acquire)),
+             unexpected: state.unexpected.len(),
+             ..Default::default()
+         };
+--- a/codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs
++++ b/codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs
+@@ -1,5 +1,5 @@
++use super::super::CallbackRegistry;
+ use super::*;
+-use super::super::CallbackRegistry;
+ use crate::startup_sync::CuratedCallbackObservation;
+ use anyhow::Context;
+ use pretty_assertions::assert_eq;
+@@ -19,7 +19,8 @@
+ }
+ 
+ #[tokio::test]
+-async fn activity_preserves_admission_and_exact_tasks_until_explicit_final_wait() -> anyhow::Result<()> {
++async fn activity_preserves_admission_and_exact_tasks_until_explicit_final_wait()
++-> anyhow::Result<()> {
+     let registry = Arc::new(CallbackRegistry::default());
+     let scope = CuratedCallbackScope::with_registry(tokio::runtime::Handle::current(), &registry);
+     let entered = Arc::new(Semaphore::new(/*permits*/ 0));
+@@ -39,7 +40,9 @@
+         }
+     });
+     assert!(callback.dispatch());
+-    tokio::time::timeout(BUDGET, entered.acquire()).await??.forget();
++    tokio::time::timeout(BUDGET, entered.acquire())
++        .await??
++        .forget();
+     let handle_id = {
+         let state = lock(&scope.state);
+         match state.records.first().context("registered action")? {
+@@ -47,28 +50,57 @@
+             _ => anyhow::bail!("fixture should own a running handle"),
+         }
+     };
+-    let running = CuratedCallbackActivity { running: 1, ..Default::default() };
++    let running = CuratedCallbackActivity {
++        running: 1,
++        ..Default::default()
++    };
+     assert_eq!(scope.activity(), running);
+     assert_eq!(scope.activity(), running);
+-    assert_eq!({
+-        let state = lock(&scope.state);
+-        match state.records.first().context("retained action")? {
+-            Record::Running(handle) => handle.id(),
+-            _ => anyhow::bail!("activity changed task custody"),
+-        }
+-    }, handle_id);
+-    assert!(scope.callback(|| async {}).dispatch(), "read must leave admission open");
++    assert_eq!(
++        {
++            let state = lock(&scope.state);
++            match state.records.first().context("retained action")? {
++                Record::Running(handle) => handle.id(),
++                _ => anyhow::bail!("activity changed task custody"),
++            }
++        },
++        handle_id
++    );
++    assert!(
++        scope.callback(|| async {}).dispatch(),
++        "read must leave admission open"
++    );
+     drop(release_on_drop);
+     tokio::time::timeout(BUDGET, async {
+-        while scope.activity().finished_unjoined != 2 { tokio::task::yield_now().await; }
+-    }).await?;
+-    assert_eq!(scope.activity(), CuratedCallbackActivity { finished_unjoined: 2, ..Default::default() });
+-    assert_eq!(scope.wait_until(Instant::now() + BUDGET).await, CuratedCallbackObservation {
+-        pending: 0, completed: 2, suppressed: 0, failed: 0,
+-    });
+-    assert_eq!(scope.activity(), CuratedCallbackActivity {
+-        admission_closed: true, completed: 2, ..Default::default()
+-    });
++        while scope.activity().finished_unjoined != 2 {
++            tokio::task::yield_now().await;
++        }
++    })
++    .await?;
++    assert_eq!(
++        scope.activity(),
++        CuratedCallbackActivity {
++            finished_unjoined: 2,
++            ..Default::default()
++        }
++    );
++    assert_eq!(
++        scope.wait_until(Instant::now() + BUDGET).await,
++        CuratedCallbackObservation {
++            pending: 0,
++            completed: 2,
++            suppressed: 0,
++            failed: 0,
++        }
++    );
++    assert_eq!(
++        scope.activity(),
++        CuratedCallbackActivity {
++            admission_closed: true,
++            completed: 2,
++            ..Default::default()
++        }
++    );
+     Ok(())
+ }
+ 
+@@ -76,17 +108,41 @@
+ async fn finished_activity_does_not_turn_task_panic_into_success() -> anyhow::Result<()> {
+     let registry = Arc::new(CallbackRegistry::default());
+     let scope = CuratedCallbackScope::with_registry(tokio::runtime::Handle::current(), &registry);
+-    assert!(scope.callback(|| async { panic!("fixture callback panic") }).dispatch());
++    assert!(
++        scope
++            .callback(|| async { panic!("fixture callback panic") })
++            .dispatch()
++    );
+     tokio::time::timeout(BUDGET, async {
+-        while scope.activity().finished_unjoined != 1 { tokio::task::yield_now().await; }
+-    }).await?;
+-    assert_eq!(scope.activity(), CuratedCallbackActivity { finished_unjoined: 1, ..Default::default() });
+-    assert_eq!(scope.wait_until(Instant::now() + BUDGET).await, CuratedCallbackObservation {
+-        pending: 0, completed: 0, suppressed: 0, failed: 1,
+-    });
+-    assert_eq!(scope.activity(), CuratedCallbackActivity {
+-        admission_closed: true, failed: 1, ..Default::default()
+-    });
++        while scope.activity().finished_unjoined != 1 {
++            tokio::task::yield_now().await;
++        }
++    })
++    .await?;
++    assert_eq!(
++        scope.activity(),
++        CuratedCallbackActivity {
++            finished_unjoined: 1,
++            ..Default::default()
++        }
++    );
++    assert_eq!(
++        scope.wait_until(Instant::now() + BUDGET).await,
++        CuratedCallbackObservation {
++            pending: 0,
++            completed: 0,
++            suppressed: 0,
++            failed: 1,
++        }
++    );
++    assert_eq!(
++        scope.activity(),
++        CuratedCallbackActivity {
++            admission_closed: true,
++            failed: 1,
++            ..Default::default()
++        }
++    );
+     assert!(!scope.callback(|| async {}).dispatch());
+     Ok(())
+ }
+--- a/codex-rs/core-plugins/src/startup_sync/callback_scope.rs
++++ b/codex-rs/core-plugins/src/startup_sync/callback_scope.rs
+@@ -185,7 +185,10 @@
+         let scope = Arc::new(Self {
+             runtime,
+             registry: Arc::downgrade(registry),
+-            state: Mutex::new(ScopeState { closed, ..ScopeState::default() }),
++            state: Mutex::new(ScopeState {
++                closed,
++                ..ScopeState::default()
++            }),
+         });
+         if !closed {
+             scopes.push(Arc::clone(&scope));
+@@ -356,9 +359,10 @@
+             let admitted = {
+                 let registry = scope.registry.upgrade();
+                 let state = lock(&scope.state);
+-                !state.closed && registry.as_ref().is_some_and(|registry| {
+-                    !registry.closing.load(Ordering::Acquire)
+-                })
++                !state.closed
++                    && registry
++                        .as_ref()
++                        .is_some_and(|registry| !registry.closing.load(Ordering::Acquire))
+             };
+             if admitted {
+                 action().await;
+--- a/codex-rs/core-plugins/src/startup_sync/process_shutdown.rs
++++ b/codex-rs/core-plugins/src/startup_sync/process_shutdown.rs
+@@ -98,7 +98,9 @@
+             return false;
+         }
+         match self.native.native {
+-            CuratedSyncNativeCompletion::Idle | CuratedSyncNativeCompletion::SpawnFailed { .. } => true,
++            CuratedSyncNativeCompletion::Idle | CuratedSyncNativeCompletion::SpawnFailed { .. } => {
++                true
++            }
+             CuratedSyncNativeCompletion::Joined => {
+                 self.native.sync_succeeded() || self.native.failure().is_some()
+             }
+--- a/codex-rs/core-plugins/src/startup_sync/process_shutdown_tests.rs
++++ b/codex-rs/core-plugins/src/startup_sync/process_shutdown_tests.rs
+@@ -28,7 +28,10 @@
+     fn drop(&mut self) {
+         if let Some(thread) = self.0.take() {
+             let result = thread.join();
+-            assert!(result.is_ok() || std::thread::panicking(), "fixture thread panicked");
++            assert!(
++                result.is_ok() || std::thread::panicking(),
++                "fixture thread panicked"
++            );
+         }
+     }
+ }
+@@ -65,22 +68,26 @@
+         let (stop_tx, stop_rx) = oneshot::channel();
+         let runtime = RuntimeThread {
+             stop: Some(stop_tx),
+-            _thread: OwnedThread::spawn(move || {
+-                match tokio::runtime::Builder::new_current_thread().enable_time().build() {
++            _thread: OwnedThread::spawn(
++                move || match tokio::runtime::Builder::new_current_thread()
++                    .enable_time()
++                    .build()
++                {
+                     Ok(runtime) => {
+                         let _ = ready_tx.send(Ok(runtime.handle().clone()));
+                         runtime.block_on(async {
+                             let _ = stop_rx.await;
+                             let deadline = Instant::now() + BUDGET + BUDGET;
+-                            let observed = cleanup_gate.begin_stop(deadline).wait_until(deadline).await;
++                            let observed =
++                                cleanup_gate.begin_stop(deadline).wait_until(deadline).await;
+                             assert!(!observed.is_pending(), "fixture worker remained pending");
+                         });
+                     }
+                     Err(error) => {
+                         let _ = ready_tx.send(Err(error));
+                     }
+-                }
+-            }),
++                },
++            ),
+         };
+         let handle = ready_rx.recv_timeout(BUDGET)??;
+         let registry = Arc::new(CallbackRegistry::default());
+@@ -98,7 +105,11 @@
+     fn begin(&self, deadline: Instant) -> CuratedProcessShutdown {
+         let callbacks = self.registry.begin_close();
+         let native = self.gate.begin_stop(deadline);
+-        CuratedProcessShutdown { native, callbacks, deadline }
++        CuratedProcessShutdown {
++            native,
++            callbacks,
++            deadline,
++        }
+     }
+ 
+     fn held_callback(&self) -> (CuratedSyncCallback, Arc<Semaphore>, mpsc::Receiver<()>) {
+@@ -119,21 +130,28 @@
+         (callback, release, entered_rx)
+     }
+ 
+-    fn hold_worker(&mut self, outcome: Result<(), SyncFailure>) -> anyhow::Result<mpsc::Receiver<()>> {
++    fn hold_worker(
++        &mut self,
++        outcome: Result<(), SyncFailure>,
++    ) -> anyhow::Result<mpsc::Receiver<()>> {
+         let (entered_tx, entered_rx) = mpsc::channel();
+         let (release_tx, release_rx) = mpsc::channel();
+         self.worker_release = Some(release_tx);
+         assert!(self.gate.start(move |_| {
+             let _ = entered_tx.send(());
+-            release_rx.recv_timeout(BUDGET)
+-                .map_err(|error| SyncFailure::Ordinary(format!("fixture worker release: {error}")))?;
++            release_rx.recv_timeout(BUDGET).map_err(|error| {
++                SyncFailure::Ordinary(format!("fixture worker release: {error}"))
++            })?;
+             outcome
+         })?);
+         Ok(entered_rx)
+     }
+ 
+     fn release_worker(&mut self) -> anyhow::Result<()> {
+-        self.worker_release.take().context("held fixture worker")?.send(())?;
++        self.worker_release
++            .take()
++            .context("held fixture worker")?
++            .send(())?;
+         Ok(())
+     }
+ }
+@@ -152,7 +170,11 @@
+ async fn process_fence_rejects_existing_and_later_scope_dispatch() -> anyhow::Result<()> {
+     let fixture = Fixture::new()?;
+     let callback = fixture.scope.callback(|| async {});
+-    assert!(callback.scope_identity().ptr_eq(&Arc::downgrade(&fixture.scope)));
++    assert!(
++        callback
++            .scope_identity()
++            .ptr_eq(&Arc::downgrade(&fixture.scope))
++    );
+     let deadline = Instant::now() + BUDGET;
+     let stop = fixture.begin(deadline);
+     assert!(!callback.dispatch());
+@@ -179,7 +201,10 @@
+         let release = Arc::clone(&release);
+         let accepted_tx = accepted_tx.clone();
+         threads.push(OwnedThread::spawn(move || {
+-            assert!(start_rx.recv_timeout(BUDGET).is_ok(), "registration barrier timed out");
++            assert!(
++                start_rx.recv_timeout(BUDGET).is_ok(),
++                "registration barrier timed out"
++            );
+             let scope = CuratedCallbackScope::with_registry(runtime, &registry);
+             let callback = scope.callback(move || {
+                 let release = Arc::clone(&release);
+@@ -205,7 +230,10 @@
+     release.add_permits(/*n*/ 8);
+     let observed = stop.wait_until(deadline).await;
+     assert!(observed.is_complete());
+-    assert_eq!(observed.callbacks.completed + observed.callbacks.suppressed, accepted);
++    assert_eq!(
++        observed.callbacks.completed + observed.callbacks.suppressed,
++        accepted
++    );
+     Ok(())
+ }
+ 
+@@ -233,13 +261,18 @@
+     let observed = tokio::time::timeout(
+         Duration::from_secs(/*secs*/ 1),
+         stop.wait_until(Instant::now() + BUDGET),
+-    ).await?;
++    )
++    .await?;
+     assert!(observed.clean_native_ownership());
+     assert_eq!(observed.callbacks.pending, 1);
+     assert!(!observed.is_complete());
+     release.add_permits(/*n*/ 1);
+     // A separate observer can still harvest after the first observer expires.
+-    let observed = fixture.registry.begin_close().wait_until(Instant::now() + BUDGET).await;
++    let observed = fixture
++        .registry
++        .begin_close()
++        .wait_until(Instant::now() + BUDGET)
++        .await;
+     assert_eq!(observed.completed, 1);
+     assert!(observed.is_complete());
+     Ok(())
+@@ -268,9 +301,13 @@
+ }
+ 
+ #[tokio::test]
+-async fn optional_sync_failure_is_nonfatal_after_exact_join_and_callback_completion() -> anyhow::Result<()> {
++async fn optional_sync_failure_is_nonfatal_after_exact_join_and_callback_completion()
++-> anyhow::Result<()> {
+     let mut fixture = Fixture::new()?;
+-    fixture.hold_worker(Err(SyncFailure::Ordinary("optional sync unavailable".to_string())))?
++    fixture
++        .hold_worker(Err(SyncFailure::Ordinary(
++            "optional sync unavailable".to_string(),
++        )))?
+         .recv_timeout(BUDGET)?;
+     let (callback, release, entered) = fixture.held_callback();
+     assert!(callback.dispatch());
+@@ -284,8 +321,14 @@
+     release.add_permits(/*n*/ 1);
+     let observed = stop.wait_until(deadline).await;
+     assert_eq!(observed.native.native, CuratedSyncNativeCompletion::Joined);
+-    assert_eq!(observed.native.failure().context("original optional sync failure")?.to_string(),
+-        "optional sync unavailable");
++    assert_eq!(
++        observed
++            .native
++            .failure()
++            .context("original optional sync failure")?
++            .to_string(),
++        "optional sync unavailable"
++    );
+     assert_eq!(observed.callbacks.completed, 1);
+     assert!(observed.is_complete());
+     Ok(())
+@@ -294,7 +337,9 @@
+ #[tokio::test]
+ async fn joined_quarantine_remains_unclean() -> anyhow::Result<()> {
+     let mut fixture = Fixture::new()?;
+-    fixture.hold_worker(Err(SyncFailure::Quarantined))?.recv_timeout(BUDGET)?;
++    fixture
++        .hold_worker(Err(SyncFailure::Quarantined))?
++        .recv_timeout(BUDGET)?;
+     let deadline = Instant::now() + BUDGET;
+     let stop = fixture.begin(deadline);
+     fixture.release_worker()?;
+@@ -320,7 +365,10 @@
+     let deadline = Instant::now() + BUDGET;
+     let observed = fixture.begin(deadline).wait_until(deadline).await;
+     assert!(observed.clean_native_ownership());
+-    assert_eq!((observed.callbacks.pending, observed.callbacks.failed), (0, 1));
++    assert_eq!(
++        (observed.callbacks.pending, observed.callbacks.failed),
++        (0, 1)
++    );
+     assert!(!observed.is_complete());
+     let repeated = fixture.begin(deadline).wait_until(deadline).await;
+     assert_eq!(repeated.callbacks.failed, 1);
+--- a/codex-rs/core-plugins/src/startup_sync/worker.rs
++++ b/codex-rs/core-plugins/src/startup_sync/worker.rs
+@@ -13,9 +13,9 @@
+ 
+ #[path = "worker_delivery.rs"]
+ mod delivery;
++use delivery::AfterUnlock;
++use delivery::Delivery;
+ pub(crate) use delivery::HomeAdmission;
+-use delivery::Delivery;
+-use delivery::AfterUnlock;
+ use delivery::Registration;
+ 
+ use super::CuratedSyncCallback;
+@@ -23,9 +23,9 @@
+ use super::SyncFailure;
+ use completion::CuratedSyncNativeCompletion;
+ use std::io;
+-use std::path::PathBuf;
+ use std::panic::AssertUnwindSafe;
+ use std::panic::catch_unwind;
++use std::path::PathBuf;
+ use std::sync::Arc;
+ use std::sync::Mutex;
+ use std::sync::MutexGuard;
+@@ -125,7 +125,9 @@
+             Reservation::Existing(admission, dispatch) => {
+                 // Registration and completion linearize under the worker mutex;
+                 // callback scheduling and arbitrary capture destruction do not.
+-                if let Some(action) = dispatch { action.run(); }
++                if let Some(action) = dispatch {
++                    action.run();
++                }
+                 return Ok(admission);
+             }
+         };
+@@ -216,7 +218,9 @@
+                         outcome: None,
+                         handle: None,
+                         native_completion: CuratedSyncNativeCompletion::AwaitingHandle,
+-                        delivery: registration.take().map(|registration| Delivery::new(registration, Arc::clone(&control))),
++                        delivery: registration
++                            .take()
++                            .map(|registration| Delivery::new(registration, Arc::clone(&control))),
+                     });
+                     return Reservation::Start(generation, control);
+                 };
+@@ -228,9 +232,13 @@
+                         return Reservation::Existing(HomeAdmission::Unavailable, None);
+                     };
+                     let Some(delivery) = &mut record.delivery else {
+-                        return Reservation::Existing(HomeAdmission::Unavailable, registration.discard());
++                        return Reservation::Existing(
++                            HomeAdmission::Unavailable,
++                            registration.discard(),
++                        );
+                     };
+-                    let result = delivery.register(registration, record.phase, record.outcome.is_some());
++                    let result =
++                        delivery.register(registration, record.phase, record.outcome.is_some());
+                     return Reservation::Existing(result.0, result.1);
+                 }
+                 record.native_completion = CuratedSyncNativeCompletion::Joining;
+@@ -278,13 +286,19 @@
+         let succeeded = outcome.is_ok();
+         let control = Arc::clone(&record.control);
+         record.outcome = Some(outcome);
+-        let callbacks = record.delivery.as_mut().map(Delivery::take_pending).unwrap_or_default();
++        let callbacks = record
++            .delivery
++            .as_mut()
++            .map(Delivery::take_pending)
++            .unwrap_or_default();
+         drop(state);
+         // Closed scopes reject late delivery; each admitted action is owned by
+         // its current processor, never by the manager which started this thread.
+         if succeeded {
+             for callback in callbacks {
+-                if !control.is_cancelled() { callback.dispatch(); }
++                if !control.is_cancelled() {
++                    callback.dispatch();
++                }
+             }
+         }
+     }
+--- a/codex-rs/core-plugins/src/startup_sync/worker_delivery.rs
++++ b/codex-rs/core-plugins/src/startup_sync/worker_delivery.rs
+@@ -6,8 +6,8 @@
+ use crate::startup_sync::CuratedCallbackScope;
+ use crate::startup_sync::CuratedSyncCallback;
+ use crate::startup_sync::SyncControl;
++use std::path::PathBuf;
+ use std::sync::Arc;
+-use std::path::PathBuf;
+ use std::sync::Weak;
+ 
+ #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+@@ -43,7 +43,9 @@
+     pub(super) fn run(self) {
+         match self {
+             Self::Dispatch(callback, control) => {
+-                if !control.is_cancelled() { callback.dispatch(); }
++                if !control.is_cancelled() {
++                    callback.dispatch();
++                }
+             }
+             Self::Discard(callback) => drop(callback),
+         }
+@@ -90,11 +92,17 @@
+         let identity = callback.scope_identity();
+         self.seen.retain(|scope| scope.strong_count() != 0);
+         if self.seen.iter().any(|scope| Weak::ptr_eq(scope, &identity)) {
+-            return (HomeAdmission::AlreadyRegistered, Some(AfterUnlock::Discard(callback)));
++            return (
++                HomeAdmission::AlreadyRegistered,
++                Some(AfterUnlock::Discard(callback)),
++            );
+         }
+         self.seen.push(identity);
+         if phase == Phase::SuccessLatched {
+-            (HomeAdmission::Replayed, Some(AfterUnlock::Dispatch(callback, Arc::clone(&self.control))))
++            (
++                HomeAdmission::Replayed,
++                Some(AfterUnlock::Dispatch(callback, Arc::clone(&self.control))),
++            )
+         } else {
+             self.pending.push(callback);
+             (HomeAdmission::Subscribed, None)
+--- a/codex-rs/core-plugins/src/startup_sync/worker_delivery_tests.rs
++++ b/codex-rs/core-plugins/src/startup_sync/worker_delivery_tests.rs
+@@ -1,5 +1,5 @@
++use super::super::WorkerGate;
+ use super::*;
+-use super::super::WorkerGate;
+ use anyhow::Context;
+ use pretty_assertions::assert_eq;
+ use std::sync::Arc;
+@@ -19,18 +19,31 @@
+ }
+ impl HeldWorker {
+     fn release(&mut self) -> anyhow::Result<()> {
+-        self.release.take().context("fixture already released")?.send(())?;
++        self.release
++            .take()
++            .context("fixture already released")?
++            .send(())?;
+         Ok(())
+     }
+ }
+ impl Drop for HeldWorker {
+     fn drop(&mut self) {
+-        if let Some(release) = self.release.take() { let _ = release.send(()); }
++        if let Some(release) = self.release.take() {
++            let _ = release.send(());
++        }
+         self.gate.request_stop(Instant::now() + BUDGET);
+-        let handle = self.gate.lock().active.as_mut().and_then(|record| record.handle.take());
++        let handle = self
++            .gate
++            .lock()
++            .active
++            .as_mut()
++            .and_then(|record| record.handle.take());
+         if let Some(handle) = handle {
+             let result = handle.join();
+-            assert!(result.is_ok() || std::thread::panicking(), "fixture worker panicked");
++            assert!(
++                result.is_ok() || std::thread::panicking(),
++                "fixture worker panicked"
++            );
+         }
+     }
+ }
+@@ -57,56 +70,135 @@
+ }
+ 
+ #[tokio::test]
+-async fn held_same_home_worker_delivers_once_to_replacement_without_old_scope_effects() -> anyhow::Result<()> {
++async fn held_same_home_worker_delivers_once_to_replacement_without_old_scope_effects()
++-> anyhow::Result<()> {
+     let home = tempfile::tempdir()?;
+     let snapshot = home.path().join("snapshot");
+     std::fs::write(&snapshot, "old")?;
+     let (first, replacement) = (scope(), scope());
+-    let (first_calls, second_calls) = (Arc::new(AtomicUsize::new(/*v*/ 0)), Arc::new(AtomicUsize::new(/*v*/ 0)));
++    let (first_calls, second_calls) = (
++        Arc::new(AtomicUsize::new(/*v*/ 0)),
++        Arc::new(AtomicUsize::new(/*v*/ 0)),
++    );
+     let done = Arc::new(Semaphore::new(/*permits*/ 0));
+     let gate = Arc::new(WorkerGate::default());
+     let (entered_tx, entered_rx) = mpsc::channel();
+     let (release_tx, release_rx) = mpsc::channel();
+-    assert_eq!(gate.start_for_home(
+-        home.path().to_path_buf(), Some(counter_callback(&first, &first_calls, &done)),
+-        { let snapshot = snapshot.clone(); move |_| {
+-            let _ = entered_tx.send(());
+-            release_rx.recv_timeout(BUDGET).map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
+-            std::fs::write(snapshot, "new").map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
+-            Ok(())
+-        } },
+-    )?, HomeAdmission::Started);
+-    let mut held = HeldWorker { gate: Arc::clone(&gate), release: Some(release_tx) };
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(counter_callback(&first, &first_calls, &done)),
++            {
++                let snapshot = snapshot.clone();
++                move |_| {
++                    let _ = entered_tx.send(());
++                    release_rx
++                        .recv_timeout(BUDGET)
++                        .map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
++                    std::fs::write(snapshot, "new")
++                        .map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
++                    Ok(())
++                }
++            },
++        )?,
++        HomeAdmission::Started
++    );
++    let mut held = HeldWorker {
++        gate: Arc::clone(&gate),
++        release: Some(release_tx),
++    };
+     entered_rx.recv_timeout(BUDGET)?;
+-    let generation = gate.lock().active.as_ref().context("active generation")?.generation;
++    let generation = gate
++        .lock()
++        .active
++        .as_ref()
++        .context("active generation")?
++        .generation;
+     first.begin_close();
+     assert_eq!(std::fs::read_to_string(&snapshot)?, "old");
+     let seen_snapshot = Arc::new(std::sync::Mutex::new(String::new()));
+     let callback = replacement.callback({
+-        let (snapshot, seen, calls, done) = (snapshot.clone(), Arc::clone(&seen_snapshot), Arc::clone(&second_calls), Arc::clone(&done));
++        let (snapshot, seen, calls, done) = (
++            snapshot.clone(),
++            Arc::clone(&seen_snapshot),
++            Arc::clone(&second_calls),
++            Arc::clone(&done),
++        );
+         move || {
+-            let (snapshot, seen, calls, done) = (snapshot.clone(), Arc::clone(&seen), Arc::clone(&calls), Arc::clone(&done));
++            let (snapshot, seen, calls, done) = (
++                snapshot.clone(),
++                Arc::clone(&seen),
++                Arc::clone(&calls),
++                Arc::clone(&done),
++            );
+             async move {
+                 let text = std::fs::read_to_string(snapshot).unwrap_or_default();
+-                *seen.lock().unwrap_or_else(std::sync::PoisonError::into_inner) = text;
++                *seen
++                    .lock()
++                    .unwrap_or_else(std::sync::PoisonError::into_inner) = text;
+                 calls.fetch_add(/*val*/ 1, Ordering::SeqCst);
+                 done.add_permits(/*n*/ 1);
+             }
+         }
+     });
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(callback.clone()), |_| panic!("replacement started duplicate worker"))?, HomeAdmission::Subscribed);
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(callback.clone()), |_| panic!("duplicate started worker"))?, HomeAdmission::AlreadyRegistered);
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(callback.clone()),
++            |_| panic!("replacement started duplicate worker")
++        )?,
++        HomeAdmission::Subscribed
++    );
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(callback.clone()),
++            |_| panic!("duplicate started worker")
++        )?,
++        HomeAdmission::AlreadyRegistered
++    );
+     held.release()?;
+-    tokio::time::timeout(BUDGET, done.acquire()).await??.forget();
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(callback), |_| panic!("success latch reopened"))?, HomeAdmission::AlreadyRegistered);
+-    let result = gate.begin_stop(Instant::now() + BUDGET).wait_until(Instant::now() + BUDGET).await;
++    tokio::time::timeout(BUDGET, done.acquire())
++        .await??
++        .forget();
++    assert_eq!(
++        gate.start_for_home(home.path().to_path_buf(), Some(callback), |_| panic!(
++            "success latch reopened"
++        ))?,
++        HomeAdmission::AlreadyRegistered
++    );
++    let result = gate
++        .begin_stop(Instant::now() + BUDGET)
++        .wait_until(Instant::now() + BUDGET)
++        .await;
+     assert_eq!(result.generation, Some(generation.0));
+     assert!(result.sync_succeeded());
+     assert!(!result.is_pending());
+-    assert_eq!((first_calls.load(Ordering::SeqCst), second_calls.load(Ordering::SeqCst)), (0, 1));
+-    assert_eq!(*seen_snapshot.lock().unwrap_or_else(std::sync::PoisonError::into_inner), "new");
+-    assert!(first.wait_until(Instant::now() + BUDGET).await.is_complete());
+-    assert!(replacement.wait_until(Instant::now() + BUDGET).await.is_complete());
++    assert_eq!(
++        (
++            first_calls.load(Ordering::SeqCst),
++            second_calls.load(Ordering::SeqCst)
++        ),
++        (0, 1)
++    );
++    assert_eq!(
++        *seen_snapshot
++            .lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner),
++        "new"
++    );
++    assert!(
++        first
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
++    assert!(
++        replacement
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
+     Ok(())
+ }
+ 
+@@ -115,27 +207,72 @@
+     let home = tempfile::tempdir()?;
+     let other_home = tempfile::tempdir()?;
+     let gate = Arc::new(WorkerGate::default());
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), /*callback*/ None, |_| Ok(()))?, HomeAdmission::Started);
+-    let _owner = HeldWorker { gate: Arc::clone(&gate), release: None };
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            /*callback*/ None,
++            |_| Ok(())
++        )?,
++        HomeAdmission::Started
++    );
++    let _owner = HeldWorker {
++        gate: Arc::clone(&gate),
++        release: None,
++    };
+     tokio::time::timeout(BUDGET, async {
+-        while gate.lock().active.as_ref().is_some_and(|record| record.outcome.is_none()) { tokio::task::yield_now().await; }
+-    }).await?;
++        while gate
++            .lock()
++            .active
++            .as_ref()
++            .is_some_and(|record| record.outcome.is_none())
++        {
++            tokio::task::yield_now().await;
++        }
++    })
++    .await?;
+     let (same, other) = (scope(), scope());
+     let calls = Arc::new(AtomicUsize::new(/*v*/ 0));
+     let done = Arc::new(Semaphore::new(/*permits*/ 0));
+-    assert_eq!(gate.start_for_home(other_home.path().to_path_buf(), Some(counter_callback(&other, &calls, &done)), |_| panic!("different home started"))?, HomeAdmission::UnsupportedHome);
++    assert_eq!(
++        gate.start_for_home(
++            other_home.path().to_path_buf(),
++            Some(counter_callback(&other, &calls, &done)),
++            |_| panic!("different home started")
++        )?,
++        HomeAdmission::UnsupportedHome
++    );
+     let callback = counter_callback(&same, &calls, &done);
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(callback.clone()), |_| panic!("replay started worker"))?, HomeAdmission::Replayed);
+-    tokio::time::timeout(BUDGET, done.acquire()).await??.forget();
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(callback), |_| panic!("duplicate replay"))?, HomeAdmission::AlreadyRegistered);
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(callback.clone()),
++            |_| panic!("replay started worker")
++        )?,
++        HomeAdmission::Replayed
++    );
++    tokio::time::timeout(BUDGET, done.acquire())
++        .await??
++        .forget();
++    assert_eq!(
++        gate.start_for_home(home.path().to_path_buf(), Some(callback), |_| panic!(
++            "duplicate replay"
++        ))?,
++        HomeAdmission::AlreadyRegistered
++    );
+     assert_eq!(calls.load(Ordering::SeqCst), 1);
+     assert!(same.wait_until(Instant::now() + BUDGET).await.is_complete());
+-    assert!(other.wait_until(Instant::now() + BUDGET).await.is_complete());
++    assert!(
++        other
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
+     Ok(())
+ }
+ 
+ #[tokio::test]
+-async fn native_stop_before_completion_rejects_callback_without_erasing_outcome() -> anyhow::Result<()> {
++async fn native_stop_before_completion_rejects_callback_without_erasing_outcome()
++-> anyhow::Result<()> {
+     let home = tempfile::tempdir()?;
+     let scope = scope();
+     let calls = Arc::new(AtomicUsize::new(/*v*/ 0));
+@@ -143,18 +280,30 @@
+     let gate = Arc::new(WorkerGate::default());
+     let (entered_tx, entered_rx) = mpsc::channel();
+     let (release_tx, release_rx) = mpsc::channel();
+-    gate.start_for_home(home.path().to_path_buf(), Some(counter_callback(&scope, &calls, &done)), move |_| {
+-        let _ = entered_tx.send(());
+-        release_rx.recv_timeout(BUDGET).map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
+-        Ok(())
+-    })?;
+-    let mut held = HeldWorker { gate: Arc::clone(&gate), release: Some(release_tx) };
++    gate.start_for_home(
++        home.path().to_path_buf(),
++        Some(counter_callback(&scope, &calls, &done)),
++        move |_| {
++            let _ = entered_tx.send(());
++            release_rx
++                .recv_timeout(BUDGET)
++                .map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
++            Ok(())
++        },
++    )?;
++    let mut held = HeldWorker {
++        gate: Arc::clone(&gate),
++        release: Some(release_tx),
++    };
+     entered_rx.recv_timeout(BUDGET)?;
+     let deadline = Instant::now() + BUDGET;
+     let stopped = gate.begin_stop(deadline);
+     held.release()?;
+     let outcome = stopped.wait_until(deadline).await;
+-    assert!(outcome.sync_succeeded(), "original work result is immutable despite later stop");
++    assert!(
++        outcome.sync_succeeded(),
++        "original work result is immutable despite later stop"
++    );
+     assert!(!outcome.is_pending());
+     assert!(scope.wait_until(deadline).await.is_complete());
+     assert_eq!(calls.load(Ordering::SeqCst), 0);
+@@ -167,107 +316,236 @@
+ }
+ impl Drop for DropProbe {
+     fn drop(&mut self) {
+-        let unlocked = self.gate.upgrade().is_some_and(|gate| gate.state.try_lock().is_ok());
++        let unlocked = self
++            .gate
++            .upgrade()
++            .is_some_and(|gate| gate.state.try_lock().is_ok());
+         let _ = self.observed.send(unlocked);
+     }
+ }
+ 
+ #[tokio::test]
+-async fn rejected_and_duplicate_callback_captures_drop_outside_worker_mutex() -> anyhow::Result<()> {
++async fn rejected_and_duplicate_callback_captures_drop_outside_worker_mutex() -> anyhow::Result<()>
++{
+     let home = tempfile::tempdir()?;
+     let other = tempfile::tempdir()?;
+     let scope = scope();
+     let gate = Arc::new(WorkerGate::default());
+-    gate.start_for_home(home.path().to_path_buf(), Some(scope.callback(|| async {})), |_| Ok(()))?;
+-    let _owner = HeldWorker { gate: Arc::clone(&gate), release: None };
+-    for (path, expected) in [(home.path(), HomeAdmission::AlreadyRegistered), (other.path(), HomeAdmission::UnsupportedHome)] {
++    gate.start_for_home(
++        home.path().to_path_buf(),
++        Some(scope.callback(|| async {})),
++        |_| Ok(()),
++    )?;
++    let _owner = HeldWorker {
++        gate: Arc::clone(&gate),
++        release: None,
++    };
++    for (path, expected) in [
++        (home.path(), HomeAdmission::AlreadyRegistered),
++        (other.path(), HomeAdmission::UnsupportedHome),
++    ] {
+         let (observed, receive) = mpsc::channel();
+-        let probe = DropProbe { gate: Arc::downgrade(&gate), observed };
++        let probe = DropProbe {
++            gate: Arc::downgrade(&gate),
++            observed,
++        };
+         let callback = scope.callback(move || {
+             let _borrow_probe = &probe;
+             std::future::ready(())
+         });
+-        assert_eq!(gate.start_for_home(path.to_path_buf(), Some(callback), |_| panic!("rejected work started"))?, expected);
+-        assert!(receive.recv_timeout(BUDGET)?, "capture dropped while registry locked");
++        assert_eq!(
++            gate.start_for_home(path.to_path_buf(), Some(callback), |_| panic!(
++                "rejected work started"
++            ))?,
++            expected
++        );
++        assert!(
++            receive.recv_timeout(BUDGET)?,
++            "capture dropped while registry locked"
++        );
+     }
+-    assert!(scope.wait_until(Instant::now() + BUDGET).await.is_complete());
++    assert!(
++        scope
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
+     Ok(())
+ }
+ 
+ #[tokio::test]
+-async fn retired_scope_identity_remains_weakly_owned_until_new_scope_replay() -> anyhow::Result<()> {
++async fn retired_scope_identity_remains_weakly_owned_until_new_scope_replay() -> anyhow::Result<()>
++{
+     let home = tempfile::tempdir()?;
+     let gate = Arc::new(WorkerGate::default());
+     let first = scope();
+     let calls = Arc::new(AtomicUsize::new(/*v*/ 0));
+     let done = Arc::new(Semaphore::new(/*permits*/ 0));
+-    gate.start_for_home(home.path().to_path_buf(), Some(counter_callback(&first, &calls, &done)), |_| Ok(()))?;
+-    let _owner = HeldWorker { gate: Arc::clone(&gate), release: None };
+-    tokio::time::timeout(BUDGET, done.acquire()).await??.forget();
+-    assert!(first.wait_until(Instant::now() + BUDGET).await.is_complete());
++    gate.start_for_home(
++        home.path().to_path_buf(),
++        Some(counter_callback(&first, &calls, &done)),
++        |_| Ok(()),
++    )?;
++    let _owner = HeldWorker {
++        gate: Arc::clone(&gate),
++        release: None,
++    };
++    tokio::time::timeout(BUDGET, done.acquire())
++        .await??
++        .forget();
++    assert!(
++        first
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
+     drop(first);
+     {
+         let state = gate.lock();
+-        let delivery = state.active.as_ref().context("generation")?.delivery.as_ref().context("delivery")?;
++        let delivery = state
++            .active
++            .as_ref()
++            .context("generation")?
++            .delivery
++            .as_ref()
++            .context("delivery")?;
+         assert_eq!(delivery.seen.len(), 1);
+         // A Weak retains the allocation identity without retaining its callback
+         // body/manager. A later B allocation cannot reuse this address.
+         assert_eq!(delivery.seen[0].strong_count(), 0);
+     }
+     let replacement = scope();
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(counter_callback(&replacement, &calls, &done)), |_| panic!("replacement restarted worker"))?, HomeAdmission::Replayed);
+-    tokio::time::timeout(BUDGET, done.acquire()).await??.forget();
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(counter_callback(&replacement, &calls, &done)),
++            |_| panic!("replacement restarted worker")
++        )?,
++        HomeAdmission::Replayed
++    );
++    tokio::time::timeout(BUDGET, done.acquire())
++        .await??
++        .forget();
+     assert_eq!(calls.load(Ordering::SeqCst), 2);
+-    assert!(replacement.wait_until(Instant::now() + BUDGET).await.is_complete());
++    assert!(
++        replacement
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
+     Ok(())
+ }
+ 
+ #[tokio::test]
+-async fn ordinary_failure_ends_generation_subscription_and_retry_accepts_explicit_reregistration() -> anyhow::Result<()> {
++async fn ordinary_failure_ends_generation_subscription_and_retry_accepts_explicit_reregistration()
++-> anyhow::Result<()> {
+     let home = tempfile::tempdir()?;
+     let gate = Arc::new(WorkerGate::default());
+     let (first, second) = (scope(), scope());
+-    let (first_calls, second_calls) = (Arc::new(AtomicUsize::new(/*v*/ 0)), Arc::new(AtomicUsize::new(/*v*/ 0)));
++    let (first_calls, second_calls) = (
++        Arc::new(AtomicUsize::new(/*v*/ 0)),
++        Arc::new(AtomicUsize::new(/*v*/ 0)),
++    );
+     let done = Arc::new(Semaphore::new(/*permits*/ 0));
+     let first_callback = counter_callback(&first, &first_calls, &done);
+     let second_callback = counter_callback(&second, &second_calls, &done);
+     let (entered_tx, entered_rx) = mpsc::channel();
+     let (release_tx, release_rx) = mpsc::channel();
+-    gate.start_for_home(home.path().to_path_buf(), Some(first_callback.clone()), move |_| {
+-        let _ = entered_tx.send(());
+-        let _ = release_rx.recv_timeout(BUDGET);
+-        Err(super::super::SyncFailure::Ordinary("fixture sync unavailable".to_string()))
+-    })?;
+-    let mut held = HeldWorker { gate: Arc::clone(&gate), release: Some(release_tx) };
++    gate.start_for_home(
++        home.path().to_path_buf(),
++        Some(first_callback.clone()),
++        move |_| {
++            let _ = entered_tx.send(());
++            let _ = release_rx.recv_timeout(BUDGET);
++            Err(super::super::SyncFailure::Ordinary(
++                "fixture sync unavailable".to_string(),
++            ))
++        },
++    )?;
++    let mut held = HeldWorker {
++        gate: Arc::clone(&gate),
++        release: Some(release_tx),
++    };
+     entered_rx.recv_timeout(BUDGET)?;
+-    let first_generation = gate.lock().active.as_ref().context("first generation")?.generation;
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(second_callback.clone()), |_| panic!("parallel worker"))?, HomeAdmission::Subscribed);
++    let first_generation = gate
++        .lock()
++        .active
++        .as_ref()
++        .context("first generation")?
++        .generation;
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(second_callback.clone()),
++            |_| panic!("parallel worker")
++        )?,
++        HomeAdmission::Subscribed
++    );
+     held.release()?;
+     tokio::time::timeout(BUDGET, async {
+-        while !gate.lock().active.as_ref().is_some_and(|record| record.handle.as_ref().is_some_and(std::thread::JoinHandle::is_finished)) {
++        while !gate.lock().active.as_ref().is_some_and(|record| {
++            record
++                .handle
++                .as_ref()
++                .is_some_and(std::thread::JoinHandle::is_finished)
++        }) {
+             tokio::task::yield_now().await;
+         }
+-    }).await?;
+-    assert_eq!((first_calls.load(Ordering::SeqCst), second_calls.load(Ordering::SeqCst)), (0, 0));
++    })
++    .await?;
++    assert_eq!(
++        (
++            first_calls.load(Ordering::SeqCst),
++            second_calls.load(Ordering::SeqCst)
++        ),
++        (0, 0)
++    );
+     let (entered_tx, entered_rx) = mpsc::channel();
+     let (release_tx, release_rx) = mpsc::channel();
+     held.release = Some(release_tx);
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(first_callback), move |_| {
+-        let _ = entered_tx.send(());
+-        release_rx.recv_timeout(BUDGET).map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
+-        Ok(())
+-    })?, HomeAdmission::Started);
++    assert_eq!(
++        gate.start_for_home(home.path().to_path_buf(), Some(first_callback), move |_| {
++            let _ = entered_tx.send(());
++            release_rx
++                .recv_timeout(BUDGET)
++                .map_err(|err| super::super::SyncFailure::Ordinary(err.to_string()))?;
++            Ok(())
++        })?,
++        HomeAdmission::Started
++    );
+     entered_rx.recv_timeout(BUDGET)?;
+-    let second_generation = gate.lock().active.as_ref().context("retry generation")?.generation;
++    let second_generation = gate
++        .lock()
++        .active
++        .as_ref()
++        .context("retry generation")?
++        .generation;
+     assert_ne!(first_generation, second_generation);
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(second_callback), |_| panic!("resubscription restarted worker"))?, HomeAdmission::Subscribed);
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(second_callback),
++            |_| panic!("resubscription restarted worker")
++        )?,
++        HomeAdmission::Subscribed
++    );
+     held.release()?;
+-    for _ in 0..2 { tokio::time::timeout(BUDGET, done.acquire()).await??.forget(); }
++    for _ in 0..2 {
++        tokio::time::timeout(BUDGET, done.acquire())
++            .await??
++            .forget();
++    }
+     let deadline = Instant::now() + BUDGET;
+     let observed = gate.begin_stop(deadline).wait_until(deadline).await;
+     assert_eq!(observed.generation, Some(second_generation.0));
+     assert!(observed.sync_succeeded());
+-    assert_eq!((first_calls.load(Ordering::SeqCst), second_calls.load(Ordering::SeqCst)), (1, 1));
++    assert_eq!(
++        (
++            first_calls.load(Ordering::SeqCst),
++            second_calls.load(Ordering::SeqCst)
++        ),
++        (1, 1)
++    );
+     assert!(first.wait_until(deadline).await.is_complete());
+     assert!(second.wait_until(deadline).await.is_complete());
+     Ok(())
+--- a/codex-rs/core-plugins/src/startup_sync/worker_observation.rs
++++ b/codex-rs/core-plugins/src/startup_sync/worker_observation.rs
+@@ -48,11 +48,11 @@
+         let operation = record.and_then(|record| match &record.outcome {
+             None => None,
+             Some(Ok(())) => Some(CuratedSyncOperationDisposition::Succeeded),
+-            Some(Err(SyncFailure::Stopped { publication_may_have_occurred })) => {
+-                Some(CuratedSyncOperationDisposition::Stopped {
+-                    publication_may_have_occurred: *publication_may_have_occurred,
+-                })
+-            }
++            Some(Err(SyncFailure::Stopped {
++                publication_may_have_occurred,
++            })) => Some(CuratedSyncOperationDisposition::Stopped {
++                publication_may_have_occurred: *publication_may_have_occurred,
++            }),
+             Some(Err(error)) => Some(if error.retains_resources() {
+                 CuratedSyncOperationDisposition::Uncertain
+             } else {
+@@ -66,7 +66,10 @@
+                 record.native_completion
+             }),
+             native_handle_finished: record.and_then(|record| {
+-                record.handle.as_ref().map(std::thread::JoinHandle::is_finished)
++                record
++                    .handle
++                    .as_ref()
++                    .map(std::thread::JoinHandle::is_finished)
+             }),
+             operation,
+             quarantined: !state.unexpected_handles.is_empty()
+--- a/codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs
++++ b/codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs
+@@ -1,5 +1,5 @@
++use super::super::HomeAdmission;
+ use super::*;
+-use super::super::HomeAdmission;
+ use crate::startup_sync::CuratedCallbackObservation;
+ use crate::startup_sync::CuratedCallbackScope;
+ use anyhow::Context;
+@@ -27,7 +27,10 @@
+         self.gate.request_stop(Instant::now() + BUDGET);
+         let handle = {
+             let mut state = self.gate.lock();
+-            state.active.as_mut().and_then(|record| record.handle.take())
++            state
++                .active
++                .as_mut()
++                .and_then(|record| record.handle.take())
+         };
+         if let Some(handle) = handle {
+             let joined = handle.join();
+@@ -37,64 +40,118 @@
+ }
+ 
+ #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+-async fn observation_preserves_live_control_handle_and_replacement_admission() -> anyhow::Result<()> {
++async fn observation_preserves_live_control_handle_and_replacement_admission() -> anyhow::Result<()>
++{
+     let home = tempfile::tempdir()?;
+     let gate = Arc::new(WorkerGate::default());
+     let (entered, ready) = mpsc::channel();
+     let (release, released) = mpsc::channel();
+     let (control_sent, control_seen) = mpsc::channel();
+-    let owner = FixtureOwner { gate: Arc::clone(&gate), release: Some(release) };
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), /*callback*/ None, move |control| {
+-        let _ = control_sent.send(Arc::clone(&control));
+-        let _ = entered.send(());
+-        released.recv_timeout(BUDGET).map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
+-        Ok(())
+-    })?, HomeAdmission::Started);
++    let owner = FixtureOwner {
++        gate: Arc::clone(&gate),
++        release: Some(release),
++    };
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            /*callback*/ None,
++            move |control| {
++                let _ = control_sent.send(Arc::clone(&control));
++                let _ = entered.send(());
++                released
++                    .recv_timeout(BUDGET)
++                    .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
++                Ok(())
++            }
++        )?,
++        HomeAdmission::Started
++    );
+     ready.recv_timeout(BUDGET)?;
+     let control = control_seen.recv_timeout(BUDGET)?;
+     let handle_id = {
+         let state = gate.lock();
+-        state.active.as_ref().and_then(|record| record.handle.as_ref())
+-            .context("registered native handle")?.thread().id()
++        state
++            .active
++            .as_ref()
++            .and_then(|record| record.handle.as_ref())
++            .context("registered native handle")?
++            .thread()
++            .id()
+     };
+     let before = gate.observe();
+-    assert_eq!(before, CuratedSyncLifecycleObservation {
+-        generation: Some(1), admission_closed: false,
+-        native: CuratedSyncNativeCompletion::Running, native_handle_finished: Some(false), operation: None,
+-        quarantined: false, unexpected_handles: 0,
+-    });
++    assert_eq!(
++        before,
++        CuratedSyncLifecycleObservation {
++            generation: Some(1),
++            admission_closed: false,
++            native: CuratedSyncNativeCompletion::Running,
++            native_handle_finished: Some(false),
++            operation: None,
++            quarantined: false,
++            unexpected_handles: 0,
++        }
++    );
+     assert_eq!(gate.observe(), before);
+     assert!(!control.is_cancelled());
+-    assert_eq!({
+-        let state = gate.lock();
+-        state.active.as_ref().and_then(|record| record.handle.as_ref())
+-            .context("observation retained handle")?.thread().id()
+-    }, handle_id);
++    assert_eq!(
++        {
++            let state = gate.lock();
++            state
++                .active
++                .as_ref()
++                .and_then(|record| record.handle.as_ref())
++                .context("observation retained handle")?
++                .thread()
++                .id()
++        },
++        handle_id
++    );
+     let scope = CuratedCallbackScope::new(tokio::runtime::Handle::current());
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(scope.callback(|| async {})),
+-        |_| panic!("observation must not require another worker"))?, HomeAdmission::Subscribed);
++    assert_eq!(
++        gate.start_for_home(
++            home.path().to_path_buf(),
++            Some(scope.callback(|| async {})),
++            |_| panic!("observation must not require another worker")
++        )?,
++        HomeAdmission::Subscribed
++    );
+     scope.begin_close();
+     drop(owner);
+-    assert!(scope.wait_until(Instant::now() + BUDGET).await.is_complete());
++    assert!(
++        scope
++            .wait_until(Instant::now() + BUDGET)
++            .await
++            .is_complete()
++    );
+     Ok(())
+ }
+ 
+ #[tokio::test(flavor = "multi_thread", worker_threads = 2)]
+-async fn observed_success_replays_without_stop_and_does_not_claim_callback_or_join_completion() -> anyhow::Result<()> {
++async fn observed_success_replays_without_stop_and_does_not_claim_callback_or_join_completion()
++-> anyhow::Result<()> {
+     let home = tempfile::tempdir()?;
+     let gate = Arc::new(WorkerGate::default());
+-    let _owner = FixtureOwner { gate: Arc::clone(&gate), release: None };
+-    gate.start_for_home(home.path().to_path_buf(), /*callback*/ None, |_| Ok(()))?;
++    let _owner = FixtureOwner {
++        gate: Arc::clone(&gate),
++        release: None,
++    };
++    gate.start_for_home(
++        home.path().to_path_buf(),
++        /*callback*/ None,
++        |_| Ok(()),
++    )?;
+     let succeeded = tokio::time::timeout(BUDGET, async {
+         loop {
+             let snapshot = gate.observe();
+             if snapshot.operation == Some(CuratedSyncOperationDisposition::Succeeded)
+-                && snapshot.native_handle_finished == Some(true) {
++                && snapshot.native_handle_finished == Some(true)
++            {
+                 break snapshot;
+             }
+             tokio::task::yield_now().await;
+         }
+-    }).await?;
++    })
++    .await?;
+     assert!(!succeeded.admission_closed);
+     assert_eq!(succeeded.native, CuratedSyncNativeCompletion::Running);
+     let scope = CuratedCallbackScope::new(tokio::runtime::Handle::current());
+@@ -113,42 +170,78 @@
+             }
+         }
+     });
+-    assert_eq!(gate.start_for_home(home.path().to_path_buf(), Some(callback),
+-        |_| panic!("latched success must replay"))?, HomeAdmission::Replayed);
+-    tokio::time::timeout(BUDGET, entered.acquire()).await??.forget();
++    assert_eq!(
++        gate.start_for_home(home.path().to_path_buf(), Some(callback), |_| panic!(
++            "latched success must replay"
++        ))?,
++        HomeAdmission::Replayed
++    );
++    tokio::time::timeout(BUDGET, entered.acquire())
++        .await??
++        .forget();
+     assert_eq!(gate.observe(), succeeded);
+-    assert_eq!(scope.wait_until(Instant::now()).await, CuratedCallbackObservation {
+-        pending: 1, completed: 0, suppressed: 0, failed: 0,
+-    });
++    assert_eq!(
++        scope.wait_until(Instant::now()).await,
++        CuratedCallbackObservation {
++            pending: 1,
++            completed: 0,
++            suppressed: 0,
++            failed: 0,
++        }
++    );
+     release.add_permits(/*n*/ 1);
+-    assert_eq!(scope.wait_until(Instant::now() + BUDGET).await, CuratedCallbackObservation {
+-        pending: 0, completed: 1, suppressed: 0, failed: 0,
+-    });
++    assert_eq!(
++        scope.wait_until(Instant::now() + BUDGET).await,
++        CuratedCallbackObservation {
++            pending: 0,
++            completed: 1,
++            suppressed: 0,
++            failed: 0,
++        }
++    );
+     let deadline = Instant::now() + BUDGET;
+     let joined = gate.begin_stop(deadline).wait_until(deadline).await;
+     assert_eq!(joined.generation, succeeded.generation);
+     assert_eq!(joined.native, CuratedSyncNativeCompletion::Joined);
+     assert!(joined.sync_succeeded());
+-    assert_eq!(gate.observe(), CuratedSyncLifecycleObservation {
+-        admission_closed: true, native: CuratedSyncNativeCompletion::Joined,
+-        native_handle_finished: None, ..succeeded
+-    });
++    assert_eq!(
++        gate.observe(),
++        CuratedSyncLifecycleObservation {
++            admission_closed: true,
++            native: CuratedSyncNativeCompletion::Joined,
++            native_handle_finished: None,
++            ..succeeded
++        }
++    );
+     Ok(())
+ }
+ 
+ #[tokio::test]
+ async fn observation_preserves_quarantine_and_keeps_error_payload_private() -> anyhow::Result<()> {
+     let gate = Arc::new(WorkerGate::default());
+-    let _owner = FixtureOwner { gate: Arc::clone(&gate), release: None };
+-    gate.start(|_| Err(SyncFailure::Publication("fixture-private-path-and-token".to_owned())))?;
++    let _owner = FixtureOwner {
++        gate: Arc::clone(&gate),
++        release: None,
++    };
++    gate.start(|_| {
++        Err(SyncFailure::Publication(
++            "fixture-private-path-and-token".to_owned(),
++        ))
++    })?;
+     let failed = tokio::time::timeout(BUDGET, async {
+         loop {
+             let snapshot = gate.observe();
+-            if snapshot.operation.is_some() && snapshot.native_handle_finished == Some(true) { break snapshot; }
+-            tokio::task::yield_now().await;
+-        }
+-    }).await?;
+-    assert_eq!(failed.operation, Some(CuratedSyncOperationDisposition::Uncertain));
++            if snapshot.operation.is_some() && snapshot.native_handle_finished == Some(true) {
++                break snapshot;
++            }
++            tokio::task::yield_now().await;
++        }
++    })
++    .await?;
++    assert_eq!(
++        failed.operation,
++        Some(CuratedSyncOperationDisposition::Uncertain)
++    );
+     assert!(failed.quarantined);
+     assert!(!format!("{failed:?}").contains("fixture-private"));
+     assert_eq!(gate.observe(), failed);
+@@ -156,42 +249,75 @@
+     let deadline = Instant::now() + BUDGET;
+     let joined = gate.begin_stop(deadline).wait_until(deadline).await;
+     assert!(joined.quarantined);
+-    assert!(joined.failure().context("original failure remains")?.to_string().contains("fixture-private"));
++    assert!(
++        joined
++            .failure()
++            .context("original failure remains")?
++            .to_string()
++            .contains("fixture-private")
++    );
+     assert_eq!(gate.observe().operation, failed.operation);
+     Ok(())
+ }
+ 
+ #[tokio::test]
+-async fn explicit_retry_changes_generation_without_rewriting_prior_observation() -> anyhow::Result<()> {
++async fn explicit_retry_changes_generation_without_rewriting_prior_observation()
++-> anyhow::Result<()> {
+     let gate = Arc::new(WorkerGate::default());
+-    let _owner = FixtureOwner { gate: Arc::clone(&gate), release: None };
++    let _owner = FixtureOwner {
++        gate: Arc::clone(&gate),
++        release: None,
++    };
+     gate.start(|_| Err(SyncFailure::Ordinary("fixture offline".to_owned())))?;
+     let first = tokio::time::timeout(BUDGET, async {
+         loop {
+             let snapshot = gate.observe();
+-            if snapshot.operation.is_some() && snapshot.native_handle_finished == Some(true) { break snapshot; }
+-            tokio::task::yield_now().await;
+-        }
+-    }).await?;
+-    assert_eq!(first.operation, Some(CuratedSyncOperationDisposition::Failed));
++            if snapshot.operation.is_some() && snapshot.native_handle_finished == Some(true) {
++                break snapshot;
++            }
++            tokio::task::yield_now().await;
++        }
++    })
++    .await?;
++    assert_eq!(
++        first.operation,
++        Some(CuratedSyncOperationDisposition::Failed)
++    );
+     tokio::time::timeout(BUDGET, async {
+         loop {
+-            if gate.start(|_| Ok(()))? { break anyhow::Ok(()); }
+-            tokio::task::yield_now().await;
+-        }
+-    }).await??;
++            if gate.start(|_| Ok(()))? {
++                break anyhow::Ok(());
++            }
++            tokio::task::yield_now().await;
++        }
++    })
++    .await??;
+     let second = tokio::time::timeout(BUDGET, async {
+         loop {
+             let snapshot = gate.observe();
+-            if snapshot.operation.is_some() && snapshot.native_handle_finished == Some(true) { break snapshot; }
+-            tokio::task::yield_now().await;
+-        }
+-    }).await?;
++            if snapshot.operation.is_some() && snapshot.native_handle_finished == Some(true) {
++                break snapshot;
++            }
++            tokio::task::yield_now().await;
++        }
++    })
++    .await?;
+     assert_eq!((first.generation, second.generation), (Some(1), Some(2)));
+-    assert_eq!(second.operation, Some(CuratedSyncOperationDisposition::Succeeded));
++    assert_eq!(
++        second.operation,
++        Some(CuratedSyncOperationDisposition::Succeeded)
++    );
+     assert!(!second.admission_closed);
+-    assert_eq!(first.operation, Some(CuratedSyncOperationDisposition::Failed));
++    assert_eq!(
++        first.operation,
++        Some(CuratedSyncOperationDisposition::Failed)
++    );
+     let deadline = Instant::now() + BUDGET;
+-    assert!(gate.begin_stop(deadline).wait_until(deadline).await.sync_succeeded());
++    assert!(
++        gate.begin_stop(deadline)
++            .wait_until(deadline)
++            .await
++            .sync_succeeded()
++    );
+     Ok(())
+ }
+--- a/codex-rs/exec/src/lib.rs
++++ b/codex-rs/exec/src/lib.rs
+@@ -10,11 +10,11 @@
+ mod event_processor_with_human_output;
+ pub(crate) mod event_processor_with_jsonl_output;
+ pub(crate) mod exec_events;
+-mod worktree;
+ mod process_final;
+ #[cfg(test)]
+ #[path = "process_final_input_tests.rs"]
+ mod process_final_input_tests;
++mod worktree;
+ 
+ pub use cli::Cli;
+ pub use cli::Command;
+@@ -722,7 +722,10 @@
+         )?;
+         #[cfg(target_os = "macos")]
+         let local_runtime_paths = local_runtime_paths.with_allowed_symlinked_codex_home(
+-            codex_config::allowed_symlinked_codex_home(&config.config_layer_stack, &config.codex_home),
++            codex_config::allowed_symlinked_codex_home(
++                &config.config_layer_stack,
++                &config.codex_home,
++            ),
+         );
+         let state_db = codex_core::init_state_db(&config).await;
+         let environment_manager = if run_loader_overrides.ignore_user_config {
+@@ -1016,7 +1019,9 @@
+         && !dangerously_bypass_approvals_and_sandbox
+         && get_git_repo_root(&default_cwd).is_none()
+     {
+-        anyhow::bail!("Not inside a trusted directory and --skip-git-repo-check was not specified.");
++        anyhow::bail!(
++            "Not inside a trusted directory and --skip-git-repo-check was not specified."
++        );
+     }
+ 
+     let mut request_ids = RequestIdSequencer::new();
+@@ -2182,10 +2187,16 @@
+         return Ok(None);
+     };
+     let schema_str = std::fs::read_to_string(&path).map_err(|err| {
+-        anyhow::anyhow!("Failed to read output schema file {}: {err}", path.display())
++        anyhow::anyhow!(
++            "Failed to read output schema file {}: {err}",
++            path.display()
++        )
+     })?;
+     let value = serde_json::from_str::<Value>(&schema_str).map_err(|err| {
+-        anyhow::anyhow!("Output schema file {} is not valid JSON: {err}", path.display())
++        anyhow::anyhow!(
++            "Output schema file {} is not valid JSON: {err}",
++            path.display()
++        )
+     })?;
+     Ok(Some(value))
+ }
+--- a/codex-rs/exec/src/main.rs
++++ b/codex-rs/exec/src/main.rs
+@@ -38,8 +38,7 @@
+             .prepend_root_overrides(top_cli.config_overrides);
+ 
+         let process_final = ProcessFinalCapability::for_executable();
+-        let operation =
+-            run_main_with_process_final(inner, arg0_paths, process_final.clone()).await;
++        let operation = run_main_with_process_final(inner, arg0_paths, process_final.clone()).await;
+         process_final::finish(operation, &process_final).await
+     })
+ }
+--- a/codex-rs/exec/src/process_final_input_tests.rs
++++ b/codex-rs/exec/src/process_final_input_tests.rs
+@@ -10,7 +10,11 @@
+     let Err(error) = result else {
+         panic!("missing schema must return an error");
+     };
+-    assert!(error.to_string().contains("Failed to read output schema file"));
++    assert!(
++        error
++            .to_string()
++            .contains("Failed to read output schema file")
++    );
+     Ok(())
+ }
+ 
+--- a/codex-rs/tui/src/process_final.rs
++++ b/codex-rs/tui/src/process_final.rs
+@@ -38,9 +38,7 @@
+ }
+ 
+ /// Observe final ownership while the TUI's tracing and telemetry guards are alive.
+-pub(crate) async fn finish(
+-    result: std::io::Result<AppExitInfo>,
+-) -> std::io::Result<AppExitInfo> {
++pub(crate) async fn finish(result: std::io::Result<AppExitInfo>) -> std::io::Result<AppExitInfo> {
+     if !is_final_result(&result) {
+         return result;
+     }
+@@ -66,10 +64,7 @@
+     ))
+ }
+ 
+-fn attach_cleanup_error(
+-    result: std::io::Result<AppExitInfo>,
+-    cleanup: String,
+-) -> std::io::Error {
++fn attach_cleanup_error(result: std::io::Result<AppExitInfo>, cleanup: String) -> std::io::Error {
+     match result {
+         Ok(info) => match info.exit_reason {
+             ExitReason::Fatal(message) => {
+@@ -80,10 +75,7 @@
+             | ExitReason::TurnInterrupted
+             | ExitReason::ThreadRemoved => std::io::Error::other(cleanup),
+         },
+-        Err(error) => std::io::Error::new(
+-            error.kind(),
+-            anyhow::Error::new(error).context(cleanup),
+-        ),
++        Err(error) => std::io::Error::new(error.kind(), anyhow::Error::new(error).context(cleanup)),
+     }
+ }
+ 
+--- a/codex-rs/tui/src/process_final_tests.rs
++++ b/codex-rs/tui/src/process_final_tests.rs
+@@ -53,18 +53,29 @@
+     let report = anyhow::Error::new(error);
+ 
+     assert_eq!(report.to_string(), "curated cleanup failed");
+-    assert!(report.chain().any(|cause| cause.to_string() == "fatal app failure"));
++    assert!(
++        report
++            .chain()
++            .any(|cause| cause.to_string() == "fatal app failure")
++    );
+ }
+ 
+ #[test]
+ fn cleanup_failure_preserves_an_operation_error_and_its_kind() {
+     let error = attach_cleanup_error(
+-        Err(io::Error::new(io::ErrorKind::PermissionDenied, "request denied")),
++        Err(io::Error::new(
++            io::ErrorKind::PermissionDenied,
++            "request denied",
++        )),
+         "curated cleanup failed".to_string(),
+     );
+ 
+     assert_eq!(error.kind(), io::ErrorKind::PermissionDenied);
+     let report = anyhow::Error::new(error);
+     assert_eq!(report.to_string(), "curated cleanup failed");
+-    assert!(report.chain().any(|cause| cause.to_string() == "request denied"));
++    assert!(
++        report
++            .chain()
++            .any(|cause| cause.to_string() == "request denied")
++    );
+ }
+--- a/codex-rs/utils/process/src/process_shutdown.rs
++++ b/codex-rs/utils/process/src/process_shutdown.rs
+@@ -27,22 +27,34 @@
+ }
+ 
+ impl ProcessShutdownDeadline {
+-    pub fn graceful(self) -> Instant { self.graceful }
+-    pub fn hard(self) -> Instant { self.hard }
++    pub fn graceful(self) -> Instant {
++        self.graceful
++    }
++    pub fn hard(self) -> Instant {
++        self.hard
++    }
+ }
+ 
+ /// Explicit permission from an executable to start irreversible process-final
+ /// shutdown. Ordinary library and embedded-provider lifetimes do not create it.
+ #[derive(Clone, Debug, PartialEq, Eq)]
+-pub struct ProcessFinalCapability { _private: () }
++pub struct ProcessFinalCapability {
++    _private: (),
++}
+ 
+ impl ProcessFinalCapability {
+-    pub fn for_executable() -> Self { Self { _private: () } }
+-    pub fn begin(&self) -> ProcessShutdownDeadline { begin() }
++    pub fn for_executable() -> Self {
++        Self { _private: () }
++    }
++    pub fn begin(&self) -> ProcessShutdownDeadline {
++        begin()
++    }
+ }
+ 
+ #[derive(Default)]
+-struct Clock { watchdog: OnceLock<Arc<Watchdog>> }
++struct Clock {
++    watchdog: OnceLock<Arc<Watchdog>>,
++}
+ 
+ impl Clock {
+     fn begin_with(
+@@ -51,23 +63,31 @@
+         hard: Duration,
+         on_timeout: impl FnOnce() + Send + 'static,
+     ) -> ProcessShutdownDeadline {
+-        self.watchdog.get_or_init(|| {
+-            Watchdog::start(graceful, hard, on_timeout)
+-                .unwrap_or_else(|_| std::process::exit(WATCHDOG_UNAVAILABLE_EXIT_CODE))
+-        }).deadline
++        self.watchdog
++            .get_or_init(|| {
++                Watchdog::start(graceful, hard, on_timeout)
++                    .unwrap_or_else(|_| std::process::exit(WATCHDOG_UNAVAILABLE_EXIT_CODE))
++            })
++            .deadline
+     }
+ 
+     fn finish(&self) -> io::Result<()> {
+-        self.watchdog.get().map_or(Ok(()), |watchdog| watchdog.finish())
+-    }
+-}
+-
+-static CLOCK: Clock = Clock { watchdog: OnceLock::new() };
++        self.watchdog
++            .get()
++            .map_or(Ok(()), |watchdog| watchdog.finish())
++    }
++}
++
++static CLOCK: Clock = Clock {
++    watchdog: OnceLock::new(),
++};
+ 
+ /// Start the first shared deadline without depending on Tokio or logging. Later
+ /// calls reuse it. Failure to create its watchdog is an unconfirmed hard exit.
+ pub fn begin() -> ProcessShutdownDeadline {
+-    CLOCK.begin_with(GRACEFUL_TIMEOUT, HARD_TIMEOUT, || std::process::exit(HARD_TIMEOUT_EXIT_CODE))
++    CLOCK.begin_with(GRACEFUL_TIMEOUT, HARD_TIMEOUT, || {
++        std::process::exit(HARD_TIMEOUT_EXIT_CODE)
++    })
+ }
+ 
+ pub fn current() -> Option<ProcessShutdownDeadline> {
+@@ -82,7 +102,9 @@
+ 
+ /// Call only after the executable's actual runtime has been dropped and its
+ /// native main thread joined. Early disarming would hide blocked teardown.
+-pub fn finish_after_runtime() -> io::Result<()> { CLOCK.finish() }
++pub fn finish_after_runtime() -> io::Result<()> {
++    CLOCK.finish()
++}
+ 
+ #[derive(Default)]
+ struct WatchdogState {
+@@ -107,30 +129,45 @@
+     ) -> io::Result<Arc<Self>> {
+         let started = Instant::now();
+         let watchdog = Arc::new(Self {
+-            deadline: ProcessShutdownDeadline { graceful: started + graceful, hard: started + hard },
++            deadline: ProcessShutdownDeadline {
++                graceful: started + graceful,
++                hard: started + hard,
++            },
+             state: Mutex::new(WatchdogState::default()),
+             changed: Condvar::new(),
+         });
+         let owner = Arc::clone(&watchdog);
+-        let worker = std::thread::Builder::new().name("codex-process-shutdown".to_string()).spawn(move || {
+-            let timed_out = {
+-                let mut state = owner.state.lock().unwrap_or_else(PoisonError::into_inner);
+-                loop {
+-                    if state.stopped { break false; }
+-                    let now = Instant::now();
+-                    if now >= owner.deadline.hard {
+-                        state.expired = true;
+-                        break true;
++        let worker = std::thread::Builder::new()
++            .name("codex-process-shutdown".to_string())
++            .spawn(move || {
++                let timed_out = {
++                    let mut state = owner.state.lock().unwrap_or_else(PoisonError::into_inner);
++                    loop {
++                        if state.stopped {
++                            break false;
++                        }
++                        let now = Instant::now();
++                        if now >= owner.deadline.hard {
++                            state.expired = true;
++                            break true;
++                        }
++                        let (next, _) = owner
++                            .changed
++                            .wait_timeout(state, owner.deadline.hard - now)
++                            .unwrap_or_else(PoisonError::into_inner);
++                        state = next;
+                     }
+-                    let (next, _) = owner.changed.wait_timeout(state, owner.deadline.hard - now)
+-                        .unwrap_or_else(PoisonError::into_inner);
+-                    state = next;
++                };
++                // No logging or user callback runs under the watchdog mutex.
++                if timed_out {
++                    on_timeout();
+                 }
+-            };
+-            // No logging or user callback runs under the watchdog mutex.
+-            if timed_out { on_timeout(); }
+-        })?;
+-        watchdog.state.lock().unwrap_or_else(PoisonError::into_inner).worker = Some(worker);
++            })?;
++        watchdog
++            .state
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .worker = Some(worker);
+         Ok(watchdog)
+     }
+ 
+@@ -143,7 +180,10 @@
+                 self.changed.notify_all();
+             }
+             while state.joining {
+-                state = self.changed.wait(state).unwrap_or_else(PoisonError::into_inner);
++                state = self
++                    .changed
++                    .wait(state)
++                    .unwrap_or_else(PoisonError::into_inner);
+             }
+             let worker = state.worker.take();
+             state.joining = worker.is_some();
+@@ -161,9 +201,14 @@
+         }
+         let state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
+         if state.expired {
+-            Err(io::Error::new(io::ErrorKind::TimedOut, "process shutdown exceeded its independent hard deadline; cleanup is unconfirmed"))
++            Err(io::Error::new(
++                io::ErrorKind::TimedOut,
++                "process shutdown exceeded its independent hard deadline; cleanup is unconfirmed",
++            ))
+         } else if state.failed {
+-            Err(io::Error::other("process shutdown watchdog failed; cleanup is unconfirmed"))
++            Err(io::Error::other(
++                "process shutdown watchdog failed; cleanup is unconfirmed",
++            ))
+         } else {
+             Ok(())
+         }
+--- a/codex-rs/utils/process/src/process_shutdown_tests.rs
++++ b/codex-rs/utils/process/src/process_shutdown_tests.rs
+@@ -5,8 +5,16 @@
+ #[test]
+ fn repeated_stop_preserves_first_absolute_deadline_and_joins_watchdog() -> io::Result<()> {
+     let clock = Clock::default();
+-    let first = clock.begin_with(Duration::from_secs(/*secs*/ 1), Duration::from_secs(/*secs*/ 2), || {});
+-    let second = clock.begin_with(Duration::from_secs(/*secs*/ 50), Duration::from_secs(/*secs*/ 60), || {});
++    let first = clock.begin_with(
++        Duration::from_secs(/*secs*/ 1),
++        Duration::from_secs(/*secs*/ 2),
++        || {},
++    );
++    let second = clock.begin_with(
++        Duration::from_secs(/*secs*/ 50),
++        Duration::from_secs(/*secs*/ 60),
++        || {},
++    );
+     assert_eq!(first.graceful(), second.graceful());
+     assert_eq!(first.hard(), second.hard());
+     clock.finish()?;
+@@ -17,25 +25,50 @@
+ #[test]
+ fn independent_expiry_remains_failure_after_watchdog_join() -> io::Result<()> {
+     let (expired_tx, expired_rx) = mpsc::channel();
+-    let watchdog = Watchdog::start(Duration::from_millis(/*millis*/ 5), Duration::from_millis(/*millis*/ 15), move || {
+-        let _ = expired_tx.send(());
+-    })?;
++    let watchdog = Watchdog::start(
++        Duration::from_millis(/*millis*/ 5),
++        Duration::from_millis(/*millis*/ 15),
++        move || {
++            let _ = expired_tx.send(());
++        },
++    )?;
+     let received = expired_rx.recv_timeout(Duration::from_secs(/*secs*/ 5));
+     let outcome = watchdog.finish();
+     assert!(received.is_ok());
+-    assert_eq!(outcome.err().map(|error| error.kind()), Some(io::ErrorKind::TimedOut));
+-    assert!(watchdog.state.lock().unwrap_or_else(PoisonError::into_inner).worker.is_none());
++    assert_eq!(
++        outcome.err().map(|error| error.kind()),
++        Some(io::ErrorKind::TimedOut)
++    );
++    assert!(
++        watchdog
++            .state
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .worker
++            .is_none()
++    );
+     Ok(())
+ }
+ 
+ #[test]
+ fn disarming_wakes_and_joins_without_waiting_for_hard_timeout() -> io::Result<()> {
+     let (expired_tx, expired_rx) = mpsc::channel();
+-    let watchdog = Watchdog::start(Duration::from_secs(/*secs*/ 60), Duration::from_secs(/*secs*/ 65), move || {
+-        let _ = expired_tx.send(());
+-    })?;
++    let watchdog = Watchdog::start(
++        Duration::from_secs(/*secs*/ 60),
++        Duration::from_secs(/*secs*/ 65),
++        move || {
++            let _ = expired_tx.send(());
++        },
++    )?;
+     watchdog.finish()?;
+     assert!(expired_rx.try_recv().is_err());
+-    assert!(watchdog.state.lock().unwrap_or_else(PoisonError::into_inner).worker.is_none());
++    assert!(
++        watchdog
++            .state
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .worker
++            .is_none()
++    );
+     Ok(())
+ }
+--- a/component-sdk/examples/desktop/desktop_ui/gateway.py
++++ b/component-sdk/examples/desktop/desktop_ui/gateway.py
+@@ -249,7 +249,9 @@
+                     except ProcessLookupError:
+                         pass
+                     try:
+-                        status = self.child.wait(timeout=remaining(SIGNAL_CLOSE_SECONDS))
++                        status = self.child.wait(
++                            timeout=remaining(SIGNAL_CLOSE_SECONDS)
++                        )
+                     except subprocess.TimeoutExpired:
+                         raise RuntimeError(
+                             "Codex did not exit after forced shutdown; write outcome unknown"
+@@ -260,7 +262,9 @@
+                 )
+             if status in UNCONFIRMED_PROCESS_EXITS:
+                 reason = UNCONFIRMED_PROCESS_EXITS[status]
+-                raise RuntimeError(f"Codex cleanup unconfirmed: {reason}; write outcome unknown")
++                raise RuntimeError(
++                    f"Codex cleanup unconfirmed: {reason}; write outcome unknown"
++                )
+             if status != 0 or pipe_failed:
+                 raise RuntimeError(
+                     "Codex exited without confirmed cleanup; write outcome unknown"
+@@ -335,7 +339,9 @@
+             remaining = max(0.0, deadline - time.monotonic())
+             self.thread.join(timeout=min(SIGNAL_CLOSE_SECONDS, remaining))
+             if self.thread.is_alive():
+-                raise RuntimeError("Desktop HTTP cleanup unconfirmed; write outcome unknown")
++                raise RuntimeError(
++                    "Desktop HTTP cleanup unconfirmed; write outcome unknown"
++                )
+ 
+ 
+ class Handler(BaseHTTPRequestHandler):
+--- a/component-sdk/tests/curated_replacement_acceptance.py
++++ b/component-sdk/tests/curated_replacement_acceptance.py
+@@ -44,32 +44,63 @@
+ 
+ def trusted_git():
+     # Linux mirror of pinned codex-utils-path/system_commands.rs; never PATH.
+-    roots = tuple(Path(p) for p in ("/usr/bin", "/bin", "/usr/sbin", "/sbin",
+-                                   "/usr/local", "/opt/homebrew", "/opt/local",
+-                                   "/Library/Developer/CommandLineTools",
+-                                   "/Applications/Xcode.app/Contents/Developer", "/nix/store"))
+-    directories = ("/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin",
+-                   "/run/current-system/sw/bin", "/nix/var/nix/profiles/default/bin",
+-                   "/Library/Developer/CommandLineTools/usr/bin",
+-                   "/Applications/Xcode.app/Contents/Developer/usr/bin",
+-                   "/usr/bin", "/bin", "/usr/sbin", "/sbin")
++    roots = tuple(
++        Path(p)
++        for p in (
++            "/usr/bin",
++            "/bin",
++            "/usr/sbin",
++            "/sbin",
++            "/usr/local",
++            "/opt/homebrew",
++            "/opt/local",
++            "/Library/Developer/CommandLineTools",
++            "/Applications/Xcode.app/Contents/Developer",
++            "/nix/store",
++        )
++    )
++    directories = (
++        "/opt/homebrew/bin",
++        "/usr/local/bin",
++        "/opt/local/bin",
++        "/run/current-system/sw/bin",
++        "/nix/var/nix/profiles/default/bin",
++        "/Library/Developer/CommandLineTools/usr/bin",
++        "/Applications/Xcode.app/Contents/Developer/usr/bin",
++        "/usr/bin",
++        "/bin",
++        "/usr/sbin",
++        "/sbin",
++    )
+     for directory in directories:
+         parent = Path(directory).resolve()
+         candidate = (parent / "git").resolve()
+-        if (any(parent.is_relative_to(root) for root in roots)
+-                and any(candidate.is_relative_to(root) for root in roots)
+-                and candidate.is_file() and os.access(candidate, os.X_OK)):
++        if (
++            any(parent.is_relative_to(root) for root in roots)
++            and any(candidate.is_relative_to(root) for root in roots)
++            and candidate.is_file()
++            and os.access(candidate, os.X_OK)
++        ):
+             return candidate
+-    raise RuntimeError("production trusted Git lookup has no supported Linux executable")
++    raise RuntimeError(
++        "production trusted Git lookup has no supported Linux executable"
++    )
+ 
+ 
+ def fixture_git_env():
+     # Only fixture repository creation/backend service use this isolated config.
+     # The production child keeps system Git policy and receives the agreed
+     # ordinary user-global URL rewrite. No proxy or sandbox variables change.
+-    env = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+-    env.update({"GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull,
+-                "GIT_TERMINAL_PROMPT": "0"})
++    env = {
++        key: value for key, value in os.environ.items() if not key.startswith("GIT_")
++    }
++    env.update(
++        {
++            "GIT_CONFIG_GLOBAL": os.devnull,
++            "GIT_CONFIG_SYSTEM": os.devnull,
++            "GIT_TERMINAL_PROMPT": "0",
++        }
++    )
+     return env
+ 
+ 
+@@ -85,8 +116,9 @@
+             continue
+     descendants = {child_pid}
+     while True:
+-        expanded = descendants | {pid for pid, (parent, _) in processes.items()
+-                                  if parent in descendants}
++        expanded = descendants | {
++            pid for pid, (parent, _) in processes.items() if parent in descendants
++        }
+         if expanded == descendants:
+             break
+         descendants = expanded
+@@ -95,8 +127,13 @@
+         try:
+             executable = Path("/proc") / str(pid) / "exe"
+             if executable.resolve(strict=True) == git:
+-                found.append({"pid": pid, "start_ticks": processes[pid][1],
+-                              "executable_sha256": digest(executable)})
++                found.append(
++                    {
++                        "pid": pid,
++                        "start_ticks": processes[pid][1],
++                        "executable_sha256": digest(executable),
++                    }
++                )
+         except OSError:
+             continue
+     require(found, "held production Git executable was not observed below exact child")
+@@ -113,12 +150,17 @@
+         self.lock = threading.Lock()
+         self.backends, self.errors, self.forced, self.events = [], [], [], []
+         self.git_requests, self.model_requests, self.mcp_calls = [], 0, []
+-        self.server = http.server.ThreadingHTTPServer(("127.0.0.1", 0), self.handler_type())
++        self.server = http.server.ThreadingHTTPServer(
++            ("127.0.0.1", 0), self.handler_type()
++        )
+         self.server.daemon_threads = False
+         self.server.block_on_close = True
+         self.url = "http://127.0.0.1:" + str(self.server.server_port)
+-        self.thread = threading.Thread(target=self.server.serve_forever,
+-                                       kwargs={"poll_interval": 0.05}, name="curated-fixture")
++        self.thread = threading.Thread(
++            target=self.server.serve_forever,
++            kwargs={"poll_interval": 0.05},
++            name="curated-fixture",
++        )
+         self.thread.start()
+ 
+     def remaining(self):
+@@ -133,8 +175,14 @@
+         # Repository setup only. The host child receives its own ordinary user
+         # global config; neither production Git nor its policy is replaced.
+         timeout = min(20, self.remaining())
+-        process = subprocess.Popen([str(self.git), *args], cwd=cwd, env=fixture_git_env(),
+-                                   stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++        process = subprocess.Popen(
++            [str(self.git), *args],
++            cwd=cwd,
++            env=fixture_git_env(),
++            stdin=subprocess.PIPE,
++            stdout=subprocess.PIPE,
++            stderr=subprocess.PIPE,
++        )
+         with self.lock:
+             self.backends.append(process)
+         output, error = self.collect_git(process, b"", timeout)
+@@ -147,8 +195,12 @@
+             return process.communicate(body, timeout=timeout)
+         except subprocess.TimeoutExpired as original:
+             self.forced.append("fixture Git timeout")
+-            (self.root / ("git-timeout-" + str(process.pid) + ".stdout")).write_bytes(original.output or b"")
+-            (self.root / ("git-timeout-" + str(process.pid) + ".stderr")).write_bytes(original.stderr or b"")
++            (self.root / ("git-timeout-" + str(process.pid) + ".stdout")).write_bytes(
++                original.output or b""
++            )
++            (self.root / ("git-timeout-" + str(process.pid) + ".stderr")).write_bytes(
++                original.stderr or b""
++            )
+             if process.poll() is None:
+                 process.kill()
+             try:
+@@ -168,31 +220,83 @@
+         plugin = repo / "plugins/replacement-probe"
+         for directory in (".codex-plugin", "skills/replacement-skill", "hooks"):
+             (plugin / directory).mkdir(parents=True, exist_ok=True)
+-        write_json(plugin / ".codex-plugin/plugin.json", {
+-            "name": "replacement-probe", "version": version, "description": version})
++        write_json(
++            plugin / ".codex-plugin/plugin.json",
++            {"name": "replacement-probe", "version": version, "description": version},
++        )
+         (plugin / "skills/replacement-skill/SKILL.md").write_text(
+-            "---\nname: replacement-skill\ndescription: " + version
+-            + "\n---\n\nObserved curated skill " + version + "\n")
++            "---\nname: replacement-skill\ndescription: "
++            + version
++            + "\n---\n\nObserved curated skill "
++            + version
++            + "\n"
++        )
+         endpoint = "old" if version == "version1" else "new"
+-        write_json(plugin / ".mcp.json", {"mcpServers": {
+-            "probe-" + endpoint: {"type": "http", "url": self.url + "/mcp/" + endpoint}}})
+-        write_json(plugin / "hooks/hooks.json", {"hooks": {"Interrupt": [{"hooks": [{
+-            "type": "command", "command": "python3 ${PLUGIN_ROOT}/hooks/probe.py",
+-            "timeout": 5}]}]}})
++        write_json(
++            plugin / ".mcp.json",
++            {
++                "mcpServers": {
++                    "probe-" + endpoint: {
++                        "type": "http",
++                        "url": self.url + "/mcp/" + endpoint,
++                    }
++                }
++            },
++        )
++        write_json(
++            plugin / "hooks/hooks.json",
++            {
++                "hooks": {
++                    "Interrupt": [
++                        {
++                            "hooks": [
++                                {
++                                    "type": "command",
++                                    "command": "python3 ${PLUGIN_ROOT}/hooks/probe.py",
++                                    "timeout": 5,
++                                }
++                            ]
++                        }
++                    ]
++                }
++            },
++        )
+         (plugin / "hooks/probe.py").write_text(
+             "from pathlib import Path\nimport sys\nsys.stdin.read()\n"
+-            + "with Path(" + repr(str(self.home / "hook.log")) + ").open('a') as out:\n"
+-            + "    out.write(" + repr(version + "\n") + ")\nprint('{}')\n")
++            + "with Path("
++            + repr(str(self.home / "hook.log"))
++            + ").open('a') as out:\n"
++            + "    out.write("
++            + repr(version + "\n")
++            + ")\nprint('{}')\n"
++        )
+         manifests = repo / ".agents/plugins"
+         manifests.mkdir(parents=True, exist_ok=True)
+-        write_json(manifests / "marketplace.json", {"name": "openai-curated", "plugins": []})
+-        write_json(manifests / "api_marketplace.json", {
+-            "name": "openai-api-curated", "plugins": [{"name": "replacement-probe",
+-                "source": {"source": "local", "path": "./plugins/replacement-probe"}}]})
++        write_json(
++            manifests / "marketplace.json", {"name": "openai-curated", "plugins": []}
++        )
++        write_json(
++            manifests / "api_marketplace.json",
++            {
++                "name": "openai-api-curated",
++                "plugins": [
++                    {
++                        "name": "replacement-probe",
++                        "source": {
++                            "source": "local",
++                            "path": "./plugins/replacement-probe",
++                        },
++                    }
++                ],
++            },
++        )
+ 
+     def inventory(self, directory):
+-        return {str(p.relative_to(directory)): digest(p) for p in sorted(directory.rglob("*"))
+-                if p.is_file() and ".git" not in p.relative_to(directory).parts}
++        return {
++            str(p.relative_to(directory)): digest(p)
++            for p in sorted(directory.rglob("*"))
++            if p.is_file() and ".git" not in p.relative_to(directory).parts
++        }
+ 
+     def prepare(self):
+         repo = self.root / "source"
+@@ -200,28 +304,44 @@
+         self.run_git(repo, "init", "-b", "main")
+         self.write_plugin(repo, "version1")
+         self.run_git(repo, "add", ".")
+-        commit_args = ("-c", "user.name=Acceptance", "-c", "user.email=acceptance@example.invalid",
+-                       "-c", "commit.gpgSign=false", "commit", "-qm")
++        commit_args = (
++            "-c",
++            "user.name=Acceptance",
++            "-c",
++            "user.email=acceptance@example.invalid",
++            "-c",
++            "commit.gpgSign=false",
++            "commit",
++            "-qm",
++        )
+         self.run_git(repo, *commit_args, "old curated fixture")
+         old_sha = self.run_git(repo, "rev-parse", "HEAD")
+         write_json(self.root / "old-inventory.json", self.inventory(repo))
+-        shutil.copytree(repo, self.home / ".tmp/plugins", ignore=shutil.ignore_patterns(".git"))
++        shutil.copytree(
++            repo, self.home / ".tmp/plugins", ignore=shutil.ignore_patterns(".git")
++        )
+         (self.home / ".tmp/plugins.sha").write_text(old_sha + "\n")
+-        shutil.copytree(repo / "plugins/replacement-probe",
+-                        self.home / "plugins/cache/openai-api-curated/replacement-probe/local")
++        shutil.copytree(
++            repo / "plugins/replacement-probe",
++            self.home / "plugins/cache/openai-api-curated/replacement-probe/local",
++        )
+         self.write_plugin(repo, "version2")
+         self.run_git(repo, "add", ".")
+         self.run_git(repo, *commit_args, "new curated fixture")
+         new_sha = self.run_git(repo, "rev-parse", "HEAD")
+         write_json(self.root / "new-inventory.json", self.inventory(repo))
+         (self.root / "export").mkdir()
+-        self.run_git(repo, "clone", "--bare", str(repo), str(self.root / "export/plugins.git"))
++        self.run_git(
++            repo, "clone", "--bare", str(repo), str(self.root / "export/plugins.git")
++        )
+         self.git_config = self.root / "global.gitconfig"
+-        self.git_config.write_text('[url "' + self.url + '/plugins.git"]\n'
+-                                   '    insteadOf = ' + GIT_URL + '\n')
++        self.git_config.write_text(
++            '[url "' + self.url + '/plugins.git"]\n    insteadOf = ' + GIT_URL + "\n"
++        )
+         # Hook trust is a supported child ConfigOverrides harness override,
+         # applied by the Rust fixture, not an invented TOML field.
+-        (self.home / "config.toml").write_text('''model = "mock-model"
++        (self.home / "config.toml").write_text(
++            '''model = "mock-model"
+ model_provider = "replacement_fixture"
+ approval_policy = "never"
+ sandbox_mode = "danger-full-access"
+@@ -232,16 +352,22 @@
+ enabled = true
+ [model_providers.replacement_fixture]
+ name = "Replacement acceptance fixture"
+-base_url = "''' + self.url + '''/v1"
++base_url = "'''
++            + self.url
++            + """/v1"
+ wire_api = "responses"
+ request_max_retries = 0
+ stream_max_retries = 0
+ supports_websockets = false
+ requires_openai_auth = false
+-''')
+-        self.identities = {"old_commit": old_sha, "new_commit": new_sha,
+-                           "git_sha256": digest(self.git),
+-                           "global_config_sha256": digest(self.git_config)}
++"""
++        )
++        self.identities = {
++            "old_commit": old_sha,
++            "new_commit": new_sha,
++            "git_sha256": digest(self.git),
++            "global_config_sha256": digest(self.git_config),
++        }
+ 
+     def handler_type(self):
+         fixture = self
+@@ -271,34 +397,69 @@
+                     body = self.rfile.read(length)
+                     if target.path.startswith("/plugins.git/"):
+                         with fixture.lock:
+-                            fixture.git_requests.append({"method": self.command,
+-                                "path": target.path, "query": target.query})
++                            fixture.git_requests.append(
++                                {
++                                    "method": self.command,
++                                    "path": target.path,
++                                    "query": target.query,
++                                }
++                            )
+                             first = len(fixture.git_requests) == 1
+                         if first:
+-                            require(self.command == "GET" and target.path == "/plugins.git/info/refs"
+-                                    and target.query == "service=git-upload-pack",
+-                                    "first request was not actual Git advertisement")
++                            require(
++                                self.command == "GET"
++                                and target.path == "/plugins.git/info/refs"
++                                and target.query == "service=git-upload-pack",
++                                "first request was not actual Git advertisement",
++                            )
+                             fixture.gate_seen.set()
+                             fixture.await_event(fixture.git_release, "Git release")
+                         env = fixture_git_env()
+-                        env.update({"GIT_PROJECT_ROOT": str(fixture.root / "export"),
+-                                    "GIT_HTTP_EXPORT_ALL": "1", "PATH_INFO": target.path,
+-                                    "REQUEST_METHOD": self.command, "QUERY_STRING": target.query,
+-                                    "CONTENT_TYPE": self.headers.get("Content-Type", ""),
+-                                    "CONTENT_LENGTH": str(length),
+-                                    "HTTP_GIT_PROTOCOL": self.headers.get("Git-Protocol", "")})
++                        env.update(
++                            {
++                                "GIT_PROJECT_ROOT": str(fixture.root / "export"),
++                                "GIT_HTTP_EXPORT_ALL": "1",
++                                "PATH_INFO": target.path,
++                                "REQUEST_METHOD": self.command,
++                                "QUERY_STRING": target.query,
++                                "CONTENT_TYPE": self.headers.get("Content-Type", ""),
++                                "CONTENT_LENGTH": str(length),
++                                "HTTP_GIT_PROTOCOL": self.headers.get(
++                                    "Git-Protocol", ""
++                                ),
++                            }
++                        )
+                         backend_timeout = min(20, fixture.remaining())
+-                        backend = subprocess.Popen([str(fixture.git), "http-backend"], env=env,
+-                            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++                        backend = subprocess.Popen(
++                            [str(fixture.git), "http-backend"],
++                            env=env,
++                            stdin=subprocess.PIPE,
++                            stdout=subprocess.PIPE,
++                            stderr=subprocess.PIPE,
++                        )
+                         with fixture.lock:
+                             fixture.backends.append(backend)
+-                        output, error = fixture.collect_git(backend, body, backend_timeout)
++                        output, error = fixture.collect_git(
++                            backend, body, backend_timeout
++                        )
+                         require(backend.returncode == 0, "Git backend returned failure")
+-                        require(len(output) + len(error) <= LIMIT, "Git backend output limit")
++                        require(
++                            len(output) + len(error) <= LIMIT,
++                            "Git backend output limit",
++                        )
+                         header, payload = output.split(b"\r\n\r\n", 1)
+-                        headers = [line.decode().split(":", 1) for line in header.split(b"\r\n")]
+-                        status = next((int(v.strip().split()[0]) for k, v in headers
+-                                       if k.lower() == "status"), 200)
++                        headers = [
++                            line.decode().split(":", 1)
++                            for line in header.split(b"\r\n")
++                        ]
++                        status = next(
++                            (
++                                int(v.strip().split()[0])
++                                for k, v in headers
++                                if k.lower() == "status"
++                            ),
++                            200,
++                        )
+                         self.send_response(status)
+                         for key, value in headers:
+                             if key.lower() not in ("status", "content-length"):
+@@ -317,29 +478,71 @@
+                         if "id" not in request:
+                             self.reply(202)
+                             return
+-                        version = "version1" if target.path.endswith("/old") else "version2"
++                        version = (
++                            "version1" if target.path.endswith("/old") else "version2"
++                        )
+                         method = request["method"]
+                         if method == "initialize":
+-                            result = {"protocolVersion": request["params"]["protocolVersion"],
+-                                      "capabilities": {"tools": {}},
+-                                      "serverInfo": {"name": "replacement_probe", "version": version}}
++                            result = {
++                                "protocolVersion": request["params"]["protocolVersion"],
++                                "capabilities": {"tools": {}},
++                                "serverInfo": {
++                                    "name": "replacement_probe",
++                                    "version": version,
++                                },
++                            }
+                         elif method == "tools/list":
+-                            result = {"tools": [{"name": "replacement_probe", "description": version,
+-                                       "inputSchema": {"type": "object", "properties": {}},
+-                                       "annotations": {"readOnlyHint": True}}]}
++                            result = {
++                                "tools": [
++                                    {
++                                        "name": "replacement_probe",
++                                        "description": version,
++                                        "inputSchema": {
++                                            "type": "object",
++                                            "properties": {},
++                                        },
++                                        "annotations": {"readOnlyHint": True},
++                                    }
++                                ]
++                            }
+                         elif method == "tools/call":
+-                            require(request["params"]["name"] == "replacement_probe", "wrong MCP tool")
++                            require(
++                                request["params"]["name"] == "replacement_probe",
++                                "wrong MCP tool",
++                            )
+                             with fixture.lock:
+                                 fixture.mcp_calls.append(version)
+-                            result = {"content": [{"type": "text", "text": version}], "isError": False}
++                            result = {
++                                "content": [{"type": "text", "text": version}],
++                                "isError": False,
++                            }
+                         elif method == "ping":
+                             result = {}
+                         else:
+-                            self.reply(200, json.dumps({"jsonrpc": "2.0", "id": request["id"],
+-                                "error": {"code": -32601, "message": "fixture method absent"}}).encode())
++                            self.reply(
++                                200,
++                                json.dumps(
++                                    {
++                                        "jsonrpc": "2.0",
++                                        "id": request["id"],
++                                        "error": {
++                                            "code": -32601,
++                                            "message": "fixture method absent",
++                                        },
++                                    }
++                                ).encode(),
++                            )
+                             return
+-                        self.reply(200, json.dumps({"jsonrpc": "2.0", "id": request["id"],
+-                                                    "result": result}).encode())
++                        self.reply(
++                            200,
++                            json.dumps(
++                                {
++                                    "jsonrpc": "2.0",
++                                    "id": request["id"],
++                                    "result": result,
++                                }
++                            ).encode(),
++                        )
+                     elif target.path == "/v1/responses" and self.command == "POST":
+                         with fixture.lock:
+                             fixture.model_requests += 1
+@@ -347,11 +550,15 @@
+                         self.send_header("Content-Type", "text/event-stream")
+                         self.send_header("Connection", "close")
+                         self.end_headers()
+-                        self.wfile.write(b'event: response.created\ndata: {"type":"response.created",'
+-                                         b'"response":{"id":"replacement-held"}}\n\n')
++                        self.wfile.write(
++                            b'event: response.created\ndata: {"type":"response.created",'
++                            b'"response":{"id":"replacement-held"}}\n\n'
++                        )
+                         self.wfile.flush()
+                         fixture.model_seen.set()
+-                        fixture.await_event(fixture.model_release, "held model termination")
++                        fixture.await_event(
++                            fixture.model_release, "held model termination"
++                        )
+                         self.close_connection = True
+                     elif target.path == "/v1/models":
+                         self.reply(200, b'{"data":[]}')
+@@ -363,7 +570,9 @@
+                     pass
+                 except Exception as error:
+                     with fixture.lock:
+-                        fixture.errors.append(type(error).__name__ + ": " + str(error)[:300])
++                        fixture.errors.append(
++                            type(error).__name__ + ": " + str(error)[:300]
++                        )
+                     self.close_connection = True
+ 
+             do_GET = handle_request
+@@ -388,7 +597,10 @@
+         for backend in self.backends:
+             if backend.poll() is None:
+                 backend.wait(timeout=5)
+-        require(all(p.poll() is not None for p in self.backends), "fixture Git backend still owned")
++        require(
++            all(p.poll() is not None for p in self.backends),
++            "fixture Git backend still owned",
++        )
+ 
+ 
+ def run_case(args, case, git):
+@@ -396,30 +608,53 @@
+     root.mkdir()
+     fixture = Fixture(root, git, case, time.monotonic() + args.timeout)
+     child = None
+-    report = {"case": case, "passed": False, "whole_host_clean": False,
+-              "mcp_shutdown_custody": "not established by this acceptance"}
++    report = {
++        "case": case,
++        "passed": False,
++        "whole_host_clean": False,
++        "mcp_shutdown_custody": "not established by this acceptance",
++    }
+     try:
+         fixture.prepare()
+-        with socket.socket() as listener, (root / "child.stdout").open("wb") as stdout, \
+-                (root / "child.stderr").open("wb") as stderr:
++        with (
++            socket.socket() as listener,
++            (root / "child.stdout").open("wb") as stdout,
++            (root / "child.stderr").open("wb") as stderr,
++        ):
+             listener.bind(("127.0.0.1", 0))
+             listener.listen(1)
+             listener.settimeout(fixture.remaining())
+             env = os.environ.copy()
+             for name in ("CODEX_API_KEY", "OPENAI_API_KEY", "CHATGPT_API_KEY"):
+                 env.pop(name, None)
+-            env.update({"CODEX_HOME": str(fixture.home), "HOME": str(fixture.home),
+-                        "CODEX_SQLITE_HOME": str(fixture.home),
+-                        # Match the repository's just test runtime stack setting.
+-                        "RUST_MIN_STACK": "8388608",
+-                        "GIT_CONFIG_GLOBAL": str(fixture.git_config),
+-                        "CODEX_TEST_CURATED_REPLACEMENT_HOME": str(fixture.home),
+-                        "CODEX_TEST_CURATED_REPLACEMENT_CASE": case,
+-                        "CODEX_TEST_CURATED_REPLACEMENT_CONTROL":
+-                            "127.0.0.1:" + str(listener.getsockname()[1])})
+-            child = subprocess.Popen([str(args.test_elf), "--ignored", "--exact", CASE_NAME,
+-                                      "--nocapture", "--test-threads=1"], cwd=fixture.home,
+-                                     env=env, stdout=stdout, stderr=stderr)
++            env.update(
++                {
++                    "CODEX_HOME": str(fixture.home),
++                    "HOME": str(fixture.home),
++                    "CODEX_SQLITE_HOME": str(fixture.home),
++                    # Match the repository's just test runtime stack setting.
++                    "RUST_MIN_STACK": "8388608",
++                    "GIT_CONFIG_GLOBAL": str(fixture.git_config),
++                    "CODEX_TEST_CURATED_REPLACEMENT_HOME": str(fixture.home),
++                    "CODEX_TEST_CURATED_REPLACEMENT_CASE": case,
++                    "CODEX_TEST_CURATED_REPLACEMENT_CONTROL": "127.0.0.1:"
++                    + str(listener.getsockname()[1]),
++                }
++            )
++            child = subprocess.Popen(
++                [
++                    str(args.test_elf),
++                    "--ignored",
++                    "--exact",
++                    CASE_NAME,
++                    "--nocapture",
++                    "--test-threads=1",
++                ],
++                cwd=fixture.home,
++                env=env,
++                stdout=stdout,
++                stderr=stderr,
++            )
+             connection, _ = listener.accept()
+             with connection, connection.makefile("rwb", buffering=0) as control:
+                 connection.settimeout(fixture.remaining())
+@@ -429,15 +664,24 @@
+                 for name in expected:
+                     connection.settimeout(fixture.remaining())
+                     raw = control.readline(65537)
+-                    require(raw.endswith(b"\n") and len(raw) <= 65536, "invalid child phase frame")
++                    require(
++                        raw.endswith(b"\n") and len(raw) <= 65536,
++                        "invalid child phase frame",
++                    )
+                     event = json.loads(raw)
+                     require(event.get("event") == name, "unexpected child phase order")
+                     fixture.events.append(event)
+                     if name == "a_started":
+-                        fixture.await_event(fixture.gate_seen, "trusted Git advertisement")
+-                        report["held_git_observations"] = observe_held_git(child.pid, git)
++                        fixture.await_event(
++                            fixture.gate_seen, "trusted Git advertisement"
++                        )
++                        report["held_git_observations"] = observe_held_git(
++                            child.pid, git
++                        )
+                     if name == "b_ready":
+-                        fixture.await_event(fixture.model_seen, "actual B model request")
++                        fixture.await_event(
++                            fixture.model_seen, "actual B model request"
++                        )
+                     if name == "a_closed" and case == "replay":
+                         fixture.git_release.set()
+                     if name == "b_ready" and case == "pending":
+@@ -449,17 +693,33 @@
+                         fixture.git_release.set()
+                     if name == "behavior_verified":
+                         fixture.model_release.set()
+-                require(child.wait(timeout=fixture.remaining()) == 0, "child acceptance failed")
+-        receipt = json.loads((fixture.home / "curated-replacement-child.json").read_text())
++                require(
++                    child.wait(timeout=fixture.remaining()) == 0,
++                    "child acceptance failed",
++                )
++        receipt = json.loads(
++            (fixture.home / "curated-replacement-child.json").read_text()
++        )
+         require(receipt.get("passed") is True, "missing successful typed child receipt")
+         require(fixture.model_requests == 1, "unexpected model retries/turn count")
+-        require("version1" in fixture.mcp_calls and "version2" in fixture.mcp_calls,
+-                "old and new MCP behavior were not exercised")
+-        require(len(fixture.git_requests) >= 2, "real Git materialization was not observed")
+-        require(not fixture.errors and not fixture.forced, "fixture failure or forced cleanup")
+-        require(digest(args.test_elf) == args.test_elf_sha256, "test ELF changed during run")
++        require(
++            "version1" in fixture.mcp_calls and "version2" in fixture.mcp_calls,
++            "old and new MCP behavior were not exercised",
++        )
++        require(
++            len(fixture.git_requests) >= 2, "real Git materialization was not observed"
++        )
++        require(
++            not fixture.errors and not fixture.forced,
++            "fixture failure or forced cleanup",
++        )
++        require(
++            digest(args.test_elf) == args.test_elf_sha256, "test ELF changed during run"
++        )
+         require(digest(git) == args.git_sha256, "trusted Git changed during run")
+-        report.update({"passed": True, "child": receipt, "identities": fixture.identities})
++        report.update(
++            {"passed": True, "child": receipt, "identities": fixture.identities}
++        )
+     except Exception as error:
+         report["failure"] = type(error).__name__ + ": " + str(error)[:500]
+     finally:
+@@ -477,16 +737,28 @@
+         try:
+             fixture.close()
+         except Exception as error:
+-            fixture.errors.append("fixture cleanup: " + type(error).__name__ + ": " + str(error)[:200])
+-        report.update({"child_returncode": child.returncode if child else None,
+-                       "events": fixture.events, "git_requests": fixture.git_requests,
+-                       "mcp_calls": fixture.mcp_calls, "model_requests": fixture.model_requests,
+-                       "fixture_errors": fixture.errors, "forced_cleanup": fixture.forced,
+-                       "backend_returncodes": [p.returncode for p in fixture.backends]})
++            fixture.errors.append(
++                "fixture cleanup: " + type(error).__name__ + ": " + str(error)[:200]
++            )
++        report.update(
++            {
++                "child_returncode": child.returncode if child else None,
++                "events": fixture.events,
++                "git_requests": fixture.git_requests,
++                "mcp_calls": fixture.mcp_calls,
++                "model_requests": fixture.model_requests,
++                "fixture_errors": fixture.errors,
++                "forced_cleanup": fixture.forced,
++                "backend_returncodes": [p.returncode for p in fixture.backends],
++            }
++        )
+         if fixture.forced or fixture.errors:
+             report["passed"] = False
+         write_json(root / "result.json", report)
+-    require(report["passed"], "case failed; original operation/cleanup evidence retained in result.json")
++    require(
++        report["passed"],
++        "case failed; original operation/cleanup evidence retained in result.json",
++    )
+ 
+ 
+ def main():
+@@ -508,9 +780,17 @@
+     args.work_dir.mkdir(parents=True)
+     for case in CASES:
+         run_case(args, case, git)
+-    write_json(args.work_dir / "summary.json", {"passed": True, "cases": list(CASES),
+-               "test_elf_sha256": args.test_elf_sha256, "git_sha256": args.git_sha256,
+-               "whole_host_clean": False, "strict_runner_required": True})
++    write_json(
++        args.work_dir / "summary.json",
++        {
++            "passed": True,
++            "cases": list(CASES),
++            "test_elf_sha256": args.test_elf_sha256,
++            "git_sha256": args.git_sha256,
++            "whole_host_clean": False,
++            "strict_runner_required": True,
++        },
++    )
+ 
+ 
+ if __name__ == "__main__":
+--- a/component-sdk/tests/test_desktop.py
++++ b/component-sdk/tests/test_desktop.py
+@@ -489,16 +489,23 @@
+     def test_forced_escalation_is_bounded_and_never_reports_durable_success(self):
+         for last in (-9, subprocess.TimeoutExpired("fixture", 0)):
+             with self.subTest(last=type(last).__name__):
+-                bridge = self.bridge([
+-                    subprocess.TimeoutExpired("fixture", 207),
+-                    subprocess.TimeoutExpired("fixture", 2),
+-                    last,
+-                ])
++                bridge = self.bridge(
++                    [
++                        subprocess.TimeoutExpired("fixture", 207),
++                        subprocess.TimeoutExpired("fixture", 2),
++                        last,
++                    ]
++                )
+                 # Graceful wait consumes207, TERM consumes the remaining2;
+                 # KILL receipt and reader join cannot receive a fresh budget.
+-                with patch("desktop_ui.gateway.time.monotonic", side_effect=[100, 100, 307, 309, 309]):
++                with patch(
++                    "desktop_ui.gateway.time.monotonic",
++                    side_effect=[100, 100, 307, 309, 309],
++                ):
+                     for _ in range(2):
+-                        with self.assertRaisesRegex(RuntimeError, "write outcome unknown"):
++                        with self.assertRaisesRegex(
++                            RuntimeError, "write outcome unknown"
++                        ):
+                             bridge.close()
+                 self.assertEqual(
+                     [call.kwargs for call in bridge.child.wait.call_args_list],
+@@ -523,9 +530,15 @@
+         for status in (7, 124, 125, 126):
+             with self.subTest(status=status):
+                 bridge = self.bridge([status])
+-                reason = {124: "watchdog deadline expired", 125: "watchdog unavailable", 126: "forced process shutdown requested"}.get(status)
++                reason = {
++                    124: "watchdog deadline expired",
++                    125: "watchdog unavailable",
++                    126: "forced process shutdown requested",
++                }.get(status)
+                 for _ in range(2):
+-                    with self.assertRaisesRegex(RuntimeError, "write outcome unknown") as caught:
++                    with self.assertRaisesRegex(
++                        RuntimeError, "write outcome unknown"
++                    ) as caught:
+                         bridge.close()
+                     if reason:
+                         self.assertIn(reason, str(caught.exception))
+--- a/component-sdk/tests/test_gui_selected_search_acceptance.py
++++ b/component-sdk/tests/test_gui_selected_search_acceptance.py
+@@ -78,8 +78,12 @@
+         before = fingerprint(self.proof_path), inventory(self.package)
+         self.old_host.unlink()  # Historical host need not remain installed.
+         proof_path, proof, package, _ = self.validate_reuse()
+-        self.assertEqual((proof_path, proof, package), (self.proof_path, self.proof, self.package))
+-        self.assertEqual(before, (fingerprint(self.proof_path), inventory(self.package)))
++        self.assertEqual(
++            (proof_path, proof, package), (self.proof_path, self.proof, self.package)
++        )
++        self.assertEqual(
++            before, (fingerprint(self.proof_path), inventory(self.package))
++        )
+ 
+     def test_modified_package_is_rejected(self):
+         self.worker.write_bytes(b"substituted worker")
+@@ -105,19 +109,25 @@
+ 
+     def test_modified_source_inventory_is_rejected(self):
+         self.source_inventory.write_text('{"revision":"substituted"}\n')
+-        with self.assertRaisesRegex(AssertionError, "source paths or inventory changed"):
++        with self.assertRaisesRegex(
++            AssertionError, "source paths or inventory changed"
++        ):
+             self.validate_reuse()
+ 
+     def test_restored_original_source_path_is_rejected(self):
+         (self.artifacts / "source").mkdir()
+-        with self.assertRaisesRegex(AssertionError, "source paths or inventory changed"):
++        with self.assertRaisesRegex(
++            AssertionError, "source paths or inventory changed"
++        ):
+             self.validate_reuse()
+ 
+     def test_explicit_pin_does_not_waive_original_build_consistency(self):
+         self.proof["frozen_binaries_after"] = {"manager": fingerprint(self.host)}
+         self.write_proof()
+         self.pin = fingerprint(self.proof_path)["sha256"]
+-        with self.assertRaisesRegex(AssertionError, "original independent-build binaries changed"):
++        with self.assertRaisesRegex(
++            AssertionError, "original independent-build binaries changed"
++        ):
+             self.validate_reuse()
+ 
+     def test_explicit_pin_does_not_waive_source_provenance(self):

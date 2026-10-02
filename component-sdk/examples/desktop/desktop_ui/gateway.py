@@ -249,7 +249,9 @@ class Bridge:
                     except ProcessLookupError:
                         pass
                     try:
-                        status = self.child.wait(timeout=remaining(SIGNAL_CLOSE_SECONDS))
+                        status = self.child.wait(
+                            timeout=remaining(SIGNAL_CLOSE_SECONDS)
+                        )
                     except subprocess.TimeoutExpired:
                         raise RuntimeError(
                             "Codex did not exit after forced shutdown; write outcome unknown"
@@ -260,7 +262,9 @@ class Bridge:
                 )
             if status in UNCONFIRMED_PROCESS_EXITS:
                 reason = UNCONFIRMED_PROCESS_EXITS[status]
-                raise RuntimeError(f"Codex cleanup unconfirmed: {reason}; write outcome unknown")
+                raise RuntimeError(
+                    f"Codex cleanup unconfirmed: {reason}; write outcome unknown"
+                )
             if status != 0 or pipe_failed:
                 raise RuntimeError(
                     "Codex exited without confirmed cleanup; write outcome unknown"
@@ -335,7 +339,9 @@ class Gateway:
             remaining = max(0.0, deadline - time.monotonic())
             self.thread.join(timeout=min(SIGNAL_CLOSE_SECONDS, remaining))
             if self.thread.is_alive():
-                raise RuntimeError("Desktop HTTP cleanup unconfirmed; write outcome unknown")
+                raise RuntimeError(
+                    "Desktop HTTP cleanup unconfirmed; write outcome unknown"
+                )
 
 
 class Handler(BaseHTTPRequestHandler):
