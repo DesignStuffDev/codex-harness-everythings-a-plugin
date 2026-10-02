@@ -1,3 +1,6 @@
+#[path = "manager/featured_warmup.rs"]
+mod featured_warmup;
+
 #[path = "remote_mutations.rs"]
 mod remote_mutations;
 pub use remote_mutations::RemotePluginInstallOutcome;
@@ -2891,6 +2894,7 @@ impl PluginsManager {
         reload_config: ConfigLayerReload,
         on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
         on_curated_plugins_changed: Option<CuratedSyncCallback>,
+        featured_warmup: &Arc<crate::FeaturedWarmupScope>,
     ) {
         if config.plugins_enabled {
             self.maybe_start_curated_repo_sync_for_config(config, on_curated_plugins_changed);
@@ -2993,20 +2997,7 @@ impl PluginsManager {
                 );
             });
 
-            let config_for_featured_plugins = config.clone();
-            let manager = Arc::clone(self);
-            tokio::spawn(async move {
-                let auth = manager.auth_manager.auth().await;
-                if let Err(err) = manager
-                    .featured_plugin_ids_for_config(&config_for_featured_plugins, auth.as_ref())
-                    .await
-                {
-                    warn!(
-                        error = %err,
-                        "failed to warm featured plugin ids cache"
-                    );
-                }
-            });
+            self.start_featured_warmup_for_config(config, featured_warmup);
         }
     }
 

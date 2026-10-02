@@ -135,8 +135,7 @@ fn main() -> anyhow::Result<()> {
             if exit == codex_app_server::AppServerExit::Forced {
                 // Runtime teardown can wait forever for blocked rollout I/O.
                 let deadline = process_final.begin().graceful();
-                let _shutdown =
-                    codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline);
+                let _shutdown = codex_core_plugins::PluginStartupProcessShutdown::begin(deadline);
                 std::process::exit(
                     codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE,
                 );
@@ -145,15 +144,17 @@ fn main() -> anyhow::Result<()> {
         }
         .await;
         let deadline = process_final.begin().graceful();
-        let observed = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline)
+        let observed = codex_core_plugins::PluginStartupProcessShutdown::begin(deadline)
             .wait_until(deadline)
             .await;
         if observed.is_complete() {
             result
         } else {
             match result {
-                Ok(()) => Err(anyhow::anyhow!("curated process cleanup is unconfirmed")),
-                Err(error) => Err(error.context("curated process cleanup is unconfirmed")),
+                Ok(()) => Err(anyhow::anyhow!(
+                    "plugin startup task cleanup is unconfirmed"
+                )),
+                Err(error) => Err(error.context("plugin startup task cleanup is unconfirmed")),
             }
         }
     })

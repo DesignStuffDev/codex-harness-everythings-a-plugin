@@ -2,7 +2,7 @@ use clap::Parser;
 use codex_arg0::Arg0DispatchPaths;
 use codex_arg0::arg0_dispatch_or_else;
 use codex_config::LoaderOverrides;
-use codex_core_plugins::startup_sync::CuratedProcessShutdown;
+use codex_core_plugins::PluginStartupProcessShutdown;
 use codex_tui::Cli;
 use codex_tui::ExitReason;
 use codex_tui::run_main_with_process_final;
@@ -41,13 +41,13 @@ fn main() -> anyhow::Result<()> {
         // Observe cleanup even when startup returned an error, before arg0's
         // runtime drops and its process-final watchdog is released.
         let deadline = capability.begin().graceful();
-        let shutdown = CuratedProcessShutdown::begin(deadline);
+        let shutdown = PluginStartupProcessShutdown::begin(deadline);
         let observed = shutdown.wait_until(deadline).await;
-        let cleanup = if observed.is_complete() && observed.clean_native_ownership() {
+        let cleanup = if observed.is_complete() && observed.curated.clean_native_ownership() {
             Ok(())
         } else {
             Err(anyhow::anyhow!(
-                "curated process cleanup incomplete; ownership is unconfirmed"
+                "plugin startup task cleanup incomplete; ownership is unconfirmed"
             ))
         };
         let exit_info = match (result, cleanup) {

@@ -7,12 +7,16 @@ Required updater: [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
 Earlier detailed ledgers are preserved, with process IDs redacted from the public copy, in
 [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTION_CHECKPOINT_HISTORY.md).
 
-Immediate queue: checkpoint the verified revised Stage A owner, then adopt Stage B
-production integration under shared shutdown deadlines after exact source/budget review. The original Stage A passed551 tests; its lint command exited0
-but warned about a Tokio mutex held across await, prompting this ownership-primitive
-revision and one additional cancellation test. No production activation is claimed.
-Close remaining P03 task/transport ownership before P04 extraction. MCP proposals
-remain isolated under R. Preserve failed matrices; do not promote P03 WIP to main.
+Immediate queue: obtain the current-source
+production build and installed storage/migration/GUI/slow Launch regressions.
+Stage B Core Plugins passed553 tests; Stage C App Server passed432 with two
+parent-owned cases skipped by the library suite. Both were then exercised:
+the new featured public-Drop/same-home shutdown case passed, and the unchanged
+curated pending/replay/race cases all passed against the new App Server ELF.
+The current source is not yet verified as a production CLI or GUI. Do not reuse
+older final65 runtime results as current proof. Close remaining P03 task/transport
+ownership before P04 extraction; MCP proposals remain isolated under R.
+Preserve failed matrices and do not promote unfinished P03 WIP to main.
 
 ## Identity and preservation
 
@@ -45,13 +49,19 @@ These are verified **VM-local** checkpoints. GitHub durability covers only publi
 Main remains 781080f7e3c8bfe1953378001d777dff33d74bc3 (native installer source
 65511842d7051b2a1f5cc52917f3ebb5c03be4f3). Do not promote unfinished P03 work.
 Latest WIP ref verified after this checkpoint:
-7a811ea49f6ee7709b9556fbd9d3d3979f283a94, tree
-493ce644eca801c5ede9055bd023160e2521a1ac, on
+706bf9eaf61cd05ccd9568bf88ba1112d635c547, tree
+957d20a4896e46e224a144888ebdc5c371f38149, on
 wip/p03-process-final-and-mcp-preservation-20261002.
-This verification-only checkpoint retains the final65 native code at predecessor
-7adb464cd19c2ddfeff71ccdf13839d26979197b, tree4e84d27238beb9efd839ea2336ede740aefe9a67.
-All23 selected remote blobs and both refs were verified. Receipt:
-R/p03-current-production-runtime-publication-02/PUBLICATION.json, SHA256
+This publishes the three-path Stage A library owner and exact552-test evidence;
+no production activation or additional native extraction is claimed. All8 selected
+remote blobs and both refs were verified. Receipt:
+R/p03-featured-warmup-stage-a-publication-01/PUBLICATION.json SHA256
+b75cb6f60d46eea678e1e0e4ef5f4df2346cf202116e33fc9de7a4492547a602.
+Prior verification-only checkpoint7a811ea49f6ee7709b9556fbd9d3d3979f283a94,
+tree493ce644eca801c5ede9055bd023160e2521a1ac, retains final65 native source
+at7adb464cd19c2ddfeff71ccdf13839d26979197b, tree4e84d27238beb9efd839ea2336ede740aefe9a67.
+Its23 remote blobs and both refs were verified; receipt:
+R/p03-current-production-runtime-publication-02/PUBLICATION.json SHA256
 d784b5d98498a3dfc31e34de11a1cb810645bf1ff81342977bb8413ca99ca9b3.
 Prior current58 runtime checkpoint: f8a5905bb666846a7885171280d9454a9b8a269b.
 Prior final65 source checkpoint: all58 selected remote blobs and both refs were verified. Receipt:
@@ -122,8 +132,7 @@ All six members and a full restoration were verified; the exact restored ELF in
 /tmp/p03-current542-coreplugins-proof-restored-01 remains intact; the compiler
 reused its former target path for the separately preserved551-test ELF. This archive is
 VM-local, not external binary durability. Existing CLI/App Server proof binaries
-remain the earlier source cohort. Stage B and its deadline correction are R-only,
-unadopted/uncompiled; do not relabel final65 runtime evidence as proof of Stage A/B.
+remain the earlier source cohort. Stage B was subsequently adopted and passed its scoped tests, after its separate deadline correction; do not relabel final65 runtime evidence as proof of Stage A/B.
 
 Stage A's verified three-path ownership support is checkpointed with its
 [552-test evidence](verification/2026-10-02/P03_FEATURED_WARMUP_STAGE_A_EVIDENCE.md)
@@ -132,7 +141,30 @@ The root independently rechecked all22 report inputs before adoption. New StageB
 proposal p03-featured-warmup-stage-b-poller-rebase-01/MANIFEST.json SHA256
 edf4ba044a485facbd89aa2ef7e57972c6a3cddba23b7981d3e819836281b4d9
 is415 additions/56 removals across21 paths, with no owner/test replacement.
-It is not adopted or compiled at this Stage A checkpoint.
+It was subsequently adopted in the working tree only, after Stage A publication.
+Exact21-path/four-new-path receipt: R/p03-featured-warmup-stage-b-adoption-01/ADOPTION.json.
+Pre-format73-path manifest R/p03-featured-warmup-stage-b-preformat-source-01.json
+SHA256339b3241675e3fc0ed998d28f3d6cfc12cb6d0d8efd889c2ad202107b6c54933,
+full8934-file map137545f222bc3a73945c2e596cbae42c92c9c23ebebd3084a71e56e5888b2aaa.
+StageB replaces the actual detached manager warmup, owns processor/public-handle
+close, and observes featured/curated owners separately under shared deadlines.
+Formatting completed0 with nine intended StageB paths changed. Actual73-path
+candidate R/p03-featured-warmup-stage-b-source-01.json SHA256
+bd3cbf7566fbc0d14ab2bd39be89ee13aa0b4defb82c0307d10d1b556707a82a,
+full8934map7cfc3ed5373bcd1529c404b2b844d1db34b21ccfd9f20da582146c473d9bc95a.
+Initial scoped Core Plugins compile failed101 on an ambiguous assert_eq import
+in the new nested test module; no tests executed. The failure/source remains at
+A/p03-featured-warmup-stage-b-coreplugins-tests-01. A single explicit
+pretty_assertions::assert_eq import repairs name resolution; assertions, deadlines
+and native logic are unchanged. Retry02 passed553/553,0skipped under unchanged strict/source
+wrappers; strict0/null, adopted0:36/128:2/-9:4 without attribution. Candidate R/p03-featured-warmup-stage-b-source-02.json
+SHA25682739233f89ecf28af5013e9c2c99ad9f075954d506dfa328ab86f6d15cc77f1,
+full8934mapf89b89ab6f42afe0dfbbe4b11f3fe862be9414783076696436b79da33ee18b25.
+B scoped Clippy completed0 unchanged with no warnings. Exact test ELF04a4344e...
+and its completed source receipt are bound in
+R/p03-featured-warmup-stage-b553-test-binary-01.json.
+StageB production/App Server/GUI gates remain pending; no old production
+proof is relabelled. No dependencies, configuration schema, or wire format changed.
 
 Pre-integration proof archives preserve the current552 test, earlier431 App Server
 and final65 CLI bytes, all stream-verified with source/binary receipts. They retain
@@ -146,6 +178,44 @@ R/p03-stage-b-invalidated-production54-cache-02/RETIREMENT.json.
 This lends space to tests; production must regenerate these caches. All proof
 executables, index, source and230 recovery archives remain retained. Do not repeat
 this completed action or reuse its source guard after StageB adoption.
+
+StageC test-only proposal was then adopted: three paths, native public-Drop caller
+case plus separate SDK runner, preserving existing curated tests. Receipt:
+R/p03-featured-warmup-stage-c-adoption-01/ADOPTION.json. Formatting completed0, changing only the new native test and Python runner; the
+Python AST is unchanged. Exact75-path candidate:
+R/p03-featured-warmup-stage-c-source-01.json SHA256
+ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c,
+full8936mapf05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328.
+Scoped just test -p codex-app-server --lib completed0,432passed/2skipped,
+source unchanged, A/p03-featured-warmup-stage-c-appserver-tests-01. Strict0/null;
+adopted statuses -13:4/-9:1/141:2/128:2/0:4, without causal attribution.
+The actual compiler intent was observed. New512,205,032-byte ELF SHA256:
+252dfaf2d3a0590d6d83dcdf7a8eeee327b56b0225a6bb23f6c816096429b264.
+Root independently rechecked the full source map,75 selected paths, original
+index, source/log/strict receipts and actual ELF before child execution.
+Binding R/p03-featured-warmup-stage-c-root-runtime-binding-01.json SHA256
+2440ace2fd42d77313a301be02f90ee0fa584261545264fd94fa29a61473611a.
+The separate A/p03-featured-warmup-stage-c-caller-01 passed0 unchanged,
+strict0/null, four real Git HTTP requests and no fixture errors/rescue.
+A public Drop closed a held native featured HTTP peer within the five-second
+start-to-EOF window, before any self-closing owner wait and before the unchanged
+ten-second HTTP timeout. Its task was then joined with Cancelled outcome.
+B restarted in the same home and used public shutdown successfully. A runtime
+result was not joined; cache publication and whole-host cleanup remain unproved.
+The unchanged curated pending/replay/race cases also all passed with this ELF:
+A/p03-featured-warmup-stage-c-curated-replacement-01, source unchanged,
+strict0/null, no fixture errors/rescue. These are embedded-client lifecycle tests,
+not installed-component hot swapping or proof of MCP/HTTP-internal task custody.
+Scoped App Server lint completed0 with unchanged source and zero warnings at
+A/p03-featured-warmup-stage-c-appserver-fix-01. No test rerun solely for lint.
+
+Before that App Server build, the exact inactive prior431 ELF was archive-verified
+and fully restored at /tmp/p03-pre-featured-integration-as431-proof-restored-01.
+Only its old compiler output path was retired under source/owner/alias guards,
+recovering505,303,040allocatedbytes. All16 symlinks remained unchanged; the compiler has now reused the target path. Archive/proof bytes remain recoverable; this is not
+a lifecycle pass. R/p03-stage-b-as431-proof-retirement-01/RETIREMENT.json SHA256
+67b9ca9b2b950ced26d76088e625cb09fd3c1a29d09ded0681b7f73d33f985e7.
+Never rerun that action after the compiler replaces its target pathname.
 
 ## Implemented versus proved
 
@@ -197,6 +267,24 @@ tool/session families remain coupled; inspect every inventory row.
   Both earlier full held-host matrices remain failed, with exact inner/outer codes.
 
 ## Ordered next actions
+
+1. Current C App Server scoped lint and required formatting both completed0
+   unchanged. Do not repeat tests solely for lint/style.
+2. With one compiler writer, obtain changed CLI/exec/TUI scoped verification and
+   a current-source production build. Review fresh headroom; preserve all proof
+   executables before path reuse. Never rerun historical cache-retirement actions.
+3. Run installed storage, all four migration variants, ordinary/selected-search GUI,
+   normal/forced slow Launch shutdown and the held Git/HTTP matrix against the new
+   production ELF, retaining independent package build/reuse fingerprints.
+4. Publish this bounded milestone to the existing WIP branch with source lineage,
+   exact tests and explicit limitations. Preserve separate MCP/HTTP proposals.
+5. Resolve remaining HTTP construction/transport and MCP/callback ownership before
+   P04; then continue all dependency-ordered extraction and P18U updater gates.
+
+The following numbered record is historical final65 progress, not an instruction
+ to repeat its completed builds/cache actions or treat its source as current.
+
+## Prior final65 action history
 
 1. Recheck production build headroom. Completed 54 invalidated-intermediate
    retirement recovered 732,139,520 allocated bytes; receipt

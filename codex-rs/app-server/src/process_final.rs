@@ -1,6 +1,6 @@
 //! Process-final authority is supplied by executable callers only.
 
-use codex_core_plugins::startup_sync::CuratedProcessShutdown;
+use codex_core_plugins::PluginStartupProcessShutdown;
 use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use std::future::Future;
 use std::io;
@@ -12,7 +12,7 @@ pub(crate) fn begin(capability: Option<&ProcessFinalCapability>) {
     if let Some(capability) = capability {
         let deadline = capability.begin();
         // Admission closure and native stop precede every local drain.
-        let _shutdown = CuratedProcessShutdown::begin(deadline.graceful());
+        let _shutdown = PluginStartupProcessShutdown::begin(deadline.graceful());
     }
 }
 
@@ -85,15 +85,19 @@ pub(crate) async fn finish<T>(
         return result;
     };
     let deadline = capability.begin().graceful();
-    let observed = CuratedProcessShutdown::begin(deadline)
+    let observed = PluginStartupProcessShutdown::begin(deadline)
         .wait_until(deadline)
         .await;
     let cleanup = if observed.is_complete() {
         Ok(())
     } else {
         Err(io::Error::other(format!(
-            "curated process cleanup unconfirmed: {} callbacks pending, {} failed",
-            observed.callbacks.pending, observed.callbacks.failed,
+            "plugin startup task cleanup unconfirmed: {} callbacks pending, {} failed; {} featured tasks pending, {} panicked, {} join failures",
+            observed.curated.callbacks.pending,
+            observed.curated.callbacks.failed,
+            observed.featured.pending,
+            observed.featured.panicked,
+            observed.featured.join_failed,
         )))
     };
     crate::file_search_services::combine(result, cleanup)

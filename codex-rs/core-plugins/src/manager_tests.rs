@@ -7711,3 +7711,6 @@ fn plugin_install_error_preserves_store_io_sub_error_type() {
         Some("failed_to_copy_plugin_file".to_string())
     );
 }
+
+#[path = "manager/featured_warmup_tests.rs"]
+mod featured_warmup;

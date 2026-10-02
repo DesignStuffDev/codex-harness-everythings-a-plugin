@@ -1,0 +1,84 @@
+{
+  "B_production_lineage_reference": {
+    "bytes": 20584,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-featured-warmup-stage-b-evidence-proposal-01/SOURCE_LINEAGE.json",
+    "sha256": "740461e710b079391ecff8fd552440ef358080f98ab7fdd7a6c7c5943e033d0a"
+  },
+  "B_tested_map_sha256": "f89b89ab6f42afe0dfbbe4b11f3fe862be9414783076696436b79da33ee18b25",
+  "C_adoption": {
+    "bytes": 590,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-featured-warmup-stage-c-adoption-01/ADOPTION.json",
+    "sha256": "cd1fb87ac3a0da3ad8e882d462b9b627c658402f4a530b4386edb3ec69c9d8b3"
+  },
+  "C_candidate_sha256": "ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c",
+  "C_tested_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+  "curated_fixture_unchanged": {
+    "bytes": 32289,
+    "git_blob_sha1": "f1300ee534301f261fbd5a7b3a17ca56612a2cd3",
+    "path": "component-sdk/tests/curated_replacement_acceptance.py",
+    "sha256": "c3ccbba1a7f5e6a7bdd052f16eae438254f845df874bdbf1029f76a96b12ef9b"
+  },
+  "format_review_reference": {
+    "bytes": 9642,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-featured-warmup-stage-b-evidence-proposal-01/FORMAT_REVIEW.json",
+    "sha256": "96e9781f6d12b107e9c17ffe96b5816f994b778db5a6eae9e23db2540e340b19"
+  },
+  "note": "C adds only test paths/registration to B production wiring. Git blob IDs are computed from exact bytes; no new commit/tree is fabricated. Formats and historical B compile failure remain separate.",
+  "published_parent": "706bf9eaf61cd05ccd9568bf88ba1112d635c547",
+  "schema_version": 1,
+  "test_only_changed_paths": [
+    {
+      "current": {
+        "bytes": 55890,
+        "git_blob_sha1": "b792665bbcc4d50c79995c34813fc9e68cc67cd2",
+        "sha256": "2fab2abc6db387f2da87af924b14e369543ab23fe306675a7622ed489f408438"
+      },
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "scope": "Test-only module registration in existing native file",
+      "stage_B_preimage": {
+        "bytes": 55775,
+        "exists": true,
+        "git_blob_sha1": "e0a8ef306e0669b2ab12267292560c1f76287ed1",
+        "sha256": "5834dfa6392c48d5326787ffbfcc6c2d68362b9137d403ea9640151d85b5f299"
+      },
+      "symbols": [
+        "in_process::featured_warmup_tests module registration"
+      ]
+    },
+    {
+      "current": {
+        "bytes": 9515,
+        "git_blob_sha1": "2f4b4314c0369ac9d0d1807dfc969bc60bef2ab3",
+        "sha256": "20d802a77abb67669d4a6039ff18c84b0d09bc818f34dc162088e0ac54c46a09"
+      },
+      "path": "codex-rs/app-server/src/in_process_featured_warmup_tests.rs",
+      "scope": "New project-authored test fixture, absent upstream",
+      "stage_B_preimage": {
+        "exists": false
+      },
+      "symbols": [
+        "production_featured_public_drop_child",
+        "held_featured_request",
+        "peer_eof"
+      ]
+    },
+    {
+      "current": {
+        "bytes": 6444,
+        "git_blob_sha1": "312a34b28ce0bda4885d7d827cb16f398358382d",
+        "sha256": "21b12d85468eae23c66e5f0ec90667e54db252bec78562e352808ad9559441fd"
+      },
+      "path": "component-sdk/tests/featured_warmup_caller_acceptance.py",
+      "scope": "New project-authored test fixture, absent upstream",
+      "stage_B_preimage": {
+        "exists": false
+      },
+      "symbols": [
+        "main",
+        "digest",
+        "require"
+      ]
+    }
+  ],
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+}

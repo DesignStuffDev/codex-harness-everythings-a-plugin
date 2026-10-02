@@ -678,3 +678,7 @@ installed subsystem. Lint/format, actual same-process replacement and a rebuilt-
 remain pending. Preserve prior current58 runtime proof separately. The remaining replacement
 fixture must explicitly isolate its SQLite root before initialization. P18U impact review must
 retain these ownership/observation distinctions; no update integration or rollback has run.
+
+## Featured startup ownership checkpoint — 2026-10-02
+
+[Stage B lineage](upstream/p03-featured-warmup-stage-b-lineage.json) maps all21 native wiring/test paths to exact upstream and prior published bytes. [Stage C lineage](upstream/p03-featured-warmup-stage-c-lineage.json) separately maps three caller-test paths, including the later test-only registration in the same native file. Core Plugins553 and App Server432 tests plus actual in-process caller/replacement cases are [recorded separately](verification/2026-10-02/p03-featured-warmup-stage-c/README.md). Production CLI/GUI verification remains pending at this source checkpoint. These changes preserve custom lifecycle semantics for later update gates; they neither add an extracted family nor satisfy upstream integration or rollback acceptance.

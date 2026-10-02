@@ -116,6 +116,7 @@ mod error_code;
 mod extensions;
 mod external_agent_migration;
 mod external_auth;
+mod featured_warmup_lifecycle;
 mod file_search_services;
 mod filters;
 mod fs_watch;
@@ -682,6 +683,11 @@ pub async fn run_main_with_transport_options(
             Err(error) => return store_lifecycle.finish(Err(error)).await,
         };
     let curated_callback_lifecycle = curated_callback_lifecycle::CuratedCallbackGuard::new();
+    let featured_warmup_lifecycle = featured_warmup_lifecycle::FeaturedWarmupGuard::new();
+    // Library callers without final-process authority previously had no numeric
+    // app-server deadline. Bound featured observation only, from teardown onset;
+    // this is not a new bound on the remaining library shutdown operations.
+    let featured_teardown_deadline = Arc::new(std::sync::OnceLock::<tokio::time::Instant>::new());
     // Every failure after selecting storage must observe its cleanup. The
     // outer guard also fences admission if this startup/runtime future is cancelled.
     let result = async {
@@ -993,6 +999,8 @@ pub async fn run_main_with_transport_options(
     let recovery_file = daemon_recovery_file_path(&config.codex_home);
     let processor_search_lifecycle = search_lifecycle.fork();
     let processor_callback_lifecycle = curated_callback_lifecycle.fork();
+    let processor_featured_lifecycle = featured_warmup_lifecycle.fork();
+    let processor_featured_deadline = Arc::clone(&featured_teardown_deadline);
     let processor_handle = tokio::spawn({
         let process_final = process_final.clone();
         let auth_manager = Arc::clone(&auth_manager);
@@ -1000,6 +1008,7 @@ pub async fn run_main_with_transport_options(
         let outbound_control_tx = outbound_control_tx;
         let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
             curated_callbacks: processor_callback_lifecycle.scope(),
+            featured_warmup: processor_featured_lifecycle.scope(),
             outgoing: outgoing_message_sender,
             analytics_events_client,
             arg0_paths,
@@ -1038,6 +1047,7 @@ pub async fn run_main_with_transport_options(
         let transport_shutdown_token = transport_shutdown_token.clone();
         async move {
             let _curated_callback_lifecycle = processor_callback_lifecycle;
+            let _featured_warmup_lifecycle = processor_featured_lifecycle;
             let recovery_task = if managed_daemon {
                 match daemon_thread_recovery::start_recovery(
                     recovery_file.clone(),
@@ -1351,6 +1361,11 @@ pub async fn run_main_with_transport_options(
             };
 
             process_final::begin(process_final.as_ref());
+            let _ = processor_featured_deadline.get_or_init(|| {
+                process_final::drain_deadline(
+                    codex_utils_process::process_shutdown::GRACEFUL_TIMEOUT,
+                )
+            });
             if let Some(task) = recovery_task {
                 task.abort();
             }
@@ -1393,6 +1408,10 @@ pub async fn run_main_with_transport_options(
 
     let processor_exit = processor_handle.await;
     process_final::begin(process_final.as_ref());
+    // Also capture onset if the processor exited by panic before its own fence.
+    let _ = featured_teardown_deadline.get_or_init(|| {
+        process_final::drain_deadline(codex_utils_process::process_shutdown::GRACEFUL_TIMEOUT)
+    });
     search_lifecycle.begin_shutdown();
     // Ancillary routers can retain senders after request processing stops; do
     // not postpone the storage fence until all transport tasks have exited.
@@ -1417,13 +1436,23 @@ pub async fn run_main_with_transport_options(
     file_search_services::combine(result, transport_result)
     }.await;
     process_final::begin(process_final.as_ref());
+    // Early startup errors can bypass processor construction; initialize once.
+    let featured_deadline = *featured_teardown_deadline.get_or_init(|| {
+        process_final::drain_deadline(codex_utils_process::process_shutdown::GRACEFUL_TIMEOUT)
+    });
     if matches!(&result, Ok(AppServerExit::Forced)) {
         // Force shutdown remains responsive. Drop fences storage immediately;
         // its supervisor/runtime teardown owns termination. Accepted write
         // completion and durability are unknown on this path.
         return result;
     }
-    let result = curated_callback_lifecycle.finish(result).await;
+    curated_callback_lifecycle.begin_close();
+    featured_warmup_lifecycle.begin_close();
+    let (result, featured) = tokio::join!(
+        curated_callback_lifecycle.finish(result),
+        featured_warmup_lifecycle.finish(Ok(()), featured_deadline),
+    );
+    let result = file_search_services::combine(result, featured);
     let (store_result, search_result) =
         tokio::join!(store_lifecycle.finish(result), search_lifecycle.finish());
     let result = file_search_services::combine(store_result, search_result);

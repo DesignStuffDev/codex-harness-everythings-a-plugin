@@ -6,10 +6,14 @@ ordinary and selected-search GUI, and normal/forced slow Launch shutdown passed 
 exact bytes. A fresh eight-case held Git/HTTP matrix passed after a separately recorded
 fixture readiness correction; earlier failures and the original auxiliary-admission race
 remain open. This is not another extracted subsystem or whole-host cleanup proof.
-The current working tree adds an unactivated featured-task owner ([evidence](verification/2026-10-02/P03_FEATURED_WARMUP_STAGE_A_EVIDENCE.md)). Its first version passed
-551 library tests; review then replaced its data-free async mutex with a polling semaphore.
-The revised owner passed552 scoped tests, lint and final formatting; it remains unactivated.
-Its production integration remains separate from final65. Follow [execution state](EXECUTION_STATE.md), [production evidence](verification/2026-10-02/P03_CURRENT_PRODUCTION_RUNTIME_EVIDENCE.md),
+The featured-task ownership library is published with
+[Stage A evidence](verification/2026-10-02/P03_FEATURED_WARMUP_STAGE_A_EVIDENCE.md).
+Current working Stage B activates it in native startup and shutdown paths;553
+Core Plugins tests passed. Stage C passed432 App Server tests plus the separately
+run public-Drop/same-home shutdown case and all three existing curated replacement
+cases. Current production CLI and installed-storage/GUI regressions remain pending;
+the final65 evidence above must not be relabeled as proof of these new source bytes.
+Follow [execution state](EXECUTION_STATE.md), [prior production evidence](verification/2026-10-02/P03_CURRENT_PRODUCTION_RUNTIME_EVIDENCE.md),
 and [held matrix evidence](verification/2026-10-02/P03_CURRENT_HELD_MATRIX_EVIDENCE.md).
 MCP custody, transport-internal ownership and the remaining P03 broker gates remain open.
 

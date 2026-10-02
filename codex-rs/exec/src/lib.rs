@@ -263,9 +263,8 @@ fn exec_stderr_env_filter() -> EnvFilter {
 }
 
 fn begin_process_final(capability: &ProcessFinalCapability) {
-    let _shutdown = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(
-        capability.begin().graceful(),
-    );
+    let _shutdown =
+        codex_core_plugins::PluginStartupProcessShutdown::begin(capability.begin().graceful());
 }
 
 pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {

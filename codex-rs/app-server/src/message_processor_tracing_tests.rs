@@ -285,6 +285,7 @@ pub(super) async fn build_test_processor(
     let store_lifecycle =
         crate::persistence_lifecycle::StoreShutdownGuard::new(Arc::clone(&thread_store));
     let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+        featured_warmup: codex_core_plugins::FeaturedWarmupScope::new(),
         curated_callbacks: codex_core_plugins::startup_sync::CuratedCallbackScope::new(
             tokio::runtime::Handle::current(),
         ),

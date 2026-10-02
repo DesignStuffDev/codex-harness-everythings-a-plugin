@@ -5,7 +5,7 @@
 
 use crate::AppExitInfo;
 use crate::ExitReason;
-use codex_core_plugins::startup_sync::CuratedProcessShutdown;
+use codex_core_plugins::PluginStartupProcessShutdown;
 use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use std::future::Future;
 
@@ -25,7 +25,7 @@ pub(crate) async fn scope<F: Future>(
 pub(crate) fn begin() {
     let _ = CAPABILITY.try_with(|capability| {
         if let Some(capability) = capability {
-            CuratedProcessShutdown::begin(capability.begin().graceful());
+            PluginStartupProcessShutdown::begin(capability.begin().graceful());
         }
     });
 }
@@ -53,14 +53,14 @@ pub(crate) async fn finish(result: std::io::Result<AppExitInfo>) -> std::io::Res
     let Some(deadline) = deadline else {
         return result;
     };
-    let shutdown = CuratedProcessShutdown::begin(deadline);
+    let shutdown = PluginStartupProcessShutdown::begin(deadline);
     let observed = shutdown.wait_until(deadline).await;
-    if observed.is_complete() && observed.clean_native_ownership() {
+    if observed.is_complete() && observed.curated.clean_native_ownership() {
         return result;
     }
     Err(attach_cleanup_error(
         result,
-        "curated process cleanup incomplete; ownership is unconfirmed".to_string(),
+        "plugin startup task cleanup incomplete; ownership is unconfirmed".to_string(),
     ))
 }
 

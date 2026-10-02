@@ -1,12 +1,12 @@
 //! Executable-owned final cleanup, before the arg0 runtime is dropped.
 
-use codex_core_plugins::startup_sync::CuratedProcessShutdown;
+use codex_core_plugins::PluginStartupProcessShutdown;
 use codex_utils_process::process_shutdown::ProcessFinalCapability;
 
-pub(crate) fn begin(capability: &ProcessFinalCapability) -> CuratedProcessShutdown {
-    // Both registries are fenced synchronously. Repeated callers share the first
+pub(crate) fn begin(capability: &ProcessFinalCapability) -> PluginStartupProcessShutdown {
+    // All included owners are fenced synchronously. Repeated callers share the first
     // process deadline and cannot renew the shutdown budget.
-    CuratedProcessShutdown::begin(capability.begin().graceful())
+    PluginStartupProcessShutdown::begin(capability.begin().graceful())
 }
 
 pub(crate) async fn finish(
@@ -18,12 +18,12 @@ pub(crate) async fn finish(
         let shutdown = begin(capability);
         let observed = shutdown.wait_until(deadline).await;
         // An optional sync attempt may fail while all of its ownership is clean.
-        // Only incomplete callbacks/native ownership make process cleanup fail.
-        if observed.is_complete() && observed.clean_native_ownership() {
+        // Incomplete callback, native-worker, or featured-task custody fails cleanup.
+        if observed.is_complete() && observed.curated.clean_native_ownership() {
             Ok(())
         } else {
             anyhow::bail!(
-                "process shutdown did not confirm all curated plugin callbacks and native workers completed with clean ownership"
+                "process shutdown did not confirm all curated plugin callbacks, native workers, and featured warmup tasks completed with clean ownership"
             )
         }
     })

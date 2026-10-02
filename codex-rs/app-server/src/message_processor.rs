@@ -1,4 +1,6 @@
 use crate::curated_callback_lifecycle::CuratedCallbackGuard;
+use crate::featured_warmup_lifecycle::FeaturedWarmupGuard;
+use codex_core_plugins::FeaturedWarmupScope;
 use codex_core_plugins::startup_sync::CuratedCallbackScope;
 use std::collections::HashSet;
 use std::future::Future;
@@ -145,6 +147,7 @@ fn reject_removed_permission_profile(request: &JSONRPCRequest) -> Result<(), JSO
 
 pub(crate) struct MessageProcessor {
     curated_callback_lifecycle: CuratedCallbackGuard,
+    featured_warmup_lifecycle: FeaturedWarmupGuard,
     pub(crate) turn_admission: TurnAdmission,
     user_verification: Arc<crate::user_verification::Service>,
     outgoing: Arc<OutgoingMessageSender>,
@@ -255,6 +258,7 @@ impl ConnectionSessionState {
 
 pub(crate) struct MessageProcessorArgs {
     pub(crate) curated_callbacks: Arc<CuratedCallbackScope>,
+    pub(crate) featured_warmup: Arc<FeaturedWarmupScope>,
     pub(crate) outgoing: Arc<OutgoingMessageSender>,
     pub(crate) analytics_events_client: AnalyticsEventsClient,
     pub(crate) arg0_paths: Arg0DispatchPaths,
@@ -284,6 +288,7 @@ impl MessageProcessor {
     pub(crate) fn new(args: MessageProcessorArgs) -> Self {
         let MessageProcessorArgs {
             curated_callbacks,
+            featured_warmup,
             outgoing,
             analytics_events_client,
             arg0_paths,
@@ -307,6 +312,8 @@ impl MessageProcessor {
         } = args;
         let curated_callback_lifecycle =
             CuratedCallbackGuard::from_scope(Arc::clone(&curated_callbacks));
+        let featured_warmup_lifecycle =
+            FeaturedWarmupGuard::from_scope(Arc::clone(&featured_warmup));
         // Startup credential reads must not open a browser before initialize selects the policy.
         let gateway_login_control =
             codex_login::GatewayLoginControl::for_runtime(&auth_manager.runtime_config());
@@ -578,6 +585,7 @@ impl MessageProcessor {
                     reload_config,
                     Some(on_effective_plugins_changed),
                     Some(on_curated_plugins_changed),
+                    &featured_warmup,
                 );
         }
         let external_agent_config_processor =
@@ -606,6 +614,7 @@ impl MessageProcessor {
 
         Self {
             curated_callback_lifecycle,
+            featured_warmup_lifecycle,
             turn_admission,
             user_verification,
             outgoing,
@@ -648,8 +657,11 @@ impl MessageProcessor {
         self.skills_watcher.shutdown();
     }
 
+    // Fence both independent processor startup owners; preserve the curated
+    // worker's process-wide success latch during embedded replacement.
     pub(crate) fn request_curated_callbacks_shutdown(&self) {
         self.curated_callback_lifecycle.begin_close();
+        self.featured_warmup_lifecycle.begin_close();
     }
 
     /// Fence search admission and callbacks even when forced exit skips joins.
@@ -883,6 +895,8 @@ impl MessageProcessor {
             worker.shutdown();
         }
         self.thread_processor.drain_background_tasks().await;
+        // The runtime guard observes featured warmup under its explicit shared
+        // teardown deadline. This processor already fenced that scope above.
         let callbacks = self.curated_callback_lifecycle.finish(Ok(())).await;
         let search = self
             .search_processor

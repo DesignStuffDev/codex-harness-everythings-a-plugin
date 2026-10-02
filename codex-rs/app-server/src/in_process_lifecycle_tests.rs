@@ -135,6 +135,7 @@ async fn stalled_processor_is_aborted_then_storage_closes_with_other_holders_ali
         &guard,
         &search_guard,
         &CuratedCallbackGuard::new(),
+        crate::process_final::drain_deadline(super::PROCESSOR_SHUTDOWN_TIMEOUT),
     )
     .await;
     assert_eq!(
@@ -181,6 +182,7 @@ async fn processor_cleanup_failure_reaches_client_after_storage_is_joined() {
         &guard,
         &search_guard,
         &CuratedCallbackGuard::new(),
+        crate::process_final::drain_deadline(super::PROCESSOR_SHUTDOWN_TIMEOUT),
     )
     .await
     .expect_err("search cleanup failure must not become successful shutdown");
@@ -212,6 +214,7 @@ async fn cancelling_client_shutdown_fences_storage_while_runtime_is_detached() {
         _store_lifecycle: Some(StoreShutdownGuard::new(store.clone())),
         _search_lifecycle: None,
         _curated_callback_lifecycle: Some(callback_guard),
+        _featured_warmup_lifecycle: None,
         _test_codex_home: None,
     };
     let shutting_down = tokio::spawn(client.shutdown());
@@ -275,6 +278,7 @@ async fn client_observes_primary_failure_and_sanitized_storage_cleanup_failure()
         _store_lifecycle: Some(StoreShutdownGuard::new(store)),
         _search_lifecycle: None,
         _curated_callback_lifecycle: None,
+        _featured_warmup_lifecycle: None,
         _test_codex_home: None,
     };
     let error = client
@@ -311,6 +315,7 @@ async fn finish_with_slow_store(primary: IoResult<()>) -> IoResult<()> {
         &guard,
         &search_guard,
         &CuratedCallbackGuard::new(),
+        crate::process_final::drain_deadline(super::PROCESSOR_SHUTDOWN_TIMEOUT),
     )
     .await;
     assert!(store.begun.load(Ordering::Acquire));
@@ -331,4 +336,58 @@ async fn slow_store_success_preserves_an_independent_session_failure() {
         Err(error) => assert_eq!(error.to_string(), "session drain failed"),
         Ok(()) => panic!("successful store close must not erase the session failure"),
     }
+}
+
+#[tokio::test(start_paused = true)]
+async fn processor_observation_uses_callers_remaining_deadline_then_closes_storage() {
+    struct RecordAbort(Arc<std::sync::Mutex<Option<tokio::time::Instant>>>);
+    impl Drop for RecordAbort {
+        fn drop(&mut self) {
+            *self.0.lock().unwrap() = Some(tokio::time::Instant::now());
+        }
+    }
+    let store = ShutdownProbe::new(CloseBehavior::Complete);
+    let guard = StoreShutdownGuard::new(store.clone());
+    let aborted_at = Arc::new(std::sync::Mutex::new(None));
+    let observed_abort = Arc::clone(&aborted_at);
+    let (started, ready) = oneshot::channel();
+    let mut processor = tokio::spawn(async move {
+        let _record = RecordAbort(observed_abort);
+        started.send(()).expect("processor entered");
+        std::future::pending::<IoResult<()>>().await
+    });
+    ready.await.expect("processor owns abort observation");
+    let search_home = tempfile::tempdir().expect("search home");
+    let (_, search_guard) = crate::file_search_services::start(search_home.path())
+        .await
+        .expect("search provider");
+    let deadline = tokio::time::Instant::now() + std::time::Duration::from_secs(5);
+    tokio::time::advance(std::time::Duration::from_secs(4)).await;
+    let result = finish_processor_and_services(
+        &mut processor,
+        &guard,
+        &search_guard,
+        &CuratedCallbackGuard::new(),
+        deadline,
+    )
+    .await;
+    assert_eq!(
+        result.expect_err("supplied deadline expires").kind(),
+        ErrorKind::TimedOut
+    );
+    let observed_abort = aborted_at
+        .lock()
+        .unwrap()
+        .expect("processor abort observed");
+    assert!(observed_abort >= deadline);
+    // Permit timer granularity, but not a renewed 45-second processor budget.
+    // Observe the processor itself, excluding later provider cleanup latency.
+    assert!(observed_abort <= deadline + std::time::Duration::from_millis(100));
+    assert_eq!(
+        (
+            store.begun.load(Ordering::Acquire),
+            store.completed.load(Ordering::Acquire)
+        ),
+        (true, true),
+    );
 }

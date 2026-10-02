@@ -83,6 +83,24 @@ as project-authored maintenance support. Its expanded 22 fixtures pass; actual i
 checks cover the pinned d04 source/all 28 map shapes with zero invalid metadata and 1,167 unresolved
 source, semantic and acceptance findings. It is neither an installed updater nor native extraction.
 
+## P03 checkpoint — 2026-10-02
+
+Native extraction coverage is unchanged: thread storage/manual migration, the inline
+attachment subset, and bounded native file search. The GUI remains an independently
+packaged additive client. The published `706bf9e` checkpoint adds a task-ownership
+library, with552 scoped tests and exact [provenance](upstream/p03-featured-warmup-stage-a-lineage.json);
+it does not activate a production replacement or advance a family to VERIFIED_NATIVE.
+The subsequent working integration replaces one detached featured-cache warmup in
+Codex's pre-existing plugin-marketplace service. Its Core Plugins suite passed553
+cases; the current App Server suite passed432 tests plus separate public-Drop/
+same-home shutdown and three curated replacement cases. Current production CLI/GUI
+checks are still pending.
+This is lifecycle support within coupled native services, distinct from our custom
+component installation mechanism. Shared HTTP internals, neighboring startup tasks,
+MCP custody and the remaining P03 contracts retain their existing open status.
+Use [EXECUTION_STATE.md](EXECUTION_STATE.md) for later exact runs; historical tests
+and source maps must not be relabelled as proof for current working code.
+
 ## Complete explicit workspace package ledger
 
 Every entry below is `package-name (path relative to codex-rs/)`, read from its actual Cargo manifest. All 169 explicit workspace members are accounted for in this ledger and its dated additions below. Shared implementation dependencies can cross rows; the ledger assigns inventory ownership, not an exclusive dependency graph. Status details above take precedence over a row-level label.

@@ -1,0 +1,13 @@
+# Stage B featured startup ownership: partial checkpoint
+
+Stage B replaces the native manager’s detached featured-plugin warmup with a per-processor owned scope and publication fence. App Server handle/processor guards and executable final cleanup now carry that scope through existing deadlines. The 21 changed native paths are 15 production paths and six test/support paths: 11 upstream adaptations, six prior project-private paths, and four new B files. This is lifecycle wiring, not another separately installed component family.
+
+The first scoped compile failed with six ambiguous `assert_eq` imports (exit101; zero tests). Its evidence is preserved. Adding one explicit macro import produced **553/553 passing core-plugins tests, zero skipped**, then clean scoped Clippy/fix (exit0, unchanged source, zero warnings). The tested source is candidate `82739233…`, full8934-path map `f89b89ab…`; the library test ELF is `04a4344e…`. Strict adopted statuses are retained, including `{0:36,128:2,-9:4}` for the test run; this is not an all-zero child-status claim.
+
+Independent read-only review verified the nine-file B formatting patch and two-file C formatting patch against exact before/after hashes. Rust changes are mechanical wrapping/import/module ordering; assertions and deadlines are unchanged. C’s Python AST is equal. B’s separate macro import repair is not hidden as formatting.
+
+The pinned Wiremock implementation gives the first-mounted matcher precedence, so the one-shot held A response cannot be shadowed by B. The manager test checks A cancellation/join before releasing A’s response, no late A publication, B success and cache retention. It does not prove HTTP-client-internal custody or peer EOF.
+
+Stage C adds test-only App Server caller acceptance and is a distinct source boundary. App Server compilation/acceptance, rebuilt production host matrices, installed storage/search, and GUI regression have **not** passed on B/C in this partial checkpoint. Earlier production/GUI results retain their older final65 source identity. MCP custody, transitive HTTP ownership and the original early auxiliary startup race remain open.
+
+`EVIDENCE.json` binds private receipts by hashes and exposes only safe summary fields. [source lineage](../../../upstream/p03-featured-warmup-stage-b-lineage.json) maps every B path to upstream, published Stage A preimages and tested B bytes. `FORMAT_REVIEW.json` records B and C separately. This historical B snapshot precedes the separately recorded [C caller results](../p03-featured-warmup-stage-c/README.md). Raw receipts remain VM-local; source publication does not export those private artifacts.

@@ -173,6 +173,7 @@ async fn stalled_search_and_storage_share_the_service_cleanup_budget() {
             &storage,
             &search,
             &CuratedCallbackGuard::new(),
+            crate::process_final::drain_deadline(super::super::PROCESSOR_SHUTDOWN_TIMEOUT),
         ),
     )
     .await
@@ -219,6 +220,7 @@ async fn storage_completes_while_search_cleanup_is_pending_and_then_fails() {
             &storage,
             &search,
             &CuratedCallbackGuard::new(),
+            crate::process_final::drain_deadline(super::super::PROCESSOR_SHUTDOWN_TIMEOUT),
         )
         .await
     });
@@ -271,6 +273,7 @@ async fn processor_error_keeps_its_kind_and_both_service_failures() {
         &storage,
         &search,
         &CuratedCallbackGuard::new(),
+        crate::process_final::drain_deadline(super::super::PROCESSOR_SHUTDOWN_TIMEOUT),
     ))
     .await
     .expect_err("all shutdown failures must survive");

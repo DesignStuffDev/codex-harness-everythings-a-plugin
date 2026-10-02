@@ -1,0 +1,520 @@
+{
+  "hash_note": "Git blob IDs computed from verified bytes, not new Git objects/commits. All21 tested bytes match candidate source02; in_process.rs comes from C adoption preimage because the current file contains a later test-only registration. Parent preimages bind to the published Stage A boundary.",
+  "parent_commit": "706bf9eaf61cd05ccd9568bf88ba1112d635c547",
+  "parent_tree": "957d20a4896e46e224a144888ebdc5c371f38149",
+  "paths": [
+    {
+      "change": "New B scope-close/deadline observation/Drop fence helper.",
+      "path": "codex-rs/app-server/src/featured_warmup_lifecycle.rs",
+      "provenance": "new_stage_b",
+      "published_parent_preimage": {
+        "exists": false
+      },
+      "role": "production",
+      "symbols_or_scope": "FeaturedWarmupGuard",
+      "tested_b": {
+        "bytes": 1901,
+        "git_blob_sha1": "b478c0eff950f6e5d2b821331bf446c28ab4384b",
+        "sha256": "0c1b2ce1a36011cdd3c10e38f2f4b08d1de613dc481c322376ee2f06e93f15d5"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Attach per-processor guard to public handle shutdown/Drop; pass scope into processor; share teardown deadline.",
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 54789,
+        "exists": true,
+        "git_blob_sha1": "26bf6a74993ffa6f8fecf385e1ac8a77ae901f2c",
+        "sha256": "700139723b82af5fd47b7df3e08be6140bbbfc655bb4e20fbc341d1fa2ea852e"
+      },
+      "role": "production",
+      "symbols_or_scope": "InProcessClientHandle; start; start_uninitialized; finish_processor_and_services",
+      "tested_b": {
+        "bytes": 55775,
+        "git_blob_sha1": "e0a8ef306e0669b2ab12267292560c1f76287ed1",
+        "sha256": "5834dfa6392c48d5326787ffbfcc6c2d68362b9137d403ea9640151d85b5f299"
+      },
+      "upstream": {
+        "bytes": 47658,
+        "exists": true,
+        "git_blob_sha1": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+        "sha256": "72b929dfa4af366237b990814a1699321a3c29e5f328a8588c5853a1f769f4a1"
+      }
+    },
+    {
+      "change": "Adapt guard fields and teardown signatures while preserving assertions.",
+      "path": "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+      "provenance": "prior_project_private",
+      "published_parent_preimage": {
+        "bytes": 11518,
+        "exists": true,
+        "git_blob_sha1": "5987b50f5f3195bbb7b9f40784694c2ce148460b",
+        "sha256": "30b616fa4ac2715a454ef4f6436f685e12ecdbdb0873a3714265be06d44e8e29"
+      },
+      "role": "test_support",
+      "symbols_or_scope": "in-process shutdown lifecycle tests",
+      "tested_b": {
+        "bytes": 13959,
+        "git_blob_sha1": "f16d926788266733b9496ebcc6a07cfb3b10a637",
+        "sha256": "34983b3bc480374982b982cd689c97dd229f671d014baeac375da10e6031cf88"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Adapt guard fields and teardown signatures while preserving search lifecycle checks.",
+      "path": "codex-rs/app-server/src/in_process_search_lifecycle_tests.rs",
+      "provenance": "prior_project_private",
+      "published_parent_preimage": {
+        "bytes": 10294,
+        "exists": true,
+        "git_blob_sha1": "5e5655e648d8b6c0d0431289002cdbcf64afc240",
+        "sha256": "d71937a8bf9b8cdd830c8dd521961b70a825a46516a3d4edc7dfce8fb57125f7"
+      },
+      "role": "test_support",
+      "symbols_or_scope": "in-process search lifecycle tests",
+      "tested_b": {
+        "bytes": 10566,
+        "git_blob_sha1": "1b1922fcc8fb79864431b60427133e4c70699bd3",
+        "sha256": "e4a1159b054aa8594e5de08a1e0bb241c59dd5ec4b2faba034d130c70174f7ab"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Create/fork featured scope guards and join alongside existing cleanup under shared deadline.",
+      "path": "codex-rs/app-server/src/lib.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 69857,
+        "exists": true,
+        "git_blob_sha1": "d3d858155734b90bde7deb263874e07a6c57febd",
+        "sha256": "d0f7b108f70fd93ddb297f3bc80a2e95848c293c906b92a17851808872305153"
+      },
+      "role": "production",
+      "symbols_or_scope": "run_main; processor construction and teardown",
+      "tested_b": {
+        "bytes": 71592,
+        "git_blob_sha1": "5a8d7e59fe31562db798be2e9c196bfe84251480",
+        "sha256": "f415956b04388f3931f260918d660b0fa0cb0bc3e4e7b5c2fec8c2238db08e44"
+      },
+      "upstream": {
+        "bytes": 65841,
+        "exists": true,
+        "git_blob_sha1": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+        "sha256": "1591686b49c80c062d2b1ce48e03eb7c95bb872cc57b41e0ecc016ceb42fd6f2"
+      }
+    },
+    {
+      "change": "Aggregate featured and curated process-final observations.",
+      "path": "codex-rs/app-server/src/main.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 6833,
+        "exists": true,
+        "git_blob_sha1": "fe3b8a94aaa8d57e0075fc67639e317c819b1d54",
+        "sha256": "5bfba91a4c608b5b8b2f2d5c06c7f5410e84e7cdf5266381a4811d1a72c96350"
+      },
+      "role": "production",
+      "symbols_or_scope": "main",
+      "tested_b": {
+        "bytes": 6843,
+        "git_blob_sha1": "d088246d17934ce4001f0a1dca973612dbe01bd2",
+        "sha256": "423b4fb37fcd11cf690fae7c801268240e943fd1201f2d418633eb3c1d53374a"
+      },
+      "upstream": {
+        "bytes": 5558,
+        "exists": true,
+        "git_blob_sha1": "4119cedfe413005e165ca8b00b86699dabe4458a",
+        "sha256": "6c027c0307379f7426f25812e4422d5740ac6a128a28a51bcf79267516457ced"
+      }
+    },
+    {
+      "change": "Own guard, pass scope into native plugin startup, fence on reference clearing.",
+      "path": "codex-rs/app-server/src/message_processor.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 83641,
+        "exists": true,
+        "git_blob_sha1": "63621256c0d014fb78564b8f873ac7d394b8dee8",
+        "sha256": "d8714f17c7715f9da2198e3bcbabe40f79aeb8159c0245b5a3cbd8c8209d510b"
+      },
+      "role": "production",
+      "symbols_or_scope": "MessageProcessorArgs; MessageProcessor; clear_runtime_references",
+      "tested_b": {
+        "bytes": 84437,
+        "git_blob_sha1": "312a0f86d3ff0ab6ead0a447ae416d487a720cdb",
+        "sha256": "42baeb89888cb76c8f4dd369de86b884b0ed1f9488d4ae766674dc36d142d5d5"
+      },
+      "upstream": {
+        "bytes": 80705,
+        "exists": true,
+        "git_blob_sha1": "796ecf2fc86a47c056cb934e6590c120d9836c32",
+        "sha256": "05a397fc4d5e974d35b0b42fdb975196a113990ad56187298916626f8cfc2bf9"
+      }
+    },
+    {
+      "change": "Supply required featured scope argument.",
+      "path": "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 27110,
+        "exists": true,
+        "git_blob_sha1": "55a653f32783512f81632f6a138bd0d6df25a087",
+        "sha256": "cf1356d0964ba9850ae749009fdcd3623dc0f081d2823dcf96d6ff69b07a48d9"
+      },
+      "role": "test_support",
+      "symbols_or_scope": "message processor tracing test construction",
+      "tested_b": {
+        "bytes": 27183,
+        "git_blob_sha1": "f2cae778c59ee869db66edaecfe8fa0115b2ec8c",
+        "sha256": "8ab6954833a508e20760ad055a2a9eeb9727016732942112620a3f0a307e3020"
+      },
+      "upstream": {
+        "bytes": 25739,
+        "exists": true,
+        "git_blob_sha1": "41d843c743abf671b82983e3bcec118ea5df99d2",
+        "sha256": "8289611479dce4ca800b5606d9ca75e7e33367270a635c1f567af3c26182cad3"
+      }
+    },
+    {
+      "change": "Aggregate separate curated/featured observations and preserve operation/cleanup outcomes.",
+      "path": "codex-rs/app-server/src/process_final.rs",
+      "provenance": "prior_project_private",
+      "published_parent_preimage": {
+        "bytes": 3934,
+        "exists": true,
+        "git_blob_sha1": "074165dd876368fe85eddaaf94ac655e51e14ecc",
+        "sha256": "ca55cec0b3b17df22c9537a8cbfe39ab8ddea5f71b020190ad86f499317ce5bd"
+      },
+      "role": "production",
+      "symbols_or_scope": "process-final cleanup helper",
+      "tested_b": {
+        "bytes": 4150,
+        "git_blob_sha1": "ce4bc9114ac70e7f1dbd3f8c9db1db8226a3ee8a",
+        "sha256": "bd5ecadad7921dadc950b4e52085970ca331c44bac4f603f73ee720b7871e66b"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Supply required featured scope argument.",
+      "path": "codex-rs/app-server/src/user_verification_test_support.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 12038,
+        "exists": true,
+        "git_blob_sha1": "447d4ae388402062c8c17fb9cdbbca06b1ec5420",
+        "sha256": "2a8c9197d158c2ba41679a0502c2be98650273785b8d2490dc7fc0d53361250a"
+      },
+      "role": "test_support",
+      "symbols_or_scope": "test MessageProcessor construction",
+      "tested_b": {
+        "bytes": 12115,
+        "git_blob_sha1": "4bd10af89eb5bee8f571fc451dc4d2d9a656a63e",
+        "sha256": "a27b2244ef0494e5f6a2ba82bbd9a8526ae4266ead84cac08d8e10afde6e57e7"
+      },
+      "upstream": {
+        "bytes": 10847,
+        "exists": true,
+        "git_blob_sha1": "d2096bc1f17dce225d4e2edad6c62bbb67eb162b",
+        "sha256": "a90d78644adf1b4da415e044e00ed6953cda2cb423d301745ffb83b58677b53a"
+      }
+    },
+    {
+      "change": "Aggregate featured ownership under existing process deadline.",
+      "path": "codex-rs/cli/src/process_final.rs",
+      "provenance": "prior_project_private",
+      "published_parent_preimage": {
+        "bytes": 1785,
+        "exists": true,
+        "git_blob_sha1": "149613eb51504d1f4d3bb17b26940ab90b643f5f",
+        "sha256": "c486bae9574a0582cc5e4f77ce9168302c5241316d981d7a48257ea9816c605e"
+      },
+      "role": "production",
+      "symbols_or_scope": "process-final cleanup helper",
+      "tested_b": {
+        "bytes": 1831,
+        "git_blob_sha1": "57caef9d0574d4ea0e29241df804d0a04a79709f",
+        "sha256": "2bbc8a7b8f9736d304b9724f46ae564b0a8d5e7c70a1397f876b71824c2e91c7"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Expose process observation and aggregate shutdown API.",
+      "path": "codex-rs/core-plugins/src/lib.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 5390,
+        "exists": true,
+        "git_blob_sha1": "ea3c1197f6ef30df3d0a9607256b770d9125117e",
+        "sha256": "763241ee5c6e1e01feacafe5cd487584458e6e6b4c49ca8b8112f43396a09244"
+      },
+      "role": "production",
+      "symbols_or_scope": "public exports",
+      "tested_b": {
+        "bytes": 5631,
+        "git_blob_sha1": "9b96bb369a890f0b1b3d100cbe03208731aee793",
+        "sha256": "a7f5af30b5aec3a7451550344d58be3f6e80ee890e1c16f588be7782d60e0378"
+      },
+      "upstream": {
+        "bytes": 5173,
+        "exists": true,
+        "git_blob_sha1": "513a020e53344cdd32b5b40f4a30cea8d24139b7",
+        "sha256": "d1d325a67cc9d9eaf7e7e8ea166d1572f0ae1edd2f5c41cf98cd5470dc274681"
+      }
+    },
+    {
+      "change": "Replace upstream detached featured tokio::spawn with per-processor scoped helper.",
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 153280,
+        "exists": true,
+        "git_blob_sha1": "e50ba0f8b38f4a040842bba0f3782c0cd2e7a82c",
+        "sha256": "7ec68d53e3f3bc189f1f8c6380b8d3d21bffe31d471b4f6a8109faa5e58d9c5f"
+      },
+      "role": "production",
+      "symbols_or_scope": "PluginsManager::maybe_start_plugin_startup_tasks_for_config",
+      "tested_b": {
+        "bytes": 152897,
+        "git_blob_sha1": "96d541c1353c467f10956c5cc3574345caba8ef5",
+        "sha256": "d95850039ba0a6b7cea2425647fcc029fffe224834e2458074523101fc110e14"
+      },
+      "upstream": {
+        "bytes": 148748,
+        "exists": true,
+        "git_blob_sha1": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+        "sha256": "4d1ac59d49155bfe434b169243c53eab4099ccf2c3d2649ec5e273e255419153"
+      }
+    },
+    {
+      "change": "New B owned auth/fetch future and fenced cache publication.",
+      "path": "codex-rs/core-plugins/src/manager/featured_warmup.rs",
+      "provenance": "new_stage_b",
+      "published_parent_preimage": {
+        "exists": false
+      },
+      "role": "production",
+      "symbols_or_scope": "start_featured_warmup_for_config",
+      "tested_b": {
+        "bytes": 2335,
+        "git_blob_sha1": "54c2169bf7dc6c1f66dca118f8f17acb41967080",
+        "sha256": "8d461da5b93eb4a0918bca921e889fcde0c9ff392f3a1d5295eab83002dcb0bd"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "New B cancellation/join and no-A-publication, B-success/cache regression.",
+      "path": "codex-rs/core-plugins/src/manager/featured_warmup_tests.rs",
+      "provenance": "new_stage_b",
+      "published_parent_preimage": {
+        "exists": false
+      },
+      "role": "test_support",
+      "symbols_or_scope": "held featured HTTP and cache-publication lifecycle test",
+      "tested_b": {
+        "bytes": 3538,
+        "git_blob_sha1": "9b366c945d5a50f4c17dcc2c8f299c30743172a4",
+        "sha256": "b088ecd6ca90bba0fc373b554400b5bab563d58c7ffd00fe0b4fc8609cf82c63"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Register manager fixture.",
+      "path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 244496,
+        "exists": true,
+        "git_blob_sha1": "b634b513f39128ac475d2bcfd135238c8a7b16da",
+        "sha256": "93fcd59030f826890d227e88ce1608345093b02eab21e570f47be20fafe3d896"
+      },
+      "role": "test_support",
+      "symbols_or_scope": "featured warmup test module registration",
+      "tested_b": {
+        "bytes": 244563,
+        "git_blob_sha1": "9f13dfcac616ec1fc0c453cff5d2e52a28f26ead",
+        "sha256": "b6b82c32eccce8784dcad4230039cdf2fbfdd2b462667da9deda54f3abcf86a6"
+      },
+      "upstream": {
+        "bytes": 242206,
+        "exists": true,
+        "git_blob_sha1": "2ae390470d8d260b51db340d2d2d34b6910ebc52",
+        "sha256": "2761d9ec7b5b52680629d5e79a0382d4ea27c3e003d76551594c28e9299fa0f1"
+      }
+    },
+    {
+      "change": "New B executable-only aggregate preserves separate observations and clamps deadline.",
+      "path": "codex-rs/core-plugins/src/plugin_startup_process_shutdown.rs",
+      "provenance": "new_stage_b",
+      "published_parent_preimage": {
+        "exists": false
+      },
+      "role": "production",
+      "symbols_or_scope": "PluginStartupProcessShutdown",
+      "tested_b": {
+        "bytes": 2602,
+        "git_blob_sha1": "1d55dd58198717e95ce4bcf13263759b0b05213b",
+        "sha256": "e1dc2feabb6550508fc2e4cbb093d572e5fecd6412ec24108baba334fe38c038"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Aggregate startup-owner cleanup.",
+      "path": "codex-rs/exec/src/lib.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 88238,
+        "exists": true,
+        "git_blob_sha1": "dcd999113671e9d0f78a7221a3eed61070fd4e4a",
+        "sha256": "b0da1a2b565af402f4e2295225db8d5abcb7270aee560f680353b668b7923d8c"
+      },
+      "role": "production",
+      "symbols_or_scope": "execution startup and cleanup composition",
+      "tested_b": {
+        "bytes": 88223,
+        "git_blob_sha1": "41fdba344246665fbd32d3f829334c78fefb16c3",
+        "sha256": "409d065684b3b8d810dd734f708b611ebb0718cf5ae3d342c13935298893c6af"
+      },
+      "upstream": {
+        "bytes": 86172,
+        "exists": true,
+        "git_blob_sha1": "0bfa07bd5587f6913b21d137874430a982824c15",
+        "sha256": "48be5b8d89283f1fe338682d634ea3e73847ef1eb7c7626ca801002980527de1"
+      }
+    },
+    {
+      "change": "Aggregate featured ownership and preserve cleanup failure.",
+      "path": "codex-rs/exec/src/process_final.rs",
+      "provenance": "prior_project_private",
+      "published_parent_preimage": {
+        "bytes": 1785,
+        "exists": true,
+        "git_blob_sha1": "149613eb51504d1f4d3bb17b26940ab90b643f5f",
+        "sha256": "c486bae9574a0582cc5e4f77ce9168302c5241316d981d7a48257ea9816c605e"
+      },
+      "role": "production",
+      "symbols_or_scope": "process-final cleanup helper",
+      "tested_b": {
+        "bytes": 1831,
+        "git_blob_sha1": "57caef9d0574d4ea0e29241df804d0a04a79709f",
+        "sha256": "2bbc8a7b8f9736d304b9724f46ae564b0a8d5e7c70a1397f876b71824c2e91c7"
+      },
+      "upstream": {
+        "exists": false
+      }
+    },
+    {
+      "change": "Aggregate final cleanup.",
+      "path": "codex-rs/tui/src/main.rs",
+      "provenance": "upstream_path_adapted",
+      "published_parent_preimage": {
+        "bytes": 3057,
+        "exists": true,
+        "git_blob_sha1": "97dc247d2e9802123d9560af1658062f16602658",
+        "sha256": "a1299839d31ad11d1238d0fcb630cf473cdb55b4f7f51bee397f78c5067f9613"
+      },
+      "role": "production",
+      "symbols_or_scope": "main",
+      "tested_b": {
+        "bytes": 3067,
+        "git_blob_sha1": "120080c3b208be2ff4f38f5fca11c11c4354a991",
+        "sha256": "96f0fe53bc640777b4a4e45181a0c72e9de3f86544f05197d7b6dd11a1027643"
+      },
+      "upstream": {
+        "bytes": 1658,
+        "exists": true,
+        "git_blob_sha1": "5a196d614a92b240758962ce0f07dfa60d8497be",
+        "sha256": "3fdd675a45a558a0946886f0427312baa7c0f5d8ccaa12200ecc72887e33b9da"
+      }
+    },
+    {
+      "change": "Aggregate final cleanup under existing deadline.",
+      "path": "codex-rs/tui/src/process_final.rs",
+      "provenance": "prior_project_private",
+      "published_parent_preimage": {
+        "bytes": 3040,
+        "exists": true,
+        "git_blob_sha1": "7f4a0068fa10f73b02f4d4be9ffca2a4baa242f8",
+        "sha256": "af8076890d327ea3afb93385b6c6c5a45fd68b6aa9f7228f115f79b44d1b166f"
+      },
+      "role": "production",
+      "symbols_or_scope": "process-final cleanup helper",
+      "tested_b": {
+        "bytes": 3056,
+        "git_blob_sha1": "48ef104cdf077e3e82fe5b7d3e54791ce0094d1b",
+        "sha256": "c19666024459c98be07cc985add6ba363595d82ebbf6e5dea777199a64543202"
+      },
+      "upstream": {
+        "exists": false
+      }
+    }
+  ],
+  "provenance_counts": {
+    "new_stage_b": 4,
+    "prior_project_private": 6,
+    "upstream_path_adapted": 11
+  },
+  "schema_version": 1,
+  "tested_actual_map_sha256": "f89b89ab6f42afe0dfbbe4b11f3fe862be9414783076696436b79da33ee18b25",
+  "tested_candidate_sha256": "82739233f89ecf28af5013e9c2c99ad9f075954d506dfa328ab86f6d15cc77f1",
+  "transitions": [
+    {
+      "actual_map_sha256": "0895e8d7a3b08b0490031cca4fc293af4111c976451edf9ea306c43f10ecb46b",
+      "commit": "706bf9eaf61cd05ccd9568bf88ba1112d635c547",
+      "stage": "A_published"
+    },
+    {
+      "actual_map_sha256": "137545f222bc3a73945c2e596cbae42c92c9c23ebebd3084a71e56e5888b2aaa",
+      "stage": "B_adopted_preformat"
+    },
+    {
+      "actual_map_sha256": "7cfc3ed5373bcd1529c404b2b844d1db34b21ccfd9f20da582146c473d9bc95a",
+      "outcome": "Compile101 six E0659; no tests.",
+      "stage": "B_formatted_compile_failed"
+    },
+    {
+      "actual_map_sha256": "f89b89ab6f42afe0dfbbe4b11f3fe862be9414783076696436b79da33ee18b25",
+      "outcome": "553/553, scoped lint0 unchanged.",
+      "stage": "B_macro_import_repair_tested"
+    },
+    {
+      "actual_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+      "candidate": {
+        "bytes": 19456,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-featured-warmup-stage-c-source-01.json",
+        "sha256": "ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c"
+      },
+      "stage": "C_test_only_formatted_pending_separate_acceptance"
+    }
+  ],
+  "unmodified_dependencies": [
+    {
+      "limit": "Async future ownership does not alone prove transitive HTTP task/transport cleanup.",
+      "path": "codex-rs/core-plugins/src/remote_legacy.rs",
+      "symbol": "fetch_remote_featured_plugin_ids"
+    },
+    {
+      "limit": "Shared cached clients and spawn_blocking construction remain a separate transitive ownership question.",
+      "path": "codex-rs/http-client/src/route_aware_client_pool.rs",
+      "symbol": "select_or_build_client"
+    }
+  ],
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+}

@@ -56,6 +56,7 @@ use crate::curated_callback_lifecycle::CuratedCallbackGuard;
 use crate::error_code::OVERLOADED_ERROR_CODE;
 use crate::error_code::internal_error;
 use crate::error_code::invalid_request;
+use crate::featured_warmup_lifecycle::FeaturedWarmupGuard;
 use crate::file_search_services::SearchShutdownGuard;
 use crate::message_processor::ConnectionSessionState;
 use crate::message_processor::MessageProcessor;
@@ -295,6 +296,7 @@ impl InProcessClientSender {
 pub struct InProcessClientHandle {
     // Independent closure even when shutdown is cancelled or processor Arcs survive.
     _curated_callback_lifecycle: Option<CuratedCallbackGuard>,
+    _featured_warmup_lifecycle: Option<FeaturedWarmupGuard>,
     client: InProcessClientSender,
     event_rx: mpsc::Receiver<InProcessServerEvent>,
     runtime_handle: tokio::task::JoinHandle<IoResult<()>>,
@@ -385,6 +387,9 @@ impl InProcessClientHandle {
     pub async fn shutdown(self) -> IoResult<()> {
         if let Some(callbacks) = &self._curated_callback_lifecycle {
             callbacks.begin_close();
+        }
+        if let Some(featured) = &self._featured_warmup_lifecycle {
+            featured.begin_close();
         }
         let mut runtime_handle = self.runtime_handle;
         // This method consumes the only event receiver. Release it before
@@ -530,6 +535,9 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
     let runtime_callback_lifecycle = CuratedCallbackGuard::new();
     let handle_callback_lifecycle = runtime_callback_lifecycle.fork();
     let curated_callbacks = runtime_callback_lifecycle.scope();
+    let runtime_featured_lifecycle = FeaturedWarmupGuard::new();
+    let handle_featured_lifecycle = runtime_featured_lifecycle.fork();
+    let featured_warmup = runtime_featured_lifecycle.scope();
     let (client_tx, mut client_rx) = mpsc::channel::<InProcessClientMessage>(channel_capacity);
     let (event_tx, event_rx) = mpsc::channel::<InProcessServerEvent>(channel_capacity);
 
@@ -583,6 +591,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         let mut processor_handle = tokio::spawn(async move {
             let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
                 curated_callbacks,
+                featured_warmup,
                 outgoing: Arc::clone(&processor_outgoing),
                 analytics_events_client,
                 arg0_paths: args.arg0_paths,
@@ -847,7 +856,9 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             }
         }
 
+        let processor_deadline = crate::process_final::drain_deadline(PROCESSOR_SHUTDOWN_TIMEOUT);
         runtime_callback_lifecycle.begin_close();
+        runtime_featured_lifecycle.begin_close();
         drop(writer_rx);
         drop(processor_tx);
         outgoing_message_sender
@@ -864,13 +875,18 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             )));
         }
 
-        let shutdown_result = finish_processor_and_services(
-            &mut processor_handle,
-            &runtime_store_lifecycle,
-            &runtime_search_lifecycle,
-            &runtime_callback_lifecycle,
-        )
-        .await;
+        let (shutdown_result, featured_result) = tokio::join!(
+            finish_processor_and_services(
+                &mut processor_handle,
+                &runtime_store_lifecycle,
+                &runtime_search_lifecycle,
+                &runtime_callback_lifecycle,
+                processor_deadline,
+            ),
+            runtime_featured_lifecycle.finish(Ok(()), processor_deadline),
+        );
+        let shutdown_result =
+            crate::file_search_services::combine(shutdown_result, featured_result);
         let _ = outbound_shutdown_tx.send(());
         let outbound_result = match tokio::time::timeout_at(
             crate::process_final::deadline_after(SHUTDOWN_TIMEOUT),
@@ -919,6 +935,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         _store_lifecycle: Some(handle_store_lifecycle),
         _search_lifecycle: Some(handle_search_lifecycle),
         _curated_callback_lifecycle: Some(handle_callback_lifecycle),
+        _featured_warmup_lifecycle: Some(handle_featured_lifecycle),
         #[cfg(test)]
         _test_codex_home: None,
     })
@@ -929,16 +946,13 @@ async fn finish_processor_and_services(
     store: &StoreShutdownGuard,
     search: &SearchShutdownGuard,
     callbacks: &CuratedCallbackGuard,
+    processor_deadline: tokio::time::Instant,
 ) -> IoResult<()> {
     // Fence every connection and local picker before waiting for an abortable
     // processor; its detached references cannot extend public provider life.
     search.begin_shutdown();
     callbacks.begin_close();
-    let processor_result = match tokio::time::timeout_at(
-        crate::process_final::drain_deadline(PROCESSOR_SHUTDOWN_TIMEOUT),
-        &mut *processor,
-    )
-    .await
+    let processor_result = match tokio::time::timeout_at(processor_deadline, &mut *processor).await
     {
         Ok(Ok(result)) => result,
         Ok(Err(_)) => Err(IoError::other(
@@ -970,6 +984,10 @@ mod lifecycle_tests;
 #[cfg(all(test, target_os = "linux"))]
 #[path = "in_process_curated_replacement_tests.rs"]
 mod curated_replacement_tests;
+
+#[cfg(all(test, target_os = "linux"))]
+#[path = "in_process_featured_warmup_tests.rs"]
+mod featured_warmup_tests;
 
 #[cfg(test)]
 mod tests {
@@ -1176,6 +1194,7 @@ mod tests {
             _store_lifecycle: None,
             _search_lifecycle: None,
             _curated_callback_lifecycle: None,
+            _featured_warmup_lifecycle: None,
             _test_codex_home: None,
         };
 
