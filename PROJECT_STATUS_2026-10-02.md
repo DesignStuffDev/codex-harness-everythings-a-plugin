@@ -58,7 +58,7 @@ The newer **WIP process-final candidate** has these actual completed checks:
 
 All five successful native runs have unchanged before/after source maps, zero retries and strict runner success with no drain error. Fourteen desktop transport-fixture tests also passed on the candidate before its one-character compiler repair; they did not run a real browser/engine. The initial compiler failure and disk-full linker failure ran zero tests and remain separately preserved. Historical suite counts overlap and are not a project-wide coverage total.
 
-The TUI library test build is running. Manager checks, changed App Server integration cases, scoped lint/global formatting and rebuilt-host runtime gates remain outstanding at this snapshot.
+The TUI library test build failed before test execution: rustc received SIGKILL after about 36 minutes, with source unchanged. The VM had high memory pressure and about 592 MB free disk; no pre-run OOM counter baseline was captured, so the precise cause is not conclusively established. That failure is retained separately. Resource recovery and a TUI retry, manager checks, changed App Server integration cases, scoped lint/global formatting and rebuilt-host runtime gates remain outstanding.
 
 ## Why P03 lifecycle work is still the immediate priority
 

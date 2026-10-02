@@ -35,6 +35,7 @@ library tests, lint and reviewed formatting; it did not have fresh full-host pro
 **Current adopted candidate is preserved as unfinished WIP** at
 `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`, branch
 `wip/p03-process-final-and-mcp-preservation-20261002`; all270 selected blobs read back.
+The WIP report/readback supplement is `248420e4bf8e6dc4c98c8ec04ee2f71b79b4f1f3`.
 This is not a main promotion or release. Receipt:
 R/`p03-wip-preservation-publication/publication-receipt.json`. It adds process-final authority/callers,
 curated admission fencing/native and callback observations, coordinated shutdown budgets and
@@ -62,6 +63,7 @@ Current evidence prefixes are `/workspace/acceptance/p03-process-final-`:
 | `desktop-tests` |14/14; strict0/null |Python transport fixtures on pre-compiler-repair source; no real browser/engine. |
 | `native-tests-01` |compiler101; zero tests |One extra `>` repaired, original failure retained. |
 | `client-tests-01` |linker101; zero tests |Signal7/Bus error at zero free disk; source unchanged, separate evidence. |
+| `tui-tests-01` |compiler101; zero tests |rustc SIGKILL after2,156.43s; unchanged source. Memory pressure observed; no pre-run OOM counter baseline, so cause not conclusively attributed. |
 
 Green native runs have zero retries and identical before/after source maps. Only CLI reports one
 ignored helper; the other completed native suites have zero skips.
@@ -79,13 +81,19 @@ The old source99 live-descendant failures remain failed; later observations do n
 
 ## Ordered next actions
 
-1. Client42 evidence is archived and its ELF retained. The172-file and635-file guarded old
+1. Preserve TUI01 compiler SIGKILL evidence and establish fresh idle resource guards. Reclaim
+   obsolete internal generated caches with several GiB of RAM and disk margin before retry;
+   preserve current compiler dependency closure, proof executables/archives, sources and metadata.
+   Client42 evidence is archived; its inactive ELF was subsequently retired. The172-file and635-file guarded old
    internal-library retirements completed; receipts are R/`p03-client-postterminal-workspace-cache-retirement.json`
    and R/`p03-current-static-input-cache-retirement.json`. About4.37GB was free before exec01.
    Recheck actual resources; historical audits are not reusable deletion lists.
-2. Exec and CLI completed green. Run TUI (`--lib`), component-host
-   and App Server stdio/forced-exit integration checks with exact source guards and unchanged
-   strict subreaper. Then scoped lint and global formatting; no test rerun solely for style.
+2. Exec and CLI completed green. After guarded resource recovery, run component-host lib/bin
+   checks first; it has no core/TUI dependency. Rebuild the manager and production CLI for
+   meaningful installed-host/GUI gates. TUI01 stays an explicit failed compile gate; retry
+   its monolithic `--lib` test target only with sufficient RAM/disk margin. Changed App Server
+   stdio/forced-exit integration checks, scoped lint and global formatting also remain.
+   Use exact source guards and unchanged strict subreaper; no test rerun solely for style.
 3. Rebuild/source-bind the actual CLI and manager. Run held production Git/HTTP matrix,
    installed storage/migration/GUI streaming, approval, cancellation, recovery and actual Launch
    Ctrl+C gates. Run the reviewed slow-store relay normal/forced cases with separate fresh homes.
@@ -123,6 +131,12 @@ All paths below are under R. Do not silently apply an entire staged tree.
   native-storage /GUI46s run unexecuted. Original proposal and both independent reviews preserved.
 - Held production host SDK acceptance and same-process replacement plans are staged separately;
   native Git/HTTP activation must stay enabled, without proxy/DNS/assertion weakening.
+- New read-only native lifecycle observation proposal: `p03-curated-lifecycle-observation-proposal-01/MANIFEST.json`,
+  SHA `09f621f1a67105a6794894f441322f92bc2af53348e89ce55be6c32269c42f4d`;
+  callback activity overlay: `p03-curated-callback-activity-proposal-01/MANIFEST.json`,
+  SHA `340033c388567d294cb471ecb741e62da0cb1f14e3f508ba4134f5afec53fa10`.
+  Static reviewed only; six authored tests unrun. These are outside the earlier204-file WIP
+  preservation set. Actual same-process acceptance source is being staged separately.
 - C2b manifest `d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`
   remains unadopted/untested. Its cooperative limits are not a hard memory/syscall bound.
 
@@ -150,7 +164,22 @@ Strict runner `component-sdk/tests/subreaper_runner.py` SHA256
 `fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875`, unchanged5s drain.
 CLI executable tests completed green. Client42 and exec73/CLI299 proof archives were
 verified before retiring their four inactive ELF paths; about2.09GB remained.
-`p03-process-final-tui-tests-01` is running (`codex-tui --lib`, one Rust job). Read actual current processes before starting another Rust command.
+`p03-process-final-tui-tests-01` finished101 at03:08:23Z after2,156.43s; rustc was killed
+with signal9 before tests. Scoped source map stayed31f82854… . Cargo908575 and compiler912290
+are absent. About592MB overlay space remained; no linker invocation was observed. Cgroup
+memory limit is16GiB; post-run shmem alone was11.14GB. OOM counters are cumulative and
+have no recorded pre-run baseline, so SIGKILL is not conclusively attributed. Do not retry
+with unchanged resource conditions. Preserve the failed run and exact compiler inputs first.
+Inactive repository Bazel service886854 required forced termination after graceful attempts;
+this is build housekeeping, not a harness cleanup pass. Rust was never signalled.
+Only the byte-verified68MB SHM duplicate of the preserved failed-client archive was removed;
+the nonidentical large TMP/SHM candidates remain intact. The inactive historical P01 CLI
+was archived with all23 members verified (archive63f59e07…), then its exact426,586,112-byte
+allocated path retired with fresh reference guards (receipt a5e0a16c…). This is VM-local
+recovery, not external binary backup. The fresh post-TUI metadata-only policy752f6689…
+identifies422 old internal cache candidates; none have been removed under that policy yet.
+Inactive generated test-plugin caches are being assessed separately. Resource receipts are in R.
+Further cache or proof-artifact actions require their new exact guards; never reuse an old list. Read actual current processes before starting another Rust command.
 Do not print raw private GUI/auth reports, environment or credentials.
 
 In-app Browser and Context7 tools are unavailable at the latest capability check. Use the labeled

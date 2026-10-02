@@ -1,0 +1,56 @@
+{
+  "schema": "p03-tui01-terminal-failure-evidence-v1",
+  "created_utc": "2026-10-02T03:15:23.771625+00:00",
+  "source_map_sha256": "31f82854bdfeffe7ec99a05ef46a9a2eaba2cacd1b2587a568e8f2be81836a73",
+  "source_entries": 8920,
+  "scoped_source_unchanged": true,
+  "started_utc": "2026-10-02T02:32:23Z",
+  "finished_utc": "2026-10-02T03:08:23Z",
+  "command": [
+    "just",
+    "test",
+    "--locked",
+    "--retries",
+    "0",
+    "--test-threads",
+    "2",
+    "-p",
+    "codex-tui",
+    "--lib"
+  ],
+  "command_returncode": 101,
+  "runner_error": null,
+  "tests_executed": 0,
+  "compiler_result": "SIGKILL signal9 while compiling codex-tui lib test",
+  "compiler_target": "codex_tui-a99243b956ddba31",
+  "cause": "Unconfirmed. High memory pressure observed; no pre-run cgroup OOM counter baseline. No root Rust signal. Not a test failure or a green run.",
+  "original_files": [
+    {
+      "path": "/workspace/acceptance/p03-process-final-tui-tests-01.source.json",
+      "bytes": 2479926,
+      "sha256": "10262a38e7e925bdb8142a927145b448e3227d0260c837bd1bd084261b6215b4"
+    },
+    {
+      "path": "/workspace/acceptance/p03-process-final-tui-tests-01.subreaper.json",
+      "bytes": 457,
+      "sha256": "4b6ef7e7033b2798ec3f019493fb5a376241d98a7ed5ed175be921462a7553b3"
+    },
+    {
+      "path": "/workspace/acceptance/p03-process-final-tui-tests-01.log",
+      "bytes": 31564,
+      "sha256": "92ffe84bd9ae474579e29e7e0ee913a3911fd2ca4da99f276ee28e38fa054651"
+    }
+  ],
+  "cgroup_memory_limit_bytes": 17179869184,
+  "post_failure_memory_events": [
+    "low 0",
+    "high 0",
+    "max 20214430",
+    "oom 9",
+    "oom_kill 4",
+    "oom_group_kill 0"
+  ],
+  "memory_event_delta_known": false,
+  "source_modified_for_retry": false,
+  "next_action": "Fresh idle current compiler-input closure and cache review; reclaim RAM/disk before distinct-prefix retry."
+}
