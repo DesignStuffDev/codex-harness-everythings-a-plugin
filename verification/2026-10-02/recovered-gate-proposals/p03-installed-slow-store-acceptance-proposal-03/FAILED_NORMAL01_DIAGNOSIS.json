@@ -1,0 +1,209 @@
+{
+  "status": "original_real_run_remains_failed_read_only_diagnosis",
+  "original_report": {
+    "path": "/workspace/acceptance/p03-process-final-slowstore-normal-01-runtime/report.json",
+    "sha256": "2124aa4136825f86cc70ae2013f35f39c5830427ffed77ea0e2068967d56eebd",
+    "bytes": 11574
+  },
+  "allowlisted_original_outcome": {
+    "passed": false,
+    "mode": "normal",
+    "error": "cold recovered history differs from observed gate outcome",
+    "manager_status": 0,
+    "shutdown_seconds": 46.494541543,
+    "durability_classification": "native_shutdown_confirmed_pending_cold_recovery",
+    "emergency_cleanup": null,
+    "held_runtime_all_tracked_processes_absent": true
+  },
+  "rollout": {
+    "path": "/workspace/acceptance/p03-process-final-migration-slowstore-normal-01-runtime/gui/codex-home/sessions/2026/10/02/rollout-2026-10-02T08-52-37-01a0fbd0-c285-72b1-a43f-2b331aadd804.jsonl",
+    "sha256": "d042f543eebc8d1c9e5fa5cc6c2c101248397828dba8fb5525784ac500158e62",
+    "bytes": 57117
+  },
+  "matching_raw_records": [
+    {
+      "ordinal": 36,
+      "rollout_type": "response_item",
+      "event_type": "message",
+      "role": "user",
+      "turn_id": null,
+      "contains_held_prompt": true
+    }
+  ],
+  "rollout_tail_types": [
+    {
+      "ordinal": 34,
+      "rollout_type": "event_msg",
+      "event_type": "task_started",
+      "role": null,
+      "turn_id": "01a0fbd0-e990-7b53-a54c-8cd58f27c724",
+      "contains_held_prompt": false
+    },
+    {
+      "ordinal": 35,
+      "rollout_type": "turn_context",
+      "event_type": null,
+      "role": null,
+      "turn_id": "01a0fbd0-e990-7b53-a54c-8cd58f27c724",
+      "contains_held_prompt": false
+    },
+    {
+      "ordinal": 36,
+      "rollout_type": "response_item",
+      "event_type": "message",
+      "role": "user",
+      "turn_id": null,
+      "contains_held_prompt": true
+    },
+    {
+      "ordinal": 37,
+      "rollout_type": "response_item",
+      "event_type": "message",
+      "role": "user",
+      "turn_id": null,
+      "contains_held_prompt": false
+    },
+    {
+      "ordinal": 38,
+      "rollout_type": "event_msg",
+      "event_type": "turn_aborted",
+      "role": null,
+      "turn_id": "01a0fbd0-e990-7b53-a54c-8cd58f27c724",
+      "contains_held_prompt": false
+    },
+    {
+      "ordinal": 39,
+      "rollout_type": "event_msg",
+      "event_type": "thread_settings_applied",
+      "role": null,
+      "turn_id": null,
+      "contains_held_prompt": false
+    }
+  ],
+  "projection_sqlite": {
+    "path": "/workspace/acceptance/p03-process-final-migration-slowstore-normal-01-runtime/gui/codex-home/thread_history_1.sqlite",
+    "sha256": "b0d898a01a3b60f7207cb8aac848853bc1403f2ba47a2e4479e183721dc50e7f",
+    "bytes": 90112
+  },
+  "projection_open_mode": "mode=ro&immutable=1 plus query_only",
+  "thread_id": "01a0fbd0-c285-72b1-a43f-2b331aadd804",
+  "projection_turns": [
+    [
+      "01a0fbd0-c2d0-71f3-98a0-6814249a3e21",
+      1,
+      "completed",
+      "item-1",
+      "item-2"
+    ],
+    [
+      "01a0fbd0-c96f-70c1-9514-96459643ec45",
+      14,
+      "completed",
+      "01a0fbd0-c9d9-7cc1-ac1d-1dfb93b75580",
+      "msg_415327ca30d845b096e9f045071b6ee6"
+    ],
+    [
+      "01a0fbd0-ccde-7200-b064-648e907a78eb",
+      25,
+      "interrupted",
+      "01a0fbd0-cd46-7013-917a-19c3c8695fb5",
+      null
+    ],
+    [
+      "01a0fbd0-e990-7b53-a54c-8cd58f27c724",
+      34,
+      "interrupted",
+      null,
+      null
+    ]
+  ],
+  "projection_items_type_and_target_match_only": [
+    [
+      "01a0fbd0-c2d0-71f3-98a0-6814249a3e21",
+      "item-1",
+      7,
+      "userMessage",
+      0
+    ],
+    [
+      "01a0fbd0-c2d0-71f3-98a0-6814249a3e21",
+      "item-2",
+      8,
+      "agentMessage",
+      0
+    ],
+    [
+      "01a0fbd0-c96f-70c1-9514-96459643ec45",
+      "01a0fbd0-c9d9-7cc1-ac1d-1dfb93b75580",
+      19,
+      "userMessage",
+      0
+    ],
+    [
+      "01a0fbd0-c96f-70c1-9514-96459643ec45",
+      "msg_415327ca30d845b096e9f045071b6ee6",
+      20,
+      "agentMessage",
+      0
+    ],
+    [
+      "01a0fbd0-ccde-7200-b064-648e907a78eb",
+      "01a0fbd0-cd46-7013-917a-19c3c8695fb5",
+      30,
+      "userMessage",
+      0
+    ]
+  ],
+  "projection_offset_ordinal": [
+    [
+      57117,
+      40
+    ]
+  ],
+  "read_inputs_unchanged": true,
+  "source_anchors": [
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server-protocol/src/protocol/thread_history_projection.rs",
+      "sha256": "4e7ce1f47307f15476ccf571a1ff4423acb96715e49a10cc3ec316b8dd776bca",
+      "bytes": 4634
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/core/src/session/mod.rs",
+      "sha256": "fdbf6cdfc1abd762c7a7740f32305b87c7ef9d50ecb4679153e3f53de4b2e20c",
+      "bytes": 206733
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/app-server/src/request_processors/thread_processor.rs",
+      "sha256": "538087048b1ad5a2c8204f8c53c9f7264f93674f9e90905616a458af719ffa23",
+      "bytes": 253050
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store/src/local/thread_history.rs",
+      "sha256": "17ad5324e824778e5b706362eb45d212225c442f55777ae86e8a8c6c9b1f4956",
+      "bytes": 20000
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/examples/desktop/desktop_ui/static/app.js",
+      "sha256": "26a05ef49118a1283c158c19b6ef48482bdca4aeb21d0024b910b3f3cbd41c98",
+      "bytes": 16040
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/protocol/src/items.rs",
+      "sha256": "9beedaaebaf8812ece5907cef9bb3f99e104df26770a888e888b987ac3e4b96e",
+      "bytes": 28494
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/protocol/src/protocol.rs",
+      "sha256": "d3d3d384da91b2824c10091de4331a2bc26ec5474887ed0aef1e3f3c4ae110f4",
+      "bytes": 234299
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-host/src/session_wire/codec.rs",
+      "sha256": "791349fa4a52a6183c94e3f50ceb5d6dfeadfba44b19327d060a87619ea9966a",
+      "bytes": 2224
+    }
+  ],
+  "conclusion": "The raw response-item write survived; canonical ItemCompleted(UserMessage) was not emitted before interruption. Paginated projection deliberately ignores ResponseItem, so cold GUI lacks this prompt. Do not call this a storage write loss or fix it by only adding a UI wait.",
+  "unfixed_gap": "P07 reconstruction and P16 events/client projection, with P14 turn atomicity: response-only interrupted input missing from canonical GUI history",
+  "tests_or_reruns_executed": false
+}

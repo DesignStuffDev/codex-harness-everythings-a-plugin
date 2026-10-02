@@ -1,0 +1,86 @@
+--- a/held_production_host.py
++++ b/held_production_host.py
+@@ -393,6 +393,13 @@
+         self.ready, self.git_seen = threading.Event(), threading.Event()
+         self.stop_ns, self.held, self.events = None, 0, []
+         self.git_failures = 0
++        # Exactly one independently observed startup service is permitted here:
++        # the featured-plugin warmup targets chatgpt.com in parallel with Git.
++        # Its request path remains encrypted/unattributed; it never proves
++        # target Git/API readiness or native component ownership.
++        self.auxiliary_started = 0
++        self.auxiliary_held = 0
++        self.auxiliary_peer_eof = 0
+         self.server = LoopbackServer(self.handle)
+ 
+     def record(self, name):
+@@ -401,6 +408,9 @@
+     def handle(self, server, conn):
+         method, authority, _, extra = server.request(conn)
+         require(method == b"CONNECT" and not extra, "unexpected_proxy_request")
++        if authority == b"chatgpt.com:443":
++            self.hold_auxiliary_connect(server, conn)
++            return
+         if authority not in (b"github.com:443", b"api.github.com:443"):
+             # Diagnostics only: preserve the exact rejection below. Never
+             # serialize raw authority, headers, credentials, body or endpoints.
+@@ -461,6 +471,33 @@
+             with self.lock:
+                 self.held -= 1
+ 
++    def hold_auxiliary_connect(self, server, conn):
++        # Separate bounded observation; no response, forwarding, readiness or
++        # Git-failure bookkeeping is performed by this branch.
++        with self.lock:
++            require(self.stop_ns is None, "auxiliary_request_after_stop_trigger")
++            require(self.auxiliary_started < 1, "auxiliary_connection_count_exceeded")
++            self.auxiliary_started += 1
++            self.auxiliary_held += 1
++            self.record("auxiliary_chatgpt_connect_held")
++        deadline = time.monotonic() + READY + OUTER
++        try:
++            while not server.stop.is_set():
++                require(time.monotonic() < deadline, "auxiliary_connect_hold_budget_exceeded")
++                try:
++                    data = conn.recv(1)
++                except socket.timeout:
++                    continue
++                require(not data, "unexpected_bytes_while_auxiliary_connect_held")
++                with self.lock:
++                    self.auxiliary_peer_eof += 1
++                    self.record("auxiliary_chatgpt_peer_eof")
++                return
++            raise AcceptanceError("auxiliary_connect_released_without_peer_eof")
++        finally:
++            with self.lock:
++                self.auxiliary_held -= 1
++
+     def trigger(self):
+         with self.lock:
+             require(self.held > 0, "held_transport_gone_before_trigger")
+@@ -472,6 +509,11 @@
+         with self.lock:
+             return {"mode": self.mode, "held_connections": self.held,
+                     "events": list(self.events), "git_502_count": self.git_failures,
++                    "auxiliary_connection_limit": 1,
++                    "auxiliary_started": self.auxiliary_started,
++                    "auxiliary_held_connections": self.auxiliary_held,
++                    "auxiliary_peer_eof": self.auxiliary_peer_eof,
++                    "auxiliary_request_path_attributed": False,
+                     "errors": list(self.server.errors)}
+ 
+ 
+@@ -642,9 +684,12 @@
+         receipts.validate()
+         # This tail only observes peer EOF; it never releases a held connection.
+         eof_deadline = time.monotonic() + 1
+-        while proxy.report()["held_connections"] and time.monotonic() < eof_deadline:
++        while (proxy.report()["held_connections"] or proxy.report()["auxiliary_held_connections"]) and time.monotonic() < eof_deadline:
+             time.sleep(0.01)
+         require(proxy.report()["held_connections"] == 0, "held_connection_live_after_host_exit")
++        require(proxy.report()["auxiliary_held_connections"] == 0, "auxiliary_connection_live_after_host_exit")
++        require(proxy.report()["auxiliary_started"] == proxy.report()["auxiliary_peer_eof"],
++                "auxiliary_connection_peer_eof_missing")
+         require(not proxy.server.errors and (not model or not model.server.errors), "fixture_protocol_failed")
+         require(not sampler.errors and bool(sampler.rows), "trusted_git_observation_missing")
+         report["curated_runtime_gates_passed"] = True

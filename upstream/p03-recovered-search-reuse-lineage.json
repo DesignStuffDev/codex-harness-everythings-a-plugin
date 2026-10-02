@@ -1,0 +1,65 @@
+{
+  "schema": "p03-sdk-search-reuse-lineage-v1",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "native_lineage": "upstream/p03-process-final-lineage.json",
+  "native_changes_in_this_supplement": false,
+  "files": [
+    {
+      "path": "component-sdk/tests/gui_selected_search_acceptance.py",
+      "classification": "custom_acceptance_sdk_not_native_extraction",
+      "upstream_origin": null,
+      "parent_commit": "f122aed5fdf93e0afe0669d2022046c2749bd4b8",
+      "parent_blob": "36af13529c1b437893c3e66a1c243cdcabed4acf",
+      "before": {
+        "sha256": "022ba819b9ec4754524be4136d243d68dc97488a28e49769d120ffb018d33161",
+        "bytes": 11929
+      },
+      "after": {
+        "sha256": "ba4396623cbf094ea8cd9bb1f367ed3c5d30e443cbb771f4f4b565805670c81b",
+        "git_blob": "477a0a35d5f85dd108799748fc9ba1e2ca860113",
+        "bytes": 13787
+      }
+    },
+    {
+      "path": "component-sdk/tests/p01_gui_acceptance.py",
+      "classification": "custom_acceptance_sdk_not_native_extraction",
+      "upstream_origin": null,
+      "parent_commit": "f122aed5fdf93e0afe0669d2022046c2749bd4b8",
+      "parent_blob": "385f388ade50c212579c904ab9b1734ebcda3988",
+      "before": {
+        "sha256": "68c1df79a54070f91910c794066dde5908667c7b8f2015e8b4780f8688043932",
+        "bytes": 35100
+      },
+      "after": {
+        "sha256": "f21b7395210e103f0226946b6dd18cbaabb0482d5e469ff5bc9e3dd156d36e97",
+        "git_blob": "633f6bc2ca1937a89bf113ec696383f44252b310",
+        "bytes": 35644
+      }
+    },
+    {
+      "path": "component-sdk/tests/test_gui_selected_search_acceptance.py",
+      "classification": "custom_acceptance_sdk_not_native_extraction",
+      "upstream_origin": null,
+      "parent_commit": "f122aed5fdf93e0afe0669d2022046c2749bd4b8",
+      "parent_blob": null,
+      "before": null,
+      "after": {
+        "sha256": "013a6ebf9dc906bcedbe4aeea9c4c0f6ae9de2f98f280f6a47cf7893d01cd5a7",
+        "git_blob": "f7bd84cb0cd04d62dc7cba96a09425f74ff4967b",
+        "bytes": 6847
+      }
+    }
+  ],
+  "contract": "Explicit optional original-proof SHA permits unchanged independently built selected-search package on a newly built host. Preserve default original-manager validation. Reuse never counts as a new independent plugin build.",
+  "invariants": [
+    "Original proof must be original independent build, never nested reuse",
+    "Complete package inventory and modes remain fixed",
+    "Original proof and source-parking inventory verified",
+    "Current manager and selected package unchanged across install and two GUI cycles",
+    "Strict descendant runner unchanged"
+  ],
+  "evidence": "verification/2026-10-02/P03_RECOVERED_HOST_EVIDENCE.md",
+  "current_build_source_map": "verification/2026-10-02/P03_RECOVERED_HOST_SOURCE_MAP.json",
+  "normalized_index_advanced": false,
+  "maintenance_impact": "Acceptance contract changes must be preserved when upstream APIs change. This is impact metadata, not implemented maintenance or later-upstream integration."
+}

@@ -15,8 +15,16 @@ from file_search.acceptance_support import fingerprint, inventory, require, same
 PLUGIN = "native.file-search-local"
 
 
-def validate_build(proof_path, host):
+def validate_build(proof_path, host, *, reuse_proof_sha256=None):
     proof_path = proof_path.resolve(strict=True)
+    proof_before = fingerprint(proof_path)
+    if reuse_proof_sha256 is not None:
+        require(
+            len(reuse_proof_sha256) == 64
+            and all(char in "0123456789abcdef" for char in reuse_proof_sha256)
+            and proof_before["sha256"] == reuse_proof_sha256,
+            "reused independent build report differs from its reviewed SHA-256",
+        )
     proof = json.loads(proof_path.read_text())
     require(
         proof.get("passed") is True
@@ -40,10 +48,16 @@ def validate_build(proof_path, host):
         "exported worker source paths or inventory changed",
     )
     require(
-        proof["frozen_binaries_before"] == proof["frozen_binaries_after"]
-        and fingerprint(host) == proof["frozen_binaries_before"]["manager"],
-        "manager differs from the frozen independent-build manager",
+        proof["frozen_binaries_before"] == proof["frozen_binaries_after"],
+        "original independent-build binaries changed during the build",
     )
+    if reuse_proof_sha256 is None:
+        require(
+            fingerprint(host) == proof["frozen_binaries_before"]["manager"],
+            "manager differs from the frozen independent-build manager",
+        )
+    # Explicit reuse preserves the old build record and its package; the current
+    # manager/CLI are bound by the fresh migration and full GUI runtime reports.
     package = Path(proof["package_path"]).resolve(strict=True)
     require(package == artifacts / "package", "unexpected independent package path")
     require(inventory(package) == proof["package_files"], "search package changed")
@@ -68,7 +82,29 @@ def validate_build(proof_path, host):
         ),
         "packaged worker differs from the independently compiled binary",
     )
+    require(
+        fingerprint(proof_path) == proof_before,
+        "independent build report changed during validation",
+    )
     return proof_path, proof, package, manifest
+
+
+def verify_inputs(host, evidence):
+    """Recheck original proof/package provenance after installation and UI use."""
+    require(
+        fingerprint(host) == evidence["frozen_manager"],
+        "runtime manager changed after search installation",
+    )
+    require(
+        fingerprint(Path(evidence["build_report"]))
+        == evidence["build_report_fingerprint"],
+        "independent build report changed during GUI acceptance",
+    )
+    validate_build(
+        Path(evidence["build_report"]),
+        host,
+        reuse_proof_sha256=evidence["reuse_proof_sha256"],
+    )
 
 
 def claim_fixture(manual_path, manual, fixture, work, build_fingerprint):
@@ -148,9 +184,21 @@ def install(
     owner_type,
     drain_subreaper,
     evidence,
+    *,
+    reuse_proof_sha256=None,
 ):
-    proof_path, proof, package, manifest = validate_build(proof_path, host)
+    proof_path, proof, package, manifest = validate_build(
+        proof_path, host, reuse_proof_sha256=reuse_proof_sha256
+    )
     evidence.update(
+        evidence_kind=(
+            "reused_package_new_host"
+            if reuse_proof_sha256 is not None
+            else "independent_package_original_host"
+        ),
+        new_independent_build=False,
+        reuse_proof_sha256=reuse_proof_sha256,
+        original_build_binaries=proof["frozen_binaries_before"],
         backend="selected external native.file-search-local through real App Server fuzzyFileSearch",
         build_report=str(proof_path),
         build_report_fingerprint=fingerprint(proof_path),
@@ -268,6 +316,7 @@ def install(
         fingerprint(host) == evidence["frozen_manager"],
         "manager changed during install",
     )
+    verify_inputs(host, evidence)
     return worker
 
 

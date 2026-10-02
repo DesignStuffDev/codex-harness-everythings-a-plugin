@@ -1,0 +1,25 @@
+# Slow04: correct the lossless storage transport selector
+
+Staged only. No checkout/native changes, installation, tests, browser session, or runtime rerun were performed by this worker. Root must independently review the codec chain before executing COMMANDS.json. All outputs and migration homes are fresh04 names. Keep original proposals01/02/03 and failed real runs01/03 unchanged.
+
+## Why03 failed and what changes
+
+Root reported actual normal03 failed before the gate's60-second readiness timeout, with no SIGINT. The staged03 selector and its five unit/eleven Python-peer synthetic checks used persisted rollout JSON (`type`/`payload`), not the lossless ThreadStore v2 transport. Their synthetic passes did not establish real wire compatibility. This is an acceptance-fixture error; the failed run remains failed. The new worker did not inspect private runtime URLs or infer new runtime results.
+
+Current source explicitly states that component codecs differ from persisted/provider JSON. The outer StorageRequest enum is snake_case `append_items`; its items use RolloutWire::EventMsg -> EventMsgWire::ItemCompleted -> TurnItemWire::UserMessage -> UserInputWire::Text, each with an external variant tag. WIRE_SHAPE.json records exact source hashes, locations, and the complete intended field shape. UserMessage also has client_id; ItemCompleted has started_at_ms/completed_at_ms. The fixture selector reads only the fields necessary to identify the exact canonical message and is not a full deserializer, authorization mechanism, or contract implementation.
+
+Slow04 corrects only that predicate and the hand-authored synthetic payloads/tests. Raw response passthrough now uses the lossless ResponseItem/EnvelopeWire/Message nesting. A separate persisted-format negative case explicitly catches the03 mistake. Exact external enum wrappers reject multiple tags and hybrid persisted/wire representations. Wrong variants, wrong thread, empty IDs, prompt substring/trailing characters, arbitrary metadata containing the prompt, multipart/nontext content, and missing text_elements do not gate.
+
+The entire installed_slow_store_acceptance.py is byte-identical to03. The relay suffix from the95-second held-request deadline through native forwarding, directional task observation, process wait, and cleanup is byte-identical. Earlier original01 negative-control relay, strict subreaper runner, manager signal path, native package and binary fingerprints are unchanged. No native semantic bug is declared fixed.
+
+## Validation sequence and limits
+
+COMMANDS.json stages8 selector unit tests and12 Python-peer synthetic cases (positive hold,8 negatives, clean EOF, late input error, preserved original negative control). These are authored, AST-parsed, and unrun by this worker. Python peers do not validate against the Rust serializer/deserializer and must never be reported as that proof. Each actual run must reach accepted.json from the current real host, with canonical turn/item IDs, before the unchanged driver sends SIGINT. Failure to match is another failed fixture run, not grounds to change the timeout or bypass the gate.
+
+After root review and passing focused fixture checks, create separate fresh normal04/forced04 manual migration homes. Run actual normal04 and forced04 under the unchanged strict subreaper. Before each command verify all final04 manifest entries, original independent storage proof/package, current58 source manifest, build02 source/binary receipts, exact CLI/manager hashes, and no-clobber output paths. Use existing privately configured TMPDIR/Chromium settings; no network/proxy/credential changes. COMMANDS.json retains source bindings and uses fresh output prefixes; the old run-plan printer still pins02 and must not be reused.
+
+Normal acceptance is still a46-second held canonical append after actual component-manager Launch shutdown acknowledgment, clean manager/native exit, acknowledged append and native shutdown, all directional results observed, no tracked descendants including zombies, cold GUI history recovery, and another completed turn. Forced acceptance still requires second interrupt, nonzero exit and reported durability uncertainty, no forwarded canonical append, no emergency rescue, absent tracked descendants, and cold UI absence of the held canonical item. Earlier raw response input may already be durable in forced mode; its absence is not claimed.
+
+Admission remains at the installed test relay before native forwarding, not inside native StorageService. These checks do not establish an App Server watchdog-origin outcome. Chromium/Playwright is a real browser fallback, not the requested in-app Browser. Existing deterministic model fixtures are not live-provider inference.
+
+The original normal01 response-only interrupted-input projection gap remains under P07 reconstruction/P16 events and P14 turn atomicity. Correcting this selector neither fixes that gap nor excuses its failed cold-GUI assertion. No ledger source change, root checkpoint, test result, or success is manufactured here.

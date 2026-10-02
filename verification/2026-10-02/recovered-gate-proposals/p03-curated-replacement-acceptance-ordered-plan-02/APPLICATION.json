@@ -1,0 +1,227 @@
+{
+  "status": "ordered_read_only_plan_all_units_unadopted_uncompiled_unrun",
+  "base_manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-process-final-search-reuse-source.json",
+    "sha256": "5e476a930d92284e0b827c7cbec247b97ba21976519a7ad31bba060747ac3094",
+    "bytes": 16236
+  },
+  "previous_ordered_plan": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-acceptance-ordered-plan-01/APPLICATION.json",
+    "sha256": "8548f3654c3a254e46ddba5f6eb496c457f5bfbe63275238e7a1428caca25c26",
+    "bytes": 6975
+  },
+  "original_plan_preserved": true,
+  "ordered_units": [
+    {
+      "order": 1,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01",
+      "manifest_sha256": "09f621f1a67105a6794894f441322f92bc2af53348e89ce55be6c32269c42f4d",
+      "patch": "proposal.patch",
+      "patch_sha256": "1358dc7cab61d39da5ae2c9bc450a3f02225b983052cc2f224242c3a53c1a6b7",
+      "changed_lines": 293,
+      "files": [
+        {
+          "path": "codex-rs/core-plugins/src/manager.rs",
+          "preimage_sha256": "2b9ae53b2aafd775cbb0e6d81d6a38360725bac0bc8ae93c229b477bedb840b7",
+          "preimage_bytes": 152368,
+          "proposed_sha256": "66872cbfe74d53c08a27d7c4b3bebbed49f5ac53f363fa99a37928be11d6e280",
+          "proposed_bytes": 152964
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+          "preimage_sha256": "c6695dca12309ad65f55d51291a26a43505fd65280186d80f2d3424e6884a783",
+          "preimage_bytes": 11762,
+          "proposed_sha256": "a19162ea7789b879dcdf2747676c0821738960e83f4e136ac26164702befe0cc",
+          "proposed_bytes": 11825
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/worker_observation.rs",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "proposed_sha256": "b7d8a9df80210d989a48068fd2bbf9015c0b1da80da8b5512e2a8e246e981355",
+          "proposed_bytes": 3672
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "proposed_sha256": "2940c95648e2df470a2f92d14117af4fdc3718932d3afbb83cbac6e05ae7a240",
+          "proposed_bytes": 8792
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync.rs",
+          "preimage_sha256": "28bff2dee620b35f52d50d4b10303aa05948e58255ff66cbfb79e74898cb6a45",
+          "preimage_bytes": 45097,
+          "proposed_sha256": "aee146ea6e2b0b6002b79935844e81b59e2ff8c7e2d8c6392ff7810208d3483e",
+          "proposed_bytes": 45221
+        }
+      ],
+      "original_order": 1
+    },
+    {
+      "order": 2,
+      "label": "release-acknowledgment-overlay",
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-observation-release-correction-proposal-01",
+      "manifest_sha256": "019ee6c4cbacb19e0aeaac00d78b4331256f4181980c165c5bea14b283ec71b4",
+      "patch": "proposal.patch",
+      "patch_sha256": "27c9b93a8eb733a209ea4e80b8f546da3680248b0836560883b919861b170675",
+      "changed_lines": 5,
+      "files": [
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs",
+          "preimage_sha256": "2940c95648e2df470a2f92d14117af4fdc3718932d3afbb83cbac6e05ae7a240",
+          "preimage_bytes": 8792,
+          "preimage_git_blob_sha1": "465cc1b61cc79cb30ceb00d004966083e463d719",
+          "proposed_sha256": "4de9e72dbaca94a990592239a8e55549aab5821de90a3aa920ce54a8341a1528",
+          "proposed_bytes": 8868,
+          "proposed_git_blob_sha1": "7ebbdb6b989e0f83331ac97c609e18f716a91dcb"
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-callback-activity-proposal-01",
+      "manifest_sha256": "340033c388567d294cb471ecb741e62da0cb1f14e3f508ba4134f5afec53fa10",
+      "patch": "proposal.patch",
+      "patch_sha256": "728c8cf04833f713c4478244ca8c3198f5ea87b7aacee790ab7f12e540076a75",
+      "changed_lines": 159,
+      "files": [
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/callback_activity.rs",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "proposed_sha256": "7da83199a1f51ea64e395ce7cd0a21920dd7418104001e80e58a17e4bb4507c0",
+          "proposed_bytes": 2534
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "proposed_sha256": "004acff87fd35e29ff2ee308aebf52dc1886afe5271db7f2d080dfd3e188eab0",
+          "proposed_bytes": 3905
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync/callback_scope.rs",
+          "preimage_sha256": "9ef2402b1be63556d9f1b5409d5883a5d0e0842cf6b8bf0507502d99f1303dae",
+          "preimage_bytes": 13170,
+          "proposed_sha256": "7db4cc7ef62299a7fb2b698e5891512d9a7f1ad6906dcba0fb3634a96f77d122",
+          "proposed_bytes": 13229
+        },
+        {
+          "path": "codex-rs/core-plugins/src/startup_sync.rs",
+          "preimage_sha256": "aee146ea6e2b0b6002b79935844e81b59e2ff8c7e2d8c6392ff7810208d3483e",
+          "preimage_bytes": 45221,
+          "proposed_sha256": "e0029ec20810e9ac0fa538976d9befedfbb488382936dd1f22d9bf0b97e943d4",
+          "proposed_bytes": 45280
+        }
+      ],
+      "original_order": 2
+    },
+    {
+      "order": 4,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01",
+      "manifest_sha256": "afb5820fc67def3799ee9d2220cb3936f7370bd3a202b6e5524a8181060de334",
+      "patch": "01-native-child.patch",
+      "patch_sha256": "bba77f6ab2f59115bd0302ae4b83873b7ce5ed9b014c60239e9386ee7ae56879",
+      "changed_lines": 554,
+      "files": [
+        {
+          "path": "codex-rs/app-server/src/in_process.rs",
+          "preimage_sha256": "4e712f2dbef027d1b337100a6c372f4b5aee23bf5df1e34f67dba1a6b0bc56be",
+          "preimage_bytes": 54434,
+          "preimage_git_blob_sha1": "2ad389cfb1fd407077918faa82f28565add0f3f3",
+          "proposed_sha256": "8982a538f66809f340c9a5683f4f213501a302613e66f4fb567f1c40291f7838",
+          "proposed_bytes": 54557,
+          "proposed_git_blob_sha1": "84f1052f3d1464f3252c6a94257e868d962b7470"
+        },
+        {
+          "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "preimage_git_blob_sha1": null,
+          "proposed_sha256": "ca8d0f8eda37f77415b1e4d8e4e8ff5ce9d110648a7fec4dac388a975bace0c2",
+          "proposed_bytes": 27769,
+          "proposed_git_blob_sha1": "70a1b254eea8ad04ede8a4f4a8e1ced7123b7282"
+        }
+      ],
+      "original_order": 3
+    },
+    {
+      "order": 5,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01",
+      "manifest_sha256": "afb5820fc67def3799ee9d2220cb3936f7370bd3a202b6e5524a8181060de334",
+      "patch": "02-sdk-parent.patch",
+      "patch_sha256": "f68cb11c55fea9b58ed1546345c68f2c4de8d27b59ab837e4b6acac85e352171",
+      "changed_lines": 561,
+      "files": [
+        {
+          "path": "component-sdk/tests/curated_replacement_acceptance.md",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "preimage_git_blob_sha1": null,
+          "proposed_sha256": "bbde7ac9bec81e90339c606408aa73548f44bdc7415f462ac46441b92e5d8c5b",
+          "proposed_bytes": 6556,
+          "proposed_git_blob_sha1": "0b774194c4988657c6d618e47fc23d50e6685b28"
+        },
+        {
+          "path": "component-sdk/tests/curated_replacement_acceptance.py",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "preimage_git_blob_sha1": null,
+          "proposed_sha256": "0f969ecc2a5264e1d4ec9cc58d914a39754af080e256ee3d7d9af50fac701ad3",
+          "proposed_bytes": 27002,
+          "proposed_git_blob_sha1": "cc042a0c61d64b398b2b7ed900b1ae763e9ca8b4"
+        }
+      ],
+      "original_order": 4
+    }
+  ],
+  "stages": [
+    {
+      "stage": 1,
+      "units": [
+        1,
+        2,
+        3
+      ],
+      "description": "Native and callback copy-only observations plus strict replay-test release",
+      "changed_lines": 457,
+      "scoped_test": [
+        "just",
+        "test",
+        "-p",
+        "codex-core-plugins",
+        "--lib"
+      ]
+    },
+    {
+      "stage": 2,
+      "units": [
+        4
+      ],
+      "description": "Real same-process native child and test module wiring",
+      "changed_lines": 554,
+      "scoped_test": [
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--lib"
+      ]
+    },
+    {
+      "stage": 3,
+      "units": [
+        5
+      ],
+      "description": "Parent acceptance fixture and docs; then bind fresh child ELF and execute actual acceptance",
+      "changed_lines": 561,
+      "scoped_test": null
+    }
+  ],
+  "prohibited_now": [
+    "Do not adopt while current58 runtime/checkpoint is active",
+    "No source proof transfer from current58 to new native source",
+    "No direct cargo test, broad suite, altered strict drain, source reset, new checkout or environment change"
+  ]
+}

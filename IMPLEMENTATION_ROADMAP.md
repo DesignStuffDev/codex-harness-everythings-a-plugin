@@ -1,6 +1,11 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
+Current runtime checkpoint: original VM recovered; current58 build, installed storage/migration,
+ordinary/search GUI and slow normal/forced Launch shutdown passed. Held Git/HTTP and same-process
+replacement remain in P03; this is not another extracted subsystem. See the
+[exact evidence and limits](verification/2026-10-02/P03_RECOVERED_HOST_EVIDENCE.md).
+
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical
 [COMPONENTS.md](COMPONENTS.md), [VALIDATION.md](VALIDATION.md), and the domain plans
@@ -1104,3 +1109,20 @@ the updater, or satisfy any current-source runtime gate. No live update/polling 
 Original-executor startup now fails before terminal tools are exposed, despite connected status
 metadata. Follow EXECUTION_STATE.md recovery first; current production build01 ENOSPC is the last
 recorded result. Keep P03 runtime/MCP/publication-recovery gates and P18U integration/rollback open.
+
+### Recovered current58 host checkpoint — 2026-10-02
+
+This supersedes earlier executor/ENOSPC blockers and historical "latest source922" statements.
+The original source and archives were verified; exact guarded cache retirement enabled the
+production build. Current58 binds8,921 files and unchanged native candidate bytes. Three SDK
+acceptance changes explicitly permit reuse of an originally independently built search package
+on a newer immutable host, without relabeling reuse as a new independent build. Installed storage,
+manual migration, ordinary/search GUI and slow installed-storage normal/forced Launch gates passed.
+The real GUI used Chromium with deterministic inference; in-app Browser remains unavailable.
+
+P03 next actions are the remaining held Git/HTTP native ownership matrix, same-process A→B
+replacement, MCP custody, TUI/integration/lint/format checks and crash-safe publication. Preserve
+the raw-input-without-UI-event interrupted-history gap as P07/P16/P14 work. The complete evidence,
+retained failed attempts and next action live in EXECUTION_STATE.md and the recovered-host report.
+P04–P19/P18U retain their scope; no upstream integration/rollback acceptance or whole-host clean
+claim follows from these bounded passes.

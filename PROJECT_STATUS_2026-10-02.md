@@ -4,32 +4,37 @@ The project is a working partial component platform, with three bounded native f
 
 This checkpoint distinguishes published source, completed tests of the newer working candidate, and proposals awaiting adoption. It does not promote the candidate to main or transfer an older runtime result to newer source.
 
-## Latest continuation: source mapping advanced; execution remains blocked
+## Current recovery and development checkpoint
 
-Supported startup of this same cloud environment failed before terminal tools became available:
-`failed to query executor configuration capabilities`. Connected status metadata does not
-establish a recovered filesystem. No fresh build or runtime check ran.
+The original VM and source are recovered and verified. Full-source and test-fixture archives
+match their saved checksums; the temporarily relocated archive is restored. Carefully bounded
+cache retirement recovered enough space for the actual CLI/manager build, which passed on the
+current58 source cohort. The earlier ENOSPC, compiler SIGKILL and connection failures are retained
+as historical evidence, not current executor blockers. No replacement VM or checkout was used.
 
-Independent provenance work is now recorded in the [P03 source-impact audit](verification/2026-10-02/P03_PROCESS_FINAL_LINEAGE_AUDIT.md):
-56 current candidate paths match the frozen manifest;31 existing upstream paths match direct
-official pinned-revision reads;56 selected literal anchors and eight semantic review groups
-identify the affected contracts and consumers. This improves maintenance inputs without claiming
-normalized-index closure, updater implementation or another extracted component.
+Current-host runtime gates now pass for independently installed thread storage, manual migration,
+ordinary GUI and independently installed-search GUI, plus deliberately slow normal and forced
+launcher shutdown. Normal slow shutdown waited46.469 seconds and recovered the canonical event
+in a cold GUI. Forced shutdown exited nonzero with durability explicitly unknown; all tracked
+processes were absent. These are real CLI/App Server/Chromium runs with deterministic inference.
+They are not live-provider or in-app Browser proof, nor proof of complete host cleanup.
 
-## Latest execution blocker and recovery
+Three SDK acceptance files now support explicit, hash-pinned reuse of a previously independently
+built search package with a newer unchanged host. That is test infrastructure, not a new extracted
+engine component. The complete tested source map, executable hashes, failed attempts and precise
+limits are in [the recovered-host report](verification/2026-10-02/P03_RECOVERED_HOST_EVIDENCE.md).
+Current priorities remain the held Git/HTTP cleanup matrix, same-process replacement, exact MCP
+custody and recoverable publication before the next native auth/catalog extraction.
 
-The production CLI/manager rebuild subsequently failed with **disk exhaustion**, before any
-new host/runtime checks. This is separate from the earlier TUI test-target compiler SIGKILL.
-The scoped-source wrapper recorded no source changes. Six native suites total **1,636 executed
-passes**, but the latest actual full-host/GUI proof still belongs to older source922.
 
-The cloud terminal then disconnected. The same task-bound VM now reports running/connected
-in status metadata, but terminal creation still fails its connection handshake. Saved files
-have **not** been reverified after this interruption. No replacement VM or checkout was created.
-This documentation update uses the GitHub connector; local ledger synchronization is pending.
-One generated-test-fixture archive is temporarily in RAM-backed `/tmp` and needs verification
-and restoration. The primary full-source archive was not moved. See the
-[precise recovery note](verification/2026-10-02/P03_PRODUCTION_BUILD01_AND_EXECUTOR_RECOVERY.md) for preservation facts and next actions.
+**Held-host03 terminal result:** four real Git-held cases passed all native ownership, independent
+executable-observation and strict descendant checks (exec success/error; App Server EOF/SIGTERM).
+The fifth Git-failure→HTTP-held case passed its local native/strict checks, but the independent
+sampler missed the short-lived Git executable. Its parent gate failed; it is not counted passed.
+Three remaining cases did not run. No forced fixture cleanup occurred in these five cases.
+The matrix remains failed/incomplete, and MCP/session ownership remains separately unverified.
+See [sanitized exact receipts](verification/2026-10-02/P03_RECOVERED_HELD_HOST03.json). A bounded
+positive-observation handshake is being reviewed; do not bypass the independent observer check.
 
 ## Published checkpoints and current work
 
@@ -39,11 +44,11 @@ Repository: [DesignStuffDev/codex-harness-everythings-a-plugin](https://github.c
 | --- | --- |
 | Verified main | `781080f7e3c8bfe1953378001d777dff33d74bc3`; native installer implementation remains source `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`. |
 | Published development branch | `work/p03-curated-sync-lifecycle` at `ba87799c2e9ab821a326f10715c11cf6ec256896`. Includes the callback source milestone with 953 library tests, lint and reviewed formatting; no fresh full-host result for that source. |
-| Latest actual rebuilt-host runtime | Native source `92212516ad4d12bcf60546ee5f879b983ed44682`, runtime evidence publication `2ac44529d0dfa261c6d2a09005a34b3ee22754ed`. This predates the later completion/callback/process-final changes. |
-| Current working candidate | 56-path process-final/replacement candidate, preserved as unfinished WIP, tested virtual tree `1da290682fc6ddd00994c2af7eac9018c8143dea`, before subsequent documentation edits. Six completed native suites are recorded below. |
+| Latest actual rebuilt-host runtime | Current58 source map `15e9a44f54f414972eff02de9cd4afdfa5f900263d46b69a96119499779c136b`; CLI SHA256 `d716c6ee9c738c2db9197fbb2ab91d3918839d0b6d32f4556e8a7e1fa2717a92`. Exact evidence below. Historical source922 remains separate. |
+| Current working candidate | The same56-path native candidate plus three SDK edits (two shared old paths, one new path), yielding58 changed paths and8,921 scoped source files. Historical native suites remain explicitly bound to their original cohort. |
 | Verified source preservation | `wip/p03-process-final-and-mcp-preservation-20261002`: active candidate and204 inert proposal files preserved at `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`; latest source-preservation checkpoint `1f808b9fcac8fc2f548b73bc0e486459bc9c59ce` adds45 inert observation/callback/replacement-acceptance files and manager evidence. All changed blobs were read back. This later documentation update adds no native implementation and does not mark WIP accepted. |
 
-The original checkout, sibling worktree, failed evidence, proposal history and frozen GUI were retained at the last usable terminal observation; post-disconnection filesystem/runtime survival is not yet reverified. VM-local recovery archives are not external backups. External durability applies only to files actually included in verified published GitHub commits.
+The original checkout, sibling worktree, failed evidence, proposal history, archives and frozen GUI were reverified after recovery. VM-local recovery archives are not external backups. External durability applies only to files actually included in verified published GitHub commits.
 
 ## Native functionality actually separated
 
@@ -69,9 +74,26 @@ GUI evidence uses Chromium/Playwright and deterministic inference fixtures. In-a
 
 ## What has actually passed
 
-**Latest full runtime remains source922.** A fresh CLI build passed in 6m 25s with matching source maps and executable fingerprints. Existing independently built storage/search packages were reused unchanged. The recorded gates passed 13 storage commands, 10 migration commands and two cold GUI cycles, each with strict runner exit 0 and no runner error. GUI covered streaming, shell approval, cancellation, recovery, continuation, search insertion and actual manager SIGINT during an active turn. Manager shutdown took about 0.265 seconds, with tracked processes absent and no forced cleanup.
+**Current58 has real rebuilt-host proof.** The production build completed in about75 seconds,
+with unchanged8,921-file before/after maps and exact executable hashes. Storage passed13 recorded
+behavior assertions; each migration gate passed10 commands. Ordinary and installed-search GUI
+modes each passed two cold cycles with streaming, shell approval, cancellation, continuation,
+search insertion and actual manager SIGINT. Ordinary shutdown took about0.265–0.268 seconds,
+with tracked processes absent and no emergency cleanup. All successful checks use the unchanged
+strict runner with exit0 and no drain error; adopted statuses are reported individually, not
+assumed allzero. Reused packages retain original independent-build evidence.
 
-Those fast runs do not prove deliberately held Git/HTTP cleanup or cleanup exceeding the old 45-second watchdog. Source922 lacked the later production stop/join/callback contract. Earlier source99 runs with surviving Git/HTTPS descendants remain failed evidence. Source922 also recorded adopted Git SIGPIPE exits; it is not an all-children-exited-zero result.
+Eight selector and12 synthetic wire checks preceded the separate real slow normal/forced runs.
+Normal shutdown crossed the old45-second limit and recovered the held canonical UI event; forced
+termination reported uncertainty. The relay holds before native storage admission, so this is
+not a native durability-admission or exact App Server watchdog-onset test. Slow01's raw-input/UI
+projection gap remains unfixed; slow03's incorrect wire selector timeout remains failed evidence.
+The held Git/HTTP matrix has no pass yet:01/02 failed before complete readiness on a separately
+observed auxiliary ChatGPT CONNECT. Corrections retain exact transport/descendant assertions.
+
+Historical source922 runtime evidence and earlier source99 surviving-Git failures remain separate.
+Their successful builds/tests do not establish the behavior of later source. Current runtime uses
+real Chromium/Playwright with deterministic inference, not live inference or in-app Browser.
 
 The newer **WIP process-final candidate** has these actual completed checks:
 
@@ -86,19 +108,20 @@ The newer **WIP process-final candidate** has these actual completed checks:
 
 All six successful native runs have unchanged before/after source maps, zero retries and strict runner success with no drain error. Fourteen desktop transport-fixture tests also passed on the candidate before its one-character compiler repair; they did not run a real browser/engine. The initial compiler failure and disk-full linker failure ran zero tests and remain separately preserved. Historical suite counts overlap and are not a project-wide coverage total.
 
-The TUI library test build failed before test execution: rustc received SIGKILL after about 36 minutes, with source unchanged. The VM had high memory pressure and about 592 MB free disk; no pre-run OOM counter baseline was captured, so the precise cause is not conclusively established. That failure is retained separately. Guarded resource recovery reclaimed roughly 4 GB of RAM-backed cache storage while retaining exact archives of inactive test fixtures. Manager checks then passed. A TUI retry, changed App Server integration cases, scoped lint/global formatting and rebuilt-host runtime gates remain outstanding.
+The TUI library test build failed before test execution: rustc received SIGKILL after about 36 minutes, with source unchanged. The VM had high memory pressure and about 592 MB free disk; no pre-run OOM counter baseline was captured, so the precise cause is not conclusively established. That failure is retained separately. Guarded resource recovery reclaimed roughly 4 GB of RAM-backed cache storage while retaining exact archives of inactive test fixtures. Manager checks then passed. A TUI retry, changed App Server integration cases, scoped lint/global formatting and remaining held-host/replacement runtime gates remain outstanding.
 
 ## Why P03 lifecycle work is still the immediate priority
 
 The surviving-descendant failures exposed real ownership gaps in native curated-plugin synchronization. Published work now provides bounded Git output/cleanup, retained locks/temporary directories/transport obligations, sticky quarantine on uncertain cleanup, shared cancellation, policy-aware bounded HTTP collection, exact worker-handle observation and owned callback scopes. Native HTTP/runtime teardown can still outlast an observer deadline; dropping a request future is not proof that every backend/DNS task has joined.
 
-The current tested candidate adds actual process-final callers on success/error, admission fencing, separate embedded callback lifetimes, same-home replacement delivery, structured curated-ownership outcomes and coordinated shutdown clocks. Its policy is one 200-second graceful deadline, forced-exit initiation at 205 seconds, GUI bounds of 207/209 seconds within the manager's 210 seconds. Forced outcomes preserve cleanup/durability uncertainty. This is a tested candidate contract, not completed installed-host slow-cleanup proof.
+The current tested candidate adds actual process-final callers on success/error, admission fencing, separate embedded callback lifetimes, same-home replacement delivery, structured curated-ownership outcomes and coordinated shutdown clocks. Its policy is one 200-second graceful deadline, forced-exit initiation at 205 seconds, GUI bounds of 207/209 seconds within the manager's 210 seconds. Forced outcomes preserve cleanup/durability uncertainty. Current58 now has bounded installed-host slow-cleanup proof; exact MCP and full-host custody
+remain unproved.
 
 The remaining acceptance is concrete:
 
-- Rebuild and bind the real CLI/manager, then hold actual native Git and HTTP startup during exec success/error and App Server EOF/SIGTERM. Require explicit ownership outcomes plus unchanged strict descendant checks.
-- Repeat installed storage, migration and GUI streaming/approval/cancel/recovery/Launch shutdown with the new host.
-- Exercise real relay-held installed-storage cleanup exceeding 45 seconds and forced uncertainty. The revised relay has four synthetic checks only; those short synthetic holds do not prove the 46-second production case or admission into native storage.
+- Build/source binding is complete. Finish actual held native Git/HTTP startup during exec success/error and App Server EOF/SIGTERM; require exact ownership outcomes and unchanged strict descendant checks.
+- Preserve completed current58 storage/migration/GUI/slow normal-and-forced proof. Re-run relevant gates when later material native changes require a new host.
+- The real relay-held installed-storage normal/forced cases now pass, including46.469s cleanup. Native-internal admission and the response-only interrupted UI-history gap remain outside that proof.
 - Prove same-process A→B replacement using a held real worker, with no stale A effects and one refresh for active B. Current routing tests and installed storage replacement do not prove this case. Different-home global-once support remains explicitly limited.
 - Close exact MCP prewarm, refresh, service and transport custody. A callback finishing or requesting MCP invalidation is not proof that MCP work joined. `curated_ownership_clean` does not mean the entire host is clean.
 - Adopt/test cooperative extraction separately, and implement recoverable repository/SHA publication and host-death fencing. The frozen C2b extraction proposal is unadopted; its cooperative limits are not a total ZIP-constructor memory or syscall-duration bound.
@@ -136,7 +159,7 @@ The intended finished host remains a small bootstrap/composition/compatibility/a
 
 - [Manager88 exact evidence](verification/2026-10-02/P03_MANAGER_TESTS01.json) and [production-build failure/recovery](verification/2026-10-02/P03_PRODUCTION_BUILD01_AND_EXECUTOR_RECOVERY.md).
 
-- [Current execution ledger](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/EXECUTION_STATE.md), [canonical roadmap](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/IMPLEMENTATION_ROADMAP.md), [component inventory](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/COMPONENT_INVENTORY.md), [upstream-maintenance requirements](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/UPSTREAM_MAINTENANCE.md).
+- [Current execution ledger](EXECUTION_STATE.md), [canonical roadmap](IMPLEMENTATION_ROADMAP.md), [component inventory](COMPONENT_INVENTORY.md), [upstream-maintenance requirements](UPSTREAM_MAINTENANCE.md).
 - [Source922 full-host evidence](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/verification/2026-10-02/P03_SOURCE922_FULL_HOST_EVIDENCE.md), [callback milestone](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/verification/2026-10-02/P03_CURATED_CALLBACK_SCOPE_EVIDENCE.md), [developer SDK](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/component-sdk/README.md).
 - [Exact candidate manifest](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/process-final-source-manifest.json), SHA-256 `0a46a9a3f50670a4cc10180012dd3adb09ee2226c75efb8db8c86fbb093d4065`. Its pre-run status is historical; later actual results are separately bound in `/workspace/acceptance/p03-process-final-{native-tests-02,app-server-tests-01,client-tests-02,exec-tests-01,cli-tests-01,manager-tests-01}.{source.json,subreaper.json,log}`.
 - [WIP preservation plan](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/PLAN.md) and [exact allowlist](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/ALLOWLIST.json).

@@ -1,0 +1,63 @@
+{
+  "schema": "p03-held-host-chatgpt-auxiliary-proposal-v1",
+  "status": "staged_not_executed",
+  "files": [
+    {
+      "path": "REVIEW.md",
+      "bytes": 5638,
+      "sha256": "02c6f19830774466f0b22ec6f6e7861093f7e3f1409640922f800df21f30c648"
+    },
+    {
+      "path": "SOURCE_BINDINGS.json",
+      "bytes": 1706,
+      "sha256": "245fcc6560cf8e2088b7fece5367d6fe215260d64d335aed15a70c1b193e12bd"
+    },
+    {
+      "path": "STATIC_REVIEW.json",
+      "bytes": 687,
+      "sha256": "1cad2fdec40476cf557372e3974808628934e7dc8b6755ffa81198b98be5ed0b"
+    },
+    {
+      "path": "auxiliary-hold.patch",
+      "bytes": 4435,
+      "sha256": "5dc388d9ed8118b5cd10413071f29f0d92772566747e5fc36767713c23150837"
+    },
+    {
+      "path": "preimage.py",
+      "bytes": 40610,
+      "sha256": "ccf5fc095e4a66e74dea5a47b6c318adf0f4cd36a3f8902179d6e4ee08d87f6f"
+    },
+    {
+      "path": "proposed/held_production_host.py",
+      "bytes": 43033,
+      "sha256": "195aa490345979b1f5e8ea430efe5fe54e700cfc7cf7c65be371742d5ae1bba0"
+    },
+    {
+      "path": "proposed/test_auxiliary_policy.py",
+      "bytes": 4529,
+      "sha256": "83813d37a194fefdfa4d5058215667a99aaa661e9404955277355c05aee9f252"
+    }
+  ],
+  "runtime_executions": 0,
+  "pure_fixture_tests_executed": 0,
+  "checkout_changes": false,
+  "auxiliary_limit": 1,
+  "endpoint_attribution": "source-consistent featured warmup; HTTP path hidden by uncompleted CONNECT",
+  "original_require_assertions_retained": true,
+  "new_pass_requirements": [
+    "auxiliary held count zero",
+    "auxiliary accepted count equals explicit peer EOF count"
+  ],
+  "unchanged_external_controls": [
+    "PATH",
+    "proxy/DNS/network settings",
+    "features",
+    "model fixture",
+    "sampler",
+    "observer",
+    "strict runner",
+    "200s graceful gate",
+    "210s rescue",
+    "1s EOF observation tail"
+  ]
+}

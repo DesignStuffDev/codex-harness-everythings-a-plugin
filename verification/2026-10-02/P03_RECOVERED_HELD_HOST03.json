@@ -1,0 +1,653 @@
+{
+  "schema": "current58-held-production03-public-evidence-v1",
+  "status": "failed_or_incomplete",
+  "all_eight_curated_runtime_gates_passed": false,
+  "case_count": 5,
+  "fully_passed_cases": 4,
+  "not_run_cases": 3,
+  "whole_host_clean": false,
+  "source_map_sha256": "15e9a44f54f414972eff02de9cd4afdfa5f900263d46b69a96119499779c136b",
+  "source_unchanged": true,
+  "source_receipt": {
+    "path": "/workspace/acceptance/p03-process-final-held-host-current58-03.source.json",
+    "sha256": "096e94007de2dc3842fad6e5ef77b69fd9c6effca8c911e1352fc7611708697e",
+    "bytes": 2481896
+  },
+  "log": {
+    "path": "/workspace/acceptance/p03-process-final-held-host-current58-03.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "bytes": 0
+  },
+  "summary": {
+    "path": "/workspace/acceptance/p03-process-final-held-host-current58-03-runtime/acceptance.json",
+    "sha256": "313502b8ad2e65d6700c37dd0a5c69529c4e12fdd058fc09f6c7f67801467bbd",
+    "bytes": 10479
+  },
+  "fixture_sha256": "195aa490345979b1f5e8ea430efe5fe54e700cfc7cf7c65be371742d5ae1bba0",
+  "observer_sha256": "334d2f2cac92c124b77c2865f7fedd96198eb0d9d1ea00d42be2ba19a000892e",
+  "pure_fixture_tests": 7,
+  "cases": [
+    {
+      "case_id": "git-exec-success",
+      "case_report_sha256": "2580a6e05afd0fe2784d8ae9d6a1b983abef2834f7a217285df1f622ead5dd80",
+      "curated_runtime_gates_passed": true,
+      "host_original_returncode": 0,
+      "observer_report_sha256": "dc1497a0d91339c6047d70c31063a71e85d3057a87299ce6704399162904935b",
+      "receipt_path": "/workspace/acceptance/p03-process-final-held-host-current58-03-runtime/git-exec-success/receipts.json",
+      "receipt_sha256": "faa71bf7eabd18ef51b0302d7a1d4e1027907f6af2bbac3bd496e0d87ca29a40",
+      "strict_exit_status": 0,
+      "strict_original_returncode": 0,
+      "strict_report_sha256": "cc31ad6f072c0288c1d632aaf5b5a68dcd56b1a96e706beea17cea1a17c3b482",
+      "strict_runner_error": null,
+      "wrapper_original_returncode": 0,
+      "local_native_case_passed": true,
+      "local_failure": null,
+      "forced_fixture_cleanup": false,
+      "cleanup_errors": [],
+      "seconds_from_external_trigger_to_exit": 0.064874451,
+      "proxy": {
+        "auxiliary_connection_limit": 1,
+        "auxiliary_held_connections": 0,
+        "auxiliary_peer_eof": 1,
+        "auxiliary_request_path_attributed": false,
+        "auxiliary_started": 1,
+        "errors": [],
+        "events": [
+          {
+            "event": "git_connect",
+            "monotonic_ns": 171538862515790
+          },
+          {
+            "event": "held_connect_ready",
+            "monotonic_ns": 171538871668379
+          },
+          {
+            "event": "auxiliary_chatgpt_connect_held",
+            "monotonic_ns": 171538888658624
+          },
+          {
+            "event": "host_stop_trigger",
+            "monotonic_ns": 171539040841876
+          },
+          {
+            "event": "held_peer_eof",
+            "monotonic_ns": 171539079138868
+          },
+          {
+            "event": "auxiliary_chatgpt_peer_eof",
+            "monotonic_ns": 171539093284275
+          }
+        ],
+        "git_502_count": 0,
+        "held_connections": 0,
+        "mode": "git"
+      },
+      "typed_receipts": {
+        "component_status": {
+          "mcp": "unverified_no_receipt",
+          "session_loop": "unverified_no_receipt"
+        },
+        "curated": [
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171539092659539,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171539092793877,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          }
+        ],
+        "independent_session_mcp": {
+          "mcp": [],
+          "session_loop": []
+        },
+        "parse_failures": [],
+        "schema": "held-host-normalized-receipts-v1",
+        "whole_host_clean": false
+      },
+      "strict_reaped": [
+        {
+          "pid": 932012,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932011,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 931976,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "observer_diagnostic_complete": true,
+      "observer_observed_expected_git": true
+    },
+    {
+      "case_id": "git-exec-error",
+      "case_report_sha256": "5405db7177b7d2e36b9338fb4d51d302ec49e1a1379006b36bc47646d0bb27e1",
+      "curated_runtime_gates_passed": true,
+      "host_original_returncode": 1,
+      "observer_report_sha256": "041b0132fd88fdac4c8f53e134ea467d6bf1626cb204daf4ecbb479d4a16649b",
+      "receipt_path": "/workspace/acceptance/p03-process-final-held-host-current58-03-runtime/git-exec-error/receipts.json",
+      "receipt_sha256": "b6005e0bb124558664931df9fdcc62dfded5a362967b507d5697549466f36323",
+      "strict_exit_status": 0,
+      "strict_original_returncode": 0,
+      "strict_report_sha256": "abc6a0cf9e568695206a8b298281b40a9ebd44e568fc7e07ca8126e885fb56e9",
+      "strict_runner_error": null,
+      "wrapper_original_returncode": 0,
+      "local_native_case_passed": true,
+      "local_failure": null,
+      "forced_fixture_cleanup": false,
+      "cleanup_errors": [],
+      "seconds_from_external_trigger_to_exit": 0.064542172,
+      "proxy": {
+        "auxiliary_connection_limit": 1,
+        "auxiliary_held_connections": 0,
+        "auxiliary_peer_eof": 1,
+        "auxiliary_request_path_attributed": false,
+        "auxiliary_started": 1,
+        "errors": [],
+        "events": [
+          {
+            "event": "git_connect",
+            "monotonic_ns": 171541279505380
+          },
+          {
+            "event": "auxiliary_chatgpt_connect_held",
+            "monotonic_ns": 171541301849421
+          },
+          {
+            "event": "held_connect_ready",
+            "monotonic_ns": 171541319152291
+          },
+          {
+            "event": "host_stop_trigger",
+            "monotonic_ns": 171541442148713
+          },
+          {
+            "event": "held_peer_eof",
+            "monotonic_ns": 171541472392426
+          },
+          {
+            "event": "auxiliary_chatgpt_peer_eof",
+            "monotonic_ns": 171541484874462
+          }
+        ],
+        "git_502_count": 0,
+        "held_connections": 0,
+        "mode": "git"
+      },
+      "typed_receipts": {
+        "component_status": {
+          "mcp": "unverified_no_receipt",
+          "session_loop": "unverified_no_receipt"
+        },
+        "curated": [
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171541483472430,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171541483585277,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          }
+        ],
+        "independent_session_mcp": {
+          "mcp": [],
+          "session_loop": []
+        },
+        "parse_failures": [],
+        "schema": "held-host-normalized-receipts-v1",
+        "whole_host_clean": false
+      },
+      "strict_reaped": [
+        {
+          "pid": 932084,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932085,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932052,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "observer_diagnostic_complete": true,
+      "observer_observed_expected_git": true
+    },
+    {
+      "case_id": "git-app-server-eof",
+      "case_report_sha256": "df6bdf5065205320e79d4882b497a023640c2e969bc5948cb2113f57f354a782",
+      "curated_runtime_gates_passed": true,
+      "host_original_returncode": 0,
+      "observer_report_sha256": "4031f2c16b2280876fa4eee199f2aff7503561b0957d2978c83d543eed5feb0d",
+      "receipt_path": "/workspace/acceptance/p03-process-final-held-host-current58-03-runtime/git-app-server-eof/receipts.json",
+      "receipt_sha256": "96affbdcf24dae0a195623b5d739f97c9d9ba32bdc6a8aa86abc5e070c88d081",
+      "strict_exit_status": 0,
+      "strict_original_returncode": 0,
+      "strict_report_sha256": "1f1498d4db54ca89cc5508116d10ceb0d82209a7af37a76bf3a8648d7f776a88",
+      "strict_runner_error": null,
+      "wrapper_original_returncode": 0,
+      "local_native_case_passed": true,
+      "local_failure": null,
+      "forced_fixture_cleanup": false,
+      "cleanup_errors": [],
+      "seconds_from_external_trigger_to_exit": 0.033698091,
+      "proxy": {
+        "auxiliary_connection_limit": 1,
+        "auxiliary_held_connections": 0,
+        "auxiliary_peer_eof": 1,
+        "auxiliary_request_path_attributed": false,
+        "auxiliary_started": 1,
+        "errors": [],
+        "events": [
+          {
+            "event": "git_connect",
+            "monotonic_ns": 171543701617262
+          },
+          {
+            "event": "auxiliary_chatgpt_connect_held",
+            "monotonic_ns": 171543726675678
+          },
+          {
+            "event": "held_connect_ready",
+            "monotonic_ns": 171543736094392
+          },
+          {
+            "event": "host_stop_trigger",
+            "monotonic_ns": 171543736149884
+          },
+          {
+            "event": "held_peer_eof",
+            "monotonic_ns": 171543737981505
+          },
+          {
+            "event": "auxiliary_chatgpt_peer_eof",
+            "monotonic_ns": 171543751023121
+          }
+        ],
+        "git_502_count": 0,
+        "held_connections": 0,
+        "mode": "git"
+      },
+      "typed_receipts": {
+        "component_status": {
+          "mcp": "unverified_no_receipt",
+          "session_loop": "session_loop_report_clean_not_mcp_proof"
+        },
+        "curated": [
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171543750018940,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171543750353128,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          }
+        ],
+        "independent_session_mcp": {
+          "mcp": [],
+          "session_loop": [
+            {
+              "completed": 0,
+              "receipt_version": 1,
+              "report_clean": true,
+              "submit_failed": 0,
+              "timed_out": 0
+            }
+          ]
+        },
+        "parse_failures": [],
+        "schema": "held-host-normalized-receipts-v1",
+        "whole_host_clean": false
+      },
+      "strict_reaped": [
+        {
+          "pid": 932169,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932170,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932131,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "observer_diagnostic_complete": true,
+      "observer_observed_expected_git": true
+    },
+    {
+      "case_id": "git-app-server-sigterm",
+      "case_report_sha256": "18f6d64c37d667b360aa219981f89ab77ce06817b4d791c90adadfb2c6fdbeaa",
+      "curated_runtime_gates_passed": true,
+      "host_original_returncode": 0,
+      "observer_report_sha256": "543dddb07283a6832a752aeb44ab9e1d8cfbe1f3b74113ff2deb16c12adec7f9",
+      "receipt_path": "/workspace/acceptance/p03-process-final-held-host-current58-03-runtime/git-app-server-sigterm/receipts.json",
+      "receipt_sha256": "64e5cb8413414570390712549e336167e9bd90d65218fbcf62c814dc89d15e74",
+      "strict_exit_status": 0,
+      "strict_original_returncode": 0,
+      "strict_report_sha256": "22a2e35a740681aa462a35a8a3eaed82507bdb5d57c213d4db8bd5e700afdae5",
+      "strict_runner_error": null,
+      "wrapper_original_returncode": 0,
+      "local_native_case_passed": true,
+      "local_failure": null,
+      "forced_fixture_cleanup": false,
+      "cleanup_errors": [],
+      "seconds_from_external_trigger_to_exit": 0.032139072,
+      "proxy": {
+        "auxiliary_connection_limit": 1,
+        "auxiliary_held_connections": 0,
+        "auxiliary_peer_eof": 1,
+        "auxiliary_request_path_attributed": false,
+        "auxiliary_started": 1,
+        "errors": [],
+        "events": [
+          {
+            "event": "git_connect",
+            "monotonic_ns": 171545875097993
+          },
+          {
+            "event": "held_connect_ready",
+            "monotonic_ns": 171545894171589
+          },
+          {
+            "event": "auxiliary_chatgpt_connect_held",
+            "monotonic_ns": 171545894311084
+          },
+          {
+            "event": "host_stop_trigger",
+            "monotonic_ns": 171545894340187
+          },
+          {
+            "event": "held_peer_eof",
+            "monotonic_ns": 171545895072227
+          },
+          {
+            "event": "auxiliary_chatgpt_peer_eof",
+            "monotonic_ns": 171545909079722
+          }
+        ],
+        "git_502_count": 0,
+        "held_connections": 0,
+        "mode": "git"
+      },
+      "typed_receipts": {
+        "component_status": {
+          "mcp": "unverified_no_receipt",
+          "session_loop": "session_loop_report_clean_not_mcp_proof"
+        },
+        "curated": [
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171545908053419,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171545908338108,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          }
+        ],
+        "independent_session_mcp": {
+          "mcp": [],
+          "session_loop": [
+            {
+              "completed": 0,
+              "receipt_version": 1,
+              "report_clean": true,
+              "submit_failed": 0,
+              "timed_out": 0
+            }
+          ]
+        },
+        "parse_failures": [],
+        "schema": "held-host-normalized-receipts-v1",
+        "whole_host_clean": false
+      },
+      "strict_reaped": [
+        {
+          "pid": 932220,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932218,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 932180,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "observer_diagnostic_complete": true,
+      "observer_observed_expected_git": true
+    },
+    {
+      "case_id": "fallback-exec-success",
+      "case_report_sha256": "46928777a85cf73a18f1bd64e87a6b0f91d3924ef8e47169c2dfc711757793f6",
+      "curated_runtime_gates_passed": false,
+      "failure": "frozen_observer_real_git_missing",
+      "host_original_returncode": 0,
+      "observer_report_sha256": "05497cdb843ed8b4f2b07521082b3d89cbb53e6e0171852099cbecab4bbc8f35",
+      "receipt_path": "/workspace/acceptance/p03-process-final-held-host-current58-03-runtime/fallback-exec-success/receipts.json",
+      "receipt_sha256": "2662824224d5204e2a3905dfd43b1f3b729c30ef0efd2888af8d6e83d511c7c7",
+      "strict_exit_status": 0,
+      "strict_original_returncode": 0,
+      "strict_report_sha256": "f2ed857368c2731a864c0c33eca6fbb74e0cd5c714eef18bcd3b709602e60b0d",
+      "strict_runner_error": null,
+      "wrapper_original_returncode": 0,
+      "local_native_case_passed": true,
+      "local_failure": null,
+      "forced_fixture_cleanup": false,
+      "cleanup_errors": [],
+      "seconds_from_external_trigger_to_exit": 0.114197073,
+      "proxy": {
+        "auxiliary_connection_limit": 1,
+        "auxiliary_held_connections": 0,
+        "auxiliary_peer_eof": 1,
+        "auxiliary_request_path_attributed": false,
+        "auxiliary_started": 1,
+        "errors": [],
+        "events": [
+          {
+            "event": "git_connect",
+            "monotonic_ns": 171548057947551
+          },
+          {
+            "event": "git_connect_failed_502",
+            "monotonic_ns": 171548072511235
+          },
+          {
+            "event": "auxiliary_chatgpt_connect_held",
+            "monotonic_ns": 171548092282644
+          },
+          {
+            "event": "fallback_connect",
+            "monotonic_ns": 171548112940068
+          },
+          {
+            "event": "held_connect_ready",
+            "monotonic_ns": 171548112943864
+          },
+          {
+            "event": "host_stop_trigger",
+            "monotonic_ns": 171548253553953
+          },
+          {
+            "event": "held_peer_eof",
+            "monotonic_ns": 171548309436603
+          },
+          {
+            "event": "auxiliary_chatgpt_peer_eof",
+            "monotonic_ns": 171548322168201
+          }
+        ],
+        "git_502_count": 1,
+        "held_connections": 0,
+        "mode": "fallback"
+      },
+      "typed_receipts": {
+        "component_status": {
+          "mcp": "unverified_no_receipt",
+          "session_loop": "unverified_no_receipt"
+        },
+        "curated": [
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171548321460393,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "observed_monotonic_ns": 171548321496076,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          }
+        ],
+        "independent_session_mcp": {
+          "mcp": [],
+          "session_loop": []
+        },
+        "parse_failures": [],
+        "schema": "held-host-normalized-receipts-v1",
+        "whole_host_clean": false
+      },
+      "strict_reaped": [
+        {
+          "pid": 932259,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 932226,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "observer_diagnostic_complete": true,
+      "observer_observed_expected_git": false
+    }
+  ],
+  "limits": [
+    "CONNECT establishment only; no held TLS response-body claim",
+    "session/MCP evidence is independently bound; callback counts cannot replace it",
+    "exact internal first-stop/deadline origin is not observed by the harness",
+    "post-stop publication and callback-admission counters are unverified",
+    "sampled Git identities do not prove all descendants or an exact Git operation",
+    "no same-process same-home App Server A-to-B replacement or refresh-delivery proof",
+    "no GUI automation, slow-storage/backend hold, or whole-host-clean claim",
+    "MCP exact-handle custody remains unverified unless an independent future receipt proves it",
+    "Four Git cases passed all native/observer/strict gates. The fifth fallback case has clean local and strict evidence but fails independent Git observation; it does not count passed. Three remaining cases did not execute.",
+    "The auxiliary ChatGPT CONNECT is consistent with a separate featured startup request but its encrypted path was not observed. One connection maximum, no forwarding, and explicit peer EOF were required."
+  ]
+}

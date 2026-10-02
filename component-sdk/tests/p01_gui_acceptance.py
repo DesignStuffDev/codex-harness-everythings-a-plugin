@@ -378,7 +378,13 @@ def main():
         type=Path,
         help="Install the independently built native search worker into this fresh fixture",
     )
+    parser.add_argument(
+        "--search-reuse-proof-sha256",
+        help="Reuse the exact original independent search proof with this new host",
+    )
     args = parser.parse_args()
+    if args.search_reuse_proof_sha256 and not args.search_build_report:
+        parser.error("--search-reuse-proof-sha256 requires --search-build-report")
     if args.search_build_report and not args.exercise_file_search:
         parser.error("--search-build-report requires --exercise-file-search")
     if sys.platform != "linux" or not hasattr(signal, "pidfd_send_signal"):
@@ -475,6 +481,7 @@ def main():
                 OwnedProcess,
                 drain_subreaper,
                 report["selected_search"],
+                reuse_proof_sha256=args.search_reuse_proof_sha256,
             )
             # The original end-of-run immutability assertion now covers the
             # independently installed search package as well as storage and GUI.
@@ -712,6 +719,10 @@ def main():
             for p in installed.rglob("*")
             if p.is_file()
         }, "Installed packages changed"
+        if selected_search_worker is not None:
+            gui_selected_search_acceptance.verify_inputs(
+                host, report["selected_search"]
+            )
         report["binaries_after"] = before
         report["installed_packages_unchanged"] = True
         report["passed"] = True

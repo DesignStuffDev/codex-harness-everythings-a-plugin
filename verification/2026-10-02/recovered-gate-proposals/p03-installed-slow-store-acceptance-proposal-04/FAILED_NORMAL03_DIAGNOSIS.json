@@ -1,0 +1,16 @@
+{
+  "status": "root_report_plus_independent_source_review_not_rerun",
+  "original_run": "/workspace/acceptance/p03-process-final-slowstore-normal-03-runtime/report.json",
+  "root_report": {
+    "passed": false,
+    "stage": "canonical gate readiness timeout before SIGINT",
+    "timeout_seconds": 60,
+    "old_selector_unit_passes": 5,
+    "old_synthetic_case_passes": 11,
+    "strict_result": "not independently inspected by this worker"
+  },
+  "cause": "03 predicate and synthetic payloads used persisted serde tags; actual v2 transport uses nested external tags",
+  "retained_as_failure": true,
+  "semantic_fix_claim": false,
+  "next_required_proof": "real current-host accepted canonical request through corrected04 relay, followed by unchanged normal/forced lifecycle assertions"
+}

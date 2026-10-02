@@ -640,7 +640,21 @@ threads/a local watchdog; the custom change concerns authority and deadlines.
 This is an additional source-impact input, not an adapter accepted by the existing normalized
 index validator. The frozen d04 index and its unresolved findings remain unchanged. External
 Cargo.lock entries are unchanged in this delta, but feature/platform behavior is not certified.
-The current-source full-host gate remains blocked after ENOSPC and executor startup failure.
+That historical full-host blocker is resolved by the recovered current58 build/runtime checkpoint;
+held transport, replacement and MCP gates remain open.
 P18U still requires an installed maintenance component, real later-upstream integration, custom
 component compatibility, failed-update rollback and independent bootstrap recovery. No polling,
 source application, live installation change or deployment is authorized by this metadata itself.
+
+## Recovered-host SDK acceptance delta
+
+[Three custom SDK paths](upstream/p03-recovered-search-reuse-lineage.json) now bind exact f122
+preimages and new blobs to explicit search-package reuse checks. No upstream native implementation
+changed in this delta. The complete8,921-file tested-source map and executable identities are in
+[the current-host evidence](verification/2026-10-02/P03_RECOVERED_HOST_EVIDENCE.md).
+The held-write normal/forced GUI checks cover a component transport call before native admission;
+retain that limit when adapting event codecs. The separate saved-rollout versus lossless-wire
+encoding distinction must survive updates. Response-only interrupted UI projection remains open.
+This supplement does not advance the normalized index or implement P18U. Exact later-revision
+integration, coordinated versions/migration, custom-plugin/UI preservation and failed-update
+recovery remain release requirements.

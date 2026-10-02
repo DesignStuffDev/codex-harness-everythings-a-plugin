@@ -1,0 +1,129 @@
+{
+  "status": "source_derived_not_runtime_serialization_proof",
+  "read_only_source_fingerprints": [
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component/src/wire.rs",
+      "sha256": "67f3864c5619f78e00124be1738c8a3bee0e0ee4904c6aff90f87bb541f4586d",
+      "bytes": 8857
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/thread-store-component/src/remote/creation.rs",
+      "sha256": "dd4052178acf8004638071f7f74ed451a8b2ea8f589a1308e01259d12ae75b87",
+      "bytes": 4632
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/lib.rs",
+      "sha256": "feafaca507b8b225a9f74086f3ec1f14a1cb460dd8e3303aa03bbc9d29bcd118",
+      "bytes": 955
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/mod.rs",
+      "sha256": "d30c84916cde2f6d829628b7c0127fcf4f9e49592d3598560e4048c449953705",
+      "bytes": 5405
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/rollout.rs",
+      "sha256": "dd161f73fc05a6c51b1aa7164a0635e6d9cded06365f8623f28da2ee17aa3eb3",
+      "bytes": 3507
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/events.rs",
+      "sha256": "337ab18527ffdc26ff13a712746150f06c020d6fdc11a9d9f379a1f48b83ea87",
+      "bytes": 9011
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/events_items.rs",
+      "sha256": "c8946ab6e9532bddbab1bbce32a1bc33f3c500161ca73e0cd8809c124703c8de",
+      "bytes": 5777
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/events_paths.rs",
+      "sha256": "e064b179f4a31f0ddff3484022631c85541d7c7eb95d39720481cbeb9f2479ff",
+      "bytes": 7857
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/envelope.rs",
+      "sha256": "87baab8bb949c8175de3d38644a0fe6af2f058c7f200ae68e08c0b1fc3f882ad",
+      "bytes": 989
+    },
+    {
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/component-state-codec/src/wire/response.rs",
+      "sha256": "2e3beaf50f4c7ac129b9d5fb92717331de6e5f7ba5ca0727d1dcd8ae32e6cb94",
+      "bytes": 6561
+    }
+  ],
+  "shape": {
+    "append_items": {
+      "thread_id": "<thread UUID>",
+      "items": [
+        {
+          "EventMsg": {
+            "ItemCompleted": {
+              "thread_id": "<same thread UUID>",
+              "turn_id": "<nonempty>",
+              "item": {
+                "UserMessage": {
+                  "id": "<nonempty>",
+                  "client_id": null,
+                  "content": [
+                    {
+                      "Text": {
+                        "text": "<exact prompt>",
+                        "text_elements": []
+                      }
+                    }
+                  ]
+                }
+              },
+              "started_at_ms": null,
+              "completed_at_ms": "<i64>"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "source_chain": [
+    [
+      "thread-store-component/src/wire.rs:75",
+      "StorageRequest::AppendItems, rename_all=snake_case, crate::remote::append_thread_items_params"
+    ],
+    [
+      "thread-store-component/src/remote/creation.rs:97",
+      "AppendThreadItemsParamsWire items uses codex_component_state_codec::rollout_item::vec"
+    ],
+    [
+      "component-state-codec/src/wire/rollout.rs:20",
+      "RolloutWire external EventMsg, NOT persisted type/payload"
+    ],
+    [
+      "component-state-codec/src/wire/events.rs:146",
+      "EventMsgWire external ItemCompleted uses ItemCompletedEventWire"
+    ],
+    [
+      "component-state-codec/src/wire/events_items.rs:55",
+      "TurnItemWire external UserMessage uses UserMessageItemWire"
+    ],
+    [
+      "component-state-codec/src/wire/events_items.rs:109",
+      "ItemCompletedEventWire thread_id/turn_id/item/started_at_ms/completed_at_ms"
+    ],
+    [
+      "component-state-codec/src/wire/events_paths.rs:42",
+      "UserInputWire external Text struct text/text_elements"
+    ],
+    [
+      "component-state-codec/src/wire/events_paths.rs:152",
+      "UserMessageItemWire id/client_id/content via user_inputs"
+    ],
+    [
+      "component-state-codec/src/wire/envelope.rs:8",
+      "ResponseItem variant carries EnvelopeWire with item/metadata; inner TrustedResponseItem external Message"
+    ]
+  ],
+  "scope_limits": [
+    "Selector is a narrow fixture predicate, not full wire validation or authority boundary.",
+    "Synthetic native is Python, not Rust decoder; no encoding conformance claimed.",
+    "Actual accepted.json from independently installed native path and current host remains required."
+  ]
+}
