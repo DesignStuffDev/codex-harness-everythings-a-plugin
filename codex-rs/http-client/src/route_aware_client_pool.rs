@@ -18,6 +18,7 @@ use crate::ClientRouteClass;
 use crate::HttpClient;
 use crate::HttpClientBuilder;
 use crate::HttpClientFactory;
+use crate::HttpConstructionError;
 use crate::NetworkPolicyDenied;
 use crate::OutboundProxyPolicy;
 use crate::OutboundProxyRoute;
@@ -26,6 +27,7 @@ use crate::RouteFailureClass;
 use crate::client::HttpClientBackend;
 use crate::client::TransportClient;
 use crate::client_builder::ProxyRouting;
+use crate::constructor_custody::PoolLease;
 use crate::tls_backend_fallback::RustlsClientCache;
 
 const MAX_CACHED_ROUTES: usize = 16;
@@ -58,6 +60,7 @@ pub struct RouteAwareClientPool {
     custom_ca_fallback: CustomCaFallback,
     clients: Arc<Mutex<HashMap<OutboundProxyRoute, TransportClient>>>,
     client_build: Arc<tokio::sync::Mutex<()>>,
+    construction_lease: PoolLease,
     rustls_clients: Option<RustlsClientCache>,
 }
 
@@ -80,6 +83,8 @@ pub enum RouteAwareClientPoolError {
     Build(#[from] BuildRouteAwareHttpClientError),
     #[error("HTTP transport construction task failed: {0}")]
     BuildTask(#[source] tokio::task::JoinError),
+    #[error(transparent)]
+    Construction(#[from] HttpConstructionError),
 }
 
 /// Error returned while building, routing, or sending a route-aware request.
@@ -127,7 +132,13 @@ impl RouteAwareRequestError {
             if error.to_string() == "tunnel error: proxy authorization required" {
                 return Some(RouteFailureClass::ProxyAuthenticationRequired);
             }
-            source = error.source();
+            // io::Error::source delegates to its inner error's source, so it
+            // can skip the typed TLS error itself. Visit that inner error first.
+            source = error
+                .downcast_ref::<io::Error>()
+                .and_then(io::Error::get_ref)
+                .map(|inner| inner as &(dyn std::error::Error + 'static))
+                .or_else(|| error.source());
         }
 
         match self {
@@ -142,6 +153,7 @@ impl RouteAwareRequestError {
                 Some(RouteFailureClass::ProxyResolutionUnavailable)
             }
             Self::Route(RouteAwareClientPoolError::BuildTask(_))
+            | Self::Route(RouteAwareClientPoolError::Construction(_))
             | Self::Request(_)
             | Self::Policy(_)
             | Self::Build(_)
@@ -291,6 +303,7 @@ impl RouteAwareClientPool {
             custom_ca_fallback: CustomCaFallback::Disabled,
             clients: Arc::new(Mutex::new(HashMap::new())),
             client_build: Arc::default(),
+            construction_lease: PoolLease::new(),
             rustls_clients: None,
         }
     }
@@ -460,6 +473,7 @@ impl RouteAwareClientPool {
         F: FnOnce(String) -> Fut,
         Fut: Future<Output = io::Result<OutboundProxyRoute>>,
     {
+        self.construction_lease.ensure_open()?;
         let route = if self.custom_ca_fallback == CustomCaFallback::LegacyDirect {
             OutboundProxyRoute::Direct
         } else {
@@ -467,6 +481,7 @@ impl RouteAwareClientPool {
                 .await
                 .map_err(RouteAwareClientPoolError::Resolve)?
         };
+        self.construction_lease.ensure_open()?;
         if let Some(rustls_clients) = self.rustls_clients.as_ref()
             && let Ok(url) = reqwest::Url::parse(request_url)
             && rustls_clients.requires_rustls(&url, &route)
@@ -487,6 +502,7 @@ impl RouteAwareClientPool {
         }
 
         let build_permit = Arc::clone(&self.client_build).lock_owned().await;
+        self.construction_lease.ensure_open()?;
         {
             let clients = self.clients.lock().unwrap_or_else(|error| {
                 panic!("route-aware client cache lock should not be poisoned: {error}")
@@ -500,14 +516,19 @@ impl RouteAwareClientPool {
         } else {
             self.client_builder.clone()
         };
-        let pool = self.clone();
+        // Constructor custody must not extend the last public pool lease.
+        let http_client_factory = self.http_client_factory.clone();
+        let route_class = self.route_class;
+        let custom_ca_fallback = self.custom_ca_fallback;
+        let clients = Arc::clone(&self.clients);
+        let publication = self.construction_lease.publication_fence();
         let build_route = route.clone();
-        let client = tokio::task::spawn_blocking(move || {
+        let ticket = self.construction_lease.start(move || {
             // A timed-out caller must not release the slot or discard a successful build.
             let _build_permit = build_permit;
             let client = match (
-                pool.http_client_factory.outbound_proxy_policy(),
-                pool.custom_ca_fallback,
+                http_client_factory.outbound_proxy_policy(),
+                custom_ca_fallback,
             ) {
                 (_, CustomCaFallback::LegacyDirect) => {
                     Ok(client_builder.build_with_custom_ca_fallback(ProxyRouting::Direct))
@@ -524,24 +545,34 @@ impl RouteAwareClientPool {
                     OutboundProxyPolicy::RespectSystemProxy,
                     CustomCaFallback::LegacyTransportDefault,
                 ) => client_builder.build_for_resolved_route(
-                    &pool.http_client_factory,
-                    pool.route_class,
+                    &http_client_factory,
+                    route_class,
                     &build_route,
                 ),
             }?;
-            let mut clients = pool.clients.lock().unwrap_or_else(|error| {
-                panic!("route-aware client cache lock should not be poisoned: {error}")
-            });
-            if clients.len() >= MAX_CACHED_ROUTES
-                && let Some(route_to_evict) = clients.keys().next().cloned()
-            {
-                clients.remove(&route_to_evict);
-            }
-            clients.insert(build_route, client.clone());
-            Ok::<_, BuildRouteAwareHttpClientError>(client)
-        })
-        .await
-        .map_err(RouteAwareClientPoolError::BuildTask)??;
+            let retired = publication.publish_if_open(|| {
+                let mut clients = clients.lock().unwrap_or_else(|error| {
+                    panic!("route-aware client cache lock should not be poisoned: {error}")
+                });
+                let evicted = if clients.len() >= MAX_CACHED_ROUTES
+                    && let Some(route_to_evict) = clients.keys().next().cloned()
+                {
+                    clients.remove(&route_to_evict)
+                } else {
+                    None
+                };
+                let replaced = clients.insert(build_route, client.clone());
+                (evicted, replaced)
+            })?;
+            // Client destruction belongs to this blocking constructor, outside
+            // both the publication gate and the route-cache lock.
+            drop(retired);
+            Ok::<_, RouteAwareClientPoolError>(client)
+        })?;
+        let client = ticket
+            .wait()
+            .await?
+            .map_err(RouteAwareClientPoolError::BuildTask)??;
         Ok((route, client, SelectedTlsBackend::TransportDefault))
     }
 
@@ -578,3 +609,11 @@ mod tls_fallback_tests;
 #[cfg(test)]
 #[path = "route_aware_policy_tests.rs"]
 mod policy_tests;
+
+#[cfg(test)]
+#[path = "route_aware_constructor_custody_tests.rs"]
+mod constructor_custody_tests;
+
+#[cfg(test)]
+#[path = "route_aware_certificate_classification_tests.rs"]
+mod certificate_classification_tests;

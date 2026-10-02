@@ -1,0 +1,615 @@
+{
+  "ambient_classification4": {
+    "command": "just test -p codex-http-client --lib -E \"test(certificate_classification_tests::) | test(route_aware_client_pool::tests::request_failures_classify_real_untrusted_certificate_handshakes)\"",
+    "log": {
+      "bytes": 1088,
+      "path": "/workspace/acceptance/p03-http-native-a-configured-ca-classification-01.log",
+      "sha256": "45993f06ea5fddf4043137fa9755c18e8b221aa33e939c7589883a5e35cfc72e"
+    },
+    "prefix": "/workspace/acceptance/p03-http-native-a-configured-ca-classification-01",
+    "returncode": 0,
+    "source_count": 8942,
+    "source_map_sha256": "f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6",
+    "source_receipt": {
+      "bytes": 3723400,
+      "path": "/workspace/acceptance/p03-http-native-a-configured-ca-classification-01.source.json",
+      "sha256": "e8a9c272a57df162862c7918734c22ae9ae463a9fc6f69bf3aa82f1dfdd07d8e"
+    },
+    "source_unchanged": true,
+    "strict": {
+      "adopted_returncode_histogram": {
+        "0": 1
+      },
+      "command_returncode": 0,
+      "exit_status": 0,
+      "reaped_count": 1,
+      "runner_error": null,
+      "subreaper": true
+    },
+    "strict_receipt": {
+      "bytes": 540,
+      "path": "/workspace/acceptance/p03-http-native-a-configured-ca-classification-01.strict.json",
+      "sha256": "11abc4b9f9115f4854751009f4808c815edec96f94a995fbc3e79f5b9a1acb85"
+    },
+    "summary": [
+      "     Summary [   0.121s] 4 tests run: 4 passed, 125 skipped"
+    ],
+    "test_environment": "Normal just test invocation; no target runner and no CA variable removal. Parent presence-only observation reported SSL_CERT_FILE set.",
+    "test_execution_binding_limit": "No per-exec binary or environment record. Same exact source and library binary artifact as library129; do not equate this with direct execution proof.",
+    "tests": {
+      "failed": 0,
+      "filtered": 125,
+      "passed": 4,
+      "run": 4
+    }
+  },
+  "candidate": {
+    "bytes": 1235865,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-corrections-03/CANDIDATE03.json",
+    "sha256": "dbc8beca2cf070ce30acd63aa8816dff5c3de862a3b81bcf9f0ffc4cb56d34d1"
+  },
+  "causal_control": {
+    "evidence": {
+      "bytes": 14544,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-tls-cause-and-next-gates-01/CONTROL_EVIDENCE.json",
+      "sha256": "9d974c5dff971f79816adf28462e7b0bb961108aebc97fc2763858609d257efb"
+    },
+    "interpretation": "Same a084 source and e43d76 ELF: outer removal control failed2pass/6fail; immediate pre-exec control passed8. SSL selector was reintroduced before actual test execution. Its exact reintroduction layer remains unknown. This is not an unchanged-upstream runtime baseline."
+  },
+  "current_production_host": {
+    "CLI_sha256": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+    "meaning": "Older source-specific production proof; this adopted native HTTP change is not present.",
+    "source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328"
+  },
+  "final_lint02": {
+    "errors": 0,
+    "log": {
+      "bytes": 215,
+      "path": "/workspace/acceptance/p03-http-native-a-fix-02.log",
+      "sha256": "33e6ace979cafb9786323687a7a2f4e983f13f08e63ddad1e586790a3d685e5e"
+    },
+    "returncode": 0,
+    "source_receipt": {
+      "bytes": 3721816,
+      "path": "/workspace/acceptance/p03-http-native-a-fix-02.source.json",
+      "sha256": "ca81557b204f28a4f486040af262b4a42b34bd8a1f097d6fa0bb79c4327c3bdc"
+    },
+    "source_unchanged": true,
+    "strict": {
+      "adopted_returncode_histogram": {
+        "0": 1
+      },
+      "command_returncode": 0,
+      "exit_status": 0,
+      "reaped_count": 1,
+      "runner_error": null,
+      "subreaper": true
+    },
+    "strict_receipt": {
+      "bytes": 364,
+      "path": "/workspace/acceptance/p03-http-native-a-fix-02.strict.json",
+      "sha256": "7ef7087e02a0d620225bb4012846efdea7325c3a0b4b47fcbc4b7e5c4de7f147"
+    },
+    "warnings": 0
+  },
+  "final_style_format": {
+    "log": {
+      "bytes": 0,
+      "path": "/workspace/acceptance/p03-http-native-a-fmt-04.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "returncode": 0,
+    "source_receipt": {
+      "bytes": 3721581,
+      "path": "/workspace/acceptance/p03-http-native-a-fmt-04.source.json",
+      "sha256": "3292750339d32fe073ab26261c6fad50be7bbfb134efd5094df454d8bb58fc4c"
+    },
+    "source_unchanged": true
+  },
+  "full_package139": {
+    "actual_execution_binding": {
+      "actual_test_execs": 139,
+      "artifacts": [
+        {
+          "bytes": 8221640,
+          "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/ca_env-369a9dcbee25bc11",
+          "sha256": "096cbd332b6c064947ae774a53c3432df2efdffe25dbfbca7d71fe1d65242eae"
+        },
+        {
+          "bytes": 1053064,
+          "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/custom_ca_probe-ec60d7c584db396b",
+          "sha256": "639dc19c8c337f4c57267973012c764b4bc68722561d52cf005bb3e85cf3bc49"
+        },
+        {
+          "bytes": 32895504,
+          "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_http_client-5639b6afb3e6dbfb",
+          "sha256": "7ea4054869405cbd810b014e23c92e62b59ad0a5fea6ad1a2b252fe46c6a2592"
+        }
+      ],
+      "list_execs": 6,
+      "record_counts_by_elf_sha256": {
+        "096cbd332b6c064947ae774a53c3432df2efdffe25dbfbca7d71fe1d65242eae": 12,
+        "639dc19c8c337f4c57267973012c764b4bc68722561d52cf005bb3e85cf3bc49": 2,
+        "7ea4054869405cbd810b014e23c92e62b59ad0a5fea6ad1a2b252fe46c6a2592": 131
+      },
+      "record_set_sha256": "fdb2ed26921331c0709e5bc2e7abe4a5bf2541f82951c8944f5e117ec7faac3d",
+      "records_directory": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-full04-target-runner/processes",
+      "runner": {
+        "bytes": 657,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-full04-target-runner/tls-control-runner.py",
+        "sha256": "0b843355a3f76ea0ee4970fd7da2aacf0b39ed0eff890b36f996225002e05f25"
+      }
+    },
+    "command": "just test -p codex-http-client via strict subreaper and immediate pre-exec CA-selector normalization",
+    "custom_ca_case_names": [
+      "accepts_bundle_with_crl",
+      "accepts_openssl_trusted_certificate",
+      "falls_back_to_ssl_cert_file",
+      "handles_multi_certificate_bundle",
+      "posts_to_tls13_server_using_custom_ca_bundle",
+      "posts_to_token_origin_through_tls_intercepting_proxy_with_custom_ca_bundle",
+      "prefers_codex_ca_cert_over_ssl_cert_file",
+      "rejects_empty_pem_file_with_hint",
+      "rejects_malformed_pem_with_hint",
+      "uses_codex_ca_cert_env"
+    ],
+    "custom_ca_scope": "Unchanged upstream fixture uses separately configured child processes to test explicit custom roots, TLS1.3 and an intercepting TLS proxy; top-level target-runner normalization does not strip fixture-owned nested subprocess settings. Ten positive/negative integration tests passed, including malformed/empty PEM rejection.",
+    "log": {
+      "bytes": 19598,
+      "path": "/workspace/acceptance/p03-http-native-a-full-package-04.log",
+      "sha256": "3da02dabd74a46a80d01d2599b761abb4e13cf518f428f38034f96b2b750bfea"
+    },
+    "no_external_service_or_real_user_credential_claim": true,
+    "prefix": "/workspace/acceptance/p03-http-native-a-full-package-04",
+    "returncode": 0,
+    "source_count": 8942,
+    "source_map_sha256": "f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6",
+    "source_receipt": {
+      "bytes": 3723386,
+      "path": "/workspace/acceptance/p03-http-native-a-full-package-04.source.json",
+      "sha256": "25dbbe9480ed832e80fccad5f7ac4983bd096355e6aa4aa0775b433f3fa7f365"
+    },
+    "source_unchanged": true,
+    "strict": {
+      "adopted_returncode_histogram": {
+        "0": 1
+      },
+      "command_returncode": 0,
+      "exit_status": 0,
+      "reaped_count": 1,
+      "runner_error": null,
+      "subreaper": true
+    },
+    "strict_receipt": {
+      "bytes": 541,
+      "path": "/workspace/acceptance/p03-http-native-a-full-package-04.strict.json",
+      "sha256": "0aff359d04ea9f640a9f0aea40a9e0ca9874513b9f888da1e463ad33bac136f2"
+    },
+    "tests": {
+      "custom_ca_integration": 10,
+      "failed": 0,
+      "harnesses": 3,
+      "library": 129,
+      "passed": 139,
+      "run": 139,
+      "skipped": 0
+    }
+  },
+  "library129": {
+    "actual_execution_binding": {
+      "actual_test_execs": 129,
+      "all_actual_preexec_after": {
+        "CODEX_CA_CERTIFICATE": false,
+        "SSL_CERT_FILE": false
+      },
+      "all_actual_preexec_before": {
+        "CODEX_CA_CERTIFICATE": false,
+        "SSL_CERT_FILE": true
+      },
+      "executable_artifact": {
+        "bytes": 32895504,
+        "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_http_client-5639b6afb3e6dbfb",
+        "sha256": "7ea4054869405cbd810b014e23c92e62b59ad0a5fea6ad1a2b252fe46c6a2592"
+      },
+      "list_execs": 2,
+      "no_pid_filenames_or_raw_environment_values_copied": true,
+      "record_set_sha256": "4375d8dacb7f4bab4f87c6b99464c0a791a3ff35c529e6536cbb7ff996b6f85e",
+      "records_directory": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-tests03-target-runner/processes",
+      "runner": {
+        "bytes": 657,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-tests03-target-runner/tls-control-runner.py",
+        "sha256": "0b843355a3f76ea0ee4970fd7da2aacf0b39ed0eff890b36f996225002e05f25"
+      },
+      "unique_test_executable_sha256": "7ea4054869405cbd810b014e23c92e62b59ad0a5fea6ad1a2b252fe46c6a2592"
+    },
+    "log": {
+      "bytes": 18617,
+      "path": "/workspace/acceptance/p03-http-native-a-tests-03.log",
+      "sha256": "27bb2cb7e4c5810fc189fc0c43a33466d03d283db49144d978a5cf6832db23d4"
+    },
+    "prefix": "/workspace/acceptance/p03-http-native-a-tests-03",
+    "returncode": 0,
+    "source_count": 8942,
+    "source_map_sha256": "f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6",
+    "source_receipt": {
+      "bytes": 3723393,
+      "path": "/workspace/acceptance/p03-http-native-a-tests-03.source.json",
+      "sha256": "e6b90c4443d5c1af437bff8f9bc065a0853c34156e52587813c01e35354e46c3"
+    },
+    "source_unchanged": true,
+    "strict": {
+      "adopted_returncode_histogram": {
+        "0": 1
+      },
+      "command_returncode": 0,
+      "exit_status": 0,
+      "reaped_count": 1,
+      "runner_error": null,
+      "subreaper": true
+    },
+    "strict_receipt": {
+      "bytes": 555,
+      "path": "/workspace/acceptance/p03-http-native-a-tests-03.strict.json",
+      "sha256": "c75ccf31ff105e4fd150b93f728f58bbe17651db4ff39fd6acdcfbb59a775e3a"
+    },
+    "summary": [
+      "     Summary [   4.275s] 129 tests run: 129 passed, 0 skipped"
+    ],
+    "test_environment": "Target runner removes only CODEX_CA_CERTIFICATE and SSL_CERT_FILE immediately before each top-level test/list exec; fixture-owned nested subprocess environments are not globally removed.",
+    "tests": {
+      "failed": 0,
+      "new_stage_A_count": 14,
+      "new_typed_classification_count": 3,
+      "original_count": 112,
+      "passed": 129,
+      "run": 129,
+      "skipped": 0
+    }
+  },
+  "limits": [
+    "Stage A owns bounded HTTP client-construction handles and cleanup/disposal tasks; it is not a separately installed HTTP component.",
+    "Process-final Stage B is unadopted; no whole-host transport cleanup, socket EOF, OS resolver, synchronous TLS fallback construction, or real205-second forced-exit proof is added.",
+    "New public Construction error variant requires exhaustive Rust consumers to adapt; no dependency, wire, config or persisted-state migration is introduced.",
+    "Public process-close begin(Instant) authority remains a caller convention rather than capability-type enforcement.",
+    "129 package tests and four real untrusted-certificate classification tests do not replace rebuilt-host storage/GUI/runtime gates on the changed HTTP source.",
+    "Original runtime and component package evidence remains tied to old production source/binary; bounded native extraction family count remains three.",
+    "The new error traversal visits typed io::Error::get_ref before source; it does not trust untrusted certificates, change backend policy, broaden retry strings, or bypass security checks."
+  ],
+  "ordinary_cache_retirement02": {
+    "allocated_bytes": 884207616,
+    "completed": true,
+    "failed_audit01": {
+      "bytes": 325,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-post-http-core-tui-cache-review-02/FAILED_01_NOTE.json",
+      "sha256": "713f8d6a74766011e4bfccf00c4993402e133d158da6304a0538273dd47e2e92"
+    },
+    "not_a_future_resource_or_full_build_guarantee": true,
+    "prior_failed_alias_audit_started_retirement": false,
+    "rebuild_debt": "Four source-invalidated core/TUI library variants require regeneration when requested; no current production/test ELF needs these rlibs at runtime.",
+    "receipt": {
+      "bytes": 614,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-post-http-core-tui-cache-review-02/RETIREMENT.json",
+      "sha256": "fbae5f1a74b89e1a2584c32b6063dc9a69dee9fa3c4ffb7815ee36dbcbfd6d87"
+    },
+    "removed_exactly": 8,
+    "source_archives_runtime_elves_and_old_restores_untouched": true
+  },
+  "pending": {
+    "Stage_B_process_final_activation": "not adopted",
+    "new_production_cli_and_current_source_real_host_gates": "not run"
+  },
+  "preserved_draft01": {
+    "bytes": 863,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-publication-evidence-03-draft01/MANIFEST.json",
+    "sha256": "1485c7776f3c2d31bf59bced8e2eea07c31d82073e7536711caff600c26150b0"
+  },
+  "preserved_failures": {
+    "adoption_precondition_failure": {
+      "bytes": 223,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-corrections-03/ADOPTION_ATTEMPT01.json",
+      "sha256": "9c0cefc216211cb18c8a4b4b2ca0f758e5b4859f0ea7340b793cd29a2a6d0655"
+    },
+    "compile01": {
+      "cause": "Unavailable futures::poll! macro under existing dependency features; repaired using standard-library poll_fn without dependency change.",
+      "evidence": {
+        "bytes": 2041,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-evidence-preparation-01/FAILED_COMPILE01.json",
+        "sha256": "99904c291073aba50ceac103275314e1926b047c59626e87848feffcf13f7464"
+      },
+      "exit": 101,
+      "tests_executed": 0
+    },
+    "library02": {
+      "cause_limits": "One new queued-disposal fixture assumed runtime shutdown would cancel queued blocking work; six unchanged TLS fixtures were affected by configured CA selection. Original failure remains failed.",
+      "evidence": {
+        "bytes": 7421,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-evidence-preparation-02/EVIDENCE.json",
+        "sha256": "d38fea2a8b0e9959c8a78cd22e7bd6fc16a166f5bfd5f98e6929665798c2d4fc"
+      },
+      "returncode": 100,
+      "source_map_sha256": "a084c11fac9163626c1cc19bc95cfd809b2ed1c31a19895c46426885b9500e33",
+      "tests": {
+        "count_semantics": "Nextest summary counts unique selected tests; local retry attempts are not additional unique tests.",
+        "existing_failed_names": [
+          "route_aware_client_pool::tests::request_failures_classify_real_untrusted_certificate_handshakes",
+          "route_aware_client_pool::tls_fallback_tests::does_not_retry_a_non_replayable_streaming_request",
+          "route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_failure_after_another_request_caches_rustls",
+          "route_aware_client_pool::tls_fallback_tests::retries_a_native_tls_protocol_failure_once_with_rustls",
+          "route_aware_client_pool::tls_fallback_tests::retries_a_tls_protocol_failure_when_request_url_contains_certificate_markers",
+          "route_aware_client_pool::tls_fallback_tests::successful_rustls_fallback_replays_the_request_and_reuses_the_destination"
+        ],
+        "failed": 7,
+        "new_failed_names": [
+          "constructor_custody::cross_runtime_tests::ordinary_admission_recovers_disposal_queued_on_previous_runtime"
+        ],
+        "new_passed_names": [
+          "constructor_custody::cross_runtime_tests::canceled_cleanup_after_successful_disposal_is_settled",
+          "constructor_custody::cross_runtime_tests::ordinary_admission_recovers_cleanup_canceled_with_previous_runtime",
+          "constructor_custody::tests::abandoned_panic_payload_disposal_respects_shared_observation_deadline",
+          "constructor_custody::tests::canceled_observer_keeps_native_handle_and_abandoned_disposal_owned",
+          "constructor_custody::tests::canceled_queued_poller_does_not_take_the_primary_handle",
+          "constructor_custody::tests::native_panic_retains_original_join_error_and_unclean_receipt",
+          "constructor_custody::tests::observation_before_handle_attachment_is_woken",
+          "constructor_custody::tests::original_build_error_is_transferred_and_capacity_is_reusable",
+          "constructor_custody::tests::process_observer_never_renews_its_original_deadline",
+          "constructor_custody::tests::repeated_process_close_cannot_renew_the_registry_deadline",
+          "route_aware_client_pool::constructor_custody_tests::canceled_native_constructor_publishes_only_while_a_public_peer_survives",
+          "route_aware_client_pool::constructor_custody_tests::native_constructor_returns_its_joined_result_and_populates_the_route_cache",
+          "route_aware_client_pool::constructor_custody_tests::process_close_rejects_cached_use_and_queued_native_publication"
+        ],
+        "new_stage_A_failed": 1,
+        "new_stage_A_passed": 13,
+        "original_queued_transport_timeout_passed": "route_aware_client_pool::tests::managed_request_timeout_covers_queued_transport_construction",
+        "passed": 119,
+        "reported_total": 126,
+        "skipped": 0,
+        "unchanged_existing_failed": 6,
+        "unchanged_existing_passed": 106
+      }
+    },
+    "test_preflight_formula_failure": {
+      "bytes": 388,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-corrections-03/PREFLIGHT_ATTEMPT01.json",
+      "sha256": "9a69ccd7f0e842ab22df77f0d87f5ce143765fb91ba8a231c516ed329e471329"
+    },
+    "tls_control01": {
+      "description": "Outer env removal only; failed",
+      "failed": 6,
+      "filtered": 118,
+      "id": "01",
+      "inputs": {
+        "log": {
+          "bytes": 16041,
+          "path": "/workspace/acceptance/p03-http-native-a-tls-no-ca-control-01.log",
+          "sha256": "16a731989cc479f95794d7714d0289d8db9a152552e7b1fd102dff6615e1e60a"
+        },
+        "source.json": {
+          "bytes": 2473031,
+          "path": "/workspace/acceptance/p03-http-native-a-tls-no-ca-control-01.source.json",
+          "sha256": "791123a7bac9f2e29c0c72b5a76a1f077f8b4cda5a3759430fe254706725d57d"
+        },
+        "strict.json": {
+          "bytes": 645,
+          "path": "/workspace/acceptance/p03-http-native-a-tls-no-ca-control-01.strict.json",
+          "sha256": "e7c05e977c313cba302bd148ecc62d0b10418b5a548455ef79d1bee0e59bfce9"
+        }
+      },
+      "passed": 2,
+      "source_count": 8941,
+      "source_map_sha256": "a084c11fac9163626c1cc19bc95cfd809b2ed1c31a19895c46426885b9500e33",
+      "source_unchanged": true,
+      "strict": {
+        "adopted_returncode_histogram": {
+          "100": 1
+        },
+        "command_returncode": 100,
+        "exit_status": 100,
+        "runner_error": null
+      }
+    },
+    "tls_control02": {
+      "description": "Immediate pre-exec target-runner CA removal; passed",
+      "failed": 0,
+      "filtered": 118,
+      "id": "02",
+      "inputs": {
+        "log": {
+          "bytes": 1875,
+          "path": "/workspace/acceptance/p03-http-native-a-tls-target-runner-control-02.log",
+          "sha256": "62e4a01b602c90db5982aa0817d1753e83824fd13b66f08b907637cd810c97fa"
+        },
+        "source.json": {
+          "bytes": 2473207,
+          "path": "/workspace/acceptance/p03-http-native-a-tls-target-runner-control-02.source.json",
+          "sha256": "9a423c9e4d50122c4cc62fb5cef372fc4b21b67d32f4e4bad1007738fa8acf2c"
+        },
+        "strict.json": {
+          "bytes": 801,
+          "path": "/workspace/acceptance/p03-http-native-a-tls-target-runner-control-02.strict.json",
+          "sha256": "f10c17da13939bdda6c1d882701a9325f0e9c7564a53415f61dd4d4a3399f075"
+        }
+      },
+      "passed": 8,
+      "source_count": 8941,
+      "source_map_sha256": "a084c11fac9163626c1cc19bc95cfd809b2ed1c31a19895c46426885b9500e33",
+      "source_unchanged": true,
+      "strict": {
+        "adopted_returncode_histogram": {
+          "0": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null
+      }
+    }
+  },
+  "preserved_older_proposal02": {
+    "Stage_B_adopted": false,
+    "accepted_implementation": false,
+    "all_manifest_member_hashes_verified": true,
+    "archive_bytes": 121440,
+    "archive_sha256": "7abfb3375e3696331779c9db6802144845c17e6e23886b24e18e1fa05e7587e3",
+    "files": [
+      {
+        "bytes": 10562,
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-02/unadopted-proposals/http-constructor-02/MANIFEST.json",
+        "sha256": "bd6279c764765521ebe9a49098d4f6e7aa39428dd217cadbe0adb08b15eebef6"
+      },
+      {
+        "bytes": 766,
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-02/unadopted-proposals/http-constructor-02/README.md",
+        "sha256": "e32e504283a86e052b92f4f56fbcb7cdf6b2897865d7afde6e53296d9c97ab84"
+      },
+      {
+        "bytes": 121440,
+        "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-02/unadopted-proposals/http-constructor-02/sealed-proposal02.tar.gz",
+        "sha256": "7abfb3375e3696331779c9db6802144845c17e6e23886b24e18e1fa05e7587e3"
+      }
+    ],
+    "regular_members": 58,
+    "scope": "Original source-only proposal A/B preservation; active Stage A contains subsequent corrections. Publishing this archive is external source preservation only, not Stage B compilation or runtime acceptance."
+  },
+  "preserved_snapshot02": {
+    "bytes": 896,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-publication-evidence-03-snapshot02/MANIFEST.json",
+    "sha256": "fd6c8c0976a47c466d6426f646841fb132a526e756f698fa12e9c79342fff560"
+  },
+  "prior_cli03_proof_preservation": {
+    "allocated_bytes_released": 302977024,
+    "archive": {
+      "bytes": 67557708,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-current-cli03-testproof-preserved-01.tar.zst",
+      "sha256": "fe95def233d65053b8f1014bc6f6324fda2b0d746e35572e15c897df3a01ef6b"
+    },
+    "archive_restore_receipt": {
+      "bytes": 1897,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cli03-proof-preservation-01/ARCHIVE_AND_RESTORE.json",
+      "sha256": "7a4d3084c4a1dd9f7f5be9bed57276aa04794ac82f35d0ee02c2e0a8f3e5607d"
+    },
+    "external_backup_established": false,
+    "full_restore_hash_verification_reported": true,
+    "large_protected_runtime_files_rehashed_at_release": false,
+    "member_count": 9,
+    "members": {
+      "cargo/codex-65eee2a45383cad7.d": {
+        "bytes": 5100,
+        "sha256": "eea02c9b8a631f71b311bd9c742270254c9a8643724abff1cf53bf3fb3ede046"
+      },
+      "cargo/dep-test-bin-codex": {
+        "bytes": 1691,
+        "sha256": "64c69f6935142f7205581995fdcdc92d5f8443ef2e0fdfc2f6b0740c7a5ff160"
+      },
+      "cargo/test-bin-codex": {
+        "bytes": 16,
+        "sha256": "e59fa23a3820e8baafae32af8f8569221d8956706999c54e7e42bd37793fe4e3"
+      },
+      "cargo/test-bin-codex.json": {
+        "bytes": 6634,
+        "sha256": "78701232c5751772b37494ce976b27cf3a1eb73691cdc0a500e1b68eb686e171"
+      },
+      "evidence/binary-binding.json": {
+        "bytes": 2384,
+        "sha256": "8b242ef66836d6c15b8323534adb78c6793e81868b575a132340b107ae7ffb5e"
+      },
+      "evidence/build.log": {
+        "bytes": 3418,
+        "sha256": "d0bbd846646e8637bf03391bcfcb5a39cbad18c6d2824986f917f4e555f3cb1a"
+      },
+      "evidence/source.json": {
+        "bytes": 2488230,
+        "sha256": "54b8ef49974edbcb11f399b68cdc287a737de4446e085cd89fc242b5c73332f1"
+      },
+      "evidence/strict.json": {
+        "bytes": 429,
+        "sha256": "2f87957d250df3e99f5222258faadcd5c304b7207a110b851a753c62f6de60b7"
+      },
+      "proof/codex-cli03": {
+        "bytes": 306754624,
+        "sha256": "93ffbf74e26bb7eb6e978d55681e4dabe66bb0cb3b8b7206245f74ebde2b78e7"
+      }
+    },
+    "old_archives_restores_runtime_homes_untouched": true,
+    "only_new_restore_removed": "/dev/shm/p03-current-cli03-testproof-restored-01",
+    "release_completed": true,
+    "release_receipt": {
+      "bytes": 684,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cli03-proof-release-02/RELEASE.json",
+      "sha256": "4eb16445eac17e86e655fba6e509479cac593cbc87f1904eb2a60c30628612da"
+    },
+    "released_directory_count": 4,
+    "released_file_count": 9,
+    "retired_exact_inactive_test_elf_sha256": "93ffbf74e26bb7eb6e978d55681e4dabe66bb0cb3b8b7206245f74ebde2b78e7",
+    "retirement_outside_roots_and_bind_mount_alias_absence_proven": false,
+    "retirement_protected_metadata_unchanged": true,
+    "retirement_receipt": {
+      "bytes": 5121,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cli03-proof-preservation-01/RETIREMENT.json",
+      "sha256": "250089cdf9da5d67fdcf5e42bc74b29a57000cbbd5ceb53fa3d50f24e4362038"
+    },
+    "scope": "VM-local preservation of old CLI03 test proof. Original standalone inactive ELF retired only after archive/full-restore verification; only newly created restore was later released. No source, runtime home, old proof archive or prior restore removal is claimed or authorized by this evidence."
+  },
+  "prior_lint01": {
+    "command": "just fix -p codex-http-client",
+    "errors": 0,
+    "log": {
+      "bytes": 4018,
+      "path": "/workspace/acceptance/p03-http-native-a-fix-01.log",
+      "sha256": "44f122c6ce18eeb84ec639ba73435344a862a1ec6a7af4308b0b11de325ffcdd"
+    },
+    "native_or_test_source_mutated_by_lint": false,
+    "prefix": "/workspace/acceptance/p03-http-native-a-fix-01",
+    "returncode": 0,
+    "source_count": 8942,
+    "source_map_sha256": "f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6",
+    "source_receipt": {
+      "bytes": 3723199,
+      "path": "/workspace/acceptance/p03-http-native-a-fix-01.source.json",
+      "sha256": "b8358322844761f35b579d3a21477824e08011e3c44ff510b46489e12e94f308"
+    },
+    "source_unchanged": true,
+    "status": "exit0, source unchanged, one unsuppressed test warning",
+    "strict": {
+      "adopted_returncode_histogram": {
+        "0": 1
+      },
+      "command_returncode": 0,
+      "exit_status": 0,
+      "reaped_count": 1,
+      "runner_error": null,
+      "subreaper": true
+    },
+    "strict_receipt": {
+      "bytes": 364,
+      "path": "/workspace/acceptance/p03-http-native-a-fix-01.strict.json",
+      "sha256": "520919b99568ea041fc252b8148c59e9f7787a89da576cb04c88bd32d3c36441"
+    },
+    "substantive_warning_count": 1,
+    "warning": "clippy::await_holding_lock in route_aware_constructor_custody_tests.rs:198; explicit drop(clients) precedes await but Clippy reports guard lexical scope",
+    "warning_summary": [
+      "this `MutexGuard` is held across an await point",
+      "`codex-http-client` (lib test) generated 1 warning"
+    ]
+  },
+  "publication_source": {
+    "candidate": {
+      "bytes": 1234533,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-lexical-lock-01/CANDIDATE04.json",
+      "sha256": "358f1f03b3bd72e102e0bd9d9328089f6eeadc34d61e4c7dbbf743ef0dd05d8d"
+    },
+    "source_count": 8942,
+    "source_map_sha256": "73fd6ab756059a07f37a9b9dd15e0ebb06518f30773a560d0dad8318b33a0292",
+    "style_transition": {
+      "bytes": 2931,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-publication-evidence-03-snapshot03/STYLE_TRANSITION.json",
+      "sha256": "3e0bf04969281b01c6120a7a7ff375714bccfee8a5c98eeefd6e4bd121e3d2c4"
+    }
+  },
+  "published_base_reference": "6446edf8df91347dbea0b9d8dc0d60503a01cf91",
+  "reviewer_actions": "Read-only receipt/hash/source inspection and R-only sanitized evidence preparation; no tests, builds, source edits or processes started.",
+  "schema": "p03-http-native-A-checkpoint-evidence-v1",
+  "source_count": 8942,
+  "source_map_sha256": "f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6",
+  "status": "bounded Stage A package checkpoint:139 tests and ambient classification4 passed; later single-path mechanical lock-scope transition reviewed; final fmt/lint02 exit0, zero warnings, source unchanged",
+  "tested_source_identity_note": "Top-level source_count/source_map/candidate refer to exact runtime-tested f0d660 source. publication_source and STYLE_TRANSITION identify later73fd6a style-only source; tests were not rerun solely for style.",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+}

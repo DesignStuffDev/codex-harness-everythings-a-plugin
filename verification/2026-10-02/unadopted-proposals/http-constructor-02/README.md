@@ -1,0 +1,3 @@
+This source-only archive preserves HTTP constructor proposal02, including its original package implementation and proposed process-final integration. It supersedes neither active source nor test evidence. Stage A was subsequently adopted and corrected; the archive retains the original proposal bytes. Stage B here remains unadopted and unverified at this checkpoint. The later composition-test proposal is separately preserved in the original VM. No production binaries, runtime state, credentials or generated build caches are included.
+
+SHA256: `7abfb3375e3696331779c9db6802144845c17e6e23886b24e18e1fa05e7587e3`. The manifest hashes every regular archive member. Publication provides external preservation of these exact proposal sources, not runtime acceptance.
