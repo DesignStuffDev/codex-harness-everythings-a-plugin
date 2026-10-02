@@ -22,8 +22,12 @@ use tracing::warn;
 use zip::ZipArchive;
 
 mod bounded_http;
+mod callback_scope;
 mod http_client;
 mod ownership;
+pub use callback_scope::CuratedCallbackObservation;
+pub use callback_scope::CuratedCallbackScope;
+pub use callback_scope::CuratedSyncCallback;
 pub(crate) mod worker;
 use ownership::ATTEMPTS;
 use ownership::SyncAttempt;
