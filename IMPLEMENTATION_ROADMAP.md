@@ -3,7 +3,7 @@
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
 The current source42 production/runtime checkpoint now passes the12 planned
 rebuilt-host gates. Source code is preserved by WIP047e91e; subsequent15bd9d1 records
-409 package tests and scoped lint. Current build/runtime publication is being prepared
+409 package tests and scoped lint. Current build/runtime evidence is published at `ad2fc04768ff7abc8bbd623de462dee6d9b69c07`
 on the same `wip/p03-process-final-and-mcp-preservation-20261002` branch. Main remains
 `781080f7e3c8bfe1953378001d777dff33d74bc3` until the remaining promotion gates pass.
 
@@ -47,10 +47,14 @@ first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical
 [COMPONENTS.md](COMPONENTS.md), [VALIDATION.md](VALIDATION.md), and the domain plans
 remain supporting evidence/designs; they do not supersede this ordered plan.
 
-P18U now has a bounded [offline impact-report precursor](upstream/UPSTREAM_IMPACT_README.md):
-17 planner fixtures and 22 existing lineage checks passed; real local-object planning correctly
-remains unresolved. It is not an installed updater, revision integration or rollback result.
-The complete P18U release gates below remain required.
+P18U now has an independently installed [read-only review component](component-sdk/examples/upstream-maintenance/README.md).
+Its 17 planner, 22 lineage and 11 boundary checks passed; 23 acceptance commands (19 through the real manager)
+proved external build/install/invoke/version rejection/replacement/removal and a
+host-independent packaged inspector without a host rebuild. The actual local-object
+report retained no-upstream-advance, unavailable composition and historical ownership
+blockers. This is additive review support, not a native extraction, update application,
+later-revision integration or rollback result. The complete P18U release gates below
+remain required; see [evidence](verification/2026-10-02/p18u-installed-impact/README.md).
 
 ## 1. Endpoint and scope
 

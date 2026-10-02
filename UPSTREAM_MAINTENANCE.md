@@ -1,12 +1,29 @@
 # Upstream maintenance and recovery contract
 
-Status: **required component; offline planning support exists, installed updater and activation do not**.
+Status: **independently installed review support verified; update preparation, activation and recovery remain incomplete**.
 This workflow preserves a maintainable OpenAI Codex fork as native services become
 independently installable. It does not count as extraction of an existing engine
 subsystem. It must ship as its own replaceable package, with an external recovery
 entrypoint that still works if the candidate harness cannot start.
 
-The initial [offline impact planner](upstream/UPSTREAM_IMPACT_README.md) compares exact local
+The new `codex.maintenance.upstream-review` package exposes the existing read-only
+planner through `tool:upstream_impact_review` v1. It passed 17 planner, 22 lineage
+and 11 adapter checks, plus 23 acceptance commands (19 through the real manager): external SDK build, install,
+invoke, incompatible API rejection, explicit replacement, removal and standalone
+inspection with Codex absent from PATH. The manager hash stayed unchanged. Its
+plan ID binds request, report, contract and packaged-tool hashes. See the
+[installed-review evidence](verification/2026-10-02/p18u-installed-impact/README.md)
+and [source mapping](upstream/p18u-installed-impact-lineage.json).
+
+This is an additive maintenance adapter, not another native extraction or a complete
+updater. The actual local-object request used the original upstream revision and
+published ad2fc047 as the requested composition; it correctly retained no-advance,
+historical-lineage and unavailable-local-composition blockers. It always returns
+`update_allowed:false`. No later upstream revision integration, active cancellation,
+state restoration or rollback is proved. No polling or live installation mutation
+was enabled. The standalone bootstrap currently inspects; it cannot restore.
+
+The earlier [offline impact planner](upstream/UPSTREAM_IMPACT_README.md) compares exact local
 revision trees and joins changed paths to the existing historical lineage index. It retains
 missing mappings, ambiguous owners and semantic/security/migration uncertainty. Seventeen
 planner fixtures and 22 existing lineage fixtures passed; a real local-object call at the same
@@ -758,5 +775,6 @@ forced termination reported uncertainty and did not recover the held message.
 The native storage/attachment/search packages were reused without host recompilation
 during installation; no new package build or upstream revision is claimed.
 P18U's real later-revision integration, migration/compatibility gates and failed-update
-external recovery remain required. A read-only installed maintenance adapter is being
-evaluated separately; it cannot substitute for those acceptance scenarios.
+external recovery remain required. The separately accepted read-only maintenance
+adapter is recorded in [installed-review evidence](verification/2026-10-02/p18u-installed-impact/README.md);
+it cannot substitute for those acceptance scenarios.

@@ -16,16 +16,16 @@ Full earlier receipts/actions are preserved in
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Last verified publication: `15bd9d19804094d9f22dbe470ef5c0c0cc526f1b`, tree
-  `ee4ef7d763ee50fd5c28bdd57ab23c5833e94c41`, on
+- Last verified publication: `ad2fc04768ff7abc8bbd623de462dee6d9b69c07`, tree
+  `eadf6d886f35b8b2af9b27086de3d139c9512c24`, on
   `wip/p03-process-final-and-mcp-preservation-20261002`.
-  All12 selected files/312,522B and both refs read back. This WIP checkpoint records
-  unchanged source42 scoped login lint02 after login301/provider108 and preserves
-  unadopted staging designs01/02. Parent34c0281 publishes those409 package tests,
-  focused4 overlap301, and caller B source archive;047e91e preserves actual source42.
-  Main remains `781080f7e3c8bfe1953378001d777dff33d74bc3`; no promotion is implied.
-- Publication receipt: R/p03-auth-refresh-lint-publication-01/PUBLICATION.json,
-  SHA256 `43338829513d17ec04bfd27da1ac981953532fd96b60dd49689dd371d7cd0066`.
+  All24 selected files/608,325B and both refs read back. This checkpoint publishes
+  exact source42 production/all12 runtime evidence, screenshots, preservation receipts,
+  causal-test drafts and the updated roadmap/ledger. Prior15bd9d1 records scoped lint,
+  34c0281 records409 package cases,047e91e preserves actual source42.
+  Main remains `781080f7e3c8bfe1953378001d777dff33d74bc3`; no promotion implied.
+- Publication receipt R/p03-auth-refresh-runtime-publication-01/PUBLICATION.json,
+  SHA256 `e268c61b6d8effffe46d8806f297e9fade57f781afd7ae62d0561e15b00bcbee`.
 - R = `/workspace/recovery-backups/20260930T165936Z`;
   A = `/workspace/acceptance`. Full two-worktree/Git/SDK/evidence archive:
   R/codex-recovered-workspace.tar.zst, SHA256
@@ -39,7 +39,7 @@ Full earlier receipts/actions are preserved in
 
 ## Current accepted source and runtime
 
-Current source:8,949 files/map
+Current production Rust baseline:8,949 files/map
 `42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59`.
 Candidate R/p03-auth-refresh-adoption-01/CANDIDATE_FORMATTED.json SHA
 `7f6a7aaf7fd772b8b6aa66e172dfeba7af7ad3f3cce6839c0b2dbb90c713d4a9`.
@@ -83,7 +83,7 @@ fresh runtime homes in matching `/tmp/*-runtime` directories. All bind unchanged
 source and host/package identities; these are reused native packages, not fresh builds.
 The [all12 runtime projection](verification/2026-10-02/p03-auth-refresh-runtime/README.md)
 is reviewed and sealed: EVIDENCE SHAe67dfdb9927ca667d370e8c5bb361e3ed542402b3fe6ac4e73127fb871ff0cb0.
-Publication is the immediate next action.
+Publication and selected-file/ref readback are complete; next adoption remains separate.
 
 In-app Browser/Context7 remain unavailable. Real Chromium via Playwright used
 deterministic inference; root viewed current recovery and search screenshots.
@@ -93,11 +93,50 @@ Raw-input/response-only history, native attachment resolve/envelope/blob durabil
 active constructor/lower-transport/MCP custody and whole-host graceful cleanup remain
 unproved. Nonzero adopted statuses are not dismissed as zombies or universally graceful.
 
+## Latest additive maintenance checkpoint
+
+`codex.maintenance.upstream-review` v0.1.0 is now implemented and accepted as an
+independently installed tool-v1 package. It is read-only review support, not a new
+native extraction or completed updater. All50 Python cases pass (17 planner,
+22 lineage,11 adapter). The end-to-end acceptance executes23 commands,19 through unchanged manager f054:
+external SDK builds, installation, invocation, incompatible API rejection, explicit
+replacement with observed executable marker, removal and packaged inspection with
+Codex absent from PATH. Strict exit0/null; sole reaped command exit0. Every report
+keeps `update_allowed:false`. The chosen same-upstream/ad2fc composition request
+correctly retains unavailable local composition and historical ownership blockers.
+
+The current additive test source has8,962 files/map
+`930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5`.
+All original8,949 paths remain byte-identical. Two fresh runtime gates also pass:
+manual migration and two-cycle real Chromium GUI regression (approval, native tool,
+Stop, streaming, native search, cold recovery and actual Launch Ctrl+C). Host/native
+packages are reused, not rebuilt. This GUI cycle does not invoke the maintenance
+tool in an engine turn; in-app Browser/live-provider validation remain unavailable.
+
+After tests, only the new SDK README changed to describe accepted evidence. Current
+documented source map is
+`27c3eda0c294717768fe7d40af7ddad8363e3f59f7c21784875b39addac4d4f6`,
+R/p18u-installed-impact-adoption-01/CANDIDATE_DOCUMENTED_FINAL.json SHA
+`75a04501ba35ad9fd0e099b6cc0d1ece2e1e5e8f8e23eea8ec8903bd1f25a746`.
+No runtime source or tests changed after acceptance; original receipts retain930a.
+[Evidence](verification/2026-10-02/p18u-installed-impact/README.md),
+[GUI supplement](verification/2026-10-02/p18u-installed-impact/GUI_README.md),
+[source mapping](upstream/p18u-installed-impact-lineage.json).
+Publication pending on the existing WIP branch; main promotion remains blocked.
+
+The maintenance adapter’s active Git cancellation remains fixture-only. Real later-upstream integration,
+coordinated versions/migrations, candidate activation and failed-update/state
+restoration are not implemented or proved. The standalone entrypoint inspects;
+it cannot recover a failed installation. P18U release gates remain open.
+
 ## Resources and preservation
 
-No compiler or acceptance command remains active after root12778; preserved older GUI/viewer services remain. Final observed free
-overlay477,310,976B, /tmp572,035,072B, hard-unused memory1,256,574,976B; OOM10/kill5
-unchanged. Tmpfs and /dev/shm charge the same16GiB cgroup. Another substantial Rust
+No current acceptance command remains active after root41618; preserved older GUI/viewer services remain. Final observed free
+overlay448,634,880B, /tmp391,753,728B, hard-unused memory986,247,168B; OOM10/kill5
+unchanged. Two exact ordinary rlib clean-page caches were advised DONTNEED to admit
+the GUI; file identities stayed unchanged, no source/archive/cache file was removed.
+Historical PIDs293798/293800/293801 are still unreaped Z/parent1; earlier absent
+wording was incorrect. Their state is not used to satisfy any lifecycle assertion. Tmpfs and /dev/shm charge the same16GiB cgroup. Another substantial Rust
 build is not admitted on unchanged assumptions. No broad cache deletion/process kill.
 [Resource evidence](verification/2026-10-02/p03-auth-refresh-production-resources/README.md)
 records complete preservation before exact four test-ELF and four ordinary-cache
@@ -109,15 +148,19 @@ and remote-viewer processes. Never replay actions after selector reuse.
 
 ## Ordered next actions
 
-1. Review and publish exact current build/runtime evidence, screenshots, resource
-   receipts and preserved causal drafts on the existing WIP branch. Recheck both refs,
-   nonforce update and full selected-file readback; retain main.
+1. Publish the accepted additive maintenance reviewer and separate current-source GUI
+   supplement on the existing WIP branch; preserve the unadopted auth-install cohort
+   source archive with explicit untested status. Then review resource admission for
+   the coherent8-path external-token-install ownership slice (432 preformat changed
+   lines), without adopting an untestable Rust candidate. R/p03-ephemeral-token-install-
+   cohort-proposal-01 remains unadopted/uncompiled; source-only archive35477172 is
+   staged under verification/2026-10-02/unadopted-proposals/ephemeral-token-install-cohort.
+   Do not count auth custody support or the additive reviewer as native extraction.
 2. Remaining P03 test gates: TUI6+2 snapshots, App Server lifecycle/search/storage16
    and same-process replacement parents. Prior TUI OOM ran zero tests; do not retry
    unchanged resource blocks. App Server rmcp elicitation adds build cost. Advance
-   independent feasible work when admission remains blocked. A narrower complete
-   external-token-install ownership slice and an installable read-only maintenance
-   adapter are being evaluated in R only; neither is adopted/compiled/accepted.
+   independent feasible work when admission remains blocked. The narrower external-token-install ownership slice remains a reviewed R-only
+   proposal. The additive maintenance reviewer is now accepted separately above.
 3. Review/adopt complete Ephemeral storage/caller activation only after prerequisites.
    [Writer audit](AUTH_STORAGE_OWNERSHIP.md) and
    [contract snapshot](verification/2026-10-02/unadopted-proposals/ephemeral-auth-design/README.md)

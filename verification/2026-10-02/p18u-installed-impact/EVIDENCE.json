@@ -1,0 +1,1187 @@
+{
+  "schema": "codex-p18u-installed-impact-evidence-v1",
+  "classification": "additive installed read-only maintenance review adapter",
+  "new_native_extracted_family": false,
+  "whole_platform_complete": false,
+  "p18u_complete": false,
+  "tested_source": {
+    "count": 8962,
+    "source_map_sha256": "930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5",
+    "candidate_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-installed-impact-adoption-01/CANDIDATE_FORMATTED.json",
+      "bytes": 1238635,
+      "sha256": "22d108500a09eba15d682207fce8a86e52285eb0a21d2994ee4556bce7ef4018"
+    },
+    "previous_source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+    "original_8949_source_files_including_rust_unchanged": true,
+    "added_files": [
+      {
+        "path": "component-sdk/examples/upstream-maintenance/LICENSE",
+        "bytes": 10926,
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/NOTICE",
+        "bytes": 242,
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/README.md",
+        "bytes": 5853,
+        "sha256": "406051fbd28a88da79b557df847a14a1a8271b32020033eff3d79bd0a7bd5878"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/bootstrap_entry.py",
+        "bytes": 332,
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/build_package.py",
+        "bytes": 1101,
+        "sha256": "0663b25e849232573278de480a5603b81837481ef6f65bae33296f4437527988"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/codex-component.json",
+        "bytes": 1269,
+        "sha256": "df670dd9b0aef1603bbd1f0134cefbc85a3ac5d2ab9b939cd2978c9393b950b3"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+        "bytes": 10757,
+        "sha256": "61b92034c42ec7393854416a0668db89654c294460557c56d30743de881ac4e5"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/plan_upstream_impact.py",
+        "bytes": 16266,
+        "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+        "bytes": 978,
+        "sha256": "530163f565ec34c6108ffca6f006a058c2e3c058337428675bb5fc1fb3c9090a"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/static/TOOL_PROVENANCE.json",
+        "bytes": 995,
+        "sha256": "a951e414f8cc85ed17f141da5cf17fb50e239bda66e651cb2babcb3d334acb0c"
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/validate_checkpoint_lineage.py",
+        "bytes": 30194,
+        "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c"
+      },
+      {
+        "path": "component-sdk/tests/test_upstream_maintenance.py",
+        "bytes": 7954,
+        "sha256": "7ff5c0dc4be8a1516211d3a6fedfbbb4cfe3382e2a4b61ce9289062297ec452c"
+      },
+      {
+        "path": "component-sdk/tests/upstream_maintenance_acceptance.py",
+        "bytes": 10840,
+        "sha256": "17b80fc96434867c3a5fdd46ecc2aac786f090a20b84d51e5c967bb53043cf17"
+      }
+    ],
+    "note": "Candidate receipt predates tests and correctly says tests_executed=false; this later projection records actual tests against that identity."
+  },
+  "review_and_repairs": {
+    "review_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-installed-impact-independent-review-02/REVIEW.json",
+      "bytes": 6994,
+      "sha256": "eab9baa9ced63e4be67c422c9c45c518087058edfd422f8661bbda7f654ef2b6"
+    },
+    "blocking_static_findings_remaining": [],
+    "api_version_negative_case": {
+      "original_proposal_manifest_sha256": "a144a9680f18f4f09e3e0ab713d1b0b5c79af3548c674ed3c79267980666ade0",
+      "later_worker_reseal_sha256": "affe167ee7c43035cef3e06d656503af1882a805583e98072265e87c7803f41a",
+      "all13_root_adopted_files_matched_original_plan": true,
+      "original_adopted_files_preserved": "files-before-negative-isolation",
+      "correction": "Unique component name prevents masking API version rejection with provider-conflict rejection. No runtime had executed.",
+      "before_sha256": "b1709ad6f81d045b07f63073a093d73503e7a31b939c60ec47315e696cb91626",
+      "after_sha256": "4f2845d17a10edcb4d416bd22f66f2060374e95b72bac92335e8f30c98804150"
+    },
+    "transition_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-installed-impact-adoption-01/RESEAL_TRANSITION.json",
+      "bytes": 653,
+      "sha256": "03026a2f3409e188a8b389a59f1e4086c9561e624e15b3b69081fbf884a2eab9"
+    },
+    "proposal_reseal_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-installable-impact-proposal-01/MANIFEST.json",
+      "bytes": 3164,
+      "sha256": "affe167ee7c43035cef3e06d656503af1882a805583e98072265e87c7803f41a"
+    },
+    "plan_identity_fix": "Root added planner and validator SHA256 to plan_id and one causal boundary test; no copied planner/validator code changed.",
+    "format": {
+      "exit": 0,
+      "session": 95754,
+      "changed_paths": [
+        "component-sdk/examples/upstream-maintenance/build_package.py",
+        "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+        "component-sdk/examples/upstream-maintenance/plugin.py",
+        "component-sdk/tests/test_upstream_maintenance.py",
+        "component-sdk/tests/upstream_maintenance_acceptance.py"
+      ],
+      "rust_source_unchanged": true
+    }
+  },
+  "tests": [
+    {
+      "label": "planner",
+      "tests_executed": 17,
+      "returncode": 0,
+      "started_utc": "2026-10-02T22:23:54Z",
+      "finished_utc": "2026-10-02T22:23:55Z",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/upstream",
+        "-p",
+        "test_plan_upstream_impact.py"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "source_count": 8962,
+      "source_map_sha256": "930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5",
+      "source_before_equals_after_and_candidate": true,
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/planner.source.json",
+        "bytes": 3731637,
+        "sha256": "fd5cc574b541c036fcd17c24b966bda28c2dccd47f46674216c740078e364335"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/planner.log",
+        "bytes": 116,
+        "sha256": "4daab40b5c31aee0924067166c7d6b2cc07596caa8d23a9055cd15c5bb3c6bb9"
+      },
+      "full_log": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.003s\n\nOK\n"
+    },
+    {
+      "label": "lineage",
+      "tests_executed": 22,
+      "returncode": 0,
+      "started_utc": "2026-10-02T22:24:00Z",
+      "finished_utc": "2026-10-02T22:24:01Z",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/upstream",
+        "-p",
+        "test_validate_checkpoint_lineage.py"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "source_count": 8962,
+      "source_map_sha256": "930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5",
+      "source_before_equals_after_and_candidate": true,
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/lineage.source.json",
+        "bytes": 3731644,
+        "sha256": "8979c90aef055e61140c2755d903c8b9adfdcf862cd04c50b51d59fd20f3110e"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/lineage.log",
+        "bytes": 121,
+        "sha256": "86eaa534cabf5cc8150a0ba91a7d2161ec2a13b9e72dc739d6d21705209efd4b"
+      },
+      "full_log": "......................\n----------------------------------------------------------------------\nRan 22 tests in 0.007s\n\nOK\n"
+    },
+    {
+      "label": "adapter",
+      "tests_executed": 11,
+      "returncode": 0,
+      "started_utc": "2026-10-02T22:24:05Z",
+      "finished_utc": "2026-10-02T22:24:07Z",
+      "command": [
+        "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_upstream_maintenance.py"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "source_count": 8962,
+      "source_map_sha256": "930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5",
+      "source_before_equals_after_and_candidate": true,
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/adapter.source.json",
+        "bytes": 3731696,
+        "sha256": "0f43263d7cf770d0926538d665c23cdd4f067f26b9fae09d113dc41410cd549d"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/adapter.log",
+        "bytes": 110,
+        "sha256": "1607edbfae007ff56d6138df5d24d28abfe4b1ef27902563e1bb9ad258e5c4ec"
+      },
+      "full_log": "...........\n----------------------------------------------------------------------\nRan 11 tests in 0.005s\n\nOK\n"
+    },
+    {
+      "label": "runtime",
+      "tests_executed": null,
+      "returncode": 0,
+      "started_utc": "2026-10-02T22:24:40Z",
+      "finished_utc": "2026-10-02T22:24:54Z",
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p18u-installed-impact-01/runtime.strict.json",
+        "--",
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/upstream_maintenance_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--sdk-python",
+        "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "--request",
+        "/workspace/acceptance/p18u-installed-impact-01/request.json",
+        "--work-dir",
+        "/tmp/p18u-installed-impact-01/runtime"
+      ],
+      "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+      "source_count": 8962,
+      "source_map_sha256": "930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5",
+      "source_before_equals_after_and_candidate": true,
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/runtime.source.json",
+        "bytes": 3732128,
+        "sha256": "b2a7b36e0561cf58b2c137464e0805d566a4f0401b1b26c24a44cf76646464f4"
+      },
+      "log": {
+        "path": "/workspace/acceptance/p18u-installed-impact-01/runtime.log",
+        "bytes": 54,
+        "sha256": "58d83c9e6605754dae8a1182f592bdcefa5f48296f3621d27c7022a49840b774"
+      },
+      "full_log": "/tmp/p18u-installed-impact-01/runtime/acceptance.json\n"
+    }
+  ],
+  "total_python_cases": 50,
+  "full_workspace_suite_run": false,
+  "runtime": {
+    "passed": true,
+    "acceptance_receipt": {
+      "path": "/tmp/p18u-installed-impact-01/runtime/acceptance.json",
+      "bytes": 24336,
+      "sha256": "6e91cb09a1adb8e8c18f327f498dab7f8b68f8aed7ffaa4bad0896aae55e0d03"
+    },
+    "strict_receipt": {
+      "path": "/workspace/acceptance/p18u-installed-impact-01/runtime.strict.json",
+      "bytes": 766,
+      "sha256": "a2293209eb019da997202cb7ce3e0def30dc61436aa073a7bc63162287d0312e"
+    },
+    "strict_report": {
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/upstream_maintenance_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--sdk-python",
+        "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "--request",
+        "/workspace/acceptance/p18u-installed-impact-01/request.json",
+        "--work-dir",
+        "/tmp/p18u-installed-impact-01/runtime"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 1070678,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 1070678,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 12.362734081980307
+    },
+    "command_count": 23,
+    "commands": [
+      {
+        "ordinal": 1,
+        "operation": "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "returncode": 0,
+        "stdout_sha256": "7ffdf17fa3d522e9921834086e233b96811148c2c83d42463d015a752c4516e0",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 128,
+        "meaning": "inspect installed SDK"
+      },
+      {
+        "ordinal": 2,
+        "operation": "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "returncode": 0,
+        "stdout_sha256": "f45ed023d727c71f8d9ec3c47a48639beee2ab00510aa503c7988931f3d8435e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 48,
+        "meaning": "build independent initial package"
+      },
+      {
+        "ordinal": 3,
+        "operation": "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "returncode": 0,
+        "stdout_sha256": "d0d21b3dcdfdc9b2a74a4affd6d7aa4c726c85244c24efa1b7e7a28f87e95a9d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 48,
+        "meaning": "build independent replacement package"
+      },
+      {
+        "ordinal": 4,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "661153ed002a9c76504180da89e6e8aa7c1e7e94cdb6ee7be0ac3c66239af410",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 34,
+        "meaning": "install initial package"
+      },
+      {
+        "ordinal": 5,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "912bc91559c3019df4802e98962716215f2ad10a21da97d2eaea288303c8bdbf",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 209,
+        "meaning": "list initial provider"
+      },
+      {
+        "ordinal": 6,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "2bf6f16ec484f98ea6aa852147f485eb8871b8e93c0a2678ba658c0bfdae2ba8",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 6708,
+        "meaning": "invoke initial review"
+      },
+      {
+        "ordinal": 7,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "a8b822b9f6957841b16ea976d469af76f735fd81d0278aee67efcb9a491ed565",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 376,
+        "meaning": "reject wrong input digest"
+      },
+      {
+        "ordinal": 8,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "91d3a7cef51e5b1151b2ebc3ae3cf60eefee6b9cd243c07a836c1efada734714",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 392,
+        "meaning": "reject request contract v2"
+      },
+      {
+        "ordinal": 9,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "0716198f9276afc628a82d978a0318948dcbdefbbe443e070ca75edfd3c548cd",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5523,
+        "meaning": "report missing local revision"
+      },
+      {
+        "ordinal": 10,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 1,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "9f33329a355f4496bf5847f9d64a755460240b1fa829d5c8f9e5159a753cbc18",
+        "stdout_bytes": 0,
+        "meaning": "reject distinct-name package with API2"
+      },
+      {
+        "ordinal": 11,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "912bc91559c3019df4802e98962716215f2ad10a21da97d2eaea288303c8bdbf",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 209,
+        "meaning": "verify enabled catalog after API2 rejection"
+      },
+      {
+        "ordinal": 12,
+        "operation": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "returncode": 2,
+        "stdout_sha256": "52555fb9bca37757eff8c4f27137ec63a47a27b19668c3addefa3681f95d0c93",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 6265,
+        "meaning": "bootstrap without host on PATH"
+      },
+      {
+        "ordinal": 13,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 1,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "6a954c2214da6d00f718ffbf5aaba0f2b03f2cbd1bfcf55f2129abc23f248ee8",
+        "stdout_bytes": 0,
+        "meaning": "reject ambiguous provider install"
+      },
+      {
+        "ordinal": 14,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "912bc91559c3019df4802e98962716215f2ad10a21da97d2eaea288303c8bdbf",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 209,
+        "meaning": "verify catalog after ambiguous rejection"
+      },
+      {
+        "ordinal": 15,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "meaning": "select initial provider"
+      },
+      {
+        "ordinal": 16,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "c06ae1f9a89a2c548faa3ea010e2bd65873d4b25ec79844eabdb82251238f934",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 46,
+        "meaning": "install second provider with explicit selection"
+      },
+      {
+        "ordinal": 17,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "meaning": "select replacement provider"
+      },
+      {
+        "ordinal": 18,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "0fdc2eb77a31102f47c6a7610bea93e778567c1190932ab00757b8c3144b067f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 477,
+        "meaning": "verify replacement selection"
+      },
+      {
+        "ordinal": 19,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "323d568f8f978188432b78a831da800ebcc0b9bad5865590bcfcd07007696aaf",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 6732,
+        "meaning": "invoke replacement and observe executable marker"
+      },
+      {
+        "ordinal": 20,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "meaning": "remove replacement"
+      },
+      {
+        "ordinal": 21,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "meaning": "remove initial"
+      },
+      {
+        "ordinal": 22,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 0,
+        "stdout_sha256": "deebb6115a873e64652f5ced811a57275f3718a80cdec09a4e9cf82498976989",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 59,
+        "meaning": "verify empty catalog"
+      },
+      {
+        "ordinal": 23,
+        "operation": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "returncode": 1,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0eb2475e9786dc710d24bb0de99afb44ee53ae990936ab01b3943b0e4b6a071f",
+        "stdout_bytes": 0,
+        "meaning": "reject invocation after removal"
+      }
+    ],
+    "host_before": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296,
+      "identity": [
+        27,
+        1206871,
+        7274296,
+        1790930910034328288,
+        1790930910046328118
+      ]
+    },
+    "host_after": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296,
+      "identity": [
+        27,
+        1206871,
+        7274296,
+        1790930910034328288,
+        1790930910046328118
+      ]
+    },
+    "host_rebuilt": false,
+    "sdk_distribution": {
+      "path": "/tmp/p18u-installed-impact-01/venv/lib/python3.12/site-packages/codex_component_sdk/__init__.py",
+      "version": "0.1.0"
+    },
+    "sdk_setup_receipt": {
+      "path": "/workspace/acceptance/p18u-installed-impact-01/sdk-setup.json",
+      "bytes": 627,
+      "sha256": "811f3c9c81ee7a6af4bc0effec63357d65243fd06d84f1f1d2f27fb152d9a034"
+    },
+    "sdk_setup": {
+      "wheel_sha256": "41a13395059a4c315530e9533624e5b2cae1131988760a32acd0bc0614b3e97c",
+      "commands": [
+        {
+          "argv": [
+            "python3",
+            "-m",
+            "venv",
+            "/tmp/p18u-installed-impact-01/venv"
+          ],
+          "returncode": 0
+        },
+        {
+          "argv": [
+            "/tmp/p18u-installed-impact-01/venv/bin/python",
+            "-m",
+            "pip",
+            "install",
+            "--no-index",
+            "--no-deps",
+            "--no-compile",
+            "/workspace/acceptance/sdk-wheel-final-20260930/wheels/codex_component_sdk-0.1.0-py3-none-any.whl"
+          ],
+          "returncode": 0
+        }
+      ],
+      "network_used": false
+    },
+    "independent_project_copies_removed_before_install": true,
+    "bootstrap_host_absent_from_PATH": true,
+    "replacement_marker_observed": true,
+    "replacement_analysis_identical_after_removing_marker": true,
+    "packages": [
+      {
+        "directory": "/tmp/p18u-installed-impact-01/runtime/package-0",
+        "id": "codex.maintenance.upstream-review",
+        "version": "0.1.0",
+        "api_version": 1,
+        "files": [
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "relative_path": "LICENSE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "relative_path": "NOTICE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/README.md",
+            "bytes": 5853,
+            "sha256": "406051fbd28a88da79b557df847a14a1a8271b32020033eff3d79bd0a7bd5878",
+            "relative_path": "README.md"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/SDK-LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "relative_path": "SDK-LICENSE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/SDK-NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "relative_path": "SDK-NOTICE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/bootstrap.py",
+            "bytes": 332,
+            "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+            "relative_path": "bootstrap.py"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/codex-component.json",
+            "bytes": 1699,
+            "sha256": "bd0ef338dfabffe18b52e8a7bf9fa3d289872ff42a7b3488c33d42298b904173",
+            "relative_path": "codex-component.json"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-0/plugin.pyz",
+            "bytes": 28586,
+            "sha256": "7fd642a11726e5e5dc06ea5ae9b84b9f50788b6a5d2126ca582d2ffaa71c4837",
+            "relative_path": "plugin.pyz"
+          }
+        ],
+        "zipapp_members": [
+          {
+            "path": "__main__.py",
+            "bytes": 33,
+            "sha256": "2337c73d640f64ceee21be28586f9b6807ccd295d9de14d1eb03a4c9a70645ac"
+          },
+          {
+            "path": "bootstrap_entry.py",
+            "bytes": 332,
+            "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e"
+          },
+          {
+            "path": "build_package.py",
+            "bytes": 1101,
+            "sha256": "0663b25e849232573278de480a5603b81837481ef6f65bae33296f4437527988"
+          },
+          {
+            "path": "codex_component_sdk/LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+          },
+          {
+            "path": "codex_component_sdk/NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+          },
+          {
+            "path": "codex_component_sdk/__init__.py",
+            "bytes": 8523,
+            "sha256": "1987d1ca5b6fb76f01eed3cc79ab27f2022dc8962d09a2a5f22b0b771c755738"
+          },
+          {
+            "path": "codex_component_sdk/__main__.py",
+            "bytes": 7005,
+            "sha256": "b4824d3f922b9371fc0f3d29a3c8b6a14c84d9ea74f48c6f4572476f8d77c0b7"
+          },
+          {
+            "path": "maintenance_review.py",
+            "bytes": 10757,
+            "sha256": "61b92034c42ec7393854416a0668db89654c294460557c56d30743de881ac4e5"
+          },
+          {
+            "path": "plan_upstream_impact.py",
+            "bytes": 16266,
+            "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e"
+          },
+          {
+            "path": "plugin.py",
+            "bytes": 978,
+            "sha256": "530163f565ec34c6108ffca6f006a058c2e3c058337428675bb5fc1fb3c9090a"
+          },
+          {
+            "path": "static/TOOL_PROVENANCE.json",
+            "bytes": 995,
+            "sha256": "a951e414f8cc85ed17f141da5cf17fb50e239bda66e651cb2babcb3d334acb0c"
+          },
+          {
+            "path": "validate_checkpoint_lineage.py",
+            "bytes": 30194,
+            "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c"
+          }
+        ],
+        "total_regular_file_bytes": 58806
+      },
+      {
+        "directory": "/tmp/p18u-installed-impact-01/runtime/package-1",
+        "id": "codex.maintenance.upstream-review.replacement",
+        "version": "0.1.0",
+        "api_version": 1,
+        "files": [
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "relative_path": "LICENSE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "relative_path": "NOTICE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/README.md",
+            "bytes": 5853,
+            "sha256": "406051fbd28a88da79b557df847a14a1a8271b32020033eff3d79bd0a7bd5878",
+            "relative_path": "README.md"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/SDK-LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "relative_path": "SDK-LICENSE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/SDK-NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "relative_path": "SDK-NOTICE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/bootstrap.py",
+            "bytes": 332,
+            "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+            "relative_path": "bootstrap.py"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/codex-component.json",
+            "bytes": 1711,
+            "sha256": "ace08151fe3f8afd662c2ad2716f2f4baf71c2ebc9aa2d4d76bd87ee54999115",
+            "relative_path": "codex-component.json"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-1/plugin.pyz",
+            "bytes": 28601,
+            "sha256": "2e9eb5ffd6631f0af3495ee4cb712373d6b22b18f65f46e5e63b7b175e63690d",
+            "relative_path": "plugin.pyz"
+          }
+        ],
+        "zipapp_members": [
+          {
+            "path": "__main__.py",
+            "bytes": 33,
+            "sha256": "2337c73d640f64ceee21be28586f9b6807ccd295d9de14d1eb03a4c9a70645ac"
+          },
+          {
+            "path": "bootstrap_entry.py",
+            "bytes": 332,
+            "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e"
+          },
+          {
+            "path": "build_package.py",
+            "bytes": 1101,
+            "sha256": "0663b25e849232573278de480a5603b81837481ef6f65bae33296f4437527988"
+          },
+          {
+            "path": "codex_component_sdk/LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+          },
+          {
+            "path": "codex_component_sdk/NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+          },
+          {
+            "path": "codex_component_sdk/__init__.py",
+            "bytes": 8523,
+            "sha256": "1987d1ca5b6fb76f01eed3cc79ab27f2022dc8962d09a2a5f22b0b771c755738"
+          },
+          {
+            "path": "codex_component_sdk/__main__.py",
+            "bytes": 7005,
+            "sha256": "b4824d3f922b9371fc0f3d29a3c8b6a14c84d9ea74f48c6f4572476f8d77c0b7"
+          },
+          {
+            "path": "maintenance_review.py",
+            "bytes": 10757,
+            "sha256": "61b92034c42ec7393854416a0668db89654c294460557c56d30743de881ac4e5"
+          },
+          {
+            "path": "plan_upstream_impact.py",
+            "bytes": 16266,
+            "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e"
+          },
+          {
+            "path": "plugin.py",
+            "bytes": 1014,
+            "sha256": "7daf9e47d1335381d029ae390c82dcf1af6b7aff41dd976f0cfe6bdabbfbcc1a"
+          },
+          {
+            "path": "static/TOOL_PROVENANCE.json",
+            "bytes": 995,
+            "sha256": "a951e414f8cc85ed17f141da5cf17fb50e239bda66e651cb2babcb3d334acb0c"
+          },
+          {
+            "path": "validate_checkpoint_lineage.py",
+            "bytes": 30194,
+            "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c"
+          }
+        ],
+        "total_regular_file_bytes": 58833
+      },
+      {
+        "directory": "/tmp/p18u-installed-impact-01/runtime/package-incompatible",
+        "id": "codex.maintenance.upstream-review.incompatible",
+        "version": "0.1.0",
+        "api_version": 2,
+        "files": [
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "relative_path": "LICENSE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "relative_path": "NOTICE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/README.md",
+            "bytes": 5853,
+            "sha256": "406051fbd28a88da79b557df847a14a1a8271b32020033eff3d79bd0a7bd5878",
+            "relative_path": "README.md"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/SDK-LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+            "relative_path": "SDK-LICENSE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/SDK-NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+            "relative_path": "SDK-NOTICE"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/bootstrap.py",
+            "bytes": 332,
+            "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+            "relative_path": "bootstrap.py"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/codex-component.json",
+            "bytes": 1111,
+            "sha256": "eab831d3924694b9db4f1ebc14552c5e1ac6a05219018903c54e8dffff58a351",
+            "relative_path": "codex-component.json"
+          },
+          {
+            "path": "/tmp/p18u-installed-impact-01/runtime/package-incompatible/plugin.pyz",
+            "bytes": 28586,
+            "sha256": "7fd642a11726e5e5dc06ea5ae9b84b9f50788b6a5d2126ca582d2ffaa71c4837",
+            "relative_path": "plugin.pyz"
+          }
+        ],
+        "zipapp_members": [
+          {
+            "path": "__main__.py",
+            "bytes": 33,
+            "sha256": "2337c73d640f64ceee21be28586f9b6807ccd295d9de14d1eb03a4c9a70645ac"
+          },
+          {
+            "path": "bootstrap_entry.py",
+            "bytes": 332,
+            "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e"
+          },
+          {
+            "path": "build_package.py",
+            "bytes": 1101,
+            "sha256": "0663b25e849232573278de480a5603b81837481ef6f65bae33296f4437527988"
+          },
+          {
+            "path": "codex_component_sdk/LICENSE",
+            "bytes": 10926,
+            "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+          },
+          {
+            "path": "codex_component_sdk/NOTICE",
+            "bytes": 242,
+            "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+          },
+          {
+            "path": "codex_component_sdk/__init__.py",
+            "bytes": 8523,
+            "sha256": "1987d1ca5b6fb76f01eed3cc79ab27f2022dc8962d09a2a5f22b0b771c755738"
+          },
+          {
+            "path": "codex_component_sdk/__main__.py",
+            "bytes": 7005,
+            "sha256": "b4824d3f922b9371fc0f3d29a3c8b6a14c84d9ea74f48c6f4572476f8d77c0b7"
+          },
+          {
+            "path": "maintenance_review.py",
+            "bytes": 10757,
+            "sha256": "61b92034c42ec7393854416a0668db89654c294460557c56d30743de881ac4e5"
+          },
+          {
+            "path": "plan_upstream_impact.py",
+            "bytes": 16266,
+            "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e"
+          },
+          {
+            "path": "plugin.py",
+            "bytes": 978,
+            "sha256": "530163f565ec34c6108ffca6f006a058c2e3c058337428675bb5fc1fb3c9090a"
+          },
+          {
+            "path": "static/TOOL_PROVENANCE.json",
+            "bytes": 995,
+            "sha256": "a951e414f8cc85ed17f141da5cf17fb50e239bda66e651cb2babcb3d334acb0c"
+          },
+          {
+            "path": "validate_checkpoint_lineage.py",
+            "bytes": 30194,
+            "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c"
+          }
+        ],
+        "total_regular_file_bytes": 58218
+      }
+    ],
+    "request_receipt": {
+      "path": "/workspace/acceptance/p18u-installed-impact-01/request.json",
+      "bytes": 645,
+      "sha256": "0b4d908d232c7cdf6fc93894752b83322a133d4483c47406f459f4175f83f16e"
+    },
+    "request": {
+      "contract_version": 1,
+      "repository": "/workspace/codex-harness-everythings-a-plugin",
+      "lineage_index": "/workspace/codex-harness-everythings-a-plugin/upstream/CHECKPOINT_LINEAGE_INDEX.json",
+      "lineage_sha256": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+      "candidate_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "composition_revision": "ad2fc04768ff7abc8bbd623de462dee6d9b69c07",
+      "publication_receipt": "/workspace/codex-harness-everythings-a-plugin/upstream/CHECKPOINT_LINEAGE_PUBLICATION_RECEIPT.json",
+      "publication_sha256": "bdeb54ad3b69ef3d62d486e8c1d56a512dcad87b27c157a69bf0a1cc69b64a30"
+    },
+    "initial_report": {
+      "candidate_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "composition_revision": "ad2fc04768ff7abc8bbd623de462dee6d9b69c07",
+      "contract_version": 1,
+      "fetch_source_mutation_or_activation_performed": false,
+      "index_sha256": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+      "plan_id": "d2d526e765b465734674c7f4b8ec163914c29fd55df6908e08cf088e901b83ae",
+      "planner_sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+      "planning_only": true,
+      "publication_receipt_sha256": "bdeb54ad3b69ef3d62d486e8c1d56a512dcad87b27c157a69bf0a1cc69b64a30",
+      "report": {
+        "automatic_update_eligible": false,
+        "changed_paths": [],
+        "fetch_or_mutation_performed": false,
+        "inputs": {
+          "base_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "base_tree": "147ac2447134294359c4071b0aeb495922760db7",
+          "candidate_is_later_descendant_verified": false,
+          "candidate_publisher_authenticated": false,
+          "candidate_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+          "candidate_tree": "147ac2447134294359c4071b0aeb495922760db7",
+          "lineage_checkpoint_revision": "d04d5a77d4dcaf51759666fd042ab65a3597d900",
+          "lineage_checkpoint_tree": "8464b8683d1443718f357130b88d4597deb940de",
+          "requested_composition_revision": "ad2fc04768ff7abc8bbd623de462dee6d9b69c07",
+          "upstream_repository_claim": "https://github.com/openai/codex"
+        },
+        "invalid": 0,
+        "limits": [
+          "Recorded ownership/edges remain historical claims; path matches do not prove semantics.",
+          "No rename inference, source parsing, transitive graph or compatibility decision.",
+          "Unavailable objects are not fetched and stale indexes are not silently advanced.",
+          "Same-revision, same-tree or zero-overlap reports cannot pass update acceptance.",
+          "Existing GitObjects capture limits are post-capture, not streaming memory bounds.",
+          "Edge details use index pointers; detail count/reference/byte caps remain explicit unresolved gaps."
+        ],
+        "lineage_validation": {
+          "checked_edges": 27,
+          "checked_paths": 1092,
+          "counts": {
+            "unresolved:boundary_current_closure_pending": 27,
+            "unresolved:historical_nonliteral_or_missing_anchor": 39,
+            "unresolved:path_semantics_unresolved": 1092,
+            "unresolved:provider_historical_evidence_unverified": 1,
+            "unresolved:provider_nonliteral_symbol": 4,
+            "unresolved:provider_parent_tree_unavailable": 1,
+            "unresolved:provider_semantics_unresolved": 1,
+            "unresolved:provider_tested_source_unavailable": 1,
+            "unresolved:release_evidence_and_updater_gates_not_validated": 1
+          },
+          "findings_truncated": true,
+          "first_findings": [
+            {
+              "code": "path_semantics_unresolved",
+              "context": "COMPONENTS.md",
+              "level": "unresolved"
+            },
+            {
+              "code": "path_semantics_unresolved",
+              "context": "COMPONENT_INVENTORY.md",
+              "level": "unresolved"
+            },
+            {
+              "code": "historical_nonliteral_or_missing_anchor",
+              "context": "upstream/p02-search-lineage.json",
+              "level": "unresolved"
+            },
+            {
+              "code": "historical_nonliteral_or_missing_anchor",
+              "context": "upstream/p02-search-lineage.json",
+              "level": "unresolved"
+            },
+            {
+              "code": "provider_parent_tree_unavailable",
+              "context": "",
+              "level": "unresolved"
+            },
+            {
+              "code": "provider_tested_source_unavailable",
+              "context": "codex-rs/model-provider/src/provider_endpoint_tests.rs",
+              "level": "unresolved"
+            },
+            {
+              "code": "provider_nonliteral_symbol",
+              "context": "codex-rs/model-provider/src/provider.rs",
+              "level": "unresolved"
+            },
+            {
+              "code": "provider_nonliteral_symbol",
+              "context": "codex-rs/model-provider/src/provider.rs",
+              "level": "unresolved"
+            },
+            {
+              "code": "provider_historical_evidence_unverified",
+              "context": "",
+              "level": "unresolved"
+            },
+            {
+              "code": "provider_semantics_unresolved",
+              "context": "",
+              "level": "unresolved"
+            },
+            {
+              "code": "boundary_current_closure_pending",
+              "context": "c02-thread-store-contract",
+              "level": "unresolved"
+            },
+            {
+              "code": "boundary_current_closure_pending",
+              "context": "c02-local-native-store",
+              "level": "unresolved"
+            },
+            {
+              "code": "release_evidence_and_updater_gates_not_validated",
+              "context": "",
+              "level": "unresolved"
+            }
+          ],
+          "invalid": 0,
+          "runtime_or_updater_acceptance": false,
+          "status": "unresolved",
+          "supported_historical_maps": 28,
+          "unresolved": 1167
+        },
+        "planning_only": true,
+        "required_gates": [
+          "candidate_authenticity_and_later_revision_ancestry",
+          "current_composition_source_and_ownership_closure",
+          "symbol_and_transitive_dependency_impact",
+          "contract_and_coordinated_package_sdk_versions",
+          "permissions_credentials_sandbox_security_review",
+          "persistent_schema_migration_and_downgrade_review",
+          "license_notice_and_platform_review",
+          "isolated_customization_preserving_candidate",
+          "real_host_independent_plugin_headless_and_gui_regression",
+          "real_later_upstream_revision_integration",
+          "incompatible_update_refusal_and_failed_activation_state_recovery",
+          "separately_installed_maintenance_and_external_recovery_entrypoint"
+        ],
+        "runtime_or_updater_acceptance": false,
+        "schema": "codex-upstream-offline-impact-v1",
+        "status": "unresolved",
+        "summary": {
+          "changed_paths_reported": 0,
+          "changed_paths_total": 0,
+          "matched_paths_do_not_establish_compatibility": true,
+          "path_inventory_complete": true,
+          "retained_detail_bytes_compact_json": 0,
+          "unresolved_counts": {}
+        },
+        "unresolved": [
+          "existing_lineage_findings_remain_unresolved",
+          "lineage_does_not_cover_requested_composition",
+          "requested_composition_commit_unavailable",
+          "no_upstream_revision_advance",
+          "no_upstream_tree_change",
+          "candidate_authenticity_and_later_revision_ancestry",
+          "current_composition_source_and_ownership_closure",
+          "symbol_and_transitive_dependency_impact",
+          "contract_and_coordinated_package_sdk_versions",
+          "permissions_credentials_sandbox_security_review",
+          "persistent_schema_migration_and_downgrade_review",
+          "license_notice_and_platform_review",
+          "isolated_customization_preserving_candidate",
+          "real_host_independent_plugin_headless_and_gui_regression",
+          "real_later_upstream_revision_integration",
+          "incompatible_update_refusal_and_failed_activation_state_recovery",
+          "separately_installed_maintenance_and_external_recovery_entrypoint"
+        ]
+      },
+      "report_sha256": "47b9e42b94c41fb259913372c36db9e5f312e6f5054b79267dbc22bd43987270",
+      "request_sha256": "fc7e36ffdd1ed440fe6a858abfac8f7d9529a44d43133e65bf8eef54675fca31",
+      "required_next_action": "Resolve every unresolved finding with current source ownership and gate evidence; this component cannot approve or apply updates.",
+      "schema": "codex-installed-upstream-impact-review-v1",
+      "standalone_recovery_scope": "Read-only inspection remains callable without the host. Deployment or state restoration is not implemented.",
+      "status": "review_required",
+      "update_allowed": false,
+      "validator_sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c"
+    },
+    "missing_revision_report": {
+      "candidate_revision": "0000000000000000000000000000000000000000",
+      "status": "review_required",
+      "update_allowed": false,
+      "plan_id": "0dd2684d561f563f59b7f0772192d58c48e148ce977e0119324da8b8f84c9431",
+      "report_sha256": "dadfedb401726d382975d09cb89d0ece22bc96f7dac975963b774e8b2ed9c6b7",
+      "unresolved": [
+        "input_or_local_object_unavailable_or_unsupported"
+      ]
+    },
+    "admission_receipt": {
+      "path": "/workspace/acceptance/p18u-installed-impact-01/runtime-admission.json",
+      "bytes": 438,
+      "sha256": "6272849d08a1cb4caa25d6d231c6422c672cd33c95a92728c00185bf0f72e1f7"
+    },
+    "admission": {
+      "utc": "2026-10-02T22:24:39Z",
+      "hard_unused": 894279680,
+      "overlay_free": 460005376,
+      "tmp_free": 558903296,
+      "memory_events": "low 0\nhigh 0\nmax 22801516\noom 10\noom_kill 5\noom_group_kill 0\n",
+      "limits": {
+        "hard_unused": 268435456,
+        "overlay_free": 134217728,
+        "tmp_free": 67108864
+      },
+      "scope": "bounded Python/7MB manager acceptance only; no CLI/GUI/compiler; not relaxation of original 1GiB GUI admission"
+    }
+  },
+  "accepted_scope": [
+    "SDK-built tool package operates through unchanged actual manager after disposable exported project source removal.",
+    "Real install/list/call validates exact inputs and preserves unresolved review findings; invalid digest/request version and missing object do not approve updates.",
+    "Distinct-name API2 and ambiguous provider package installs are rejected; explicit provider selection runs replacement executable, evidenced by its test-only marker.",
+    "Packaged bootstrap computes identical review with only Git available on PATH; both packages are removed and subsequent invocation fails.",
+    "All commands completed through the unchanged strict subreaper, command exit0, runner_error null, sole reaped command returncode0."
+  ],
+  "limits": [
+    "This is an additive tool-v1 maintenance adapter, not another extracted native subsystem, dedicated maintenance service or complete updater.",
+    "Candidate equals pinned upstream d4205609, so no real later-upstream integration took place.",
+    "Published composition ad2fc047 is not present in this local object repository; requested_composition_commit_unavailable and stale-lineage findings remain visible.",
+    "Historical validation returns 1167 unresolved findings; no semantic ownership, authenticity, dependency or compatibility closure is claimed.",
+    "No host update, migration, activation, deployment or rollback was performed. Host-absent bootstrap proves inspection only, not failed-installation/state restoration.",
+    "Cancellation tests mock between-call admission; actual active-Git cancellation and process-group cleanup under cancellation are not established.",
+    "Git command output caps are post-capture; 90s is a command-admission deadline, <=30s per Git call, not a streaming-memory bound or instantaneous cancellation guarantee.",
+    "Production code has no fetch/mutation operation. Runtime acceptance does not independently attest absence of network traffic or fingerprint every input-repository file/ref.",
+    "Runtime proof is manager-level and Linux-only. It does not establish engine-session integration, macOS/Windows behavior or UI behavior.",
+    "No new UI cycle is included in this projection. Previous source42 GUI evidence retains its own identity; a root supplement must record any later actual GUI check.",
+    "All referenced raw receipts/packages are VM-local unless separately published. Publishing this sanitized projection establishes external durability only for included bytes, not all hash-referenced artifacts."
+  ]
+}

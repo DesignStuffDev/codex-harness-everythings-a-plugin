@@ -1,0 +1,140 @@
+{
+  "schema": "codex-maintenance-installed-review-lineage-v1",
+  "upstream_repository": "https://github.com/openai/codex",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+  "published_base": "ad2fc04768ff7abc8bbd623de462dee6d9b69c07",
+  "boundary": "C27",
+  "phase": "P18U",
+  "component_id": "codex.maintenance.upstream-review",
+  "component_version": "0.1.0",
+  "contract": {
+    "host_component_api": 1,
+    "kind": "tool",
+    "name": "upstream_impact_review",
+    "version": 1
+  },
+  "tested_source_map_sha256": "930af666e1add9736265a8ca7631f7851657731e9f34e5efead6abfc836667b5",
+  "original8949_paths_unchanged": true,
+  "new_native_extracted_families": 0,
+  "new_host_build": false,
+  "source_rows": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/LICENSE",
+      "tested_sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "origin_path": "LICENSE",
+      "classification": "mechanical Apache license/notice propagation",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/NOTICE",
+      "tested_sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "origin_path": "NOTICE",
+      "classification": "mechanical Apache license/notice propagation",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/README.md",
+      "tested_sha256": "406051fbd28a88da79b557df847a14a1a8271b32020033eff3d79bd0a7bd5878",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/bootstrap_entry.py",
+      "tested_sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/build_package.py",
+      "tested_sha256": "0663b25e849232573278de480a5603b81837481ef6f65bae33296f4437527988",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "tested_sha256": "df670dd9b0aef1603bbd1f0134cefbc85a3ac5d2ab9b939cd2978c9393b950b3",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+      "tested_sha256": "61b92034c42ec7393854416a0668db89654c294460557c56d30743de881ac4e5",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plan_upstream_impact.py",
+      "tested_sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+      "origin_path": "upstream/plan_upstream_impact.py",
+      "classification": "mechanical copy of existing custom provenance support",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+      "tested_sha256": "530163f565ec34c6108ffca6f006a058c2e3c058337428675bb5fc1fb3c9090a",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/static/TOOL_PROVENANCE.json",
+      "tested_sha256": "a951e414f8cc85ed17f141da5cf17fb50e239bda66e651cb2babcb3d334acb0c",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/validate_checkpoint_lineage.py",
+      "tested_sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c",
+      "origin_path": "upstream/validate_checkpoint_lineage.py",
+      "classification": "mechanical copy of existing custom provenance support",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/tests/test_upstream_maintenance.py",
+      "tested_sha256": "7ff5c0dc4be8a1516211d3a6fedfbbb4cfe3382e2a4b61ce9289062297ec452c",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    },
+    {
+      "path": "component-sdk/tests/upstream_maintenance_acceptance.py",
+      "tested_sha256": "17b80fc96434867c3a5fdd46ecc2aac786f090a20b84d51e5c967bb53043cf17",
+      "origin_path": null,
+      "classification": "additive adapter/packaging/test",
+      "pre_existing_native_implementation_extracted": false
+    }
+  ],
+  "reused_contracts": [
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "role": "existing versioned manifest and explicit selection"
+    },
+    {
+      "path": "codex-rs/component-host/src/main.rs",
+      "role": "existing install/list/call/select/remove CLI"
+    },
+    {
+      "path": "component-sdk/codex_component_sdk/__init__.py",
+      "role": "existing framed tool request and watch_shutdown"
+    }
+  ],
+  "intentional_custom_behavior": [
+    "Always update_allowed:false; no fetch, live mutation, migration or activation.",
+    "Exact chosen local objects and hash-bound lineage/publication inputs.",
+    "Plan identity binds canonical request/report, contract and packaged planner/validator digests.",
+    "Standalone packaged inspection works with host absent from PATH; deployment/state restoration remains unimplemented.",
+    "Cancellation observed between bounded Git calls; captures remain post-capture limits."
+  ],
+  "limitations": [
+    "Current normalized ownership index remains historical/incomplete.",
+    "Real later upstream integration, coordinated versions/migrations, failed-activation rollback and recovery remain required.",
+    "Installed manager acceptance does not prove active cancellation, no network side effects, or a real engine turn invoking this tool."
+  ],
+  "evidence": "verification/2026-10-02/p18u-installed-impact/README.md"
+}

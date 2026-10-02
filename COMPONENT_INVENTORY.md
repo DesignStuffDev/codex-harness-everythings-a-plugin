@@ -75,7 +75,19 @@ The current `codex-rs/state/src/runtime` modules with production domain behavior
 
 ### C27 Upstream maintenance and update capability
 
-**ADDITIVE maintenance support implemented; updater planned and unimplemented; no native-extraction claim.** The project must support bringing later official Codex changes into the compartmentalized distribution while preserving independently installed components and existing sessions. This is a required delivery track, not an optional future feature. Its design and recorded provenance are in `UPSTREAM_MAINTENANCE.md` and `upstream/lineage.json`.
+**ADDITIVE installed review support verified; updater application/recovery remain unimplemented; no native-extraction claim.** The project must support bringing later official Codex changes into the compartmentalized distribution while preserving independently installed components and existing sessions. This is a required delivery track, not an optional future feature. Its design and recorded provenance are in `UPSTREAM_MAINTENANCE.md` and `upstream/lineage.json`.
+
+`component-sdk/examples/upstream-maintenance` now packages the existing read-only
+planner/validator behind tool-v1. An external SDK build and 23 acceptance commands (19 through the real manager)
+verified install/invoke, version rejection, explicit replacement/removal, unchanged
+host identity and packaged inspection with Codex absent from PATH. Fifty focused
+checks passed. Every report blocks update approval; the observed same-upstream
+request retained unavailable-composition and historical ownership findings. This
+does not prove application, state recovery, active cancellation or engine-turn
+invocation. [Source mapping](upstream/p18u-installed-impact-lineage.json) records all
+13 additions and reused contracts. There is still no native C27 subsystem to count
+as extracted. The nine non-Rust language-package manifests above are unchanged;
+this adds an example component manifest, not a Rust workspace or language package.
 
 The separately installable maintenance component should take an exact upstream revision, the current imported-source lineage, local extraction changes and installed component compatibility information. It should produce a reviewable change classification, an isolated candidate build/package, compatibility and regression evidence, and an explicit activation/rollback result. It must detect upstream changes to owned boundaries and shared schemas rather than assuming a clean textual merge proves behavior. Reuse the C00 manifest/version/dependency contracts and C26 build/conformance tools; require C02/C03 persistence compatibility and C19 client lifecycle checks. Preserve licenses, notices, plugin configuration, user data and the last known working distribution. No automatic publication, destructive replacement or silent migration is implied by this design.
 

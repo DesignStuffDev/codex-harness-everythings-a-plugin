@@ -1,0 +1,31 @@
+{
+  "api_version": 1,
+  "id": "codex.maintenance.upstream-review",
+  "version": "0.1.0",
+  "entrypoint": "plugin.pyz",
+  "args": [],
+  "dependencies": {},
+  "components": [{
+    "kind": "tool",
+    "name": "upstream_impact_review",
+    "contract_version": 1,
+    "metadata": {
+      "description": "Inspect an explicitly chosen local Codex revision against hash-bound lineage. Always blocks update approval; performs no fetch, source mutation or activation.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "contract_version": {"type": "integer", "const": 1},
+          "repository": {"type": "string"},
+          "lineage_index": {"type": "string"},
+          "lineage_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "candidate_revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+          "composition_revision": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+          "publication_receipt": {"type": "string"},
+          "publication_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        },
+        "required": ["contract_version", "repository", "lineage_index", "lineage_sha256", "candidate_revision", "composition_revision"],
+        "additionalProperties": false
+      }
+    }
+  }]
+}
