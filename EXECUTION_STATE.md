@@ -8,6 +8,15 @@ preservation/resource chains remain in [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTI
 
 ## Current checkpoint
 
+Latest publication verified: `e996f0db617318f06ab3a5f8d2db8498298777e2`,
+tree `38acb622744bcf0f6809175e887ca97f4859a945`, parent75a42cc below.
+All22 selected files (406,889B) and both refs were read back. This publishes the
+focused5/full-login297 results, blocked lint admission, current provenance/roadmap
+and the unadopted refresh rebase. Provider108 completed after this frozen selection
+and is not included in that publication. Main and the original index are unchanged.
+Receipt R/p03-auth-login-regression-publication-01/PUBLICATION.json SHA256
+`d1e2ff16c92e221b498bd0402b699a6e63730a1c0685d435f1c364e6777151c3`.
+
 Latest continuation publication verified: `75a42cc526e2065bc471b993c5c8151be3da7c9c`,
 tree `787eef0e2eb5e3a68cc401696bbf5d5f943a1490`, parent bb48fe3 below.
 All25 selected files (550,514B) and both refs were read back and checked. This
@@ -99,8 +108,8 @@ remains unchanged. VM-wide external backup is not claimed.
   public API, wire or state-format change. Source8,948 files, map
   `0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f`.
   Candidate SHA256 `a3e21f97c6d5e83cab69821a4507e223deaecf5604fd2d7aaffbc7b19c1e6f4f`.
-  Five focused and297 full login tests now pass as recorded below. Provider regression,
-  lint and rebuilt-host validation are pending. Prior source7a runtime results do not validate this change.
+  Five focused,297 full login and108 provider tests now pass as recorded below.
+  Lint and rebuilt-host validation are pending. Prior source7a runtime results do not validate this change.
   Reload publication now checks committed source identity as well as cache/policy
   identity; five causal tests cover replacement, ABA, stale failures and cancellation.
   This is a native ownership prerequisite, not an additional extracted family.
@@ -137,8 +146,8 @@ remains unchanged. VM-wide external backup is not claimed.
    Overlay afterward942,952,448B; source/index and production metadata unchanged.
    This adds339,161,088B of future production rebuild debt, not warm-test debt.
    Fresh test admission remains separate; never replay the completed action.
-2. Focused reload and full login gates are complete below; finish scoped lint and
-   model-provider regression using a feasible explicitly bound feature
+2. Focused reload, full login and provider gates are complete below; finish scoped
+   lint using a feasible explicitly bound feature
    composition. Unconditional core_test_support cannot be removed to avoid cost.
    One compiler job; do not kill Rust commands. Full workspace approval is absent.
    Record actual source, exact executed binaries, original failures and retry counts.
@@ -181,8 +190,42 @@ remains unchanged. VM-wide external backup is not claimed.
    Six exact cache hints changed no artifact bytes. No Clippy/source edit occurred;
    do not replay this attempt or lower the floor. Proceed with the lower-cost
    provider gate and inspect a bounded ordinary-cache opportunity separately.
-   Both steps are not jointly admitted. Record any eventual Clippy source transition;
-   do not rerun tests solely for formatting/lint. No compiler currently runs.
+   Provider root53017 then passed108/108, zero skips/retries, unchanged0742356,
+   no new OOM. Strict0/null retains reaped{-9:1,0:1} without causal/graceful-cleanup
+   attribution. Terminal SHA256
+   `cfe06da9e55e6f3c9989a1063e92cc03d1e733844787f5697125880b8defee2b`;
+   actual111,256,736B provider ELF SHA256
+   `6e8d48e93e721e322a204ff45a730b0b8fe76c7c6203eda9a13420f31e909f8b`.
+   [Provider evidence](verification/2026-10-02/p03-auth-model-provider-full/README.md)
+   is copied locally, not yet published. Overlay afterward313,868,288B, below
+   lint's391,987,200B floor. Next resource proposal preserves and retires only the
+   current compiled-only CLI library21f25, retaining all executed test ELFs.
+   This resource chain has now completed in
+   R/p03-auth-current-clilib21-artifact-preservation-01: all482 members were fully
+   restored/hash checked before only CLI21 was retired and only the new private SHM
+   verification restore released. Archive43,619,206B SHA256
+   `d255e568044c3ffc93fe6706cded1e9df0adec6401b75985de34707d16ef0fc4`;
+   preservation `6f14e66a59c71d22f13d3991442f9aa7813b0c95c9f246c3a9c86bbaa8970d3d`,
+   retirement `04c43319a6db0283670dd575951f6604cf2f0f0808f60a59ea7b8d452a343abd`,
+   release `ae47f513bc3cf40015b2977c47cc60c6223915e1ec0a597f31b1200f955c85c7`.
+   Archive is VM-local. All old restores, source, index and executed test binaries
+   remain. Never replay either CLI21 or prior ba3 actions after selector reuse.
+   Seven exact proof-cache hints and five ordinary-library hints changed no bytes;
+   the latter passed RESULTf28dcedc in R/p03-pre-login-lint-five-library-advice-01.
+   Its first finite residency estimate was insufficient; the eight-file follow-up
+   supplied a five-file448MB resident subset. Advice is not guaranteed reclamation.
+   Lint02 root19497 then stopped before compiler startup: hard1,812,885,504B
+   remained below2GiB; effective3,307,030,528B and overlay463,826,944B passed.
+   OOM10/kill5 remained unchanged. Preserve A/p03-auth-login-fix-02.preflight-failed.json;
+   no Clippy invocation, source edit or lint verdict occurred. Do not replay or lower
+   the floors. Read-only audit identified one redundant old current58 verification
+   restore (two hardlinks to one635,424,768B tmpfs inode). Its complete7-member
+   archive remains in R. Root must freshly verify archive/member/restore bytes and
+   live references before releasing only that generated copy. Source, runtime homes,
+   current executed binaries and all recovery archives remain protected. A new lint
+   attempt needs a measured resource change and fresh admission, not elapsed time.
+   Record any eventual Clippy source transition; do not rerun tests solely for
+   formatting/lint. No compiler currently runs.
 3. Only after the reload stage is verified, adopt the separately preserved permanent
    refresh-failure publication fix. Formatting changed its manager preimage, so
    explicitly rebind/review that transition before applying it. Run its four causal
@@ -221,8 +264,10 @@ remains unchanged. VM-wide external backup is not claimed.
   SHA256 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
   Primary pre-format archive SHA256
   `e6ab98fe2bd9625c10fe67979eaf308b4f7e4ee7892548482ff0750d9847df5e`.
-  Keep later snapshots, failures, unadopted MCP/auth proposals and old restored
-  proofs. VM-local archives are not externally durable backups.
+  Keep later snapshots, failures, unadopted MCP/auth proposals and complete recovery
+  proofs. A redundant generated verification restore may be consolidated only after
+  exact archive/member/restore verification and reference guards; never discard unique
+  recovery material. VM-local archives are not externally durable backups.
 - Original auth reload/refresh proposal archives are preserved as unadopted snapshots under
   `verification/2026-10-02/unadopted-proposals/auth-source-ownership/`; both were externally preserved at c463a4f. Reload is now locally adopted as recorded
   above; that historical label does not describe current source.

@@ -129,15 +129,23 @@ and its version command succeeds. The five-path auth reload-source fix
 passes [five focused causal tests](verification/2026-10-02/p03-auth-reload-focused/README.md)
 and the full grouped login gate:297/297 tests, zero retries/skips, unchanged source
 and no new OOM events. Tests ran serially; this is not default-concurrency coverage.
-Provider regression, lint and rebuilt-host/UI validation remain pending; this source is newer
+The [provider library gate](verification/2026-10-02/p03-auth-model-provider-full/README.md)
+also passed108/108, zero retries/skips. Its strict runner returned0 and retained
+adopted statuses{-9:1,0:1} without attribution or universal graceful-cleanup claims.
+Lint and rebuilt-host/UI validation remain pending; this source is newer
 than the production executable. The permanent-refresh-failure follow-up remains an
 unadopted proposal. Successful-refresh durable persistence needs its own conditional
 ownership protocol. Memory/disk constraints are being addressed with bounded
 preservation and target selection, without removing test dependencies or guards.
 The first lint admission check stopped before compilation at1.85GB unused RAM
 against a2GiB floor; [that blocked check](verification/2026-10-02/p03-auth-login-lint-admission/README.md)
-is retained separately from the passing login tests. The provider gate has a lower
-resource requirement and is next while a targeted cache-release option is assessed.
+is retained separately from the passing login tests. Provider regression passed
+with its separate lower resource requirement; lint's floor remains unchanged.
+A second lint admission also stopped before compilation at1,812,885,504B hard-unused
+RAM after disk headroom was restored. [The resource evidence](verification/2026-10-02/p03-auth-post-provider-resource/README.md)
+retains both blocked attempts, the verified compiled-only artifact archive and exact
+cache-advice actions. A separately reviewed release of a redundant old verification
+copy may free RAM; its complete archive and all unique source remain protected.
 
 Detailed evidence:
 [build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md),

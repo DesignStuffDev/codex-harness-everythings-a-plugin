@@ -1,0 +1,7 @@
+Both login lint attempts stopped **before compilation** at the unchanged2GiB hard-unused-RAM floor. Attempt01 observed1,849,307,136B; attempt02 observed1,812,885,504B. Effective RAM and disk floors passed, but they do not replace the hard floor. OOM counters remained10/5. These are resource blocks, not code or Clippy failures. Original failure receipts and completed package-test evidence remain preserved.
+
+The root archived the compiled-only current CLI library21f25 into43,619,206B (SHA256 d255e568044c3ffc93fe6706cded1e9df0adec6401b75985de34707d16ef0fc4), restored and hash-checked all482 members, retired exactly its one original ELF, then released only the new482-file/23-directory restore. Executed login/integration/provider artifacts remained protected. The archive is VM-local, not an external backup.
+
+Five ordinary-library memory-advice calls and the separately recorded proof-page advice completed without byte changes. Reclamation was not guaranteed; neither action granted compiler admission. Exact receipts, source0742356 binding and the two original failure records are identified in INPUTS.json. No raw logs, environment values or process identifiers are copied.
+
+A possible third attempt remains unprepared. It requires the root’s completed new-resource action, a fresh prefix/private scratch directory, exact rebinding of preserved failure/action receipts, and the same command, source-transition guards and resource floors.
