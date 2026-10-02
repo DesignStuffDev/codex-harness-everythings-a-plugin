@@ -1,4 +1,5 @@
 use super::CAPABILITY;
+use super::UNCLEAN_OWNERSHIP;
 use super::attach_cleanup_error;
 use super::is_final_result;
 use super::scope;
@@ -48,11 +49,14 @@ async fn library_scope_masks_an_enclosing_executable_capability() {
 fn cleanup_failure_preserves_a_fatal_exit_message() {
     let error = attach_cleanup_error(
         Ok(AppExitInfo::fatal("fatal app failure")),
-        "curated cleanup failed".to_string(),
+        UNCLEAN_OWNERSHIP.to_string(),
     );
     let report = anyhow::Error::new(error);
 
-    assert_eq!(report.to_string(), "curated cleanup failed");
+    insta::assert_snapshot!(
+        "constructor_cleanup_preserves_fatal_exit",
+        format!("{report:#}")
+    );
     assert!(
         report
             .chain()
@@ -67,12 +71,15 @@ fn cleanup_failure_preserves_an_operation_error_and_its_kind() {
             io::ErrorKind::PermissionDenied,
             "request denied",
         )),
-        "curated cleanup failed".to_string(),
+        UNCLEAN_OWNERSHIP.to_string(),
     );
 
     assert_eq!(error.kind(), io::ErrorKind::PermissionDenied);
     let report = anyhow::Error::new(error);
-    assert_eq!(report.to_string(), "curated cleanup failed");
+    insta::assert_snapshot!(
+        "constructor_cleanup_preserves_operation",
+        format!("{report:#}")
+    );
     assert!(
         report
             .chain()

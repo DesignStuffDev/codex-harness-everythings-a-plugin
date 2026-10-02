@@ -9,6 +9,9 @@ use codex_core_plugins::PluginStartupProcessShutdown;
 use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use std::future::Future;
 
+const UNCLEAN_OWNERSHIP: &str =
+    "plugin startup/native HTTP construction cleanup incomplete; ownership is unconfirmed";
+
 tokio::task_local! {
     static CAPABILITY: Option<ProcessFinalCapability>;
 }
@@ -58,10 +61,7 @@ pub(crate) async fn finish(result: std::io::Result<AppExitInfo>) -> std::io::Res
     if observed.is_complete() && observed.curated.clean_native_ownership() {
         return result;
     }
-    Err(attach_cleanup_error(
-        result,
-        "plugin startup task cleanup incomplete; ownership is unconfirmed".to_string(),
-    ))
+    Err(attach_cleanup_error(result, UNCLEAN_OWNERSHIP.to_string()))
 }
 
 fn attach_cleanup_error(result: std::io::Result<AppExitInfo>, cleanup: String) -> std::io::Error {

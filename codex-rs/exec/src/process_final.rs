@@ -18,12 +18,12 @@ pub(crate) async fn finish(
         let shutdown = begin(capability);
         let observed = shutdown.wait_until(deadline).await;
         // An optional sync attempt may fail while all of its ownership is clean.
-        // Incomplete callback, native-worker, or featured-task custody fails cleanup.
+        // Incomplete callback, native-worker, featured-task or HTTP-constructor custody fails cleanup.
         if observed.is_complete() && observed.curated.clean_native_ownership() {
             Ok(())
         } else {
             anyhow::bail!(
-                "process shutdown did not confirm all curated plugin callbacks, native workers, and featured warmup tasks completed with clean ownership"
+                "process shutdown did not confirm all curated plugin callbacks, native workers, featured warmup tasks, and HTTP constructors completed with clean ownership"
             )
         }
     })

@@ -9,7 +9,25 @@ Detailed earlier runs, failures and completed resource actions are preserved in
 
 ## Resume immediately
 
-1. HTTP native constructor Stage A is implemented in the checkout. The current
+1. Stage B is adopted and passes its bounded Core Plugins gate: one actual native
+   request/process-final integration,553 library tests and scoped lint with zero
+   warnings/errors. All commands/strict runners exited0/null on unchanged8947-file
+   map7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e.
+   R/p03-http-stage-b-adoption-01/CANDIDATE_FORMATTED.json SHA256
+   f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092.
+   The library's adopted statuses were{0:36,128:2,-9:4}; causes are unassigned, not
+   an all-descendant-success claim. Four prior format changes were mechanical.
+   [Exact evidence and12-path lineage](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md)
+   distinguish the native composition gate from untested consumer paths. No tests
+   were repeated solely for lint/format. Prefixes A/p03-http-stage-b-integration-01,
+   library-01 and fix-01 are terminal. Never relabel the old production host as B.
+   Next: finish this bounded WIP publication, then admit a current production build
+   only after a viable full resource/preservation plan. Root is evaluating a fully
+   restored/hash-verified archive of inactive bbed proof bytes plus generated caches;
+   no proposed action is completed merely because it is listed. A fresh production
+   CLI enables requested real storage/GUI acceptance before bulky consumer test ELFs;
+   remaining CLI/exec/TUI/App Server checks are still required and not waived.
+2. HTTP native constructor Stage A is published at6f0bb26. Its
    tested source is8942 files/map
    f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6;
    R/p03-http-native-a-corrections-03/CANDIDATE03.json SHA256
@@ -30,17 +48,8 @@ Detailed earlier runs, failures and completed resource actions are preserved in
    358f1f03b3bd72e102e0bd9d9328089f6eeadc34d61e4c7dbbf743ef0dd05d8d.
    [Evidence and nine-path provenance](verification/2026-10-02/p03-http-native-constructor-stage-a/README.md)
    retain the tested and final source separately.
-2. Publish the bounded HTTP package checkpoint on the existing WIP branch, retaining
-   the exact source/proof split and all earlier failures. Stage B is NOT adopted:
-  11 exact preimages and its +68/-20 process-final wiring patch are preserved in
-   R/p03-http-stage-b-composition-test-proposal-01, manifest
-  75b39afb9e6a9e8a2f8450a81f258933b03495e3fff98b5308c210e2ff326e1e.
-   Its106-line integration target proposes a real loopback request, positive joined
-   constructor accounting and typed closure of both cached and fresh pools after
-   the actual aggregate closes. Review/apply the coherent B slice plus this target
-   next, with fresh resources, scoped core-plugins tests/lint and exact provenance.
-3. Then complete current-source CLI/exec/TUI/App Server consumer gates and rebuild
-   the production CLI/manager. Rerun installed storage/attachments, migrations,
+3. Rebuild the production CLI/manager first when resources safely permit, then
+   complete current-source CLI/exec/TUI/App Server consumer gates. Rerun installed storage/attachments, migrations,
    ordinary/selected-search GUI, normal/forced Launch, held eight-case matrix and
    replacement fixtures against those exact binaries. Existing production bbed/C-f05b
    passed those planned gates before HTTP A; it is preserved, not current-A/B proof.
@@ -48,8 +57,18 @@ Detailed earlier runs, failures and completed resource actions are preserved in
    still need their scoped checks. Preserve original auxiliary-admission race and
    strict ownership/deadline assertions. In-app Browser remains unavailable here;
    prior GUI evidence is actual Chromium with deterministic inference.
-4. Close remaining P03 broker/Session/MCP/model-v2 owners in dependency order, then
-   follow P04–P19 and required P18U. HTTP custody is compiled native lifecycle support,
+4. Continue P03 native auth source ownership through real reload/refresh consumers:
+   coherent source/cache/policy capture, conditional reload publication, then guarded
+   durable persistence/request dispatch. Existing latest-admitted installation is
+   already implemented; do not redo it. Reuse preserved MCP proposals in order:
+   Session prewarm/refresh custody, connection retirement, RmcpClient transport,
+   pinned SDK completion and admission fences. Resolve marketplace queue transfer
+   before per-processor HTTP closure: coalescing retains the earlier service_config
+   while replacing auth/merging scopes, so B's accepted work can still use A's pool.
+   Then activate the negotiated leaf broker/model-service composition and deliver
+   actual OpenAiModelsManager discovery/merge/cache as the next native package,
+   with independently installed native/custom selection and GUI/removal proof.
+   These prerequisites are not themselves extraction. Follow P04–P19 and required P18U. HTTP custody is compiled native lifecycle support,
    not a fourth independently installed subsystem. Per-processor HTTP cohort closure
    remains blocked on the queue-transfer contract; do not close a shared pool when
    one embedded processor finishes. Whole-host/hard-exit proof remains separate.
@@ -71,6 +90,12 @@ Detailed earlier runs, failures and completed resource actions are preserved in
    fbae5f1a74b89e1a2584c32b6063dc9a69dee9fa3c4ffb7815ee36dbcbfd6d87.
    Failed alias audit01 is preserved. All proof/runtime ELFs and seven symlink-backed
    libraries were excluded. Never replay; later builds must regenerate needed caches.
+
+   A subsequent guarded action retired one stale App Server library pair only,
+   111,603,712B; receipt R/p03-post-http-appserver-cache-review-01/RETIREMENT.json
+   SHA256a90191b5f030ab6eb497dc1049d652c366f1d092d7eaaf84ae8bf313e7af8696.
+   Protected proof/runtime files remained; this is further rebuild debt, not a
+   production-build capacity claim. Never repeat either completed cache action.
 
 ## Environment, ownership and preservation
 
@@ -138,21 +163,22 @@ actual test execution, not status alone, establishes executor access.
 
 Upstream: openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478.
 Exact-tree import ae720ae9a98bad29ca2cff998e7d5baaf05cec86; retain LICENSE/NOTICE.
-Latest WIP: **6446edf8df91347dbea0b9d8dc0d60503a01cf91**, tree
-b6c08ce6b814d915b8cd882345f94e2682af8fb3, parent4550046, branch
-wip/p03-process-final-and-mcp-preservation-20261002. All46 selected remote blobs
+Latest WIP: **6f0bb26b1f697bf74bf8686e161458f717972f67**, tree
+5c1cf9fbaf1cec1bd9d060ce289edfd1f17866a7, parent6446edf, branch
+wip/p03-process-final-and-mcp-preservation-20261002. All25 selected remote blobs
 and both refs verified after nonforce update. Main is unchanged at
 781080f7e3c8bfe1953378001d777dff33d74bc3.
-R/p03-attachment-cli-watchdog-publication-01/PUBLICATION.json SHA256
-b0f76e8bdea95ada15570f5e6cfe53045e22cd2f991516b701c1a01e690c4e76.
-This checkpoint adds exact attachment/CLI/resource evidence, one tested watchdog
-regression, canonical documents and a labeled unadopted HTTP source archive.
-Production implementation remains2ce48a6. Earlier production runtime/screenshots
-were published at4550046 (receipt R/p03-featured-warmup-runtime-publication-01).
-The archived HTTP proposal01 now has external preservation on this WIP branch;
-newer proposal02 remains isolated and is not included in that preservation.
+R/p03-http-native-a-publication-01/PUBLICATION.json SHA256
+ db01393b67ef86c6ced4e28a6f9c20fc85aaeeaa929a017979316ce81802b95d.
+This checkpoint publishes nine native HTTP Stage A paths, exact package/style/lint
+proof and lineage, four canonical documents and proposal02's labeled58-member
+source-only archive. It is a bounded package checkpoint; no Stage B or full-host
+acceptance is implied. Both original HTTP proposal archives are externally preserved
+on this branch. The newer12-path B composition remains VM-local until a later push.
+The earlier6446 attachment/CLI/watchdog evidence and4550046 production/screenshots
+remain intact; actual working production binaries still bind to2ce48a6/C-f05b.
 
-Current C candidate R/p03-featured-warmup-stage-c-source-01.json SHA256
+Historical working-production C candidate R/p03-featured-warmup-stage-c-source-01.json SHA256
 ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c;
 8936-file Rust/SDK/build scope map
 f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328.

@@ -92,12 +92,14 @@ pub(crate) async fn finish<T>(
         Ok(())
     } else {
         Err(io::Error::other(format!(
-            "plugin startup task cleanup unconfirmed: {} callbacks pending, {} failed; {} featured tasks pending, {} panicked, {} join failures",
+            "plugin startup task cleanup unconfirmed: {} callbacks pending, {} failed; {} featured tasks pending, {} panicked, {} join failures; {} HTTP constructors pending, {} failed",
             observed.curated.callbacks.pending,
             observed.curated.callbacks.failed,
             observed.featured.pending,
             observed.featured.panicked,
             observed.featured.join_failed,
+            observed.constructors.pending,
+            observed.constructors.failed,
         )))
     };
     crate::file_search_services::combine(result, cleanup)

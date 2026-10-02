@@ -1,3 +1,4 @@
+use super::UNCLEAN_OWNERSHIP;
 use super::finish_with;
 use std::cell::Cell;
 
@@ -22,23 +23,22 @@ async fn cleanup_is_awaited_on_success_and_error() {
 
 #[tokio::test]
 async fn cleanup_failure_is_reported_after_success() {
-    let result = finish_with(Ok(()), async { anyhow::bail!("cleanup failed") }).await;
+    let result = finish_with(Ok(()), async { anyhow::bail!(UNCLEAN_OWNERSHIP) }).await;
     let Err(error) = result else {
         panic!("cleanup failure must fail the executable");
     };
-    assert!(error.to_string().contains("cleanup failed"));
+    insta::assert_snapshot!("constructor_cleanup_after_success", error.to_string());
 }
 
 #[tokio::test]
 async fn cleanup_failure_retains_the_operation_error() {
     let result = finish_with(Err(anyhow::anyhow!("operation failed")), async {
-        anyhow::bail!("cleanup failed")
+        anyhow::bail!(UNCLEAN_OWNERSHIP)
     })
     .await;
     let Err(error) = result else {
         panic!("both errors must fail the executable");
     };
     let message = format!("{error:#}");
-    assert!(message.contains("operation failed"));
-    assert!(message.contains("cleanup failed"));
+    insta::assert_snapshot!("constructor_cleanup_preserves_operation", message);
 }

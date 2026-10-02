@@ -1,0 +1,238 @@
+{
+  "current_tested_source": {
+    "additional_library_source_receipt": {
+      "bytes": 3725441,
+      "path": "/workspace/acceptance/p03-http-stage-b-library-01.source.json",
+      "sha256": "3ff9f8e64c334a8d8ee6d66d2de3846c7f16da4d02dfc6e5b817211db2ba3498"
+    },
+    "before_after_unchanged": true,
+    "map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "scoped_lint_source_receipt": {
+      "bytes": 3725423,
+      "path": "/workspace/acceptance/p03-http-stage-b-fix-01.source.json",
+      "sha256": "1f7fbc795099d49b8fe6effd86d1c7dece498d2b5b7f46a8fd2a60316f607c82"
+    },
+    "source_count": 8947,
+    "source_receipt": {
+      "bytes": 3725472,
+      "path": "/workspace/acceptance/p03-http-stage-b-integration-01.source.json",
+      "sha256": "a7c79099d8cba1fd4178b84173fb686dd70aea4ef762afd562ef1b2ef723852b"
+    },
+    "test_scope": "Core Plugins native composition and library only; same frozen source across tests and lint. Existing consumer entrypoint/snapshot changes are provenance-bound but not individually tested."
+  },
+  "native_HTTP_seam": "Upstream-derived codex-rs/http-client/src/route_aware_client_pool.rs::RouteAwareClientPool/RequestBuilder::send; Stage A owner remains in codex-http-client. All twelve Stage B paths are project-custom and absent at the upstream pin.",
+  "paths": [
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "abd4b4ad208632b105f8cacb7ceac0520227af628a73caafe3274313e31cfd2a",
+      "bytes": 4276,
+      "format_changed": false,
+      "formatted_git_blob": "54ac374b3e9982537863e5a2d704e417c65987cc",
+      "formatted_sha256": "abd4b4ad208632b105f8cacb7ceac0520227af628a73caafe3274313e31cfd2a",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/app-server/src/process_final.rs",
+      "published_parent_git_blob": "ce4bc9114ac70e7f1dbd3f8c9db1db8226a3ee8a",
+      "published_parent_sha256": "bd5ecadad7921dadc950b4e52085970ca331c44bac4f603f73ee720b7871e66b",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "12f4175c58b3125cbc72a03fada5166de72b9fc0c9779d416c9ecf96a919afdd",
+      "bytes": 1889,
+      "format_changed": false,
+      "formatted_git_blob": "1b6a9cf4d1d7f90bffe18b6f24b69d19e3d3214b",
+      "formatted_sha256": "12f4175c58b3125cbc72a03fada5166de72b9fc0c9779d416c9ecf96a919afdd",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/cli/src/process_final.rs",
+      "published_parent_git_blob": "57caef9d0574d4ea0e29241df804d0a04a79709f",
+      "published_parent_sha256": "2bbc8a7b8f9736d304b9724f46ae564b0a8d5e7c70a1397f876b71824c2e91c7",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "f0a6501ac9580b8653f42c6f0fd309d4fc55cdd7fb7656c718707cb4a7949375",
+      "bytes": 1379,
+      "format_changed": false,
+      "formatted_git_blob": "46ae017a4efe63efe2e7c277f76ae6ff5bf87b33",
+      "formatted_sha256": "f0a6501ac9580b8653f42c6f0fd309d4fc55cdd7fb7656c718707cb4a7949375",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/cli/src/process_final_tests.rs",
+      "published_parent_git_blob": "7af721ca43d1e744c8faeacdfb30919e9038bc68",
+      "published_parent_sha256": "8abb70cb8a1abeda51012edd4a221460bcf24fa0ad8a1aace1d4f23dc8495340",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "b6c6cd3ca0f57b0f4c8113385702e83a8aeb9c7785aa9f3daa2f13ce85f60125",
+      "bytes": 232,
+      "format_changed": false,
+      "formatted_git_blob": "84c3ab3474f8c0d4772e5f8fb3b3694302b93a3e",
+      "formatted_sha256": "b6c6cd3ca0f57b0f4c8113385702e83a8aeb9c7785aa9f3daa2f13ce85f60125",
+      "origin": "new project-custom integration test or constructor diagnostic snapshot",
+      "path": "codex-rs/cli/src/snapshots/codex__process_final__tests__constructor_cleanup_after_success.snap",
+      "published_parent_git_blob": null,
+      "published_parent_sha256": null,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "01df9a42afe4cd3f5cbbb8c10910430d857331e1b2eb9a15160528a3a2bb50b0",
+      "bytes": 269,
+      "format_changed": false,
+      "formatted_git_blob": "357768f58a65ce4c1c83433ee5b104db70b3392c",
+      "formatted_sha256": "01df9a42afe4cd3f5cbbb8c10910430d857331e1b2eb9a15160528a3a2bb50b0",
+      "origin": "new project-custom integration test or constructor diagnostic snapshot",
+      "path": "codex-rs/cli/src/snapshots/codex__process_final__tests__constructor_cleanup_preserves_operation.snap",
+      "published_parent_git_blob": null,
+      "published_parent_sha256": null,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "0ab4e36b11275c85542a70e8b40df11dda9918c67a515f09d28a9e3592540bcc",
+      "bytes": 4007,
+      "format_changed": true,
+      "formatted_git_blob": "609cfc9504cee5dba3588f9f73248be3cdc2a810",
+      "formatted_sha256": "857d726c397677c5e86f251e363075a4c2f81ec1385824316b7df7a19f0fc56c",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/core-plugins/src/plugin_startup_process_shutdown.rs",
+      "published_parent_git_blob": "1d55dd58198717e95ce4bcf13263759b0b05213b",
+      "published_parent_sha256": "e1dc2feabb6550508fc2e4cbb093d572e5fecd6412ec24108baba334fe38c038",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "14190aa1d666549457979ed21f357d67186847b96e8a6063a4d1a4cc1d355672",
+      "bytes": 5728,
+      "format_changed": true,
+      "formatted_git_blob": "8b7dc4ccab666941d982f6440958af905436990f",
+      "formatted_sha256": "ab1f53efa9ef5dd103000b1077144caba3464b6c28328ec532d31b04b7808b46",
+      "origin": "new project-custom integration test or constructor diagnostic snapshot",
+      "path": "codex-rs/core-plugins/tests/process_final_http.rs",
+      "published_parent_git_blob": null,
+      "published_parent_sha256": null,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "46d249fbecbc2c2e349824c80be63c542b2ef1404d04b085b6d7352f51193e7d",
+      "bytes": 1867,
+      "format_changed": false,
+      "formatted_git_blob": "3f9d0e5af9db4cfa288aa07b6ce94907e5b164a7",
+      "formatted_sha256": "46d249fbecbc2c2e349824c80be63c542b2ef1404d04b085b6d7352f51193e7d",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/exec/src/process_final.rs",
+      "published_parent_git_blob": "57caef9d0574d4ea0e29241df804d0a04a79709f",
+      "published_parent_sha256": "2bbc8a7b8f9736d304b9724f46ae564b0a8d5e7c70a1397f876b71824c2e91c7",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "886e7329e7f21336d466554bfc8ac82c70113dd2e0fac06a9402c920367ec236",
+      "bytes": 3109,
+      "format_changed": true,
+      "formatted_git_blob": "6e335bded7ac5bb9846728728fb821c6381d4d7f",
+      "formatted_sha256": "a17fa200772d8e43a5e8be630431b25655c560d0c9e79fa7c37e6a89df9e77c7",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/tui/src/process_final.rs",
+      "published_parent_git_blob": "48ef104cdf077e3e82fe5b7d3e54791ce0094d1b",
+      "published_parent_sha256": "c19666024459c98be07cc985add6ba363595d82ebbf6e5dea777199a64543202",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "7709970a4b390949a3137f688f71c02082e1345507c4fd76bf8b25554f7f139a",
+      "bytes": 2483,
+      "format_changed": true,
+      "formatted_git_blob": "9bb388d31b1f39ac23f412b2faa4a9af8135adc6",
+      "formatted_sha256": "fa890a8c2a0e685cf89c7640a776536c8001b2a28e5722f12342cc18fd68d288",
+      "origin": "project-custom process-final implementation/snapshot",
+      "path": "codex-rs/tui/src/process_final_tests.rs",
+      "published_parent_git_blob": "752d2873ab54f6a2ce00d20b7d26621fe09b1c3e",
+      "published_parent_sha256": "2f688bf0983803efe0a73ca3446e1531e7e81bd3c85e3495cee9cfaad7219458",
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "aa9502bf57cb3844b347796f718636824b39e3fb95546520be71fad10ff28176",
+      "bytes": 185,
+      "format_changed": false,
+      "formatted_git_blob": "c75eb155eb83e91888de032d28ff8a5cafe227df",
+      "formatted_sha256": "aa9502bf57cb3844b347796f718636824b39e3fb95546520be71fad10ff28176",
+      "origin": "new project-custom integration test or constructor diagnostic snapshot",
+      "path": "codex-rs/tui/src/snapshots/codex_tui__process_final__tests__constructor_cleanup_preserves_fatal_exit.snap",
+      "published_parent_git_blob": null,
+      "published_parent_sha256": null,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    },
+    {
+      "absent_at_pinned_upstream": true,
+      "authored_sha256": "40d012e468d6466985d4964d9ec1c5ec518c3556efde1d091727ed1082ee74a2",
+      "bytes": 182,
+      "format_changed": false,
+      "formatted_git_blob": "0c589dcf1685164ea48fc6f4ba33c5e21c96f8f8",
+      "formatted_sha256": "40d012e468d6466985d4964d9ec1c5ec518c3556efde1d091727ed1082ee74a2",
+      "origin": "new project-custom integration test or constructor diagnostic snapshot",
+      "path": "codex-rs/tui/src/snapshots/codex_tui__process_final__tests__constructor_cleanup_preserves_operation.snap",
+      "published_parent_git_blob": null,
+      "published_parent_sha256": null,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+    }
+  ],
+  "published_parent": {
+    "commit": "6f0bb26b1f697bf74bf8686e161458f717972f67",
+    "main_changed": false,
+    "receipt": {
+      "bytes": 4653,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-native-a-publication-01/PUBLICATION.json",
+      "sha256": "db01393b67ef86c6ced4e28a6f9c20fc85aaeeaa929a017979316ce81802b95d"
+    },
+    "tree": "5c1cf9fbaf1cec1bd9d060ce289edfd1f17866a7"
+  },
+  "schema": "http-stage-B-lineage-template-v1",
+  "source_API_compatibility": [
+    "PluginStartupProcessObservation adds public constructors field; downstream exhaustive struct literals/patterns require coordinated source adaptation.",
+    "No dependency, component wire/config or state migration change in this slice.",
+    "begin(Instant) executable-only authority remains caller convention; this change does not introduce type-enforced capability authority."
+  ],
+  "source_transition": {
+    "authored_count": 8947,
+    "authored_map_sha256": "f55920f01d7141b2d67995847013e72e93bec52c60169b57ec31ab48ce81abd9",
+    "candidate": {
+      "bytes": 1236196,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-stage-b-adoption-01/CANDIDATE_AUTHORED.json",
+      "sha256": "06f01e4298b831a6bfece8d00ca9a18ddfe2e1daec9de3bd7955e0a0126c584c"
+    },
+    "changed_paths": 12,
+    "format_changed_paths": [
+      "codex-rs/core-plugins/src/plugin_startup_process_shutdown.rs",
+      "codex-rs/core-plugins/tests/process_final_http.rs",
+      "codex-rs/tui/src/process_final.rs",
+      "codex-rs/tui/src/process_final_tests.rs"
+    ],
+    "format_mechanical_independent_review": {
+      "bytes": 1624,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-stage-b-format-independent-review-01.json",
+      "sha256": "8652071f5cfc10fd2ddee3734837b1d4419e07c6d0ce05f3fcc0eefbf747dbde"
+    },
+    "format_receipt": {
+      "bytes": 3724945,
+      "path": "/workspace/acceptance/p03-http-stage-b-fmt-01.source.json",
+      "sha256": "7365925887e9ef99cd0ba7a59117501cff21faf3ec411fb974fe7e553149b439"
+    },
+    "format_returncode": 0,
+    "formatted_candidate": {
+      "bytes": 1236427,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-stage-b-adoption-01/CANDIDATE_FORMATTED.json",
+      "sha256": "f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092"
+    },
+    "formatted_count": 8947,
+    "formatted_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "modified_custom_paths": 7,
+    "new_paths": 5,
+    "parent_count": 8942,
+    "parent_map_sha256": "73fd6ab756059a07f37a9b9dd15e0ebb06518f30773a560d0dad8318b33a0292"
+  },
+  "status": "current native composition1/library553/scoped lint passed; consumer12-path behavior not individually accepted",
+  "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478"
+}
