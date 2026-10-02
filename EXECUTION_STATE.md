@@ -16,8 +16,8 @@ Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`; exact-tree im
 Last verified main: `781080f7e3c8bfe1953378001d777dff33d74bc3`, tree
 `22cf918cf77f16d5d947a59b968e342cde7f71d0`. Main source remains native installer
 `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`; later main changes are documentation.
-The previous candidate publication is `8d1216a30362ba7ecd5fba35c1051bb22cc88dd6`;
-receipt `p03-curated-shared-control-publication.json` verifies both refs and eighteen changed blobs.
+The previous candidate publication is `a69fa42ffd83a134624842e7649502abd30455b1`;
+receipt `p03-curated-http-await-publication.json` verifies both refs and thirteen changed blobs.
 
 **Active development source**, present in the owning checkout:
 `92212516ad4d12bcf60546ee5f879b983ed44682`, tree
@@ -26,10 +26,10 @@ This propagates the exact stop control through policy-aware HTTP send/body reads
 request deadline, observed byte caps and existing charset/BOM decoding. Ordinary client/runtime
 teardown finishes on the retained native worker before later stages. Its destination remains
 `work/p03-curated-sync-lifecycle`, **not main**.
-Before continuing, verify `p03-curated-http-await-publication.json` and the remote branch;
-this file cannot contain its own eventual documentation commit SHA. The native checkpoint
-has scoped proof, not full-host acceptance. C2b bounded extraction is staged separately;
-the original extractor is unchanged by this checkpoint.
+Before continuing, verify `p03-source922-runtime-publication.json` and the remote branch;
+this file cannot contain its own eventual documentation commit SHA. Source922 now has scoped
+and fresh full-host regression proof, while its shutdown contract remains incomplete. C2b
+bounded extraction is staged separately; the original extractor is unchanged.
 
 Local HEAD/index remain upstream; local main is stale. Use exact reviewed temporary
 indices and connector publication; do not reset/rebase/rewrite the real index.
@@ -127,6 +127,35 @@ active-turn Ctrl+C exited0 in0.265/0.267s without forced cleanup. Chromium/Playw
 deterministic inference, not in-app Browser/live-provider or new attachment proof. Last older
 fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for newer source.
 
+## Fresh source922 runtime checkpoint — 2026-10-02
+
+[Exact-source full-host evidence](verification/2026-10-02/P03_SOURCE922_FULL_HOST_EVIDENCE.md):
+fresh CLI build passed in6m25s; SHA256
+`890b4da9756644e56276e4f6dddb84439417dc250fa2f74ae201e1efb4948b11`,635,068,200 bytes.
+All4build/runtime before/after maps equal8,900 entries and were independently rehashed.
+Existing independent native storage/search packages were reused unchanged with the new host.
+Storage13commands, migration10commands and GUI2cold cycles passed; all3 unchanged strict
+runners exited0 with null errors. First active-turn Launch SIGINT exited0 in0.264997/0.264945s,
+tracked identities absent, no forced cleanup. Fresh Chromium/Playwright screenshots were
+visually reviewed; this is deterministic fixture evidence, not in-app Browser/live-provider proof.
+
+Storage recorded3 adopted SIGPIPE statuses whose sampled PID generations match the native
+Git executable; exact operations/causes are unknown. Migration recorded1 unattributed SIGPIPE.
+This is not an all-child-exit-zero claim. Old source99 strict125 failures remain preserved.
+The current fast regression is green; the shutdown contract is still open: no production stop
+caller, native completion receipt or owned curated callback scope is present at source922.
+The45s stdio watchdog/longer service budgets still need coordinated deadline/slow-cleanup proof.
+Main remains source655; keep this work on the candidate branch until the contract gate passes.
+
+A frozen completion proposal is preserved at recovery/p03-curated-worker-completion-proposal;
+manifest `f5d541d283275b90d384aaeba183e2a554c54a251cd48a2ea1eb4b8e644ef8db`,
+patch `d4df562e2b6ccd447cfebf70282e3e653538a0e1dfb0e0245bf1e30976ed44aa`.
+Six files/451 changed lines/seven new tests; exact replay and two static reviews passed.
+It is not adopted, compiled or tested at this evidence checkpoint. Callback scope work is
+being staged separately against that frozen proposal. Preserve both; do not assume adoption.
+The source922 runtime runplan and held-startup shutdown test plan are in recovery, with
+strict arguments/default startup retained and private report projection rules.
+
 ## Ordered implementation queue
 
 1. Verify source922 publication/ref and exact-source evidence. Keep main source655 until
@@ -134,21 +163,23 @@ fully passing runtime is `b3530790` (source181400/CLI876c); never relabel it for
 2. B1a retained ownership, B1b shared cancellation and C2a HTTP awaits are scoped-tested.
    Preserve sticky quarantine and original outcomes; direct-child reaping never clears them.
    External termination/fencing is required for recovery; restarting alone is insufficient.
-3. Adopt/test frozen `p03-curated-c2b-extraction-proposal` against source922; manifest
-   `d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`. Three paths/five
-   proposed tests; static review and exact replay passed, but no compilation/test/adoption. Do not
-   claim a total ZIP-constructor allocation or decoder/syscall latency bound. Follow the
-   [pinned shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRATION_AUDIT.md):
-   exact native completion and callback scopes; explicit process-final ownership distinct from
-   embedded-server replacement; recoverable repo+SHA journal; both App Server drains and a
-   coordinated watchdog deadline. The current45s stdio watchdog can preempt longer storage/GUI
-   budgets. Keep callbacks/config writes owned, preserve activation/SHA continuity and propagate
-   forced or incomplete cleanup honestly. No indiscriminate global-stop-on-embedded-Drop hook.
-
-4. Build a fresh full CLI and rerun unchanged default-feature installed storage, migration and
-   GUI/session/streaming/approvals/cancellation/recovery/actual Launch Ctrl+C gates. Record exact
-   source and package hashes, process identities and strict runner result. Only then consider
-   nonforce promotion of the combined source; do not disable plugins or extend drain assertions.
+3. The latest user request prioritized the fresh source922 runtime gate; it now passes as
+   recorded above. Next preserve the new CLI/test evidence, then adopt/test the reviewed exact
+   native-worker completion slice. Add owned curated async callbacks and real process-final
+   callers as one host-repair acceptance, preserving per-embedded replacement/sibling scopes.
+   A completion primitive alone is preparatory. Pending/cancelled observers retain custody;
+   native finalization may outlast observation deadlines, so external watchdog/uncertainty
+   policy must remain explicit. Never turn !pending or a joined uncertain outcome into success.
+4. Run deliberately held production Git/HTTPS with exec success/error and App Server EOF/SIGTERM,
+   then repeat unchanged installed storage, migration, GUI/session/streaming/approval/cancel/
+   recovery/actual Launch Ctrl+C gates on the actual repaired source. Coordinate the45s stdio
+   watchdog with longer storage/GUI budgets and exercise slow cleanup, forced uncertainty and
+   embedded replacement. Only then consider nonforce main promotion. Preserve the separately
+   frozen C2b archive-extraction proposal (`d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`),
+   still unadopted/untested, and implement its cooperative limits as a separate slice. Complete
+   recoverable repository/SHA journal and host-death fencing; no total ZIP-constructor memory
+   bound or hard native-blocking deadline is implied by cooperative checks. Follow the
+   [shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRATION_AUDIT.md).
 5. Resume native auth load/refresh/persistence authority, independently installed auth/catalog,
    then every remaining P04–P19 subsystem and kernel audit. This lifecycle repair is prerequisite
    work, not a substitute for extracting actual components.
@@ -223,7 +254,7 @@ Compressed V8 archive, Cargo static V8 and all Rust/proof/source/runtime files r
 Offline Bazel re-expansion remains unproven; about1.25GB was free before C2a compilation.
 Recheck actual headroom before the next command.
 
-Original task environment/config identity is unchanged, revision 1461 observed running/connected;
+Original task environment/config identity is unchanged, revision 1462 observed running/connected;
 restricted package-managers policy still has additional allowed_hosts[]. In-app Browser and
 Context7 are unavailable, and no external preview is proven. Keep the original VM; no reset or
 policy bypass. Upstream libraries/framework docs are required when applicable, not for ordinary

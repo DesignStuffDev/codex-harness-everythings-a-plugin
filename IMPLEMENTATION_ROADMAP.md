@@ -1,6 +1,6 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-Status: **incomplete platform; verified partial baseline**. Updated 2026-10-01.
+Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical
 [COMPONENTS.md](COMPONENTS.md), [VALIDATION.md](VALIDATION.md), and the domain plans
@@ -970,3 +970,22 @@ an explicit process-final owner distinct from embedded leases, publication recov
 drain deadlines before new full-host promotion. Slow-cleanup tests must go beyond the previously
 fast Ctrl+C cases; forced/deadline exits retain uncertainty. These repairs remain prerequisites
 for installed auth/catalog, not substitutes for further extraction. P00M/P18U/P19 gates remain.
+
+
+### Source922 fresh runtime checkpoint — 2026-10-02
+
+The user-prioritized [rebuilt-host regression](verification/2026-10-02/P03_SOURCE922_FULL_HOST_EVIDENCE.md)
+now passes: freshCLI890b4da,13 storage commands,10migration commands,2cold GUI cycles,
+all unchanged strict runners0/null. Existing independent storage/search packages and binaries
+remained unchanged during runtime; actual Launch Ctrl+C exited0 in both cycles.
+The earlier source99 lifecycle failures remain separate. Sampled Git SIGPIPE statuses and
+fixture/browser limitations are recorded, not dismissed.
+
+This is current-source compatibility/regression proof, not another extracted component or
+completed shutdown contract. The next slice is exact native-worker completion, then owned
+curated callback scopes and explicit process-final integration, held Git/HTTPS and slow-cleanup
+checks with coordinated watchdog deadlines. The reviewed completion proposal is not compiled
+at this checkpoint. Keep C2b extraction separate, preserve quarantine and the repository/SHA
+journal/fencing requirements, and do not promote merely because fast regression passed.
+Auth/provider extraction, all remaining inventory rows and the P18U updater acceptance remain
+required; the optional remote viewer does not block them.
