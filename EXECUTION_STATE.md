@@ -6,6 +6,26 @@ Coverage: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
 Required updater: [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
 Detailed earlier results: [checkpoint history](EXECUTION_CHECKPOINT_HISTORY.md).
 
+## Immediate recovery checkpoint — 2026-10-02
+
+The latest production CLI/manager build finished101 before runtime testing because rustc
+could not create a temporary directory: `No space left on device (os error28)` while
+compiling the normal `codex-tui` library. This is separate from the earlier TUI test-target
+SIGKILL. The wrapper recorded unchanged scoped source. No newer storage/GUI runtime pass exists.
+
+After this failure, terminal transport disconnected. The task-bound environment subsequently
+changed from offline/starting to running/connected in status metadata, but two read-only
+`pwd` attempts still failed with `Noise harness handshake failed before connection became ready`.
+Metadata connectivity does not establish usable execution or filesystem recovery. No reset,
+replacement checkout/VM, source edit, or new extraction was performed. This update is published
+through the GitHub connector only; the local working files have not been synchronized to it.
+
+**First reconnect action:** verify the original checkout, real index hash, both source trees,
+active processes and artifacts before any mutation. One inactive generated-test-cache archive
+was temporarily moved from R to RAM-backed `/tmp`; its survival and restoration are outstanding.
+See [exact failure, preservation and recovery instructions](verification/2026-10-02/P03_PRODUCTION_BUILD01_AND_EXECUTOR_RECOVERY.md). Do not blindly
+retry the build with the same disk margin or reuse a historical cache-deletion list.
+
 ## Resume identity and rules
 
 - Owning checkout: `/workspace/codex-harness-everythings-a-plugin`, original cloud VM.
@@ -36,7 +56,7 @@ library tests, lint and reviewed formatting; it did not have fresh full-host pro
 `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`, branch
 `wip/p03-process-final-and-mcp-preservation-20261002`; all270 selected blobs read back.
 The WIP report/readback supplement is `248420e4bf8e6dc4c98c8ec04ee2f71b79b4f1f3`.
-Terminal TUI failure and current status are published at `bff986f90cacfa210b54edf5435f3e7220f52436`; all three changed blobs read back, main unchanged.
+Terminal TUI failure is published at `bff986f90cacfa210b54edf5435f3e7220f52436`. The next verified preservation checkpoint is `1f808b9fcac8fc2f548b73bc0e486459bc9c59ce`, tree `d7bf394cf60aa688ca975c7952f4f1482e47f59f`:48 changed blobs read back, including45 inert observation/callback/replacement-acceptance source and metadata files. Main is unchanged. This later documentation-only recovery update does not adopt those proposals.
 This is not a main promotion or release. Receipt:
 R/`p03-wip-preservation-publication/publication-receipt.json`. It adds process-final authority/callers,
 curated admission fencing/native and callback observations, coordinated shutdown budgets and
@@ -66,9 +86,11 @@ Current evidence prefixes are `/workspace/acceptance/p03-process-final-`:
 | `native-tests-01` |compiler101; zero tests |One extra `>` repaired, original failure retained. |
 | `client-tests-01` |linker101; zero tests |Signal7/Bus error at zero free disk; source unchanged, separate evidence. |
 | `tui-tests-01` |compiler101; zero tests |rustc SIGKILL after2,156.43s; unchanged source. Memory pressure observed; no pre-run OOM counter baseline, so cause not conclusively attributed. |
+| `full-cli-build-01` |production build101; no runtime checks |Normal TUI library compilation hit ENOSPC after about6m05s. Source wrapper recorded unchanged scope; distinct from TUI test SIGKILL. |
 
-Green native runs have zero retries and identical before/after source maps. Only CLI reports one
-ignored helper; the other completed native suites have zero skips.
+Green native runs have zero retries and identical before/after source maps. CLI and manager each
+report one ignored helper; neither helper is counted passed. The other completed native suites
+have zero skips. The six native suites total1,636 executed passes; this is not a unique project-wide coverage count.
 No claim that all child processes exited0; strict descendant assertions were not weakened.
 Manager88 checks now pass. TUI, changed App Server integration, lint and full runtime gates remain.
 
@@ -83,25 +105,25 @@ The old source99 live-descendant failures remain failed; later observations do n
 
 ## Ordered next actions
 
-1. Preserve TUI01 compiler SIGKILL evidence and establish fresh idle resource guards. Reclaim
-   obsolete internal generated caches with several GiB of RAM and disk margin before retry;
-   preserve current compiler dependency closure, proof executables/archives, sources and metadata.
-   Client42 evidence is archived; its inactive ELF was subsequently retired. The172-file and635-file guarded old
-   internal-library retirements completed; receipts are R/`p03-client-postterminal-workspace-cache-retirement.json`
-   and R/`p03-current-static-input-cache-retirement.json`. About4.37GB was free before exec01.
-   Recheck actual resources; historical audits are not reusable deletion lists.
-2. Exec and CLI completed green. After guarded resource recovery, run component-host lib/bin
-   checks first; it has no core/TUI dependency. Rebuild the manager and production CLI for
-   meaningful installed-host/GUI gates. TUI01 stays an explicit failed compile gate; retry
-   its monolithic `--lib` test target only with sufficient RAM/disk margin. Changed App Server
-   stdio/forced-exit integration checks, scoped lint and global formatting also remain.
-   Use exact source guards and unchanged strict subreaper; no test rerun solely for style.
-3. Rebuild/source-bind the actual CLI and manager. Run held production Git/HTTP matrix,
-   installed storage/migration/GUI streaming, approval, cancellation, recovery and actual Launch
-   Ctrl+C gates. Run the reviewed slow-store relay normal/forced cases with separate fresh homes.
-   Its boundary is fixture admission before native storage; its46s clock starts at manager's
-   interrupt acknowledgment, not the App Server watchdog onset. Same-process A→B production
-   replacement remains a separate gate. Source-only/review/synthetic checks cannot satisfy these.
+1. Restore usable execution on the same task-bound environment, then reconcile this remote ledger
+   update without overwriting local work. Verify both source trees, real index, current source map,
+   frozen GUI and backup paths. Check and restore the temporary239,382,700-byte test-fixture archive
+   described in the recovery note; do not assume RAM-backed `/tmp` survived the interruption.
+2. Preserve production-build01 ENOSPC evidence separately from TUI01 SIGKILL. Check idle processes,
+   overlay/tmpfs/cgroup limits, then review the prepared first24 inactive-clone preservation bundle
+   and obtain fresh exact reference/hash guards. It has not been executed. Preserve/archive selected
+   inactive generated data before retiring exact paths; retain current production compiler inputs,
+   original source/evidence and runtime state. The previous1.215GB disk margin was insufficient.
+   Old completed cache-retirement plans are not reusable deletion lists. Manager88 checks are
+   already green; do not rerun them merely because an older queue still requested them.
+3. With measured headroom, retry the actual CLI/manager production build under a unique
+   `p03-process-final-full-cli-build-02` prefix and bind both source and executable hashes.
+   Repeat installed storage/migration/GUI streaming, approvals, cancellation, recovery and actual
+   Launch Ctrl+C. Then run held production Git/HTTP, real46s slow-store normal/forced and same-process
+   A→B replacement gates. The relay's46s clock starts at manager interrupt acknowledgment; fixture
+   admission is before native storage. All require unchanged strict descendant assertions.
+   TUI library tests, changed App Server integration, scoped lint and global formatting also remain
+   unpassed. Existing library/fixture/source-review results cannot satisfy these runtime gates.
 4. Review/adopt MCP custody in dependency order: upper02 → retirement03 → lower workspace →
    narrowly pinned SDK completion/adapters → process-final aggregate/late-admission fence.
    Proposals below are uncompiled; preserve all originals and original failure outcomes.
@@ -137,8 +159,10 @@ All paths below are under R. Do not silently apply an entire staged tree.
   SHA `09f621f1a67105a6794894f441322f92bc2af53348e89ce55be6c32269c42f4d`;
   callback activity overlay: `p03-curated-callback-activity-proposal-01/MANIFEST.json`,
   SHA `340033c388567d294cb471ecb741e62da0cb1f14e3f508ba4134f5afec53fa10`.
-  Static reviewed only; six authored tests unrun. These are outside the earlier204-file WIP
-  preservation set. Actual same-process acceptance source is being staged separately.
+  Static reviewed only; six authored tests unrun. These and the actual same-process acceptance
+  source are included in the additional45 inert files published at1f808b9, outside the earlier204-file
+  set. The ordered plan manifest is2916793d6706c28fe1741799c7ee05c87bd36141f396f978ecc6f9849a98f0db.
+  External preservation does not adopt, compile or execute them.
 - C2b manifest `d76bf2389695619fd051ffd24758ba43346e51977dc7115c98d568e863d7ef09`
   remains unadopted/untested. Its cooperative limits are not a hard memory/syscall bound.
 
@@ -147,11 +171,12 @@ All paths below are under R. Do not silently apply an entire staged tree.
 Original full two-worktree/Git/SDK/evidence archive:
 R/`codex-recovered-workspace.tar.zst`, SHA256
 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
-All later source/proposal/proof archives and retirement receipts remain in R. These are VM-local
-recovery, not externally durable backups. Published GitHub refs preserve only their included source.
+Source/proposal/proof archives and retirement receipts were retained in R at the last working
+terminal observation, except the explicitly documented temporary test-fixture archive relocation.
+Current filesystem access is unverified. These are VM-local recovery, not externally durable backups. Published GitHub refs preserve only their included source.
 The new WIP commit additionally preserves204 inert MCP/slow-store proposal/preimage/license files,
 the current56 native paths and root planning/status/history documents. New observer/callback/actual
-replacement acceptance proposals are frozen outside that earlier set (ordered plan under
+replacement acceptance proposals are additionally preserved externally at1f808b9 (ordered plan under
 R/`p03-curated-replacement-acceptance-ordered-plan-01`, manifest2916793d…); not adopted/tested. No binary/runtime archives
 were exported; unadopted proposal status remains unchanged.
 Current703/431 test ELFs and failed client linker output are archived and verified; their inactive
@@ -187,11 +212,14 @@ SHA4f3e163a… passed with pinned guard bytes. Root action03 completed:350 obsol
 cache files and180 exact aliases retired,448,643,072 disk bytes and1,774,649,344 tmpfs bytes
 reclaimed, source/current closure/proof metadata unchanged. Receipt892fdd3d… . Audit02 is
 retained but rejected because guard source changed during that read-only run.
-97 inactive generated test-plugin cache subdirectories (parents retained) are being
+97 inactive generated test-plugin cache subdirectories (parents retained) were
 archived privately (archiveabb99ada…,239,382,700B,88,546 members verified), then retired
 with fresh guards:97 exact subdirectories/61,507 file aliases removed, all parents retained,
 2,220,015,616B unique tmpfs allocation recovered. Receipt under
-R/`p03-test-cache-preservation-proposal-01/RETIREMENT_RECEIPT.json`; VM-local recovery only. Resource receipts are in R.
+R/`p03-test-cache-preservation-proposal-01/RETIREMENT_RECEIPT.json`; VM-local recovery only.
+After the production disk-full failure, that archive was hash-verified and temporarily relocated
+to `/tmp/p03-test-curated-caches-preserved-01.tar.zst`; restoration remains pending. See the recovery note.
+Resource receipts are in R.
 Further cache or proof-artifact actions require their new exact guards; never reuse an old list. Read actual current processes before starting another Rust command.
 Do not print raw private GUI/auth reports, environment or credentials.
 

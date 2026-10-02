@@ -1055,22 +1055,39 @@ remaining P04–P19 extraction and P18U real upstream integration/rollback on th
 Main stays source655 until the combined host contract gates pass. Viewer connectivity is optional;
 P00M provenance and verified source/evidence checkpoints continue without it.
 
-### Process-final integration in progress — 2026-10-02
+### Process-final integration and resource recovery — 2026-10-02
 
-The owning checkout now contains the reviewed process-final/replacement-delivery candidate,
-with its exact source, tests and remaining gates recorded at the top of EXECUTION_STATE.md.
-Native703 and App Server431 library checks passed. Client01 executed no tests because linking
-failed at zero free disk; the separately recorded unchanged-source client retry passed42/42
-with strict0/null. Preserve the failed attempt and each source binding.
-No fresh full-host proof or new extracted-component count follows from those library results.
+The exact candidate and next acceptance actions are maintained in
+[EXECUTION_STATE.md](EXECUTION_STATE.md). Six current native suites have completed:
+703 native/plugin/transport/process tests,431 App Server,42 client,73 exec,299 CLI
+and88 manager tests:1,636 executed passes, strict0/null and unchanged source maps.
+CLI and manager each ignore one subprocess helper; neither is counted passed.
+Manager's short injected-budget checks do not establish production210s cleanup behavior.
+No fresh full-host proof or new extracted-component count follows from these results.
 
-Next: complete actual client/exec/CLI/TUI/manager and App Server lifecycle checks; rebuild
-the real host and manager; then run held production Git/HTTP and separately installed storage /
-GUI recovery, including real manager shutdown with an admitted relay-held write exceeding45
-seconds and a forced-uncertainty case. The relay boundary is before native storage admission.
-MCP session/transport custody and pinned HTTP-worker completion remain separately staged and
-uncompiled; their own source/ownership/real-worker gates are required before any all-host claim.
-Keep source922's prior green runtime checkpoint separate from the current native candidate.
+The TUI test-target compiler was killed before tests. A later actual production CLI/manager
+build failed with ENOSPC in the normal TUI library. These are distinct retained failures.
+The cloud execution transport then failed; status metadata returning connected did not
+restore terminal process creation. See the
+[exact recovery checkpoint](verification/2026-10-02/P03_PRODUCTION_BUILD01_AND_EXECUTOR_RECOVERY.md).
+No same-source retry is warranted until execution, temporary backup restoration and measured
+disk/memory headroom are established. Existing successful checks need not be repeated just
+because an older historical queue above named them.
+
+Next: regain execution on the original VM, verify saved source and archives, and review fresh
+resource guards. Rebuild/source-bind actual CLI and manager; repeat independently installed
+storage/migration/GUI streaming, approval, cancellation, recovery and actual Launch shutdown.
+Run held production Git/HTTP and real slow-storage normal/forced cases, including an admitted
+relay-held write exceeding45 seconds. The relay boundary precedes native storage admission.
+Same-process A→B replacement must prove no stale A effects and one refresh in active B.
+TUI tests, changed App Server lifecycle integration, scoped lint and global formatting remain.
+Source922's prior green runtime checkpoint stays separate from the current native candidate.
+
+MCP session/transport custody and pinned HTTP-worker completion remain staged and uncompiled;
+their source/ownership/real-worker gates are required before any all-host cleanup claim.
+C2b cooperative extraction, transactional repository/SHA publication and host-death fencing
+remain prerequisites before native auth/catalog extraction. Additional observation/callback/
+replacement-acceptance proposal source is externally preserved at1f808b9; it is not adopted.
 
 This is still the P03 prerequisite gate. P04–P19 and the required P18U updater retain their
-original scope and acceptance criteria; optional viewer networking remains independent.
+scope and acceptance criteria; optional viewer networking remains independent.

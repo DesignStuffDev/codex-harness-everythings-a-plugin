@@ -4,6 +4,21 @@ The project is a working partial component platform, with three bounded native f
 
 This checkpoint distinguishes published source, completed tests of the newer working candidate, and proposals awaiting adoption. It does not promote the candidate to main or transfer an older runtime result to newer source.
 
+## Latest execution blocker and recovery
+
+The production CLI/manager rebuild subsequently failed with **disk exhaustion**, before any
+new host/runtime checks. This is separate from the earlier TUI test-target compiler SIGKILL.
+The scoped-source wrapper recorded no source changes. Six native suites total **1,636 executed
+passes**, but the latest actual full-host/GUI proof still belongs to older source922.
+
+The cloud terminal then disconnected. The same task-bound VM now reports running/connected
+in status metadata, but terminal creation still fails its connection handshake. Saved files
+have **not** been reverified after this interruption. No replacement VM or checkout was created.
+This documentation update uses the GitHub connector; local ledger synchronization is pending.
+One generated-test-fixture archive is temporarily in RAM-backed `/tmp` and needs verification
+and restoration. The primary full-source archive was not moved. See the
+[precise recovery note](verification/2026-10-02/P03_PRODUCTION_BUILD01_AND_EXECUTOR_RECOVERY.md) for preservation facts and next actions.
+
 ## Published checkpoints and current work
 
 Repository: [DesignStuffDev/codex-harness-everythings-a-plugin](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin). The imported official baseline is OpenAI Codex `d42056091aded7feb1d88ac7e83972108b2aa478`; upstream provenance, LICENSE and NOTICE are retained.
@@ -14,9 +29,9 @@ Repository: [DesignStuffDev/codex-harness-everythings-a-plugin](https://github.c
 | Published development branch | `work/p03-curated-sync-lifecycle` at `ba87799c2e9ab821a326f10715c11cf6ec256896`. Includes the callback source milestone with 953 library tests, lint and reviewed formatting; no fresh full-host result for that source. |
 | Latest actual rebuilt-host runtime | Native source `92212516ad4d12bcf60546ee5f879b983ed44682`, runtime evidence publication `2ac44529d0dfa261c6d2a09005a34b3ee22754ed`. This predates the later completion/callback/process-final changes. |
 | Current working candidate | 56-path process-final/replacement candidate, preserved as unfinished WIP, tested virtual tree `1da290682fc6ddd00994c2af7eac9018c8143dea`, before subsequent documentation edits. Six completed native suites are recorded below. |
-| Verified preservation branch | `wip/p03-process-final-and-mcp-preservation-20261002` at `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`, from published `ba87799…`. All270 selected blobs were read back. This preserves active candidate source and inert proposals; it does not mark them accepted. |
+| Verified source preservation | `wip/p03-process-final-and-mcp-preservation-20261002`: active candidate and204 inert proposal files preserved at `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`; latest source-preservation checkpoint `1f808b9fcac8fc2f548b73bc0e486459bc9c59ce` adds45 inert observation/callback/replacement-acceptance files and manager evidence. All changed blobs were read back. This later documentation update adds no native implementation and does not mark WIP accepted. |
 
-The original checkout, sibling worktree, failed evidence, proposal history and frozen GUI are preserved. VM-local recovery archives are not external backups. External durability applies only to files actually included in verified published GitHub commits.
+The original checkout, sibling worktree, failed evidence, proposal history and frozen GUI were retained at the last usable terminal observation; post-disconnection filesystem/runtime survival is not yet reverified. VM-local recovery archives are not external backups. External durability applies only to files actually included in verified published GitHub commits.
 
 ## Native functionality actually separated
 
@@ -82,7 +97,7 @@ These repairs are prerequisites for safe extraction, not additional independentl
 
 MCP upper02 plus retirement03, the 43-file lower workspace proposal and five-file pinned SDK proposal remain frozen, statically reviewed, **unadopted and uncompiled**. They cover session errors/retained handles, exact local process/service/transport custody and observable HTTP worker/SSE completion. Proposed tests have not run. Adoption requires their recorded dependency order, an approved immutable SDK source/pin and consumer integration, then real transport/process tests and a final aggregate/late-admission fence. The SDK patch alone does not change the workspace's HTTP completion classification; ordinary optional remote DELETE failure is separate from local ownership uncertainty.
 
-A reviewed allowlist selects **204 source/preimage/patch/license/documentation files, 7,971,037 bytes**, for inert WIP preservation. It includes the original and corrected slow-store fixtures and original frozen proposal history, excludes private runtime homes/auth data, caches, binaries and generated replay trees, and preserves Codex and pinned upstream license/provenance material. Preservation manifest SHA-256: `42ebfc9ec99ece1a596223ced049695374271c44db5e10b5fc16ba47848760b7`; allowlist SHA-256: `45630ed70152b44237de33af9a50125fdf636a16f8edb65fc196b6511aaad521`. Publication and exact remote readback completed at `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`; preserving WIP does not adopt it.
+A reviewed allowlist selects **204 source/preimage/patch/license/documentation files, 7,971,037 bytes**, for inert WIP preservation. It includes the original and corrected slow-store fixtures and original frozen proposal history, excludes private runtime homes/auth data, caches, binaries and generated replay trees, and preserves Codex and pinned upstream license/provenance material. Preservation manifest SHA-256: `42ebfc9ec99ece1a596223ced049695374271c44db5e10b5fc16ba47848760b7`; allowlist SHA-256: `45630ed70152b44237de33af9a50125fdf636a16f8edb65fc196b6511aaad521`. Publication and exact remote readback completed at `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`. A further45 inert files (923,814 bytes, including metadata) preserve read-only lifecycle observation, callback activity and actual same-process replacement acceptance proposals at `1f808b9fcac8fc2f548b73bc0e486459bc9c59ce`; all48 changed blobs in that checkpoint were read back. These proposals remain unadopted, uncompiled and unrun. Preserving WIP does not adopt it.
 
 ## Remaining platform roadmap
 
@@ -107,9 +122,11 @@ The intended finished host remains a small bootstrap/composition/compatibility/a
 
 ## Evidence and source anchors
 
+- [Manager88 exact evidence](verification/2026-10-02/P03_MANAGER_TESTS01.json) and [production-build failure/recovery](verification/2026-10-02/P03_PRODUCTION_BUILD01_AND_EXECUTOR_RECOVERY.md).
+
 - [Current execution ledger](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/EXECUTION_STATE.md), [canonical roadmap](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/IMPLEMENTATION_ROADMAP.md), [component inventory](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/COMPONENT_INVENTORY.md), [upstream-maintenance requirements](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/UPSTREAM_MAINTENANCE.md).
 - [Source922 full-host evidence](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/verification/2026-10-02/P03_SOURCE922_FULL_HOST_EVIDENCE.md), [callback milestone](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/verification/2026-10-02/P03_CURATED_CALLBACK_SCOPE_EVIDENCE.md), [developer SDK](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/component-sdk/README.md).
-- [Exact candidate manifest](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/process-final-source-manifest.json), SHA-256 `0a46a9a3f50670a4cc10180012dd3adb09ee2226c75efb8db8c86fbb093d4065`. Its pre-run status is historical; later actual results are separately bound in `/workspace/acceptance/p03-process-final-{native-tests-02,app-server-tests-01,client-tests-02,exec-tests-01,cli-tests-01}.{source.json,subreaper.json,log}`.
+- [Exact candidate manifest](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/process-final-source-manifest.json), SHA-256 `0a46a9a3f50670a4cc10180012dd3adb09ee2226c75efb8db8c86fbb093d4065`. Its pre-run status is historical; later actual results are separately bound in `/workspace/acceptance/p03-process-final-{native-tests-02,app-server-tests-01,client-tests-02,exec-tests-01,cli-tests-01,manager-tests-01}.{source.json,subreaper.json,log}`.
 - [WIP preservation plan](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/PLAN.md) and [exact allowlist](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/d989351c0f016a3f8c8bc2ea3248c1c19e915dd5/_preserved_wip/2026-10-02/ALLOWLIST.json).
 
 Prepared from the current checkout, recorded publication receipts and actual six-suite summary/strict reports; subsequently updated after verified WIP publication. Test execution and source publication are recorded separately.
