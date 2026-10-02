@@ -1,0 +1,1 @@
+Unadopted source-only staging design, including original01 and corrected02 metadata. No compilation, test, activation or additional component extraction is claimed. Patch reconstruction is source validation only. Full conditional-writer proposal B remains separately preserved. See MANIFEST.json and archived DESIGN.md for precise scope and remaining acceptance.

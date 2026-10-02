@@ -120,8 +120,8 @@ passed on source map `0742356b`; scoped login lint03 subsequently passed with un
 [focused evidence](verification/2026-10-02/p03-auth-reload-focused/README.md).
 This does not extract authentication. Permanent refresh-failure publication is now
 adopted/formatted on a separate42e3899 source and passes four causal tests plus
-the full301-case login gate and108 provider cases; scoped lint and new production/UI
-gates remain pending. See its
+the full301-case login gate and108 provider cases. Scoped login lint02 passed without
+source changes; current production/UI gates remain pending. See its
 [source map](upstream/p03-auth-refresh-source-lineage.json). Successful refresh/install
 persistence, conditional backend writes and request admission remain coupled and
 require separate contracts. No new extracted family or runtime acceptance is claimed.

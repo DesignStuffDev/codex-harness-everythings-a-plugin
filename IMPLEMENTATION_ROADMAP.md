@@ -47,7 +47,9 @@ Its source and runtime acceptance remain separate from this completed reload
 package/lint checkpoint. The current provider suite also passes108/108 with zero
 skips/retries; the combined package total is409. Strict checks passed while retaining
 the observed child status−9 without a causal or universal graceful-cleanup claim.
-Scoped lint and production/UI gates remain pending. Fresh preflight admitted compilation after a verified
+Scoped login lint02 also passed in1m08s with unchanged source and protected proofs,
+strict0/null and no new OOM. [Evidence](verification/2026-10-02/p03-auth-refresh-login-lint/README.md).
+Current production/UI gates remain pending. Fresh preflight admitted compilation after a verified
 release of two redundant archived copies.
 Source and all retired test/production proofs are preserved. The successful runtime
 checkpoint does not close

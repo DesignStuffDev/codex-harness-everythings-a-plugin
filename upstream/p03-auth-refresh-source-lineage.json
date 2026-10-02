@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "Adopted and formatted; focused4, full login301 and provider108 passed on source42. Scoped lint and new production/UI gates pending. Native ownership prerequisite, no additional extracted component.",
+  "status": "Adopted and formatted; focused4, full login301/provider108 and scoped login lint02 passed on unchanged source42. New production/UI gates pending. Native ownership prerequisite, no additional extracted component.",
   "upstream": {
     "repository": "https://github.com/openai/codex",
     "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
@@ -156,7 +156,20 @@
       "-9": 1,
       "0": 1
     },
-    "provider_exit_cause_attributed": false
+    "provider_exit_cause_attributed": false,
+    "scoped_lint": {
+      "passed": true,
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-login"
+      ],
+      "source_unchanged": true,
+      "terminal_sha256": "ccfe51950332777adf3bf303ba1417f9e55c78a76a572cc6fa4e9f62b0bffba2",
+      "evidence": "verification/2026-10-02/p03-auth-refresh-login-lint/EVIDENCE.json",
+      "no_tests_repeated_solely_for_lint": true
+    }
   },
   "license": "Apache-2.0 LICENSE and NOTICE retained."
 }

@@ -15,16 +15,17 @@ Detailed superseded receipts/actions are preserved in
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Last verified publication: `047e91eae0cbd34e8d20271510b9c616af134587`, tree
-  `fa2756dcadfb5c004b261981b47bb71375941adf`, on
+- Last verified publication: `34c0281e8d8aa039616f9afd292ebe0be7539e39`, tree
+  `f347a43baef99956e566759aac6cc0afc6619687`, on
   `wip/p03-process-final-and-mcp-preservation-20261002`.
-  All19 selected files/687,181B and both refs read back. This WIP snapshot preserves
-  source42, resource evidence and unadopted Ephemeral design/primitives while focused
-  compilation was in progress. Its later focused pass is separate evidence below.
-  Parent41bafa1 publishes the accepted reload lint;96a4339 provider108 evidence.
+  All20 selected files/591,316B and both refs read back. This WIP snapshot records
+  source42 focused4/full login301/provider108 evidence and preserves source-only
+  unadopted Ephemeral caller B. The focused4 overlap301; total409 package tests.
+  Parent047e91e preserves actual source42 and unadopted design/primitives;
+  41bafa1 records historical reload lint,96a4339 historical provider108.
   Main remains `781080f7e3c8bfe1953378001d777dff33d74bc3`; no promotion is implied.
-- Publication receipt: R/p03-auth-refresh-source-publication-01/PUBLICATION.json,
-  SHA256 `567100339e15dfac7dd9b118aa379b90793346a49ae7054f178b674986102053`.
+- Publication receipt: R/p03-auth-refresh-409-publication-01/PUBLICATION.json,
+  SHA256 `1690810281524c5b4ddc31f1324455ce87529a3132c8d453831e659adf410010`.
 - R = `/workspace/recovery-backups/20260930T165936Z`;
   A = `/workspace/acceptance`. Full two-worktree/Git/SDK/evidence archive:
   R/codex-recovered-workspace.tar.zst, SHA256
@@ -40,7 +41,7 @@ Detailed superseded receipts/actions are preserved in
 
 | Cohort | State |
 | --- | --- |
-| Current refresh42 | Three-path permanent refresh-failure ownership fix adopted after reload acceptance. Source8,949/map `42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59`. Focused4, full login301 and provider108 pass. Scoped lint and production/UI remain pending. |
+| Current refresh42 | Three-path permanent refresh-failure ownership fix adopted after reload acceptance. Source8,949/map `42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59`. Focused4, full login301/provider108 and scoped login lint02 pass. Production/UI remain pending. |
 | Preceding reload0742 | Source8,948/map `0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f`. Focused5, full login297, provider108 and scoped login lint03 passed; no new production/UI proof. |
 | Last production7a | Source8,947/map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`. Offline build02 and12 runtime slots have passing attempts, with original failures retained. This does not validate either later auth cohort. |
 
@@ -174,8 +175,18 @@ remained unchanged. No tests were repeated solely for lint/format.
    `c0d9fa87a3ea40db4f9cb57ca5a5ee0cc639d68022409ced2486b3a0279460ec`,
    actual archive chain and budget4b8dea51 (311,300,096B overlay,
    128MiB SHM,1GiB hard/2GiB effective);108 current-source tests pass.
-   Next: finish scoped lint via R/p03-auth-refresh-login-lint-plan-02 with actual
-   newprovider proof/protection and fresh unchanged floors. It is not run.
+   Scoped lint root68255 passed in1m08s via R/p03-auth-refresh-login-lint-plan-02,
+   MANIFEST09840333f0f9b255ba73a60783efe62558585769a2ab14c8a44f23c80af41cdc.
+   Accepted terminal has strict0/null, empty source delta, protected proofs/index
+   unchanged and no new OOM. No tests were repeated solely for lint.
+   Fresh actual admission: hard2,397,069,312/effective4,270,505,984B;
+   overlay610,222,080B; OOM10/kill5. Post-proof overlay605,306,880B and
+   hard1,330,843,648B; no Rust command remains active.
+   Root96068 first completed five exact ordinary-library fsync/DONTNEED hints,
+   no file removals/content changes; RESULTdbc385dce5cba3b59a280d5bc013f954ff444f1dd165b85489ca21730ca648b7
+   under R/p03-auth-refresh-lint-five-library-advice-01. This action uses current
+   regenerated core metadata and must never be replayed. Lint then verified and
+   advised its ten protected inactive ELF/archive roles before fresh admission.
    Keep budgets and actual source/ELF/archive guards; never overwrite old executed
    proof without complete verified preservation. Run scoped lint/required format.
    Do not rerun tests solely for mechanical fix/fmt. Preserve original failures.
