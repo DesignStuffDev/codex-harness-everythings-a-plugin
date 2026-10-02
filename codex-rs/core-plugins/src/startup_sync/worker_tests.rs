@@ -427,7 +427,14 @@ fn spawn_failure_after_stop_cannot_reopen_admission() -> anyhow::Result<()> {
         },
     );
     assert!(error.is_err());
-    assert!(gate.lock().active.is_none());
+    assert!(matches!(
+        gate.lock()
+            .active
+            .as_ref()
+            .context("closed spawn failure")?
+            .native_completion,
+        super::CuratedSyncNativeCompletion::SpawnFailed { .. }
+    ));
     assert!(gate.lock().closing);
     assert!(!gate.start(|_| Ok(()))?);
     Ok(())

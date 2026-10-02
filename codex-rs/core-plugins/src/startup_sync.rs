@@ -29,6 +29,9 @@ use ownership::ATTEMPTS;
 use ownership::SyncAttempt;
 pub(crate) use ownership::SyncControl;
 pub(crate) use ownership::SyncFailure;
+pub use worker::completion::CuratedSyncNativeCompletion;
+pub use worker::completion::CuratedSyncStop;
+pub use worker::completion::CuratedSyncWorkerObservation;
 
 const GITHUB_API_BASE_URL: &str = "https://api.github.com";
 const GITHUB_API_ACCEPT_HEADER: &str = "application/vnd.github+json";

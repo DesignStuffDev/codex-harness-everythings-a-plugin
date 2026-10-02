@@ -795,6 +795,21 @@ impl PluginsManager {
             .request_stop(deadline);
     }
 
+    /// Begins irreversible process-final stop of the native curated worker.
+    ///
+    /// The returned observer retains access to the registered native handle;
+    /// cancelling its wait does not detach the worker or reopen admission.
+    /// Its completion concerns only this native worker, not callback tasks,
+    /// arbitrary descendants, publication durability, or other startup tasks.
+    /// Embedded server replacement must not call this process-wide operation.
+    pub fn begin_curated_repo_sync_process_stop(
+        deadline: Instant,
+    ) -> crate::startup_sync::CuratedSyncStop {
+        CURATED_REPO_SYNC_WORKER
+            .get_or_init(|| Arc::new(WorkerGate::default()))
+            .begin_stop(deadline)
+    }
+
     /// Starts the local curated marketplace sync when the remote catalog is unavailable.
     pub fn maybe_start_curated_repo_sync_for_config(
         self: &Arc<Self>,

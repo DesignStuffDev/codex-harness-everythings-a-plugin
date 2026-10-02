@@ -5,8 +5,12 @@
 //! Quarantine has no production reset: recovering it requires an external
 //! termination/fencing guarantee, not merely reaping this native worker.
 
+#[path = "worker_completion.rs"]
+pub(crate) mod completion;
+
 use super::SyncControl;
 use super::SyncFailure;
+use completion::CuratedSyncNativeCompletion;
 use std::io;
 use std::panic::AssertUnwindSafe;
 use std::panic::catch_unwind;
@@ -34,6 +38,7 @@ struct WorkerRecord {
     // The first observation is immutable, including after a later join.
     outcome: Option<Result<(), SyncFailure>>,
     handle: Option<JoinHandle<()>>,
+    native_completion: CuratedSyncNativeCompletion,
 }
 
 #[derive(Default)]
@@ -106,7 +111,15 @@ impl WorkerGate {
                             && record.outcome.is_none()
                             && record.handle.is_none()
                     }) {
-                        state.active.take()
+                        if state.closing {
+                            if let Some(record) = state.active.as_mut() {
+                                record.native_completion =
+                                    CuratedSyncNativeCompletion::SpawnFailed { kind: error.kind() };
+                            }
+                            None
+                        } else {
+                            state.active.take()
+                        }
                     } else {
                         None
                     }
@@ -151,6 +164,7 @@ impl WorkerGate {
                         control: Arc::clone(&control),
                         outcome: None,
                         handle: None,
+                        native_completion: CuratedSyncNativeCompletion::AwaitingHandle,
                     });
                     return Some((generation, control));
                 };
@@ -160,6 +174,7 @@ impl WorkerGate {
                 {
                     return None;
                 }
+                record.native_completion = CuratedSyncNativeCompletion::Joining;
                 (record.generation, record.handle.take()?)
             };
             // No state mutex is held while joining. A competing admission sees
@@ -170,8 +185,15 @@ impl WorkerGate {
             if record.generation != generation || record.phase != Phase::Running {
                 return None;
             }
-            if joined.is_err() {
+            record.native_completion = if joined.is_ok() {
+                CuratedSyncNativeCompletion::Joined
+            } else {
                 record.phase = Phase::Quarantined;
+                CuratedSyncNativeCompletion::Panicked
+            };
+            // A process-final stop can win while this exact handle is being
+            // joined for retry. Keep its outcome and join observation reachable.
+            if joined.is_err() || state.closing {
                 return None;
             }
             let retired = state.active.take();
@@ -201,7 +223,9 @@ impl WorkerGate {
         if let Some(record) = state.active.as_mut()
             && record.generation == generation
             && record.handle.is_none()
+            && record.native_completion == CuratedSyncNativeCompletion::AwaitingHandle
         {
+            record.native_completion = CuratedSyncNativeCompletion::Running;
             record.handle = Some(handle);
             return;
         }
