@@ -4,6 +4,18 @@ The project is a working partial component platform, with three bounded native f
 
 This checkpoint distinguishes published source, completed tests of the newer working candidate, and proposals awaiting adoption. It does not promote the candidate to main or transfer an older runtime result to newer source.
 
+## Latest continuation: source mapping advanced; execution remains blocked
+
+Supported startup of this same cloud environment failed before terminal tools became available:
+`failed to query executor configuration capabilities`. Connected status metadata does not
+establish a recovered filesystem. No fresh build or runtime check ran.
+
+Independent provenance work is now recorded in the [P03 source-impact audit](verification/2026-10-02/P03_PROCESS_FINAL_LINEAGE_AUDIT.md):
+56 current candidate paths match the frozen manifest;31 existing upstream paths match direct
+official pinned-revision reads;56 selected literal anchors and eight semantic review groups
+identify the affected contracts and consumers. This improves maintenance inputs without claiming
+normalized-index closure, updater implementation or another extracted component.
+
 ## Latest execution blocker and recovery
 
 The production CLI/manager rebuild subsequently failed with **disk exhaustion**, before any

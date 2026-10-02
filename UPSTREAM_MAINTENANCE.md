@@ -625,3 +625,22 @@ The pinned [shutdown audit](verification/2026-10-01/P03_CURATED_SHUTDOWN_INTEGRA
 also records process ownership, callbacks and conflicting cleanup budgets for future impact review.
 Neither record advances the frozen d04 index or satisfies later-upstream integration, installed
 maintenance, migration or rollback acceptance. Keep current-index semantic gaps explicit.
+
+## Current process-final and replacement impact supplement
+
+[The P03 process-final map](upstream/p03-process-final-lineage.json) binds the56-path adopted
+candidate at `f25b069357e5f41ee73b4430abadf827d56fc8d6` to exact parent/import objects,
+56 literal anchors and two unchanged manager callers. [Static audit evidence](verification/2026-10-02/P03_PROCESS_FINAL_LINEAGE_AUDIT.md)
+records direct official upstream verification for31 existing paths and all source-identity checks.
+Eight review groups preserve worker/callback custody, embedded versus process-final authority,
+shared deadlines, same-home replacement, retained storage obligations and nontransactional
+repository/SHA publication as semantic update hazards. Upstream already had dedicated stdio
+threads/a local watchdog; the custom change concerns authority and deadlines.
+
+This is an additional source-impact input, not an adapter accepted by the existing normalized
+index validator. The frozen d04 index and its unresolved findings remain unchanged. External
+Cargo.lock entries are unchanged in this delta, but feature/platform behavior is not certified.
+The current-source full-host gate remains blocked after ENOSPC and executor startup failure.
+P18U still requires an installed maintenance component, real later-upstream integration, custom
+component compatibility, failed-update rollback and independent bootstrap recovery. No polling,
+source application, live installation change or deployment is authorized by this metadata itself.

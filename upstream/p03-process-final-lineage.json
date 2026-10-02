@@ -1,0 +1,2493 @@
+{
+  "schema_name": "codex_p03_process_final_lineage",
+  "schema_version": 1,
+  "status": "source_identity_verified_runtime_acceptance_open",
+  "scope": "56-path adopted P03 process-final/replacement candidate plus two unchanged manager caller references; not a full-repository index.",
+  "source_snapshot": {
+    "repository": "DesignStuffDev/codex-harness-everythings-a-plugin",
+    "commit": "f25b069357e5f41ee73b4430abadf827d56fc8d6",
+    "tree": "bac46bd4846a87b347eceb9663109653e6143d54",
+    "candidate_parent": "ba87799c2e9ab821a326f10715c11cf6ec256896",
+    "candidate_parent_tree": "c75dfdae88843dcbcbdbebe8d0e2ed4dfae6e9c7",
+    "candidate_virtual_tree_before_docs": "1da290682fc6ddd00994c2af7eac9018c8143dea",
+    "upstream_repository": "openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "exact_import": "ae720ae9a98bad29ca2cff998e7d5baaf05cec86",
+    "exact_import_tree": "147ac2447134294359c4071b0aeb495922760db7"
+  },
+  "source_manifest": {
+    "path": "_preserved_wip/2026-10-02/process-final-source-manifest.json",
+    "git_blob_sha1": "6050940cb5a8345bf4a1479a532606d529c1f9c7",
+    "sha256_recorded": "0a46a9a3f50670a4cc10180012dd3adb09ee2226c75efb8db8c86fbb093d4065",
+    "historical_status_not_rewritten": "syntax_repaired_retry02_not_executed"
+  },
+  "validation_method": "Read immutable GitHub source via connector; compare all56 Git blob identities and UTF8 lengths to frozen manifest; read same paths at parent/import; directly compare31 existing import paths to official upstream revision. No shell, source execution, SHA256 recomputation or runtime test occurred.",
+  "counts": {
+    "source_paths": 56,
+    "modified_from_parent": 42,
+    "added_from_parent": 14,
+    "existing_upstream_paths": 31,
+    "project_added_paths": 25,
+    "additional_unchanged_manager_references": 2,
+    "anchors": 56
+  },
+  "source_paths": [
+    {
+      "path": "codex-rs/.config/nextest.toml",
+      "inventory_owners": [
+        "C26"
+      ],
+      "impact_group": "build_and_acceptance",
+      "role": "build_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "ea1d2be9a4fe5781f3eb30bf8c9a3f7163b9c48b",
+        "bytes": 6750,
+        "sha256_from_frozen_manifest": "573b494573fa1fa6442aeafa22e58b40cc064d1212889aad6c26d7b4552e0bb6"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "17decdc0b855b5607feaa8607192b1a902d2ca4e",
+        "bytes": 5572
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/.config/nextest.toml",
+        "git_blob_sha1": "17decdc0b855b5607feaa8607192b1a902d2ca4e",
+        "bytes": 5572,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server-client/Cargo.toml",
+      "inventory_owners": [
+        "C26"
+      ],
+      "impact_group": "build_and_acceptance",
+      "role": "build_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "f8fff8bf609526009da911861fad76fa2ee16fce",
+        "bytes": 1299,
+        "sha256_from_frozen_manifest": "bfc40be848b0d577f6b9610e0080ffd10623f5217dbdc9fa8bc03c7e7faf5746"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "c21cff36d1d86c70e95087d2da794cf5fbe786e2",
+        "bytes": 1256
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server-client/Cargo.toml",
+        "git_blob_sha1": "daa6ef661f00486af405e764705a60bdcf7b1036",
+        "bytes": 1162,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server-client/src/shutdown.rs",
+      "inventory_owners": [
+        "C19",
+        "C21"
+      ],
+      "impact_group": "client_and_transport_shutdown",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "d6889a9fe64f93b61e3e5aed9cafdcdcbddc437a",
+        "bytes": 6651,
+        "sha256_from_frozen_manifest": "8afe2def0b3d854f086d27baee6f245f126955c8c5e8a605150ffd4f21e0884b"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "6367ca6d2f5bd654dd2dc2d37a2b8794143da88d",
+        "bytes": 6481
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server-transport/src/transport/stdio.rs",
+      "inventory_owners": [
+        "C19",
+        "C21"
+      ],
+      "impact_group": "client_and_transport_shutdown",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "971f92a77a55ba02522f69760cbe4e4d058df8b4",
+        "bytes": 7371,
+        "sha256_from_frozen_manifest": "18f5b7f9730201f81e69f9727e204ad1a94762d8b7e55ea1d3b18ab6f121305f"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "12552800cf2c79f6e6fe2b75a3e4e8e18c2aaace",
+        "bytes": 7693
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server-transport/src/transport/stdio.rs",
+        "git_blob_sha1": "12552800cf2c79f6e6fe2b75a3e4e8e18c2aaace",
+        "bytes": 7693,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/curated_callback_lifecycle.rs",
+      "inventory_owners": [
+        "C19",
+        "C14"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "d2b8efa216e9d45071c529369d5c555c3b3b09b5",
+        "bytes": 1854,
+        "sha256_from_frozen_manifest": "cf0d73c3d40239772a629cc073546235af908c6dd48cbfd4a941061835be0935"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "b9d1c79e5a6be5a74ac40c72df117ea82c6a9aaf",
+        "bytes": 1686
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/file_search_services.rs",
+      "inventory_owners": [
+        "C19",
+        "C18"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "04dd7f42ed7256c91bdc81d4fc0f322df4be0be9",
+        "bytes": 5468,
+        "sha256_from_frozen_manifest": "2461c9877c0e3bbedc683fd04c3842e0a161ba3618dd0613e9f958cd45a05b04"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "71ea404fc26e84542aa74aa99b5cfa04f248db1a",
+        "bytes": 5427
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "2ad389cfb1fd407077918faa82f28565add0f3f3",
+        "bytes": 54434,
+        "sha256_from_frozen_manifest": "4e712f2dbef027d1b337100a6c372f4b5aee23bf5df1e34f67dba1a6b0bc56be"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "98d98a79a142166ce82c42f708355b7823a4b251",
+        "bytes": 53238
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/in_process.rs",
+        "git_blob_sha1": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+        "bytes": 47658,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_lifecycle_tests.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "073608536e3d69fe550e9a4dad7a178fa882323c",
+        "bytes": 11474,
+        "sha256_from_frozen_manifest": "c2b6936393bf0b97d53022db72650e109eb07873d49c75b9cb87611304152379"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "17cc1892ac4d82625b011801244e8f074cb9e770",
+        "bytes": 9640
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/lib.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "73e51cf076004cc1e2209220891ce8d20d9364b0",
+        "bytes": 69857,
+        "sha256_from_frozen_manifest": "21cdfaf0183fabe22ed7b3104334a973351c8e6e01de6cee837b9fcc45f9b2f3"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "d8b94641ab682f5f180062d9deb746d22c2d44c0",
+        "bytes": 68392
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/lib.rs",
+        "git_blob_sha1": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+        "bytes": 65841,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/main.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "a7c80516dc343cf4beca1d70a807c284d0c128e7",
+        "bytes": 6496,
+        "sha256_from_frozen_manifest": "798a7e41860ec9d124de65415328ca8ebf5999a4b1e6fc7d582cdc998f230bcf"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "4119cedfe413005e165ca8b00b86699dabe4458a",
+        "bytes": 5558
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/main.rs",
+        "git_blob_sha1": "4119cedfe413005e165ca8b00b86699dabe4458a",
+        "bytes": 5558,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor.rs",
+      "inventory_owners": [
+        "C19",
+        "C14"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "63621256c0d014fb78564b8f873ac7d394b8dee8",
+        "bytes": 83641,
+        "sha256_from_frozen_manifest": "d8714f17c7715f9da2198e3bcbabe40f79aeb8159c0245b5a3cbd8c8209d510b"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "9efa9e4c17b0ef3ff4ab29a5a770e1ad79630a9a",
+        "bytes": 83619
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/message_processor.rs",
+        "git_blob_sha1": "796ecf2fc86a47c056cb934e6590c120d9836c32",
+        "bytes": 80705,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor_gateway_oauth_tests.rs",
+      "inventory_owners": [
+        "C19",
+        "C14",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "01f1f5d60af1af179fbe493bebc6a85318fb30fd",
+        "bytes": 9883,
+        "sha256_from_frozen_manifest": "7dfb69dbef40df889b00ab8befad1c63e98a460fdb853cb14830c291f4002045"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "e1b0dd347667f228c260eaaf2788305b1866a22e",
+        "bytes": 9729
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/message_processor_gateway_oauth_tests.rs",
+        "git_blob_sha1": "dd63e6718392629a848efd314f30b596244725dc",
+        "bytes": 9599,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+      "inventory_owners": [
+        "C19",
+        "C14",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "55a653f32783512f81632f6a138bd0d6df25a087",
+        "bytes": 27110,
+        "sha256_from_frozen_manifest": "cf1356d0964ba9850ae749009fdcd3623dc0f081d2823dcf96d6ff69b07a48d9"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "ff1b2f7d869ebe677d198cce94829681c5fe70f3",
+        "bytes": 26629
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/message_processor_tracing_tests.rs",
+        "git_blob_sha1": "41d843c743abf671b82983e3bcec118ea5df99d2",
+        "bytes": 25739,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/persistence_lifecycle.rs",
+      "inventory_owners": [
+        "C19",
+        "C02"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "e1e5de813bc57e0a1772f674ae635f47d5608aba",
+        "bytes": 1707,
+        "sha256_from_frozen_manifest": "e4477cde6c343de7115dbd81738746773124b87979d1cc61e52272ad6c4a3b78"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "b5717696e8bb923e1ab043c547edd51097ed8f31",
+        "bytes": 1663
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/process_final.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "b6958906913851b8e4815daf3ebf554cfebb7354",
+        "bytes": 3624,
+        "sha256_from_frozen_manifest": "8eba38db57420352b86e85b801cf7145bbaa1a7ab117f6e69b5a795b60d5a131"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/request_processors/thread_processor.rs",
+      "inventory_owners": [
+        "C19",
+        "C02"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "6b591c8849a584892af4a6419f7360ff175c3560",
+        "bytes": 253050,
+        "sha256_from_frozen_manifest": "538087048b1ad5a2c8204f8c53c9f7264f93674f9e90905616a458af719ffa23"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "62aa66b64fc966fdead5939d2b65282dd256f0cc",
+        "bytes": 251879
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/request_processors/thread_processor.rs",
+        "git_blob_sha1": "289cb63953662eb5fba00222ec49432dd976b944",
+        "bytes": 251617,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/src/user_verification_test_support.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "447d4ae388402062c8c17fb9cdbbca06b1ec5420",
+        "bytes": 12038,
+        "sha256_from_frozen_manifest": "2a8c9197d158c2ba41679a0502c2be98650273785b8d2490dc7fc0d53361250a"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "8f46702d8b97ca8fe8fd7dc1ef22925a34b778fc",
+        "bytes": 11633
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/src/user_verification_test_support.rs",
+        "git_blob_sha1": "d2096bc1f17dce225d4e2edad6c62bbb67eb162b",
+        "bytes": 10847,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/tests/suite/v2/connection_handling_stdio_tests.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "8fed5f2237364de0e1031cf2d2d044e1f8119f0a",
+        "bytes": 14851,
+        "sha256_from_frozen_manifest": "17e014095e2327072de992516fa7d4852b81cf8139e74ea8c0ab8c5e253626c3"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "434335f3e4c5223b519b8469cdb48e3754811dab",
+        "bytes": 11597
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/tests/suite/v2/connection_handling_stdio_tests.rs",
+        "git_blob_sha1": "434335f3e4c5223b519b8469cdb48e3754811dab",
+        "bytes": 11597,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/tests/suite/v2/connection_handling_websocket_unix.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "1fb2c17007ef1843e2f2bbe23b31bb14b6556198",
+        "bytes": 20053,
+        "sha256_from_frozen_manifest": "8ffd565af06814771d45a4e1fd6e035088863ba8d66c48e61e907a033c76df26"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "05e7641ee1771fb0b8246292a0b09a3e13021059",
+        "bytes": 20027
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/tests/suite/v2/connection_handling_websocket_unix.rs",
+        "git_blob_sha1": "05e7641ee1771fb0b8246292a0b09a3e13021059",
+        "bytes": 20027,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/app-server/tests/suite/v2/daemon_update_recovery.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "app_server_service_lifetimes",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "7a85f520c79184da347d7c0c054043d815b9a39e",
+        "bytes": 32573,
+        "sha256_from_frozen_manifest": "54546a5ce4741799dd75796da8e2e3750643832e44ea598025ca5e5ba456bffa"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "019d327bbb8b837cabf9178b70e421e326989de0",
+        "bytes": 32337
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/app-server/tests/suite/v2/daemon_update_recovery.rs",
+        "git_blob_sha1": "019d327bbb8b837cabf9178b70e421e326989de0",
+        "bytes": 32337,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/arg0/Cargo.toml",
+      "inventory_owners": [
+        "C26"
+      ],
+      "impact_group": "build_and_acceptance",
+      "role": "build_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "91ef23efa2e8b8aad1e3b3dce904a034344ecc34",
+        "bytes": 1012,
+        "sha256_from_frozen_manifest": "780d69bdf775c4e570a16b58bde462d0502ae758f452c9f714a1998a662e3fd9"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "b6d4c2d404ece5b3030ead85f888fa8a29538c48",
+        "bytes": 969
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/arg0/Cargo.toml",
+        "git_blob_sha1": "b6d4c2d404ece5b3030ead85f888fa8a29538c48",
+        "bytes": 969,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/arg0/src/lib.rs",
+      "inventory_owners": [
+        "C19",
+        "C25"
+      ],
+      "impact_group": "executable_teardown",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "fa18c7af2522875c23b40166847f113eaf84f7ba",
+        "bytes": 29144,
+        "sha256_from_frozen_manifest": "cadc4ca86e57a626ea5bf1c4268bf30ac23023e4035bbfb0bacfc3b2166244df"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "5bed3b93efda109906a0d12806265688f8d441ed",
+        "bytes": 28626
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/arg0/src/lib.rs",
+        "git_blob_sha1": "5bed3b93efda109906a0d12806265688f8d441ed",
+        "bytes": 28626,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/cli/src/main.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "942d9fbc7fe76ec410913933f111a3850b1c6fa6",
+        "bytes": 178900,
+        "sha256_from_frozen_manifest": "bb3f928ac7a62e11d63abc45d81a1d669f33472624fa4fd544d466bafa42e33c"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "bdd7771b3aadfd69f46698c14844a6d65e1e65ba",
+        "bytes": 177127
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/cli/src/main.rs",
+        "git_blob_sha1": "bdd7771b3aadfd69f46698c14844a6d65e1e65ba",
+        "bytes": 177127,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/cli/src/process_final.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "149613eb51504d1f4d3bb17b26940ab90b643f5f",
+        "bytes": 1785,
+        "sha256_from_frozen_manifest": "c486bae9574a0582cc5e4f77ce9168302c5241316d981d7a48257ea9816c605e"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/cli/src/process_final_tests.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "7af721ca43d1e744c8faeacdfb30919e9038bc68",
+        "bytes": 1340,
+        "sha256_from_frozen_manifest": "8abb70cb8a1abeda51012edd4a221460bcf24fa0ad8a1aace1d4f23dc8495340"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/cli/src/remote_control_cmd.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "dd65eaad95663d0ec8235e1b57224ed91c132ebd",
+        "bytes": 28134,
+        "sha256_from_frozen_manifest": "b2d62c2f9a856a57a4b73ea4bc386eb0e7b9ff71d6c72f291e1405f5588921f8"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "9c0d5e2abd36ef0e5e8a2dac53ad5847b3f18673",
+        "bytes": 27237
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/cli/src/remote_control_cmd.rs",
+        "git_blob_sha1": "9c0d5e2abd36ef0e5e8a2dac53ad5847b3f18673",
+        "bytes": 27237,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "inventory_owners": [
+        "C14"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "5f0c321ebf4ecdc5720409d4e1f9e9d77d94e2d5",
+        "bytes": 45097,
+        "sha256_from_frozen_manifest": "28bff2dee620b35f52d50d4b10303aa05948e58255ff66cbfb79e74898cb6a45"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "252ccac3fdd6c9074a05e397d2b9490b1f317a57",
+        "bytes": 44964
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/core-plugins/src/startup_sync.rs",
+        "git_blob_sha1": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+        "bytes": 39271,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/callback_scope.rs",
+      "inventory_owners": [
+        "C14"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "cb439af7b0a0b875815d154121d0c7beffac2a75",
+        "bytes": 13170,
+        "sha256_from_frozen_manifest": "9ef2402b1be63556d9f1b5409d5883a5d0e0842cf6b8bf0507502d99f1303dae"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "1063f4faed9ac6d7d2cc98afbb25d258a91bdc29",
+        "bytes": 10618
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/process_shutdown.rs",
+      "inventory_owners": [
+        "C14"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "958ddfb7b0c8218f48479c60953bf78915ca7fe6",
+        "bytes": 5328,
+        "sha256_from_frozen_manifest": "cd03c97e6137b27da2327f6e022fea4ed6553d864a55e815ca45e771526b241f"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/process_shutdown_tests.rs",
+      "inventory_owners": [
+        "C14",
+        "C26"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "661251f17423a0424a4ef4fad95556b3a31d1b24",
+        "bytes": 12572,
+        "sha256_from_frozen_manifest": "2067945dc5b1d6ca8f37441f12c9530e94abd0ff277b7223f237a59af3d06d91"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/exec/Cargo.toml",
+      "inventory_owners": [
+        "C26"
+      ],
+      "impact_group": "build_and_acceptance",
+      "role": "build_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "8b088f07e1c3fb7e5aa179ce1e5642699dc958c2",
+        "bytes": 2436,
+        "sha256_from_frozen_manifest": "bf4a622bad12348c450461381d804721590d3f6fcb24bd9b58538a11df508130"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "42a75a05320223b99a21fc15a4380b6492f36728",
+        "bytes": 2351
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/exec/Cargo.toml",
+        "git_blob_sha1": "42a75a05320223b99a21fc15a4380b6492f36728",
+        "bytes": 2351,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/exec/src/lib.rs",
+      "inventory_owners": [
+        "C09",
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "32cc7c78f0b67a8772317b424d8a17197b8e8c4e",
+        "bytes": 88101,
+        "sha256_from_frozen_manifest": "05c062e7511b9796fe8e37f0bdb8e324e9d8b49866f8553bc2511efb96f677e8"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "0bfa07bd5587f6913b21d137874430a982824c15",
+        "bytes": 86172
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/exec/src/lib.rs",
+        "git_blob_sha1": "0bfa07bd5587f6913b21d137874430a982824c15",
+        "bytes": 86172,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/exec/src/main.rs",
+      "inventory_owners": [
+        "C09",
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "e0b1eac54bf044e26a74c0085f0bec76ee989162",
+        "bytes": 1706,
+        "sha256_from_frozen_manifest": "59a5d7c853270aff07d51ac945d77ae9de57c80c1f8236276c0227d3bdb6902f"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "61eaecdd0a8526c49e798649f3810eec343200e4",
+        "bytes": 1413
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/exec/src/main.rs",
+        "git_blob_sha1": "61eaecdd0a8526c49e798649f3810eec343200e4",
+        "bytes": 1413,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/exec/src/process_final.rs",
+      "inventory_owners": [
+        "C09",
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "149613eb51504d1f4d3bb17b26940ab90b643f5f",
+        "bytes": 1785,
+        "sha256_from_frozen_manifest": "c486bae9574a0582cc5e4f77ce9168302c5241316d981d7a48257ea9816c605e"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/exec/src/process_final_input_tests.rs",
+      "inventory_owners": [
+        "C09",
+        "C19",
+        "C26"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "4c78457840255fc13369060cb064f4e8d78e4139",
+        "bytes": 1217,
+        "sha256_from_frozen_manifest": "736a39b58a98cd1ec9d0d0122dc174b76fea8b5fffdaa95426e0cd3f63968d15"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/exec/src/process_final_tests.rs",
+      "inventory_owners": [
+        "C09",
+        "C19",
+        "C26"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "7af721ca43d1e744c8faeacdfb30919e9038bc68",
+        "bytes": 1340,
+        "sha256_from_frozen_manifest": "8abb70cb8a1abeda51012edd4a221460bcf24fa0ad8a1aace1d4f23dc8495340"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/Cargo.toml",
+      "inventory_owners": [
+        "C26"
+      ],
+      "impact_group": "build_and_acceptance",
+      "role": "build_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "aa99b0e9ff8a2e27480dd79fd08ea35eb4f51a94",
+        "bytes": 6832,
+        "sha256_from_frozen_manifest": "b3f65177a7de9b5a764e6f8ed708a8679cbf1c84c0624efe56ffbd408869bba2"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "7ac229bc24397d0148bbd8946db549f9fc589daa",
+        "bytes": 6789
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/tui/Cargo.toml",
+        "git_blob_sha1": "9d61157c421220bd70852e72ce59b89a79a025be",
+        "bytes": 6689,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/file_search_startup.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "9538732c174f3c07a701c6643f75cda29e7c5082",
+        "bytes": 2415,
+        "sha256_from_frozen_manifest": "92f8a78e78ed6dbc1da37bf10b4fc4c82998cabee492375e9e37e27b947982af"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "ed2351f25d270a9f4beff13edf3ff42fdea7177c",
+        "bytes": 2225
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/lib.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "5998a555e30626c634b752fb802e4a2eda99980c",
+        "bytes": 148832,
+        "sha256_from_frozen_manifest": "ae6ac18cb1f3ba871ec5f03f477d0ea479d3cf64756bccbe5a06c6e17270a224"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "f0c44dfb47a0b167e65271e1601219b58ca8951b",
+        "bytes": 147290
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/tui/src/lib.rs",
+        "git_blob_sha1": "b72a33c77640a410e5cc26dd46f0ee9fcb647258",
+        "bytes": 146009,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/main.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "97dc247d2e9802123d9560af1658062f16602658",
+        "bytes": 3057,
+        "sha256_from_frozen_manifest": "a1299839d31ad11d1238d0fcb630cf473cdb55b4f7f51bee397f78c5067f9613"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "5a196d614a92b240758962ce0f07dfa60d8497be",
+        "bytes": 1658
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/tui/src/main.rs",
+        "git_blob_sha1": "5a196d614a92b240758962ce0f07dfa60d8497be",
+        "bytes": 1658,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/process_final.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "3e725d1a7a42da1dfee7f64baf966fa64beff9de",
+        "bytes": 3093,
+        "sha256_from_frozen_manifest": "9e3558bf0622a7dd6d05492b15f7daddf975ac315389c48a2a60f4d56954b771"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/process_final_tests.rs",
+      "inventory_owners": [
+        "C19",
+        "C26"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "39f2c93d3ce5e67b1ea89df3f3f10eb5ca97ff05",
+        "bytes": 2241,
+        "sha256_from_frozen_manifest": "f87685b5c07486c9edbda367b6089462491a0fe2ca9bc854f3cb399d4e9d733b"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/startup_orchestration.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "8e84561fc16de503e3d75481fee81b6d7fbb8a93",
+        "bytes": 36299,
+        "sha256_from_frozen_manifest": "77fda432aedd1f8fb9202e028bb78780aa71ec290ead983864e1232b07695da4"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "a0ff9cb31f4d48900a82aa945913c6ab02df5370",
+        "bytes": 35834
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/tui/src/startup_orchestration.rs",
+        "git_blob_sha1": "a0ff9cb31f4d48900a82aa945913c6ab02df5370",
+        "bytes": 35834,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/tui/src/worktree_startup.rs",
+      "inventory_owners": [
+        "C19"
+      ],
+      "impact_group": "executable_and_embedded_entrypoints",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "a15f1f27d3c8e231f3dc9e59fa9eb7f206b7fbe3",
+        "bytes": 10601,
+        "sha256_from_frozen_manifest": "18a0573de04d92d0733e912d30adec4506d740428a7ea94d8f33e2ad99dc2cf6"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "3d194468acf5bcb41a4e0d8d9147806c93522134",
+        "bytes": 10586
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/tui/src/worktree_startup.rs",
+        "git_blob_sha1": "3d194468acf5bcb41a4e0d8d9147806c93522134",
+        "bytes": 10586,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/utils/process/src/lib.rs",
+      "inventory_owners": [
+        "C25",
+        "C00"
+      ],
+      "impact_group": "process_final_clock",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "19c376d6aa5096ded267183eefe880c16eb0ed04",
+        "bytes": 992,
+        "sha256_from_frozen_manifest": "8196522afbae43a944af2e3b1b8850b42f41b3b67319c47ba074f1bf671cfbd1"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "b3c4491821953b239f5fb9013041cf31d804b219",
+        "bytes": 965
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/utils/process/src/lib.rs",
+        "git_blob_sha1": "b3c4491821953b239f5fb9013041cf31d804b219",
+        "bytes": 965,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/utils/process/src/process_shutdown.rs",
+      "inventory_owners": [
+        "C25",
+        "C00"
+      ],
+      "impact_group": "process_final_clock",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "381bc4dcadeb33e9ffcc975ecfc93974715b8188",
+        "bytes": 6340,
+        "sha256_from_frozen_manifest": "df4b4a928f78af0f2c6ca3c3fa315b9928dbe36f12ce7ab0166fbc9a05141485"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/utils/process/src/process_shutdown_tests.rs",
+      "inventory_owners": [
+        "C25",
+        "C00",
+        "C26"
+      ],
+      "impact_group": "process_final_clock",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "b4d11a0657d0a51d6d02473f131ee90d152ee653",
+        "bytes": 1699,
+        "sha256_from_frozen_manifest": "a96e0bf4a6affef908f8c21fc435dfde8df63d36d5fb7df95b4c5b396fa92f6e"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+      "inventory_owners": [
+        "C19",
+        "C00"
+      ],
+      "impact_group": "desktop_gateway",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "c03f4ba972f1bafdbba814961b98685b20094dc0",
+        "bytes": 19964,
+        "sha256_from_frozen_manifest": "daba79fb2443a3e05a0f6cdef6ade291249a21bb721804191485787573f633ff"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "c5019fd6d411b26849a2dbd5b360ed29d2a3c0f5",
+        "bytes": 18461
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "component-sdk/tests/p01_gui_acceptance.py",
+      "inventory_owners": [
+        "C19",
+        "C00",
+        "C26"
+      ],
+      "impact_group": "desktop_gateway",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "385f388ade50c212579c904ab9b1734ebcda3988",
+        "bytes": 35100,
+        "sha256_from_frozen_manifest": "68c1df79a54070f91910c794066dde5908667c7b8f2015e8b4780f8688043932"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "6b3e342fb1a51ba21126b6681661c5f6f25c683e",
+        "bytes": 34583
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "component-sdk/tests/test_desktop.py",
+      "inventory_owners": [
+        "C19",
+        "C00",
+        "C26"
+      ],
+      "impact_group": "desktop_gateway",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "c77066c725ce66e87f1589161ae7698d1735aa9d",
+        "bytes": 24474,
+        "sha256_from_frozen_manifest": "cab1e7818098cfed1313188fde75a3b2cc534cf5f867f5f61f148d9a9e8f92f7"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "5ef094e3a9da035669805e8036aae9360ffbb5e8",
+        "bytes": 22476
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "inventory_owners": [
+        "C14"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "runtime_source",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "f97a1ccd1c45c79fed68e4bee4a882d0eaab8708",
+        "bytes": 152368,
+        "sha256_from_frozen_manifest": "2b9ae53b2aafd775cbb0e6d81d6a38360725bac0bc8ae93c229b477bedb840b7"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "31b765f91ba3978d79025805b95178baafdb61be",
+        "bytes": 151566
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/core-plugins/src/manager.rs",
+        "git_blob_sha1": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+        "bytes": 148748,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/manager_tests.rs",
+      "inventory_owners": [
+        "C14",
+        "C26"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "test_or_test_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "b634b513f39128ac475d2bcfd135238c8a7b16da",
+        "bytes": 244496,
+        "sha256_from_frozen_manifest": "93fcd59030f826890d227e88ce1608345093b02eab21e570f47be20fafe3d896"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "4cfdecf728b35e44b0612d2b1b9334072e8f6ac0",
+        "bytes": 248463
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/core-plugins/src/manager_tests.rs",
+        "git_blob_sha1": "2ae390470d8d260b51db340d2d2d34b6910ebc52",
+        "bytes": 242206,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "inventory_owners": [
+        "C14"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "9a56c0c199fd29fcc3367a5b1f09d8cf9b782bfb",
+        "bytes": 11762,
+        "sha256_from_frozen_manifest": "c6695dca12309ad65f55d51291a26a43505fd65280186d80f2d3424e6884a783"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "e8445d576ddeec78f0d4069c9cf39e89271e68a2",
+        "bytes": 8554
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_delivery.rs",
+      "inventory_owners": [
+        "C14"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "runtime_source",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "f64a6d671afac502bae9802c5f537e15a1021471",
+        "bytes": 3456,
+        "sha256_from_frozen_manifest": "5904297347bc48e30c1926344a17a47096e95000e5d7782c5cb32f98d7749d19"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_delivery_tests.rs",
+      "inventory_owners": [
+        "C14",
+        "C26"
+      ],
+      "impact_group": "curated_native_ownership",
+      "role": "test_or_test_support",
+      "lineage": "project_added_path",
+      "delta_from_parent": "added",
+      "current": {
+        "git_blob_sha1": "c3fe66cba477099277e2548c924a776cd17e325a",
+        "bytes": 13945,
+        "sha256_from_frozen_manifest": "398091bdbe4bdfeff403f3d81c378b6879d5208c093591fd9e3d369e3f4dfd17"
+      },
+      "parent": {
+        "available": false,
+        "observation": "NOT_FOUND at immutable parent; positive controls read42 other paths"
+      },
+      "upstream": {
+        "available": false,
+        "observation": "NOT_FOUND at exact import; same imported tree contains31 positively read scope paths"
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    },
+    {
+      "path": "codex-rs/Cargo.lock",
+      "inventory_owners": [
+        "C26"
+      ],
+      "impact_group": "build_and_acceptance",
+      "role": "build_support",
+      "lineage": "modified_upstream_path",
+      "delta_from_parent": "modified",
+      "current": {
+        "git_blob_sha1": "f0cd1a6afb962f6e4a37afe337c249c20593f95a",
+        "bytes": 411074,
+        "sha256_from_frozen_manifest": "0baf51d1b779c63b0ea6257f5292a73913b92c8e86c34a111f21cbeb95ab6f55"
+      },
+      "parent": {
+        "available": true,
+        "git_blob_sha1": "21af1e864350b1491ef9b455e1b71cc1a7b05d70",
+        "bytes": 410955
+      },
+      "upstream": {
+        "available": true,
+        "repository": "openai/codex",
+        "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+        "path": "codex-rs/Cargo.lock",
+        "git_blob_sha1": "ea897239537da5b7bbc3106eb5c1a8593f34895c",
+        "bytes": 407057,
+        "direct_upstream_readback_matched": true
+      },
+      "semantic_status": "reviewed_selected_boundary_anchors_only_not_complete_behavioral_equivalence"
+    }
+  ],
+  "unchanged_references": [
+    {
+      "path": "codex-rs/component-host/src/launch.rs",
+      "commit": "f25b069357e5f41ee73b4430abadf827d56fc8d6",
+      "git_blob_sha1": "6bf4206c76fcd7484559df587fe867184b0d4a2e",
+      "parent_blob_sha1": "6bf4206c76fcd7484559df587fe867184b0d4a2e",
+      "role": "existing actual manager210s outer cleanup owner outside the56-path delta"
+    },
+    {
+      "path": "codex-rs/component-host/src/main.rs",
+      "commit": "f25b069357e5f41ee73b4430abadf827d56fc8d6",
+      "git_blob_sha1": "dc5e12f6e852d12a7e94603e4bcf78cfee859e4e",
+      "parent_blob_sha1": "dc5e12f6e852d12a7e94603e4bcf78cfee859e4e",
+      "role": "existing actual manager210s outer cleanup owner outside the56-path delta"
+    }
+  ],
+  "anchors": [
+    {
+      "id": "current-01",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 109,
+      "symbol": "sync_openai_plugins_repo_owned",
+      "literal": "pub(crate) fn sync_openai_plugins_repo_owned(",
+      "git_blob_sha1": "5f0c321ebf4ecdc5720409d4e1f9e9d77d94e2d5",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync.rs#L109"
+    },
+    {
+      "id": "current-02",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 151,
+      "symbol": "fn run",
+      "literal": "    fn run(",
+      "git_blob_sha1": "5f0c321ebf4ecdc5720409d4e1f9e9d77d94e2d5",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync.rs#L151"
+    },
+    {
+      "id": "current-03",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 646,
+      "symbol": "publish_curated_repo",
+      "literal": "fn publish_curated_repo(",
+      "git_blob_sha1": "5f0c321ebf4ecdc5720409d4e1f9e9d77d94e2d5",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync.rs#L646"
+    },
+    {
+      "id": "current-04",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "line": 798,
+      "symbol": "maybe_start_curated_repo_sync_for_config",
+      "literal": "    pub fn maybe_start_curated_repo_sync_for_config(",
+      "git_blob_sha1": "f97a1ccd1c45c79fed68e4bee4a882d0eaab8708",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/manager.rs#L798"
+    },
+    {
+      "id": "current-05",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "line": 3350,
+      "symbol": "start_curated_repo_sync",
+      "literal": "    fn start_curated_repo_sync(",
+      "git_blob_sha1": "f97a1ccd1c45c79fed68e4bee4a882d0eaab8708",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/manager.rs#L3350"
+    },
+    {
+      "id": "current-06",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync/callback_scope.rs",
+      "line": 168,
+      "symbol": "CuratedCallbackScope",
+      "literal": "pub struct CuratedCallbackScope {",
+      "git_blob_sha1": "cb439af7b0a0b875815d154121d0c7beffac2a75",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync/callback_scope.rs#L168"
+    },
+    {
+      "id": "current-07",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync/callback_scope.rs",
+      "line": 339,
+      "symbol": "dispatch",
+      "literal": "    pub fn dispatch(&self) -> bool {",
+      "git_blob_sha1": "cb439af7b0a0b875815d154121d0c7beffac2a75",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync/callback_scope.rs#L339"
+    },
+    {
+      "id": "current-08",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "line": 70,
+      "symbol": "WorkerGate",
+      "literal": "pub(crate) struct WorkerGate {",
+      "git_blob_sha1": "9a56c0c199fd29fcc3367a5b1f09d8cf9b782bfb",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync/worker.rs#L70"
+    },
+    {
+      "id": "current-09",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_delivery.rs",
+      "line": 75,
+      "symbol": "register",
+      "literal": "    pub(super) fn register(",
+      "git_blob_sha1": "f64a6d671afac502bae9802c5f537e15a1021471",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync/worker_delivery.rs#L75"
+    },
+    {
+      "id": "current-10",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync/process_shutdown.rs",
+      "line": 25,
+      "symbol": "begin",
+      "literal": "    pub fn begin(deadline: Instant) -> Self {",
+      "git_blob_sha1": "958ddfb7b0c8218f48479c60953bf78915ca7fe6",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync/process_shutdown.rs#L25"
+    },
+    {
+      "id": "current-11",
+      "source": "current",
+      "path": "codex-rs/core-plugins/src/startup_sync/process_shutdown.rs",
+      "line": 96,
+      "symbol": "clean_native_ownership",
+      "literal": "    pub fn clean_native_ownership(&self) -> bool {",
+      "git_blob_sha1": "958ddfb7b0c8218f48479c60953bf78915ca7fe6",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/core-plugins/src/startup_sync/process_shutdown.rs#L96"
+    },
+    {
+      "id": "current-12",
+      "source": "current",
+      "path": "codex-rs/utils/process/src/process_shutdown.rs",
+      "line": 37,
+      "symbol": "ProcessFinalCapability",
+      "literal": "pub struct ProcessFinalCapability { _private: () }",
+      "git_blob_sha1": "381bc4dcadeb33e9ffcc975ecfc93974715b8188",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/utils/process/src/process_shutdown.rs#L37"
+    },
+    {
+      "id": "current-13",
+      "source": "current",
+      "path": "codex-rs/utils/process/src/process_shutdown.rs",
+      "line": 69,
+      "symbol": "begin",
+      "literal": "pub fn begin() -> ProcessShutdownDeadline {",
+      "git_blob_sha1": "381bc4dcadeb33e9ffcc975ecfc93974715b8188",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/utils/process/src/process_shutdown.rs#L69"
+    },
+    {
+      "id": "current-14",
+      "source": "current",
+      "path": "codex-rs/utils/process/src/process_shutdown.rs",
+      "line": 85,
+      "symbol": "finish_after_runtime",
+      "literal": "pub fn finish_after_runtime() -> io::Result<()> { CLOCK.finish() }",
+      "git_blob_sha1": "381bc4dcadeb33e9ffcc975ecfc93974715b8188",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/utils/process/src/process_shutdown.rs#L85"
+    },
+    {
+      "id": "current-15",
+      "source": "current",
+      "path": "codex-rs/arg0/src/lib.rs",
+      "line": 224,
+      "symbol": "arg0_dispatch_or_else",
+      "literal": "pub fn arg0_dispatch_or_else<F, Fut>(main_fn: F) -> anyhow::Result<()>",
+      "git_blob_sha1": "fa18c7af2522875c23b40166847f113eaf84f7ba",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/arg0/src/lib.rs#L224"
+    },
+    {
+      "id": "current-16",
+      "source": "current",
+      "path": "codex-rs/cli/src/main.rs",
+      "line": 1012,
+      "symbol": "main",
+      "literal": "fn main() -> anyhow::Result<()> {",
+      "git_blob_sha1": "942d9fbc7fe76ec410913933f111a3850b1c6fa6",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/cli/src/main.rs#L1012"
+    },
+    {
+      "id": "current-17",
+      "source": "current",
+      "path": "codex-rs/cli/src/main.rs",
+      "line": 1028,
+      "symbol": "cli_main",
+      "literal": "async fn cli_main(",
+      "git_blob_sha1": "942d9fbc7fe76ec410913933f111a3850b1c6fa6",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/cli/src/main.rs#L1028"
+    },
+    {
+      "id": "current-18",
+      "source": "current",
+      "path": "codex-rs/cli/src/process_final.rs",
+      "line": 12,
+      "symbol": "finish",
+      "literal": "pub(crate) async fn finish(",
+      "git_blob_sha1": "149613eb51504d1f4d3bb17b26940ab90b643f5f",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/cli/src/process_final.rs#L12"
+    },
+    {
+      "id": "current-19",
+      "source": "current",
+      "path": "codex-rs/exec/src/process_final.rs",
+      "line": 12,
+      "symbol": "finish",
+      "literal": "pub(crate) async fn finish(",
+      "git_blob_sha1": "149613eb51504d1f4d3bb17b26940ab90b643f5f",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/exec/src/process_final.rs#L12"
+    },
+    {
+      "id": "current-20",
+      "source": "current",
+      "path": "codex-rs/exec/src/lib.rs",
+      "line": 277,
+      "symbol": "run_main_with_process_final",
+      "literal": "pub async fn run_main_with_process_final(",
+      "git_blob_sha1": "32cc7c78f0b67a8772317b424d8a17197b8e8c4e",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/exec/src/lib.rs#L277"
+    },
+    {
+      "id": "current-21",
+      "source": "current",
+      "path": "codex-rs/tui/src/lib.rs",
+      "line": 1107,
+      "symbol": "run_main_with_process_final",
+      "literal": "pub async fn run_main_with_process_final(",
+      "git_blob_sha1": "5998a555e30626c634b752fb802e4a2eda99980c",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/tui/src/lib.rs#L1107"
+    },
+    {
+      "id": "current-22",
+      "source": "current",
+      "path": "codex-rs/tui/src/process_final.rs",
+      "line": 90,
+      "symbol": "is_final_result",
+      "literal": "fn is_final_result<T>(result: &std::io::Result<T>) -> bool {",
+      "git_blob_sha1": "3e725d1a7a42da1dfee7f64baf966fa64beff9de",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/tui/src/process_final.rs#L90"
+    },
+    {
+      "id": "current-23",
+      "source": "current",
+      "path": "codex-rs/app-server/src/lib.rs",
+      "line": 477,
+      "symbol": "AppServerRuntimeOptions",
+      "literal": "pub struct AppServerRuntimeOptions {",
+      "git_blob_sha1": "73e51cf076004cc1e2209220891ce8d20d9364b0",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/lib.rs#L477"
+    },
+    {
+      "id": "current-24",
+      "source": "current",
+      "path": "codex-rs/app-server/src/lib.rs",
+      "line": 501,
+      "symbol": "run_main_with_transport_options",
+      "literal": "pub async fn run_main_with_transport_options(",
+      "git_blob_sha1": "73e51cf076004cc1e2209220891ce8d20d9364b0",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/lib.rs#L501"
+    },
+    {
+      "id": "current-25",
+      "source": "current",
+      "path": "codex-rs/app-server/src/process_final.rs",
+      "line": 28,
+      "symbol": "drain_deadline",
+      "literal": "pub(crate) fn drain_deadline(legacy_budget: Duration) -> Instant {",
+      "git_blob_sha1": "b6958906913851b8e4815daf3ebf554cfebb7354",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/process_final.rs#L28"
+    },
+    {
+      "id": "current-26",
+      "source": "current",
+      "path": "codex-rs/app-server/src/process_final.rs",
+      "line": 44,
+      "symbol": "join",
+      "literal": "pub(crate) async fn join<T>(mut handle: JoinHandle<T>) -> io::Result<T> {",
+      "git_blob_sha1": "b6958906913851b8e4815daf3ebf554cfebb7354",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/process_final.rs#L44"
+    },
+    {
+      "id": "current-27",
+      "source": "current",
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "line": 386,
+      "symbol": "shutdown",
+      "literal": "    pub async fn shutdown(self) -> IoResult<()> {",
+      "git_blob_sha1": "2ad389cfb1fd407077918faa82f28565add0f3f3",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/in_process.rs#L386"
+    },
+    {
+      "id": "current-28",
+      "source": "current",
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "line": 914,
+      "symbol": "finish_processor_and_services",
+      "literal": "async fn finish_processor_and_services(",
+      "git_blob_sha1": "2ad389cfb1fd407077918faa82f28565add0f3f3",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/in_process.rs#L914"
+    },
+    {
+      "id": "current-29",
+      "source": "current",
+      "path": "codex-rs/app-server-client/src/shutdown.rs",
+      "line": 27,
+      "symbol": "start",
+      "literal": "pub(super) fn start(",
+      "git_blob_sha1": "d6889a9fe64f93b61e3e5aed9cafdcdcbddc437a",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server-client/src/shutdown.rs#L27"
+    },
+    {
+      "id": "current-30",
+      "source": "current",
+      "path": "codex-rs/app-server-client/src/shutdown.rs",
+      "line": 82,
+      "symbol": "coordinate",
+      "literal": "async fn coordinate(",
+      "git_blob_sha1": "d6889a9fe64f93b61e3e5aed9cafdcdcbddc437a",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server-client/src/shutdown.rs#L82"
+    },
+    {
+      "id": "current-31",
+      "source": "current",
+      "path": "codex-rs/app-server-transport/src/transport/stdio.rs",
+      "line": 28,
+      "symbol": "start_stdio_connection",
+      "literal": "pub async fn start_stdio_connection(",
+      "git_blob_sha1": "971f92a77a55ba02522f69760cbe4e4d058df8b4",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server-transport/src/transport/stdio.rs#L28"
+    },
+    {
+      "id": "current-32",
+      "source": "current",
+      "path": "codex-rs/component-host/src/launch.rs",
+      "line": 17,
+      "symbol": "run",
+      "literal": "pub(crate) async fn run<F, I>(",
+      "git_blob_sha1": "6bf4206c76fcd7484559df587fe867184b0d4a2e",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/component-host/src/launch.rs#L17"
+    },
+    {
+      "id": "current-33",
+      "source": "current",
+      "path": "codex-rs/component-host/src/main.rs",
+      "line": 60,
+      "symbol": "main",
+      "literal": "#[tokio::main]",
+      "git_blob_sha1": "dc5e12f6e852d12a7e94603e4bcf78cfee859e4e",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/component-host/src/main.rs#L60"
+    },
+    {
+      "id": "current-34",
+      "source": "current",
+      "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+      "line": 200,
+      "symbol": "close",
+      "literal": "    def close(self, *, deadline=None):",
+      "git_blob_sha1": "c03f4ba972f1bafdbba814961b98685b20094dc0",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/component-sdk/examples/desktop/desktop_ui/gateway.py#L200"
+    },
+    {
+      "id": "current-35",
+      "source": "current",
+      "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+      "line": 323,
+      "symbol": "close",
+      "literal": "    def close(self):",
+      "git_blob_sha1": "c03f4ba972f1bafdbba814961b98685b20094dc0",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/component-sdk/examples/desktop/desktop_ui/gateway.py#L323"
+    },
+    {
+      "id": "current-36",
+      "source": "current",
+      "path": "codex-rs/app-server/src/curated_callback_lifecycle.rs",
+      "line": 7,
+      "symbol": "CuratedCallbackGuard",
+      "literal": "pub(crate) struct CuratedCallbackGuard {",
+      "git_blob_sha1": "d2b8efa216e9d45071c529369d5c555c3b3b09b5",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/curated_callback_lifecycle.rs#L7"
+    },
+    {
+      "id": "current-37",
+      "source": "current",
+      "path": "codex-rs/tui/src/main.rs",
+      "line": 23,
+      "symbol": "main",
+      "literal": "fn main() -> anyhow::Result<()> {",
+      "git_blob_sha1": "97dc247d2e9802123d9560af1658062f16602658",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/tui/src/main.rs#L23"
+    },
+    {
+      "id": "current-38",
+      "source": "current",
+      "path": "codex-rs/app-server/src/main.rs",
+      "line": 79,
+      "symbol": "main",
+      "literal": "fn main() -> anyhow::Result<()> {",
+      "git_blob_sha1": "a7c80516dc343cf4beca1d70a807c284d0c128e7",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/main.rs#L79"
+    },
+    {
+      "id": "upstream-39",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 77,
+      "symbol": "sync_openai_plugins_repo",
+      "literal": "pub fn sync_openai_plugins_repo(",
+      "git_blob_sha1": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/startup_sync.rs#L77"
+    },
+    {
+      "id": "upstream-40",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 96,
+      "symbol": "sync_openai_plugins_repo_with_transport_overrides",
+      "literal": "fn sync_openai_plugins_repo_with_transport_overrides(",
+      "git_blob_sha1": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/startup_sync.rs#L96"
+    },
+    {
+      "id": "upstream-41",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 523,
+      "symbol": "activate_curated_repo",
+      "literal": "fn activate_curated_repo(repo_path: &Path, staged_repo_dir: TempDir) -> Result<(), String> {",
+      "git_blob_sha1": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/startup_sync.rs#L523"
+    },
+    {
+      "id": "upstream-42",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "line": 579,
+      "symbol": "write_curated_plugins_sha",
+      "literal": "fn write_curated_plugins_sha(sha_path: &Path, remote_sha: &str) -> Result<(), String> {",
+      "git_blob_sha1": "b366cf9e4c4ceebc6bd7bd48dd479f7683ce160b",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/startup_sync.rs#L579"
+    },
+    {
+      "id": "upstream-43",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "line": 148,
+      "symbol": "CURATED_REPO_SYNC_STARTED",
+      "literal": "static CURATED_REPO_SYNC_STARTED: AtomicBool = AtomicBool::new(false);",
+      "git_blob_sha1": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/manager.rs#L148"
+    },
+    {
+      "id": "upstream-44",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "line": 748,
+      "symbol": "maybe_start_curated_repo_sync_for_config",
+      "literal": "    pub fn maybe_start_curated_repo_sync_for_config(",
+      "git_blob_sha1": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/manager.rs#L748"
+    },
+    {
+      "id": "upstream-45",
+      "source": "upstream_import",
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "line": 3287,
+      "symbol": "start_curated_repo_sync",
+      "literal": "    fn start_curated_repo_sync(",
+      "git_blob_sha1": "e5614b9f55bc9cd4083bf9f077d7559b5eb42171",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/core-plugins/src/manager.rs#L3287"
+    },
+    {
+      "id": "upstream-46",
+      "source": "upstream_import",
+      "path": "codex-rs/arg0/src/lib.rs",
+      "line": 224,
+      "symbol": "arg0_dispatch_or_else",
+      "literal": "pub fn arg0_dispatch_or_else<F, Fut>(main_fn: F) -> anyhow::Result<()>",
+      "git_blob_sha1": "5bed3b93efda109906a0d12806265688f8d441ed",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/arg0/src/lib.rs#L224"
+    },
+    {
+      "id": "upstream-47",
+      "source": "upstream_import",
+      "path": "codex-rs/cli/src/main.rs",
+      "line": 1013,
+      "symbol": "main",
+      "literal": "fn main() -> anyhow::Result<()> {",
+      "git_blob_sha1": "bdd7771b3aadfd69f46698c14844a6d65e1e65ba",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/cli/src/main.rs#L1013"
+    },
+    {
+      "id": "upstream-48",
+      "source": "upstream_import",
+      "path": "codex-rs/exec/src/lib.rs",
+      "line": 259,
+      "symbol": "run_main",
+      "literal": "pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {",
+      "git_blob_sha1": "0bfa07bd5587f6913b21d137874430a982824c15",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/exec/src/lib.rs#L259"
+    },
+    {
+      "id": "upstream-49",
+      "source": "upstream_import",
+      "path": "codex-rs/tui/src/lib.rs",
+      "line": 1086,
+      "symbol": "run_main",
+      "literal": "pub async fn run_main(",
+      "git_blob_sha1": "b72a33c77640a410e5cc26dd46f0ee9fcb647258",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/tui/src/lib.rs#L1086"
+    },
+    {
+      "id": "upstream-50",
+      "source": "upstream_import",
+      "path": "codex-rs/app-server/src/lib.rs",
+      "line": 473,
+      "symbol": "AppServerRuntimeOptions",
+      "literal": "pub struct AppServerRuntimeOptions {",
+      "git_blob_sha1": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/lib.rs#L473"
+    },
+    {
+      "id": "upstream-51",
+      "source": "upstream_import",
+      "path": "codex-rs/app-server/src/lib.rs",
+      "line": 494,
+      "symbol": "run_main_with_transport_options",
+      "literal": "pub async fn run_main_with_transport_options(",
+      "git_blob_sha1": "d1a622ca8cc94ab626e8e377333c9d875cd18451",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/lib.rs#L494"
+    },
+    {
+      "id": "upstream-52",
+      "source": "upstream_import",
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "line": 346,
+      "symbol": "shutdown",
+      "literal": "    pub async fn shutdown(self) -> IoResult<()> {",
+      "git_blob_sha1": "b467a33ec245499ef76f131f174dabe026fe6ae0",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server/src/in_process.rs#L346"
+    },
+    {
+      "id": "upstream-53",
+      "source": "upstream_import",
+      "path": "codex-rs/app-server-transport/src/transport/stdio.rs",
+      "line": 28,
+      "symbol": "start_stdio_connection",
+      "literal": "pub async fn start_stdio_connection(",
+      "git_blob_sha1": "12552800cf2c79f6e6fe2b75a3e4e8e18c2aaace",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server-transport/src/transport/stdio.rs#L28"
+    },
+    {
+      "id": "upstream-54",
+      "source": "upstream_import",
+      "path": "codex-rs/app-server-transport/src/transport/stdio.rs",
+      "line": 168,
+      "symbol": "start_shutdown_watchdog",
+      "literal": "fn start_shutdown_watchdog() {",
+      "git_blob_sha1": "12552800cf2c79f6e6fe2b75a3e4e8e18c2aaace",
+      "kind": "literal_declaration",
+      "url": "https://github.com/openai/codex/blob/d42056091aded7feb1d88ac7e83972108b2aa478/codex-rs/app-server-transport/src/transport/stdio.rs#L168"
+    },
+    {
+      "id": "current-55",
+      "source": "current",
+      "path": "codex-rs/app-server/src/persistence_lifecycle.rs",
+      "line": 28,
+      "symbol": "finish",
+      "literal": "    pub(crate) async fn finish<T>(&self, result: io::Result<T>) -> io::Result<T> {",
+      "git_blob_sha1": "e1e5de813bc57e0a1772f674ae635f47d5608aba",
+      "kind": "literal_declaration",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/app-server/src/persistence_lifecycle.rs#L28"
+    },
+    {
+      "id": "current-56",
+      "source": "current",
+      "path": "codex-rs/exec/src/main.rs",
+      "line": 40,
+      "symbol": "ProcessFinalCapability::for_executable",
+      "kind": "callsite",
+      "literal": "        let process_final = ProcessFinalCapability::for_executable();",
+      "git_blob_sha1": "e0b1eac54bf044e26a74c0085f0bec76ee989162",
+      "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/f25b069357e5f41ee73b4430abadf827d56fc8d6/codex-rs/exec/src/main.rs#L40"
+    }
+  ],
+  "dependency_delta": {
+    "lock_current_packages": 1487,
+    "lock_parent_packages": 1487,
+    "external_package_versions_changed": false,
+    "changed_package_blocks": [
+      {
+        "package": "codex-app-server-client",
+        "version": "0.0.0",
+        "source": null,
+        "added_package": false,
+        "removed_package": false,
+        "added_dependencies": [
+          "codex-utils-process"
+        ],
+        "removed_dependencies": []
+      },
+      {
+        "package": "codex-arg0",
+        "version": "0.0.0",
+        "source": null,
+        "added_package": false,
+        "removed_package": false,
+        "added_dependencies": [
+          "codex-utils-process"
+        ],
+        "removed_dependencies": []
+      },
+      {
+        "package": "codex-exec",
+        "version": "0.0.0",
+        "source": null,
+        "added_package": false,
+        "removed_package": false,
+        "added_dependencies": [
+          "codex-core-plugins",
+          "codex-utils-process"
+        ],
+        "removed_dependencies": []
+      },
+      {
+        "package": "codex-tui",
+        "version": "0.0.0",
+        "source": null,
+        "added_package": false,
+        "removed_package": false,
+        "added_dependencies": [
+          "codex-utils-process"
+        ],
+        "removed_dependencies": []
+      }
+    ],
+    "new_local_edges": 5,
+    "method": "Compare every Cargo.lock [[package]] block by exact name/version/source and block text; only four local package dependency blocks differ.",
+    "limits": "Unchanged external Cargo.lock package entries do not prove unchanged feature unification, target/platform resolution or runtime dependency behavior."
+  },
+  "impact_groups": [
+    {
+      "id": "curated_native_ownership",
+      "owners": [
+        "C14"
+      ],
+      "state_owner": "WorkerGate retains native generations/handles, immutable outcomes, quarantine and same-home delivery; callback registry retains exact per-processor scopes and action handles.",
+      "origin": "Adaptation of upstream curated synchronization and manager startup. WorkerGate/callback scopes/process-final aggregation/delivery are project additions, not moved upstream declarations.",
+      "invariants": [
+        "Preserve plugin/auth/marketplace policy gating and Git→HTTP→bootstrap-only-export ordering.",
+        "Stopped or uncertain cleanup must not become an ordinary retry/fallback error.",
+        "Reserve callback ownership before spawn; close registration before process-wide native stop.",
+        "Join exact handles; observer cancellation retains custody; immutable operation outcome is distinct from cleanup completion.",
+        "Same lexical absolute home may subscribe/replay once per scope; other homes remain UnsupportedHome.",
+        "Activation rename and SHA publication are still separate filesystem steps; no transactional durability claim."
+      ],
+      "hazards": [
+        "New upstream background callbacks can escape existing scope coverage.",
+        "Changing home identity, success latch or generation attachment ordering can deliver stale A work to replacement B.",
+        "MCP descendants are not covered merely because their calling callback returned."
+      ]
+    },
+    {
+      "id": "process_final_clock",
+      "owners": [
+        "C25",
+        "C00"
+      ],
+      "state_owner": "Executable-created ProcessFinalCapability starts a process singleton holding an independent native watchdog until runtime/native-main teardown is observed.",
+      "origin": "Project-authored support. It is neither a separately installed subsystem nor proof the final minimal kernel is achieved.",
+      "invariants": [
+        "First process-final call fixes absolute200s graceful and205s forced-initiation deadlines; later calls cannot renew them.",
+        "Embedded lifecycle uses optional authority and must not arm or irreversibly close the process clock.",
+        "Exit124 timeout,125 watchdog unavailable and126 explicit force retain cleanup/durability uncertainty.",
+        "Disarm only after actual native-main join and runtime destruction."
+      ],
+      "hazards": [
+        "std::process::exit can be delayed by exit handlers;205s is not an absolute OS termination guarantee.",
+        "Moving finalization into the async main future can hide blocking runtime teardown."
+      ]
+    },
+    {
+      "id": "executable_teardown",
+      "owners": [
+        "C19",
+        "C25"
+      ],
+      "state_owner": "arg0 owns native main invocation, Tokio runtime teardown and dispatch/tempdir lifetime.",
+      "origin": "Adapted upstream arg0_dispatch_or_else.",
+      "invariants": [
+        "Finish watchdog after native thread join on success and panic paths.",
+        "Preserve existing sandbox alias dispatch and dispatch paths."
+      ],
+      "hazards": [
+        "Upstream runtime ownership/refactoring can move the actual teardown boundary without a textual conflict."
+      ]
+    },
+    {
+      "id": "executable_and_embedded_entrypoints",
+      "owners": [
+        "C19",
+        "C09"
+      ],
+      "state_owner": "CLI/standalone binaries supply process-final capability; ordinary exec/TUI library entrypoints remain embedded.",
+      "origin": "Adapted upstream CLI/exec/TUI dispatch plus project-authored cleanup helpers.",
+      "invariants": [
+        "Fence process admission at final-exit onset before local drains.",
+        "Propagate capability across actual exec/review/App Server/TUI dispatch.",
+        "Preserve original operation error if cleanup also fails.",
+        "TUI LocalStateDbStartupError remains recoverable and must permit in-process repair/retry."
+      ],
+      "hazards": [
+        "New upstream early returns or altered error wrapping can bypass cleanup or poison a recoverable second invocation.",
+        "Do not infer native tool-execution or TUI extraction from these support changes."
+      ]
+    },
+    {
+      "id": "app_server_service_lifetimes",
+      "owners": [
+        "C19",
+        "C02",
+        "C14",
+        "C18"
+      ],
+      "state_owner": "Processor owns callback scope; selected storage/search guards outlive abortable request tasks; app-server coordinates owner shutdown.",
+      "origin": "Adapted upstream service processing and in-process client; project-authored guards and process-final helpers.",
+      "invariants": [
+        "process_final defaults None independently of signal-handler installation.",
+        "During final shutdown use remaining absolute grace; embedded budgets remain distinct.",
+        "Close admission before drain; observe exact aborted handles.",
+        "Keep storage/search drains parallel and preserve accepted-write uncertainty on failures."
+      ],
+      "hazards": [
+        "Timeout receipt is not a completed join or durability receipt.",
+        "Parallelizing new service cleanup may still require explicit dependency order.",
+        "Global MCP custody and publication recovery remain open."
+      ]
+    },
+    {
+      "id": "client_and_transport_shutdown",
+      "owners": [
+        "C19",
+        "C21"
+      ],
+      "state_owner": "App Server client retains coordinator/worker custody on owning runtime; stdio bridges native input/signal paths to executable authority.",
+      "origin": "Upstream already supplied dedicated stdio threads and a local45s watchdog. Current adaptation replaces watchdog authority and adds EOF-triggered arming. Separate client shutdown owner is project-added.",
+      "invariants": [
+        "Dropped shutdown observer must not discard the coordinator or actual worker.",
+        "Stdio SIGTERM/native stdin completion/forwarded EOF must reach the shared clock without requiring responsive Tokio logging.",
+        "Clamp205s facade budget to active global grace; do not renew it."
+      ],
+      "hazards": [
+        "Native stdin/stdout threads can block until process exit; no all-native-threads-joined claim.",
+        "Merging upstream watchdog changes must retain installed storage cleanup budget and explicit uncertainty."
+      ]
+    },
+    {
+      "id": "desktop_gateway",
+      "owners": [
+        "C19",
+        "C00"
+      ],
+      "state_owner": "Separately packaged gateway owns App Server pipes/reader and one close deadline; external component manager owns plugin stream/process.",
+      "origin": "Additive project GUI, not the official desktop UI or App Server extraction.",
+      "invariants": [
+        "Server graceful207s and total209s fit within manager210s outer grace.",
+        "Manager first Ctrl+C retains the exact pending stream.next future; second interrupt/startup interruption/deadline force reports uncertainty.",
+        "Repeated gateway close calls share a deadline and retain prior failure.",
+        "Do not close buffered stdout while its reader is live; nonzero/forced/lingering-reader outcomes preserve unknown accepted writes."
+      ],
+      "hazards": [
+        "Synchronous stdlib shutdown/server_close work is not preemptible by constants alone.",
+        "Current-source real Launch/slow-storage acceptance remains required; static clock comparison is not runtime proof."
+      ]
+    },
+    {
+      "id": "build_and_acceptance",
+      "owners": [
+        "C26"
+      ],
+      "state_owner": "Build metadata and regression/acceptance sources bind supported entrypoints and lifecycle fixtures.",
+      "origin": "Retained upstream manifests/tests plus project fixture additions; not runtime-component extraction.",
+      "invariants": [
+        "No dependency version change occurs in this56-path delta; five existing local workspace edges are added.",
+        "Preserve unweakened strict descendant checks and separate failed attempts.",
+        "Do not transfer scoped test outcomes to unbuilt host or older-source runtime results to current source."
+      ],
+      "hazards": [
+        "Full production build needs different artifacts from scoped tests and exhausted1.215GB available disk.",
+        "TUI and changed App Server integration gates remain open."
+      ]
+    }
+  ],
+  "maintenance_policy": {
+    "new_or_changed_paths_outside_scope": "unresolved; do not infer compatibility from this supplement",
+    "semantic_changes_within_scope": "require explicit review of affected group invariants and all gated consumers; a clean merge is insufficient",
+    "routine_compatible_update": "may become automatable only after stable contracts and all release gates; this artifact grants no automatic approval or activation",
+    "normalization": "Standalone supplement. Frozen d04 CHECKPOINT_LINEAGE_INDEX and its1167 reported findings are unchanged. No new validator adapter has been implemented or run.",
+    "updater": "P18U remains required and unimplemented; real later-upstream integration plus breaking/failed-update rollback and external recovery are still required."
+  },
+  "acceptance": {
+    "new_independently_installed_subsystems": 0,
+    "current_native_suite_passes_recorded": 1636,
+    "counts_source": "PROJECT_STATUS_2026-10-02.md at pinned snapshot; no rerun in this audit",
+    "latest_full_host_source": "92212516ad4d12bcf60546ee5f879b983ed44682",
+    "current_host_build": "failed101 ENOSPC in normal TUI library",
+    "current_tui_test_build": "failed101 SIGKILL before tests; cause not conclusively attributed",
+    "open": [
+      "restore original executor/filesystem and temporary archive",
+      "current-source production CLI/manager build",
+      "installed storage/migration/GUI streaming approvals cancellation recovery actual LaunchCtrlC",
+      "held production Git/HTTP ownership matrix",
+      "actual46s slow-store normal and forced uncertainty",
+      "same-process replacement staleA0 activeBrefresh1",
+      "TUI tests and changed App Server integration",
+      "MCP global/transport custody",
+      "lint/format",
+      "C2b cooperative extraction and transactional repository/SHA recovery",
+      "P18U real upstream integration and failure rollback"
+    ]
+  },
+  "limits": [
+    "This is source/provenance work, not a new component extraction, runtime test, compatibility certification or updater implementation.",
+    "Owner IDs identify review responsibility and do not certify exclusive behavioral ownership.",
+    "Current workspace/filesystem/processes were not accessible; this artifact describes immutable published source only.",
+    "Published WIP proposals remain inert and unadopted; their files are not conflated with the56 adopted candidate paths.",
+    "No scheduled polling, source application, live installation change, environment reset or new VM/checkout.",
+    "Project-added path classifies file provenance; it does not assert every contained behavior is novel or independently installable."
+  ]
+}

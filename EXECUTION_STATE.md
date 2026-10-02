@@ -6,6 +6,28 @@ Coverage: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
 Required updater: [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
 Detailed earlier results: [checkpoint history](EXECUTION_CHECKPOINT_HISTORY.md).
 
+## Latest resume and independent progress — 2026-10-02
+
+Supported startup of the selected original environment failed with
+`exec-server protocol error: failed to query executor configuration capabilities`.
+The environment context reports failed and terminal/edit tools are unavailable. The status
+service separately reports running/connected at observed revision1463; this does not establish
+execution readiness. No current process/build/filesystem inspection could run. The last recorded
+production build is terminal101 (ENOSPC), not a newly observed live build.
+
+Independent feasible work completed through immutable GitHub source: the
+[P03 process-final lineage map](upstream/p03-process-final-lineage.json) now binds all56 candidate
+paths to parent/import blobs,56 selected literal anchors and two unchanged manager references.
+All31 upstream-existing paths match direct official pinned-revision reads. Eight impact groups
+record ownership/deadline/replacement/publication hazards. See the [audit and validation limits](verification/2026-10-02/P03_PROCESS_FINAL_LINEAGE_AUDIT.md).
+This is P00M provenance progress only: no new extracted component, native/runtime test, normalized
+index closure or updater implementation. Main and all native implementation bytes are unchanged.
+
+The next runtime action remains original-executor recovery and temporary archive restoration,
+then resource guards and current-source host acceptance below. Do not repeat the failed startup
+without changed readiness or substitute an unrelated VM. Connector-published documents/maps
+must be reconciled into the preserved local checkout after access returns.
+
 ## Immediate recovery checkpoint — 2026-10-02
 
 The latest production CLI/manager build finished101 before runtime testing because rustc

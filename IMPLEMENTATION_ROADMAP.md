@@ -1091,3 +1091,16 @@ replacement-acceptance proposal source is externally preserved at1f808b9; it is 
 
 This is still the P03 prerequisite gate. P04–P19 and the required P18U updater retain their
 scope and acceptance criteria; optional viewer networking remains independent.
+
+### Independent P00M progress during executor startup failure — 2026-10-02
+
+The [process-final lineage supplement](upstream/p03-process-final-lineage.json) maps all56 current
+P03 candidate paths,56 selected literal anchors and two unchanged manager references. Direct
+reads of all31 upstream-existing paths match official pinned OpenAI source. The [audit](verification/2026-10-02/P03_PROCESS_FINAL_LINEAGE_AUDIT.md)
+records eight semantic impact groups and five local dependency edges. This does not update the
+frozen normalized index or close its unresolved findings, establish a new extraction, implement
+the updater, or satisfy any current-source runtime gate. No live update/polling was enabled.
+
+Original-executor startup now fails before terminal tools are exposed, despite connected status
+metadata. Follow EXECUTION_STATE.md recovery first; current production build01 ENOSPC is the last
+recorded result. Keep P03 runtime/MCP/publication-recovery gates and P18U integration/rollback open.
