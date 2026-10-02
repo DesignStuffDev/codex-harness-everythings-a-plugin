@@ -1,12 +1,17 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
-Current runtime checkpoint: original VM recovered; current58 build, installed storage/migration,
-ordinary/search GUI and slow normal/forced Launch shutdown passed. The newer stage passed 431
-App Server library tests and three same-home curated callback replacement cases, with separate
-formatting provenance. Held Git/HTTP, MCP custody and newer production/GUI gates remain in P03.
-This is not another extracted subsystem. See the [replacement evidence](verification/2026-10-02/P03_REPLACEMENT_EVIDENCE.md) and
-[exact evidence and limits](verification/2026-10-02/P03_RECOVERED_HOST_EVIDENCE.md).
+Current production checkpoint: final65 source rebuilt; installed storage/four migrations,
+ordinary and selected-search GUI, and normal/forced slow Launch shutdown passed on those
+exact bytes. A fresh eight-case held Git/HTTP matrix passed after a separately recorded
+fixture readiness correction; earlier failures and the original auxiliary-admission race
+remain open. This is not another extracted subsystem or whole-host cleanup proof.
+The current working tree adds an unactivated featured-task owner ([evidence](verification/2026-10-02/P03_FEATURED_WARMUP_STAGE_A_EVIDENCE.md)). Its first version passed
+551 library tests; review then replaced its data-free async mutex with a polling semaphore.
+The revised owner passed552 scoped tests, lint and final formatting; it remains unactivated.
+Its production integration remains separate from final65. Follow [execution state](EXECUTION_STATE.md), [production evidence](verification/2026-10-02/P03_CURRENT_PRODUCTION_RUNTIME_EVIDENCE.md),
+and [held matrix evidence](verification/2026-10-02/P03_CURRENT_HELD_MATRIX_EVIDENCE.md).
+MCP custody, transport-internal ownership and the remaining P03 broker gates remain open.
 
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical

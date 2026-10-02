@@ -7,12 +7,12 @@ Required updater: [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
 Earlier detailed ledgers are preserved, with process IDs redacted from the public copy, in
 [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTION_CHECKPOINT_HISTORY.md).
 
-Immediate queue: publish the completed final65 production/storage/GUI/slow-shutdown
-and eight-case matrix evidence; preserve the current542 test executable, then review
-and test the staged featured-warmup owner before its production integration.
-Close the remaining P03 task/transport ownership gates before P04 extraction.
-The featured warmup ownership proposal and MCP proposals remain isolated under R.
-Do not repeat the unchanged failed matrix or promote this partial platform to main.
+Immediate queue: checkpoint the verified revised Stage A owner, then adopt Stage B
+production integration under shared shutdown deadlines after exact source/budget review. The original Stage A passed551 tests; its lint command exited0
+but warned about a Tokio mutex held across await, prompting this ownership-primitive
+revision and one additional cancellation test. No production activation is claimed.
+Close remaining P03 task/transport ownership before P04 extraction. MCP proposals
+remain isolated under R. Preserve failed matrices; do not promote P03 WIP to main.
 
 ## Identity and preservation
 
@@ -45,15 +45,20 @@ These are verified **VM-local** checkpoints. GitHub durability covers only publi
 Main remains 781080f7e3c8bfe1953378001d777dff33d74bc3 (native installer source
 65511842d7051b2a1f5cc52917f3ebb5c03be4f3). Do not promote unfinished P03 work.
 Latest WIP ref verified after this checkpoint:
-7adb464cd19c2ddfeff71ccdf13839d26979197b, tree
-4e84d27238beb9efd839ea2336ede740aefe9a67, on
+7a811ea49f6ee7709b9556fbd9d3d3979f283a94, tree
+493ce644eca801c5ede9055bd023160e2521a1ac, on
 wip/p03-process-final-and-mcp-preservation-20261002.
+This verification-only checkpoint retains the final65 native code at predecessor
+7adb464cd19c2ddfeff71ccdf13839d26979197b, tree4e84d27238beb9efd839ea2336ede740aefe9a67.
+All23 selected remote blobs and both refs were verified. Receipt:
+R/p03-current-production-runtime-publication-02/PUBLICATION.json, SHA256
+d784b5d98498a3dfc31e34de11a1cb810645bf1ff81342977bb8413ca99ca9b3.
 Prior current58 runtime checkpoint: f8a5905bb666846a7885171280d9454a9b8a269b.
-All 58 selected remote blobs and both refs were verified. Receipt:
+Prior final65 source checkpoint: all58 selected remote blobs and both refs were verified. Receipt:
 R/p03-replacement-checkpoint-publication/PUBLICATION.json, SHA256
 b042a69343b43d641ddac0876013370e5d900b8ab844a1a51bdd78cb63d86b9b.
 
-Current P03 source: 65-path final manifest
+Last verified production P03 source: 65-path final manifest
 R/p03-replacement-final-source.json, SHA256
 bfad182c433bf88ec31b65d1e4d4234385b15be2f1e160645ab1bfff2ebb9040.
 Full 8,928-file scoped map:
@@ -63,6 +68,84 @@ preserved V1 (16f3d289…). Subsequent lint changes are recorded separately.
 The post-format/lint production build and bounded installed-storage/GUI regressions
 below passed on these exact bytes. The full P03 lifecycle gate remains open.
 New offline support under upstream/ is outside this native/SDK scope.
+
+**Current working source now differs from that verified production checkpoint.**
+Featured warmup Stage A was adopted in three core-plugins paths (new
+featured_warmup.rs, featured_warmup_tests.rs, and lib.rs export). It adds bounded
+task custody and nine tests but has no production activation. Its initial formatted version passed551/551 scoped tests,0skipped; source unchanged.
+That original run is preserved separately from the revised observer described below. Exact adoption receipt:
+R/p03-featured-warmup-stage-a-adoption-01/ADOPTION.json SHA256
+5cd3b12f12f5a630bc725409bae285cb99c8705a916aca3955be18418bb6f27c.
+Pre-format68-path manifest:
+R/p03-featured-warmup-stage-a-preformat-source.json SHA256
+788fa91e219eeb8efc02ceb935295554a9c72748b675b6be647c42069faf1351.
+Formatting completed0, changing only those three paths. Actual formatted68-path
+manifest R/p03-featured-warmup-stage-a-source-01.json SHA256
+fe4edc204f82ff263a3c4b90d8b033163da755efd2c8e78e764cd096b5179db4;
+full8930-file map07e852fd1dfd829b6282e576465438a50aa7c0ffd12c6aca5c28822c8461422c.
+Scoped just test -p codex-core-plugins --lib finished0 at
+A/p03-featured-warmup-stage-a-tests-01:551passed/0skipped. Source unchanged;
+strict0/null, adopted statuses0:36/128:2/-9:4 without causal attribution.
+Corrected metadata-only manifest p03-featured-warmup-stage-a-source-02.json
+SHA256 dff1828796a6bf1d708d3554254d0c9ec0f8c6f11a81a0e226a4aba2b16f8de2
+retains identical file entries; the original started receipt's inherited scope
+label is inaccurate, but its actual before/after file map is preserved.
+A/p03-featured-warmup-stage-a-fix-01 exited0 unchanged, strict0/null; four warnings
+included the private Tokio polling mutex held across await. Revision replaces
+that data-free mutex with a private one-permit semaphore, preserving exact task
+custody across canceled queued observers; its tenth test covers that boundary.
+Small Copy observation now uses by-value completion check, terminal matches are
+exhaustive, and public observation types can be named. New scope remains unactivated.
+Actual revised68-path candidate: R/p03-featured-warmup-stage-a-poller-source-01.json
+SHA256 4181a929a8a6742cc4b1f10349021e92ea9c1a9674aca66d5a2e1583cb34a884.
+Revised just test -p codex-core-plugins --lib passed552/552,0skipped at
+A/p03-featured-warmup-stage-a-poller-tests-01; full8930-file source unchanged,
+map0895e8d7a3b08b0490031cca4fc293af4111c976451edf9ea306c43f10ecb46b.
+Strict0/null; adopted0:36/128:2/-9:4 without attribution. Actual test ELF is
+4bbb496936729974d07dd8f62b518e325227e8a447c6bd67eda6b94cb2826f1e,
+219,815,664bytes, bound after testing; live rustc intent was not observed.
+Revised candidate4181a929 inherited old map/format metadata. It is preserved;
+corrected metadata-only R/p03-featured-warmup-stage-a-poller-source-02.json,
+SHA256 c5bcf5bcb3d6b5acf5595e32bd404115b0b70b74e921dd991d7675af1f5cd83a,
+keeps identical file entries and binds the actual test receipt. Source-wrapper
+before/after maps, not inherited labels, identify each run.
+Scoped revised Clippy passed0 unchanged; only the explicit unused process-close
+warning remains pending StageB integration. No tests rerun solely for lint/fmt.
+The original551 ELF and exact tests/source/strict receipts are stream-verified in
+R/p03-featured-warmup-stage-a551-proof-preserved-01.tar.zst,46,370,724bytes,
+SHA256 d610b4dce80dbdc00ccf99be1bfc1a1fc9a0a32791d4c0b78cdbbb747ae9250f.
+Its original path remains until compiler reuse. This is VM-local preservation.
+The old542 test ELF was preserved before compiler reuse in
+R/p03-current542-coreplugins-proof-preserved-01.tar.zst (47,139,150 bytes), SHA256
+671307822b180bc2ae18ad7035b48d41a4792e858e4babd8335343b833f88f77.
+All six members and a full restoration were verified; the exact restored ELF in
+/tmp/p03-current542-coreplugins-proof-restored-01 remains intact; the compiler
+reused its former target path for the separately preserved551-test ELF. This archive is
+VM-local, not external binary durability. Existing CLI/App Server proof binaries
+remain the earlier source cohort. Stage B and its deadline correction are R-only,
+unadopted/uncompiled; do not relabel final65 runtime evidence as proof of Stage A/B.
+
+Stage A's verified three-path ownership support is checkpointed with its
+[552-test evidence](verification/2026-10-02/P03_FEATURED_WARMUP_STAGE_A_EVIDENCE.md)
+and [source-to-upstream map](upstream/p03-featured-warmup-stage-a-lineage.json).
+The root independently rechecked all22 report inputs before adoption. New StageB
+proposal p03-featured-warmup-stage-b-poller-rebase-01/MANIFEST.json SHA256
+edf4ba044a485facbd89aa2ef7e57972c6a3cddba23b7981d3e819836281b4d9
+is415 additions/56 removals across21 paths, with no owner/test replacement.
+It is not adopted or compiled at this Stage A checkpoint.
+
+Pre-integration proof archives preserve the current552 test, earlier431 App Server
+and final65 CLI bytes, all stream-verified with source/binary receipts. They retain
+original paths/aliases and are VM-local; combined receipt:
+R/p03-featured-warmup-pre-integration-proof-archives-01/ARCHIVE_RECEIPTS.json
+SHA256 b725105b74c2a0ad18700597d8603d23c74e77456ec2b58a3c08d185f28029a4.
+Only54 newly source-invalidated production intermediate files were retired after
+independent root graph checks and exact idle/alias/source/proof guards, recovering
+732,200,960allocatedbytes. Receipt:
+R/p03-stage-b-invalidated-production54-cache-02/RETIREMENT.json.
+This lends space to tests; production must regenerate these caches. All proof
+executables, index, source and230 recovery archives remain retained. Do not repeat
+this completed action or reuse its source guard after StageB adoption.
 
 ## Implemented versus proved
 
