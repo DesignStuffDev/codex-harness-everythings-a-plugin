@@ -1,0 +1,230 @@
+{
+  "schema": "p03-current-http-process-final-production-build-evidence-v1",
+  "assembled_utc": "2026-10-02T16:30:04.441275+00:00",
+  "scope": "Bounded P03 HTTP/process-final production rebuild. This checkpoint does not complete P03 runtime acceptance or whole-harness extraction.",
+  "outcome": {
+    "production_build_returncode": 0,
+    "build_source_unchanged": true,
+    "cargo_reported_duration_seconds": 467,
+    "cargo_reported_profile": "dev, unoptimized",
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--offline",
+      "-p",
+      "codex-cli",
+      "--bin",
+      "codex",
+      "-p",
+      "codex-component-host",
+      "--bin",
+      "codex-component"
+    ],
+    "real_compilation_and_linking": true,
+    "basis": "Root terminal/source receipt and stable postbuild binder; build log independently hashed. No active output was reread in this assembly.",
+    "tests_or_runtime_pass_claimed": false
+  },
+  "source": {
+    "count": 8947,
+    "map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "candidate_manifest_sha256": "f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092",
+    "source_publication_commit": "d229296b29947ef1328cbe931c810276f220a23c",
+    "source_publication_tree": "44570e71ff6978933a6d01ef34b2a2e1de4ea125",
+    "build_source_receipt_sha256": "0602ecbce035c7b994c51bdb9eba4ba8c707efa5a712a44aae4358baca1fe703",
+    "this_evidence_not_yet_published": true
+  },
+  "outputs": {
+    "new_cli": {
+      "binding": "Stable open ELF hashed twice after root-confirmed successful exact-source build; root owns writer quiescence.",
+      "bytes": 635994944,
+      "ctime_ns": 1790958025603652022,
+      "device": 27,
+      "inode": 1229096,
+      "mode": "0o700",
+      "mtime_ns": 1790958025403655061,
+      "nlink": 2,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+      "sha256": "78d9194cd4329e9b83b75fe07389d524d8b1f425353d71df9a68607be2945e83"
+    },
+    "manager": {
+      "binding": "Stable open ELF hashed twice after root-confirmed successful exact-source build; root owns writer quiescence.",
+      "bytes": 7274296,
+      "ctime_ns": 1790930910046328118,
+      "device": 27,
+      "inode": 1206871,
+      "mode": "0o700",
+      "mtime_ns": 1790930910034328288,
+      "nlink": 2,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+    },
+    "manager_bytes_unchanged_from_prior_checkpoint": true,
+    "binding_note": "Root hashed stable outputs twice after successful current-source build. Runtime work is now active; this report did not hash or open those ELF files."
+  },
+  "preserved_failures": [
+    {
+      "case": "production build01",
+      "returncode": 101,
+      "stage": "dependency acquisition before compilation",
+      "cause": "Installed Cargo requested missing Inflector 0.11.4 archive despite an intact extracted source and valid marker; offline mode blocked download.",
+      "source_unchanged": true,
+      "log_reference": "build01_failure_log",
+      "source_reference": "build01_source",
+      "lesson": "Extracted-source redundancy did not prove Cargo could build without its downloaded archive. Initial reuse assumption was false and is preserved."
+    },
+    {
+      "case": "bbed preservation01",
+      "returncode": 1,
+      "stage": "reference guard before intent, archive, restoration or original retirement",
+      "cause": "Preparatory row expected zero aliases although 16 already-known aliases were separately pinned.",
+      "correction": "Distinct plan02 binds exactly those 16 original aliases, with original01/failure retained. Unknown-alias rejection was not weakened.",
+      "references": [
+        "alias_failure",
+        "alias_correction"
+      ]
+    },
+    {
+      "case": "registry checksum-layout proof01",
+      "stage": "read-only eligibility audit",
+      "cause": "Extracted packages lacked .cargo-checksum.json, so initial verification admitted zero downloads.",
+      "correction": "A distinct proof authenticated original archive hashes against exact lock/index checksums and compared all regular tar members with extracted bytes.",
+      "references": [
+        "registry_checksum_layout_failure",
+        "registry_authenticated_byte_proof"
+      ]
+    }
+  ],
+  "recovery": {
+    "ordinary_generated_outputs_retired": {
+      "count": 8,
+      "allocated_bytes": 529424384,
+      "notes": "Exact unused ordinary rlib/rmeta outputs, graph/source/reference guarded; no executable or source deletion. Recompilation cost remains relevant to later variants."
+    },
+    "download_cache_transition": {
+      "original_archives": 1484,
+      "original_allocated_bytes": 272949248,
+      "original_authenticated_member_bytes": 1323568578,
+      "original_regular_members_compared": 79855,
+      "restored_genuine_archives": 1484,
+      "restored_logical_bytes": 269908290,
+      "backing": "Unique tmpfs directory on original VM",
+      "cache_entry_type": "Per-file symlinks, original cache-parent inode retained",
+      "source_markers_and_registry_index_unchanged": true,
+      "proper_archive_size_and_sha256_verified_before_linking": true,
+      "actual_cargo_result": "Production build02 completed with --locked --offline using these proper archive bytes and cache links. This establishes compatibility for this build/VM, not universal Cargo behavior or all future target selections.",
+      "tmpfs_memory_accounting": "Backings consume the same 16 GiB cgroup memory budget; they are not independent disk headroom."
+    },
+    "old_bbed_proof": {
+      "old_cli_sha256": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+      "old_source_count": 8936,
+      "old_source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-bbed-production-proof-preserved-01.tar.zst",
+        "identity": {
+          "dev": 27,
+          "ino": 707935,
+          "mode": 33152,
+          "nlink": 1,
+          "uid": 1000,
+          "gid": 1000,
+          "size": 138651778,
+          "mtime_ns": 1790956277733570099,
+          "ctime_ns": 1790956282545500330
+        },
+        "verified_sha256": "2eff99d91a6e1a2f7570a5f66ac9980c685b5c7f8707f0f4629350d4a0c87f5f",
+        "preservation_receipt": "/workspace/recovery-backups/20260930T165936Z/p03-bbed-production-proof-plan-02/PRESERVATION.json",
+        "release_receipt": "/workspace/recovery-backups/20260930T165936Z/p03-bbed-production-proof-plan-02/RELEASE.json",
+        "vm_local_only": true
+      },
+      "method": "Exact archive stream validation and full materialized restore verification preceded original two-hardlink retirement; only newly created restoration scratch later released. Old source proof is distinct from current source."
+    },
+    "current_B_test_proofs": {
+      "source_count": 8947,
+      "source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+      "archive": {
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-current-stage-b-testproof-preserved-01.tar.zst",
+        "identity": {
+          "dev": 27,
+          "ino": 707936,
+          "mode": 33152,
+          "nlink": 1,
+          "uid": 1000,
+          "gid": 1000,
+          "size": 65170113,
+          "mtime_ns": 1790956402379765369,
+          "ctime_ns": 1790956406043712324
+        },
+        "verified_sha256": "7ea04d822592a0c51b70f6823bb21edc9d391209ae279b586a57501d822310bc",
+        "preservation_receipt": "/workspace/recovery-backups/20260930T165936Z/p03-current-stage-b-testproof-actions-02/PRESERVATION.json",
+        "release_receipt": "/workspace/recovery-backups/20260930T165936Z/p03-current-stage-b-testproof-actions-02/RELEASE.json",
+        "vm_local_only": true
+      },
+      "method": "Library 553 and integration 1 original proof ELFs preserved with source/strict/execution bindings, full restore verified, originals retired, only newly created restoration scratch released. Earlier archives/restores retained."
+    },
+    "clean_page_advice": {
+      "registry_verified_files": 82823,
+      "registry_verified_logical_bytes": 1593487256,
+      "new_proof_archives": 2,
+      "new_proof_archive_logical_bytes": 203821891,
+      "mechanism": "Only exact identity-verified inactive files received fsync and POSIX_FADV_DONTNEED. No global cache drop or byte/path deletion by advice.",
+      "not_a_guarantee_of_memory_release": true
+    },
+    "older_archives_restores_worktrees_and_frozen_gui": "Preserved according to root recovery receipts; this assembly performed no runtime/home/cache mutation."
+  },
+  "resource_evidence": {
+    "preflight_utc": "2026-10-02T16:12:37Z",
+    "preflight_free_bytes": {
+      "/workspace": 2263822336,
+      "/tmp": 447995904
+    },
+    "preflight_hard_unused_memory_bytes": 1709330432,
+    "preflight_conditional_clean_file_credit_bytes": 1931536384,
+    "admission_gates": {
+      "overlay": 2210852864,
+      "tmp": 268435456,
+      "hard_ram": 1610612736,
+      "hard_plus_conditional_credit": 3221225472
+    },
+    "observed_samples": 93,
+    "observation_seconds": 461.198,
+    "minimum_observed_overlay_available_bytes": 315150336,
+    "maximum_observed_cgroup_memory_current_bytes": 17179844608,
+    "cgroup_limit_bytes": 17179869184,
+    "memory_event_deltas": {
+      "low": 0,
+      "high": 0,
+      "max": 25090,
+      "oom": 0,
+      "oom_kill": 0,
+      "oom_group_kill": 0
+    },
+    "notes": [
+      "Observed memory reached within 24,576 B of the cgroup limit; memory.max events increased 25,090. This was a pressured build, not evidence of abundant RAM.",
+      "No new observed OOM or OOM-kill events during the sampled interval. Historical OOM 9/kill 4 remain in underlying receipts.",
+      "Five-second sampling is not a guaranteed peak measurement. The observer ended because its pinned owner disappeared, which alone does not prove build or lifecycle success.",
+      "Build success comes from the completed source receipt and binary binder, not the resource observer."
+    ]
+  },
+  "remaining_acceptance": {
+    "current_runtime_status": "Root reports storage runtime underway at assembly; no runtime result included here.",
+    "pending": [
+      "Current rebuilt-host installed thread/attachment storage, migration and recovery gates",
+      "Current GUI ordinary and installed-search behavior, cancellation and manager shutdown/forced-termination cleanup",
+      "Current replacement/held-worker/native ownership regressions and any required affected consumer checks",
+      "Broader component extraction and updater/final clean-install acceptance remain outside this build checkpoint"
+    ],
+    "runtime_evidence_to_join_separately": true
+  },
+  "durability": {
+    "archives_and_tmpfs": "VM-local recovery checkpoints only; no external durability established by these files.",
+    "source": "Postbuild binder identifies published source checkpoint d229296; this assembled evidence has not been committed or pushed by this worker.",
+    "tmpfs_cache": "Ephemeral regenerated dependency downloads, not a source/proof backup."
+  },
+  "assembly": {
+    "reads": "Small frozen receipts and 156,676 B observer sample file; large source maps, download/link manifests, archives and active ELFs were not reread.",
+    "writes": "Only this new private evidence directory, bounded below 300 KB.",
+    "source_repo_git_cache_network_process_mutations": false,
+    "private_urls_credentials_environment_or_runtime_configuration_dumped": false
+  }
+}

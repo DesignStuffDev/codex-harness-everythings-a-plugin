@@ -1,0 +1,805 @@
+{
+  "assembled_utc": "2026-10-02T16:45:59.055648+00:00",
+  "binaries": {
+    "codex": {
+      "bytes": 635994944,
+      "sha256": "78d9194cd4329e9b83b75fe07389d524d8b1f425353d71df9a68607be2945e83"
+    },
+    "host": {
+      "bytes": 7274296,
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+    }
+  },
+  "durability": "Staged only in the original cloud filesystem; external durability requires root publication/readback.",
+  "excluded_failed_gate": {
+    "diagnosis": "Not performed by this review; retained as failure. Its partial cycles are not counted among the five passing gates.",
+    "name": "gui-search attempt01",
+    "scoped_source_unchanged": true,
+    "source_wrapper_status": 1,
+    "strict_command_status": 1,
+    "strict_exit_status": 1,
+    "strict_runner_error": null
+  },
+  "gate_count": 5,
+  "gates": {
+    "attachment": {
+      "cases": {
+        "builtin_baseline": {
+          "passed": true
+        },
+        "builtin_restored": {
+          "custom_upload_count_unchanged": true,
+          "passed": true
+        },
+        "counted_upload_and_cold_resume": {
+          "fixture_file_reference_retained": true,
+          "passed": true,
+          "same_thread_internal_check": true,
+          "upload_count_after_resume": 1,
+          "upload_count_before_resume": 1
+        },
+        "native_inline": {
+          "fallback_warning_count": 0,
+          "native_result_envelope_inspected": false,
+          "passed": true
+        },
+        "typed_error_inline_fallback": {
+          "fallback_warning_positive_control": true,
+          "passed": true,
+          "prepared_bytes_preserved": true,
+          "upload_count": 2
+        }
+      },
+      "command_count": 17,
+      "commands": [
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "build-test.attachment-model-probe",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "install-test.attachment-model-probe",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "build-test.attachment-counted",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "install-test.attachment-counted",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-model",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "builtin-baseline",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-counted-before-native-install",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "install-native-inline",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-native-inline",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "native-inline",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-counted",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "counted-upload",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 1,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "counted-cold-resume",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 1,
+          "forced_fixture_cleanup": false,
+          "label": "counted-error-fallback",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "remove-unselected-native",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "reset-attachment",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "builtin-restored",
+          "passed": true,
+          "strict_exit_status": 0,
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        }
+      ],
+      "host_and_installed_packages_unchanged": true,
+      "initial_objects_preserved_through_native_install": true,
+      "limits": [
+        "Historical independently built native inline package reused; no new native package compilation.",
+        "Real native upload execution is supported by the trace inspector report; this assembly does not reread raw private traces.",
+        "No production resolve caller or inspected native result envelope proof.",
+        "Native state directory retained with zero files; this does not demonstrate nonempty native state preservation.",
+        "Nested adopted SIGKILL statuses are retained; no causal attribution or universal clean-host claim.",
+        "Model responses are deterministic installed fixture output, not live inference."
+      ],
+      "native_independent_report_sha256": "4d1b3fc14c3034de488f83dbb1ad7971de96811744e7f8d8b40ef95b4dbde82b",
+      "native_package_build": "reused_exact_historical_independent_package_no_new_build",
+      "native_package_files": {
+        "LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "README.md": {
+          "bytes": 6225,
+          "sha256": "2dfe03143fdd6c7486395cd3e60da78b6b5ec51db8e97979b99276b30bedeb44"
+        },
+        "codex-attachment-inline-component": {
+          "bytes": 14844952,
+          "sha256": "135d69f20c2014623ed2167bb8b82543794dbbf844ac2fa6a27da5bcfd1a756b"
+        },
+        "codex-component.json": {
+          "bytes": 291,
+          "sha256": "808a814233698f43c38db5d6900eb098d1bea438f963946747234d55e751a9a8"
+        }
+      },
+      "native_package_unchanged": true,
+      "native_removal": {
+        "activation_and_installed_mapping_removed": true,
+        "counted_selection_preserved": true,
+        "immutable_objects_retained": true,
+        "native_state_directory_retained": true,
+        "native_state_file_count": 0,
+        "native_state_files_unchanged": true,
+        "passed": true
+      },
+      "native_result_envelope_inspected": false,
+      "native_upload_path_observation": {
+        "native_exec_count": 1,
+        "native_leader_exit_zero": true,
+        "native_result_envelope_proven": false,
+        "native_upload_path_invoked": true,
+        "owned_thread_count": 5,
+        "staged_read_open_count": 1,
+        "whole_host_clean": false
+      },
+      "passed": true,
+      "receipt": {
+        "before_after_equal_candidate": true,
+        "finished_utc": "2026-10-02T16:30:01Z",
+        "log_sha256": "2efaf3106f616a651fc4660abb679f9eec2c55001c5de97ec233d7a8733a3bad",
+        "source_count": 8947,
+        "source_unchanged": true,
+        "source_wrapper_status": 0,
+        "started_utc": "2026-10-02T16:29:54Z",
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "command_returncode": 0,
+          "elapsed_seconds": 5.433727572002681,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "resolve_production_caller_exercised": false,
+      "whole_host_clean": false
+    },
+    "gui-normal": {
+      "behavior": [
+        "Cycle 1: real streamed turn, approval and allowed native command, UI Stop, browser reload and continuation.",
+        "Cycle 2: cold engine restart recovers persisted conversation and completes a continued streamed turn.",
+        "Both cycles: real native file-search UI behavior and first-SIGINT component-manager Launch shutdown with tracked process absence."
+      ],
+      "browser": "Chromium through Playwright; not in-app Browser",
+      "combined_subreaper_passed": true,
+      "cycles": [
+        {
+          "cycle": 1,
+          "file_search": {
+            "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
+            "passed": true,
+            "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged",
+            "verified": [
+              "real filesystem results",
+              "relative root rejected without RPC or draft/input changes",
+              "click insertion with spaces/quotes/backslash",
+              "keyboard insertion without submitting",
+              "draft preservation",
+              "A-B-A query fence",
+              "root replacement fence",
+              "explicit close fence",
+              "task replacement fence"
+            ]
+          },
+          "first_sigint": true,
+          "installed_storage_fingerprint": {
+            "bytes": 71203368,
+            "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99"
+          },
+          "manager_exit_wait_seconds": 0.26518840200151317,
+          "manager_status": 0,
+          "passed": true,
+          "subreaper_adopted_status_histogram": {
+            "0": 3
+          },
+          "subreaper_drain_passed": true,
+          "tracked_processes_absent": true
+        },
+        {
+          "cycle": 2,
+          "file_search": {
+            "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
+            "passed": true,
+            "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged",
+            "verified": [
+              "real filesystem results",
+              "relative root rejected without RPC or draft/input changes",
+              "click insertion with spaces/quotes/backslash",
+              "keyboard insertion without submitting",
+              "draft preservation",
+              "A-B-A query fence",
+              "root replacement fence",
+              "explicit close fence",
+              "task replacement fence"
+            ]
+          },
+          "first_sigint": true,
+          "installed_storage_fingerprint": {
+            "bytes": 71203368,
+            "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99"
+          },
+          "manager_exit_wait_seconds": 0.26459331199293956,
+          "manager_status": 0,
+          "passed": true,
+          "subreaper_adopted_status_histogram": {
+            "0": 2
+          },
+          "subreaper_drain_passed": true,
+          "tracked_processes_absent": true
+        }
+      ],
+      "driver_fingerprint": {
+        "bytes": 2800,
+        "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979"
+      },
+      "final_drain_passed": true,
+      "host_and_installed_packages_unchanged": true,
+      "inference": "deterministic fixture; no live provider",
+      "limits": [
+        "Playwright Chromium fallback, not manual in-app Browser; no live model provider.",
+        "Approval and UI Stop are cycle-1 checks, not assertions duplicated in cycle 2.",
+        "This gate uses built-in fuzzyFileSearch; it does not validate installed file-search replacement.",
+        "Manager exit-wait duration is not the entire test or general shutdown budget.",
+        "Observed descendants and subreaper drains are scoped; short-lived descendants may evade scans.",
+        "This summary did not review or export private screenshot contents.",
+        "Slow-storage deadline, forced termination, held constructor/transport shutdown and universal host cleanliness are separate gates."
+      ],
+      "passed": true,
+      "receipt": {
+        "before_after_equal_candidate": true,
+        "finished_utc": "2026-10-02T16:29:50Z",
+        "log_sha256": "c47d9f383d3eda1d0c4713ba64a5c7f04c492666115801e89b9dd5f0d53d861a",
+        "source_count": 8947,
+        "source_unchanged": true,
+        "source_wrapper_status": 0,
+        "started_utc": "2026-10-02T16:29:28Z",
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "command_returncode": 0,
+          "elapsed_seconds": 20.864058346982347,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "script_fingerprint": {
+        "bytes": 35644,
+        "sha256": "f21b7395210e103f0226946b6dd18cbaabb0482d5e469ff5bc9e3dd156d36e97"
+      },
+      "tracking_scope": "observed descendant identities plus child-subreaper drain; scans can miss short-lived descendants"
+    },
+    "migration-normal": {
+      "command_count": 10,
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        }
+      ],
+      "host_unchanged": true,
+      "limits": [
+        "Deterministic fixture, not live inference.",
+        "This migration gate does not run browser checks; the later GUI gate is separate.",
+        "Passing migration-search does not establish selected-search GUI success.",
+        "Outer strict receipt includes SIGKILL (-9) descendant statuses; no cause is attributed here."
+      ],
+      "observed_installed_storage_processes": 6,
+      "observed_storage_process_absence_asserted": true,
+      "passed": true,
+      "receipt": {
+        "before_after_equal_candidate": true,
+        "finished_utc": "2026-10-02T16:29:25Z",
+        "log_sha256": "bbee654bfbbd8886e71e026411c2062295620dc84d7bc53477e5357f33dd2721",
+        "source_count": 8947,
+        "source_unchanged": true,
+        "source_wrapper_status": 0,
+        "started_utc": "2026-10-02T16:29:18Z",
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 6,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "elapsed_seconds": 5.550769583991496,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    "migration-search": {
+      "command_count": 10,
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "selected_worker_observed_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "selected_worker_observed_count": 1,
+          "status": 0
+        }
+      ],
+      "host_unchanged": true,
+      "limits": [
+        "Deterministic fixture, not live inference.",
+        "This migration gate does not run browser checks; the later GUI gate is separate.",
+        "Passing migration-search does not establish selected-search GUI success.",
+        "Outer strict receipt includes SIGKILL (-9) descendant statuses; no cause is attributed here."
+      ],
+      "observed_installed_storage_processes": 6,
+      "observed_storage_process_absence_asserted": true,
+      "passed": true,
+      "receipt": {
+        "before_after_equal_candidate": true,
+        "finished_utc": "2026-10-02T16:30:11Z",
+        "log_sha256": "4541d807227f1b6440f6fb4861da79218154d7303b89d387740c6e731849ab08",
+        "source_count": 8947,
+        "source_unchanged": true,
+        "source_wrapper_status": 0,
+        "started_utc": "2026-10-02T16:30:04Z",
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 6,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "elapsed_seconds": 5.687815999990562,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    "storage": {
+      "contract_version": 2,
+      "evidence_kind": "reused_package_new_host",
+      "host_and_package_unchanged": true,
+      "limits": [
+        "Native package was reused from its earlier independent build; Python fixture plugins were built in this run.",
+        "Inference is deterministic external/loopback fixture, not a live provider.",
+        "Storage watcher checks observed installed executables disappear; it is not a universal descendant or graceful-exit proof.",
+        "Outer strict receipt includes SIGKILL (-9) descendant statuses; no cause is attributed here.",
+        "Storage reset is proven; package uninstall is not part of this storage gate."
+      ],
+      "new_independent_build": false,
+      "observed_storage_children": 3,
+      "observed_storage_children_terminated": true,
+      "operations": [
+        "Install and select unchanged independent native thread-store package against rebuilt host.",
+        "Real CLI turn, external calculator execution/context contribution and model-event streaming.",
+        "Cold CLI session resume with retained tool and assistant history.",
+        "No native model requests while replacement model selected; reset model restores loopback native transport.",
+        "Reset thread_store selection restores built-in storage with retained history."
+      ],
+      "original_export_absent_before_and_after": true,
+      "package_files": {
+        "LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "codex-component.json": {
+          "bytes": 309,
+          "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48"
+        },
+        "codex-thread-store-local-plugin": {
+          "bytes": 71203368,
+          "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99"
+        }
+      },
+      "package_version": "0.2.0",
+      "passed": true,
+      "receipt": {
+        "before_after_equal_candidate": true,
+        "finished_utc": "2026-10-02T16:24:16Z",
+        "log_sha256": "304625de56ce8ae7ac8dac74eed913fca6fdc33ca2e93ebbda47e38a7e7251bd",
+        "source_count": 8947,
+        "source_unchanged": true,
+        "source_wrapper_status": 0,
+        "started_utc": "2026-10-02T16:24:09Z",
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 8,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "elapsed_seconds": 5.373066370986635,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "runtime_command_count": 13,
+      "runtime_command_statuses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "source_build_report_fingerprint": {
+        "bytes": 8530,
+        "sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e"
+      }
+    }
+  },
+  "method_limits": [
+    "The report verifies agreement between preserved source/strict/runtime receipts, not a new runtime execution.",
+    "Binary hashes come from root terminal/build/runtime receipts; no ELF was opened by this assembly.",
+    "Publication identity is copied from the build evidence; this assembly did not query GitHub."
+  ],
+  "privacy": "Only whitelisted assertions, counts, command labels and fingerprints. No thread IDs, prompts, payloads, auth/config values, raw traces, private screenshot contents or raw command arguments copied.",
+  "remaining_acceptance": [
+    "Current-host selected-search GUI pass remains absent from this evidence subset.",
+    "Slow normal/forced storage shutdown, held Git/HTTP matrix and featured-owner current-host gates must be joined from their own receipts.",
+    "CLI/exec/TUI focused package gaps, held constructor deadlines, lower transport shutdown and whole-host hard-exit must not be inferred from successful build or these gates.",
+    "No live-provider or manual in-app Browser evidence.",
+    "Auth reload/refresh proposals remain unadopted and are not exercised by this host.",
+    "No additional extracted component family or completed P03/whole-platform/updater acceptance is claimed."
+  ],
+  "schema": "current-host-passed-gates-public-projection-v1",
+  "scope": "Five completed passing gates only; read-only review, no rerun, no source edit, no new ELF hashing.",
+  "source": {
+    "candidate_manifest_sha256": "f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092",
+    "count": 8947,
+    "map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "source_publication_commit": "d229296b29947ef1328cbe931c810276f220a23c",
+    "source_publication_tree": "44570e71ff6978933a6d01ef34b2a2e1de4ea125"
+  }
+}

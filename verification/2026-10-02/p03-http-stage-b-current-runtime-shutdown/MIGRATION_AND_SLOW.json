@@ -1,0 +1,348 @@
+{
+  "limitations": [
+    "Installed fixture holds the canonical UI-history append before native forwarding; native internal admission before release is not proven.",
+    "The response-only interrupted-history gap is explicitly not fixed by this acceptance.",
+    "Model behavior is deterministic; live-provider integration is not claimed.",
+    "Real Chromium/Playwright fallback was used; in-app Browser was unavailable.",
+    "Sampled process lists can miss short-lived descendants; unchanged strict subreaper results are separately retained.",
+    "Whole-harness extraction and the failed selected-search GUI gate remain unfinished."
+  ],
+  "migrations": [
+    {
+      "browser_manager_regression_in_migration_report": "pending; use the retained GUI fixture and runbook",
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "status": 0
+        }
+      ],
+      "host_binary_unchanged": true,
+      "inference": "deterministic external GUI fixture, not a live provider",
+      "mode_fixture": "normal",
+      "note": "The migration report leaves browser/manager checks pending; the separately bound slow fixture below exercises those behaviors on its retained migrated home.",
+      "passed": true,
+      "report": {
+        "bytes": 8035,
+        "path": "/dev/shm/p03-hb-msn01/manual-migration-report.json",
+        "sha256": "0bbe28e0246a01de7dd1a4ecec75e5ac695ae81d55a5d6547d578afc7a54305d"
+      },
+      "storage_process_identity_count": 6,
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    {
+      "browser_manager_regression_in_migration_report": "pending; use the retained GUI fixture and runbook",
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "status": 0
+        }
+      ],
+      "host_binary_unchanged": true,
+      "inference": "deterministic external GUI fixture, not a live provider",
+      "mode_fixture": "forced",
+      "note": "The migration report leaves browser/manager checks pending; the separately bound slow fixture below exercises those behaviors on its retained migrated home.",
+      "passed": true,
+      "report": {
+        "bytes": 8035,
+        "path": "/dev/shm/p03-hb-msf01/manual-migration-report.json",
+        "sha256": "ba629999acc9e531846fca2263048591e9d2a0b87e7ad08d17648fec68e02c2c"
+      },
+      "storage_process_identity_count": 6,
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    }
+  ],
+  "schema": "p03-installed-slow-native-gui-runtime-v1",
+  "slow_modes": [
+    {
+      "admission_boundary": "installed_fixture_before_native_forward",
+      "browser": "Chromium/Playwright fallback; not in-app Browser",
+      "browser_reports": [
+        {
+          "browser": "Chromium through Playwright; not in-app Browser",
+          "closed": true,
+          "commands_passed": 4,
+          "kind": "held-browser.json",
+          "page_error_count": 0,
+          "receipt": {
+            "bytes": 1409,
+            "path": "/dev/shm/p03-hb-sn01/held-browser.json",
+            "sha256": "d7c7ce9be48c72e9eff3d7147632433e1bdce6a2428ed0b35f8939993ae8b5f6"
+          }
+        },
+        {
+          "browser": "Chromium through Playwright; not in-app Browser",
+          "closed": true,
+          "commands_passed": 7,
+          "kind": "cold-native-browser.json",
+          "page_error_count": 0,
+          "receipt": {
+            "bytes": 3650,
+            "path": "/dev/shm/p03-hb-sn01/cold-native-browser.json",
+            "sha256": "048d1fac213cd3981a0797b5d3816549420886197d4179cd84182da6064b6ef3"
+          }
+        }
+      ],
+      "cold_recovered_held_prompt": true,
+      "cold_scope_tracked_identities": 12,
+      "cold_shutdown": {
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.4242953560024034,
+        "tracked_processes_absent": true
+      },
+      "component_commands": [
+        {
+          "label": "install-relay",
+          "status": 0
+        },
+        {
+          "label": "select-relay",
+          "status": 0
+        },
+        {
+          "label": "restore-native-selection",
+          "status": 0
+        },
+        {
+          "label": "remove-relay",
+          "status": 0
+        }
+      ],
+      "durability_classification": "native_cleanup_and_cold_recovery_confirmed",
+      "first_sigint_acknowledgment_delay_ms": 25.466895,
+      "held_runtime_all_tracked_processes_absent": true,
+      "held_scope_tracked_identities": 13,
+      "host_binary_unchanged": true,
+      "inference": "existing deterministic installed fixture; no live provider",
+      "manager_status": 0,
+      "mode": "normal",
+      "native_internal_admission_before_release_proven": false,
+      "native_storage_sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+      "normal_gate": {
+        "accepted_before_sigint": true,
+        "all_directional_results_observed": true,
+        "directional_outcomes": [
+          {
+            "direction": "host_to_native",
+            "reason": "native_eof",
+            "result": "owner_requested_cancellation"
+          },
+          {
+            "direction": "native_to_host",
+            "result": "completed"
+          }
+        ],
+        "held_append_acknowledged": true,
+        "native_shutdown_complete": true,
+        "native_status": 0,
+        "release_after_first_sigint_ack_seconds": 46.026777926,
+        "release_then_forward_then_native_reply_then_shutdown": true
+      },
+      "passed": true,
+      "report": {
+        "bytes": 14937,
+        "path": "/dev/shm/p03-hb-sn01/report.json",
+        "sha256": "493ad587b9f04d79487dfd6a74aa0d111adb8c3dfcfa81494c92f3829a006b7b"
+      },
+      "response_only_interrupted_history_gap_fixed": false,
+      "screenshot": {
+        "bytes": 83934,
+        "limits": "Screenshot corroborates browser state only; durability and shutdown claims rely on reports and event ordering. Deterministic fixture content; no live provider or in-app Browser.",
+        "observation": "Connected desktop-style GUI; migrated history, cancellation prompt, completed continuation response and settled composer visible. The held slow prompt is visible.",
+        "original_path": "/dev/shm/p03-hb-sn01/cold-recovery.png",
+        "path": "slow-normal-cold-recovery.png",
+        "sha256": "6886537569e4805d88012fd9e300d52a0f45485f53b601bff8eee198b5975564",
+        "visually_reviewed": true
+      },
+      "selected_history_event": "ItemCompleted(UserMessage)",
+      "shutdown_seconds": 46.465795733,
+      "source_build_receipt_binding": {
+        "bytes": 3725351,
+        "mtime_ns": 1790958030154769592,
+        "sha256": "0602ecbce035c7b994c51bdb9eba4ba8c707efa5a712a44aae4358baca1fe703"
+      },
+      "source_removed_before_install": true,
+      "tracking_limit": "sampled descendant identities can miss very short-lived children; unchanged external subreaper remains mandatory"
+    },
+    {
+      "admission_boundary": "installed_fixture_before_native_forward",
+      "browser": "Chromium/Playwright fallback; not in-app Browser",
+      "browser_reports": [
+        {
+          "browser": "Chromium through Playwright; not in-app Browser",
+          "closed": true,
+          "commands_passed": 4,
+          "kind": "held-browser.json",
+          "page_error_count": 0,
+          "receipt": {
+            "bytes": 1409,
+            "path": "/dev/shm/p03-hb-sf01/held-browser.json",
+            "sha256": "9ef593ec8917b52955b4052f1d7b2268a43f0c8dcb10c00ec22607c7a0ce0936"
+          }
+        },
+        {
+          "browser": "Chromium through Playwright; not in-app Browser",
+          "closed": true,
+          "commands_passed": 7,
+          "kind": "cold-native-browser.json",
+          "page_error_count": 0,
+          "receipt": {
+            "bytes": 3651,
+            "path": "/dev/shm/p03-hb-sf01/cold-native-browser.json",
+            "sha256": "3e133c1f9863383df7d7124b2c2799b919f120d3e797327e4e86f0d4cfe23460"
+          }
+        }
+      ],
+      "cold_recovered_held_prompt": false,
+      "cold_scope_tracked_identities": 13,
+      "cold_shutdown": {
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.466605700989021,
+        "tracked_processes_absent": true
+      },
+      "component_commands": [
+        {
+          "label": "install-relay",
+          "status": 0
+        },
+        {
+          "label": "select-relay",
+          "status": 0
+        },
+        {
+          "label": "restore-native-selection",
+          "status": 0
+        },
+        {
+          "label": "remove-relay",
+          "status": 0
+        }
+      ],
+      "durability_classification": "forced_shutdown_explicitly_unknown",
+      "first_sigint_acknowledgment_delay_ms": 25.796061,
+      "forced_limit": "Second SIGINT after a two-second acknowledged hold caused manager exit1 and explicit unknown durability; no native forwarding receipt existed. Absent canonical UI history is not proof raw response input was absent or durable.",
+      "held_runtime_all_tracked_processes_absent": true,
+      "held_scope_tracked_identities": 13,
+      "host_binary_unchanged": true,
+      "inference": "existing deterministic installed fixture; no live provider",
+      "manager_status": 1,
+      "mode": "forced",
+      "native_internal_admission_before_release_proven": false,
+      "native_storage_sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+      "passed": true,
+      "report": {
+        "bytes": 13283,
+        "path": "/dev/shm/p03-hb-sf01/report.json",
+        "sha256": "62e237362da90f2b40fefaca6ce482f1c60ce2bbfd4b42596e69d7c3d438720c"
+      },
+      "response_only_interrupted_history_gap_fixed": false,
+      "screenshot": {
+        "bytes": 80021,
+        "limits": "Screenshot corroborates browser state only; durability and shutdown claims rely on reports and event ordering. Deterministic fixture content; no live provider or in-app Browser.",
+        "observation": "Connected desktop-style GUI; migrated history, cancellation prompt, completed continuation response and settled composer visible. The held slow prompt is absent from displayed canonical history.",
+        "original_path": "/dev/shm/p03-hb-sf01/cold-recovery.png",
+        "path": "slow-forced-cold-recovery.png",
+        "sha256": "2a240b9ede2181ae1897f599be0d0dc562ab52fd5d65e3fccef805cba8cdd7c7",
+        "visually_reviewed": true
+      },
+      "selected_history_event": "ItemCompleted(UserMessage)",
+      "shutdown_seconds": 2.039273046,
+      "source_build_receipt_binding": {
+        "bytes": 3725351,
+        "mtime_ns": 1790958030154769592,
+        "sha256": "0602ecbce035c7b994c51bdb9eba4ba8c707efa5a712a44aae4358baca1fe703"
+      },
+      "source_removed_before_install": true,
+      "tracking_limit": "sampled descendant identities can miss very short-lived children; unchanged external subreaper remains mandatory"
+    }
+  ]
+}

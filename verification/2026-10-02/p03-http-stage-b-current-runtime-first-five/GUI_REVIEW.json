@@ -1,0 +1,92 @@
+{
+  "review_scope": "Existing passed GUI-normal report, source/strict receipts, and pinned driver source; no runtime execution, rerun, ELF hashing, screenshot review, or private-home scan performed.",
+  "evidence": {
+    "report": "/tmp/p03-http-stage-b-newhost-gui-normal-01-runtime/acceptance-private.json",
+    "source_receipt": "/workspace/acceptance/p03-http-stage-b-newhost-gui-normal-01.source.json",
+    "strict_receipt": "/workspace/acceptance/p03-http-stage-b-newhost-gui-normal-01.strict.json"
+  },
+  "source_binding": {
+    "source_count": 8947,
+    "source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "candidate_manifest_sha256": "f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092",
+    "source_before_equals_after_equals_candidate": true,
+    "scoped_source_unchanged": true,
+    "returncode": 0
+  },
+  "strict_receipt": {
+    "command_returncode": 0,
+    "command_wait_status": 0,
+    "exit_status": 0,
+    "runner_error": null,
+    "subreaper": true,
+    "reaped_entries": 1,
+    "reaped_entry_meaning": "Only the command, with returncode zero; not an independent inventory of all GUI descendants."
+  },
+  "reported_result": {
+    "passed": true,
+    "cycles": 2,
+    "cycles_passed": 2,
+    "cycle_results": [
+      {
+        "cycle": 1,
+        "passed": true,
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.26518840200151317,
+        "tracked_processes_absent": true,
+        "file_search_passed": true,
+        "subreaper_drain_passed": true
+      },
+      {
+        "cycle": 2,
+        "passed": true,
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.26459331199293956,
+        "tracked_processes_absent": true,
+        "file_search_passed": true,
+        "subreaper_drain_passed": true
+      }
+    ],
+    "combined_subreaper_passed": true,
+    "final_drain_passed": true,
+    "installed_packages_unchanged": true
+  },
+  "reported_binary_pins": {
+    "codex": {
+      "bytes": 635994944,
+      "sha256": "78d9194cd4329e9b83b75fe07389d524d8b1f425353d71df9a68607be2945e83"
+    },
+    "host": {
+      "bytes": 7274296,
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+    },
+    "installed_storage_worker": {
+      "bytes": 71203368,
+      "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99"
+    },
+    "host_and_codex_before_after_equal": true,
+    "storage_pin_equal_across_cycles": true
+  },
+  "pinned_source_review": {
+    "p01_gui_acceptance_py_sha256": "f21b7395210e103f0226946b6dd18cbaabb0482d5e469ff5bc9e3dd156d36e97",
+    "gui_browser_driver_cjs_sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+    "current_primary_driver_browser_driver_and_search_helper_match_report_pins": true,
+    "browser": "Playwright Chromium fallback; not in-app Browser",
+    "inference": "Deterministic fixture; no live provider",
+    "both_cycles": "Actual manager/desktop and native App Server, persisted history, native file-search exercise, completed file-reference turn, incremental streaming, then first-SIGINT manager shutdown while a model invocation is positively held.",
+    "cycle_1_only": "One Allow once approval with completed native command and output; one UI Stop with interrupted model absence and settled controls; one browser reload; one completed continuation turn.",
+    "cycle_2_recovery": "Cold-engine restart after cycle-1 drain, with interrupted task state recovered.",
+    "search": "Built-in native fuzzyFileSearch; no independently selected search component in this passed run. Nine behaviors exercised per cycle: real filesystem results, relative-root rejection, click insertion, keyboard insertion, draft preservation, A-B-A query fence, root replacement fence, explicit close fence, task replacement fence. Held responses come from actual route.fetch; result bodies are unchanged.",
+    "installed_package_evidence": "Driver compares fingerprints of every regular file beneath installed component objects before and after, and reports installed_packages_unchanged=true. It separately verifies the independent package files and selected storage worker pin. The GUI report does not serialize the complete package fingerprint inventory; this review did not scan private homes."
+  },
+  "limits": [
+    "Shutdown seconds measure manager SIGINT to manager wait completion, not total descendant cleanup.",
+    "Process absence covers observed descendant identities plus child-subreaper drainage; sampling can miss short-lived descendants.",
+    "Browser automation assertions were reviewed; screenshots were not reviewed.",
+    "Some negative UI search checks use bounded observation windows; this is not a universal race proof.",
+    "This run does not prove installed-search behavior, live-provider behavior, individual constructor receipts, all transport closure, or completion of all P03 gates.",
+    "Failed GUI-search diagnosis is outside this review."
+  ],
+  "material_blocker_in_reviewed_passed_evidence": false
+}

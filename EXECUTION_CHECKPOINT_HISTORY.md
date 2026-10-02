@@ -1324,3 +1324,394 @@ is authorized; force push and unrelated settings/account changes are not.
 In-app Browser and Context7 are unavailable here; do not claim their checks ran.
 Label real Chromium fallback and deterministic inference. Existing authenticated
 remote viewer connectivity remains separately blocked.
+
+
+## Superseded execution ledger — current production recovery and partial runtime, 2026-10-02
+
+This is a preserved historical snapshot. Later completion is recorded in EXECUTION_STATE.md and the current runtime evidence; do not treat historical RUNNING or pending statements as current.
+
+# Codex Harness Compartmentalized — execution state
+
+Updated 2026-10-02. **Partial platform; P03 remains incomplete.**
+Read [IMPLEMENTATION_ROADMAP.md](IMPLEMENTATION_ROADMAP.md),
+[COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md), root AGENTS.md and
+[UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
+Detailed earlier runs, failures and completed resource actions are preserved in
+[EXECUTION_CHECKPOINT_HISTORY.md](EXECUTION_CHECKPOINT_HISTORY.md).
+
+## Resume immediately
+
+**Current production gate:** build02 passed (offline, 7m47s), with unchanged
+8,947-file source map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`.
+CLI SHA256 `78d9194cd4329e9b83b75fe07389d524d8b1f425353d71df9a68607be2945e83`;
+manager `f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954`.
+Build/source/binary receipts: A/p03-http-stage-b-current-production-build-02.*;
+postbuild binding: R/p03-http-stage-b-current-production-runplan-03/POSTBUILD_BINDING.json.
+Build/resource evidence: R/p03-http-stage-b-production-build-evidence-01.
+No new OOM events; observer completed after the build owner exited.
+
+Current runtime queue: storage, migration-normal, gui-normal, attachment and
+migration-search returned zero with unchanged current source and successful strict
+runners. Review individual reports before enlarging these claims. Storage reused
+the earlier separately built native package (not fresh compilation); its strict
+runner adopted eight children exiting -9 and one zero, causes unassigned. Ordinary
+GUI used real Chromium and deterministic inference; in-app Browser is unavailable.
+
+The queue stopped at `gui-search`: first launch cycle passed; cold cycle recovered
+history/interrupted state but timed out waiting for the first real file result.
+A/p03-http-stage-b-newhost-gui-search-01.* and the matching private runtime directory
+are preserved. Strict runner exit1, no runner error; failure-path manager Ctrl+C
+returned0 and tracked descendants were absent. Do not convert it to a pass or replay
+run_remaining.py. Diagnose the exact failure and preserve it before a fresh attempt.
+Remaining slow-normal/forced, held8, featured postcheck and consumer/replacement
+gates have not yet run against this production host. Disk is tight after the build;
+recheck headroom and original process ownership before further work.
+
+All1,484 actual archives were downloaded to the unique tmpfs directory
+/dev/shm/p03-authenticated-registry-downloads-restored-01 and independently matched
+their exact original sizes/SHA256 before any symlink was created. Original cache
+directory inode, Cargo home and extracted sources stay unchanged. No dummy archive
+or source-marker bypass was used. R/p03-registry-tmpfs-restore-plan-01/DOWNLOAD.json
+SHA25696fd88f7f29f60bad0a2697d5693a61147343f9da2abe045ba755b10178fd067;
+LINKS.json SHA2563ce0e6c6d773a01a9633bccf3b0e8ad579e544fb80a48b8f5b4616f27a1449ed.
+Separate fsync/DONTNEED advice released clean read-cache pages of only the two new
+verified proof archives; their bytes/paths are intact. Receipt
+R/p03-new-proof-clean-read-advice-plan-01/RESULT.json SHA256
+ede3397d85db3269fb796f91817a43524d94294dde453c6364cf7e7fb41d42d6.
+Never replay the completed cache restoration/link phases or archive-retirement phases.
+
+**Preserved failed attempt:** build01 exited101 before compilation because offline
+Cargo still requires `Inflector0.11.4`'s downloaded archive. Source remained8947/7a
+unchanged. Keep A/p03-http-stage-b-current-production-build-01.{log,source.json,
+preflight.json}; no tests ran in that failed attempt. Build02 subsequently passed.
+Do not repeat that unchanged command. The changed cache state and fresh build02
+above are the bounded follow-up; build completion is verified and runtime acceptance is partial.
+Do not create dummy archives or change extracted source, Cargo home or the worktree.
+Current production and runtime dispatch plans are under R/p03-http-stage-b-production-
+dispatch-02 and R/p03-http-stage-b-current-production-runplan-03; use fresh attempt
+prefixes and rebind the runtime plan after the next successful build.
+
+Resource recovery completed: exactly eight unused ordinary libraries529,424,384B
+and1,484 authenticated redundant download archives272,949,248B were removed after
+source/reference guards. The archive-to-extracted-byte comparison passed, but Cargo
+reuse did not; preserve that distinction. Both inactive bbed production and B test
+proofs were archived, fully restored/hash-verified, then their exact original ELFs
+retired. Only the newly created restorations were released. All older archives,
+restorations, aliases, both worktrees and the separate running GUI remain intact.
+This recovered about2.28GB overlay space, not new runtime acceptance.
+
+- R/p03-production-unused-ordinary-eight-plan-01/RETIREMENT.json SHA256
+  805994fcc03f78c5a4c52857267ab1b6cbaf72b1f01f97bbd5fa7af9e6d28aad.
+- R/p03-registry-crate-retirement-plan-03/RETIREMENT.json SHA256
+  c1cb711435b0b2b3c57a51d4dc49a0dd2cc5d4c92e8581bd1e141ab7be1deb9c.
+- bbed archive R/p03-bbed-production-proof-preserved-01.tar.zst,138,651,778B,
+  SHA2562eff99d91a6e1a2f7570a5f66ac9980c685b5c7f8707f0f4629350d4a0c87f5f;
+ 11members plus a restored hardlink. Plan02 preservation0af6b1b4, retirementa9bb5391,
+  releaseab60c478. Plan01 failed before any intent/output because its expected-alias
+  list omitted16 already recorded aliases; retain its FAILED_PREFLIGHT.json.
+  Plan02 expects exactly those16, with unchanged checks.
+- B archive R/p03-current-stage-b-testproof-preserved-01.tar.zst,65,170,113B,
+  SHA2567ea04d822592a0c51b70f6823bb21edc9d391209ae279b586a57501d822310bc;
+ 616members. Actions02 preservation048e1af5, retirementf9c1973d, release760a4178.
+  The two original test ELFs are now recoverable from this archive.
+- Complete pinned chain: R/p03-http-stage-b-production-dispatch-01/RESOURCE_RECEIPTS.json
+  SHA256566a63b4dac698865cb9099e12f9b06d174832a608405b16b9e703348bb2ee1c.
+
+These archives are VM-local checkpoints, not external backups. Never replay any
+completed retirement/release after path reuse. If production cannot be rebuilt,
+restore the old bbed two-link family from its verified archive into absent paths
+under fresh guards; do not overwrite partial new compiler outputs. Source-only auth
+reload and refresh-failure proposals remain unadopted/uncompiled in R, with separately
+verified24-member617f5816 and27-member9d681b65 archives. They are not extraction or tests.
+
+1. Stage B is adopted and passes its bounded Core Plugins gate: one actual native
+   request/process-final integration,553 library tests and scoped lint with zero
+   warnings/errors. All commands/strict runners exited0/null on unchanged8947-file
+   map7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e.
+   R/p03-http-stage-b-adoption-01/CANDIDATE_FORMATTED.json SHA256
+   f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092.
+   The library's adopted statuses were{0:36,128:2,-9:4}; causes are unassigned, not
+   an all-descendant-success claim. Four prior format changes were mechanical.
+   [Exact evidence and12-path lineage](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md)
+   distinguish the native composition gate from untested consumer paths. No tests
+   were repeated solely for lint/format. Prefixes A/p03-http-stage-b-integration-01,
+   library-01 and fix-01 are terminal. Never relabel the old production host as B.
+   Bounded WIP publication is verified atd229296 (24 selected blobs and both refs).
+   Build02 subsequently passed; see the current production/runtime gate above.
+   The original offline-cache failure remains preserved. Current
+   CLI runtime acceptance precedes bulky consumer test ELFs;
+   remaining CLI/exec/TUI/App Server checks are still required and not waived.
+2. HTTP native constructor Stage A is published at6f0bb26. Its
+   tested source is8942 files/map
+   f0d6605803dadb15a38db78519239fa65250b7a820fac9d9da572e60724d2cc6;
+   R/p03-http-native-a-corrections-03/CANDIDATE03.json SHA256
+   dbc8beca2cf070ce30acd63aa8816dff5c3de862a3b81bcf9f0ffc4cb56d34d1.
+   Package04 passed139/139,0 skipped; ambient certificate classification passed4/4.
+   All strict runners exited0/null and source stayed unchanged. The package's
+  145 pre-exec receipts bind139 actual tests and six listings to exact ELFs.
+   CA selectors were removed only immediately before isolated test execution;
+   custom-CA integration tests still supply their own bundles. Ambient tests retain
+   the cloud CA environment. Initial compile01, failed suite02, failed outer-env
+   control01 and successful target-runner control02 remain separate evidence.
+   Lint01 exited0/unchanged with one test-only await_holding_lock warning. The
+   same guard/assertion now uses a lexical block instead of explicit drop; assertions,
+   deadlines and production behavior are unchanged. Format04 and scoped lint02 passed0,
+   source unchanged, with no lint warnings. No tests were repeated solely for style.
+   Final source map73fd6ab756059a07f37a9b9dd15e0ebb06518f30773a560d0dad8318b33a0292;
+   R/p03-http-native-a-lexical-lock-01/CANDIDATE04.json SHA256
+   358f1f03b3bd72e102e0bd9d9328089f6eeadc34d61e4c7dbbf743ef0dd05d8d.
+   [Evidence and nine-path provenance](verification/2026-10-02/p03-http-native-constructor-stage-a/README.md)
+   retain the tested and final source separately.
+3. Complete the remaining runtime gates against production build02, then
+   complete current-source CLI/exec/TUI/App Server consumer gates. Preserve the fresh storage/attachment and migration results above; continue
+   ordinary/selected-search GUI, normal/forced Launch, held eight-case matrix and
+   replacement fixtures against those exact binaries. Existing production bbed/C-f05b
+   passed those planned gates before HTTP A; it is preserved, not current-A/B proof.
+   The initial CLI source-consumer gate passed3 selected tests;297 filtered. Exec/TUI
+   still need their scoped checks. Preserve original auxiliary-admission race and
+   strict ownership/deadline assertions. In-app Browser remains unavailable here;
+   prior GUI evidence is actual Chromium with deterministic inference.
+4. Continue P03 native auth source ownership through real reload/refresh consumers:
+   coherent source/cache/policy capture, conditional reload publication, then guarded
+   durable persistence/request dispatch. Existing latest-admitted installation is
+   already implemented; do not redo it. Reuse preserved MCP proposals in order:
+   Session prewarm/refresh custody, connection retirement, RmcpClient transport,
+   pinned SDK completion and admission fences. Resolve marketplace queue transfer
+   before per-processor HTTP closure: coalescing retains the earlier service_config
+   while replacing auth/merging scopes, so B's accepted work can still use A's pool.
+   Then activate the negotiated leaf broker/model-service composition and deliver
+   actual OpenAiModelsManager discovery/merge/cache as the next native package,
+   with independently installed native/custom selection and GUI/removal proof.
+   These prerequisites are not themselves extraction. Follow P04–P19 and required P18U. HTTP custody is compiled native lifecycle support,
+   not a fourth independently installed subsystem. Per-processor HTTP cohort closure
+   remains blocked on the queue-transfer contract; do not close a shared pool when
+   one embedded processor finishes. Whole-host/hard-exit proof remains separate.
+5. Recheck source/index, active process generations and resources before each build.
+   Root archived and fully restored the inactive CLI03 test proof before retiring
+   its exact original ELF. Archive67,557,708B SHA256
+   fe95def233d65053b8f1014bc6f6324fda2b0d746e35572e15c897df3a01ef6b;
+   R/p03-cli03-proof-preservation-01/RETIREMENT.json SHA256
+  250089cdf9da5d67fdcf5e42bc74b29a57000cbbd5ceb53fa3d50f24e4362038.
+   Only its new shm restoration was released afterward, receipt
+   R/p03-cli03-proof-release-02/RELEASE.json SHA256
+  4eb16445eac17e86e655fba6e509479cac593cbc87f1904eb2a60c30628612da.
+   Archive is VM-local recovery, not external backup. All older proof archives,
+   restorations, source, runtime homes remain; bbed binaries were subsequently archived and retired as recorded above. Never replay
+   completed retirement actions after compiler path reuse. The subsequent cache02
+   action retired exactly eight stale ordinary core/TUI library intermediates,
+   884,207,616 allocated bytes, after fresh source/dependency/identity/reference guards.
+   R/p03-post-http-core-tui-cache-review-02/RETIREMENT.json SHA256
+   fbae5f1a74b89e1a2584c32b6063dc9a69dee9fa3c4ffb7815ee36dbcbfd6d87.
+   Failed alias audit01 is preserved. All proof/runtime ELFs and seven symlink-backed
+   libraries were excluded. Never replay; later builds must regenerate needed caches.
+
+   A subsequent guarded action retired one stale App Server library pair only,
+   111,603,712B; receipt R/p03-post-http-appserver-cache-review-01/RETIREMENT.json
+   SHA256a90191b5f030ab6eb497dc1049d652c366f1d092d7eaaf84ae8bf313e7af8696.
+   Protected proof/runtime files remained; this is further rebuild debt, not a
+   production-build capacity claim. Never repeat either completed cache action.
+
+## Environment, ownership and preservation
+
+- Original checkout: /workspace/codex-harness-everythings-a-plugin.
+  Preserve sibling /workspace/codex-harness-next-components. No new checkout/VM/chat.
+- Origin: https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git.
+  Actual commands execute in the recovered original cloud VM; stale access blocker
+  is cleared. Remote viewer forwarding remains separate and unavailable.
+- R = /workspace/recovery-backups/20260930T165936Z; A = /workspace/acceptance.
+  Root owns source/Git/compiler/cache mutations. Workers stage proposals in R only.
+- Use /workspace/toolchains/component-verification-env.sh; one compiler job.
+  Build/runtime TMPDIR=/tmp/p03-featured-warmup-current-production-build-01.
+- Local HEAD/index remain upstream, and local main is stale. Do not reset or rewrite
+  the real index. Index SHA256:
+  0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59.
+- Preserve the older live GUI in /workspace/verified-component-checkpoint-v2-20260930
+  and /workspace/remote-viewer-setup. They are not current-source runtime proof.
+
+Full earlier two-worktree/Git/SDK/evidence backup:
+R/codex-recovered-workspace.tar.zst, SHA256
+3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd.
+Fresh primary pre-format source/Git snapshot:
+R/p03-replacement-current-source-before-format-01.tar.gz, SHA256
+e6ab98fe2bd9625c10fe67979eaf308b4f7e4ee7892548482ff0750d9847df5e.
+These and all proof archives are **VM-local**, not proven external backups. GitHub
+provides external durability only for published paths; preserve all isolated proposals.
+
+The CLI65 proof archive095169ae was stream-verified and fully restored before
+only its two inactive original output links were retired. Only the new restoration
+scratch was then released under separate guards; older restorations,230 archives,
+16 aliases, both worktrees and runtime homes remain intact. Action receipts:
+R/p03-stage-c-cli65-proof-preservation-01/RETIREMENT.json SHA256
+4eae26d6f99f824c6ef386beec4553e7c76449543abf6dee11b99a56b941ca61;
+RELEASE_RESTORE.json SHA256
+8ecba951bca6d561aad91352a3c5d23ede7b8f00cd991ba14776c6312631f34c.
+Never rerun completed retirement actions after compiler output reuse.
+B553/C432 proofs were then archived together with their distinct source/strict/log/
+binary receipts, all10 members stream-verified, and both ELFs fully restored before
+only the two inactive original targets were retired. Only the new shm scratch was
+released afterward. All older restorations,230 archives,32 aliases/eight homes and
+both worktrees were preserved. Archive R/p03-current-b553-c432-testproofs-preserved-02.tar.zst
+SHA25655bf20f97a73fcacf623c5825b1cd1c0bf794e240c7e7c98e95929d2fa574634.
+Receipt directory R/p03-current-b553-c432-proof-preservation-02; release SHA256
+780fc79663e7226b3f1818cbe5ce2605d0fdcbb64ef69252f13c91bb695e3937.
+The first resource audit rejected newly found aliases before mutation; it remains
+preserved. These exact test proofs now require restoration from the verified archive.
+After release:985923584B overlay/478621696B tmp free; remeasure before each large task.
+After the CLI02 ENOSPC failure, three guarded cache-only actions retired exactly
+3 lint metadata files,90 normal-production library/metadata files and36 more lint
+metadata files (1,182,949,376 allocated bytes). Both runtime binaries, all proof
+archives, source/index, unresolved test families and runtime homes were retained.
+Receipts are /tmp/p03-cli-enospc-{cache,production90,lint-margin}-recovery-01/RETIREMENT.json:
+b11d03f0ac5ca1104d245ad11ba91c253877c256bd83211a7c1259aaa9ca012f;
+cc22cc3e4626af382cb5a41caf5f406f7ca9a21e6772baabc44df7fc88c0863b;
+c2236adb704170b817830fae0d281a861d6463148c2ffb8b1eb4090b1e53938e.
+A later normal production build must regenerate those ordinary caches. The actual
+bbed CLI and manager still run unchanged. Never replay completed cache actions.
+After CLI03, observed available space:451,301,376B overlay/448,864,256B tmp.
+Remeasure before another build. OOM counters stayed9 events/4 kills (historical).
+Current control-plane status1470 is connected/running on the same environment;
+actual test execution, not status alone, establishes executor access.
+
+
+## Published source and current proof
+
+Upstream: openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478.
+Exact-tree import ae720ae9a98bad29ca2cff998e7d5baaf05cec86; retain LICENSE/NOTICE.
+Latest WIP: **d229296b29947ef1328cbe931c810276f220a23c**, tree
+44570e71ff6978933a6d01ef34b2a2e1de4ea125, parent6f0bb26, branch
+wip/p03-process-final-and-mcp-preservation-20261002. All24 selected remote blobs
+and both refs verified after nonforce update. Main remains unchanged at
+781080f7e3c8bfe1953378001d777dff33d74bc3.
+R/p03-http-stage-b-publication-01/PUBLICATION.json SHA256
+8733e9ee5f02523abd9ab61a927d04b7f30a865d608583d6b1c6684b8bb45897.
+This checkpoint publishes the coherent12-path process-final integration with
+source-bound Core Plugins integration1/library553/lint evidence and four canonical
+documents. Individual consumer tests and fresh production/GUI remain unverified.
+Preceding6f0bb26 preserved all nine HTTP Stage A paths,139 package tests, four
+ambient classification checks, style/lint transition and proposal02's58-member
+source-only archive. Its publication receipt is
+R/p03-http-native-a-publication-01/PUBLICATION.json SHA256
+ db01393b67ef86c6ced4e28a6f9c20fc85aaeeaa929a017979316ce81802b95d.
+Both original HTTP proposals now have external source preservation on WIP.
+Earlier6446 attachment/CLI/watchdog evidence and4550046 production/screenshots
+remain intact; actual working production binaries still bind to2ce48a6/C-f05b.
+
+Historical working-production C candidate R/p03-featured-warmup-stage-c-source-01.json SHA256
+ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c;
+8936-file Rust/SDK/build scope map
+f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328.
+Root docs/evidence edits do not alter this scope. Source wrappers record actual
+maps; candidate labels alone are not proof. Test ELF252dfaf2… is not a production CLI.
+
+| Gate | Actual evidence |
+| --- | --- |
+| Native featured owner/library | Stage A552 passed; published706bf9e. |
+| Native startup/processor/process-final wiring | Stage B553 passed, clean scoped lint; original compile101 failure preserved separately. |
+| Current App Server library |432 passed,2 parent-owned helpers skipped; separate new caller and curated pending/replay/race all passed against actual252dfaf2 ELF. |
+| Caller lifecycle | Real A public Drop → held peer EOF before observer/global close; joined cancellation; B same-home public shutdown. A runtime-result join/cache/whole-host claims remain false. |
+| Current App Server lint/format | Both0, source unchanged, no lint warnings. No tests rerun solely for lint/style. |
+| Current production CLI/GUI | Build0/unchanged; storage13 checks, four migrations, both GUI modes, normal/forced slow Launch and all8 held cases plus task-receipt postcheck passed. |
+| Current CLI attachments | Five case groups/17 commands passed; installed native upload, custom reference cold resume, positive error fallback and remove/reset. Native state empty; no native result-envelope/production resolve claim. |
+| Current CLI consumer tests | Retry03 passed3 selected tests;297 filter-skipped; exact C/f05b source unchanged. Exec/TUI and remaining lint outstanding. |
+
+[Current production evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md),
+[current attachment gate](verification/2026-10-02/p03-current-attachment/README.md),
+[CLI and resource evidence](verification/2026-10-02/p03-current-cli-consumer/README.md),
+[Stage B evidence](verification/2026-10-02/p03-featured-warmup-stage-b/README.md),
+[Stage C evidence](verification/2026-10-02/p03-featured-warmup-stage-c/README.md),
+and their upstream lineage maps keep each source boundary separate. Strict adopted
+statuses are not all zero in library suites; exact histograms and failures remain.
+
+Older final65 production proof remains valid only for its own map1c54717d/CLI dc7f1e84:
+installed storage, four migrations, ordinary/selected-search Chromium GUI, slow normal
+Launch46.317s with recovery, forced Launch2.042s with explicit durability uncertainty,
+and a fresh all8 held matrix passed. Original auxiliary-admission race and earlier
+failed matrices remain open/preserved. [Prior evidence](verification/2026-10-02/P03_CURRENT_PRODUCTION_RUNTIME_EVIDENCE.md)
+must not be relabeled as current B/C proof. Independent package-build identities
+are reused, not claimed as fresh Rust builds.
+
+A subsequent test-only change exercises the existing independent
+watchdog while Tokio teardown waits on held blocking work. Candidate
+R/p03-runtime-drop-test-adoption-01/CANDIDATE.json SHA256
+f8558f717ad43dcf6987592eaf2c2af63341ae6a2f50c3aeb74463bba483f75c;
+actual8936-path map8d2daf261bf0be11e1de3344b08e3bc8b6cff3065b91c5363ad8e7832bf07660.
+Production code/dependencies are unchanged. Do not relabel the earlier f05b
+CLI/runtime tests as this later test-source map. The four tests and lint02 have
+their own actual source receipts at A/p03-runtime-drop-{tests-01,fix-02}.
+This is test-clock evidence, not a production205s/exit124 or HTTP custody proof.
+[Watchdog evidence](verification/2026-10-02/p03-runtime-drop-watchdog/README.md).
+
+## Coverage and remaining implementation
+
+Native replacement coverage is still **three bounded families**: thread storage/manual
+migration, inline attachment subset and native file search. The separately packaged
+GUI is additive presentation. API/host/SDK, ownership helpers, fixtures and maintenance
+planning do not count as further native extraction. Most engine families remain coupled.
+
+After the current regression checkpoint, close P03's named native acquisition/lifetime
+owners and broker gates. The R-only HTTP-construction audit identifies retained builder
+custody/cohort lifetime and a closed-publication fence; preserve late cache publication
+while a pool stays open. Closing one featured task must not close shared HTTP consumers.
+Universal in-process reqwest join is not an exposed contract or a prerequisite to
+invent; retained constructor custody and truthful transport uncertainty remain required.
+The current HTTP audit found catalog queue coalescing ignores HTTP cohort identity
+and retains an earlier service_config. Closing that shared pool with one processor
+could affect unrelated accepted foreground work. The next bounded native slice is
+retained constructor/result-disposal custody per existing pool lineage, last-public-
+lease publication fencing and process-final close/drain using existing deadlines.
+Per-processor HTTP cohort shutdown stays blocked on the explicit queue-transfer
+contract; do not change merge keys or claim it is implemented. R-only StageA
+cfg(test) code is design material, not a native extraction milestone.
+The later actual constructor proposal01 is preserved under
+/tmp/p03-http-native-constructor-proposal-01, manifestb2942d2392a5d2a49644e92a9e39a6dcdb8f5c55cea6626de1ee334f4e47394b.
+Review found proposal01 cleanup was permanently tied to its original Tokio runtime;
+that proposal was not adopted. Corrected proposal02 Stage A now retains exact native,
+cleanup and disposal handles, positively joins canceled generations before recovery
+on a later runtime, fences last-public-lease cache publication and pins first-close
+deadlines. Real pool/cross-runtime tests and full HTTP package checks passed as
+recorded above. The queue-cancellation fixture now explicitly aborts the queued task
+before worker release and requires both canceled joins and untouched output. A
+separate typed I/O error traversal repair preserves Rustls certificate classification.
+Process-final aggregate Stage B and rebuilt-host acceptance remain outstanding.
+The exact original proposal is also preserved in a55-member, stream-verified
+VM-local archive, SHA256d5efa0e1c3913e51f8d0bd9b9fa904c0fdad6431699eeda739a451dfdbfd3796.
+A clearly labeled copy is selected for this WIP checkpoint at
+verification/2026-10-02/unadopted-proposals/http-constructor-01/.
+This archive is unfinished source preservation, not accepted implementation.
+MCP upper owner → retirement → lower transport → pinned SDK → late-admission proposals
+remain isolated and unadopted; preserve every version. Curated archive/publication/host-
+death fences, general Session acquisition, model-v2, activated broker capabilities and
+real failure/installation matrices remain P03 exit obligations. Do not weaken deadlines,
+security boundaries or positive cleanup assertions to complete them.
+
+Then follow P04–P19 for configuration/auth, models/providers, remaining state/replay,
+context/compaction, approvals/sandbox/execution/tools, MCP/skills, orchestration,
+background work, events/telemetry, clients and release packaging. Kernel exceptions
+remain explicit in the roadmap. P18U is required: the offline planner passed17+22
+fixture checks but integrated no later upstream revision. Installed maintenance plus
+external recovery, a real revision integration preserving custom plugins/UI, coordinated
+versions/migration, incompatible-update rejection and rollback remain mandatory.
+
+## Testing and execution limits
+
+Use just test, never direct cargo test; scoped packages and just fix/just fmt.
+A complete workspace suite still requires separate user approval; none is recorded.
+Preserve original failed runs, exact source/binary pins and unchanged strict assertions.
+In-app Browser and Context7 are unavailable here. Real Chromium/Playwright fallback
+uses deterministic inference; do not claim in-app manual or live-provider validation.
+No credential/config/environment dumps. No force push, scheduled upstream polling,
+unattended live deployment or hot swapping. Remote viewer blocking must not stop
+independent component work. Continue feasible work; no unlimited-run guarantee.
+
+Collector pure run01 failed57/58 because its historical test expected a missing
+sibling preimage directory. Original failure/flat proposal01 are preserved. Proposal02
+restored that exact preimage without changing the eight Python files or58 methods;
+pure02 passed58/58. Live held8 and its featured postcheck passed separately. The
+original auxiliary-admission race remains unexercised, MCP/whole-host cleanup and
+HTTP-internal custody remain unproven. See R/p03-featured-owner-postchecker-proposal-02
+and A/p03-featured-warmup-held-all-mode-ack-01 / held-featured-postcheck-01.
+The fresh attachment02 gate is separate from text-only storage/migration proof.
+It reuses the original native package without a new Rust build and builds separate
+Python model/counted-store fixtures outside the host source. All host/package
+hashes stayed unchanged; private traces remain private. No live provider, resolve
+production caller or whole-host cleanup is inferred. Earlier proof identities remain.

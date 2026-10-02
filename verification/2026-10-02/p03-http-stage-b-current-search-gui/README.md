@@ -1,0 +1,15 @@
+The fresh current-B selected-search GUI attempt02 passed both real Chromium cycles on production CLI 78d9194 and unchanged 8947-file source 7a147c. The original attempt01 remains a failed, unexplained second-cycle search timeout; this retry does not prove its cause or a native/frontend fix.
+
+The separately built native search package was reused unchanged, installed/selected in the fresh migrated home, and its actual worker was observed in each App Server cycle. The host and installed packages stayed unchanged. The browser passed 49 commands in cycle 1 and 38 in cycle 2, including real filesystem results, quoted/keyboard insertion and stale query/root/close/task fences. Approval and Stop were exercised only in cycle 1. Cycle 2 verified cold history/interrupted state, fresh selected search, continuation and streaming. Launch shutdown returned 0 in 0.2171s/0.2645s with observed workers/processes absent and scoped drains passed.
+
+The additive observer recorded 12 correlated searches per cycle. All 24 received HTTP 200, finished, and produced valid file-array summaries without RPC errors. No event/request/body collection was dropped or skipped; no collector errors or pending bodies were recorded at close. The expected first file appeared in each cycle. These observations supplement the unchanged acceptance assertions; they do not prove whole-host process or transport custody.
+
+The fresh migration strict gate was 0/null with adopted statuses {-9:6, 0:1}; GUI strict was 0/null with {0:1}. Both source/log relationships independently match the same current 8947/map7a147c. Do not call every descendant exit zero or attribute the migration SIGKILL statuses without separate evidence.
+
+The diagnostic fixture preserves all 28 Python assertions and original timeouts. Its only Python behavioral selection change is the external driver constant at the two original driver references. The observer adds bounded typed summaries and private failure capture without intercepting/retrying application requests. The original proposal is immutable; root_dispatch.py was added outside that manifest and is separately pinned in INPUTS.json. No repository source was changed for this retry.
+
+Work directories moved to /dev/shm, and root reported a child TMPDIR there. Resource receipts show no new OOM counters during the two commands. Because environment/home/observation conditions differed, passing attempt02 does not establish that storage pressure caused failed attempt01. Original attempt01 Git startup ENOSPC warnings also occurred during its passing cycle.
+
+Root visually reviewed exactly current search-results-2.png and recovered-2.png; their hashes are in SCREENSHOTS.json. Other screenshots are not claimed reviewed here. These are Chromium/Playwright fallback artifacts with deterministic inference, not in-app Browser manual interaction or a live-provider test. Raw private reports/logs are referenced by hash only and are not copied into this publication draft.
+
+This is one bounded current-source GUI/search regression checkpoint. It adds no extracted component family and does not complete P03 or the platform roadmap.

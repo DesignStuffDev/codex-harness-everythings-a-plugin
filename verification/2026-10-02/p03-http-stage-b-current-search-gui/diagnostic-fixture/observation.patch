@@ -1,0 +1,54 @@
+--- preimage/p01_gui_acceptance.py
++++ proposed/p01_gui_acceptance.py
+@@ -22,6 +22,9 @@
+ from uuid import uuid4
+ 
+ from harness_acceptance import SDK, fingerprint
++
++# External observation-only driver; original SDK and all acceptance checks stay fixed.
++OBSERVATION_DRIVER = Path(__file__).with_name("gui_browser_driver.cjs")
+ 
+ 
+ def identity(pid):
+@@ -179,7 +182,7 @@
+         self.owner = OwnedProcess(
+             [
+                 "node",
+-                SDK / "tests/gui_browser_driver.cjs",
++                OBSERVATION_DRIVER,
+                 "--ready-file",
+                 ready,
+                 "--report-file",
+@@ -448,7 +451,7 @@
+             manual_report_fingerprint=fingerprint(manual_path),
+             thread_id=thread_id,
+             script_fingerprint=fingerprint(Path(__file__)),
+-            driver_fingerprint=fingerprint(SDK / "tests/gui_browser_driver.cjs"),
++            driver_fingerprint=fingerprint(OBSERVATION_DRIVER),
+         )
+         libc = ctypes.CDLL(None, use_errno=True)
+         libc.prctl.argtypes = [ctypes.c_int] + [ctypes.c_ulong] * 4
+--- preimage/gui_browser_driver.cjs
++++ proposed/gui_browser_driver.cjs
+@@ -22,6 +22,7 @@
+     args: ['--no-sandbox'],
+   });
+   const page = await browser.newPage({ viewport: { width: 1440, height: 960 } });
++  const searchObserver = require('./gui_search_observer.cjs').install(page, reportFile);
+   page.on('pageerror', error => {
+     report.pageErrors.push(error.message);
+     save();
+@@ -53,11 +54,13 @@
+       } catch (error) {
+         entry.passed = false;
+         entry.error = error.message;
++        await searchObserver.onCommandFailure(report.commands.length).catch(() => {});
+         console.log('ERROR ' + error.message);
+       }
+       save();
+     }
+   } finally {
++    try { searchObserver.finish(); } catch {}
+     await browser.close();
+     input.close();
+     report.closed = true;
