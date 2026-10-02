@@ -1,0 +1,1004 @@
+{
+  "artifacts": {
+    "candidate_manifest": {
+      "bytes": 19456,
+      "sha256": "ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c"
+    },
+    "dispatch": {
+      "bytes": 2757,
+      "sha256": "1a53dea0d367b4bdf9bad2f8b06581f627962e90921980e454653d0038671244"
+    },
+    "fixture": {
+      "bytes": 52300,
+      "sha256": "ccce09a1dcf6cad7ba7cd4af90985072e766aea195c78475af0f717c5afe6981"
+    },
+    "invocation": {
+      "bytes": 1590,
+      "sha256": "a6524027268abe3cc65d53773c9c31d836fc4bf44872505197fdcee0bdc47874"
+    },
+    "matrix": {
+      "bytes": 19248,
+      "sha256": "e598a9a6936d17dcc6fc64417ec46156aedc6bb7ea24ee9b12672376c8a90614"
+    },
+    "observer": {
+      "bytes": 14282,
+      "sha256": "11e5c906be99ba806d999db81b8422c9bca0ec1886ef582ea79a50101c6eb3bf"
+    },
+    "postbuild_binding": {
+      "bytes": 2297,
+      "sha256": "00e8a65ebea5c7f0ae6831d1c3c6cc9a3ecdb227b814951c7f2fd48a7bf72152"
+    },
+    "proposal_manifest": {
+      "bytes": 2795,
+      "sha256": "3b054a495685f251dbbba49c0da716f1396281e0b38765a2fe77d053525b13ed"
+    },
+    "receipt_schema": {
+      "bytes": 1267,
+      "sha256": "669982343e7f1825beafa0bcfa6aada2f533ff1c57f8099b4ced3fb28fd777f8"
+    },
+    "source_receipt": {
+      "bytes": 2489245,
+      "sha256": "d6266746d7ba37e554d89dcfb00cf7c7c9f8b7d20b9fdbafd7b39672171490c4"
+    },
+    "strict_runner": {
+      "bytes": 4645,
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+    }
+  },
+  "caps": {
+    "CONNECT_ready_seconds": 60,
+    "connection_events_total": 2048,
+    "connection_sequences": 128,
+    "events_per_connection_or_global_boundary_sequence": 16,
+    "graceful_seconds": 200,
+    "launcher_outer_seconds": 210,
+    "native_hard_seconds": 205,
+    "observer_events": 20000,
+    "observer_generations": 4096,
+    "strict_drain_override": false,
+    "unchanged_strict_default_drain_seconds": 5
+  },
+  "cases": [
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 6815,
+          "sha256": "f82fd8c3bd5a47454d84bbce1ad26a817d076e687bad145c1f7b0b89199f21b9"
+        },
+        "featured-receipts.json": {
+          "bytes": 1738,
+          "sha256": "fc24a41ee9d196161174780843944b67b1240ebf36f39c212f48f185d2d96fd1"
+        },
+        "observer-git-ready.json": {
+          "bytes": 560,
+          "sha256": "842504b4f79fdad07e6bc242386f8442deb4b27333005156ccb9f32b5b5569ad"
+        },
+        "observer.json": {
+          "bytes": 11714,
+          "sha256": "b79f199b4be6f33c1ea7fad5ae5f561cf6aff41396a7fcef383ea6e3eeed32d8"
+        },
+        "receipts.json": {
+          "bytes": 1164,
+          "sha256": "b3634285174adfcf31844c66558f72ecce845c0be195d49b94fa84c1fc8150a3"
+        },
+        "strict.json": {
+          "bytes": 793,
+          "sha256": "06cac430d1d7fd2a8a88918cab76dc7477f783aaeb74d76f4572aa39e38d3f63"
+        }
+      },
+      "case_id": "git-exec-success",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 14,
+        "connection_sequences": 2,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 21,
+        "observer_final_present_generations": 0,
+        "observer_generations": 6,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "unverified_no_receipt"
+      },
+      "inner_and_ack_generation_equal": false,
+      "native_exit_status": 0,
+      "strict": {
+        "adopted_status_histogram": {
+          "-9": 2,
+          "0": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": null,
+        "ack_before_external_stop_ms": 179.605036,
+        "ack_before_held_ready_ms": 17.583177,
+        "native_exit_after_external_stop_seconds": 0.116259392
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 6809,
+          "sha256": "9c806afefb8c7cdad81cf2a135becd85e1265ff3d5b622843baaf22a390daa10"
+        },
+        "featured-receipts.json": {
+          "bytes": 1736,
+          "sha256": "fbbddc15cef92a065c518dbb5e8c12e4870fc01a1ec4e27edb8e4f663867f6d4"
+        },
+        "observer-git-ready.json": {
+          "bytes": 558,
+          "sha256": "f7ba38fb34b79f7d589c45a081bb9d2fbf555228f40ab85e965dcac1ac0668e1"
+        },
+        "observer.json": {
+          "bytes": 10568,
+          "sha256": "f75a55d4b357e64db2084741db8c685ba8ed11c4efb96bde707657c1dbfa8ace"
+        },
+        "receipts.json": {
+          "bytes": 1164,
+          "sha256": "cfbedf12bdf44a9d729eca1d8aea5a10293180fab3696ba55e5218b9bd2b3d94"
+        },
+        "strict.json": {
+          "bytes": 791,
+          "sha256": "38589b161811555911f1bcb314ea89576ddb7930e2a000b7e1050aa333cd04b7"
+        }
+      },
+      "case_id": "git-exec-error",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 14,
+        "connection_sequences": 2,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 18,
+        "observer_final_present_generations": 0,
+        "observer_generations": 6,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "unverified_no_receipt"
+      },
+      "inner_and_ack_generation_equal": true,
+      "native_exit_status": 1,
+      "strict": {
+        "adopted_status_histogram": {
+          "-9": 2,
+          "0": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": null,
+        "ack_before_external_stop_ms": 158.242526,
+        "ack_before_held_ready_ms": 11.737972,
+        "native_exit_after_external_stop_seconds": 0.063644613
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 6908,
+          "sha256": "a77f41d401f8e49a9f6e4f4cda564ba7e878df9867e3d11aeeee2ca622dc89a2"
+        },
+        "featured-receipts.json": {
+          "bytes": 1740,
+          "sha256": "ffc4e2320609f9f63c869b2cd222897bff32457a7c5301f5be06c4c842040e97"
+        },
+        "observer-git-ready.json": {
+          "bytes": 562,
+          "sha256": "711a4a9622f01035c607d6d3b6dfa6c2496f51383c0373e958bca3502671f5e2"
+        },
+        "observer.json": {
+          "bytes": 10184,
+          "sha256": "a2b495000269fb6489fbec37dcebcd17a8d64e8a9f69a6ee2ae9899a6168f433"
+        },
+        "receipts.json": {
+          "bytes": 1338,
+          "sha256": "6f68121ad154b834b49fa806f21b7602cde6f6b793d9ca3307731dec526fff02"
+        },
+        "strict.json": {
+          "bytes": 795,
+          "sha256": "fecb4a1075202aafef346a33b8a07141b8ea8867d73a0d28bdae6c6b8b23ec42"
+        }
+      },
+      "case_id": "git-app-server-eof",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 15,
+        "connection_sequences": 2,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 18,
+        "observer_final_present_generations": 0,
+        "observer_generations": 7,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "session_loop_report_clean_not_mcp_proof"
+      },
+      "inner_and_ack_generation_equal": true,
+      "native_exit_status": 0,
+      "strict": {
+        "adopted_status_histogram": {
+          "-9": 2,
+          "0": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": null,
+        "ack_before_external_stop_ms": 1.740189,
+        "ack_before_held_ready_ms": 1.678183,
+        "native_exit_after_external_stop_seconds": 0.031855265
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 6920,
+          "sha256": "c4f6a5dde92980a27fd92c4b64c45387d3f7949f3a174194e87bb8626360dd5f"
+        },
+        "featured-receipts.json": {
+          "bytes": 1744,
+          "sha256": "554de2f1192c1490acccaa5af4b53ed4dfb391e4f00e830cfcfc77765ec73b03"
+        },
+        "observer-git-ready.json": {
+          "bytes": 566,
+          "sha256": "d84ed6fac2c7550eb37cb95fd3fdc07272d6f5d3838024a3a72d9cf0c7aad19f"
+        },
+        "observer.json": {
+          "bytes": 10186,
+          "sha256": "169577e4e14ede7eec2994979c185a39194c636d40a81390bfa890a5beb02008"
+        },
+        "receipts.json": {
+          "bytes": 1338,
+          "sha256": "cbbb21be30b1986c14e8cb69920d6684731110edcc2fb3952c1751e12cda49ec"
+        },
+        "strict.json": {
+          "bytes": 799,
+          "sha256": "9451ee3f8b38b9675675f68ee5f26d8b88825b035ad60b083700534de30e93a5"
+        }
+      },
+      "case_id": "git-app-server-sigterm",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 15,
+        "connection_sequences": 2,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 18,
+        "observer_final_present_generations": 0,
+        "observer_generations": 7,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "session_loop_report_clean_not_mcp_proof"
+      },
+      "inner_and_ack_generation_equal": false,
+      "native_exit_status": 0,
+      "strict": {
+        "adopted_status_histogram": {
+          "-9": 2,
+          "0": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": null,
+        "ack_before_external_stop_ms": 9.857345,
+        "ack_before_held_ready_ms": 9.780882,
+        "native_exit_after_external_stop_seconds": 0.032919303
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 7756,
+          "sha256": "3ad7dc5ca5fdca84db4f708850503387a6278ac1e6d108344061ebf616d757ce"
+        },
+        "featured-receipts.json": {
+          "bytes": 1743,
+          "sha256": "c3ad5fce0422acc9e2f8c13a0d5454a033fd8148c735cd55dcf5b2b04a5b80a7"
+        },
+        "observer-git-ready.json": {
+          "bytes": 565,
+          "sha256": "5324095efd80d81b433f05111894cd16795448e2429ab956a702994b2c9acfd2"
+        },
+        "observer.json": {
+          "bytes": 10575,
+          "sha256": "7b8723516b422762b04f37995380d44634d8077809325f9f414a2662c1cdcbad"
+        },
+        "receipts.json": {
+          "bytes": 1164,
+          "sha256": "c83e487bd60a90bedc157bc74a7a5bad2f345b7d67ffa28e850bfaa36dd91868"
+        },
+        "strict.json": {
+          "bytes": 722,
+          "sha256": "effaa6e18be4a670873862806248d101daa0aea41fd4e5896b3c73862de0aa03"
+        }
+      },
+      "case_id": "fallback-exec-success",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 19,
+        "connection_sequences": 3,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 18,
+        "observer_final_present_generations": 0,
+        "observer_generations": 6,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "unverified_no_receipt"
+      },
+      "inner_and_ack_generation_equal": true,
+      "native_exit_status": 0,
+      "strict": {
+        "adopted_status_histogram": {
+          "0": 1,
+          "128": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": 20.369733,
+        "ack_before_external_stop_ms": 186.147433,
+        "ack_before_held_ready_ms": 54.542638,
+        "native_exit_after_external_stop_seconds": 0.063636705
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 7750,
+          "sha256": "7706c23c78feb10578433dbfdac4d7f11dbfb1f5ca1e89a8be2b907fbe6ae754"
+        },
+        "featured-receipts.json": {
+          "bytes": 1741,
+          "sha256": "cfda94594ef2389a3bc77c463a71a68f2bfcf6456b487dc423c90adc820d23a3"
+        },
+        "observer-git-ready.json": {
+          "bytes": 563,
+          "sha256": "b88a9a54c6d3be94709a5e35b350510c493b359e716e6d095badf71135a284d4"
+        },
+        "observer.json": {
+          "bytes": 11087,
+          "sha256": "447e060ad233b85091fb647ab8e4e27e1b755a425ab6d6788ad50ed5dbc5d687"
+        },
+        "receipts.json": {
+          "bytes": 1164,
+          "sha256": "e0e0fc72f2a0536f0c8b1e3823c06d9b728c06e1c633dd43e2c1b2f53ee039ca"
+        },
+        "strict.json": {
+          "bytes": 720,
+          "sha256": "f8ea645428503ca877abaf7bd4ac8b41240e4918fd11ee8fd30444d2b5add4a8"
+        }
+      },
+      "case_id": "fallback-exec-error",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 19,
+        "connection_sequences": 3,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 19,
+        "observer_final_present_generations": 0,
+        "observer_generations": 6,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "unverified_no_receipt"
+      },
+      "inner_and_ack_generation_equal": true,
+      "native_exit_status": 1,
+      "strict": {
+        "adopted_status_histogram": {
+          "0": 1,
+          "128": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": 10.876088,
+        "ack_before_external_stop_ms": 125.27578,
+        "ack_before_held_ready_ms": 42.399929,
+        "native_exit_after_external_stop_seconds": 0.063873033
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 7849,
+          "sha256": "7f762c46bec80cc7947c512a63fa00fd9ed114834850040e8988e1445323e12d"
+        },
+        "featured-receipts.json": {
+          "bytes": 1745,
+          "sha256": "de7ebcb3be225a212ea7cf17118ccbff1e730e71c6c25e31b264825b923615bd"
+        },
+        "observer-git-ready.json": {
+          "bytes": 567,
+          "sha256": "6baf043670f6ebf937e462064d735f46c1619ff2ce4aecab3e63f5db50630462"
+        },
+        "observer.json": {
+          "bytes": 10055,
+          "sha256": "0c3ff57dbfe5fe95e53bba300e5e7066b3e771d15857629fba1e3e146f568c07"
+        },
+        "receipts.json": {
+          "bytes": 1338,
+          "sha256": "2dffbacdf25d4abdcb1d6289b9706d515823d449312dee8bef82a66c42de957c"
+        },
+        "strict.json": {
+          "bytes": 724,
+          "sha256": "abe1a2bd1c4347adb033223305a198d69bbf2344d7f40358e51480b3080b76dc"
+        }
+      },
+      "case_id": "fallback-app-server-eof",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 20,
+        "connection_sequences": 3,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 17,
+        "observer_final_present_generations": 0,
+        "observer_generations": 6,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "session_loop_report_clean_not_mcp_proof"
+      },
+      "inner_and_ack_generation_equal": true,
+      "native_exit_status": 0,
+      "strict": {
+        "adopted_status_histogram": {
+          "0": 1,
+          "128": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": 11.804604,
+        "ack_before_external_stop_ms": 51.503629,
+        "ack_before_held_ready_ms": 51.365015,
+        "native_exit_after_external_stop_seconds": 0.031695293
+      }
+    },
+    {
+      "all_checks_passed": true,
+      "argv_check_count": 11,
+      "argv_checks": {
+        "ack_case": true,
+        "ack_executable_hash": true,
+        "ack_executable_path": true,
+        "ack_sidecar_path": true,
+        "all_ack_flags": true,
+        "derived_fixture_script": true,
+        "no_drain_override": true,
+        "observer_script": true,
+        "strict_inner_case_config": true,
+        "strict_inner_derived_fixture": true,
+        "strict_runner_script": true
+      },
+      "artifacts": {
+        "case-result.json": {
+          "bytes": 7861,
+          "sha256": "d17697ad310526856f39f0a567db009a2e941f24bb868e4be90787abeb48bbb0"
+        },
+        "featured-receipts.json": {
+          "bytes": 1749,
+          "sha256": "75f46bbc613557149f52632893aeda607511f236cd55c8aca18ad15e7fa34e0e"
+        },
+        "observer-git-ready.json": {
+          "bytes": 571,
+          "sha256": "4f09d8a39537c46004a457850b74956360b3e7d44a0e493a434746072e88ec9c"
+        },
+        "observer.json": {
+          "bytes": 10517,
+          "sha256": "29c4f14cd0dfe9ec886ca9ebb09abfb5b6f3c4272843a670aea15c80a10a5783"
+        },
+        "receipts.json": {
+          "bytes": 1338,
+          "sha256": "2fc5d9f67085436869f81c2f888b553dff7ad1bc51ffc7de7f03ec60617d14dc"
+        },
+        "strict.json": {
+          "bytes": 728,
+          "sha256": "1486d14d7cc620194b53b7f8fdbffdb377f160c6fac356ed56b52ce8d274355f"
+        }
+      },
+      "case_id": "fallback-app-server-sigterm",
+      "counts": {
+        "auxiliary_held_at_end": 0,
+        "auxiliary_peer_EOF": 1,
+        "auxiliary_started": 1,
+        "connection_events": 20,
+        "connection_sequences": 3,
+        "held_at_end": 0,
+        "inner_Git_generations": 1,
+        "maximum_events_per_sequence": 6,
+        "observer_events": 18,
+        "observer_final_present_generations": 0,
+        "observer_generations": 6,
+        "outer_observed_exact_Git_generations": 2
+      },
+      "gate_check_count": 27,
+      "gate_checks": {
+        "CONNECT_local_readiness_budget_unchanged": true,
+        "ack_exact_generation_and_executable_observation": true,
+        "ack_generation_identifier_types": true,
+        "ack_observed_ancestry_through_host_to_wrapper": true,
+        "ack_precedes_held_ready_and_stop": true,
+        "ack_retained_executable_stable_and_exact_hash": true,
+        "ack_schema_live_generation_and_hash": true,
+        "ack_sidecar_observer_case_identical": true,
+        "connection_observation_caps_and_flags": true,
+        "correlated_connection_and_auxiliary_guard_chains": true,
+        "external_stop_delivery_chain": true,
+        "fallback_ack_precedes_502": true,
+        "git_mode_no_502": true,
+        "held_connection_peer_EOF": true,
+        "independent_components_not_reported_failed": true,
+        "inner_trusted_git_separately_retained_and_ancestral": true,
+        "native_binary_and_source_bindings_unchanged": true,
+        "no_forced_fixture_rescue_or_errors": true,
+        "observer_complete_no_failures": true,
+        "observer_generation_and_event_caps": true,
+        "original_and_new_artifact_hashes": true,
+        "original_auxiliary_limit_and_peer_EOF": true,
+        "original_curated_receipt_gate": true,
+        "original_native_exit_status_preserved": true,
+        "original_shutdown_deadlines_and_elapsed": true,
+        "outer_wrapper_and_strict_status": true,
+        "stdout_stderr_complete": true
+      },
+      "independent_component_status": {
+        "mcp": "unverified_no_receipt",
+        "session_loop": "session_loop_report_clean_not_mcp_proof"
+      },
+      "inner_and_ack_generation_equal": false,
+      "native_exit_status": 0,
+      "strict": {
+        "adopted_status_histogram": {
+          "0": 1,
+          "128": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "timing": {
+        "ack_before_502_ms": 4.760292,
+        "ack_before_external_stop_ms": 36.546294,
+        "ack_before_held_ready_ms": 36.495959,
+        "native_exit_after_external_stop_seconds": 0.034679887
+      }
+    }
+  ],
+  "limits": [
+    "CONNECT establishment only; no held TLS response-body or HTTP pool shutdown proof.",
+    "Curated callback counts do not prove session-loop or MCP cleanup. MCP exact-handle custody remains unverified in all eight cases; only four App Server cases have an independently clean session-loop report.",
+    "Exact native internal first-stop/deadline origin is not observed. CONNECT-local readiness and external stop-to-exit timing are checked; global fixture readiness is enforced by unchanged source.",
+    "Post-stop publication and callback-admission counters remain unverified.",
+    "Sampled Git identities do not identify argv, operation, socket ownership, or every descendant. Two Git generations are retained per case; inner sampler and independent ACK may identify different generations.",
+    "ACK generation equality refers to sidecar/observer/case and retained exact observation, not necessarily inner sampler equality.",
+    "A-to-B same-process same-home replacement and refresh delivery are separate gates.",
+    "GUI automation, slow-storage/backend hold, storage durability and whole-host cleanliness are separate gates.",
+    "Every auxiliary connection in this run entered its fixture guard before stop. This run does not exercise or close the earlier early-auxiliary/post-trigger race.",
+    "All-mode ACK narrows the independent observation timing race; no native admission or detached-auxiliary ownership proof is inferred.",
+    "Diagnostic post-exit observation and final disappearance never repair a failed strict drain. Native returncodes and adopted nonzero statuses are preserved as recorded.",
+    "The separate featured postchecker is not substituted for any original gate. Its scope is async-task ownership receipts, not transport/MCP/whole-host cleanliness.",
+    "Older final65 failures, single-case diagnostic and later all-mode pass retain their historical source/run scope; this fresh C result neither overwrites nor retroactively repairs them."
+  ],
+  "method": "Read-only independent receipt/source/hash checks; no fixture/test/native/runtime execution and no checkout changes. This artifact persists the completed audit.",
+  "schema": "featured-warmup-held8-independent-audit-v1",
+  "scope": "Current C production CLI, eight fresh all-mode-ACK cases; original gates audited separately from new featured postcheck.",
+  "source": {
+    "CLI_sha256": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+    "file_count": 8936,
+    "manager_sha256_reference_only": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+    "map_digest_algorithm": "SHA-256 of json.dumps(source_before,sort_keys=True,separators=(comma,colon)).encode UTF-8",
+    "map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+    "native_source_to_ELF_build_chain_owned_by_root": true,
+    "proposal_manifest_files_checked": 18,
+    "source_checks": {
+      "CLI_dispatch_invocation_and_current_binary_match": true,
+      "all_proposal_manifest_files_match": true,
+      "compact_sorted_json_map_matches_dispatch": true,
+      "exact_case_order": true,
+      "fixture_hash_matches_invocation": true,
+      "invocation_hash_matches_matrix": true,
+      "matrix_all_eight_passed": true,
+      "matrix_whole_host_not_claimed": true,
+      "observer_hash_matches_invocation": true,
+      "proposal_manifest_matches_dispatch": true,
+      "receipt_schema_hash_matches_invocation": true,
+      "source_before_after_identical": true,
+      "source_binding_hash_matches_invocation_and_dispatch": true,
+      "source_candidate_manifest_matches": true,
+      "source_finished": true,
+      "source_returncode_zero": true,
+      "strict_runner_hash_matches_invocation": true,
+      "trusted_git_current_file_hash_matches": true
+    },
+    "source_commit_label": "2ce48a627876b3a9a53e388f356df83e5ccff254",
+    "source_tree_label": "8d201a7149663256c9ed8364bc85178a874f8aea"
+  },
+  "status": "all_original_current_run_gates_verified",
+  "summary": {
+    "HTTP_pool_cleanup_proven": false,
+    "MCP_cleanup_proven": false,
+    "all_case_checks_passed": true,
+    "all_source_checks_passed": true,
+    "argv_checks": 88,
+    "cases": 8,
+    "earlier_auxiliary_race_closed": false,
+    "independent_gate_checks": 216,
+    "whole_host_clean": false
+  }
+}

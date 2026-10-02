@@ -1,0 +1,38 @@
+--- a/held_production_host.py
++++ b/held_production_host.py
+@@ -137,12 +137,17 @@
+     return result
+ 
+ 
++import featured_owner_receipts
++
++
+ class Receipts:
+     def __init__(self, bindings):
+         self.bindings = bindings
++        self.featured = featured_owner_receipts.FeaturedCapture()
+         self.curated, self.sessions, self.errors = [], {"session_loop": [], "mcp": []}, []
+ 
+     def consume(self, line):
++        self.featured.consume(line)
+         try:
+             found = log_fields(line, TARGET, EVENT, CURATED)
+             if found is not None:
+@@ -850,6 +855,17 @@
+     if (cleanup_errors or (proxy and proxy.server.errors) or (model and model.server.errors)
+             or report["binary_sha256_after"] != config["binary_sha256"]):
+         report["curated_runtime_gates_passed"] = False
++    # Additive evidence only: original receipt validation and matrix gates stay unchanged.
++    # Every drain has completed its existing close path before this snapshot is written.
++    write_json(case_dir / "featured-receipts.json", receipts.featured.report(
++        config["case_id"], report["stderr"], {
++            "fixture_sha256": digest(Path(__file__)),
++            "collector_sha256": digest(Path(featured_owner_receipts.__file__)),
++            "binary_sha256": config["binary_sha256"],
++            "source_commit": config["source_commit"],
++            "source_tree": config["source_tree"],
++        }))
++    report["featured_receipt_sha256"] = digest(case_dir / "featured-receipts.json")
+     write_json(case_dir / "receipts.json", receipts.report())
+     report["normalized_receipt_sha256"] = digest(case_dir / "receipts.json")
+     write_json(case_dir / "case-result.json", report)

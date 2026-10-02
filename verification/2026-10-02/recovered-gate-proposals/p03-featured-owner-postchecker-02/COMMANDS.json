@@ -1,0 +1,51 @@
+{
+  "collector_sha256": "11ff7c0da681711e434c53fde9e95336a3bda1dda86b14d15cf22e20531ebcb4",
+  "derived_fixture": "/workspace/recovery-backups/20260930T165936Z/p03-featured-owner-postchecker-proposal-02/proposed/held_production_host.py",
+  "failed_original_run": {
+    "bytes": 2488324,
+    "path": "/workspace/acceptance/p03-featured-owner-postchecker-policy-01.source.json",
+    "sha256": "4a6ae8eded01e748f16ac0c5175efb73dbf5f6d983886209863c9df8d87952eb"
+  },
+  "fixture_sha256": "ccce09a1dcf6cad7ba7cd4af90985072e766aea195c78475af0f717c5afe6981",
+  "mandatory_postchecks": [
+    "Original matrix all8/89 assertion gates and independent strict/Git ACK/native/source/artifact checks remain mandatory.",
+    "Postchecker exit0 and all8 new featured receipt gates true; exact collector/fixture/ELF/source pins.",
+    "Each case sidecar hash is bound by case-result and each case-result hash is bound by acceptance.json.",
+    "No old receipts retrofitted; idle scopes and zero snapshots do not prove started work.",
+    "No HTTP/MCP/whole-host cleanliness inferred from featured async-task receipt."
+  ],
+  "observer_sha256": "11e5c906be99ba806d999db81b8422c9bca0ec1886ef582ea79a50101c6eb3bf",
+  "postcheck_argv_template": [
+    "python",
+    "/workspace/recovery-backups/20260930T165936Z/p03-featured-owner-postchecker-proposal-02/proposed/featured_owner_receipts.py",
+    "--matrix-dir",
+    "<NEW_DERIVED_HELD8_RUNTIME_DIRECTORY>",
+    "--output",
+    "<NEW_FEATURED_POSTCHECK_REPORT>",
+    "--fixture-sha256",
+    "ccce09a1dcf6cad7ba7cd4af90985072e766aea195c78475af0f717c5afe6981",
+    "--collector-sha256",
+    "11ff7c0da681711e434c53fde9e95336a3bda1dda86b14d15cf22e20531ebcb4",
+    "--binary-sha256",
+    "<ACTUAL_REVIEWED_PRODUCTION_CLI_SHA256>",
+    "--source-commit",
+    "<ACTUAL_BUILD_SOURCE_COMMIT>",
+    "--source-tree",
+    "<ACTUAL_BUILD_SOURCE_TREE>"
+  ],
+  "pure_test_argv": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/workspace/recovery-backups/20260930T165936Z/p03-featured-owner-postchecker-proposal-02/proposed",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "runtime_dispatch": "Keep all reviewed held8 argv/strict runner/deadlines/source/ELF bindings; replace fixture path only after root review, and use a new output directory. Do not change existing runplans or run receipts. Rehash all proposal files before and after dispatch.",
+  "schema": "featured-owner-proposal-commands-v1",
+  "status": "layout_repaired_review_before_dispatch_not_executed",
+  "working_directory": "/workspace/recovery-backups/20260930T165936Z/p03-featured-owner-postchecker-proposal-02/proposed"
+}

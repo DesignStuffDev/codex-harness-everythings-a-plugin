@@ -1,21 +1,19 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
-Current production checkpoint: final65 source rebuilt; installed storage/four migrations,
-ordinary and selected-search GUI, and normal/forced slow Launch shutdown passed on those
-exact bytes. A fresh eight-case held Git/HTTP matrix passed after a separately recorded
-fixture readiness correction; earlier failures and the original auxiliary-admission race
-remain open. This is not another extracted subsystem or whole-host cleanup proof.
-The featured-task ownership library is published with
-[Stage A evidence](verification/2026-10-02/P03_FEATURED_WARMUP_STAGE_A_EVIDENCE.md).
-Current working Stage B activates it in native startup and shutdown paths;553
-Core Plugins tests passed. Stage C passed432 App Server tests plus the separately
-run public-Drop/same-home shutdown case and all three existing curated replacement
-cases. Current production CLI and installed-storage/GUI regressions remain pending;
-the final65 evidence above must not be relabeled as proof of these new source bytes.
-Follow [execution state](EXECUTION_STATE.md), [prior production evidence](verification/2026-10-02/P03_CURRENT_PRODUCTION_RUNTIME_EVIDENCE.md),
-and [held matrix evidence](verification/2026-10-02/P03_CURRENT_HELD_MATRIX_EVIDENCE.md).
-MCP custody, transport-internal ownership and the remaining P03 broker gates remain open.
+Current production checkpoint: native featured-task ownership is activated in published
+WIP `2ce48a6`; the rebuilt CLI passed installed storage, four migrations, ordinary
+and selected-search GUI, normal/forced slow Launch shutdown and all eight held
+Git/HTTP cases. An added task-receipt postcheck also passed all eight. The current
+[evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md)
+binds exact source/binary/package identities and preserves earlier failures.
+Core Plugins553 and App Server432 scoped tests plus real in-process caller and
+curated replacement cases passed separately. CLI/exec/TUI consumer suites and a
+fresh attachment-content caller case remain pending. Browser checks used real
+Chromium with deterministic inference; in-app Browser is unavailable here.
+This is lifecycle support in coupled native services, not a fourth extracted family.
+The early auxiliary-admission race, MCP custody, transitive HTTP/pool ownership and
+remaining P03 broker gates stay open. Follow [execution state](EXECUTION_STATE.md).
 
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical

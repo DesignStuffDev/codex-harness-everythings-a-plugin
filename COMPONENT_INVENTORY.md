@@ -90,11 +90,15 @@ attachment subset, and bounded native file search. The GUI remains an independen
 packaged additive client. The published `706bf9e` checkpoint adds a task-ownership
 library, with552 scoped tests and exact [provenance](upstream/p03-featured-warmup-stage-a-lineage.json);
 it does not activate a production replacement or advance a family to VERIFIED_NATIVE.
-The subsequent working integration replaces one detached featured-cache warmup in
+The subsequent published WIP `2ce48a6` replaces one detached featured-cache warmup in
 Codex's pre-existing plugin-marketplace service. Its Core Plugins suite passed553
 cases; the current App Server suite passed432 tests plus separate public-Drop/
-same-home shutdown and three curated replacement cases. Current production CLI/GUI
-checks are still pending.
+same-home shutdown and three curated replacement cases. The rebuilt production CLI
+now passed storage, four migrations, both GUI modes, both slow Launch modes and
+all eight held Git/HTTP cases plus the added task-receipt postcheck. Exact
+[current evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md)
+keeps reused independent packages, deterministic inference and browser fallback
+limits explicit. Consumer suites and fresh attachment-content proof remain pending.
 This is lifecycle support within coupled native services, distinct from our custom
 component installation mechanism. Shared HTTP internals, neighboring startup tasks,
 MCP custody and the remaining P03 contracts retain their existing open status.
