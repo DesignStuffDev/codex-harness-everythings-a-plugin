@@ -8,7 +8,16 @@ preservation/resource chains remain in [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTI
 
 ## Current checkpoint
 
-Latest publication verified: `bb48fe352dbc5e86edbdbb0f992f63fdcbee80c9`,
+Latest continuation publication verified: `75a42cc526e2065bc471b993c5c8151be3da7c9c`,
+tree `787eef0e2eb5e3a68cc401696bbf5d5f943a1490`, parent bb48fe3 below.
+All25 selected files (550,514B) and both refs were read back and checked. This
+preserves Exec9 acceptance, failed TUI compilation, five-path untested auth reload
+source/provenance and updated docs; it is WIP, not a main promotion or auth pass.
+Receipt R/p03-exec-auth-wip-publication-01/PUBLICATION.json SHA256
+`8a8c5383028d885c3998074c0ba12b8dd04e07d4de5388078709a970f01a26e8`.
+The original local Git index is unchanged. Main remains781080f.
+
+Preceding publication verified: `bb48fe352dbc5e86edbdbb0f992f63fdcbee80c9`,
 tree `f18132d22033ec0ea2cadf451bfa20dfaa5c9546`; all14 selected Git blobs
 (259,293B) and both remote refs checked. Main remains unchanged. This publishes
 focused CLI and capacity evidence plus synchronized project/roadmap/status docs.
@@ -23,7 +32,7 @@ remains unchanged. VM-wide external backup is not claimed.
   `/workspace/codex-harness-everythings-a-plugin`, origin
   `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
   Preserve sibling `/workspace/codex-harness-next-components`; no new VM/checkout/chat.
-- Last verified source WIP `d229296b29947ef1328cbe931c810276f220a23c`, tree
+- Last production-tested source WIP `d229296b29947ef1328cbe931c810276f220a23c`, tree
   `44570e71ff6978933a6d01ef34b2a2e1de4ea125`, branch
   `wip/p03-process-final-and-mcp-preservation-20261002`.
   Main remains separately verified at `781080f7e3c8bfe1953378001d777dff33d74bc3`.
@@ -33,7 +42,7 @@ remains unchanged. VM-wide external backup is not claimed.
   CLI `78d9194cd4329e9b83b75fe07389d524d8b1f425353d71df9a68607be2945e83`;
   manager `f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954`.
   [Build/resource evidence](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md).
-- All12 planned production-runtime slots have passing current-source attempts:
+- All12 planned production-runtime slots have passing source7a attempts:
   13 successful commands because search retry needed a fresh migration. One failed
   GUI attempt remains preserved. This does not close all P03 acceptance.
   [First five gates](verification/2026-10-02/p03-http-stage-b-current-runtime-first-five/README.md)
@@ -90,14 +99,15 @@ remains unchanged. VM-wide external backup is not claimed.
   public API, wire or state-format change. Source8,948 files, map
   `0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f`.
   Candidate SHA256 `a3e21f97c6d5e83cab69821a4507e223deaecf5604fd2d7aaffbc7b19c1e6f4f`.
-  **Uncompiled and untested.** Prior source7a runtime results do not validate it.
+  Five focused and297 full login tests now pass as recorded below. Provider regression,
+  lint and rebuilt-host validation are pending. Prior source7a runtime results do not validate this change.
   Reload publication now checks committed source identity as well as cache/policy
   identity; five causal tests cover replacement, ABA, stale failures and cancellation.
   This is a native ownership prerequisite, not an additional extracted family.
 - Exec grouped9/9 current7a tests passed, zero retries,64 filtered, strict0/null.
   [Exec evidence](verification/2026-10-02/p03-http-stage-b-exec-grouped/README.md)
   and [CLI proof preservation](verification/2026-10-02/p03-current-cli-proof-capacity/README.md)
-  are copied locally but not yet published. Exec and CLI proof ELFs were archived,
+  were published at75a42cc above. Exec and CLI proof ELFs were archived,
   fully restored/hash checked, then only their original files/new verification
   restores were retired. All old proofs/restores remain. See historical ledger.
 - Current production archive SHA256
@@ -118,12 +128,61 @@ remains unchanged. VM-wide external backup is not claimed.
    A future compiler may now reuse that selector. Keep restored
    production78d, all recovery archives, old restores and the separate older GUI.
    Review fresh disk/RAM/process headroom; TUI OOM proves prior admission was not
-   sufficient. No Rust command currently runs as of this ledger update.
-2. Run the five focused reload causal tests through `just test`, then the login
-   and model-provider scoped regressions using a feasible explicitly bound feature
+   sufficient. No compiler currently runs; the completed gate is recorded below.
+   Four exact source-invalidated production-context ordinary cache files were then
+   retired after independent review and two complete guard passes, preserving2,554
+   dependency records. No warm-test dependency intersects this scope. Receipt
+   R/p03-auth-reload-production-ordinary-four-action-01/RETIREMENT.json SHA256
+   `5f699334068cc4d5a8432554c627e4f95eea0ac7a6e9296685c7479ee876b214`.
+   Overlay afterward942,952,448B; source/index and production metadata unchanged.
+   This adds339,161,088B of future production rebuild debt, not warm-test debt.
+   Fresh test admission remains separate; never replay the completed action.
+2. Focused reload and full login gates are complete below; finish scoped lint and
+   model-provider regression using a feasible explicitly bound feature
    composition. Unconditional core_test_support cannot be removed to avoid cost.
    One compiler job; do not kill Rust commands. Full workspace approval is absent.
    Record actual source, exact executed binaries, original failures and retry counts.
+   Focused root command70340 completed: **5/5 passed**,250 filtered, zero actual
+   retries, source0742356/8,948 unchanged. Build4m49s; guarded command296.587s.
+   Terminal A/p03-auth-reload-focused-01.terminal.json SHA256
+   `498eb8be6f4f650b676021298c9399f0b403fbd541d449615a368afb486c1020`.
+   Actual login ELF codex_login-36e9bc4560b410c1 (156,026,712B), SHA256
+   `73b95bfe4a82af5ec52383e202e8e0730145c144496b077e63a41db2f4cca723`.
+   Strict0/null, reaped{0:1}, OOM10/kill5 unchanged. Production7a remains
+   unchanged and differs from tested auth source. Two discovery calls are separate
+   from five actual test executions. Compiled-only CLI library SHA256
+   `21f25bfd24f62da5466ee94153f7823aab6aaade57702d774570b615190a671b`
+   is separately bound to this source; it was not executed as CLI tests. Provider
+   regression, lint and new production/GUI checks remain open.
+   The full login command uses explicit `--test-threads=1` to bound nested fixture
+   compilers, preserving all test bodies, security/network guards, local profile,
+   retries and deadlines. Serialized coverage is not default-concurrency coverage.
+   Full login root command19303 completed accepted:297/297, zero skipped/retries,
+   strict0/null with reaped{0:1}; source0742356 unchanged and OOM10/kill5 unchanged.
+   Four discovery invocations remain separate from297 actual test invocations.
+   No observed test had the sandbox network guard present; conditional occupied-port
+   early return is not independently body-attested. Serialized scheduling remains
+   distinct from default-concurrency coverage. Terminal SHA256
+   `db87017ab3a882105de845abc24f190d58cd8491b975b4e8099c91e8c84b0fa3`.
+   The focused login library was reused. New integration ELF all-ca6d95d908331531,
+   139,872,288B, SHA256
+   `fb25da3c5079f339f51c979af68d09e142e67975ad015d84c6402e3af4cf5543`.
+   Plan manifest
+   `efa4df7d5cb5f6c1a74a17428ed81404c29ddbf22e3636d6908199527b6df2bb`;
+   output prefix A/p03-auth-login-full-01. Admission passed after bounded
+   clean-page advice:587,833,344B overlay and1,462,861,824B hard-unused RAM,
+   OOM10/kill5. Both library outputs, integration ELF and production78d remain
+   protected. Prioritize required login lint next: conservative disk floor391,987,200B,
+   hard2GiB/effective3GiB RAM; current overlay444,121,088B. Whole model-provider
+   library follows if fresh311,066,624B disk/1GiB hard/2GiB effective floors fit.
+   Lint root11489 stopped before compiler startup: hard1,849,307,136B below2GiB;
+   effective3,392,063,488B/disk428,666,880B passed, OOM10/kill5 unchanged.
+   [Preserved admission failure](verification/2026-10-02/p03-auth-login-lint-admission/README.md).
+   Six exact cache hints changed no artifact bytes. No Clippy/source edit occurred;
+   do not replay this attempt or lower the floor. Proceed with the lower-cost
+   provider gate and inspect a bounded ordinary-cache opportunity separately.
+   Both steps are not jointly admitted. Record any eventual Clippy source transition;
+   do not rerun tests solely for formatting/lint. No compiler currently runs.
 3. Only after the reload stage is verified, adopt the separately preserved permanent
    refresh-failure publication fix. Formatting changed its manager preimage, so
    explicitly rebind/review that transition before applying it. Run its four causal
@@ -140,7 +199,10 @@ remains unchanged. VM-wide external backup is not claimed.
    on the existing WIP branch with nonforce ref checks, main untouched until accepted.
    Successful-refresh/request dispatch needs conditional durable ownership across
    participating writers, including equal-value/absence ABA, cross-process/keyring
-   and Auto/legacy-writer limits. Then integrate MCP custody proposals in order:
+   and Auto/legacy-writer limits. [The grounded writer audit](AUTH_STORAGE_OWNERSHIP.md)
+   identifies the shared secrets passphrase dependency and ordered Ephemeral then
+   complete File/Keyring/Auto activation; no implementation is claimed by that audit.
+   Then integrate MCP custody proposals in order:
    Session prewarm/refresh, connection retirement, lower transport, pinned SDK,
    late admission. Resolve marketplace queue transfer before closing HTTP pools.
 6. Activate negotiated broker/model-service composition and extract the actual

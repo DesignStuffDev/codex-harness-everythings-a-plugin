@@ -1,0 +1,1491 @@
+{
+  "all_have_matching_final_pass": true,
+  "cases": [
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::auth_refreshes_when_access_token_is_near_expiry",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::auth_reloads_disk_auth_when_cached_auth_is_stale",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::auth_reloads_disk_auth_without_calling_expired_refresh_token",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::auth_skips_access_token_outside_refresh_window",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_does_not_cache_other_bad_request_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_does_not_retry_after_bad_request_reused_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_does_not_retry_after_permanent_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_does_not_retry_after_standard_invalid_grant_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_errors_on_account_mismatch",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_honors_respect_system_proxy",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_preserves_credentials_on_server_or_decode_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_refreshes_when_auth_is_unchanged",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_reloads_changed_auth_after_permanent_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_returns_permanent_error_for_expired_refresh_token",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_skips_refresh_when_auth_changed",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refresh_token_succeeds_updates_storage",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::refreshes_token_when_access_token_is_expired",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::returns_fresh_tokens_as_is",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::unauthorized_recovery_errors_on_account_mismatch",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::unauthorized_recovery_reloads_then_refreshes_tokens",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::auth_refresh::unauthorized_recovery_requires_chatgpt_auth",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::device_code_login::device_code_login_integration_handles_error_payload",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::device_code_login::device_code_login_integration_handles_usercode_http_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::device_code_login::device_code_login_integration_persists_without_api_key_on_exchange_failure",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::device_code_login::device_code_login_integration_succeeds",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::device_code_login::device_code_login_rejects_workspace_mismatch",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_proxy_fallback::token_exchange_does_not_retry_after_post_is_sent",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_proxy_fallback::token_exchange_http_responses_do_not_retry_one_time_code",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_proxy_fallback::token_exchange_preserves_redirects",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::cancels_previous_login_server_when_port_is_in_use",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::creates_missing_codex_home_dir",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::end_to_end_login_flow_persists_auth_json",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::falls_back_to_registered_fallback_port_when_default_port_is_in_use",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::forced_chatgpt_workspace_id_mismatch_blocks_login",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::hosted_login_redirects_to_configured_open_app_url",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::login_server_includes_forced_workspaces_as_one_query_param",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::oauth_access_denied_missing_entitlement_blocks_login_with_clear_error",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::login_server_e2e::oauth_access_denied_unknown_reason_uses_generic_error_page",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::logout::auth_manager_logout_with_revoke_uses_cached_auth",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::logout::logout_with_revoke_removes_auth_when_revoke_fails",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::logout::logout_with_revoke_revokes_refresh_token_then_removes_auth",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "suite::logout::logout_with_revoke_uses_stored_auth_when_access_token_env_is_set",
+      "role": "login-integration"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::access_token::tests::classifies_personal_access_tokens_by_prefix",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::agent_identity::tests::from_jwt_registers_task",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::agent_identity::tests::from_record_registers_task",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::agent_identity::tests::from_record_retries_transient_registration",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::agent_identity::tests::run_task_is_shared_across_clones",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::bedrock_api_key::tests::access_keys_auth_round_trips_and_logs_out",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::bedrock_api_key::tests::bedrock_api_key_debug_redacts_secret",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::bedrock_api_key::tests::bedrock_only_auth_storage_creates_primary_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::bedrock_api_key::tests::login_with_api_key_clears_bedrock_api_key",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::bedrock_api_key::tests::login_with_bedrock_api_key_replaces_openai_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::bedrock_api_key::tests::logout_removes_bedrock_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::add_originator_header_inserts_non_default_originator",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::add_originator_header_omits_invalid_originator",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::add_originator_header_preserves_provider_default",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::is_first_party_chat_originator_matches_known_values",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::is_first_party_originator_matches_known_values",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::os_discovery_is_cached_without_freezing_user_agent_overrides",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::raw_auth_client_does_not_log_sensitive_request_or_response_data",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::test_create_client_sets_default_headers",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::test_get_codex_user_agent",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::test_invalid_suffix_is_sanitized",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::default_client::tests::test_invalid_suffix_is_sanitized2",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::account_user_id_tests::account_user_id_comes_from_the_access_token_without_synthesis",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::account_user_id_tests::account_user_id_rejects_missing_malformed_or_unscoped_claims",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::account_user_id_tests::account_user_id_requires_a_selected_account",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::account_user_id_tests::api_key_and_header_auth_do_not_expose_an_account_user_id",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::account_user_id_tests::external_account_user_id_must_match_the_selected_workspace",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::account_user_id_tests::malformed_account_user_id_does_not_break_ordinary_external_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::cache_change_and_aba_reject_install_and_preserve_current_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::clear_invalidates_initial_install_and_preserves_native_state",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::failed_or_cancelled_newer_install_never_revives_older_install",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::newer_install_wins_over_held_older_install_even_with_equal_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::poisoned_owner_rejects_install_before_resolving_provider",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::policy_aba_rejects_install_without_provider_classification",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::stale_provider_error_retains_classification_without_poisoning_winner",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::unpolled_install_does_not_supersede_legitimate_current_install",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_install_tests::workload_public_noops_do_not_supersede_private_initial_install",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::acquisition_tests::held_failure_acquires_newer_allowed_cache_and_its_current_factory",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::acquisition_tests::held_source_failures_cannot_return_policy_rejected_cached_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::acquisition_tests::held_source_failures_preserve_valid_current_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::acquisition_tests::native_cached_acquisition_denies_restrictions_without_mutating_cache",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::actual_native_agent_identity_policy_rejection_is_not_a_storage_error",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::actual_native_loaded_candidate_is_rechecked_at_commit_after_aba",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::both_reload_paths_reject_policy_aba_during_actual_external_resolution",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::cache_revision_tests::actual_native_loaded_value_or_absence_requires_unchanged_cache",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::cache_revision_tests::both_reload_paths_reject_replacement_and_aba_without_policy_change",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::cache_revision_tests::cleared_external_credentials_are_not_restored_by_held_load",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::cache_revision_tests::failure_from_before_aba_does_not_poison_restored_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::cache_revision_tests::loaded_candidate_cannot_publish_into_another_manager",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::cache_revision_tests::same_owner_token_change_rejects_an_older_reload_candidate",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::external_workspace_rejection_still_clears_through_reload_and_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::native_load_error_preserves_cache_but_successful_absence_clears_it",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::permanent_failure_metadata_waits_for_current_policy_and_preserves_fast_path",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::preserved_external_failure_does_not_restore_or_poison_a_newer_cache",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::source_revision_tests::both_reload_paths_reject_equal_credential_source_replacement_and_aba",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::source_revision_tests::canceled_reload_does_not_publish_after_source_replacement",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::source_revision_tests::native_value_and_absence_cannot_overwrite_new_source_with_same_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::source_revision_tests::old_source_failure_cannot_poison_equal_replacement_or_reinstalled_source",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::source_revision_tests::pending_install_intent_does_not_revoke_current_source_reload",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::successful_reload_preserves_credential_and_owner_notification_semantics",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::transient_external_error_is_not_a_successful_absent_credential",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_reload::tests::valid_native_workspace_filter_still_clears_cached_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_source_tests::clear_retires_provider_after_clearing_its_cache_and_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_source_tests::clear_without_external_source_preserves_native_cache_and_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_source_tests::poisoned_credential_owner_cannot_expose_an_external_source",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_source_tests::preparation_failure_preserves_the_previous_source_cache_and_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_source_tests::replacement_retires_provider_after_cache_and_failure_publication",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::auth_source_tests::workload_owned_source_cannot_be_replaced_or_cleared",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::change_state_tests::auth_owner_generation_distinguishes_refreshes_from_identity_changes",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::change_state_tests::auth_owner_generation_preserves_logout_and_switches_when_coalesced",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::change_state_tests::captured_credentials_are_revoked_if_account_changes_before_client_construction",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_authapi_override_preserves_chatgpt_environment_validation",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_custom_jwks_base_requires_explicit_authapi_override",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_jwks_override_preserves_chatgpt_environment_validation",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_jwt_supports_existing_staging_launcher",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_jwt_task_registration_retry_exhaustion_is_strict",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_jwt_uses_explicit_staging_endpoint_overrides",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_plan_type_maps_raw_education_alias",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::agent_identity_plan_type_maps_raw_enterprise_alias",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::api_only_policy_rejects_access_tokens_before_hydration",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::auth_config_from_preserves_all_fields",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::auth_manager_rejects_disallowed_stored_and_external_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::auth_manager_rejects_env_personal_access_token_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::auth_manager_rejects_stored_personal_access_token_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::chatgpt_auth_non_retryable_registration_error_is_hard_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::chatgpt_auth_registers_agent_identity_when_enabled",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::chatgpt_auth_registration_retry_exhaustion_is_fallback_eligible",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::chatgpt_auth_retries_transient_agent_identity_registration",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::chatgpt_auth_task_registration_retry_exhaustion_is_fallback_eligible",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_allows_any_matching_workspace_in_list",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_allows_api_key_if_login_method_not_set_but_forced_chatgpt_workspace_id_is_set",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_allows_matching_workspace",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_blocks_env_api_key_when_chatgpt_required",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_logs_out_for_agent_identity_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_logs_out_for_method_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_logs_out_for_personal_access_token_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::enforce_login_restrictions_logs_out_for_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_auth_keeps_cached_credentials_after_permanent_reload_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_auth_provider_can_install_headers",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_bearer_only_auth_manager_disables_auto_refresh_when_interval_is_zero",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_bearer_only_auth_manager_returns_none_when_command_fails",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_bearer_only_auth_manager_uses_cached_provider_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_header_auth_obeys_workspace_policy",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::external_header_auth_rejects_a_disallowed_workspace_on_refresh",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::header_auth_exposes_a_valid_chatgpt_account_id",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::load_auth_keeps_codex_api_key_env_precedence",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::load_auth_reads_access_token_from_env",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::load_auth_reads_personal_access_token_from_env",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::loads_api_key_from_auth_json",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_rejects_agent_identity_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_rejects_invalid_jwt",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_rejects_invalid_personal_access_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_rejects_personal_access_token_workspace_mismatch",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_rejects_unsigned_jwt",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_writes_agent_identity_jwt",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_access_token_writes_only_personal_access_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::login_with_api_key_overwrites_existing_auth_json",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::logout_removes_auth_file",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::missing_auth_json_returns_none",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::missing_plan_type_maps_to_unknown",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::personal_access_token_does_not_offer_unauthorized_recovery",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::plan_type_maps_enterprise_cbp_usage_based_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::plan_type_maps_known_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::plan_type_maps_self_serve_business_usage_based_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::plan_type_maps_unknown_to_unknown",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::pro_account_with_no_api_key_uses_chatgpt_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::refresh_failure_is_scoped_to_the_matching_auth_snapshot",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::refresh_without_id_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::replacing_external_auth_clears_permanent_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::runtime_external_auth_uses_provider_error_classification",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::shared_from_config_prefers_workload_identity_to_explicit_access_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::stored_agent_identity_jwt_keeps_auth_json_unchanged",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::unauthorized_recovery_reports_mode_and_step_names",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::unauthorized_recovery_retries_provider_command_after_initial_failure",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::unauthorized_recovery_uses_external_refresh_for_bearer_manager",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::unauthorized_recovery_without_an_external_provider_still_requires_refreshable_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::workload_identity_auth_is_immutable_and_process_local",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::workspace_policy_checks_the_selected_request_account",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::tests::workspace_policy_rejects_agent_identity_before_hydration",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::coalesced_workspace_changes_cannot_revive_stamps_or_impersonate_auth_changes",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::concurrent_snapshots_bind_exact_value_to_revision",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::equal_epochs_from_different_managers_do_not_share_authority_or_revoke_network",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::managed_intersection_and_empty_policy_preserve_native_validation",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::overflow_and_poison_permanently_deny_native_policy_decisions",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::unavailable_policy_blocks_external_permanent_failure_cached_return",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::unavailable_policy_blocks_native_load_even_with_valid_stored_api_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::manager::workspace_policy::tests::unavailable_policy_denies_actual_cached_acquisition_without_clearing",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::personal_access_token::tests::hydrate_preserves_missing_email",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::personal_access_token::tests::hydrate_sends_bearer_token_and_preserves_metadata",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::revoke::tests::derives_revoke_url_from_refresh_token_override",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::revoke::tests::revoke_request_times_out",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::direct_keyring_auth_storage_delete_removes_keyring_and_file",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::ephemeral_storage_save_load_delete_is_in_memory_only",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::errors::json_data_errors_redact_credential_values",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::errors::json_syntax_and_eof_errors_preserve_diagnostics",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::errors::secure_storage_errors_display_the_underlying_cause",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::factory_uses_secrets_backend_only_when_requested",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_delete_removes_auth_file",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_load_returns_auth_dot_json",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_loads_agent_identity_as_jwt",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_loads_empty_agent_identity_email_as_none",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_round_trips_agent_identity_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_round_trips_personal_access_token_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_round_trips_registered_agent_identity_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_save_persists_auth_dot_json",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::file_storage_writes_missing_agent_identity_email_as_empty_string",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::keyring_auth_storage_compute_store_key_for_home_directory",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::auto_auth_storage_delete_removes_keyring_and_file",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::auto_auth_storage_load_falls_back_when_keyring_errors",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::auto_auth_storage_load_prefers_keyring_value",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::auto_auth_storage_load_uses_file_when_keyring_empty",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::auto_auth_storage_save_falls_back_when_keyring_errors",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::auto_auth_storage_save_prefers_keyring",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::direct_keyring_auth_storage_saves_legacy_keyring_entry",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::secrets_keyring_auth_storage_save_persists_and_removes_fallback_file",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::policy::storage_metrics_distinguish_explicit_file_from_secure_failure_fallback",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::secrets_keyring_auth_storage_delete_removes_keyring_and_file",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::secrets_keyring_auth_storage_delete_removes_legacy_direct_keyring_entry",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::storage::tests::secrets_keyring_auth_storage_load_returns_deserialized_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::util::tests::try_parse_error_message_extracts_openai_error_message",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::util::tests::try_parse_error_message_falls_back_to_raw_text",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::auth_policy_and_app_environment_are_enforced",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::compatible_adapters_share_exchange",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::concurrent_refreshes_share_one_exchange",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::exchange_errors_map_to_retry_policy",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::incompatible_process_session_settings_are_rejected",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::markers_select_wif_and_partial_configuration_fails_closed",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::refresh_preserves_identity_and_invalid_tokens_are_reexchanged",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth::workload_identity::tests::workload_context_is_preserved_without_logging_its_value",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "auth_env_telemetry::tests::collect_auth_env_telemetry_buckets_provider_env_key_name",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "component_auth::tests::chatgpt_refresh_preserves_account_and_rejects_owner_change",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "component_auth::tests::deselection_keeps_native_authentication_and_does_not_start_provider",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "component_auth::tests::installed_component_resolves_and_refreshes_native_api_auth",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "component_auth::tests::provider_failures_are_classified_without_credential_diagnostics",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "component_auth::tests::selected_component_cannot_replace_workload_identity",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "component_auth::tests::selected_credentials_cannot_bypass_native_login_or_workspace_policy",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "device_code_auth::tests::device_code_prompt_renders_phishing_warning",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::accepts_ipv4_and_ipv6_loopback_endpoints",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::browser_authorization_exchanges_and_persists_under_the_store_lock",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::cancelled_refresh_still_records_rotated_or_rejected_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::debug_output_does_not_expose_configured_url_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::different_configurations_refresh_under_the_same_store_lock",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::expired_tokens_refresh_once_when_the_response_omits_rotation_and_expiry",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::failed_save_retains_rotation_without_overwriting_a_new_external_login",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::gateway_credentials_use_a_dedicated_encrypted_file_and_reload_large_tokens",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::ignores_mismatched_callback_state_even_for_provider_errors",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::invalid_grant_recovers_external_credentials_with_a_bounded_retry",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::cancel_releases_callback_while_reads_and_requests_stay_responsive",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::credential_read_failure_finishes_login_status",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::dropping_login_clears_in_progress_status",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::expired_readiness_stays_not_ready_while_refresh_is_blocked",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::external_credentials_recover_missing_and_failed_readiness",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::legacy_policy_authorizes_missing_and_rejected_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::login_waits_for_background_credentials_and_can_cancel_while_queued",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::rejected_credentials_stay_not_ready_until_replaced",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::login_tests::status_subscriptions_survive_gateway_changes_and_are_isolated_by_home",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::malformed_token_response_keeps_credentials_and_omits_decoder_secrets",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::only_explicit_refresh_grant_rejections_request_reauthorization",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::query_credentials_are_not_exposed_by_echoed_errors_or_truncated_request_ids",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::refresh_does_not_reuse_expired_or_rejected_persisted_replacements",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::rejected_token_refresh_is_shared_and_late_rejections_reuse_the_latest_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::rejects_insecure_or_credentialed_endpoints",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::rejects_reserved_authorization_parameters_before_starting_login",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::reloads_replaced_credentials_without_a_cached_refresh_token",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::storage_tests::cancel_during_keyring_read_releases_login_and_cached_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::storage_tests::readiness_does_not_block_cached_requests_or_overwrite_newer_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::token_endpoint_failures_do_not_expose_refresh_tokens",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "gateway_auth::tests::token_grants_reject_redirects_without_sending_credentials_to_the_target",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::authorization::tests::callback_validation_checks_state_before_code_or_provider_errors",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::client::tests::authorization_code_preserves_pkce_and_http_policy",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::client::tests::rejection_keeps_status_when_reading_the_body_fails",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::client::tests::rejection_preserves_status_and_omits_oversized_diagnostics",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::client::tests::success_body_revocation_preserves_the_policy_error",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::diagnostics::tests::sanitize_url_for_logging_preserves_only_safe_url_parts",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::error::tests::parses_standard_legacy_and_plain_text_rejections",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "oauth::error::tests::redacts_plain_and_json_escaped_credentials",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "server::tests::render_login_error_page_escapes_dynamic_fields",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "server::tests::render_login_error_page_uses_entitlement_copy",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "success_page::tests::compose_success_url_keeps_setup_on_local_page",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "success_page::tests::compose_success_url_uses_hosted_page_when_requested",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "success_page::tests::compose_success_url_uses_local_page_by_default",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "success_page::tests::compose_success_url_uses_streamlined_local_page_when_requested",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_handles_missing_fields",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_email_and_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_ent26_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_enterprise_cbp_automation_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_fedramp_account_claim",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_go_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_hc_plan_as_enterprise",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_self_serve_business_prolite_plan",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::id_token_info_parses_usage_based_business_plans",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::jwt_expiration_handles_missing_exp",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::jwt_expiration_parses_exp_claim",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::jwt_expiration_rejects_malformed_jwt",
+      "role": "login-lib"
+    },
+    {
+      "attempts": 1,
+      "name": "token_data::tests::workspace_account_detection_matches_workspace_plans",
+      "role": "login-lib"
+    }
+  ],
+  "scope": "actual unique role/name invocations, not inner fixture scenarios"
+}

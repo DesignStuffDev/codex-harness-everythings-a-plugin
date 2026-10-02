@@ -112,6 +112,16 @@ MCP custody and the remaining P03 contracts retain their existing open status.
 Use [EXECUTION_STATE.md](EXECUTION_STATE.md) for later exact runs; historical tests
 and source maps must not be relabelled as proof for current working code.
 
+The later C06 reload change extends the native in-memory publication check to the
+committed auth-source identity, including equal-credential replacement and ABA.
+Its five causal tests and297 full grouped login tests passed on source map
+`0742356b`; provider regression, lint and a rebuilt host are separate gates. See the
+[source map](upstream/p03-auth-reload-source-lineage.json) and
+[focused evidence](verification/2026-10-02/p03-auth-reload-focused/README.md).
+This does not extract authentication. Permanent refresh-failure publication is a
+staged follow-up; successful refresh/install persistence, conditional backend
+writes and request admission remain coupled and require separate contracts.
+
 ## Complete explicit workspace package ledger
 
 Every entry below is `package-name (path relative to codex-rs/)`, read from its actual Cargo manifest. All 169 explicit workspace members are accounted for in this ledger and its dated additions below. Shared implementation dependencies can cross rows; the ledger assigns inventory ownership, not an exclusive dependency graph. Status details above take precedence over a row-level label.

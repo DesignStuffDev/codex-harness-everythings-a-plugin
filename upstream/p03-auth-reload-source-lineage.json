@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "Adopted and formatted; uncompiled and untested. Source ownership support, no new extracted component.",
+  "status": "Adopted/formatted; five focused causal tests and297 full grouped login tests passed. Provider regression, lint and rebuilt-host/UI pending. Native ownership support, no new extracted component.",
   "upstream": {
     "repository": "https://github.com/openai/codex",
     "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
@@ -409,10 +409,28 @@
     "Preserve old source/state/host/plugin artifacts and coordinated compatibility/rollback before any activation."
   ],
   "execution": {
-    "tests_executed": 0,
+    "tests_executed": 5,
     "installed_updater": false,
     "upstream_revision_integrated": false,
-    "scheduled_polling": false
+    "scheduled_polling": false,
+    "focused_test_evidence": "verification/2026-10-02/p03-auth-reload-focused/EVIDENCE.json",
+    "focused_test_evidence_sha256": "aec0fa0cdd6fc10534cc1d0dc9cb7aecb05de196f108ca0da926092417021060",
+    "full_login_regression_passed": true,
+    "production_matches_current_source": false,
+    "full_login_regression": {
+      "executed": 297,
+      "passed": 297,
+      "skipped": 0,
+      "retry_attempts": 0,
+      "test_threads": 1,
+      "source_unchanged": true,
+      "terminal_sha256": "db87017ab3a882105de845abc24f190d58cd8491b975b4e8099c91e8c84b0fa3",
+      "focused_cases_included_in_full_run": true,
+      "default_concurrency_coverage": false,
+      "evidence": "verification/2026-10-02/p03-auth-login-full/EVIDENCE.json",
+      "evidence_sha256": "e704cd595559336485f63e2b3c1506b0e0314ea0fe4582b0be741fbfcc8a6ce0"
+    },
+    "tests_executed_field_scope": "five focused instances; full-login count separately recorded and overlaps the focused cases"
   },
   "license": "Apache-2.0 LICENSE and NOTICE retained."
 }

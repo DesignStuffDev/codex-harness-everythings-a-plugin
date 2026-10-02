@@ -1,0 +1,83 @@
+{
+  "accepted": true,
+  "actual_login_test_elf": {
+    "bytes": 156026712,
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_login-36e9bc4560b410c1",
+    "sha256": "73b95bfe4a82af5ec52383e202e8e0730145c144496b077e63a41db2f4cca723"
+  },
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-login",
+    "--lib",
+    "-E",
+    "package(codex-login) & test(auth::manager::auth_reload::tests::source_revision_tests::)"
+  ],
+  "compiled_only_cli_library": {
+    "bytes": 197914664,
+    "executed_as_test": false,
+    "identity_unchanged_during_hash": true,
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_cli-1c7c8438401a2545",
+    "sha256": "21f25bfd24f62da5466ee94153f7823aab6aaade57702d774570b615190a671b",
+    "source_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f"
+  },
+  "results": {
+    "actual_exact_invocations": 5,
+    "discovery_invocations": 2,
+    "exact_case_names": [
+      "auth::manager::auth_reload::tests::source_revision_tests::both_reload_paths_reject_equal_credential_source_replacement_and_aba",
+      "auth::manager::auth_reload::tests::source_revision_tests::canceled_reload_does_not_publish_after_source_replacement",
+      "auth::manager::auth_reload::tests::source_revision_tests::native_value_and_absence_cannot_overwrite_new_source_with_same_credentials",
+      "auth::manager::auth_reload::tests::source_revision_tests::old_source_failure_cannot_poison_equal_replacement_or_reinstalled_source",
+      "auth::manager::auth_reload::tests::source_revision_tests::pending_install_intent_does_not_revoke_current_source_reload"
+    ],
+    "executed_test_functions": 5,
+    "filtered_or_ignored_by_nextest": 250,
+    "guarded_elapsed_seconds": 296.5873382879945,
+    "internal_scenarios_not_test_count": 10,
+    "passed": 5,
+    "retry_attempts_observed": 0,
+    "snapshot_assertions": 0
+  },
+  "runtime_limits": {
+    "historical_compiled_artifact_archive_unchanged": true,
+    "no_new_oom_events": true,
+    "observation_runner": "pre-exec hash/arguments reconciled with nextest PASS and terminal stable ELF; not syscall attestation",
+    "observed_ca_values_recorded": false,
+    "oom_baseline": {
+      "oom": 10,
+      "oom_kill": 5
+    },
+    "production_cli_available": true,
+    "production_matches_test_source": false,
+    "production_source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "protected_live_production_unchanged": true,
+    "sandbox_or_security_guards_changed": false,
+    "test_feature_context": "grouped CLI+login library selection"
+  },
+  "schema": "sanitized_auth_reload_focused_evidence_v1",
+  "scope": [
+    "Current-source reload source/cache/policy publication and cancellation tests only.",
+    "No full login suite, native HTTP, separately installed authentication component, rebuilt production or UI proof.",
+    "Refreshed CLI library was compiled, never observed executing as tests in this gate.",
+    "Historical production and prior runtime proofs remain source7a; new auth candidate is source0742356.",
+    "The failed TUI compilation and its OOM event remain separate preserved failures."
+  ],
+  "source": {
+    "candidate_sha256": "a3e21f97c6d5e83cab69821a4507e223deaecf5604fd2d7aaffbc7b19c1e6f4f",
+    "files": 8948,
+    "map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+    "unchanged": true
+  },
+  "strict": {
+    "adopted_returncode_histogram": {
+      "0": 1
+    },
+    "exit_status": 0,
+    "runner_error": null,
+    "subreaper": true
+  }
+}

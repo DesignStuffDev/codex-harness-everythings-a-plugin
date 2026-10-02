@@ -1,13 +1,13 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
-Latest source checkpoint is WIP `d229296b29947ef1328cbe931c810276f220a23c`;
-current-source build/runtime evidence is published at
+Latest production-tested source checkpoint is WIP `d229296b29947ef1328cbe931c810276f220a23c`;
+its source-specific build/runtime evidence is published at
 `c463a4f46318ccbbc811c202639d53f733d5831f` on
 `wip/p03-process-final-and-mcp-preservation-20261002`. Main remains the separate
 verified baseline `781080f7e3c8bfe1953378001d777dff33d74bc3`.
 
-The [current production build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md)
+The [retained production build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md)
 passed offline on source map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`.
 All12 planned runtime slots now have passing attempts:13 successful commands,
 including a fresh migration for the selected-search GUI retry. The
@@ -29,9 +29,12 @@ with64 filtered and zero retries on that same source. The TUI build was killed
 by the cgroup OOM handler before any tests ran; its six-test gate and App Server
 replacement tests remain open. Older results retain their original source identity.
 The native reload source-ownership fix has now been adopted and formatted locally
-(five paths, source map0742356b); it is not compiled or tested yet. The restored
-production CLI remains the preceding7a source. The next feasible gate is scoped
-auth verification after preserving existing proof binaries. The successful runtime
+(five paths, source map0742356b) and passes five focused causal tests plus the
+full grouped login gate:297/297, zero retries/skips, serial execution. Provider
+regression, lint and new production/UI validation remain pending. The restored
+production CLI remains the preceding7a source. Scoped login lint was blocked by
+its RAM floor before compiler startup; provider regression proceeds independently
+while a bounded cache opportunity is investigated. The successful runtime
 checkpoint does not close
 P03, prove whole-host graceful cleanup, or resolve every storage durability case.
 
@@ -423,9 +426,19 @@ managed constraints. Kernel bootstrap only selects config roots; managed permiss
 ceilings and credential/account validation remain authoritative enforcement.
 Replace actual native implementations, not merely `auth.resolve/refresh` examples.
 Advance policy/owner epochs inside native setters, including A→B→A workspace changes.
+The [storage ownership audit](AUTH_STORAGE_OWNERSHIP.md) fixes the next internal
+order: conditional Ephemeral caller ownership, then complete coordination of the
+overlapping File/Keyring/Auto writer cohort and shared passphrase initialization.
+Persist generations through absence, distinguish conflict from fallback-worthy
+errors, retain accepted-write custody and recover uncertain outcomes. An isolated
+File adapter cannot claim safety while legacy cleanup still mutates its file.
+This is a required native prerequisite, not an additional extracted component.
 **Acceptance:** offline/interactive auth, refresh concurrency, refresh cancellation,
 account switch, stale-owner rejection, keyring unavailability and private error logs;
 config precedence/refresh/denied widening and existing credential/config migration.
+Include equal-value/absence ABA across managers/processes and crash recovery at
+write/cleanup/revision boundaries; explicitly exclude uncooperative legacy writers
+from transactional concurrency guarantees.
 **Regression:** complete login/config suites and real host default/custom auth paths.
 **Exit:** independently built native/custom auth and config packages work without
 host rebuild; no credentials in transport logs or unauthorized consumers.

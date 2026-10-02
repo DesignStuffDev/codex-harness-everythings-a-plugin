@@ -19,7 +19,7 @@ not relabeled as current passes. The precise next action lives in
   are retained. No DeepSeek/Cordis dependency was introduced.
 - Main remains `781080f7e3c8bfe1953378001d777dff33d74bc3`. It is distinct from the
   ongoing P03 work on `wip/p03-process-final-and-mcp-preservation-20261002`.
-- Latest P03 source checkpoint: `d229296b29947ef1328cbe931c810276f220a23c`.
+- Latest production-tested P03 source checkpoint: `d229296b29947ef1328cbe931c810276f220a23c`.
   Its production/runtime evidence is published at
   `c463a4f46318ccbbc811c202639d53f733d5831f`.
 - Work continues in the original recovered VM and checkout. The sibling worktree,
@@ -125,12 +125,19 @@ The TUI compilation subsequently received SIGKILL while cgroup OOM/kill counters
 increased; zero tests ran. [That failure is preserved](verification/2026-10-02/p03-http-stage-b-tui-grouped-failure/README.md).
 TUI, App Server lifecycle and actual same-process replacement acceptance remain
 open. The production executable has been restored from its hash-verified archive
-and its version command succeeds. The next five-path auth reload-source fix is
-now applied and formatted, but remains uncompiled and untested; it is newer than
-that production executable. The permanent-refresh-failure follow-up remains an
+and its version command succeeds. The five-path auth reload-source fix
+passes [five focused causal tests](verification/2026-10-02/p03-auth-reload-focused/README.md)
+and the full grouped login gate:297/297 tests, zero retries/skips, unchanged source
+and no new OOM events. Tests ran serially; this is not default-concurrency coverage.
+Provider regression, lint and rebuilt-host/UI validation remain pending; this source is newer
+than the production executable. The permanent-refresh-failure follow-up remains an
 unadopted proposal. Successful-refresh durable persistence needs its own conditional
 ownership protocol. Memory/disk constraints are being addressed with bounded
 preservation and target selection, without removing test dependencies or guards.
+The first lint admission check stopped before compilation at1.85GB unused RAM
+against a2GiB floor; [that blocked check](verification/2026-10-02/p03-auth-login-lint-admission/README.md)
+is retained separately from the passing login tests. The provider gate has a lower
+resource requirement and is next while a targeted cache-release option is assessed.
 
 Detailed evidence:
 [build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md),

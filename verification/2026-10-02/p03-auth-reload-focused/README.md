@@ -1,0 +1,5 @@
+Current authentication reload checkpoint: **five test functions passed**, covering ten controlled scenarios, with no retry observed. Nextest reported 250 other cases skipped by the focused filter. Seven pre-exec records comprise five exact tests and two discovery calls, all bound to the actual login ELF `73b95bfe…`. Strict handling exited 0 with no runner error and adopted statuses `{0: 1}`. Source0742356 (8,948 files) stayed unchanged; OOM10/kill5 stayed unchanged.
+
+The new CLI library was compiled but not executed as tests; its separate stable hash is `21f25bfd…`. Restored productionCLI78d remains source7a and stayed protected. This is focused grouped-feature publication/cancellation coverage, not a complete login suite, new production/UI proof or independently installed authentication component. The earlier TUI OOM failure remains preserved.
+
+Raw receipts stay private; public inputs use opaque observer labels and contain no credential values, environment dumps or process IDs. The full serialized login regression remains the next separate gate.
