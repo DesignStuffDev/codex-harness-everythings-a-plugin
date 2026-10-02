@@ -8,10 +8,19 @@
 #[path = "worker_completion.rs"]
 pub(crate) mod completion;
 
+#[path = "worker_delivery.rs"]
+mod delivery;
+pub(crate) use delivery::HomeAdmission;
+use delivery::Delivery;
+use delivery::AfterUnlock;
+use delivery::Registration;
+
+use super::CuratedSyncCallback;
 use super::SyncControl;
 use super::SyncFailure;
 use completion::CuratedSyncNativeCompletion;
 use std::io;
+use std::path::PathBuf;
 use std::panic::AssertUnwindSafe;
 use std::panic::catch_unwind;
 use std::sync::Arc;
@@ -39,6 +48,7 @@ struct WorkerRecord {
     outcome: Option<Result<(), SyncFailure>>,
     handle: Option<JoinHandle<()>>,
     native_completion: CuratedSyncNativeCompletion,
+    delivery: Option<Delivery>,
 }
 
 #[derive(Default)]
@@ -51,6 +61,11 @@ struct State {
     unexpected_handles: Vec<JoinHandle<()>>,
 }
 
+enum Reservation {
+    Start(Generation, Arc<SyncControl>),
+    Existing(HomeAdmission, Option<AfterUnlock>),
+}
+
 #[derive(Default)]
 pub(crate) struct WorkerGate {
     state: Mutex<State>,
@@ -61,6 +76,7 @@ impl WorkerGate {
         self.state.lock().unwrap_or_else(PoisonError::into_inner)
     }
 
+    #[cfg(test)]
     pub(crate) fn start(
         self: &Arc<Self>,
         work: impl FnOnce(Arc<SyncControl>) -> Result<(), SyncFailure> + Send + 'static,
@@ -72,13 +88,43 @@ impl WorkerGate {
         })
     }
 
+    #[cfg(test)]
     fn start_with_spawn(
         self: &Arc<Self>,
         work: impl FnOnce(Arc<SyncControl>) -> Result<(), SyncFailure> + Send + 'static,
         spawn: impl FnOnce(Box<dyn FnOnce() + Send>) -> io::Result<JoinHandle<()>>,
     ) -> io::Result<bool> {
-        let Some((generation, control)) = self.reserve() else {
-            return Ok(false);
+        self.start_registered_with_spawn(/*registration*/ None, work, spawn)
+            .map(|admission| admission == HomeAdmission::Started)
+    }
+
+    pub(crate) fn start_for_home(
+        self: &Arc<Self>,
+        home: PathBuf,
+        callback: Option<CuratedSyncCallback>,
+        work: impl FnOnce(Arc<SyncControl>) -> Result<(), SyncFailure> + Send + 'static,
+    ) -> io::Result<HomeAdmission> {
+        self.start_registered_with_spawn(Some(Registration { home, callback }), work, |job| {
+            std::thread::Builder::new()
+                .name("plugins-curated-repo-sync".to_string())
+                .spawn(job)
+        })
+    }
+
+    fn start_registered_with_spawn(
+        self: &Arc<Self>,
+        registration: Option<Registration>,
+        work: impl FnOnce(Arc<SyncControl>) -> Result<(), SyncFailure> + Send + 'static,
+        spawn: impl FnOnce(Box<dyn FnOnce() + Send>) -> io::Result<JoinHandle<()>>,
+    ) -> io::Result<HomeAdmission> {
+        let (generation, control) = match self.reserve(registration) {
+            Reservation::Start(generation, control) => (generation, control),
+            Reservation::Existing(admission, dispatch) => {
+                // Registration and completion linearize under the worker mutex;
+                // callback scheduling and arbitrary capture destruction do not.
+                if let Some(action) = dispatch { action.run(); }
+                return Ok(admission);
+            }
         };
         let gate = Arc::clone(self);
         let job = Box::new(move || {
@@ -101,7 +147,7 @@ impl WorkerGate {
         match spawn(job) {
             Ok(handle) => {
                 self.attach(generation, handle);
-                Ok(true)
+                Ok(HomeAdmission::Started)
             }
             Err(error) => {
                 let retired = {
@@ -146,15 +192,17 @@ impl WorkerGate {
         }
     }
 
-    fn reserve(&self) -> Option<(Generation, Arc<SyncControl>)> {
+    fn reserve(&self, mut registration: Option<Registration>) -> Reservation {
         loop {
             let (generation, handle) = {
                 let mut state = self.lock();
                 if state.closing || !state.unexpected_handles.is_empty() {
-                    return None;
+                    return Reservation::Existing(HomeAdmission::Closed, None);
                 }
                 let Some(record) = state.active.as_mut() else {
-                    let next = state.next_generation.checked_add(1)?;
+                    let Some(next) = state.next_generation.checked_add(1) else {
+                        return Reservation::Existing(HomeAdmission::Unavailable, None);
+                    };
                     state.next_generation = next;
                     let generation = Generation(next);
                     let control = Arc::new(SyncControl::default());
@@ -165,25 +213,36 @@ impl WorkerGate {
                         outcome: None,
                         handle: None,
                         native_completion: CuratedSyncNativeCompletion::AwaitingHandle,
+                        delivery: registration.take().map(|registration| Delivery::new(registration, Arc::clone(&control))),
                     });
-                    return Some((generation, control));
+                    return Reservation::Start(generation, control);
                 };
-                if record.phase != Phase::Running
-                    || record.outcome.is_none()
-                    || !record.handle.as_ref().is_some_and(JoinHandle::is_finished)
-                {
-                    return None;
+                let retryable = record.phase == Phase::Running
+                    && record.outcome.is_some()
+                    && record.handle.as_ref().is_some_and(JoinHandle::is_finished);
+                if !retryable {
+                    let Some(registration) = registration.take() else {
+                        return Reservation::Existing(HomeAdmission::Unavailable, None);
+                    };
+                    let Some(delivery) = &mut record.delivery else {
+                        return Reservation::Existing(HomeAdmission::Unavailable, registration.discard());
+                    };
+                    let result = delivery.register(registration, record.phase, record.outcome.is_some());
+                    return Reservation::Existing(result.0, result.1);
                 }
                 record.native_completion = CuratedSyncNativeCompletion::Joining;
-                (record.generation, record.handle.take()?)
+                let Some(handle) = record.handle.take() else {
+                    return Reservation::Existing(HomeAdmission::Unavailable, None);
+                };
+                (record.generation, handle)
             };
-            // No state mutex is held while joining. A competing admission sees
-            // the same Running generation with no handle and cannot replace it.
             let joined = handle.join();
             let mut state = self.lock();
-            let record = state.active.as_mut()?;
+            let Some(record) = state.active.as_mut() else {
+                return Reservation::Existing(HomeAdmission::Unavailable, None);
+            };
             if record.generation != generation || record.phase != Phase::Running {
-                return None;
+                return Reservation::Existing(HomeAdmission::Unavailable, None);
             }
             record.native_completion = if joined.is_ok() {
                 CuratedSyncNativeCompletion::Joined
@@ -191,10 +250,8 @@ impl WorkerGate {
                 record.phase = Phase::Quarantined;
                 CuratedSyncNativeCompletion::Panicked
             };
-            // A process-final stop can win while this exact handle is being
-            // joined for retry. Keep its outcome and join observation reachable.
             if joined.is_err() || state.closing {
-                return None;
+                return Reservation::Existing(HomeAdmission::Closed, None);
             }
             let retired = state.active.take();
             drop(state);
@@ -215,7 +272,18 @@ impl WorkerGate {
             Err(error) if error.retains_resources() => Phase::Quarantined,
             Err(_) => Phase::Running,
         };
+        let succeeded = outcome.is_ok();
+        let control = Arc::clone(&record.control);
         record.outcome = Some(outcome);
+        let callbacks = record.delivery.as_mut().map(Delivery::take_pending).unwrap_or_default();
+        drop(state);
+        // Closed scopes reject late delivery; each admitted action is owned by
+        // its current processor, never by the manager which started this thread.
+        if succeeded {
+            for callback in callbacks {
+                if !control.is_cancelled() { callback.dispatch(); }
+            }
+        }
     }
 
     fn attach(&self, generation: Generation, handle: JoinHandle<()>) {

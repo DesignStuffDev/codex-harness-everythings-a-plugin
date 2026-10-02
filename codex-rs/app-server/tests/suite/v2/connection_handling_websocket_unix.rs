@@ -147,7 +147,7 @@ async fn websocket_transport_second_ctrl_c_forces_exit_while_turn_running() -> R
         "timed out waiting for forced Ctrl-C restart shutdown",
     )
     .await?;
-    assert!(status.success(), "expected graceful exit, got {status}");
+    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
 
     expect_websocket_disconnect(&mut ws).await?;
 
@@ -202,7 +202,7 @@ async fn websocket_transport_second_sigterm_forces_exit_while_turn_running() -> 
         "timed out waiting for forced SIGTERM restart shutdown",
     )
     .await?;
-    assert!(status.success(), "expected graceful exit, got {status}");
+    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
 
     expect_websocket_disconnect(&mut ws).await?;
 

@@ -1,0 +1,24 @@
+--- a/codex-rs/app-server/src/request_processors/thread_processor.rs
++++ b/codex-rs/app-server/src/request_processors/thread_processor.rs
+@@ -1097,9 +1097,8 @@
+                     )));
+                 }
+                 ThreadShutdownResult::TimedOut => {
+-                    self.thread_manager
+-                        .record_shutdown_failure(&conversation)
+-                        .await;
++                    // The exact session remains registered. Observer expiry is
++                    // pending cleanup, not an immutable shutdown failure.
+                     return Err(internal_error(format!(
+                         "timed out shutting down thread {thread_id} before {operation}"
+                     )));
+--- a/codex-rs/core/src/thread_manager.rs
++++ b/codex-rs/core/src/thread_manager.rs
+@@ -109,7 +109,6 @@
+ use std::sync::Arc;
+ use std::sync::atomic::AtomicBool;
+ use std::sync::atomic::Ordering;
+-use std::time::Duration;
+ use tokio::sync::RwLock;
+ use tokio::sync::broadcast;
+ use tracing::instrument;

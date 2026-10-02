@@ -100,11 +100,11 @@ async fn stdio_sigterm_times_out_with_blocked_stderr() -> Result<()> {
         .arg(process.id().context("app-server has no pid")?.to_string())
         .status()?;
     assert!(status.success(), "failed to signal app-server: {status}");
-    let status = timeout(Duration::from_secs(55), process.wait())
+    let status = timeout(Duration::from_secs(210), process.wait())
         .await
         .context("blocked stderr prevented SIGTERM shutdown")??;
-    assert_eq!(status.code(), Some(1));
-    assert!(signalled_at.elapsed() >= Duration::from_secs(45));
+    assert_eq!(status.code(), Some(124));
+    assert!(signalled_at.elapsed() >= Duration::from_secs(205));
     drop(stdin);
     Ok(())
 }
@@ -168,16 +168,87 @@ async fn stdio_shutdown_times_out_with_blocked_file_write(shutdown: Shutdown) ->
             app.send_sigterm()?;
         }
     }
-    let remaining = Duration::from_secs(55).saturating_sub(shutdown_at.elapsed());
+    let remaining = Duration::from_secs(210).saturating_sub(shutdown_at.elapsed());
     let status = timeout(remaining, app.wait_for_exit())
         .await
         .context("app-server did not exit within the shutdown deadline")??;
-    assert_eq!(status.code(), Some(1));
+    assert_eq!(status.code(), Some(124));
     assert!(
-        shutdown_at.elapsed() >= Duration::from_secs(45),
+        shutdown_at.elapsed() >= Duration::from_secs(205),
         "app-server exited before allowing graceful cleanup"
     );
     drop(reader);
+    Ok(())
+}
+
+// Real filesystem storage remains blocked beyond the former 45s watchdog.
+// This proves the process gives an accepted native write time to finish; it
+// does not substitute for thread-store or MCP ownership acceptance.
+#[test_case(Shutdown::Eof; "eof")]
+#[test_case(Shutdown::Sigterm; "sigterm")]
+#[tokio::test]
+async fn stdio_shutdown_allows_storage_hold_past_45_seconds(shutdown: Shutdown) -> Result<()> {
+    let codex_home = TempDir::new()?;
+    let path = codex_home.path().join("held-write");
+    let status = Command::new("mkfifo").arg(&path).status()?;
+    assert!(status.success(), "failed to create FIFO: {status}");
+    let mut reader = std::fs::File::from(pipe::OpenOptions::new()
+        .open_receiver(&path)?.into_nonblocking_fd()?);
+    let mut app = TestAppServer::builder()
+        .with_codex_home(codex_home.path()).without_auto_env()
+        .build_initialized().await?;
+    let size = 1024 * 1024;
+    app.send_fs_write_file_request(FsWriteFileParams {
+        path: AbsolutePathBuf::try_from(path)?,
+        data_base64: STANDARD.encode(vec![b'x'; size]),
+    }).await?;
+    let mut first_byte = [0];
+    timeout(Duration::from_secs(10), async {
+        loop {
+            match reader.read(&mut first_byte) {
+                Ok(0) => {},
+                Ok(_) => break,
+                Err(error) if error.kind() == ErrorKind::WouldBlock => {},
+                Err(error) => return Err(error),
+            }
+            sleep(Duration::from_millis(20)).await;
+        }
+        Ok::<_, std::io::Error>(())
+    }).await.context("filesystem write did not start")??;
+    assert_eq!(first_byte, [b'x']);
+    let shutdown_at = Instant::now();
+    let still_held = match shutdown {
+        Shutdown::Eof => timeout(Duration::from_secs(46), app.shutdown_gracefully()).await,
+        Shutdown::Sigterm => {
+            app.send_sigterm()?;
+            timeout(Duration::from_secs(46), app.wait_for_exit()).await
+        }
+    };
+    assert!(still_held.is_err(), "host exited while native storage remained held");
+    assert!(shutdown_at.elapsed() > Duration::from_secs(45));
+    // Release the observed native write, then demand an ordinary success
+    // exit without a fallback SIGTERM or forced kill on this success path.
+    let remaining = Duration::from_secs(200).saturating_sub(shutdown_at.elapsed());
+    let bytes = timeout(remaining, async {
+        let mut bytes = 1;
+        let mut buffer = [0_u8; 16384];
+        loop {
+            match reader.read(&mut buffer) {
+                Ok(0) => break,
+                Ok(count) => bytes += count,
+                Err(error) if error.kind() == ErrorKind::WouldBlock => {
+                    sleep(Duration::from_millis(20)).await;
+                },
+                Err(error) => return Err(error),
+            }
+        }
+        Ok::<_, std::io::Error>(bytes)
+    }).await.context("released storage write did not finish")??;
+    assert_eq!(bytes, size);
+    let remaining = Duration::from_secs(200).saturating_sub(shutdown_at.elapsed());
+    let status = timeout(remaining, app.shutdown_gracefully()).await
+        .context("host did not finish after storage release")??;
+    assert!(status.success(), "released storage did not exit cleanly: {status}");
     Ok(())
 }
 

@@ -1,0 +1,201 @@
+--- a/codex-rs/core/src/agent/control/spawn_guard.rs
++++ b/codex-rs/core/src/agent/control/spawn_guard.rs
+@@ -50,13 +50,20 @@
+         let edge_write = self.edge_write.take();
+         drop(tokio::spawn(async move {
+             if let Some(thread) = state.remove_thread(&child).await {
+-                if let Err(error) = thread.shutdown_and_wait().await {
+-                    warn!("failed to stop cancelled child spawn: {error}");
+-                }
+-                if let Some(live_thread) = thread.session.live_thread()
+-                    && let Err(error) = live_thread.discard().await
+-                {
+-                    warn!("failed to discard cancelled child spawn: {error}");
++                match thread.shutdown_and_wait().await {
++                    Ok(()) => {
++                        state.retire_completed_removed_threads();
++                        if let Some(live_thread) = thread.session.live_thread()
++                            && let Err(error) = live_thread.discard().await
++                        {
++                            warn!("failed to discard cancelled child spawn: {error}");
++                        }
++                    }
++                    Err(error) => {
++                        // Retain the exact removed owner and its writer on known
++                        // cleanup failure; do not discard still-owned persistence.
++                        warn!("failed to stop cancelled child spawn: {error}");
++                    }
+                 }
+             }
+             // A pending Open write must finish before cleanup writes Closed.
+--- a/codex-rs/core/src/thread_manager/managed.rs
++++ b/codex-rs/core/src/thread_manager/managed.rs
+@@ -98,12 +98,17 @@
+                 }
+                 let mut threads = state.threads.write().await;
+                 let thread_id = session.thread_id();
+-                if threads
++                let removed = if threads
+                     .get(&thread_id)
+                     .is_some_and(|thread| Arc::ptr_eq(&thread.session, session))
+                 {
+-                    threads.remove(&thread_id);
+-                }
++                    threads.remove(&thread_id)
++                } else {
++                    None
++                };
++                drop(threads);
++                state.retire_completed_removed_threads();
++                drop(removed);
+             }
+         });
+         let thread = receiver.await.map_err(|_| CodexErr::InternalAgentDied)??;
+--- a/codex-rs/core/src/thread_manager/shutdown.rs
++++ b/codex-rs/core/src/thread_manager/shutdown.rs
+@@ -30,6 +30,19 @@
+             .unwrap_or_else(std::sync::PoisonError::into_inner);
+         if !removed.iter().any(|existing| Arc::ptr_eq(existing, thread)) {
+             removed.push(Arc::clone(thread));
++        }
++    }
++
++    /// Poll already-completed exact owners without holding either registry lock.
++    /// Pending and failed owners stay reachable; clean outputs can release full
++    /// sessions during normal server operation instead of waiting for final exit.
++    pub(crate) fn retire_completed_removed_threads(&self) {
++        let snapshot = self.removed_threads.lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner).clone();
++        for thread in snapshot {
++            if matches!(thread.io.session_loop_termination.clone().now_or_never(), Some(Ok(()))) {
++                self.retire_removed_thread(&thread);
++            }
+         }
+     }
+ 
+--- a/codex-rs/core/src/thread_manager/shutdown_tests.rs
++++ b/codex-rs/core/src/thread_manager/shutdown_tests.rs
+@@ -82,3 +82,55 @@
+         ThreadShutdownReport { shutdown_failed: vec![thread_id], ..Default::default() });
+     Ok(())
+ }
++
++#[tokio::test]
++async fn repeated_distinct_clean_removals_release_sessions_without_final_drain() -> anyhow::Result<()> {
++    let home = tempfile::tempdir()?;
++    let mut config = test_config().await;
++    config.codex_home = codex_utils_absolute_path::AbsolutePathBuf::from_absolute_path(home.path())?;
++    let manager = ThreadManager::with_models_provider_and_home_for_tests(
++        CodexAuth::from_api_key("dummy"), config.model_provider.clone(),
++        config.codex_home.to_path_buf(),
++        Arc::new(codex_exec_server::EnvironmentManager::default_for_tests()),
++    );
++    let mut ids = std::collections::HashSet::new();
++    for index in 0..4 {
++        let started = manager.start_thread(StartThreadOptions::new(config.clone())).await?;
++        assert!(ids.insert(started.thread_id));
++        let weak = Arc::downgrade(&started.thread);
++        started.thread.shutdown_and_wait().await?;
++        let removed = if index % 2 == 0 {
++            manager.remove_thread(&started.thread_id).await
++        } else {
++            manager.remove_thread_if_matches(&started.thread_id, &started.thread).await
++        };
++        assert!(removed.as_ref().is_some_and(|thread| Arc::ptr_eq(thread, &started.thread)));
++        drop(removed);
++        drop(started);
++        assert!(weak.upgrade().is_none());
++        assert!(manager.state.removed_threads.lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner).is_empty());
++    }
++    Ok(())
++}
++
++#[tokio::test]
++async fn opportunistic_retirement_preserves_pending_and_failed_exact_owners() -> anyhow::Result<()> {
++    let (_home, manager, failed) = failed_thread().await?;
++    let mut io = failed.io.clone();
++    io.session_loop_termination = std::future::pending().boxed().shared();
++    let pending = Arc::new(CodexThread::new(
++        Arc::clone(&failed.session), io,
++        ThreadStartupMetadata::from(&failed.startup_metadata().to_session_configured_event(/*initial_messages*/ None)),
++        failed.rollout_path(), failed.session_source.clone(),
++    ));
++    manager.state.retain_removed_thread(&failed);
++    manager.state.retain_removed_thread(&pending);
++    manager.state.retire_completed_removed_threads();
++    let removed = manager.state.removed_threads.lock()
++        .unwrap_or_else(std::sync::PoisonError::into_inner);
++    assert_eq!(removed.len(), 2);
++    assert!(removed.iter().any(|owner| Arc::ptr_eq(owner, &failed)));
++    assert!(removed.iter().any(|owner| Arc::ptr_eq(owner, &pending)));
++    Ok(())
++}
+--- a/codex-rs/core/src/thread_manager.rs
++++ b/codex-rs/core/src/thread_manager.rs
+@@ -1166,6 +1166,7 @@
+         forked_from_thread_id: Option<ThreadId>,
+         startup: Option<Arc<crate::session::startup::SessionStartup>>,
+     ) -> CodexResult<NewThread> {
++        self.state.retire_completed_removed_threads();
+         let (resumed_session_source, resumed_thread_source) = options
+             .initial_history
+             .get_resumed_session_sources()
+@@ -1423,19 +1424,18 @@
+         thread_id: &ThreadId,
+         expected: &Arc<CodexThread>,
+     ) -> Option<Arc<CodexThread>> {
+-        let mut threads = self.state.threads.write().await;
+-        if threads
+-            .get(thread_id)
+-            .is_some_and(|thread| Arc::ptr_eq(thread, expected))
+-        {
+-            let removed = threads.remove(thread_id);
+-            if let Some(thread) = &removed {
+-                self.state.retain_removed_thread(thread);
++        let removed = {
++            let mut threads = self.state.threads.write().await;
++            if threads.get(thread_id).is_some_and(|thread| Arc::ptr_eq(thread, expected)) {
++                let removed = threads.remove(thread_id);
++                if let Some(thread) = &removed { self.state.retain_removed_thread(thread); }
++                removed
++            } else {
++                None
+             }
+-            removed
+-        } else {
+-            None
+-        }
++        };
++        self.state.retire_completed_removed_threads();
++        removed
+     }
+ 
+     /// Fork a legacy thread by snapshotting its full rollout history according to
+@@ -1755,11 +1755,13 @@
+ 
+     /// Remove a thread from the manager by ID, returning it when present.
+     pub(crate) async fn remove_thread(&self, thread_id: &ThreadId) -> Option<Arc<CodexThread>> {
+-        let mut threads = self.threads.write().await;
+-        let removed = threads.remove(thread_id);
+-        if let Some(thread) = &removed {
+-            self.retain_removed_thread(thread);
+-        }
++        let removed = {
++            let mut threads = self.threads.write().await;
++            let removed = threads.remove(thread_id);
++            if let Some(thread) = &removed { self.retain_removed_thread(thread); }
++            removed
++        };
++        self.retire_completed_removed_threads();
+         removed
+     }
+ 
+@@ -2167,6 +2169,7 @@
+                 }
+             }
+         }
++        self.retire_completed_removed_threads();
+         let agent_control = match (&self.agent_control_factory, agent_control) {
+             (Some(factory), AgentControlInit::Local(local)) => {
+                 let thread_id = match &initial_history {

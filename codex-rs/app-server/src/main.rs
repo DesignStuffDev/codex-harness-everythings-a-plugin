@@ -79,6 +79,8 @@ struct AppServerArgs {
 fn main() -> anyhow::Result<()> {
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
+        let process_final = codex_utils_process::process_shutdown::ProcessFinalCapability::for_executable();
+        let result: anyhow::Result<()> = async {
         let AppServerArgs {
             config_overrides,
             code_mode_host,
@@ -103,6 +105,7 @@ fn main() -> anyhow::Result<()> {
         let mut runtime_options = AppServerRuntimeOptions {
             code_mode_host_transport: code_mode_host.into(),
             managed_daemon,
+            process_final: Some(process_final.clone()),
             ..Default::default()
         };
         #[cfg(debug_assertions)]
@@ -130,9 +133,21 @@ fn main() -> anyhow::Result<()> {
         .await?;
         if exit == codex_app_server::AppServerExit::Forced {
             // Runtime teardown can wait forever for blocked rollout I/O.
-            std::process::exit(0);
+            let deadline = process_final.begin().graceful();
+            let _shutdown = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline);
+            std::process::exit(codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE);
         }
         Ok(())
+        }.await;
+        let deadline = process_final.begin().graceful();
+        let observed = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(deadline)
+            .wait_until(deadline).await;
+        if observed.is_complete() { result } else {
+            match result {
+                Ok(()) => Err(anyhow::anyhow!("curated process cleanup is unconfirmed")),
+                Err(error) => Err(error.context("curated process cleanup is unconfirmed")),
+            }
+        }
     })
 }
 

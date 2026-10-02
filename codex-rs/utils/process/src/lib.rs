@@ -2,6 +2,8 @@
 //! Callers retain control of environment, stdio, and process lifetime. Interactive,
 //! detached, and private-desktop launches must select their own console policy.
 
+pub mod process_shutdown;
+
 use std::ffi::OsStr;
 use std::process::Command;
 

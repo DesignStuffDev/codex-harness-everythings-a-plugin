@@ -202,7 +202,7 @@ async fn managed_force_shutdown_exits_with_active_work() -> Result<()> {
     request_shutdown(&server, &socket_path).await?;
     assert_still_running(&mut server, "graceful shutdown must wait").await;
     request_shutdown(&server, &socket_path).await?;
-    wait_success(&mut server).await?;
+    wait_forced(&mut server).await?;
     Ok(())
 }
 
@@ -436,7 +436,13 @@ async fn managed_force_shutdown_exits_with_blocked_rollout_writer() -> Result<()
     wait_for_requests(&mock, /*count*/ 3).await?;
     assert_still_running(&mut server, "graceful shutdown must wait for the writer").await;
     request_shutdown(&server, &socket_path).await?;
-    wait_success(&mut server).await?;
+    wait_forced(&mut server).await?;
+    Ok(())
+}
+
+async fn wait_forced(server: &mut Child) -> Result<()> {
+    let status = timeout(Duration::from_secs(/*secs*/ 10), server.wait()).await??;
+    assert_eq!(status.code(), Some(126), "forced cleanup must remain unconfirmed");
     Ok(())
 }
 

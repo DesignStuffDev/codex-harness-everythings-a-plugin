@@ -33,7 +33,10 @@ impl CuratedCallbackGuard {
     /// discarding primary task custody. Final shared deadlines belong to the
     /// explicit host owner; this method adds no independent timeout budget.
     pub(crate) async fn finish<T>(&self, result: io::Result<T>) -> io::Result<T> {
-        let observation = self.scope.wait().await;
+        let observation = match codex_utils_process::process_shutdown::current() {
+            Some(deadline) => self.scope.wait_until(deadline.graceful()).await,
+            None => self.scope.wait().await,
+        };
         let cleanup = if observation.is_complete() {
             Ok(())
         } else {

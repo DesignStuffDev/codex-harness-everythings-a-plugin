@@ -115,6 +115,7 @@ struct TracingHarness {
     session: Arc<ConnectionSessionState>,
     tracing: &'static TestTracing,
     search_lifecycle: crate::file_search_services::SearchShutdownGuard,
+    store_lifecycle: crate::persistence_lifecycle::StoreShutdownGuard,
 }
 
 impl TracingHarness {
@@ -127,7 +128,7 @@ impl TracingHarness {
             /*enable_codex_api_key_env*/ false,
         )
         .await?;
-        let (processor, outgoing_rx, search_lifecycle) =
+        let (processor, outgoing_rx, search_lifecycle, store_lifecycle) =
             build_test_processor(config, auth_manager).await;
         let tracing = init_test_tracing();
         tracing.exporter.reset();
@@ -136,6 +137,7 @@ impl TracingHarness {
             _server: server,
             _codex_home: codex_home,
             search_lifecycle,
+            store_lifecycle,
             processor,
             outgoing_rx,
             session: Arc::new(ConnectionSessionState::new(
@@ -173,7 +175,11 @@ impl TracingHarness {
     }
 
     async fn shutdown(self) {
-        self.processor.shutdown_threads().await;
+        let sessions = self.processor.shutdown_threads().await;
+        assert!(
+            self.store_lifecycle.finish(sessions).await.is_ok(),
+            "session or store cleanup failed"
+        );
         self.processor
             .drain_background_tasks()
             .await
@@ -252,6 +258,7 @@ pub(super) async fn build_test_processor(
     Arc<MessageProcessor>,
     mpsc::Receiver<crate::outgoing_message::OutgoingEnvelope>,
     crate::file_search_services::SearchShutdownGuard,
+    crate::persistence_lifecycle::StoreShutdownGuard,
 ) {
     let (outgoing_tx, outgoing_rx) = mpsc::channel(16);
     let config_manager = ConfigManager::new(
@@ -274,13 +281,16 @@ pub(super) async fn build_test_processor(
     let (search_context, search_lifecycle) = crate::file_search_services::start(&config.codex_home)
         .await
         .expect("search provider");
+    let thread_store = codex_core::thread_store_from_config(&config, None);
+    let store_lifecycle =
+        crate::persistence_lifecycle::StoreShutdownGuard::new(Arc::clone(&thread_store));
     let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
         curated_callbacks: codex_core_plugins::startup_sync::CuratedCallbackScope::new(
             tokio::runtime::Handle::current(),
         ),
         search_context,
         persistence: codex_core::PersistenceServices {
-            thread_store: codex_core::thread_store_from_config(&config, None),
+            thread_store,
             host_state_db: None,
         },
         state_db: None,
@@ -304,7 +314,7 @@ pub(super) async fn build_test_processor(
         remote_control_handle: None,
         plugin_startup_tasks: Some(PluginStartupConfig::Current),
     }));
-    (processor, outgoing_rx, search_lifecycle)
+    (processor, outgoing_rx, search_lifecycle, store_lifecycle)
 }
 
 fn run_current_thread_test_with_stack<F>(name: &str, future: F) -> Result<()>

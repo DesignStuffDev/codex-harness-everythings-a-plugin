@@ -1,0 +1,169 @@
+{
+  "status": "Frozen recovery-only additive SDK proposal; uncompiled/unformatted/untested",
+  "upstream_revision": "3e636cab26c013eca5131103c03d20237f12c4df",
+  "upstream_source": "/workspace/toolchains/cargo/git/checkouts/rust-sdk-773cd6d57c4837f3/3e636ca",
+  "lower_workspace_manifest_sha256": "2b587ab16cf31e8798b0f5ceead85f6d1324ecf3ba78694292df0323b4bba2b4",
+  "files": [
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_client.rs",
+      "preimage_sha256": "a4b7793c7317de592d4703407c241f42ca139c0a19c6db99e9d33dc664aa6dcb",
+      "preimage_absent": false,
+      "sha256": "03fec4e237b7ff04fad450f8002d545e93fbd8e59f8a1bb857d61691301af25d",
+      "bytes": 107656,
+      "lines": 2643,
+      "added": 137,
+      "removed": 44,
+      "review_unit": "HTTP-01.patch"
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_completion.rs",
+      "preimage_sha256": null,
+      "preimage_absent": true,
+      "sha256": "fd7becb2b92c8e7810bc17e8f6ae0535297703d5da7dc0a9dc865b662a7474bf",
+      "bytes": 4109,
+      "lines": 115,
+      "added": 115,
+      "removed": 0,
+      "review_unit": "HTTP-01.patch"
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "preimage_sha256": null,
+      "preimage_absent": true,
+      "sha256": "502df9c23d10685e5dc5310367fa57f0bd6358d0b6b7eb9cfa28dfdde2989eea",
+      "bytes": 22823,
+      "lines": 499,
+      "added": 499,
+      "removed": 0,
+      "review_unit": "HTTP-01.patch"
+    },
+    {
+      "path": "crates/rmcp/src/transport/worker.rs",
+      "preimage_sha256": "efc23380046726fb20daea8ad868ca38825155f9b6ddb1ec3fe51644632aac76",
+      "preimage_absent": false,
+      "sha256": "66026049d911f830878d0d66a7e6044785ee1a954d1971a2ae60f083b7abd758",
+      "bytes": 21051,
+      "lines": 581,
+      "added": 40,
+      "removed": 0,
+      "review_unit": "WORKER-01.patch"
+    },
+    {
+      "path": "crates/rmcp/src/transport/worker_shutdown_tests.rs",
+      "preimage_sha256": null,
+      "preimage_absent": true,
+      "sha256": "26312137155ad23c80faee37864442513a939411880bd01be4ed86911f1b4ee0",
+      "bytes": 5863,
+      "lines": 139,
+      "added": 139,
+      "removed": 0,
+      "review_unit": "WORKER-01.patch"
+    }
+  ],
+  "tests": [
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "stalled_startup_request_is_dropped_without_inventing_remote_session",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "stalled_initialize_body_preserves_known_session_for_delete",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "initialized_error_and_stall_both_run_session_cleanup",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "remote_delete_outcomes_do_not_erase_actual_sse_joins",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "protocol_panic_still_joins_sse_before_preserving_original_panic",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "actual_sse_task_panic_is_retained_in_cleanup_receipt",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "cloned_worker_observations_cannot_report_another_workers_completion",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "actual_http_sse_task_joins_before_worker_completion",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "cleanup_panic_leaves_receipt_absent_after_sse_was_joined",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "runtime_abort_during_delete_cannot_publish_a_clean_receipt",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/streamable_http_shutdown_tests.rs",
+      "name": "close_observation_waits_for_actual_sse_task_destructor_completion",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/worker_shutdown_tests.rs",
+      "name": "cancelled_observer_keeps_original_handle_and_repeated_fatal_result",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/worker_shutdown_tests.rs",
+      "name": "normal_worker_completion_is_a_successful_outer_and_inner_result",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/worker_shutdown_tests.rs",
+      "name": "original_worker_panic_stays_an_outer_join_error",
+      "executed": false
+    },
+    {
+      "path": "crates/rmcp/src/transport/worker_shutdown_tests.rs",
+      "name": "legacy_close_preserves_its_result_and_leaves_observation_unavailable",
+      "executed": false
+    }
+  ],
+  "review_units": {
+    "WORKER-01.patch": {
+      "changed_lines": 179,
+      "patch_sha256": "0bfa8f411df3d0fbfdec7a3341b285fc809d0160067b220b0fb59ddf326e6fbc"
+    },
+    "HTTP-01.patch": {
+      "changed_lines": 795,
+      "patch_sha256": "21e6ab5417246091453561500e615b9972237f896978c8eb04c5068f0667e411"
+    }
+  },
+  "combined_changed_lines": 974,
+  "review_size_rationale": "Worker completion and HTTP all-exit ownership are separate units. HTTP implementation/recording and 499-line adversarial test fixture are separately reviewable, accepted only together; inherited protocol body indentation is mechanical future formatter work.",
+  "artifacts": {
+    "WORKER-01.patch": "0bfa8f411df3d0fbfdec7a3341b285fc809d0160067b220b0fb59ddf326e6fbc",
+    "HTTP-01.patch": "21e6ab5417246091453561500e615b9972237f896978c8eb04c5068f0667e411",
+    "SDK-COMPLETION-01.patch": "3551fa9b814b1228d3d03a5fa9e66758700b7fd24e8c6ea6cabeb2b90db92877",
+    "README.md": "92d1fb426d857cbc6e9c0ceb71597729f1fd10409a0868913f2202d59761d4cf",
+    "ADOPTION-ORDER.md": "883fc2b9648e1cf17853d387634d6d1f037d098672bef62dc985602eddd26ac1",
+    "UPSTREAM-PROVENANCE.json": "35b01ab85b5447fa248cdc83fc5fe5c9fd9a1c84cc6a1b678a090b5d1df93acf",
+    "UPSTREAM-LICENSE": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+    "STATIC-CHECKS-01.json": "ac1884d019e406a584c6ff4cd02106e0dd413110e49c1aba256cf3bd4d130a69"
+  },
+  "dependency_changes": "None staged. Root must approve immutable patched source and actual pin, then update Cargo/Bazel locks; workspace HTTP consumer adapter remains required.",
+  "limits": [
+    "Retained transport required; API is not an independent resource registry.",
+    "Exact worker join plus cleanup receipt required; optional operation/DELETE outcome remains separate.",
+    "Runtime cancellation or destructor/cleanup panic may prevent receipt; no universal DNS/backend-private join or wall-clock bound.",
+    "RunningService private handle, historical/process aggregate, new admission fence, executor and descendant group proof remain separate gaps."
+  ]
+}

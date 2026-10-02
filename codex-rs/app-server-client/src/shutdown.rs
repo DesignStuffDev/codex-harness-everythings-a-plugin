@@ -44,7 +44,10 @@ pub(super) fn start(
         // Use the owning runtime's clock even when called outside an entered
         // runtime (also preserves paused-clock behavior in lifecycle tests).
         let _entered = shutdown_runtime.enter();
-        Instant::now() + FACADE_SHUTDOWN_BUDGET
+        let local = Instant::now() + FACADE_SHUTDOWN_BUDGET;
+        codex_utils_process::process_shutdown::current().map_or(local, |deadline| {
+            local.min(Instant::from_std(deadline.graceful()))
+        })
     };
     // This task intentionally outlives a cancelled receipt observer. WorkerOwner
     // also retains an abort-and-join fallback if the coordinator itself unwinds.

@@ -322,6 +322,16 @@ def stop_manager(owner, report):
             owner.emergency_cleanup()
         raise AssertionError("Manager exceeded graceful cleanup budget") from None
     report.update(manager_status=status, shutdown_seconds=time.monotonic() - started)
+    # A direct special status is always unconfirmed. The presentation adapter
+    # normally converts child124/125 into its existing nonzero cleanup error.
+    if status in (124, 125, 126):
+        report["cleanup_classification"] = {
+            124: "watchdog_deadline_expired_unconfirmed",
+            125: "watchdog_unavailable_unconfirmed",
+            126: "forced_shutdown_requested_unconfirmed",
+        }[status]
+    elif status != 0:
+        report["cleanup_classification"] = "nonzero_cleanup_unconfirmed"
     assert status == 0, "Manager did not confirm graceful cleanup; durability unknown"
     owner.reap_and_check()
     report["tracked_processes_absent"] = True

@@ -1,0 +1,4686 @@
+--- a/codex-rs/codex-mcp/src/auth_changes.rs
++++ b/codex-rs/codex-mcp/src/auth_changes.rs
+@@ -34,7 +34,17 @@
+         while changes.changed().await.is_ok() {
+             if notify(&client, &mut changes).await.is_err() {
+                 tracing::warn!("MCP auth invalidation delivery failed; closing connection");
+-                client.shutdown().await;
++                match client.shutdown().await {
++                    Ok(codex_rmcp_client::McpShutdownConfirmation::Confirmed) => {}
++                    Ok(codex_rmcp_client::McpShutdownConfirmation::Unconfirmed) => {
++                        // The lower lifecycle registry retains this exact uncertain
++                        // outcome; it is not a clean receipt from the auth watcher.
++                    }
++                    Err(error) => {
++                        // Original failures remain with the lower lifecycle owner.
++                        tracing::warn!(%error, "MCP auth invalidation connection shutdown failed");
++                    }
++                }
+                 break;
+             }
+         }
+--- a/codex-rs/codex-mcp/src/auth_changes_tests.rs
++++ b/codex-rs/codex-mcp/src/auth_changes_tests.rs
+@@ -99,6 +99,6 @@
+     );
+     drop(watcher);
+     timeout(SEND_TIMEOUT, changes.closed()).await?;
+-    client.shutdown().await;
++    client.shutdown().await?;
+     Ok(())
+ }
+--- a/codex-rs/codex-mcp/src/binding_tests.rs
++++ b/codex-rs/codex-mcp/src/binding_tests.rs
+@@ -271,7 +271,7 @@
+     .await;
+     assert!(!Arc::ptr_eq(&old.client, &new.client));
+ 
+-    old.client.shutdown().await;
++    assert!(old.client.shutdown().await.is_ok());
+ 
+     let error = old_call
+         .call(
+--- /dev/null
++++ b/codex-rs/codex-mcp/src/connection_manager/shutdown.rs
+@@ -0,0 +1,15 @@
++//! A connection snapshot retains uncertainty as well as known failure.
++
++use codex_async_utils::RetainedTaskOutcome;
++use codex_rmcp_client::McpShutdownConfirmation;
++use codex_rmcp_client::McpShutdownFailure;
++
++pub(crate) type ShutdownResult = Result<McpShutdownConfirmation, McpShutdownFailure>;
++
++pub(super) struct ConnectionShutdownOutcome(pub(super) ShutdownResult);
++
++impl RetainedTaskOutcome for ConnectionShutdownOutcome {
++    fn succeeded(&self) -> bool {
++        matches!(self.0, Ok(McpShutdownConfirmation::Confirmed))
++    }
++}
+--- a/codex-rs/codex-mcp/src/connection_manager.rs
++++ b/codex-rs/codex-mcp/src/connection_manager.rs
+@@ -9,6 +9,8 @@
+ mod required;
+ #[path = "connection_manager/resources.rs"]
+ mod resources;
++#[path = "connection_manager/shutdown.rs"]
++mod shutdown;
+ #[path = "connection_manager/startup.rs"]
+ mod startup;
+ #[path = "connection_manager/status.rs"]
+@@ -136,8 +138,8 @@
+         self.client.client().await
+     }
+ 
+-    async fn shutdown(&self) {
+-        self.client.shutdown().await;
++    async fn shutdown(&self) -> shutdown::ShutdownResult {
++        self.client.shutdown().await
+     }
+ 
+     fn cancel_startup(&self) {
+@@ -214,7 +216,8 @@
+     disabled_servers: Vec<String>,
+     required_servers: Vec<String>,
+     optional_startup_deadline: OnceLock<tokio::time::Instant>,
+-    shutdown_task: OnceLock<Arc<codex_async_utils::RetainedTask<()>>>,
++    shutdown_task: OnceLock<Arc<codex_async_utils::RetainedTask<shutdown::ConnectionShutdownOutcome>>>,
++    shutdown_observation: OnceLock<shutdown::ShutdownResult>,
+     tool_plugin_context: Arc<ToolPluginContext>,
+     prefix_mcp_tool_names: bool,
+     non_prefixed_mcp_tool_servers: Vec<String>,
+@@ -789,6 +792,7 @@
+             required_servers,
+             optional_startup_deadline: OnceLock::new(),
+             shutdown_task: OnceLock::new(),
++            shutdown_observation: OnceLock::new(),
+             tool_plugin_context,
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers,
+@@ -848,6 +852,7 @@
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
+             shutdown_task: OnceLock::new(),
++            shutdown_observation: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -928,21 +933,39 @@
+         view.connection.client.ready_transport().is_some() || view.connection.client().await.is_ok()
+     }
+ 
+-    /// Observe the exact once-only shutdown task for this connection snapshot.
+-    /// Cancelling a waiter preserves its primary task and immutable failure.
+-    /// A joined task is not a proof that lower transports joined descendants;
+-    /// those transports retain their own shutdown contracts.
+-    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
++    /// Observe once-only shutdown of this snapshot. Unconfirmed and failed
++    /// outcomes keep their exact task in primary custody after observers leave.
++    pub async fn shutdown(&self) -> shutdown::ShutdownResult {
++        use codex_rmcp_client::McpShutdownConfirmation;
++        use codex_rmcp_client::McpShutdownFailure;
+         let owner = self.shutdown_task.get_or_init(|| {
+             let connections = self.servers.values()
+                 .map(|view| Arc::clone(&view.connection)).collect::<Vec<_>>();
+             codex_async_utils::RetainedTask::spawn(&tokio::runtime::Handle::current(), async move {
++                let mut result = Ok(McpShutdownConfirmation::Confirmed);
+                 for connection in connections {
+-                    connection.shutdown().await;
+-                }
++                    let next = connection.shutdown().await;
++                    // Observe every connection even after a known lower error.
++                    result = match (result, next) {
++                        (Err(error), _) | (_, Err(error)) => Err(error),
++                        (Ok(McpShutdownConfirmation::Unconfirmed), _)
++                        | (_, Ok(McpShutdownConfirmation::Unconfirmed)) => Ok(McpShutdownConfirmation::Unconfirmed),
++                        (Ok(McpShutdownConfirmation::Confirmed), Ok(McpShutdownConfirmation::Confirmed)) => Ok(McpShutdownConfirmation::Confirmed),
++                    };
++                }
++                shutdown::ConnectionShutdownOutcome(result)
+             })
+         });
+-        owner.wait().await.map(|_| ())
++        let result = match owner.wait().await {
++            Ok(outcome) => outcome.0,
++            Err(_) => Err(McpShutdownFailure::Task),
++        };
++        let _ = self.shutdown_observation.set(result);
++        result
++    }
++
++    pub(crate) fn shutdown_confirmation(&self) -> Option<shutdown::ShutdownResult> {
++        self.shutdown_observation.get().copied()
+     }
+ 
+     pub(crate) fn cancel_startup(&self) {
+--- a/codex-rs/codex-mcp/src/connection_manager_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_manager_tests.rs
+@@ -109,6 +109,7 @@
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
+             shutdown_task: OnceLock::new(),
++            shutdown_observation: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -451,7 +452,7 @@
+     assert_eq!(tools.len(), 1);
+     assert_eq!(tools[0].tool.name.as_ref(), "first-page");
+     assert_eq!(requests.load(std::sync::atomic::Ordering::SeqCst), 1);
+-    client.shutdown().await;
++    client.shutdown().await?;
+     Ok(())
+ }
+ 
+--- a/codex-rs/codex-mcp/src/connection_shutdown_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_shutdown_tests.rs
+@@ -1,5 +1,5 @@
+ use super::*;
+-use codex_async_utils::TaskJoinFailure;
++use codex_rmcp_client::McpShutdownFailure;
+ 
+ #[tokio::test]
+ async fn shutdown_panic_is_sticky_across_observers() {
+@@ -20,6 +20,59 @@
+         startup_reconnect: None,
+         cancel_token: CancellationToken::new(),
+     });
+-    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
+-    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
++    assert_eq!(manager.shutdown().await, Err(McpShutdownFailure::Task));
++    assert_eq!(manager.shutdown().await, Err(McpShutdownFailure::Task));
+ }
++
++
++#[tokio::test]
++async fn uncertain_startup_cleanup_retains_exact_owner_after_observers_leave() -> anyhow::Result<()> {
++    use codex_rmcp_client::McpShutdownConfirmation;
++    let approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
++    let permission_profile = Constrained::allow_any(PermissionProfile::default());
++    let mut manager = McpConnectionSet::new_uninitialized(
++        &approval_policy, &permission_profile, /*prefix_mcp_tool_names*/ true,
++    );
++    let client: ManagedClientFuture = async { Err(StartupOutcomeError::Cancelled) }.boxed().shared();
++    manager.insert_test_client("cancelled-startup", AsyncManagedClient {
++        client,
++        is_codex_apps_mcp_server: false,
++        server_capabilities: Arc::new(std::sync::Mutex::new(None)),
++        cached_server_info: None,
++        codex_apps_tools_cache_context: None,
++        tool_catalog_cache_context: None,
++        startup_complete: Arc::new(std::sync::atomic::AtomicBool::new(false)),
++        startup_reconnect: None,
++        cancel_token: CancellationToken::new(),
++    });
++    assert_eq!(manager.shutdown_confirmation(), None);
++    assert_eq!(manager.shutdown().await, Ok(McpShutdownConfirmation::Unconfirmed));
++    assert_eq!(manager.shutdown_confirmation(), Some(Ok(McpShutdownConfirmation::Unconfirmed)));
++    let owner = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("missing shutdown owner"))?;
++    let first = owner.wait().await?;
++    let second = owner.wait().await?;
++    assert!(Arc::ptr_eq(&first, &second));
++    let weak = Arc::downgrade(owner);
++    drop(manager);
++    let retained = weak.upgrade().ok_or_else(|| anyhow::anyhow!("unconfirmed owner retired"))?;
++    assert_eq!(retained.wait().await?.0, Ok(McpShutdownConfirmation::Unconfirmed));
++    Ok(())
++}
++
++#[tokio::test]
++async fn confirmed_empty_snapshot_retires_after_exact_join() -> anyhow::Result<()> {
++    use codex_rmcp_client::McpShutdownConfirmation;
++    let approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
++    let permission_profile = Constrained::allow_any(PermissionProfile::default());
++    let manager = McpConnectionSet::new_uninitialized(
++        &approval_policy, &permission_profile, /*prefix_mcp_tool_names*/ true,
++    );
++    assert_eq!(manager.shutdown_confirmation(), None);
++    assert_eq!(manager.shutdown().await, Ok(McpShutdownConfirmation::Confirmed));
++    assert_eq!(manager.shutdown_confirmation(), Some(Ok(McpShutdownConfirmation::Confirmed)));
++    let owner = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("missing shutdown owner"))?;
++    let weak = Arc::downgrade(owner);
++    drop(manager);
++    assert!(weak.upgrade().is_none());
++    Ok(())
++}
+--- a/codex-rs/codex-mcp/src/rmcp_client.rs
++++ b/codex-rs/codex-mcp/src/rmcp_client.rs
+@@ -569,13 +569,19 @@
+         }
+     }
+ 
+-    pub(crate) async fn shutdown(&self) {
++    pub(crate) async fn shutdown(&self) -> Result<
++        codex_rmcp_client::McpShutdownConfirmation,
++        codex_rmcp_client::McpShutdownFailure,
++    > {
+         self.cancel_token.cancel();
+         match self.client().await {
+             Ok(client) => client.client.shutdown().await,
+-            Err(StartupOutcomeError::Cancelled) => {}
++            // A startup error is not itself a cleanup error. Partial lower
++            // resources have independent owners, so it also cannot certify close.
++            Err(StartupOutcomeError::Cancelled) => Ok(codex_rmcp_client::McpShutdownConfirmation::Unconfirmed),
+             Err(error) => {
+                 warn!("failed to initialize MCP client during shutdown: {error:#}");
++                Ok(codex_rmcp_client::McpShutdownConfirmation::Unconfirmed)
+             }
+         }
+     }
+--- a/codex-rs/codex-mcp/src/runtime.rs
++++ b/codex-rs/codex-mcp/src/runtime.rs
+@@ -777,10 +777,23 @@
+         cancellation.retained_subscription_cancellation = Some(retained);
+     }
+ 
+-    /// Drain the owned shutdown task of the current connection snapshot.
+-    /// This does not yet certify lower service or process-group completion.
+-    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
+-        self.latest_connections().shutdown().await
++    /// Stop the current connection snapshot, propagating known lower failures.
++    /// Unconfirmed cleanup does not fail the operation. Its exact outcome remains
++    /// in the connection owner and is exposed separately for cleanup assessment.
++    pub async fn shutdown(&self) -> Result<(), codex_rmcp_client::McpShutdownFailure> {
++        let _confirmation = self.latest_connections().shutdown().await?;
++        Ok(())
++    }
++
++    /// Bounded confirmation for the current snapshot only. None means no completed
++    /// observation of this snapshot; Unconfirmed must not be promoted to clean.
++    /// This excludes earlier/partially constructed snapshots and is not a
++    /// per-session or process-final MCP cleanup certificate.
++    pub fn latest_shutdown_confirmation(&self) -> Option<Result<
++        codex_rmcp_client::McpShutdownConfirmation,
++        codex_rmcp_client::McpShutdownFailure,
++    >> {
++        self.latest_connections().shutdown_confirmation()
+     }
+ }
+ 
+--- a/codex-rs/core/tests/mcp_trace_propagation.rs
++++ b/codex-rs/core/tests/mcp_trace_propagation.rs
+@@ -130,7 +130,7 @@
+         let custom_trace = codex_otel::span_w3c_trace_context(&custom).unwrap();
+         client.send_custom_request("test/custom", Some(json!({"argument":"preserved", "_meta":{"application":"custom-meta", "traceparent":"invalid", "tracestate":"stale=value"}})))
+             .instrument(custom).await?;
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+         telemetry.force_flush()?;
+         let spans = exported.get_finished_spans()?;
+         let requests = server.received_requests().await.unwrap();
+--- a/codex-rs/rmcp-client/Cargo.toml
++++ b/codex-rs/rmcp-client/Cargo.toml
+@@ -16,6 +16,7 @@
+ ] }
+ base64 = { workspace = true }
+ codex-api = { workspace = true }
++codex-async-utils = { workspace = true }
+ codex-config = { workspace = true }
+ codex-exec-server = { workspace = true }
+ codex-http-client = { workspace = true }
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/client_lifecycle.rs
+@@ -0,0 +1,300 @@
++//! Every client generation remains attached through construction and final close.
++
++use std::future::Future;
++use std::pin::Pin;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::OnceLock;
++use std::sync::PoisonError;
++use std::time::Duration;
++
++use codex_async_utils::RetainedTask;
++use codex_async_utils::RetainedTaskOutcome;
++use tokio_util::sync::CancellationToken;
++
++use crate::owned_service::OwnedService;
++use crate::local_process_owner::LocalProcessOwner;
++use crate::transport_lifecycle::TransportCloseConfirmation;
++use crate::transport_lifecycle::TransportCloseObserver;
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum McpShutdownConfirmation {
++    /// Instrumented service/transport handles joined successfully. For local
++    /// stdio this includes the direct child and stderr, not descendant emptiness.
++    Confirmed,
++    /// An exact outer join completed, but an upstream private result is unavailable.
++    Unconfirmed,
++}
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq, thiserror::Error)]
++pub enum McpShutdownFailure {
++    #[error("MCP service shutdown failed")]
++    Service,
++    #[error("MCP transport shutdown failed")]
++    Transport,
++    #[error("MCP process shutdown failed")]
++    Process,
++    #[error("MCP lifecycle task did not complete normally")]
++    Task,
++    #[error("MCP lifecycle admission is closed")]
++    Closed,
++}
++
++type ShutdownResult = Result<McpShutdownConfirmation, McpShutdownFailure>;
++
++pub(crate) trait PendingShutdown: Send + Sync {
++    fn begin_shutdown(&self);
++
++    /// Empty admission shells hold no transport after ownership transfers.
++    fn is_empty(&self) -> bool {
++        false
++    }
++}
++
++/// The construction attempt returned normally. Any resources it created have
++/// independent lifecycle owners; its operation error is not a cleanup failure.
++/// Callers and the client roster retain the original operation result until
++/// observation, while only panic/cancellation requires task-registry custody.
++pub(crate) struct OperationCompletion<T>(pub(crate) Result<T, Arc<anyhow::Error>>);
++
++impl<T: Send + Sync + 'static> RetainedTaskOutcome for OperationCompletion<T> {
++    fn succeeded(&self) -> bool {
++        true
++    }
++}
++
++trait LifecycleJob: Send + Sync {
++    fn wait(&self) -> Pin<Box<dyn Future<Output = Result<(), McpShutdownFailure>> + Send + '_>>;
++}
++
++struct Job<T: RetainedTaskOutcome>(Arc<RetainedTask<T>>);
++
++impl<T: RetainedTaskOutcome> LifecycleJob for Job<T> {
++    fn wait(&self) -> Pin<Box<dyn Future<Output = Result<(), McpShutdownFailure>> + Send + '_>> {
++        Box::pin(async { self.0.wait().await.map(|_| ()).map_err(|_| McpShutdownFailure::Task) })
++    }
++}
++
++#[derive(Default)]
++struct State {
++    closing: bool,
++    constructions: usize,
++    prune_cursor: usize,
++    services: Vec<Arc<OwnedService>>,
++    processes: Vec<Arc<LocalProcessOwner>>,
++    transports: Vec<Arc<dyn TransportCloseObserver>>,
++    pending: Vec<Arc<dyn PendingShutdown>>,
++    jobs: Vec<Arc<dyn LifecycleJob>>,
++    completion: Option<Arc<RetainedTask<ShutdownResult>>>,
++}
++
++static CLIENTS: OnceLock<Mutex<Vec<Arc<ClientLifecycle>>>> = OnceLock::new();
++
++pub(crate) struct ClientLifecycle {
++    state: Mutex<State>,
++    runtime: tokio::runtime::Handle,
++    stop: CancellationToken,
++}
++
++impl ClientLifecycle {
++    pub(crate) fn new(runtime: tokio::runtime::Handle) -> Arc<Self> {
++        let owner = Arc::new(Self {
++            state: Mutex::new(State::default()),
++            runtime,
++            stop: CancellationToken::new(),
++        });
++        CLIENTS.get_or_init(Default::default).lock()
++            .unwrap_or_else(PoisonError::into_inner).push(Arc::clone(&owner));
++        owner
++    }
++
++    pub(crate) fn runtime(&self) -> &tokio::runtime::Handle {
++        &self.runtime
++    }
++
++    pub(crate) fn stop_token(&self) -> CancellationToken {
++        self.stop.clone()
++    }
++
++    pub(crate) fn reserve(self: &Arc<Self>) -> Result<ConstructionLease, McpShutdownFailure> {
++        let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++        if state.closing {
++            return Err(McpShutdownFailure::Closed);
++        }
++        state.constructions += 1;
++        Ok(ConstructionLease { owner: Arc::clone(self) })
++    }
++
++    pub(crate) fn track_job<T: RetainedTaskOutcome>(&self, job: Arc<RetainedTask<T>>) {
++        self.state.lock().unwrap_or_else(PoisonError::into_inner)
++            .jobs.push(Arc::new(Job(job)));
++    }
++
++    pub(crate) fn attach_transport(&self, transport: Arc<dyn TransportCloseObserver>) {
++        self.state.lock().unwrap_or_else(PoisonError::into_inner).transports.push(transport);
++    }
++
++    pub(crate) fn attach_pending(&self, pending: Arc<dyn PendingShutdown>) {
++        let closing = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            state.pending.push(Arc::clone(&pending));
++            state.closing
++        };
++        if closing {
++            pending.begin_shutdown();
++        }
++    }
++
++    pub(crate) fn attach_process(&self, process: LocalProcessOwner) {
++        let process = Arc::new(process);
++        let closing = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            state.processes.push(Arc::clone(&process));
++            state.closing
++        };
++        if closing {
++            process.begin_shutdown();
++        }
++    }
++
++    pub(crate) fn attach_service(&self, service: Arc<OwnedService>) {
++        let closing = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            state.services.push(Arc::clone(&service));
++            state.closing
++        };
++        if closing {
++            service.begin_shutdown();
++        }
++    }
++
++    pub(crate) fn begin_shutdown(self: &Arc<Self>) {
++        let (services, processes, pending) = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            if state.closing {
++                return;
++            }
++            state.closing = true;
++            (state.services.clone(), state.processes.clone(), state.pending.clone())
++        };
++        self.stop.cancel();
++        for process in processes {
++            process.begin_shutdown();
++        }
++        for service in services {
++            service.begin_shutdown();
++        }
++        for pending in pending {
++            pending.begin_shutdown();
++        }
++        let owner = Arc::clone(self);
++        let publisher = Arc::clone(self);
++        let _completion = RetainedTask::spawn_published(&self.runtime, async move {
++            owner.finish().await
++        }, move |task| {
++            publisher.state.lock().unwrap_or_else(PoisonError::into_inner).completion = Some(task);
++        });
++    }
++
++    async fn finish(&self) -> ShutdownResult {
++        // A reserved construction may publish after the fence. Its publication
++        // attaches to this same roster and immediately starts shutdown.
++        let (services, processes, transports, jobs) = loop {
++            let snapshot = {
++                let state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++                (state.constructions == 0).then(|| {
++                    (state.services.clone(), state.processes.clone(), state.transports.clone(), state.jobs.clone())
++                })
++            };
++            if let Some(snapshot) = snapshot {
++                break snapshot;
++            }
++            tokio::time::sleep(Duration::from_millis(/*millis*/ 10)).await;
++        };
++        let mut failure = None;
++        let mut confirmation = McpShutdownConfirmation::Confirmed;
++        for job in jobs {
++            if let Err(error) = job.wait().await {
++                failure.get_or_insert(error);
++            }
++        }
++        for service in services {
++            if let Err(error) = service.wait_closed().await {
++                failure.get_or_insert(error);
++            }
++        }
++        for transport in transports {
++            match transport.wait().await {
++                Ok(TransportCloseConfirmation::Confirmed) => {}
++                Ok(TransportCloseConfirmation::Unconfirmed) => {
++                    confirmation = McpShutdownConfirmation::Unconfirmed;
++                }
++                Err(_) => { failure.get_or_insert(McpShutdownFailure::Transport); }
++            }
++        }
++        for process in processes {
++            if process.wait_closed().await.is_err() {
++                failure.get_or_insert(McpShutdownFailure::Process);
++            }
++        }
++        match failure {
++            Some(error) => Err(error),
++            None => Ok(confirmation),
++        }
++    }
++
++    pub(crate) async fn wait_closed(self: &Arc<Self>) -> ShutdownResult {
++        self.begin_shutdown();
++        let completion = loop {
++            let completion = self.state.lock().unwrap_or_else(PoisonError::into_inner)
++                .completion.clone();
++            if let Some(completion) = completion {
++                break completion;
++            }
++            tokio::time::sleep(Duration::from_millis(/*millis*/ 10)).await;
++        };
++        let result = completion.wait().await.map_err(|_| McpShutdownFailure::Task)?;
++        let result = *result;
++        if result == Ok(McpShutdownConfirmation::Confirmed) {
++            self.retire();
++        }
++        result
++    }
++}
++
++pub(crate) struct ConstructionLease {
++    owner: Arc<ClientLifecycle>,
++}
++
++impl Drop for ConstructionLease {
++    fn drop(&mut self) {
++        self.owner.state.lock().unwrap_or_else(PoisonError::into_inner).constructions -= 1;
++    }
++}
++
++pub(crate) struct ClientConstructionGuard(Option<Arc<ClientLifecycle>>);
++
++impl ClientConstructionGuard {
++    pub(crate) fn new(owner: Arc<ClientLifecycle>) -> Self {
++        Self(Some(owner))
++    }
++
++    pub(crate) fn disarm(mut self) {
++        let _ = self.0.take();
++    }
++}
++
++impl Drop for ClientConstructionGuard {
++    fn drop(&mut self) {
++        if let Some(owner) = self.0.take() {
++            owner.begin_shutdown();
++        }
++    }
++}
++
++#[path = "client_lifecycle_pruning.rs"]
++mod pruning;
++
++#[cfg(test)]
++#[path = "client_lifecycle_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/client_lifecycle_pruning.rs
+@@ -0,0 +1,114 @@
++//! Opportunistic exact observations bound successful generation accumulation.
++
++use super::*;
++use std::sync::atomic::AtomicUsize;
++use std::sync::atomic::Ordering;
++
++const SWEEP_LIMIT: usize = 32;
++static CLIENT_SWEEP_CURSOR: AtomicUsize = AtomicUsize::new(0);
++
++impl ClientLifecycle {
++    /// An idle client may have been dropped without an observer. Only poll its
++    /// already-published completion; never initiate shutdown of an open client.
++    pub(crate) async fn observe_completed_clients() {
++        let clients = {
++            let clients = CLIENTS.get_or_init(Default::default).lock()
++                .unwrap_or_else(PoisonError::into_inner);
++            snapshot(&clients, CLIENT_SWEEP_CURSOR.fetch_add(SWEEP_LIMIT, Ordering::Relaxed))
++        };
++        for client in clients {
++            let completion = client.state.lock().unwrap_or_else(PoisonError::into_inner)
++                .completion.clone();
++            if let Some(completion) = completion
++                && let Ok(Ok(outcome)) = tokio::time::timeout(Duration::ZERO, completion.wait()).await
++                && *outcome == Ok(McpShutdownConfirmation::Confirmed)
++            {
++                client.retire();
++            }
++        }
++    }
++
++    /// Poll at most 32 exact owners per roster. Pending, failed and unconfirmed generations
++    /// remain in the roster. Snapshots and retired resources drop outside locks.
++    pub(crate) async fn prune_clean(&self) {
++        let (services, processes, transports, jobs, pending) = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            let cursor = state.prune_cursor;
++            state.prune_cursor = cursor.wrapping_add(SWEEP_LIMIT);
++            (snapshot(&state.services, cursor), snapshot(&state.processes, cursor),
++                snapshot(&state.transports, cursor), snapshot(&state.jobs, cursor),
++                snapshot(&state.pending, cursor))
++        };
++        let mut clean_services = Vec::new();
++        for service in services {
++            if matches!(tokio::time::timeout(Duration::ZERO, service.wait_closed()).await, Ok(Ok(()))) {
++                clean_services.push(service);
++            }
++        }
++        let mut clean_transports = Vec::new();
++        for transport in transports {
++            if matches!(tokio::time::timeout(Duration::ZERO, transport.wait()).await,
++                Ok(Ok(TransportCloseConfirmation::Confirmed)))
++            {
++                clean_transports.push(transport);
++            }
++        }
++        let mut clean_processes = Vec::new();
++        for process in processes {
++            if process.is_shutdown_started()
++                && matches!(tokio::time::timeout(Duration::ZERO, process.wait_closed()).await, Ok(Ok(())))
++            {
++                clean_processes.push(process);
++            }
++        }
++        let mut clean_jobs = Vec::new();
++        for job in jobs {
++            if matches!(tokio::time::timeout(Duration::ZERO, job.wait()).await, Ok(Ok(()))) {
++                clean_jobs.push(job);
++            }
++        }
++        let empty_pending: Vec<_> = pending.into_iter().filter(|pending| pending.is_empty()).collect();
++        let retired = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            (
++                take_matching(&mut state.services, &clean_services),
++                take_matching(&mut state.processes, &clean_processes),
++                take_matching(&mut state.transports, &clean_transports),
++                take_matching(&mut state.jobs, &clean_jobs),
++                take_matching(&mut state.pending, &empty_pending),
++            )
++        };
++        drop(retired);
++    }
++
++    fn retire(&self) {
++        let retired = {
++            let mut clients = CLIENTS.get_or_init(Default::default).lock()
++                .unwrap_or_else(PoisonError::into_inner);
++            clients.iter().position(|client| std::ptr::eq(Arc::as_ptr(client), self))
++                .map(|index| clients.swap_remove(index))
++        };
++        drop(retired);
++    }
++}
++
++fn take_matching<T: ?Sized>(owners: &mut Vec<Arc<T>>, observed: &[Arc<T>]) -> Vec<Arc<T>> {
++    let mut retired = Vec::new();
++    let mut index = 0;
++    while index < owners.len() {
++        if observed.iter().any(|owner| Arc::ptr_eq(owner, &owners[index])) {
++            retired.push(owners.swap_remove(index));
++        } else {
++            index += 1;
++        }
++    }
++    retired
++}
++
++fn snapshot<T: ?Sized>(owners: &[Arc<T>], cursor: usize) -> Vec<Arc<T>> {
++    if owners.is_empty() {
++        return Vec::new();
++    }
++    owners.iter().cycle().skip(cursor % owners.len()).take(owners.len().min(SWEEP_LIMIT))
++        .map(Arc::clone).collect()
++}
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/client_lifecycle_tests.rs
+@@ -0,0 +1,139 @@
++use super::*;
++
++use std::sync::atomic::AtomicUsize;
++use std::sync::atomic::Ordering;
++
++use crate::transport_lifecycle::TransportCloseFailure;
++
++struct ObservedTransport(Result<TransportCloseConfirmation, TransportCloseFailure>);
++
++impl TransportCloseObserver for ObservedTransport {
++    fn wait(&self) -> Pin<Box<dyn Future<Output = Result<TransportCloseConfirmation, TransportCloseFailure>> + Send + '_>> {
++        Box::pin(async { self.0 })
++    }
++}
++
++#[derive(Default)]
++struct PendingProbe(AtomicUsize);
++
++impl PendingShutdown for PendingProbe {
++    fn begin_shutdown(&self) {
++        self.0.fetch_add(1, Ordering::SeqCst);
++    }
++}
++
++fn is_registered(owner: &Arc<ClientLifecycle>) -> bool {
++    CLIENTS.get_or_init(Default::default).lock().unwrap_or_else(PoisonError::into_inner)
++        .iter().any(|candidate| Arc::ptr_eq(candidate, owner))
++}
++
++async fn bounded_close(owner: &Arc<ClientLifecycle>) -> anyhow::Result<ShutdownResult> {
++    Ok(tokio::time::timeout(Duration::from_secs(5), owner.wait_closed()).await?)
++}
++
++#[tokio::test]
++async fn late_generation_attaches_to_closed_roster_before_completion() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    let lease = owner.reserve()?;
++    owner.begin_shutdown();
++    assert!(matches!(owner.reserve(), Err(McpShutdownFailure::Closed)));
++    let pending = Arc::new(PendingProbe::default());
++    owner.attach_pending(pending.clone());
++    owner.attach_transport(Arc::new(ObservedTransport(Ok(TransportCloseConfirmation::Confirmed))));
++    assert_eq!(pending.0.load(Ordering::SeqCst), 1);
++    assert!(tokio::time::timeout(Duration::from_millis(20), owner.wait_closed()).await.is_err());
++    assert!(is_registered(&owner));
++    drop(lease);
++    assert_eq!(bounded_close(&owner).await?, Ok(McpShutdownConfirmation::Confirmed));
++    assert!(!is_registered(&owner));
++    Ok(())
++}
++
++#[tokio::test]
++async fn cancelled_observer_does_not_cancel_final_owner() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    let lease = owner.reserve()?;
++    assert!(tokio::time::timeout(Duration::from_millis(20), owner.wait_closed()).await.is_err());
++    let first = owner.state.lock().unwrap_or_else(PoisonError::into_inner).completion.clone()
++        .ok_or_else(|| anyhow::anyhow!("missing final owner"))?;
++    drop(lease);
++    assert_eq!(bounded_close(&owner).await?, Ok(McpShutdownConfirmation::Confirmed));
++    let second = owner.state.lock().unwrap_or_else(PoisonError::into_inner).completion.clone()
++        .ok_or_else(|| anyhow::anyhow!("missing repeated final owner"))?;
++    assert!(Arc::ptr_eq(&first, &second));
++    assert_eq!(bounded_close(&owner).await?, Ok(McpShutdownConfirmation::Confirmed));
++    Ok(())
++}
++
++#[tokio::test]
++async fn unconfirmed_is_successful_operation_with_retained_evidence() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    owner.attach_transport(Arc::new(ObservedTransport(Ok(TransportCloseConfirmation::Unconfirmed))));
++    assert_eq!(bounded_close(&owner).await?, Ok(McpShutdownConfirmation::Unconfirmed));
++    owner.prune_clean().await;
++    ClientLifecycle::observe_completed_clients().await;
++    assert!(is_registered(&owner));
++    assert_eq!(owner.state.lock().unwrap_or_else(PoisonError::into_inner).transports.len(), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn known_close_error_remains_failed_and_registered() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    owner.attach_transport(Arc::new(ObservedTransport(Err(TransportCloseFailure::Transport))));
++    assert_eq!(bounded_close(&owner).await?, Err(McpShutdownFailure::Transport));
++    owner.prune_clean().await;
++    assert!(is_registered(&owner));
++    assert_eq!(owner.state.lock().unwrap_or_else(PoisonError::into_inner).transports.len(), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn expected_operation_errors_retire_tasks_but_keep_original_result() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    let original = Arc::new(anyhow::anyhow!("expected unavailable optional server"));
++    let outcome_error = Arc::clone(&original);
++    let publisher = Arc::clone(&owner);
++    let job = RetainedTask::spawn_published(owner.runtime(), async move {
++        OperationCompletion::<()>(Err(outcome_error))
++    }, move |task| publisher.track_job(task));
++    let observed = tokio::time::timeout(Duration::from_secs(5), job.wait()).await??;
++    assert!(observed.succeeded());
++    match &observed.0 {
++        Err(error) => assert!(Arc::ptr_eq(error, &original)),
++        Ok(()) => anyhow::bail!("operation error disappeared"),
++    }
++    owner.prune_clean().await;
++    assert!(owner.state.lock().unwrap_or_else(PoisonError::into_inner).jobs.is_empty());
++    assert_eq!(bounded_close(&owner).await?, Ok(McpShutdownConfirmation::Confirmed));
++    Ok(())
++}
++
++#[tokio::test]
++async fn opportunistic_sweep_observes_drop_only_completion_without_closing_open_clients() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    let open = ClientLifecycle::new(tokio::runtime::Handle::current());
++    owner.begin_shutdown();
++    tokio::time::timeout(Duration::from_secs(5), async {
++        while is_registered(&owner) {
++            ClientLifecycle::observe_completed_clients().await;
++            tokio::task::yield_now().await;
++        }
++    }).await?;
++    assert!(is_registered(&open));
++    assert!(!open.state.lock().unwrap_or_else(PoisonError::into_inner).closing);
++    assert_eq!(bounded_close(&open).await?, Ok(McpShutdownConfirmation::Confirmed));
++    Ok(())
++}
++
++#[tokio::test]
++async fn clean_old_generation_rosters_are_pruned_between_attempts() -> anyhow::Result<()> {
++    let owner = ClientLifecycle::new(tokio::runtime::Handle::current());
++    for _ in 0..32 {
++        owner.attach_transport(Arc::new(ObservedTransport(Ok(TransportCloseConfirmation::Confirmed))));
++        owner.prune_clean().await;
++        assert!(owner.state.lock().unwrap_or_else(PoisonError::into_inner).transports.is_empty());
++    }
++    assert_eq!(bounded_close(&owner).await?, Ok(McpShutdownConfirmation::Confirmed));
++    Ok(())
++}
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/generation_publication.rs
+@@ -0,0 +1,84 @@
++//! A cancelled admission observer closes its generation, including late publication.
++
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::PoisonError;
++use tokio_util::sync::CancellationToken;
++
++use crate::client_lifecycle::PendingShutdown;
++
++#[derive(Default)]
++struct PublicationState {
++    abandoned: bool,
++    generation: Option<Arc<dyn PendingShutdown>>,
++}
++
++/// One publication per construction or handshake attempt. The retained task
++/// publishes its generation here after attaching it to the client roster.
++#[derive(Default)]
++pub(crate) struct GenerationPublication {
++    state: Mutex<PublicationState>,
++    cancelled: CancellationToken,
++}
++
++impl GenerationPublication {
++    pub(crate) fn new() -> (Arc<Self>, GenerationAdmissionGuard) {
++        let publication = Arc::new(Self::default());
++        let guard = GenerationAdmissionGuard(Some(Arc::clone(&publication)));
++        (publication, guard)
++    }
++
++    pub(crate) fn publish(&self, generation: Arc<dyn PendingShutdown>) {
++        let (abandoned, previous) = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            let previous = state.generation.replace(Arc::clone(&generation));
++            (state.abandoned, previous)
++        };
++        // Neither a replaced generation's destructor nor its shutdown callback
++        // may run while the admission mutex is held.
++        drop(previous);
++        if abandoned {
++            generation.begin_shutdown();
++        }
++    }
++
++    pub(crate) fn cancellation_token(&self) -> CancellationToken {
++        self.cancelled.clone()
++    }
++}
++
++pub(crate) struct GenerationAdmissionGuard(Option<Arc<GenerationPublication>>);
++
++impl GenerationAdmissionGuard {
++    pub(crate) fn for_generation(generation: Arc<dyn PendingShutdown>) -> Self {
++        let (publication, guard) = GenerationPublication::new();
++        publication.publish(generation);
++        guard
++    }
++
++    pub(crate) fn disarm(mut self) {
++        let _ = self.0.take();
++    }
++}
++
++impl Drop for GenerationAdmissionGuard {
++    fn drop(&mut self) {
++        if let Some(publication) = self.0.take() {
++            let generation = {
++                let mut state = publication.state.lock().unwrap_or_else(PoisonError::into_inner);
++                state.abandoned = true;
++                state.generation.take()
++            };
++            // Cancellation may wake arbitrary observers; both signals run only
++            // after the abandoned state is visible and the mutex is released.
++            publication.cancelled.cancel();
++            if let Some(generation) = generation {
++                generation.begin_shutdown();
++            }
++        }
++    }
++}
++
++#[cfg(test)]
++#[path = "generation_publication_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/generation_publication_tests.rs
+@@ -0,0 +1,141 @@
++use super::*;
++use pretty_assertions::assert_eq;
++use std::error::Error;
++use std::sync::Barrier;
++use std::sync::Weak;
++use std::sync::atomic::AtomicBool;
++use std::sync::atomic::AtomicUsize;
++use std::sync::atomic::Ordering;
++use std::time::Duration;
++
++type TestResult = Result<(), Box<dyn Error + Send + Sync>>;
++
++struct Generation {
++    calls: AtomicUsize,
++    callback_outside_lock: AtomicBool,
++    publication: Weak<GenerationPublication>,
++}
++
++impl Generation {
++    fn new(publication: &Arc<GenerationPublication>) -> Arc<Self> {
++        Arc::new(Self {
++            calls: AtomicUsize::new(0),
++            callback_outside_lock: AtomicBool::new(false),
++            publication: Arc::downgrade(publication),
++        })
++    }
++}
++
++impl PendingShutdown for Generation {
++    fn begin_shutdown(&self) {
++        self.calls.fetch_add(1, Ordering::AcqRel);
++        if let Some(publication) = self.publication.upgrade() {
++            self.callback_outside_lock.store(publication.state.try_lock().is_ok(), Ordering::Release);
++        }
++    }
++}
++
++#[test]
++fn abandonment_after_publication_signals_once_outside_the_lock() {
++    let (publication, guard) = GenerationPublication::new();
++    let generation = Generation::new(&publication);
++    let cancellation = publication.cancellation_token();
++    publication.publish(generation.clone());
++    assert!(!cancellation.is_cancelled());
++    assert_eq!(generation.calls.load(Ordering::Acquire), 0);
++    drop(guard);
++    assert!(cancellation.is_cancelled());
++    assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++    assert!(generation.callback_outside_lock.load(Ordering::Acquire));
++    drop(publication);
++    assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++}
++
++#[test]
++fn abandonment_before_publication_closes_the_late_generation() {
++    let (publication, guard) = GenerationPublication::new();
++    let generation = Generation::new(&publication);
++    let cancellation = publication.cancellation_token();
++    drop(guard);
++    assert!(cancellation.is_cancelled());
++    assert_eq!(generation.calls.load(Ordering::Acquire), 0);
++    publication.publish(generation.clone());
++    assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++    assert!(generation.callback_outside_lock.load(Ordering::Acquire));
++    drop(publication);
++    assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++}
++
++#[tokio::test]
++async fn cancelled_observer_closes_late_publication_exactly_once() -> TestResult {
++    let (publication, guard) = GenerationPublication::new();
++    let generation = Generation::new(&publication);
++    let cancellation = publication.cancellation_token();
++    let observer = tokio::spawn(async move {
++        let _guard = guard;
++        std::future::pending::<()>().await;
++    });
++    tokio::task::yield_now().await;
++    observer.abort();
++    let error = observer.await.err().ok_or("observer unexpectedly completed")?;
++    assert!(error.is_cancelled());
++    tokio::time::timeout(Duration::from_secs(2), cancellation.cancelled()).await?;
++    publication.publish(generation.clone());
++    for _ in 0..2 {
++        tokio::time::timeout(Duration::from_secs(2), cancellation.cancelled()).await?;
++        assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++    }
++    assert!(generation.callback_outside_lock.load(Ordering::Acquire));
++    Ok(())
++}
++
++#[test]
++fn disarming_before_or_after_publication_preserves_the_live_generation() {
++    for publish_first in [false, true] {
++        let (publication, guard) = GenerationPublication::new();
++        let generation = Generation::new(&publication);
++        let cancellation = publication.cancellation_token();
++        if publish_first {
++            publication.publish(generation.clone());
++        }
++        guard.disarm();
++        if !publish_first {
++            publication.publish(generation.clone());
++        }
++        drop(publication);
++        assert!(!cancellation.is_cancelled());
++        assert_eq!(generation.calls.load(Ordering::Acquire), 0);
++    }
++}
++
++#[test]
++fn concurrent_abandonment_and_publication_have_one_shutdown_signal() -> TestResult {
++    for _ in 0..32 {
++        let (publication, guard) = GenerationPublication::new();
++        let generation = Generation::new(&publication);
++        let cancellation = publication.cancellation_token();
++        let barrier = Arc::new(Barrier::new(2));
++        let abandon_barrier = Arc::clone(&barrier);
++        let observer = std::thread::spawn(move || {
++            abandon_barrier.wait();
++            drop(guard);
++        });
++        barrier.wait();
++        publication.publish(generation.clone());
++        observer.join().map_err(|_| "admission observer panicked")?;
++        assert!(cancellation.is_cancelled());
++        assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++    }
++    Ok(())
++}
++
++#[test]
++fn admitted_generation_guard_signals_shutdown_on_drop() {
++    let (publication, unused_guard) = GenerationPublication::new();
++    unused_guard.disarm();
++    let generation = Generation::new(&publication);
++    let guard = GenerationAdmissionGuard::for_generation(generation.clone());
++    assert_eq!(generation.calls.load(Ordering::Acquire), 0);
++    drop(guard);
++    assert_eq!(generation.calls.load(Ordering::Acquire), 1);
++}
+--- a/codex-rs/rmcp-client/src/lib.rs
++++ b/codex-rs/rmcp-client/src/lib.rs
+@@ -1,5 +1,6 @@
+ mod auth_status;
+ mod bounded_stdio_transport;
++mod client_lifecycle;
+ mod elicitation_client_service;
+ mod ema_auth;
+ mod ema_auth_policy;
+@@ -10,10 +11,12 @@
+ mod enterprise_oauth_login;
+ mod event_notification_transport;
+ mod executor_process_transport;
++mod generation_publication;
+ mod http_client_adapter;
+ mod http_client_redirect;
+ mod http_headers;
+ mod in_process_transport;
++mod local_process_owner;
+ mod local_stdio_transport;
+ mod logging_client_handler;
+ mod oauth;
+@@ -22,6 +25,7 @@
+ mod oauth_client_registration;
+ mod oauth_http_client;
+ mod oauth_refresh_mode;
++mod owned_service;
+ mod perform_oauth_login;
+ mod program_resolver;
+ mod protocol_mode;
+@@ -31,6 +35,7 @@
+ mod stdio_server_launcher;
+ mod tool_input;
+ mod trace_context;
++mod transport_lifecycle;
+ mod user_verification;
+ mod utils;
+ mod www_authenticate;
+@@ -42,6 +47,8 @@
+ pub use auth_status::determine_streamable_http_auth_status;
+ pub use auth_status::determine_streamable_http_auth_status_from_credentials;
+ pub use auth_status::discover_streamable_http_oauth;
++pub use client_lifecycle::McpShutdownConfirmation;
++pub use client_lifecycle::McpShutdownFailure;
+ pub use codex_protocol::protocol::McpAuthStatus;
+ pub use ema_auth::EmaAuthTokenExchangeRequest;
+ pub use ema_auth::exchange_ema_auth_token;
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/local_process_owner.rs
+@@ -0,0 +1,423 @@
++//! Exact local process and stderr custody independent of shutdown observers.
++//!
++//! The registry owns the resources separately from the worker's future. Even a
++//! cancelled worker therefore leaves the original child and reader reachable.
++
++use std::io;
++#[cfg(windows)]
++use std::os::windows::io::OwnedHandle;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::OnceLock;
++use std::sync::PoisonError;
++use std::sync::Weak;
++use std::time::Duration;
++
++use codex_async_utils::RetainedTask;
++use codex_async_utils::TaskJoinFailure;
++use codex_utils_pty::Child;
++#[cfg(unix)]
++use codex_utils_pty::process_group::kill_process_group;
++#[cfg(unix)]
++use codex_utils_pty::process_group::terminate_process_group;
++use tokio::io::AsyncBufReadExt;
++use tokio::io::BufReader;
++use tokio::io::Lines;
++use tokio::process::ChildStderr;
++use tokio::process::ChildStdin;
++use tokio::process::ChildStdout;
++use tokio::runtime::Handle;
++use tokio::sync::Mutex as AsyncMutex;
++use tokio::time::Instant;
++use tokio_util::sync::CancellationToken;
++
++#[cfg(unix)]
++const GROUP_GRACE: Duration = Duration::from_secs(/*secs*/ 2);
++const CHILD_GRACE: Duration = Duration::from_secs(/*secs*/ 3);
++const STDERR_GRACE: Duration = Duration::from_millis(/*millis*/ 250);
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++enum CloseFailure {
++    Signal,
++    Wait,
++    Kill,
++    Framing,
++    UnobservedFraming,
++    UnconfirmedOwnership,
++    RuntimeUnavailable,
++    TaskPanicked,
++    TaskCancelled,
++    SpawnPanicked,
++}
++
++impl std::fmt::Display for CloseFailure {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter.write_str(match self {
++            Self::Signal => "MCP process termination signal failed",
++            Self::Wait => "MCP child exit observation failed",
++            Self::Kill => "MCP child kill or reap failed",
++            Self::Framing => "MCP stdio framing close failed",
++            Self::UnobservedFraming => "MCP stdio framing close was not observed",
++            Self::UnconfirmedOwnership => "MCP stdio resource ownership remains unconfirmed",
++            Self::RuntimeUnavailable => "MCP process cleanup runtime unavailable",
++            Self::TaskPanicked => "MCP process cleanup task panicked",
++            Self::TaskCancelled => "MCP process cleanup task was cancelled",
++            Self::SpawnPanicked => "MCP process cleanup task spawn panicked",
++        })
++    }
++}
++
++impl std::error::Error for CloseFailure {}
++
++#[cfg(unix)]
++pub(crate) struct LocalProcessTerminator {
++    process_group_id: u32,
++}
++
++#[cfg(windows)]
++pub(crate) enum LocalProcessTerminator {
++    Job(codex_utils_pty::JobObject),
++    Process(OwnedHandle),
++}
++
++#[cfg(not(any(unix, windows)))]
++pub(crate) struct LocalProcessTerminator;
++
++#[derive(Default)]
++struct Registry {
++    processes: Mutex<Vec<Arc<ProcessState>>>,
++}
++
++static PROCESSES: OnceLock<Arc<Registry>> = OnceLock::new();
++
++type CloseTask = RetainedTask<Result<(), CloseFailure>>;
++
++struct ProcessState {
++    registry: Weak<Registry>,
++    child: AsyncMutex<Option<Child>>,
++    stderr: AsyncMutex<Option<Lines<BufReader<ChildStderr>>>>,
++    terminator: Mutex<Option<LocalProcessTerminator>>,
++    shutdown_at: OnceLock<Instant>,
++    shutdown: CancellationToken,
++    worker: OnceLock<Arc<CloseTask>>,
++    worker_ready: CancellationToken,
++    termination_ready: CancellationToken,
++    framing: Mutex<Option<Result<(), CloseFailure>>>,
++    // Retain original errors privately; public receipts have fixed classifications.
++    errors: Mutex<Vec<io::Error>>,
++    // Reading diagnostics can fail after ownership has been closed successfully.
++    diagnostic_errors: Mutex<Vec<io::Error>>,
++    program_name: String,
++}
++
++#[derive(Clone)]
++pub(crate) struct LocalProcessOwner {
++    state: Arc<ProcessState>,
++    process_id: Option<u32>,
++}
++
++impl LocalProcessOwner {
++    pub(crate) fn new(
++        child: Child,
++        program_name: String,
++        observer: Option<Arc<dyn Fn(LocalProcessOwner) + Send + Sync>>,
++    ) -> io::Result<(Self, ChildStdin, ChildStdout)> {
++        Self::new_in(child, program_name, PROCESSES.get_or_init(Default::default), observer)
++    }
++
++    fn new_in(
++        mut child: Child,
++        program_name: String,
++        registry: &Arc<Registry>,
++        observer: Option<Arc<dyn Fn(LocalProcessOwner) + Send + Sync>>,
++    ) -> io::Result<(Self, ChildStdin, ChildStdout)> {
++        let process_id = child.id();
++        let stdin = child.stdin.take();
++        let stdout = child.stdout.take();
++        let stderr = child.stderr.take().map(|stderr| BufReader::new(stderr).lines());
++        #[cfg(unix)]
++        let terminator = process_id.map(|process_group_id| LocalProcessTerminator {
++            process_group_id,
++        });
++        #[cfg(not(unix))]
++        let terminator = None;
++        let state = Arc::new(ProcessState {
++            registry: Arc::downgrade(registry),
++            child: AsyncMutex::new(Some(child)),
++            stderr: AsyncMutex::new(stderr),
++            terminator: Mutex::new(terminator),
++            shutdown_at: OnceLock::new(),
++            shutdown: CancellationToken::new(),
++            worker: OnceLock::new(),
++            worker_ready: CancellationToken::new(),
++            termination_ready: CancellationToken::new(),
++            framing: Mutex::new(None),
++            errors: Mutex::new(Vec::new()),
++            diagnostic_errors: Mutex::new(Vec::new()),
++            program_name,
++        });
++        registry.processes.lock().unwrap_or_else(PoisonError::into_inner)
++            .push(Arc::clone(&state));
++        let owner = Self { state, process_id };
++        // Publish the actual child outside all owner/registry locks, before
++        // worker creation or fallible stdio validation can end this generation.
++        if let Some(observer) = observer {
++            observer(owner.clone());
++        }
++        #[cfg(not(windows))]
++        owner.state.termination_ready.cancel();
++        if let Ok(runtime) = Handle::try_current() {
++            let running = Arc::clone(&owner.state);
++            let published = Arc::clone(&owner.state);
++            let _ = RetainedTask::spawn_published(&runtime, async move {
++                let (process, stderr) = tokio::join!(running.close_child(), running.drain_stderr());
++                process.and(stderr)
++            }, move |task| {
++                let _ = published.worker.set(task);
++            });
++            owner.state.worker_ready.cancel();
++        } else {
++            owner.state.worker_ready.cancel();
++            owner.begin_shutdown();
++            return Err(io::Error::other(CloseFailure::RuntimeUnavailable));
++        }
++        match (stdin, stdout) {
++            (Some(stdin), Some(stdout)) => Ok((owner, stdin, stdout)),
++            _ => {
++                owner.record_framing(Err(io::Error::other("MCP server stdio was not piped")));
++                // No transport is returned for the launcher to attach its
++                // Windows terminator; the exact child still needs reaping.
++                owner.state.termination_ready.cancel();
++                owner.begin_shutdown();
++                Err(io::Error::other("MCP server stdio was not piped"))
++            }
++        }
++    }
++
++    pub(crate) fn id(&self) -> Option<u32> {
++        self.process_id
++    }
++
++    #[cfg(windows)]
++    pub(crate) fn set_terminator(&self, terminator: Option<LocalProcessTerminator>) {
++        let previous = {
++            let mut current = self.state.terminator.lock().unwrap_or_else(PoisonError::into_inner);
++            std::mem::replace(&mut *current, terminator)
++        };
++        drop(previous);
++        // A closed client roster can request shutdown during owner publication.
++        // Its worker must observe this platform handle before sending signals.
++        self.state.termination_ready.cancel();
++    }
++
++    pub(crate) fn begin_shutdown(&self) {
++        self.state.shutdown_at.get_or_init(Instant::now);
++        self.state.shutdown.cancel();
++    }
++
++    pub(crate) fn is_shutdown_started(&self) -> bool {
++        self.state.shutdown.is_cancelled()
++    }
++
++    pub(crate) fn record_framing(&self, result: io::Result<()>) {
++        let result = result.map_err(|error| self.state.record_error(CloseFailure::Framing, error));
++        let mut framing = self.state.framing.lock().unwrap_or_else(PoisonError::into_inner);
++        if !matches!(*framing, Some(Err(_))) {
++            *framing = Some(result);
++        }
++    }
++
++    pub(crate) fn transport_dropped(&self) {
++        let mut framing = self.state.framing.lock().unwrap_or_else(PoisonError::into_inner);
++        if framing.is_none() {
++            *framing = Some(Err(CloseFailure::UnobservedFraming));
++        }
++        drop(framing);
++        self.begin_shutdown();
++    }
++
++    /// Observe signal, direct-child reaping and stderr completion independently
++    /// of framing. The service can request termination before closing its pipes.
++    pub(crate) async fn terminate(&self) -> io::Result<()> {
++        self.begin_shutdown();
++        self.state.worker_ready.cancelled().await;
++        let worker = self.state.worker.get()
++            .ok_or_else(|| io::Error::other(CloseFailure::RuntimeUnavailable))?;
++        match worker.wait().await {
++            Ok(result) => (*result).map_err(io::Error::other),
++            Err(error) => Err(io::Error::other(match error {
++                TaskJoinFailure::Panicked => CloseFailure::TaskPanicked,
++                TaskJoinFailure::Cancelled => CloseFailure::TaskCancelled,
++                TaskJoinFailure::SpawnPanicked => CloseFailure::SpawnPanicked,
++            })),
++        }
++    }
++
++    /// Only a joined, reaped process and a successful framing observation retire
++    /// the separate resource owner. Failure and cancelled observers retain it.
++    pub(crate) async fn wait_closed(&self) -> io::Result<()> {
++        let process = self.terminate().await;
++        let framing = *self.state.framing.lock().unwrap_or_else(PoisonError::into_inner);
++        let framing = framing.unwrap_or(Err(CloseFailure::UnobservedFraming));
++        let direct_child_reaped = self.state.child.lock().await.is_none();
++        let stderr_closed = self.state.stderr.lock().await.is_none();
++        let diagnostic_errors = self.state.diagnostic_errors.lock()
++            .unwrap_or_else(PoisonError::into_inner).len();
++        let ownership_confirmed = process.is_ok() && framing.is_ok()
++            && direct_child_reaped && stderr_closed;
++        tracing::info!(target: "codex_rmcp_client::lifecycle",
++            event = "mcp_local_process_shutdown_observed", receipt_version = 1_u64,
++            direct_child_reaped, stderr_closed, diagnostic_errors, ownership_confirmed,
++            process_group_completion = "unconfirmed",
++            "MCP local process shutdown observed");
++        process.and(framing.map_err(io::Error::other))?;
++        if !ownership_confirmed {
++            return Err(io::Error::other(CloseFailure::UnconfirmedOwnership));
++        }
++        if let Some(registry) = self.state.registry.upgrade() {
++            let retired = {
++                let mut processes = registry.processes.lock().unwrap_or_else(PoisonError::into_inner);
++                processes.iter().position(|state| Arc::ptr_eq(state, &self.state))
++                    .map(|index| processes.swap_remove(index))
++            };
++            drop(retired);
++        }
++        Ok(())
++    }
++}
++
++impl ProcessState {
++    fn record_error(&self, failure: CloseFailure, error: io::Error) -> CloseFailure {
++        self.errors.lock().unwrap_or_else(PoisonError::into_inner).push(error);
++        failure
++    }
++
++    #[expect(
++        clippy::await_holding_invalid_type,
++        reason = "borrow the registry-owned child across wait and kill so worker cancellation preserves custody"
++    )]
++    async fn close_child(&self) -> Result<(), CloseFailure> {
++        self.shutdown.cancelled().await;
++        self.termination_ready.cancelled().await;
++        let started = *self.shutdown_at.get_or_init(Instant::now);
++        let signal = self.signal_and_escalate(started).await;
++        let mut child_slot = self.child.lock().await;
++        let Some(child) = child_slot.as_mut() else { return signal };
++        let mut failure = None;
++        let reaped = match tokio::time::timeout_at(started + CHILD_GRACE, child.wait()).await {
++            Ok(Ok(_)) => true,
++            result => {
++                if let Ok(Err(error)) = result {
++                    failure = Some(self.record_error(CloseFailure::Wait, error));
++                }
++                match child.kill().await {
++                    Ok(()) => true,
++                    Err(error) => {
++                        let kill_failure = self.record_error(CloseFailure::Kill, error);
++                        failure.get_or_insert(kill_failure);
++                        false
++                    }
++                }
++            }
++        };
++        let reaped_child = if reaped { child_slot.take() } else { None };
++        drop(child_slot);
++        drop(reaped_child);
++        signal.and(failure.map_or(Ok(()), Err))
++    }
++
++    async fn signal_and_escalate(&self, started: Instant) -> Result<(), CloseFailure> {
++        #[cfg(unix)]
++        {
++            let signal = {
++                let terminator = self.terminator.lock().unwrap_or_else(PoisonError::into_inner);
++                match terminator.as_ref() {
++                    Some(terminator) => terminate_process_group(terminator.process_group_id),
++                    None => Ok(false),
++                }
++            };
++            let mut failure = None;
++            let escalate = match signal {
++                Ok(exists) => exists,
++                Err(error) => {
++                    failure = Some(self.record_error(CloseFailure::Signal, error));
++                    true
++                }
++            };
++            if escalate {
++                // Retain the unreaped leader until escalation finishes so its
++                // process-group ID cannot be reused before this final signal.
++                tokio::time::sleep_until(started + GROUP_GRACE).await;
++                let result = {
++                    let terminator = self.terminator.lock().unwrap_or_else(PoisonError::into_inner);
++                    match terminator.as_ref() {
++                        Some(terminator) => kill_process_group(terminator.process_group_id),
++                        None => Ok(()),
++                    }
++                };
++                if let Err(error) = result {
++                    let signal_failure = self.record_error(CloseFailure::Signal, error);
++                    failure.get_or_insert(signal_failure);
++                }
++            }
++            failure.map_or(Ok(()), Err)
++        }
++        #[cfg(windows)]
++        {
++            let _ = started;
++            let result = {
++                let terminator = self.terminator.lock().unwrap_or_else(PoisonError::into_inner);
++                match terminator.as_ref() {
++                    Some(LocalProcessTerminator::Job(job)) => job.terminate(),
++                    Some(LocalProcessTerminator::Process(handle)) => {
++                        codex_utils_pty::JobObject::terminate_process_handle(handle)
++                    }
++                    None => Ok(()),
++                }
++            };
++            result.map_err(|error| self.record_error(CloseFailure::Signal, error))
++        }
++        #[cfg(not(any(unix, windows)))]
++        {
++            let _ = started;
++            Ok(())
++        }
++    }
++
++    #[expect(
++        clippy::await_holding_invalid_type,
++        reason = "borrow the registry-owned stderr reader so worker cancellation cannot drop its handle"
++    )]
++    async fn drain_stderr(&self) -> Result<(), CloseFailure> {
++        let mut stderr = self.stderr.lock().await;
++        let Some(reader) = stderr.as_mut() else { return Ok(()) };
++        let mut drain_until = None;
++        let outcome = loop {
++            tokio::select! {
++                biased;
++                _ = tokio::time::sleep_until(drain_until.unwrap_or_else(Instant::now)), if drain_until.is_some() => break Ok(()),
++                _ = self.shutdown.cancelled(), if drain_until.is_none() => {
++                    let started = *self.shutdown_at.get_or_init(Instant::now);
++                    drain_until = Some(started + STDERR_GRACE);
++                }
++                line = reader.next_line() => match line {
++                    Ok(Some(line)) => tracing::info!("MCP server stderr ({}): {line}", self.program_name),
++                    Ok(None) => break Ok(()),
++                    Err(error) => {
++                        self.diagnostic_errors.lock().unwrap_or_else(PoisonError::into_inner)
++                            .push(error);
++                        break Ok(());
++                    }
++                },
++            }
++        };
++        let completed_reader = stderr.take();
++        drop(stderr);
++        drop(completed_reader);
++        outcome
++    }
++}
++
++#[cfg(all(test, unix))]
++#[path = "local_process_owner_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/local_process_owner_tests.rs
+@@ -0,0 +1,194 @@
++use super::CloseFailure;
++use super::LocalProcessOwner;
++use super::Registry;
++use codex_utils_pty::Command;
++use codex_utils_pty::ProcessMode;
++use pretty_assertions::assert_eq;
++use std::io;
++use std::sync::Arc;
++use std::sync::PoisonError;
++use std::sync::mpsc;
++use std::time::Duration;
++
++fn child_command() -> Command {
++    let mut command = Command::new("/bin/sh");
++    command.args(["-c", "read line"]);
++    command.process_mode(ProcessMode::NewGroup);
++    command
++}
++
++#[tokio::test]
++async fn cancelled_observer_preserves_cleanup_and_the_first_deadline() -> io::Result<()> {
++    let registry = Arc::new(Registry::default());
++    let (owner, stdin, stdout) = LocalProcessOwner::new_in(
++        child_command().spawn()?,
++        "test child".to_owned(),
++        &registry,
++        /*observer*/ None,
++    )?;
++    drop(stdin);
++    drop(stdout);
++    owner.record_framing(Ok(()));
++    owner.begin_shutdown();
++    let first_deadline = owner.state.shutdown_at.get().copied();
++    let observer_owner = owner.clone();
++    let observer = tokio::spawn(async move { observer_owner.wait_closed().await });
++    tokio::task::yield_now().await;
++    observer.abort();
++    let _ = observer.await;
++    owner.begin_shutdown();
++    assert_eq!(owner.state.shutdown_at.get().copied(), first_deadline);
++    tokio::time::timeout(Duration::from_secs(/*secs*/ 5), owner.wait_closed())
++        .await.map_err(io::Error::other)??;
++    assert!(owner.state.child.lock().await.is_none());
++    assert!(owner.state.stderr.lock().await.is_none());
++    assert!(registry.processes.lock().unwrap_or_else(PoisonError::into_inner).is_empty());
++    Ok(())
++}
++
++#[tokio::test]
++async fn framing_failure_does_not_skip_reaping_or_retire_failure_custody() -> io::Result<()> {
++    let registry = Arc::new(Registry::default());
++    let (owner, stdin, stdout) = LocalProcessOwner::new_in(
++        child_command().spawn()?,
++        "test child".to_owned(),
++        &registry,
++        /*observer*/ None,
++    )?;
++    drop(stdin);
++    drop(stdout);
++    owner.record_framing(Err(io::Error::other("original framing failure")));
++    owner.record_framing(Ok(()));
++    let error = tokio::time::timeout(Duration::from_secs(/*secs*/ 5), owner.wait_closed())
++        .await.map_err(io::Error::other)?
++        .err().ok_or_else(|| io::Error::other("framing failure was lost"))?;
++    assert_eq!(error.to_string(), CloseFailure::Framing.to_string());
++    assert!(owner.state.child.lock().await.is_none());
++    assert!(owner.state.stderr.lock().await.is_none());
++    assert_eq!(registry.processes.lock().unwrap_or_else(PoisonError::into_inner).len(), 1);
++    let errors = owner.state.errors.lock().unwrap_or_else(PoisonError::into_inner);
++    assert_eq!(errors.iter().map(ToString::to_string).collect::<Vec<_>>(), vec!["original framing failure"]);
++    Ok(())
++}
++
++#[tokio::test]
++async fn missing_stdio_publishes_the_registered_owner_before_worker_creation() -> io::Result<()> {
++    let registry = Arc::new(Registry::default());
++    let observer_registry = Arc::clone(&registry);
++    let (published_tx, published_rx) = mpsc::channel();
++    let observer = Arc::new(move |owner: LocalProcessOwner| {
++        let registered_outside_lock = observer_registry.processes.try_lock().is_ok_and(|processes| {
++            processes.iter().any(|state| Arc::ptr_eq(state, &owner.state))
++        });
++        let before_worker_creation = owner.state.worker.get().is_none();
++        // A roster already closing must be able to signal this generation
++        // synchronously, even though its launcher will return an error.
++        owner.begin_shutdown();
++        let _ = published_tx.send((owner, registered_outside_lock, before_worker_creation));
++    });
++    let mut child = child_command().spawn()?;
++    drop(child.stdout.take());
++    let result = LocalProcessOwner::new_in(
++        child,
++        "test child".to_owned(),
++        &registry,
++        Some(observer),
++    );
++    assert!(result.is_err());
++    let (owner, registered_outside_lock, before_worker_creation) =
++        published_rx.try_recv().map_err(io::Error::other)?;
++    assert!(registered_outside_lock);
++    assert!(before_worker_creation);
++    assert!(owner.is_shutdown_started());
++    let error = tokio::time::timeout(Duration::from_secs(/*secs*/ 5), owner.wait_closed())
++        .await.map_err(io::Error::other)?
++        .err().ok_or_else(|| io::Error::other("failed launch reported confirmed closure"))?;
++    assert_eq!(error.to_string(), CloseFailure::Framing.to_string());
++    assert!(owner.state.child.lock().await.is_none());
++    assert!(owner.state.stderr.lock().await.is_none());
++    assert_eq!(registry.processes.lock().unwrap_or_else(PoisonError::into_inner).len(), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn stderr_diagnostic_does_not_block_confirmed_ownership_retirement() -> io::Result<()> {
++    let registry = Arc::new(Registry::default());
++    let mut command = Command::new("/bin/sh");
++    command.args(["-c", "printf '\\377' >&2; read line"]);
++    command.process_mode(ProcessMode::NewGroup);
++    let (owner, stdin, stdout) = LocalProcessOwner::new_in(
++        command.spawn()?,
++        "test child".to_owned(),
++        &registry,
++        /*observer*/ None,
++    )?;
++    tokio::time::timeout(Duration::from_secs(/*secs*/ 5), async {
++        loop {
++            if !owner.state.diagnostic_errors.lock().unwrap_or_else(PoisonError::into_inner).is_empty() {
++                break;
++            }
++            tokio::task::yield_now().await;
++        }
++    }).await.map_err(io::Error::other)?;
++    drop(stdin);
++    drop(stdout);
++    owner.record_framing(Ok(()));
++    owner.wait_closed().await?;
++    assert!(owner.state.child.lock().await.is_none());
++    assert!(owner.state.stderr.lock().await.is_none());
++    assert!(registry.processes.lock().unwrap_or_else(PoisonError::into_inner).is_empty());
++    assert!(owner.state.errors.lock().unwrap_or_else(PoisonError::into_inner).is_empty());
++    let diagnostics = owner.state.diagnostic_errors.lock().unwrap_or_else(PoisonError::into_inner);
++    assert_eq!(diagnostics.iter().map(io::Error::kind).collect::<Vec<_>>(), vec![io::ErrorKind::InvalidData]);
++    Ok(())
++}
++
++#[test]
++#[expect(
++    clippy::await_holding_invalid_type,
++    reason = "the test reaps a child retained after its original runtime cancelled the worker"
++)]
++fn cancelled_worker_does_not_drop_its_child_or_stderr_reader() -> io::Result<()> {
++    let registry = Arc::new(Registry::default());
++    let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build()?;
++    let (owner, stdin, stdout) = runtime.block_on(async {
++        LocalProcessOwner::new_in(
++            child_command().spawn()?,
++            "test child".to_owned(),
++            &registry,
++            /*observer*/ None,
++        )
++    })?;
++    drop(runtime);
++    // Inspect ownership after the runtime has cancelled the actual worker,
++    // rather than only cancelling a waiter of its result.
++    let child_retained = owner.state.child.try_lock().is_ok_and(|slot| slot.is_some());
++    let stderr_retained = owner.state.stderr.try_lock().is_ok_and(|slot| slot.is_some());
++    drop(stdin);
++    drop(stdout);
++    let cleanup = tokio::runtime::Builder::new_current_thread().enable_all().build()?;
++    cleanup.block_on(async {
++        let mut child = owner.state.child.lock().await;
++        if let Some(child) = child.as_mut() {
++            // The original SIGCHLD stream belonged to the stopped runtime.
++            // Repeated kill/wait polls still collect its cached or OS exit status.
++            tokio::time::timeout(Duration::from_secs(/*secs*/ 5), async {
++                loop {
++                    if child.kill().await.is_ok() || child.id().is_none() {
++                        break;
++                    }
++                    tokio::time::sleep(Duration::from_millis(/*millis*/ 10)).await;
++                }
++            }).await.map_err(io::Error::other)?;
++        }
++        child.take();
++        owner.state.stderr.lock().await.take();
++        let error = owner.terminate().await.err()
++            .ok_or_else(|| io::Error::other("cancelled worker reported success"))?;
++        assert_eq!(error.to_string(), CloseFailure::TaskCancelled.to_string());
++        Ok::<_, io::Error>(())
++    })?;
++    assert_eq!((child_retained, stderr_retained), (true, true));
++    assert_eq!(registry.processes.lock().unwrap_or_else(PoisonError::into_inner).len(), 1);
++    Ok(())
++}
+--- a/codex-rs/rmcp-client/src/local_stdio_transport.rs
++++ b/codex-rs/rmcp-client/src/local_stdio_transport.rs
+@@ -4,7 +4,7 @@
+ 
+ use std::future::Future;
+ use std::io;
+-use std::time::Duration;
++use std::sync::Arc;
+ 
+ use codex_utils_pty::Command;
+ use futures::FutureExt;
+@@ -13,16 +13,15 @@
+ use rmcp::service::TxJsonRpcMessage;
+ use rmcp::transport::Transport;
+ use rmcp::transport::async_rw::AsyncRwTransport;
+-use tokio::process::ChildStderr;
+ use tokio::process::ChildStdin;
+ use tokio::process::ChildStdout;
+ 
+ use crate::bounded_stdio_transport::BoundedStdioTransport;
++use crate::local_process_owner::LocalProcessOwner;
+ use crate::protocol_mode::McpProtocolMode;
+-use codex_utils_pty::Child;
+ 
+ pub(super) struct LocalStdioTransport {
+-    child: Box<Child>,
++    process: LocalProcessOwner,
+     transport: StdioTransport,
+ }
+ 
+@@ -38,34 +37,27 @@
+         command: Command,
+         program_name: String,
+         protocol_mode: McpProtocolMode,
+-    ) -> io::Result<(Self, Option<ChildStderr>)> {
+-        let mut child = command.spawn()?;
+-        let stdin = child
+-            .stdin
+-            .take()
+-            .ok_or_else(|| io::Error::other("MCP server stdin was not piped"))?;
+-        let stdout = child
+-            .stdout
+-            .take()
+-            .ok_or_else(|| io::Error::other("MCP server stdout was not piped"))?;
+-        let stderr = child.stderr.take();
++        local_process_observer: Option<Arc<dyn Fn(LocalProcessOwner) + Send + Sync>>,
++    ) -> io::Result<Self> {
++        let child = command.spawn()?;
++        let (process, stdin, stdout) = LocalProcessOwner::new(
++            child, program_name.clone(), local_process_observer,
++        )?;
+         let transport = match protocol_mode {
+             McpProtocolMode::Legacy => StdioTransport::Legacy(AsyncRwTransport::new(stdout, stdin)),
+             McpProtocolMode::V20260728 => {
+                 StdioTransport::V20260728(BoundedStdioTransport::new(stdin, stdout, program_name))
+             }
+         };
+-        Ok((
+-            Self {
+-                child: Box::new(child),
+-                transport,
+-            },
+-            stderr,
+-        ))
++        Ok(Self { process, transport })
+     }
+ 
+     pub(super) fn id(&self) -> Option<u32> {
+-        self.child.id()
++        self.process.id()
++    }
++
++    pub(super) fn process_owner(&self) -> LocalProcessOwner {
++        self.process.clone()
+     }
+ }
+ 
+@@ -90,13 +82,19 @@
+     }
+ 
+     async fn close(&mut self) -> io::Result<()> {
+-        match &mut self.transport {
+-            StdioTransport::Legacy(transport) => transport.close().await?,
+-            StdioTransport::V20260728(transport) => transport.close().await?,
+-        }
+-        match tokio::time::timeout(Duration::from_secs(3), self.child.wait()).await {
+-            Ok(status) => status.map(|_| ()),
+-            Err(_) => self.child.kill().await,
+-        }
++        self.process.begin_shutdown();
++        let framing = match &mut self.transport {
++            StdioTransport::Legacy(transport) => transport.close().await,
++            StdioTransport::V20260728(transport) => transport.close().await,
++        };
++        // Preserve framing errors without skipping process reaping or stderr.
++        self.process.record_framing(framing);
++        self.process.wait_closed().await
+     }
+ }
++
++impl Drop for LocalStdioTransport {
++    fn drop(&mut self) {
++        self.process.transport_dropped();
++    }
++}
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/owned_service.rs
+@@ -0,0 +1,126 @@
++//! Operations share a peer; one retained owner joins the concrete RMCP service.
++
++use std::ops::Deref;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::PoisonError;
++use std::sync::atomic::AtomicBool;
++use std::sync::atomic::Ordering;
++
++use codex_async_utils::RetainedTask;
++use rmcp::service::Peer;
++use rmcp::service::QuitReason;
++use rmcp::service::RoleClient;
++use rmcp::service::RunningService;
++use rmcp::service::RunningServiceCancellationToken;
++
++use crate::client_lifecycle::McpShutdownFailure;
++use crate::elicitation_client_service::ElicitationClientService;
++
++#[derive(Debug)]
++enum ServiceFailure {
++    Join(tokio::task::JoinError),
++    Reason(QuitReason),
++}
++
++pub(crate) struct OwnedService {
++    peer: Peer<RoleClient>,
++    service: ElicitationClientService,
++    cancellation: Mutex<Option<RunningServiceCancellationToken>>,
++    closing: AtomicBool,
++    completion: Arc<RetainedTask<Result<(), ServiceFailure>>>,
++}
++
++impl OwnedService {
++    pub(crate) fn new(
++        service: RunningService<RoleClient, ElicitationClientService>,
++        runtime: &tokio::runtime::Handle,
++    ) -> Arc<Self> {
++        let peer = service.peer().clone();
++        let handler = service.service().clone();
++        let cancellation = service.cancellation_token();
++        // The primary task owns waiting(), including RMCP's private JoinHandle.
++        // Cancelling an observer never cancels this task or drops that handle.
++        let completion = RetainedTask::spawn(runtime, async move {
++            match service.waiting().await {
++                Ok(QuitReason::Closed | QuitReason::Cancelled) => Ok(()),
++                Ok(QuitReason::JoinError(error)) => Err(ServiceFailure::Join(error)),
++                Ok(reason) => Err(ServiceFailure::Reason(reason)),
++                Err(error) => Err(ServiceFailure::Join(error)),
++            }
++        });
++        Arc::new(Self {
++            peer,
++            service: handler,
++            cancellation: Mutex::new(Some(cancellation)),
++            closing: AtomicBool::new(false),
++            completion,
++        })
++    }
++
++    pub(crate) fn peer(&self) -> &Peer<RoleClient> {
++        &self.peer
++    }
++
++    pub(crate) fn service(&self) -> &ElicitationClientService {
++        &self.service
++    }
++
++    pub(crate) fn is_closed(&self) -> bool {
++        self.closing.load(Ordering::Acquire) || self.peer.is_transport_closed()
++    }
++
++    pub(crate) fn begin_shutdown(&self) {
++        self.closing.store(true, Ordering::Release);
++        let cancellation = self
++            .cancellation
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .take();
++        if let Some(cancellation) = cancellation {
++            cancellation.cancel();
++        }
++    }
++
++    pub(crate) async fn wait_closed(&self) -> Result<(), McpShutdownFailure> {
++        match self.completion.wait().await {
++            Ok(result) => match result.as_ref() {
++                Ok(()) => Ok(()),
++                Err(ServiceFailure::Join(error)) => {
++                    // Inspect only the bounded classification; retain the original.
++                    let _ = error.is_cancelled();
++                    Err(McpShutdownFailure::Service)
++                }
++                Err(ServiceFailure::Reason(reason)) => {
++                    let _ = std::mem::discriminant(reason);
++                    Err(McpShutdownFailure::Service)
++                }
++            },
++            Err(_) => Err(McpShutdownFailure::Task),
++        }
++    }
++}
++
++impl Deref for OwnedService {
++    type Target = Peer<RoleClient>;
++
++    fn deref(&self) -> &Self::Target {
++        &self.peer
++    }
++}
++
++impl Drop for OwnedService {
++    fn drop(&mut self) {
++        self.begin_shutdown();
++    }
++}
++
++impl crate::client_lifecycle::PendingShutdown for OwnedService {
++    fn begin_shutdown(&self) {
++        OwnedService::begin_shutdown(self);
++    }
++}
++
++#[cfg(test)]
++#[path = "owned_service_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/owned_service_tests.rs
+@@ -0,0 +1,172 @@
++//! Exercise the concrete RMCP service join without depending on worker-abort safety.
++
++use super::OwnedService;
++use crate::elicitation_client_service::ElicitationClientService;
++use crate::rmcp_client::ElicitationPauseState;
++use pretty_assertions::assert_eq;
++use rmcp::RoleServer;
++use rmcp::model::ClientInfo;
++use rmcp::model::ClientJsonRpcMessage;
++use rmcp::model::ClientRequest;
++use rmcp::model::PingRequest;
++use rmcp::model::ServerJsonRpcMessage;
++use rmcp::model::ServerResult;
++use rmcp::service::RoleClient;
++use rmcp::service::RxJsonRpcMessage;
++use rmcp::service::ServiceError;
++use rmcp::service::TxJsonRpcMessage;
++use rmcp::service::serve_directly;
++use rmcp::transport::Transport;
++use rmcp::transport::async_rw::AsyncRwTransport;
++use std::future::Future;
++use std::io;
++use std::sync::Arc;
++use std::sync::atomic::AtomicBool;
++use std::sync::atomic::AtomicUsize;
++use std::sync::atomic::Ordering;
++use std::time::Duration;
++use tokio::io::DuplexStream;
++use tokio::io::ReadHalf;
++use tokio::io::WriteHalf;
++use tokio::sync::Semaphore;
++use tokio::sync::oneshot;
++use tokio::time::timeout;
++
++type ClientTransport = AsyncRwTransport<RoleClient, ReadHalf<DuplexStream>, WriteHalf<DuplexStream>>;
++type ServerTransport = AsyncRwTransport<RoleServer, ReadHalf<DuplexStream>, WriteHalf<DuplexStream>>;
++
++struct GatedClientTransport {
++    inner: ClientTransport,
++    close_started: Option<oneshot::Sender<()>>,
++    close_gate: Arc<Semaphore>,
++    close_calls: Arc<AtomicUsize>,
++    close_finished: Arc<AtomicBool>,
++}
++
++impl Transport<RoleClient> for GatedClientTransport {
++    type Error = io::Error;
++
++    fn send(
++        &mut self,
++        item: TxJsonRpcMessage<RoleClient>,
++    ) -> impl Future<Output = io::Result<()>> + Send + 'static {
++        self.inner.send(item)
++    }
++
++    fn receive(&mut self) -> impl Future<Output = Option<RxJsonRpcMessage<RoleClient>>> + Send {
++        self.inner.receive()
++    }
++
++    async fn close(&mut self) -> io::Result<()> {
++        self.close_calls.fetch_add(/*val*/ 1, Ordering::SeqCst);
++        if let Some(started) = self.close_started.take() {
++            let _ = started.send(());
++        }
++        self.close_gate.acquire().await.map_err(io::Error::other)?.forget();
++        self.inner.close().await?;
++        self.close_finished.store(/*val*/ true, Ordering::SeqCst);
++        Ok(())
++    }
++}
++
++struct Fixture {
++    owner: Arc<OwnedService>,
++    server: ServerTransport,
++    close_started: oneshot::Receiver<()>,
++    close_gate: Arc<Semaphore>,
++    close_calls: Arc<AtomicUsize>,
++    close_finished: Arc<AtomicBool>,
++}
++
++fn fixture() -> Fixture {
++    let service = ElicitationClientService::new(
++        ClientInfo::default(),
++        Box::new(|_, _| Box::pin(async { Err(anyhow::anyhow!("unexpected elicitation")) })),
++        ElicitationPauseState::new(),
++    );
++    let (client, server) = tokio::io::duplex(/*max_buf_size*/ 4096);
++    let (client_read, client_write) = tokio::io::split(client);
++    let (server_read, server_write) = tokio::io::split(server);
++    let (started_tx, close_started) = oneshot::channel();
++    let close_gate = Arc::new(Semaphore::new(/*permits*/ 0));
++    let close_calls = Arc::new(AtomicUsize::new(/*v*/ 0));
++    let close_finished = Arc::new(AtomicBool::new(/*v*/ false));
++    let transport = GatedClientTransport {
++        inner: AsyncRwTransport::new(client_read, client_write),
++        close_started: Some(started_tx),
++        close_gate: Arc::clone(&close_gate),
++        close_calls: Arc::clone(&close_calls),
++        close_finished: Arc::clone(&close_finished),
++    };
++    let running = serve_directly(service, transport, /*peer_info*/ None);
++    Fixture {
++        owner: OwnedService::new(running, &tokio::runtime::Handle::current()),
++        server: AsyncRwTransport::new(server_read, server_write),
++        close_started,
++        close_gate,
++        close_calls,
++        close_finished,
++    }
++}
++
++#[tokio::test]
++async fn peer_operations_survive_owner_adoption_and_cancelled_close_observers() -> anyhow::Result<()> {
++    let Fixture {
++        owner, mut server, close_started, close_gate, close_calls, close_finished,
++    } = fixture();
++    let request = owner.send_request(ClientRequest::PingRequest(PingRequest::default()));
++    let response = async {
++        let Some(ClientJsonRpcMessage::Request(request)) = server.receive().await else {
++            anyhow::bail!("expected a client request");
++        };
++        assert!(matches!(request.request, ClientRequest::PingRequest(_)));
++        server.send(ServerJsonRpcMessage::response(ServerResult::empty(()), request.id)).await?;
++        Ok::<_, anyhow::Error>(())
++    };
++    let (reply, response) = timeout(Duration::from_secs(/*secs*/ 5), async {
++        tokio::join!(request, response)
++    }).await?;
++    response?;
++    assert_eq!(reply?, ServerResult::empty(()));
++
++    owner.begin_shutdown();
++    owner.begin_shutdown();
++    timeout(Duration::from_secs(/*secs*/ 5), close_started).await??;
++    // The actual RMCP service task is blocked inside transport.close. Expiry
++    // drops only this observation of the retained completion task.
++    assert!(timeout(Duration::from_millis(/*millis*/ 20), owner.wait_closed()).await.is_err());
++    assert_eq!(close_calls.load(Ordering::SeqCst), 1);
++    assert!(!close_finished.load(Ordering::SeqCst));
++    close_gate.add_permits(/*n*/ 1);
++    timeout(Duration::from_secs(/*secs*/ 5), owner.wait_closed()).await??;
++    owner.begin_shutdown();
++    owner.wait_closed().await?;
++    assert!(owner.is_closed());
++    assert!(close_finished.load(Ordering::SeqCst));
++    assert_eq!(close_calls.load(Ordering::SeqCst), 1);
++    let after_close = owner.send_request(ClientRequest::PingRequest(PingRequest::default())).await;
++    assert!(matches!(after_close, Err(ServiceError::TransportClosed)));
++    Ok(())
++}
++
++#[tokio::test]
++async fn dropping_last_service_owner_signals_but_retains_the_real_join() -> anyhow::Result<()> {
++    let Fixture {
++        owner, server: _server, close_started, close_gate, close_calls, close_finished,
++    } = fixture();
++    let completion = Arc::clone(&owner.completion);
++    let weak = Arc::downgrade(&owner);
++    drop(owner);
++    timeout(Duration::from_secs(/*secs*/ 5), close_started).await??;
++    assert!(weak.upgrade().is_none());
++    assert!(timeout(Duration::from_millis(/*millis*/ 20), completion.wait()).await.is_err());
++    assert!(!close_finished.load(Ordering::SeqCst));
++    close_gate.add_permits(/*n*/ 1);
++    let observed = timeout(Duration::from_secs(/*secs*/ 5), completion.wait()).await??;
++    assert!(observed.is_ok());
++    let repeated = completion.wait().await?;
++    assert!(Arc::ptr_eq(&observed, &repeated));
++    assert!(close_finished.load(Ordering::SeqCst));
++    assert_eq!(close_calls.load(Ordering::SeqCst), 1);
++    Ok(())
++}
+--- a/codex-rs/rmcp-client/src/rmcp_client.rs
++++ b/codex-rs/rmcp-client/src/rmcp_client.rs
+@@ -56,7 +56,6 @@
+ use rmcp::service::ClientServiceExt;
+ use rmcp::service::RequestHandle;
+ use rmcp::service::RoleClient;
+-use rmcp::service::RunningService;
+ use rmcp::service::ServiceError;
+ use rmcp::transport::AuthorizationManager;
+ use rmcp::transport::StreamableHttpClientTransport;
+@@ -71,9 +70,17 @@
+ use tokio::sync::Semaphore;
+ use tokio::sync::watch;
+ use tokio::time;
++use tracing::Instrument;
+ use tracing::instrument;
+ use tracing::warn;
+ 
++use crate::client_lifecycle::ClientConstructionGuard;
++use crate::client_lifecycle::ClientLifecycle;
++use crate::owned_service::OwnedService;
++use crate::generation_publication::GenerationAdmissionGuard;
++use crate::generation_publication::GenerationPublication;
++use crate::transport_lifecycle::TransportCloseConfirmation;
++use crate::transport_lifecycle::TransportGuard;
+ use crate::elicitation_client_service::ElicitationClientService;
+ use crate::event_notification_transport::capture_event_notifications;
+ use crate::event_notification_transport::event_notification_channel;
+@@ -102,6 +109,13 @@
+ use crate::utils::build_default_headers;
+ use codex_config::types::OAuthCredentialsStoreMode;
+ 
++#[path = "rmcp_client_lifecycle.rs"]
++mod lifecycle;
++
++use self::lifecycle::PendingGeneration;
++use self::lifecycle::SharedOperationError;
++use self::lifecycle::guard_transport;
++
+ #[path = "streamable_http_retry.rs"]
+ mod streamable_http_retry;
+ 
+@@ -111,31 +125,37 @@
+ 
+ const READ_ONLY_TOOLS_META_KEY: &str = "openai/readOnly";
+ 
++type InProcessTransport = rmcp::transport::async_rw::AsyncRwTransport<
++    RoleClient,
++    tokio::io::ReadHalf<tokio::io::DuplexStream>,
++    tokio::io::WriteHalf<tokio::io::DuplexStream>,
++>;
++
+ enum PendingTransport {
+     InProcess {
+-        transport: tokio::io::DuplexStream,
++        transport: TransportGuard<InProcessTransport>,
+     },
+     Stdio {
+-        transport: Box<StdioServerTransport>,
++        transport: Box<TransportGuard<StdioServerTransport>>,
+     },
+     StreamableHttp {
+-        transport: StreamableHttpClientTransport<StreamableHttpClientAdapter>,
++        transport: TransportGuard<StreamableHttpClientTransport<StreamableHttpClientAdapter>>,
+     },
+     StreamableHttpWithOAuth {
+-        transport: StreamableHttpClientTransport<AuthClient<StreamableHttpClientAdapter>>,
++        transport: TransportGuard<StreamableHttpClientTransport<AuthClient<StreamableHttpClientAdapter>>>,
+         oauth_runtime: OAuthRuntime,
+     },
+     StreamableHttpWithAccessTokenOnly {
+-        transport: StreamableHttpClientTransport<AuthClient<StreamableHttpClientAdapter>>,
++        transport: TransportGuard<StreamableHttpClientTransport<AuthClient<StreamableHttpClientAdapter>>>,
+     },
+ }
+ 
+ enum ClientState {
+     Connecting {
+-        transport: Option<PendingTransport>,
++        transport: Option<Arc<PendingGeneration>>,
+     },
+     Ready {
+-        service: Arc<RunningService<RoleClient, ElicitationClientService>>,
++        service: Arc<OwnedService>,
+         oauth: Option<OAuthRuntime>,
+     },
+     Closed,
+@@ -401,6 +421,7 @@
+ /// https://github.com/modelcontextprotocol/rust-sdk
+ pub struct RmcpClient {
+     state: Mutex<ClientState>,
++    lifecycle: Arc<ClientLifecycle>,
+     stdio_process: Option<StdioServerProcessHandle>,
+     transport_recipe: TransportRecipe,
+     protocol_mode: McpProtocolMode,
+@@ -433,22 +454,27 @@
+         factory: Arc<dyn InProcessTransportFactory>,
+     ) -> io::Result<Self> {
+         let transport_recipe = TransportRecipe::InProcess { factory };
+-        let transport = Self::create_pending_transport(&transport_recipe)
++        let lifecycle = ClientLifecycle::new(tokio::runtime::Handle::current());
++        let construction_guard = ClientConstructionGuard::new(Arc::clone(&lifecycle));
++        let transport = Self::create_pending_transport_owned(&transport_recipe, &lifecycle)
+             .await
+             .map_err(io::Error::other)?;
+ 
+-        Ok(Self {
++        let client = Self {
+             state: Mutex::new(ClientState::Connecting {
+                 transport: Some(transport),
+             }),
+             stdio_process: None,
+             transport_recipe,
++            lifecycle,
+             protocol_mode: McpProtocolMode::Legacy,
+             requires_read_only_tools: false,
+             initialize_context: Mutex::new(None),
+             session_recovery_lock: Semaphore::new(/*permits*/ 1),
+             elicitation_pause_state: ElicitationPauseState::new(),
+-        })
++        };
++        construction_guard.disarm();
++        Ok(client)
+     }
+ 
+     pub async fn new_stdio_client(
+@@ -500,29 +526,28 @@
+             ),
+             launcher,
+         };
+-        let transport = Self::create_pending_transport(&transport_recipe)
++        let lifecycle = ClientLifecycle::new(tokio::runtime::Handle::current());
++        let construction_guard = ClientConstructionGuard::new(Arc::clone(&lifecycle));
++        let transport = Self::create_pending_transport_owned(&transport_recipe, &lifecycle)
+             .await
+             .map_err(io::Error::other)?;
+-        let stdio_process = match &transport {
+-            PendingTransport::Stdio { transport } => Some(transport.process_handle()),
+-            PendingTransport::InProcess { .. }
+-            | PendingTransport::StreamableHttp { .. }
+-            | PendingTransport::StreamableHttpWithOAuth { .. }
+-            | PendingTransport::StreamableHttpWithAccessTokenOnly { .. } => None,
+-        };
+-
+-        Ok(Self {
++        let stdio_process = transport.process_handle();
++
++        let client = Self {
+             state: Mutex::new(ClientState::Connecting {
+                 transport: Some(transport),
+             }),
+             stdio_process,
+             transport_recipe,
++            lifecycle,
+             protocol_mode,
+             initialize_context: Mutex::new(None),
+             requires_read_only_tools: false,
+             session_recovery_lock: Semaphore::new(/*permits*/ 1),
+             elicitation_pause_state: ElicitationPauseState::new(),
+-        })
++        };
++        construction_guard.disarm();
++        Ok(client)
+     }
+ 
+     #[allow(clippy::too_many_arguments)]
+@@ -617,19 +642,24 @@
+             oauth_refresh_mode,
+             initialize_deadline: Arc::new(StdMutex::new(None)),
+         };
+-        let transport = Self::create_pending_transport(&transport_recipe).await?;
+-        Ok(Self {
++        let lifecycle = ClientLifecycle::new(tokio::runtime::Handle::current());
++        let construction_guard = ClientConstructionGuard::new(Arc::clone(&lifecycle));
++        let transport = Self::create_pending_transport_owned(&transport_recipe, &lifecycle).await?;
++        let client = Self {
+             state: Mutex::new(ClientState::Connecting {
+                 transport: Some(transport),
+             }),
+             stdio_process: None,
+             transport_recipe,
++            lifecycle,
+             protocol_mode,
+             initialize_context: Mutex::new(None),
+             requires_read_only_tools: false,
+             session_recovery_lock: Semaphore::new(/*permits*/ 1),
+             elicitation_pause_state: ElicitationPauseState::new(),
+-        })
++        };
++        construction_guard.disarm();
++        Ok(client)
+     }
+ 
+     /// Perform the initialization handshake with the MCP server.
+@@ -661,6 +691,7 @@
+         let (service, oauth_runtime) = self
+             .connect_pending_transport_with_initialize_retries(pending_transport, &context)
+             .await?;
++        let service_guard = GenerationAdmissionGuard::for_generation(service.clone());
+ 
+         let initialize_result_rmcp = service
+             .peer()
+@@ -673,16 +704,21 @@
+             *initialize_context = Some(context);
+         }
+ 
+-        {
++        let previous = {
+             let mut guard = self.state.lock().await;
+             if matches!(*guard, ClientState::Closed) {
+                 return Err(anyhow!("MCP client is shut down"));
+             }
+-            *guard = ClientState::Ready {
++            std::mem::replace(&mut *guard, ClientState::Ready {
+                 service,
+                 oauth: oauth_runtime.clone(),
+-            };
+-        }
++            })
++        };
++        if let ClientState::Ready { service, .. } = &previous {
++            service.begin_shutdown();
++        }
++        drop(previous);
++        service_guard.disarm();
+ 
+         if let Some(OAuthRuntime::Legacy(runtime)) = oauth_runtime
+             && let Err(error) = runtime.persist_if_needed().await
+@@ -1017,7 +1053,7 @@
+         })
+     }
+ 
+-    async fn service(&self) -> Result<Arc<RunningService<RoleClient, ElicitationClientService>>> {
++    async fn service(&self) -> Result<Arc<OwnedService>> {
+         let guard = self.state.lock().await;
+         match &*guard {
+             ClientState::Ready { service, .. } => Ok(Arc::clone(service)),
+@@ -1058,22 +1094,6 @@
+         }
+     }
+ 
+-    /// Stop the MCP transport and any stdio server process owned by this client.
+-    pub async fn shutdown(&self) {
+-        let previous_state = {
+-            let mut guard = self.state.lock().await;
+-            std::mem::replace(&mut *guard, ClientState::Closed)
+-        };
+-
+-        if let Some(process) = &self.stdio_process
+-            && let Err(error) = process.terminate().await
+-        {
+-            warn!("failed to terminate MCP stdio server process: {error}");
+-        }
+-
+-        drop(previous_state);
+-    }
+-
+     /// This should be called after every tool call so that if a given tool call triggered
+     /// a refresh of the OAuth tokens, they are persisted.
+     async fn persist_oauth_tokens(&self) {
+@@ -1094,17 +1114,33 @@
+ 
+     async fn create_pending_transport(
+         transport_recipe: &TransportRecipe,
++        lifecycle: &Arc<ClientLifecycle>,
+     ) -> Result<PendingTransport> {
+         match transport_recipe {
+             TransportRecipe::InProcess { factory } => {
+                 let transport = factory.open().await?;
++                let (reader, writer) = tokio::io::split(transport);
++                let transport = guard_transport(
++                    rmcp::transport::async_rw::AsyncRwTransport::new(reader, writer),
++                    lifecycle, TransportCloseConfirmation::Confirmed,
++                    || io::Error::other("MCP transport close failed"),
++                );
+                 Ok(PendingTransport::InProcess { transport })
+             }
+             TransportRecipe::Stdio { command, launcher } => {
+-                let transport = launcher.launch(command.clone()).await?;
+-                Ok(PendingTransport::Stdio {
+-                    transport: Box::new(transport),
+-                })
++                let process_roster = Arc::clone(lifecycle);
++                let command = command.clone().with_local_process_observer(Arc::new(move |process| {
++                    process_roster.attach_process(process);
++                }));
++                let transport = launcher.launch(command).await?;
++                let confirmation = if transport.process_handle().is_local() {
++                    TransportCloseConfirmation::Confirmed
++                } else {
++                    TransportCloseConfirmation::Unconfirmed
++                };
++                let transport = guard_transport(transport, lifecycle, confirmation,
++                    || io::Error::other("MCP transport close failed"));
++                Ok(PendingTransport::Stdio { transport: Box::new(transport) })
+             }
+             TransportRecipe::StreamableHttp {
+                 server_name,
+@@ -1219,6 +1255,7 @@
+                         *oauth_refresh_mode,
+                         Arc::clone(initialize_deadline),
+                         oauth_config.as_deref(),
++                        lifecycle,
+                     )
+                     .await
+                     {
+@@ -1251,7 +1288,10 @@
+                                 ),
+                                 http_config,
+                             );
+-                            Ok(PendingTransport::StreamableHttp { transport })
++                            Ok(PendingTransport::StreamableHttp { transport: guard_transport(
++                                transport, lifecycle, TransportCloseConfirmation::Unconfirmed,
++                                || StreamableHttpError::TransportChannelClosed,
++                            ) })
+                         }
+                         Err(err) => Err(err),
+                     }
+@@ -1273,7 +1313,10 @@
+                         ),
+                         http_config,
+                     );
+-                    Ok(PendingTransport::StreamableHttp { transport })
++                    Ok(PendingTransport::StreamableHttp { transport: guard_transport(
++                                transport, lifecycle, TransportCloseConfirmation::Unconfirmed,
++                                || StreamableHttpError::TransportChannelClosed,
++                            ) })
+                 }
+             }
+         }
+@@ -1281,13 +1324,15 @@
+ 
+     async fn connect_pending_transport(
+         &self,
+-        pending_transport: PendingTransport,
++        pending_transport: Arc<PendingGeneration>,
+         initialize_context: &InitializeContext,
+         timeout: Option<Duration>,
+     ) -> Result<(
+-        Arc<RunningService<RoleClient, ElicitationClientService>>,
++        Arc<OwnedService>,
+         Option<OAuthRuntime>,
+     )> {
++        let lease = self.lifecycle.reserve()?;
++        let pending_transport = pending_transport.take()?;
+         // Request IDs and remembered cancellations belong to this connection, including
+         // when a failed initialization or expired HTTP session creates a new transport.
+         let send_elicitation = Arc::clone(&initialize_context.send_elicitation);
+@@ -1296,7 +1341,7 @@
+             Box::new(move |id, request| send_elicitation(id, request)),
+             self.elicitation_pause_state.clone(),
+         );
+-        let _initialize_deadline = match &self.transport_recipe {
++        let initialize_deadline_guard = match &self.transport_recipe {
+             TransportRecipe::StreamableHttp {
+                 initialize_deadline,
+                 ..
+@@ -1348,41 +1393,53 @@
+             ),
+         };
+ 
+-        let service_result = match timeout {
+-            Some(duration) => match time::timeout(duration, transport).await {
+-                Ok(result) => {
+-                    result.map_err(|source| anyhow::Error::from(HandshakeError { source }))
+-                }
+-                Err(_elapsed) => Err(anyhow!(
+-                    "timed out handshaking with MCP server after {duration:?}"
+-                )),
+-            },
+-            None => transport
+-                .await
+-                .map_err(|source| anyhow::Error::from(HandshakeError { source })),
+-        };
+-        let service = match service_result {
+-            Ok(service) => service,
++        let roster = Arc::clone(&self.lifecycle);
++        let publisher = Arc::clone(&self.lifecycle);
++        let stop = self.lifecycle.stop_token();
++        let (publication, observer_guard) = GenerationPublication::new();
++        let observer_cancelled = publication.cancellation_token();
++        let originator = AuthStorageOriginator::current();
++        let task = codex_async_utils::RetainedTask::spawn_published(self.lifecycle.runtime(), originator.scope(async move {
++            let _lease = lease;
++            let _initialize_deadline = initialize_deadline_guard;
++            let operation = async {
++                let service = tokio::select! {
++                    biased;
++                    _ = stop.cancelled() => return Err(anyhow!("MCP client is shut down")),
++                    _ = observer_cancelled.cancelled() => return Err(anyhow!("MCP initialize observer was cancelled")),
++                    result = async {
++                        match timeout {
++                            Some(duration) => time::timeout(duration, transport).await
++                                .map_err(|_| anyhow!("timed out handshaking with MCP server after {duration:?}"))?
++                                .map_err(|source| anyhow::Error::from(HandshakeError { source })),
++                            None => transport.await
++                                .map_err(|source| anyhow::Error::from(HandshakeError { source })),
++                        }
++                    } => result?,
++                };
++                let service = OwnedService::new(service, roster.runtime());
++                roster.attach_service(Arc::clone(&service));
++                publication.publish(service.clone());
++                // Register the exact service owner before this first post-handshake await.
++                service.peer().set_response_cache_config(ClientCacheConfig::disabled()).await;
++                Ok(service)
++            };
++            crate::client_lifecycle::OperationCompletion(operation.await.map_err(Arc::new))
++        }).instrument(tracing::Span::current()), move |task| publisher.track_job(task));
++        let service_result = task.wait().await.map_err(anyhow::Error::new)?;
++        let service = match &service_result.0 {
++            Ok(service) => Arc::clone(service),
+             Err(error) => {
+                 if let Some(OAuthRuntime::Legacy(runtime)) = oauth_runtime.as_ref()
+                     && let Err(persist_error) = runtime.persist_if_needed().await
+                 {
+-                    warn!(
+-                        "failed to persist OAuth tokens after failed initialize: {persist_error}"
+-                    );
++                    warn!("failed to persist OAuth tokens after failed initialize: {persist_error}");
+                 }
+-                return Err(error);
+-            }
+-        };
+-
+-        // Preserve Codex's existing snapshot and request-freshness behavior. rmcp 3
+-        // enables response caching and stale-on-error fallback by default.
+-        service
+-            .peer()
+-            .set_response_cache_config(ClientCacheConfig::disabled())
+-            .await;
+-
+-        Ok((Arc::new(service), oauth_runtime))
++                return Err(anyhow::Error::new(SharedOperationError(Arc::clone(error))));
++            }
++        };
++        observer_guard.disarm();
++        Ok((service, oauth_runtime))
+     }
+ 
+     async fn run_service_operation<T, F, Fut>(
+@@ -1392,7 +1449,7 @@
+         operation: F,
+     ) -> Result<T>
+     where
+-        F: Fn(Arc<RunningService<RoleClient, ElicitationClientService>>) -> Fut,
++        F: Fn(Arc<OwnedService>) -> Fut,
+         Fut: std::future::Future<Output = std::result::Result<T, rmcp::service::ServiceError>>,
+     {
+         let service = self.service().await?;
+@@ -1424,14 +1481,14 @@
+     }
+ 
+     async fn run_service_operation_with_transient_retries<T, F, Fut>(
+-        service: Arc<RunningService<RoleClient, ElicitationClientService>>,
++        service: Arc<OwnedService>,
+         label: &str,
+         timeout: Option<Duration>,
+         pause_state: ElicitationPauseState,
+         operation: &F,
+     ) -> std::result::Result<T, ClientOperationError>
+     where
+-        F: Fn(Arc<RunningService<RoleClient, ElicitationClientService>>) -> Fut,
++        F: Fn(Arc<OwnedService>) -> Fut,
+         Fut: std::future::Future<Output = std::result::Result<T, rmcp::service::ServiceError>>,
+     {
+         let retry_deadline = timeout.map(|duration| Instant::now() + duration);
+@@ -1480,14 +1537,14 @@
+     }
+ 
+     async fn run_service_operation_once<T, F, Fut>(
+-        service: Arc<RunningService<RoleClient, ElicitationClientService>>,
++        service: Arc<OwnedService>,
+         label: &str,
+         timeout: Option<Duration>,
+         pause_state: ElicitationPauseState,
+         operation: &F,
+     ) -> std::result::Result<T, ClientOperationError>
+     where
+-        F: Fn(Arc<RunningService<RoleClient, ElicitationClientService>>) -> Fut,
++        F: Fn(Arc<OwnedService>) -> Fut,
+         Fut: std::future::Future<Output = std::result::Result<T, rmcp::service::ServiceError>>,
+     {
+         match timeout {
+@@ -1542,7 +1599,7 @@
+ 
+     async fn reinitialize_after_session_expiry(
+         &self,
+-        failed_service: &Arc<RunningService<RoleClient, ElicitationClientService>>,
++        failed_service: &Arc<OwnedService>,
+     ) -> Result<()> {
+         let _recovery_guard = self
+             .session_recovery_lock
+@@ -1572,28 +1629,34 @@
+             .await
+             .clone()
+             .ok_or_else(|| anyhow!("MCP client cannot recover before initialize succeeds"))?;
+-        let pending_transport = Self::create_pending_transport(&self.transport_recipe).await?;
++        let pending_transport = Self::create_pending_transport_owned(&self.transport_recipe, &self.lifecycle).await?;
+         let (service, oauth_runtime) = self
+             .connect_pending_transport_with_initialize_retries(
+                 pending_transport,
+                 &initialize_context,
+             )
+             .await?;
++        let service_guard = GenerationAdmissionGuard::for_generation(service.clone());
+         service
+             .peer()
+             .peer_info()
+             .ok_or_else(|| anyhow!("recovered handshake succeeded but server info was missing"))?;
+ 
+-        {
++        let previous = {
+             let mut guard = self.state.lock().await;
+             if matches!(*guard, ClientState::Closed) {
+                 return Err(anyhow!("MCP client is shut down"));
+             }
+-            *guard = ClientState::Ready {
++            std::mem::replace(&mut *guard, ClientState::Ready {
+                 service,
+                 oauth: oauth_runtime.clone(),
+-            };
+-        }
++            })
++        };
++        if let ClientState::Ready { service, .. } = &previous {
++            service.begin_shutdown();
++        }
++        drop(previous);
++        service_guard.disarm();
+ 
+         if let Some(OAuthRuntime::Legacy(runtime)) = oauth_runtime
+             && let Err(error) = runtime.persist_if_needed().await
+@@ -1618,6 +1681,7 @@
+     oauth_refresh_mode: McpOAuthRefreshMode,
+     initialize_deadline: Arc<StdMutex<Option<Instant>>>,
+     oauth_config: Option<&McpServerOAuthConfig>,
++    lifecycle: &ClientLifecycle,
+ ) -> Result<PendingTransport> {
+     OAuthClientCredentials::resolve(oauth_config)?
+         .validate_stored_client_id(&initial_tokens.client_id)?;
+@@ -1681,6 +1745,10 @@
+         auth_client,
+         StreamableHttpClientTransportConfig::with_uri(url.to_string()),
+     );
++    let transport = guard_transport(
++        transport, lifecycle, TransportCloseConfirmation::Unconfirmed,
++        || StreamableHttpError::TransportChannelClosed,
++    );
+ 
+     if use_stored_access_token_only {
+         warn!(
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/rmcp_client_lifecycle.rs
+@@ -0,0 +1,176 @@
++//! Client construction observers cannot discard a late transport generation.
++
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::PoisonError;
++
++use codex_async_utils::RetainedTask;
++use tracing::Instrument;
++
++use crate::client_lifecycle::ClientLifecycle;
++use crate::client_lifecycle::McpShutdownConfirmation;
++use crate::client_lifecycle::McpShutdownFailure;
++use crate::client_lifecycle::PendingShutdown;
++use crate::client_lifecycle::OperationCompletion;
++use crate::generation_publication::GenerationPublication;
++use crate::stdio_server_launcher::StdioServerProcessHandle;
++use crate::transport_lifecycle::TransportCloseConfirmation;
++use crate::transport_lifecycle::TransportGuard;
++
++use super::AuthStorageOriginator;
++use super::ClientState;
++use super::PendingTransport;
++use super::RmcpClient;
++use super::TransportRecipe;
++
++pub(super) fn guard_transport<T: rmcp::transport::Transport<rmcp::RoleClient> + 'static>(
++    transport: T,
++    lifecycle: &ClientLifecycle,
++    confirmation: TransportCloseConfirmation,
++    closed_error: fn() -> T::Error,
++) -> TransportGuard<T> {
++    let (transport, observer) = TransportGuard::new(
++        transport, lifecycle.runtime().clone(), confirmation, closed_error,
++    );
++    lifecycle.attach_transport(observer);
++    transport
++}
++
++pub(super) struct PendingGeneration {
++    transport: Mutex<Option<PendingTransport>>,
++}
++
++impl PendingGeneration {
++    fn new(transport: PendingTransport, lifecycle: &ClientLifecycle) -> Arc<Self> {
++        let generation = Arc::new(Self { transport: Mutex::new(Some(transport)) });
++        lifecycle.attach_pending(generation.clone());
++        generation
++    }
++
++    pub(super) fn take(&self) -> anyhow::Result<PendingTransport> {
++        self.transport.lock().unwrap_or_else(PoisonError::into_inner)
++            .take().ok_or_else(|| anyhow::anyhow!("MCP transport is closed or already initializing"))
++    }
++
++    pub(super) fn process_handle(&self) -> Option<StdioServerProcessHandle> {
++        let transport = self.transport.lock().unwrap_or_else(PoisonError::into_inner);
++        match transport.as_ref() {
++            Some(PendingTransport::Stdio { transport }) => Some(transport.inner().process_handle()),
++            _ => None,
++        }
++    }
++
++    pub(super) fn is_http(&self) -> bool {
++        let transport = self.transport.lock().unwrap_or_else(PoisonError::into_inner);
++        matches!(transport.as_ref(),
++            Some(PendingTransport::StreamableHttp { .. }
++                | PendingTransport::StreamableHttpWithOAuth { .. }
++                | PendingTransport::StreamableHttpWithAccessTokenOnly { .. }))
++    }
++
++    pub(super) fn oauth_runtime(&self) -> Option<crate::oauth::OAuthRuntime> {
++        let transport = self.transport.lock().unwrap_or_else(PoisonError::into_inner);
++        match transport.as_ref() {
++            Some(PendingTransport::StreamableHttpWithOAuth { oauth_runtime, .. }) => {
++                Some(oauth_runtime.clone())
++            }
++            _ => None,
++        }
++    }
++}
++
++impl PendingShutdown for PendingGeneration {
++    fn is_empty(&self) -> bool {
++        self.transport.lock().unwrap_or_else(PoisonError::into_inner).is_none()
++    }
++
++    fn begin_shutdown(&self) {
++        let transport = self.transport.lock().unwrap_or_else(PoisonError::into_inner).take();
++        // Guard drop transfers the real transport into its retained close owner.
++        drop(transport);
++    }
++}
++
++#[derive(Debug)]
++pub(super) struct SharedOperationError(pub(super) Arc<anyhow::Error>);
++
++impl std::fmt::Display for SharedOperationError {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        std::fmt::Display::fmt(&self.0, formatter)
++    }
++}
++
++impl std::error::Error for SharedOperationError {
++    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
++        Some(self.0.as_ref().as_ref())
++    }
++}
++
++impl RmcpClient {
++    pub(super) async fn create_pending_transport_owned(
++        recipe: &TransportRecipe,
++        lifecycle: &Arc<ClientLifecycle>,
++    ) -> anyhow::Result<Arc<PendingGeneration>> {
++        ClientLifecycle::observe_completed_clients().await;
++        lifecycle.prune_clean().await;
++        let lease = lifecycle.reserve()?;
++        let recipe = recipe.clone();
++        let constructor = Arc::clone(lifecycle);
++        let publisher = Arc::clone(lifecycle);
++        let originator = AuthStorageOriginator::current();
++        let (publication, observer_guard) = GenerationPublication::new();
++        let task = RetainedTask::spawn_published(lifecycle.runtime(), originator.scope(async move {
++            let result = Self::create_pending_transport(&recipe, &constructor).await
++                .map(|transport| {
++                    let generation = PendingGeneration::new(transport, &constructor);
++                    publication.publish(generation.clone());
++                    generation
++                })
++                .map_err(Arc::new);
++            drop(lease);
++            OperationCompletion(result)
++        }).instrument(tracing::Span::current()), move |task| publisher.track_job(task));
++        let result = task.wait().await.map_err(anyhow::Error::new)?;
++        match &result.0 {
++            Ok(generation) => {
++                observer_guard.disarm();
++                Ok(Arc::clone(generation))
++            },
++            Err(error) => Err(anyhow::Error::new(SharedOperationError(Arc::clone(error)))),
++        }
++    }
++
++    /// Observe exact service and transport closes for every client generation.
++    /// Unconfirmed is distinct from a known failure and from complete MCP proof.
++    pub async fn shutdown(
++        &self,
++    ) -> Result<McpShutdownConfirmation, McpShutdownFailure> {
++        let previous = {
++            let mut state = self.state.lock().await;
++            std::mem::replace(&mut *state, ClientState::Closed)
++        };
++        if let Some(process) = &self.stdio_process {
++            process.begin_shutdown();
++        }
++        self.lifecycle.begin_shutdown();
++        drop(previous);
++        let lifecycle = self.lifecycle.wait_closed().await;
++        let process = match &self.stdio_process {
++            Some(process) if process.is_local() => {
++                process.wait_closed().await.map_err(|_| McpShutdownFailure::Process)
++            }
++            Some(process) => process.terminate().await.map_err(|_| McpShutdownFailure::Process),
++            None => Ok(()),
++        };
++        process.and(lifecycle)
++    }
++}
++
++impl Drop for RmcpClient {
++    fn drop(&mut self) {
++        if let Some(process) = &self.stdio_process {
++            process.begin_shutdown();
++        }
++        self.lifecycle.begin_shutdown();
++    }
++}
+--- a/codex-rs/rmcp-client/src/stdio_server_launcher.rs
++++ b/codex-rs/rmcp-client/src/stdio_server_launcher.rs
+@@ -16,21 +16,14 @@
+ use std::ffi::OsString;
+ use std::future::Future;
+ use std::io;
+-#[cfg(windows)]
+-use std::os::windows::io::OwnedHandle;
+ use std::path::Path;
+ use std::path::PathBuf;
+ use std::sync::Arc;
+-use std::sync::atomic::AtomicBool;
+-use std::sync::atomic::Ordering;
+-#[cfg(unix)]
+-use std::thread::sleep;
+-#[cfg(unix)]
+-use std::thread::spawn;
+-use std::time::Duration;
++use std::sync::OnceLock;
+ 
+ use anyhow::Result;
+ use anyhow::anyhow;
++use codex_async_utils::RetainedTask;
+ use codex_config::types::McpServerEnvVar;
+ use codex_exec_server::ExecBackend;
+ use codex_exec_server::ExecEnvPolicy;
+@@ -43,24 +36,19 @@
+ #[cfg(unix)]
+ use codex_utils_pty::DescriptorPolicy;
+ use codex_utils_pty::ProcessMode;
+-#[cfg(unix)]
+-use codex_utils_pty::process_group::kill_process_group;
+-#[cfg(unix)]
+-use codex_utils_pty::process_group::terminate_process_group;
+ use futures::FutureExt;
+ use futures::future::BoxFuture;
+ use rmcp::service::RoleClient;
+ use rmcp::service::RxJsonRpcMessage;
+ use rmcp::service::TxJsonRpcMessage;
+ use rmcp::transport::Transport;
+-use tokio::io::AsyncBufReadExt;
+-use tokio::io::BufReader;
+-use tokio::sync::watch;
+-use tokio::time::Instant;
+-use tracing::info;
++#[cfg(windows)]
+ use tracing::warn;
+ 
+ use crate::executor_process_transport::ExecutorProcessTransport;
++use crate::local_process_owner::LocalProcessOwner;
++#[cfg(windows)]
++use crate::local_process_owner::LocalProcessTerminator;
+ use crate::local_stdio_transport::LocalStdioTransport;
+ use crate::program_resolver;
+ use crate::protocol_mode::McpProtocolMode;
+@@ -93,6 +81,7 @@
+     env_vars: Vec<McpServerEnvVar>,
+     cwd: Option<String>,
+     protocol_mode: McpProtocolMode,
++    local_process_observer: Option<Arc<dyn Fn(LocalProcessOwner) + Send + Sync>>,
+ }
+ 
+ /// Client-side rmcp transport for a launched MCP stdio server.
+@@ -137,10 +126,19 @@
+     }
+ 
+     async fn close(&mut self) -> std::result::Result<(), Self::Error> {
+-        self.process.terminate().await?;
+-        match &mut self.inner {
++        self.process.begin_shutdown();
++        let transport = match &mut self.inner {
+             StdioServerTransportInner::Local(transport) => transport.close().await,
+             StdioServerTransportInner::Executor(transport) => transport.close().await,
++        };
++        let process = self.process.terminate().await;
++        match (transport, process) {
++            (Ok(()), Ok(())) => Ok(()),
++            (Err(error), Ok(())) | (Ok(()), Err(error)) => Err(error),
++            (Err(transport), Err(process)) => Err(io::Error::other(StdioCloseErrors {
++                transport,
++                process,
++            })),
+         }
+     }
+ }
+@@ -169,7 +167,16 @@
+             env_vars,
+             cwd,
+             protocol_mode,
+-        }
++            local_process_observer: None,
++        }
++    }
++
++    pub(super) fn with_local_process_observer(
++        mut self,
++        observer: Arc<dyn Fn(LocalProcessOwner) + Send + Sync>,
++    ) -> Self {
++        self.local_process_observer = Some(observer);
++        self
+     }
+ }
+ 
+@@ -214,43 +221,39 @@
+ 
+ // Local private implementation.
+ 
+-#[cfg(unix)]
+-const PROCESS_GROUP_TERM_GRACE_PERIOD: Duration = Duration::from_secs(2);
+-
+-// Keep queued stderr diagnostics before closing the reader, even when an
+-// escaped descendant prevents the pipe from reaching EOF.
+-const STDERR_READER_DRAIN_GRACE_PERIOD: Duration = Duration::from_millis(250);
+-
+-#[cfg(unix)]
+-struct LocalProcessTerminator {
+-    process_group_id: u32,
+-}
+-
+-#[cfg(windows)]
+-enum LocalProcessTerminator {
+-    Job(codex_utils_pty::JobObject),
+-    Process(OwnedHandle),
+-}
+-
+-#[cfg(not(any(unix, windows)))]
+-struct LocalProcessTerminator;
+-
+ #[derive(Clone)]
+ pub(crate) struct StdioServerProcessHandle {
+     inner: Arc<StdioServerProcessHandleInner>,
+ }
+ 
+ struct StdioServerProcessHandleInner {
+-    program_name: String,
+     kind: StdioServerProcessKind,
+-    terminated: AtomicBool,
+-    // An escaped descendant can keep stderr open after the MCP server exits.
+-    stderr_reader: Option<watch::Sender<()>>,
++    executor_shutdown: OnceLock<Option<Arc<RetainedTask<io::Result<()>>>>>,
+ }
+ 
+ enum StdioServerProcessKind {
+-    Local(Option<LocalProcessTerminator>),
++    Local(LocalProcessOwner),
+     Executor(Arc<dyn ExecProcess>),
++}
++
++#[derive(Debug)]
++struct StdioCloseErrors {
++    transport: io::Error,
++    process: io::Error,
++}
++
++impl std::fmt::Display for StdioCloseErrors {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter.write_str("MCP transport close and process termination both failed")
++    }
++}
++
++impl std::error::Error for StdioCloseErrors {
++    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
++        // Both originals remain owned; the public message contains no diagnostics.
++        let _ = &self.process;
++        Some(&self.transport)
++    }
+ }
+ 
+ mod private {
+@@ -271,6 +274,7 @@
+             env_vars,
+             cwd,
+             protocol_mode,
++            local_process_observer,
+         } = command;
+         let program_name = program.to_string_lossy().into_owned();
+         let envs = create_env_for_mcp_server(env, &env_vars).map_err(io::Error::other)?;
+@@ -306,41 +310,37 @@
+             }
+         };
+ 
+-        let spawn_transport = |command: Command| -> io::Result<(
+-            StdioServerTransportInner,
+-            Option<tokio::process::ChildStderr>,
+-            Option<u32>,
+-        )> {
+-            let (transport, stderr) =
+-                LocalStdioTransport::spawn(command, program_name.clone(), protocol_mode)?;
+-            let process_id = transport.id();
+-            Ok((
+-                StdioServerTransportInner::Local(transport),
+-                stderr,
+-                process_id,
+-            ))
+-        };
+-        let (transport, stderr, process_id) = spawn_transport(command)?;
++        let spawn_transport = |command: Command| {
++            LocalStdioTransport::spawn(
++                command, program_name.clone(), protocol_mode, local_process_observer.clone(),
++            )
++        };
++        let transport = spawn_transport(command)?;
++        let process_id = transport.id();
+         #[cfg(windows)]
+-        let (transport, stderr, process_id, job) = match job {
++        let (transport, process_id, job) = match job {
+             Some(job) => match process_id
+                 .ok_or_else(|| io::Error::other("missing suspended MCP server process id"))
+                 .and_then(|process_id| job.assign_and_resume_process(process_id))
+             {
+-                Ok(true) => (transport, stderr, process_id, Some(job)),
+-                Ok(false) => (transport, stderr, process_id, None),
++                Ok(true) => (transport, process_id, Some(job)),
++                Ok(false) => (transport, process_id, None),
+                 Err(error) => {
+                     warn!(
+                         "Windows MCP process job containment failed; retrying without it: {error}"
+                     );
+-                    drop(stderr);
+-                    drop(transport);
+-                    drop(job);
+-                    let (transport, stderr, process_id) = spawn_transport(build_command())?;
+-                    (transport, stderr, process_id, None)
++                    // This function runs on spawn_blocking. Join the rejected
++                    // generation before publishing a replacement, so a successful
++                    // fallback cannot hide its child or an earlier cleanup failure.
++                    transport.process_owner().set_terminator(Some(LocalProcessTerminator::Job(job)));
++                    let mut transport = transport;
++                    tokio::runtime::Handle::current().block_on(transport.close())?;
++                    let transport = spawn_transport(build_command())?;
++                    let process_id = transport.id();
++                    (transport, process_id, None)
+                 }
+             },
+-            None => (transport, stderr, process_id, None),
++            None => (transport, process_id, None),
+         };
+         #[cfg(windows)]
+         let terminator = match job {
+@@ -355,192 +355,95 @@
+                 }
+             }),
+         };
++        let owner = transport.process_owner();
++        #[cfg(windows)]
++        owner.set_terminator(terminator);
+         #[cfg(not(windows))]
+-        let terminator = process_id.map(LocalProcessTerminator::new);
+-        let stderr_reader = stderr.map(|stderr| {
+-            let program_name = program_name.clone();
+-            let (stop_tx, mut stop_rx) = watch::channel(());
+-            std::mem::drop(tokio::spawn(async move {
+-                let mut reader = BufReader::new(stderr).lines();
+-                // Give queued diagnostics time to reach the logs without waiting
+-                // indefinitely for a descendant that still has stderr open.
+-                let drain_deadline = tokio::time::sleep(STDERR_READER_DRAIN_GRACE_PERIOD);
+-                tokio::pin!(drain_deadline);
+-                let mut draining = false;
+-                loop {
+-                    tokio::select! {
+-                        biased;
+-                        _ = &mut drain_deadline, if draining => break,
+-                        _ = stop_rx.changed(), if !draining => {
+-                            draining = true;
+-                            drain_deadline.as_mut().reset(
+-                                Instant::now() + STDERR_READER_DRAIN_GRACE_PERIOD
+-                            );
+-                        }
+-                        line = reader.next_line() => {
+-                            match line {
+-                                Ok(Some(line)) => {
+-                                    info!("MCP server stderr ({program_name}): {line}");
+-                                }
+-                                Ok(None) => break,
+-                                Err(error) => {
+-                                    warn!("Failed to read MCP server stderr ({program_name}): {error}");
+-                                    break;
+-                                }
+-                            }
+-                        },
+-                    }
+-                }
+-            }));
+-            stop_tx
+-        });
+-        let process = StdioServerProcessHandle::local(program_name, terminator, stderr_reader);
+-
++        let _ = process_id;
++        let process = StdioServerProcessHandle::local(owner);
+         Ok(StdioServerTransport {
+-            inner: transport,
++            inner: StdioServerTransportInner::Local(transport),
+             process,
+         })
+     }
+ }
+ 
+-impl LocalProcessTerminator {
+-    #[cfg(not(windows))]
+-    fn new(process_group_id: u32) -> Self {
+-        #[cfg(unix)]
+-        {
+-            Self { process_group_id }
+-        }
+-        #[cfg(not(any(unix, windows)))]
+-        {
+-            let _ = process_group_id;
+-            Self
+-        }
+-    }
+-
+-    #[cfg(unix)]
+-    fn terminate(&self) {
+-        let process_group_id = self.process_group_id;
+-        let should_escalate = match terminate_process_group(process_group_id) {
+-            Ok(exists) => exists,
+-            Err(error) => {
+-                warn!("Failed to terminate MCP process group {process_group_id}: {error}");
+-                false
+-            }
+-        };
+-        if should_escalate {
+-            spawn(move || {
+-                sleep(PROCESS_GROUP_TERM_GRACE_PERIOD);
+-                if let Err(error) = kill_process_group(process_group_id) {
+-                    warn!("Failed to kill MCP process group {process_group_id}: {error}");
+-                }
+-            });
+-        }
+-    }
+-
+-    #[cfg(windows)]
+-    fn terminate(&self) {
+-        let result = match self {
+-            Self::Job(job) => job.terminate(),
+-            Self::Process(process_handle) => {
+-                codex_utils_pty::JobObject::terminate_process_handle(process_handle)
+-            }
+-        };
+-        if let Err(error) = result {
+-            warn!("Failed to terminate Windows MCP process: {error}");
+-        }
+-    }
+-
+-    #[cfg(not(any(unix, windows)))]
+-    fn terminate(&self) {}
+-}
+-
+ impl StdioServerProcessHandle {
+-    fn local(
+-        program_name: String,
+-        terminator: Option<LocalProcessTerminator>,
+-        stderr_reader: Option<watch::Sender<()>>,
+-    ) -> Self {
++    fn local(process: LocalProcessOwner) -> Self {
+         Self {
+             inner: Arc::new(StdioServerProcessHandleInner {
+-                program_name,
+-                kind: StdioServerProcessKind::Local(terminator),
+-                terminated: AtomicBool::new(false),
+-                stderr_reader,
++                kind: StdioServerProcessKind::Local(process),
++                executor_shutdown: OnceLock::new(),
+             }),
+         }
+     }
+ 
+-    pub(crate) fn executor(program_name: String, process: Arc<dyn ExecProcess>) -> Self {
++    pub(crate) fn executor(_program_name: String, process: Arc<dyn ExecProcess>) -> Self {
+         Self {
+             inner: Arc::new(StdioServerProcessHandleInner {
+-                program_name,
+                 kind: StdioServerProcessKind::Executor(process),
+-                terminated: AtomicBool::new(false),
+-                stderr_reader: None,
++                executor_shutdown: OnceLock::new(),
+             }),
+         }
+     }
+ 
++    pub(crate) fn begin_shutdown(&self) {
++        self.inner.begin_shutdown();
++    }
++
++    pub(crate) fn is_local(&self) -> bool {
++        matches!(&self.inner.kind, StdioServerProcessKind::Local(_))
++    }
++
++    /// Observe the retained termination operation. Remote acknowledgment alone
++    /// does not prove transport closure; callers needing that use wait_closed.
+     pub(crate) async fn terminate(&self) -> io::Result<()> {
+-        if self.inner.terminated.swap(true, Ordering::AcqRel) {
+-            return Ok(());
+-        }
+-
+-        let result = match &self.inner.kind {
+-            StdioServerProcessKind::Local(Some(terminator)) => {
+-                terminator.terminate();
+-                Ok(())
++        self.begin_shutdown();
++        match &self.inner.kind {
++            StdioServerProcessKind::Local(process) => process.terminate().await,
++            StdioServerProcessKind::Executor(_) => {
++                let task = self.inner.executor_shutdown.get().and_then(Option::as_ref)
++                    .ok_or_else(|| io::Error::other("MCP executor cleanup runtime unavailable"))?;
++                match task.wait().await {
++                    Ok(result) if result.is_ok() => Ok(()),
++                    Ok(_) => Err(io::Error::other("MCP executor termination failed")),
++                    Err(_) => Err(io::Error::other("MCP executor termination task failed")),
++                }
+             }
+-            StdioServerProcessKind::Local(None) => Ok(()),
+-            StdioServerProcessKind::Executor(process) => match process.terminate().await {
+-                Ok(()) => Ok(()),
+-                Err(error) => {
+-                    self.inner.terminated.store(false, Ordering::Release);
+-                    Err(io::Error::other(error))
+-                }
+-            },
+-        };
+-        if let Some(stderr_reader) = &self.inner.stderr_reader {
+-            stderr_reader.send_replace(());
+-        }
+-        result
++        }
++    }
++
++    pub(crate) async fn wait_closed(&self) -> io::Result<()> {
++        match &self.inner.kind {
++            StdioServerProcessKind::Local(process) => process.wait_closed().await,
++            StdioServerProcessKind::Executor(_) => {
++                self.terminate().await?;
++                Err(io::Error::other("MCP executor process closure remains unconfirmed"))
++            }
++        }
++    }
++}
++
++impl StdioServerProcessHandleInner {
++    fn begin_shutdown(&self) {
++        match &self.kind {
++            StdioServerProcessKind::Local(process) => process.begin_shutdown(),
++            StdioServerProcessKind::Executor(process) => {
++                self.executor_shutdown.get_or_init(|| {
++                    let runtime = tokio::runtime::Handle::try_current().ok()?;
++                    let process = Arc::clone(process);
++                    Some(RetainedTask::spawn(&runtime, async move {
++                        process.terminate().await.map_err(io::Error::other)
++                    }))
++                });
++            }
++        }
+     }
+ }
+ 
+ impl Drop for StdioServerProcessHandleInner {
+     fn drop(&mut self) {
+-        if self.terminated.swap(true, Ordering::AcqRel) {
+-            return;
+-        }
+-
+-        match &self.kind {
+-            StdioServerProcessKind::Local(Some(terminator)) => {
+-                terminator.terminate();
+-            }
+-            StdioServerProcessKind::Local(None) => {}
+-            StdioServerProcessKind::Executor(process) => {
+-                let process = Arc::clone(process);
+-                let program_name = self.program_name.clone();
+-                let Ok(handle) = tokio::runtime::Handle::try_current() else {
+-                    warn!(
+-                        "Could not schedule remote MCP server process termination on drop ({}): no Tokio runtime is available",
+-                        self.program_name
+-                    );
+-                    return;
+-                };
+-
+-                std::mem::drop(handle.spawn(async move {
+-                    if let Err(error) = process.terminate().await {
+-                        warn!(
+-                            "Failed to terminate remote MCP server process on drop ({program_name}): {error}"
+-                        );
+-                    }
+-                }));
+-            }
+-        }
+-        if let Some(stderr_reader) = &self.stderr_reader {
+-            stderr_reader.send_replace(());
+-        }
++        self.begin_shutdown();
+     }
+ }
+ 
+@@ -594,6 +497,7 @@
+             env_vars,
+             cwd,
+             protocol_mode: _,
++            local_process_observer: _,
+         } = command;
+         let Some(cwd) = cwd else {
+             return Err(io::Error::other(
+--- a/codex-rs/rmcp-client/src/streamable_http_retry.rs
++++ b/codex-rs/rmcp-client/src/streamable_http_retry.rs
+@@ -6,18 +6,17 @@
+ use anyhow::anyhow;
+ use codex_exec_server::ExecServerError;
+ use http::StatusCode;
+-use rmcp::service::RoleClient;
+-use rmcp::service::RunningService;
+ use rmcp::transport::streamable_http_client::StreamableHttpError;
+ use tokio::time;
+ use tracing::warn;
+ 
+-use crate::elicitation_client_service::ElicitationClientService;
++use crate::generation_publication::GenerationAdmissionGuard;
++use crate::owned_service::OwnedService;
+ use crate::http_client_adapter::StreamableHttpClientAdapterError;
+ use crate::oauth::OAuthRuntime;
+ 
+ use super::InitializeContext;
+-use super::PendingTransport;
++use super::lifecycle::PendingGeneration;
+ use super::RmcpClient;
+ 
+ const JSON_RPC_INTERNAL_ERROR_CODE: i64 = -32603;
+@@ -26,19 +25,14 @@
+ impl RmcpClient {
+     pub(super) async fn connect_pending_transport_with_initialize_retries(
+         &self,
+-        initial_transport: PendingTransport,
++        initial_transport: Arc<PendingGeneration>,
+         initialize_context: &InitializeContext,
+     ) -> Result<(
+-        Arc<RunningService<RoleClient, ElicitationClientService>>,
++        Arc<OwnedService>,
+         Option<OAuthRuntime>,
+     )> {
+         let timeout = initialize_context.timeout;
+-        let should_retry = match &initial_transport {
+-            PendingTransport::InProcess { .. } | PendingTransport::Stdio { .. } => false,
+-            PendingTransport::StreamableHttp { .. }
+-            | PendingTransport::StreamableHttpWithOAuth { .. }
+-            | PendingTransport::StreamableHttpWithAccessTokenOnly { .. } => true,
+-        };
++        let should_retry = initial_transport.is_http();
+         let mut retry_deadline = timeout.map(|duration| Instant::now() + duration);
+         let mut pending_transport = Some(initial_transport);
+ 
+@@ -56,15 +50,18 @@
+                     match remaining {
+                         Some(remaining) => time::timeout(
+                             remaining,
+-                            Self::create_pending_transport(&self.transport_recipe),
++                            Self::create_pending_transport_owned(&self.transport_recipe, &self.lifecycle),
+                         )
+                         .await
+                         .map_err(|_| initialize_timeout_error(timeout, remaining))??,
+-                        None => Self::create_pending_transport(&self.transport_recipe).await?,
++                        None => Self::create_pending_transport_owned(&self.transport_recipe, &self.lifecycle).await?,
+                     }
+                 }
+             };
+-            if let PendingTransport::StreamableHttpWithOAuth { oauth_runtime, .. } = &transport {
++            // Covers refresh and budget checks between constructor publication
++            // and the handshake owner taking the concrete transport.
++            let _pending_guard = GenerationAdmissionGuard::for_generation(transport.clone());
++            if let Some(oauth_runtime) = transport.oauth_runtime() {
+                 // OAuth refresh has its own lock and provider request bounds. Exclude it from the
+                 // MCP handshake budget, and finish persistence before attempting initialize.
+                 let refresh_started_at = Instant::now();
+--- a/codex-rs/rmcp-client/src/tool_input.rs
++++ b/codex-rs/rmcp-client/src/tool_input.rs
+@@ -5,7 +5,6 @@
+ use std::collections::BTreeMap;
+ use std::time::Duration;
+ 
+-use rmcp::RoleClient;
+ use rmcp::model::CallToolRequest;
+ use rmcp::model::CallToolRequestParams;
+ use rmcp::model::CallToolResult;
+@@ -19,14 +18,13 @@
+ use rmcp::model::ServerResult;
+ use rmcp::service::PeerRequestOptions;
+ use rmcp::service::RequestContext;
+-use rmcp::service::RunningService;
+ use rmcp::service::Service;
+ use rmcp::service::ServiceError;
+ use rmcp::transport::streamable_http_client::StreamableHttpError;
+ use serde::Deserialize;
+ use serde_json::Value;
+ 
+-use crate::elicitation_client_service::ElicitationClientService;
++use crate::owned_service::OwnedService;
+ use crate::http_client_adapter::StreamableHttpClientAdapterError;
+ 
+ #[derive(Deserialize)]
+@@ -37,7 +35,7 @@
+ }
+ 
+ pub(crate) async fn call_tool(
+-    service: &RunningService<RoleClient, ElicitationClientService>,
++    service: &OwnedService,
+     mut params: CallToolRequestParams,
+ ) -> Result<CallToolResult, ServiceError> {
+     let mut state_only_rounds = 0;
+--- a/codex-rs/rmcp-client/src/tool_input_tests.rs
++++ b/codex-rs/rmcp-client/src/tool_input_tests.rs
+@@ -1,6 +1,7 @@
+ //! Exercises pending MRTR input cleanup over a real duplex transport.
+ 
+-use super::ElicitationClientService;
++use crate::elicitation_client_service::ElicitationClientService;
++use crate::owned_service::OwnedService;
+ use crate::rmcp_client::ElicitationPauseState;
+ use crate::tool_input::call_tool;
+ use codex_protocol::mcp::OPENAI_ELICITATION_EXTENSION_ID;
+@@ -51,7 +52,10 @@
+             );
+             let (client_transport, server_transport) =
+                 tokio::io::duplex(/*max_buf_size*/ 4096);
+-            let client = serve_directly(service, client_transport, /*peer_info*/ None);
++            let client = OwnedService::new(
++                serve_directly(service, client_transport, /*peer_info*/ None),
++                &tokio::runtime::Handle::current(),
++            );
+             let mut server = IntoTransport::<RoleServer, _, _>::into_transport(server_transport);
+             let call = call_tool(&client, CallToolRequestParams::new("test"));
+             tokio::pin!(call);
+@@ -86,7 +90,7 @@
+             if close_transport {
+                 drop(server);
+             } else {
+-                client.cancellation_token().cancel();
++                client.begin_shutdown();
+             }
+             let result = timeout(Duration::from_secs(/*secs*/ 5), call).await?;
+             assert!(
+@@ -95,6 +99,7 @@
+             );
+             assert!(reply.is_closed());
+             assert!(!*paused.borrow_and_update());
++            timeout(Duration::from_secs(/*secs*/ 5), client.wait_closed()).await??;
+         }
+     }
+     Ok(())
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/transport_lifecycle.rs
+@@ -0,0 +1,265 @@
++//! Transport custody begins before a handshake and survives cancelled close observers.
++
++use codex_async_utils::RetainedTask;
++use codex_async_utils::TaskJoinFailure;
++use rmcp::RoleClient;
++use rmcp::service::RxJsonRpcMessage;
++use rmcp::service::TxJsonRpcMessage;
++use rmcp::transport::Transport;
++use std::any::Any;
++use std::future::Future;
++use std::pin::Pin;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::OnceLock;
++use std::sync::PoisonError;
++use std::time::Duration;
++use tokio::runtime::Handle;
++use tokio::sync::Mutex as AsyncMutex;
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub(crate) enum TransportCloseConfirmation {
++    Confirmed,
++    /// The pinned HTTP WorkerTransport discards its private worker's logical
++    /// quit result. Observing its close task cannot confirm logical success.
++    Unconfirmed,
++}
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub(crate) enum TransportCloseFailure {
++    Transport,
++    Task(TaskJoinFailure),
++}
++
++impl std::fmt::Display for TransportCloseFailure {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        match self {
++            Self::Transport => formatter.write_str("transport close failed"),
++            Self::Task(failure) => std::fmt::Display::fmt(failure, formatter),
++        }
++    }
++}
++
++impl std::error::Error for TransportCloseFailure {}
++
++pub(crate) trait TransportCloseObserver: Send + Sync {
++    /// Apply any deadline outside this observation. Cancelling a waiter never
++    /// cancels the original close task or releases its transport.
++    fn wait(
++        &self,
++    ) -> Pin<
++        Box<
++            dyn Future<Output = Result<TransportCloseConfirmation, TransportCloseFailure>>
++                + Send
++                + '_,
++        >,
++    >;
++}
++
++#[derive(Default)]
++struct Registry {
++    owners: Mutex<Vec<Arc<dyn Any + Send + Sync>>>,
++}
++
++static OWNERS: OnceLock<Arc<Registry>> = OnceLock::new();
++
++type CloseTask<T> = RetainedTask<
++    Result<TransportCloseConfirmation, <T as Transport<RoleClient>>::Error>,
++>;
++
++struct CloseOwner<T: Transport<RoleClient> + 'static> {
++    registry: Arc<Registry>,
++    runtime: Handle,
++    confirmation: TransportCloseConfirmation,
++    // This owner, independently of the task future, retains T after a spawn
++    // panic or runtime cancellation destroys the future's captures.
++    transport: Mutex<Option<Arc<AsyncMutex<T>>>>,
++    task: Mutex<Option<Arc<CloseTask<T>>>>,
++}
++
++impl<T: Transport<RoleClient> + 'static> CloseOwner<T> {
++    fn start(self: &Arc<Self>, transport: T) {
++        self.start_published(transport, || {});
++    }
++
++    #[expect(clippy::await_holding_invalid_type, reason = "The registered close owner retains the transport independently; closing it needs exclusive mutable access across await.")]
++    fn start_published(self: &Arc<Self>, transport: T, before_spawn: impl FnOnce()) {
++        let transport = Arc::new(AsyncMutex::new(transport));
++        *self.transport.lock().unwrap_or_else(PoisonError::into_inner) =
++            Some(Arc::clone(&transport));
++        self.registry
++            .owners
++            .lock()
++            .unwrap_or_else(PoisonError::into_inner)
++            .push(Arc::clone(self) as Arc<dyn Any + Send + Sync>);
++        let confirmation = self.confirmation;
++        // Publication and spawning happen only after the separate owner has
++        // custody. No await occurs while moving T or registering either owner.
++        RetainedTask::spawn_published(
++            &self.runtime,
++            async move {
++                transport.lock().await.close().await?;
++                Ok(confirmation)
++            },
++            |task| {
++                *self.task.lock().unwrap_or_else(PoisonError::into_inner) = Some(task);
++                before_spawn();
++            },
++        );
++    }
++
++    async fn observe(&self) -> Result<TransportCloseConfirmation, TransportCloseFailure> {
++        let task = loop {
++            let task = self.task.lock().unwrap_or_else(PoisonError::into_inner).clone();
++            if let Some(task) = task {
++                break task;
++            }
++            tokio::time::sleep(Duration::from_millis(10)).await;
++        };
++        let outcome = task.wait().await.map_err(TransportCloseFailure::Task)?;
++        match outcome.as_ref() {
++            Ok(confirmation) => {
++                if *confirmation == TransportCloseConfirmation::Confirmed {
++                    self.retire();
++                }
++                Ok(*confirmation)
++            }
++            // The concrete, potentially sensitive error stays in the retained
++            // task. Repeated callers only receive this bounded classification.
++            Err(_) => Err(TransportCloseFailure::Transport),
++        }
++    }
++
++    fn retire(&self) {
++        let retired = {
++            let mut owners = self.registry.owners.lock().unwrap_or_else(PoisonError::into_inner);
++            owners
++                .iter()
++                .position(|owner| {
++                    owner.downcast_ref::<Self>().is_some_and(|owner| std::ptr::eq(owner, self))
++                })
++                .map(|index| owners.swap_remove(index))
++        };
++        // Destruction of a transport must never execute under a registry lock.
++        drop(retired);
++    }
++}
++
++impl<T: Transport<RoleClient> + 'static> TransportCloseObserver for CloseOwner<T> {
++    fn wait(
++        &self,
++    ) -> Pin<
++        Box<
++            dyn Future<Output = Result<TransportCloseConfirmation, TransportCloseFailure>>
++                + Send
++                + '_,
++        >,
++    > {
++        Box::pin(self.observe())
++    }
++}
++
++/// Directly delegates normal operations; only close transfers the transport
++/// into retained ownership. Dropping an unfinished handshake also starts close.
++/// The supplied error factory is used only after closure has begun or failed;
++/// normal send errors retain the exact T::Error needed by HTTP auth downcasts.
++pub(crate) struct TransportGuard<T: Transport<RoleClient> + 'static> {
++    transport: Option<T>,
++    owner: Arc<CloseOwner<T>>,
++    closed_error: fn() -> T::Error,
++}
++
++impl<T: Transport<RoleClient> + 'static> TransportGuard<T> {
++    pub(crate) fn new(
++        transport: T,
++        runtime: Handle,
++        confirmation: TransportCloseConfirmation,
++        closed_error: fn() -> T::Error,
++    ) -> (Self, Arc<dyn TransportCloseObserver>) {
++        Self::new_in(
++            transport,
++            runtime,
++            confirmation,
++            closed_error,
++            OWNERS.get_or_init(Default::default),
++        )
++    }
++
++    fn new_in(
++        transport: T,
++        runtime: Handle,
++        confirmation: TransportCloseConfirmation,
++        closed_error: fn() -> T::Error,
++        registry: &Arc<Registry>,
++    ) -> (Self, Arc<dyn TransportCloseObserver>) {
++        let owner = Arc::new(CloseOwner {
++            registry: Arc::clone(registry),
++            runtime,
++            confirmation,
++            transport: Mutex::new(None),
++            task: Mutex::new(None),
++        });
++        let observer = Arc::clone(&owner) as Arc<dyn TransportCloseObserver>;
++        (
++            Self { transport: Some(transport), owner, closed_error },
++            observer,
++        )
++    }
++
++    /// Constructor access before handing the guard to RMCP. Panics if close
++    /// has already moved the transport into its retained owner.
++    pub(crate) fn inner(&self) -> &T {
++        match self.transport.as_ref() {
++            Some(transport) => transport,
++            None => panic!("transport close has already started"),
++        }
++    }
++
++    fn start_close(&mut self) {
++        if let Some(transport) = self.transport.take() {
++            self.owner.start(transport);
++        }
++    }
++}
++
++impl<T: Transport<RoleClient> + 'static> Transport<RoleClient> for TransportGuard<T> {
++    type Error = T::Error;
++
++    fn send(
++        &mut self,
++        item: TxJsonRpcMessage<RoleClient>,
++    ) -> impl Future<Output = Result<(), Self::Error>> + Send + 'static {
++        let send = self.transport.as_mut().map(|transport| transport.send(item));
++        let closed_error = self.closed_error;
++        async move {
++            match send {
++                Some(send) => send.await,
++                None => Err(closed_error()),
++            }
++        }
++    }
++
++    async fn receive(&mut self) -> Option<RxJsonRpcMessage<RoleClient>> {
++        match self.transport.as_mut() {
++            Some(transport) => transport.receive().await,
++            None => None,
++        }
++    }
++
++    fn close(&mut self) -> impl Future<Output = Result<(), Self::Error>> + Send {
++        self.start_close();
++        let owner = Arc::clone(&self.owner);
++        let closed_error = self.closed_error;
++        async move { owner.observe().await.map(|_| ()).map_err(|_| closed_error()) }
++    }
++}
++
++impl<T: Transport<RoleClient> + 'static> Drop for TransportGuard<T> {
++    fn drop(&mut self) {
++        self.start_close();
++    }
++}
++
++#[cfg(test)]
++#[path = "transport_lifecycle_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/rmcp-client/src/transport_lifecycle_tests.rs
+@@ -0,0 +1,298 @@
++use super::*;
++use pretty_assertions::assert_eq;
++use std::error::Error;
++use std::sync::atomic::AtomicUsize;
++use std::sync::atomic::Ordering;
++use tokio::sync::oneshot;
++
++type TestResult = Result<(), Box<dyn Error + Send + Sync>>;
++
++#[derive(Debug, thiserror::Error)]
++enum TestError {
++    #[error("original send failure")]
++    Send(Arc<()>),
++    #[error("original close failure")]
++    Close(Arc<()>),
++    #[error("transport closure unavailable")]
++    Closed,
++}
++
++#[derive(Clone, Copy)]
++enum Behavior {
++    Complete,
++    Fail,
++    Panic,
++}
++
++struct TestTransport {
++    calls: Arc<AtomicUsize>,
++    drops: Arc<AtomicUsize>,
++    marker: Arc<()>,
++    started: Option<oneshot::Sender<()>>,
++    release: oneshot::Receiver<()>,
++    behavior: Behavior,
++    incoming: Option<RxJsonRpcMessage<RoleClient>>,
++}
++
++impl Transport<RoleClient> for TestTransport {
++    type Error = TestError;
++
++    fn send(
++        &mut self,
++        _item: TxJsonRpcMessage<RoleClient>,
++    ) -> impl Future<Output = Result<(), Self::Error>> + Send + 'static {
++        std::future::ready(Err(TestError::Send(Arc::clone(&self.marker))))
++    }
++
++    async fn receive(&mut self) -> Option<RxJsonRpcMessage<RoleClient>> {
++        self.incoming.take()
++    }
++
++    async fn close(&mut self) -> Result<(), Self::Error> {
++        self.calls.fetch_add(1, Ordering::AcqRel);
++        if let Some(started) = self.started.take() {
++            let _ = started.send(());
++        }
++        (&mut self.release).await.map_err(|_| TestError::Closed)?;
++        match self.behavior {
++            Behavior::Complete => Ok(()),
++            Behavior::Fail => Err(TestError::Close(Arc::clone(&self.marker))),
++            Behavior::Panic => panic!("controlled transport close panic"),
++        }
++    }
++}
++
++impl Drop for TestTransport {
++    fn drop(&mut self) {
++        self.drops.fetch_add(1, Ordering::AcqRel);
++    }
++}
++
++struct Fixture {
++    guard: TransportGuard<TestTransport>,
++    observer: Arc<dyn TransportCloseObserver>,
++    owner: Arc<CloseOwner<TestTransport>>,
++    registry: Arc<Registry>,
++    started: oneshot::Receiver<()>,
++    release: oneshot::Sender<()>,
++    calls: Arc<AtomicUsize>,
++    drops: Arc<AtomicUsize>,
++    marker: Arc<()>,
++}
++
++fn fixture(
++    runtime: Handle,
++    confirmation: TransportCloseConfirmation,
++    behavior: Behavior,
++) -> Fixture {
++    let registry = Arc::new(Registry::default());
++    let calls = Arc::new(AtomicUsize::new(0));
++    let drops = Arc::new(AtomicUsize::new(0));
++    let marker = Arc::new(());
++    let (started_tx, started) = oneshot::channel();
++    let (release, release_rx) = oneshot::channel();
++    let (guard, observer) = TransportGuard::new_in(
++        TestTransport {
++            calls: Arc::clone(&calls),
++            drops: Arc::clone(&drops),
++            marker: Arc::clone(&marker),
++            started: Some(started_tx),
++            release: release_rx,
++            behavior,
++            incoming: None,
++        },
++        runtime,
++        confirmation,
++        || TestError::Closed,
++        &registry,
++    );
++    let owner = Arc::clone(&guard.owner);
++    Fixture { guard, observer, owner, registry, started, release, calls, drops, marker }
++}
++
++fn count(registry: &Registry) -> usize {
++    registry.owners.lock().unwrap_or_else(PoisonError::into_inner).len()
++}
++
++async fn observe(observer: &dyn TransportCloseObserver) -> Result<TransportCloseConfirmation, Box<dyn Error + Send + Sync>> {
++    Ok(tokio::time::timeout(Duration::from_secs(2), observer.wait()).await??)
++}
++
++#[tokio::test]
++async fn cancelled_and_expired_close_observers_share_one_retained_transport() -> TestResult {
++    let mut fixture = fixture(Handle::current(), TransportCloseConfirmation::Confirmed, Behavior::Complete);
++    // Calling close must transfer custody even if this future is never polled.
++    drop(fixture.guard.close());
++    tokio::time::timeout(Duration::from_secs(2), fixture.started).await??;
++    assert_eq!(count(&fixture.registry), 1);
++    assert!(tokio::time::timeout(Duration::from_millis(2), fixture.observer.wait()).await.is_err());
++    let waiter = tokio::spawn({
++        let observer = Arc::clone(&fixture.observer);
++        async move { observer.wait().await }
++    });
++    tokio::task::yield_now().await;
++    waiter.abort();
++    assert!(waiter.await.err().ok_or("waiter unexpectedly completed")?.is_cancelled());
++    drop(fixture.guard);
++    assert_eq!(fixture.drops.load(Ordering::Acquire), 0);
++    fixture.release.send(()).map_err(|_| "close task lost release receiver")?;
++    let (first, second) = tokio::join!(observe(fixture.observer.as_ref()), observe(fixture.observer.as_ref()));
++    assert_eq!(first?, TransportCloseConfirmation::Confirmed);
++    assert_eq!(second?, TransportCloseConfirmation::Confirmed);
++    assert_eq!(observe(fixture.observer.as_ref()).await?, TransportCloseConfirmation::Confirmed);
++    assert_eq!(fixture.calls.load(Ordering::Acquire), 1);
++    assert_eq!(count(&fixture.registry), 0);
++    drop(fixture.observer);
++    drop(fixture.owner);
++    assert_eq!(fixture.drops.load(Ordering::Acquire), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn handshake_drop_starts_close_and_unconfirmed_observation_keeps_custody() -> TestResult {
++    let fixture = fixture(Handle::current(), TransportCloseConfirmation::Unconfirmed, Behavior::Complete);
++    let weak = Arc::downgrade(&fixture.owner);
++    drop(fixture.guard);
++    tokio::time::timeout(Duration::from_secs(2), fixture.started).await??;
++    fixture.release.send(()).map_err(|_| "close task lost release receiver")?;
++    for _ in 0..2 {
++        assert_eq!(observe(fixture.observer.as_ref()).await?, TransportCloseConfirmation::Unconfirmed);
++    }
++    assert_eq!(count(&fixture.registry), 1);
++    drop(fixture.observer);
++    drop(fixture.owner);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(fixture.drops.load(Ordering::Acquire), 0);
++    assert_eq!(fixture.calls.load(Ordering::Acquire), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn close_error_is_sticky_and_original_error_remains_in_primary_custody() -> TestResult {
++    let mut fixture = fixture(Handle::current(), TransportCloseConfirmation::Confirmed, Behavior::Fail);
++    drop(fixture.guard.close());
++    tokio::time::timeout(Duration::from_secs(2), fixture.started).await??;
++    fixture.release.send(()).map_err(|_| "close task lost release receiver")?;
++    for _ in 0..2 {
++        assert_eq!(
++            tokio::time::timeout(Duration::from_secs(2), fixture.observer.wait()).await?,
++            Err(TransportCloseFailure::Transport),
++        );
++        assert!(matches!(fixture.guard.close().await, Err(TestError::Closed)));
++    }
++    let task = fixture.owner.task.lock().unwrap_or_else(PoisonError::into_inner).clone()
++        .ok_or("close task was not published")?;
++    let original = task.wait().await?;
++    match original.as_ref() {
++        Err(TestError::Close(marker)) => assert!(Arc::ptr_eq(marker, &fixture.marker)),
++        _ => return Err("original concrete close failure was not retained".into()),
++    }
++    assert_eq!(count(&fixture.registry), 1);
++    assert_eq!(fixture.calls.load(Ordering::Acquire), 1);
++    let weak = Arc::downgrade(&fixture.owner);
++    drop(fixture.guard);
++    drop(fixture.observer);
++    drop(fixture.owner);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(fixture.drops.load(Ordering::Acquire), 0);
++    Ok(())
++}
++
++#[tokio::test]
++async fn panic_retains_transport_and_reports_the_same_join_failure() -> TestResult {
++    let mut fixture = fixture(Handle::current(), TransportCloseConfirmation::Confirmed, Behavior::Panic);
++    drop(fixture.guard.close());
++    tokio::time::timeout(Duration::from_secs(2), fixture.started).await??;
++    fixture.release.send(()).map_err(|_| "close task lost release receiver")?;
++    for _ in 0..2 {
++        assert_eq!(
++            tokio::time::timeout(Duration::from_secs(2), fixture.observer.wait()).await?,
++            Err(TransportCloseFailure::Task(TaskJoinFailure::Panicked)),
++        );
++        assert!(matches!(fixture.guard.close().await, Err(TestError::Closed)));
++    }
++    drop(fixture.guard);
++    drop(fixture.observer);
++    drop(fixture.owner);
++    assert_eq!(count(&fixture.registry), 1);
++    assert_eq!(fixture.drops.load(Ordering::Acquire), 0);
++    Ok(())
++}
++
++#[tokio::test]
++async fn runtime_cancellation_retains_transport_after_close_future_is_destroyed() -> TestResult {
++    let (owner, observer, registry, drops, calls) = std::thread::spawn(|| -> Result<_, Box<dyn Error + Send + Sync>> {
++        let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build()?;
++        let fixture = fixture(runtime.handle().clone(), TransportCloseConfirmation::Confirmed, Behavior::Complete);
++        drop(fixture.guard);
++        runtime.block_on(async { tokio::time::timeout(Duration::from_secs(2), fixture.started).await })??;
++        // Runtime destruction drops the actual close future while the release
++        // channel remains alive. The separately registered owner must keep T.
++        drop(runtime);
++        assert_eq!(fixture.drops.load(Ordering::Acquire), 0);
++        drop(fixture.release);
++        Ok((fixture.owner, fixture.observer, fixture.registry, fixture.drops, fixture.calls))
++    }).join().map_err(|_| "controlled runtime thread panicked")??;
++    for _ in 0..2 {
++        assert_eq!(
++            tokio::time::timeout(Duration::from_secs(2), observer.wait()).await?,
++            Err(TransportCloseFailure::Task(TaskJoinFailure::Cancelled)),
++        );
++    }
++    let weak = Arc::downgrade(&owner);
++    drop(observer);
++    drop(owner);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(count(&registry), 1);
++    assert_eq!(drops.load(Ordering::Acquire), 0);
++    assert_eq!(calls.load(Ordering::Acquire), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn ordinary_send_and_receive_preserve_concrete_transport_contract() -> TestResult {
++    let mut fixture = fixture(Handle::current(), TransportCloseConfirmation::Confirmed, Behavior::Complete);
++    assert!(Arc::ptr_eq(&fixture.guard.inner().marker, &fixture.marker));
++    let message = serde_json::from_value(serde_json::json!({"jsonrpc":"2.0", "id":1, "method":"ping"}))?;
++    let result: Result<(), TestError> = fixture.guard.send(message).await;
++    match result {
++        Err(TestError::Send(marker)) => assert!(Arc::ptr_eq(&marker, &fixture.marker)),
++        _ => return Err("ordinary send error changed concrete type or identity".into()),
++    }
++    let incoming = serde_json::json!({"jsonrpc":"2.0", "id":1, "result":{}});
++    let transport = fixture.guard.transport.as_mut().ok_or("transport unexpectedly closed")?;
++    transport.incoming = Some(serde_json::from_value(incoming.clone())?);
++    assert_eq!(serde_json::to_value(fixture.guard.receive().await)?, incoming);
++    assert_eq!(count(&fixture.registry), 0);
++    drop(fixture.guard.close());
++    tokio::time::timeout(Duration::from_secs(2), fixture.started).await??;
++    fixture.release.send(()).map_err(|_| "close task lost release receiver")?;
++    assert_eq!(observe(fixture.observer.as_ref()).await?, TransportCloseConfirmation::Confirmed);
++    assert!(fixture.guard.receive().await.is_none());
++    Ok(())
++}
++
++#[tokio::test]
++async fn spawn_panic_preserves_registered_transport_before_future_ever_runs() -> TestResult {
++    let mut fixture = fixture(Handle::current(), TransportCloseConfirmation::Confirmed, Behavior::Complete);
++    let transport = fixture.guard.transport.take().ok_or("transport unexpectedly closed")?;
++    fixture.owner.start_published(transport, || {
++        panic!("controlled publisher panic before spawn");
++    });
++    for _ in 0..2 {
++        assert_eq!(
++            tokio::time::timeout(Duration::from_secs(2), fixture.observer.wait()).await?,
++            Err(TransportCloseFailure::Task(TaskJoinFailure::SpawnPanicked)),
++        );
++        assert!(matches!(fixture.guard.close().await, Err(TestError::Closed)));
++    }
++    let weak = Arc::downgrade(&fixture.owner);
++    drop(fixture.guard);
++    drop(fixture.observer);
++    drop(fixture.owner);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(count(&fixture.registry), 1);
++    assert_eq!(fixture.drops.load(Ordering::Acquire), 0);
++    assert_eq!(fixture.calls.load(Ordering::Acquire), 0);
++    Ok(())
++}
+--- a/codex-rs/rmcp-client/src/user_verification_cancellation_tests.rs
++++ b/codex-rs/rmcp-client/src/user_verification_cancellation_tests.rs
+@@ -144,7 +144,7 @@
+             )?,
+             json!({"action": "accept"}),
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+         drop(previous);
+         server.cancel().await?;
+         recovered_server.cancel().await?;
+--- a/codex-rs/rmcp-client/tests/mcp_2026_discovery.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_discovery.rs
+@@ -183,7 +183,7 @@
+                     json!({"method": "tools/call", "readOnly": read_only, "callId": "preserved", "cursor": null, "arguments": {"message": "hello"}}),
+                 ]
+             );
+-            client.shutdown().await;
++            let _receipt = client.shutdown().await?;
+         }
+     }
+     Ok(())
+@@ -249,7 +249,7 @@
+         .map(|request| request["method"].as_str().unwrap_or_default().to_owned())
+         .collect::<Vec<_>>();
+     assert_eq!(methods, vec!["server/discover", "tools/list"]);
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -301,7 +301,7 @@
+     );
+     redirect_target.verify().await;
+     resource_server.verify().await;
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -349,7 +349,7 @@
+     .await?;
+     initialize_client(&client).await?;
+     server.verify().await;
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -402,7 +402,7 @@
+             "cross-origin tools/call redirect must explain its rejection: {error:#}"
+         );
+         assert!(destination.received_requests().await.unwrap().is_empty());
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+ 
+     Ok(())
+@@ -428,7 +428,7 @@
+         server_info.server_info,
+         Some(Implementation::new("modern-test", "1.0.0"))
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -460,7 +460,7 @@
+             ServerCapabilities::builder().enable_tools().build(),
+         )
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -484,7 +484,7 @@
+ 
+     let client = create_client(&server, McpProtocolMode::V20260728).await?;
+     initialize_client(&client).await?;
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -509,7 +509,7 @@
+ 
+     let client = create_client(&server, McpProtocolMode::V20260728).await?;
+     initialize_client(&client).await?;
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -571,7 +571,7 @@
+             format!("{error:#}").contains("8388608 bytes"),
+             "expected bounded {oversized_method} response, got {error:#}"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -613,7 +613,7 @@
+         tools.tools[0].description.as_deref().map(str::len),
+         Some(MAX_MCP_MESSAGE_BYTES + 1)
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -663,7 +663,7 @@
+             "transient discovery failures must retry without falling back to legacy initialization"
+         );
+     }
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -711,7 +711,7 @@
+             "each SDK discovery attempt must use a distinct JSON-RPC request ID"
+         );
+     }
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -820,7 +820,7 @@
+         result.content[0].as_text().map(|text| text.text.as_str()),
+         Some("headers work")
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -855,7 +855,7 @@
+         *observed.lock().expect("requests lock"),
+         vec!["initialize", "notifications/initialized"]
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -895,7 +895,7 @@
+         *observed.lock().expect("requests lock"),
+         vec!["server/discover", "initialize", "notifications/initialized"]
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -990,7 +990,7 @@
+             "notifications/initialized",
+         ]
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -1044,7 +1044,7 @@
+             vec!["server/discover", "initialize", "notifications/initialized"],
+             "{legacy_response} should permit legacy initialization fallback"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1133,7 +1133,7 @@
+             *observed.lock().expect("requests lock"),
+             vec!["server/discover", "initialize", "notifications/initialized"]
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1164,7 +1164,7 @@
+         initialize_client(&client).await.is_err(),
+         "an unrelated response ID must never authorize protocol downgrade"
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -1195,7 +1195,7 @@
+             error.to_string().contains("did not match its request ID"),
+             "uncorrelated method-not-found error should explain its rejection: {error:#}"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1260,7 +1260,7 @@
+             *observed.lock().expect("requests lock"),
+             vec!["server/discover", "initialize", "notifications/initialized"]
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1350,7 +1350,7 @@
+             *observed.lock().expect("requests lock"),
+             vec!["server/discover", "initialize", "notifications/initialized"]
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1411,7 +1411,7 @@
+             initialize_client(&client).await.is_err(),
+             "unproven legacy downgrade must fail (HTTP {status}, {message})"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1455,7 +1455,7 @@
+             initialize_client(&client).await.is_err(),
+             "non-legacy discovery error must not downgrade (HTTP {status}, error {error_code}, response ID {response_id:?})"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -1493,7 +1493,7 @@
+             vec!["server/discover", "initialize", "notifications/initialized"],
+             "HTTP {status} should permit legacy initialization fallback"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+--- a/codex-rs/rmcp-client/tests/mcp_2026_message_limits.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_message_limits.rs
+@@ -184,7 +184,7 @@
+                 "unexpected {oversized:?} error: {error}"
+             );
+         }
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -226,7 +226,7 @@
+         tools.tools[0].description.as_deref().map(str::len),
+         Some(MAX_MCP_MESSAGE_BYTES + 1)
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -286,7 +286,7 @@
+                 "oversized stdio line must be rejected (modern={modern}, executor={executor})"
+             );
+         }
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+--- a/codex-rs/rmcp-client/tests/mcp_2026_mrtr/native_verification_tests.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_mrtr/native_verification_tests.rs
+@@ -228,7 +228,7 @@
+             .filter(|body| body["method"] == "tools/call")
+             .collect();
+         assert_ne!(calls[0]["id"], calls[1]["id"]);
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -264,7 +264,7 @@
+     .await?;
+     let error = call(&client).await.unwrap_err();
+     assert!(error.to_string().contains("MRTR"), "{error}");
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -303,7 +303,7 @@
+         )
+         .await?;
+         assert!(call(&client).await.is_err());
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -345,7 +345,7 @@
+                 /*data*/ None
+             ))
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -422,7 +422,7 @@
+                 )))
+             )?
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+         server.verify().await;
+     }
+     Ok(())
+@@ -465,7 +465,7 @@
+         error.to_string().contains("the tool was not restarted"),
+         "{error}"
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -512,7 +512,7 @@
+         error.to_string().contains("the tool was not restarted"),
+         "{error}"
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     server.verify().await;
+     Ok(())
+ }
+@@ -575,6 +575,6 @@
+         timeout(Duration::from_secs(/*secs*/ 5), second_call).await???,
+         json!({"resultType": "complete", "content": []})
+     );
+-    client.shutdown().await;
+-    Ok(())
+-}
++    let _receipt = client.shutdown().await?;
++    Ok(())
++}
+--- a/codex-rs/rmcp-client/tests/mcp_2026_mrtr.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_mrtr.rs
+@@ -212,7 +212,7 @@
+ 
+     assert_eq!(serde_json::to_value(result)?, expected_result);
+ 
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     server.verify().await;
+ 
+     Ok(())
+@@ -313,7 +313,7 @@
+             assert_eq!(calls.len(), 2);
+             assert_ne!(calls[0]["id"], calls[1]["id"]);
+         }
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -478,7 +478,7 @@
+         *elicitation_modes.lock().expect("elicitation lock"),
+         vec!["form"]
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -562,7 +562,7 @@
+         assert_eq!(calls.len(), 2);
+         assert_ne!(calls[0]["id"], calls[1]["id"]);
+     }
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -653,7 +653,7 @@
+         vec!["form"]
+     );
+     assert_eq!(calls.lock().expect("requests lock").len(), 2);
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -737,6 +737,6 @@
+             Some("state-2".to_string())
+         ]
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+--- a/codex-rs/rmcp-client/tests/mcp_2026_sse_discovery.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_sse_discovery.rs
+@@ -108,7 +108,7 @@
+         .await;
+ 
+     let client = initialize_modern_client(&server).await?;
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+@@ -159,7 +159,7 @@
+         *observed.lock().expect("requests lock"),
+         vec!["server/discover", "initialize", "notifications/initialized"]
+     );
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+--- a/codex-rs/rmcp-client/tests/mcp_2026_stdio.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_stdio.rs
+@@ -190,7 +190,7 @@
+             "./server"
+         );
+     }
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     Ok(())
+ }
+ 
+--- a/codex-rs/rmcp-client/tests/mcp_2026_stdio_discovery.rs
++++ b/codex-rs/rmcp-client/tests/mcp_2026_stdio_discovery.rs
+@@ -138,7 +138,7 @@
+             result.structured_content,
+             Some(json!({ "echo": "ECHOING: ca inheritance", "env": expected }))
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+ 
+     Ok(())
+@@ -206,7 +206,7 @@
+             templates.resource_templates[0].name,
+             "stdio resource template"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -277,7 +277,7 @@
+                     "env": version,
+                 }))
+             );
+-            client.shutdown().await;
++            let _receipt = client.shutdown().await?;
+         }
+     }
+ 
+--- a/codex-rs/rmcp-client/tests/mcp_events.rs
++++ b/codex-rs/rmcp-client/tests/mcp_events.rs
+@@ -183,7 +183,7 @@
+         .context("cancelled stream did not close")?;
+     assert_eq!(closed, "gmail.message.received");
+ 
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     server.abort();
+     let _ = server.await;
+     Ok(())
+@@ -235,7 +235,7 @@
+     tokio::time::resume();
+     assert!(error.to_string().contains("timed out"));
+ 
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+     server.abort();
+     let _ = server.await;
+     Ok(())
+--- a/codex-rs/rmcp-client/tests/process_group_cleanup.rs
++++ b/codex-rs/rmcp-client/tests/process_group_cleanup.rs
+@@ -172,7 +172,7 @@
+     });
+     tokio::time::sleep(Duration::from_millis(200)).await;
+ 
+-    client.shutdown().await;
++    let _receipt = client.shutdown().await?;
+ 
+     wait_for_process_exit(server_pid).await?;
+     let _ = tokio::time::timeout(Duration::from_secs(5), call_task).await?;
+--- a/codex-rs/rmcp-client/tests/stdio_descriptor_boundary.rs
++++ b/codex-rs/rmcp-client/tests/stdio_descriptor_boundary.rs
+@@ -146,7 +146,7 @@
+                 Some(Duration::from_secs(/*secs*/ 5)),
+             )
+             .await?;
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+         assert_eq!(
+             result.structured_content,
+             Some(json!({
+--- a/codex-rs/rmcp-client/tests/stdio_message_limits.rs
++++ b/codex-rs/rmcp-client/tests/stdio_message_limits.rs
+@@ -129,7 +129,7 @@
+             accepts_oversized,
+             "unexpected stdio size handling (executor={executor}, mode={protocol_mode:?})"
+         );
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     }
+     Ok(())
+ }
+@@ -207,7 +207,7 @@
+         let tools = client
+             .list_tools(/*params*/ None, Some(Duration::from_secs(10)))
+             .await;
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+         wait_for_process_exit(&server_process)?;
+ 
+         pretty_assertions::assert_eq!(console_state, "false");
+@@ -299,7 +299,7 @@
+         assert_ne!(terminated, 0, "failed to terminate test MCP server");
+         wait_for_process_exit(&server_process)?;
+ 
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+ 
+         assert!(
+             wait_for_process_exit(&descendant_process).is_ok(),
+--- a/codex-rs/rmcp-client/tests/stdio_stderr_cleanup.rs
++++ b/codex-rs/rmcp-client/tests/stdio_stderr_cleanup.rs
+@@ -191,7 +191,7 @@
+     // For Shutdown, keep the client alive until after the FD assertion so
+     // final Drop cannot hide missing cleanup in the explicit shutdown path.
+     if matches!(cleanup, Cleanup::Shutdown) {
+-        client.shutdown().await;
++        let _receipt = client.shutdown().await?;
+     } else {
+         drop(client);
+     }

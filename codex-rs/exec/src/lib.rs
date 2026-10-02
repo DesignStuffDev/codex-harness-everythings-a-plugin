@@ -11,6 +11,10 @@ mod event_processor_with_human_output;
 pub(crate) mod event_processor_with_jsonl_output;
 pub(crate) mod exec_events;
 mod worktree;
+mod process_final;
+#[cfg(test)]
+#[path = "process_final_input_tests.rs"]
+mod process_final_input_tests;
 
 pub use cli::Cli;
 pub use cli::Command;
@@ -108,6 +112,7 @@ use codex_utils_absolute_path::canonicalize_existing_preserving_symlinks;
 use codex_utils_cli::SharedCliOptions;
 use codex_utils_oss::ensure_oss_provider_ready;
 use codex_utils_oss::get_default_model_for_oss_provider;
+use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use codex_worktree::CreateWorktree;
 use codex_worktree::WorktreeManager;
 use codex_worktree::WorktreeSettings;
@@ -214,6 +219,7 @@ impl RequestIdSequencer {
 
 struct ExecRunArgs {
     in_process_start_args: InProcessClientStartArgs,
+    process_final: Option<ProcessFinalCapability>,
     state_db: Option<StateDbHandle>,
     command: Option<ExecCommand>,
     config: Config,
@@ -256,7 +262,31 @@ fn exec_stderr_env_filter() -> EnvFilter {
         .unwrap_or_else(|_| EnvFilter::new("error"))
 }
 
+fn begin_process_final(capability: &ProcessFinalCapability) {
+    let _shutdown = codex_core_plugins::startup_sync::CuratedProcessShutdown::begin(
+        capability.begin().graceful(),
+    );
+}
+
 pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result<()> {
+    run_main_inner(cli, arg0_paths, None).await
+}
+
+/// Run exec with permission to begin final process shutdown at terminal exit.
+/// The executable must await global process cleanup before dropping its runtime.
+pub async fn run_main_with_process_final(
+    cli: Cli,
+    arg0_paths: Arg0DispatchPaths,
+    process_final: ProcessFinalCapability,
+) -> anyhow::Result<()> {
+    run_main_inner(cli, arg0_paths, Some(process_final)).await
+}
+
+async fn run_main_inner(
+    cli: Cli,
+    arg0_paths: Arg0DispatchPaths,
+    process_final: Option<ProcessFinalCapability>,
+) -> anyhow::Result<()> {
     if let Err(err) = set_default_originator("codex_exec".to_string()) {
         tracing::warn!(?err, "Failed to set codex exec originator override {err:?}");
     }
@@ -336,8 +366,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
         Ok(v) => v,
         #[allow(clippy::print_stderr)]
         Err(e) => {
-            eprintln!("Error parsing -c overrides: {e}");
-            std::process::exit(1);
+            anyhow::bail!("Error parsing -c overrides: {e}");
         }
     };
 
@@ -354,8 +383,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
     let codex_home = match find_codex_home() {
         Ok(codex_home) => codex_home,
         Err(err) => {
-            eprintln!("Error finding codex home: {err}");
-            std::process::exit(1);
+            anyhow::bail!("Error finding codex home: {err}");
         }
     };
     let user_config_path = config_profile_v2
@@ -379,7 +407,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
     let managed_worktree = if worktree {
         let embedded_network_policy =
             codex_app_server_client::EmbeddedNetworkPolicy::load(&loader_overrides).await;
-        let gate_bootstrap = load_bootstrap_config_or_exit(
+        let gate_bootstrap = load_bootstrap_config_for_startup(
             &codex_home,
             /*cwd*/ None,
             cli_kv_overrides.clone(),
@@ -387,7 +415,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
             strict_config,
             CloudConfigBundleLoader::default(),
         )
-        .await;
+        .await?;
         let gate_cloud_config = cloud_config_bundle_loader_for_storage(
             embedded_network_policy
                 .bind_bootstrap_auth(bootstrap_auth_config(&codex_home, &gate_bootstrap)?),
@@ -450,7 +478,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
             }
         }
         // Allocation belongs to the host, not this session's project, profile, or overrides.
-        let host_config = load_bootstrap_config_or_exit(
+        let host_config = load_bootstrap_config_for_startup(
             &codex_home,
             /*cwd*/ None,
             Vec::new(),
@@ -458,7 +486,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
             strict_config,
             CloudConfigBundleLoader::default(),
         )
-        .await;
+        .await?;
         let settings =
             WorktreeSettings::for_cli(&codex_home, host_config.config_toml.desktop.as_ref())?;
         let manager = WorktreeManager::new(settings);
@@ -478,7 +506,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
     };
     let embedded_network_policy =
         codex_app_server_client::EmbeddedNetworkPolicy::load(&loader_overrides).await;
-    let bootstrap_config = load_bootstrap_config_or_exit(
+    let bootstrap_config = load_bootstrap_config_for_startup(
         &codex_home,
         Some(&config_cwd),
         cli_kv_overrides.clone(),
@@ -486,7 +514,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
         strict_config,
         CloudConfigBundleLoader::default(),
     )
-    .await;
+    .await?;
     let bootstrap_config_toml = &bootstrap_config.config_toml;
     let bootstrap_auth_config = embedded_network_policy
         .bind_bootstrap_auth(bootstrap_auth_config(&codex_home, &bootstrap_config)?);
@@ -529,7 +557,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
             // The first load intentionally skips cloud config so we can read
             // auth/base-url settings needed to fetch the bundle. If OSS mode
             // needs a default provider from config, reload with the bundle.
-            bootstrap_config_with_cloud_config = load_bootstrap_config_or_exit(
+            bootstrap_config_with_cloud_config = load_bootstrap_config_for_startup(
                 &codex_home,
                 Some(&config_cwd),
                 cli_kv_overrides.clone(),
@@ -537,7 +565,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
                 strict_config,
                 cloud_config_bundle.clone(),
             )
-            .await;
+            .await?;
             &bootstrap_config_with_cloud_config.config_toml
         } else {
             bootstrap_config_toml
@@ -624,11 +652,10 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
     match check_execpolicy_for_warnings(&config.config_layer_stack).await {
         Ok(None) => {}
         Ok(Some(err)) | Err(err) => {
-            eprintln!(
+            anyhow::bail!(
                 "Error loading rules:\n{}",
                 format_exec_policy_error_with_source(&err)
             );
-            std::process::exit(1);
         }
     }
 
@@ -637,8 +664,7 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
     if !is_workload_identity_selected()
         && let Err(err) = enforce_login_restrictions(&config.auth_config()).await
     {
-        eprintln!("{err}");
-        std::process::exit(1);
+        return Err(err.into());
     }
 
     let otel = match std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
@@ -672,87 +698,99 @@ pub async fn run_main(cli: Cli, arg0_paths: Arg0DispatchPaths) -> anyhow::Result
         .with(otel_logger_layer)
         .try_init();
 
-    let exec_span = exec_root_span();
-    if let Some(context) = traceparent_context_from_env() {
-        set_parent_from_context(&exec_span, context);
-    }
-    let config_warnings: Vec<ConfigWarningNotification> = config
-        .startup_warnings
-        .iter()
-        .map(|warning| ConfigWarningNotification {
-            summary: warning.clone(),
-            details: None,
-            path: None,
-            range: None,
+    // Keep the logger/exporter owner alive through the aggregate receipt on
+    // both operation success and error. The executable wrapper covers failures
+    // before tracing initialization.
+    let operation = async {
+        let exec_span = exec_root_span();
+        if let Some(context) = traceparent_context_from_env() {
+            set_parent_from_context(&exec_span, context);
+        }
+        let config_warnings: Vec<ConfigWarningNotification> = config
+            .startup_warnings
+            .iter()
+            .map(|warning| ConfigWarningNotification {
+                summary: warning.clone(),
+                details: None,
+                path: None,
+                range: None,
+            })
+            .collect();
+        let local_runtime_paths = ExecServerRuntimeOptions::from_optional_paths(
+            arg0_paths.codex_self_exe.clone(),
+            arg0_paths.codex_linux_sandbox_exe.clone(),
+        )?;
+        #[cfg(target_os = "macos")]
+        let local_runtime_paths = local_runtime_paths.with_allowed_symlinked_codex_home(
+            codex_config::allowed_symlinked_codex_home(&config.config_layer_stack, &config.codex_home),
+        );
+        let state_db = codex_core::init_state_db(&config).await;
+        let environment_manager = if run_loader_overrides.ignore_user_config {
+            EnvironmentManager::from_env(
+                Some(local_runtime_paths),
+                embedded_network_policy.bind(config.http_client_factory()),
+            )
+            .await?
+        } else {
+            EnvironmentManager::from_codex_home(
+                config.codex_home.clone(),
+                Some(local_runtime_paths),
+                embedded_network_policy.bind(config.http_client_factory()),
+            )
+            .await?
+        };
+        let in_process_start_args = InProcessClientStartArgs {
+            arg0_paths,
+            config: std::sync::Arc::new(config.clone()),
+            cli_overrides: run_cli_overrides,
+            loader_overrides: run_loader_overrides,
+            strict_config,
+            cloud_config_bundle: run_cloud_config_bundle,
+            embedded_network_policy,
+            feedback: CodexFeedback::new(),
+            log_db: None,
+            state_db: state_db.clone(),
+            environment_manager: std::sync::Arc::new(environment_manager),
+            config_warnings,
+            session_source: SessionSource::Exec,
+            enable_codex_api_key_env: true,
+            client_name: "codex_exec".to_string(),
+            client_version: env!("CARGO_PKG_VERSION").to_string(),
+            experimental_api: true,
+            mcp_server_openai_form_elicitation: false,
+            opt_out_notification_methods: Vec::new(),
+            channel_capacity: DEFAULT_IN_PROCESS_CHANNEL_CAPACITY,
+        };
+        run_exec_session(ExecRunArgs {
+            in_process_start_args,
+            process_final: process_final.clone(),
+            state_db,
+            command,
+            config,
+            resume_approvals_reviewer_override,
+            dangerously_bypass_approvals_and_sandbox,
+            exec_span: exec_span.clone(),
+            images,
+            json_mode,
+            last_message_file,
+            model_provider,
+            managed_worktree,
+            oss,
+            output_schema_path,
+            prompt,
+            skip_git_repo_check,
+            stderr_with_ansi,
+            thread_source: thread_source.map(Into::into).unwrap_or(ThreadSource::User),
         })
-        .collect();
-    let local_runtime_paths = ExecServerRuntimeOptions::from_optional_paths(
-        arg0_paths.codex_self_exe.clone(),
-        arg0_paths.codex_linux_sandbox_exe.clone(),
-    )?;
-    #[cfg(target_os = "macos")]
-    let local_runtime_paths = local_runtime_paths.with_allowed_symlinked_codex_home(
-        codex_config::allowed_symlinked_codex_home(&config.config_layer_stack, &config.codex_home),
-    );
-    let state_db = codex_core::init_state_db(&config).await;
-    let environment_manager = if run_loader_overrides.ignore_user_config {
-        EnvironmentManager::from_env(
-            Some(local_runtime_paths),
-            embedded_network_policy.bind(config.http_client_factory()),
-        )
-        .await?
+        .instrument(exec_span)
+        .await
+    }
+    .await;
+    if let Some(capability) = &process_final {
+        process_final::finish(operation, capability).await
     } else {
-        EnvironmentManager::from_codex_home(
-            config.codex_home.clone(),
-            Some(local_runtime_paths),
-            embedded_network_policy.bind(config.http_client_factory()),
-        )
-        .await?
-    };
-    let in_process_start_args = InProcessClientStartArgs {
-        arg0_paths,
-        config: std::sync::Arc::new(config.clone()),
-        cli_overrides: run_cli_overrides,
-        loader_overrides: run_loader_overrides,
-        strict_config,
-        cloud_config_bundle: run_cloud_config_bundle,
-        embedded_network_policy,
-        feedback: CodexFeedback::new(),
-        log_db: None,
-        state_db: state_db.clone(),
-        environment_manager: std::sync::Arc::new(environment_manager),
-        config_warnings,
-        session_source: SessionSource::Exec,
-        enable_codex_api_key_env: true,
-        client_name: "codex_exec".to_string(),
-        client_version: env!("CARGO_PKG_VERSION").to_string(),
-        experimental_api: true,
-        mcp_server_openai_form_elicitation: false,
-        opt_out_notification_methods: Vec::new(),
-        channel_capacity: DEFAULT_IN_PROCESS_CHANNEL_CAPACITY,
-    };
-    run_exec_session(ExecRunArgs {
-        in_process_start_args,
-        state_db,
-        command,
-        config,
-        resume_approvals_reviewer_override,
-        dangerously_bypass_approvals_and_sandbox,
-        exec_span: exec_span.clone(),
-        images,
-        json_mode,
-        last_message_file,
-        model_provider,
-        managed_worktree,
-        oss,
-        output_schema_path,
-        prompt,
-        skip_git_repo_check,
-        stderr_with_ansi,
-        thread_source: thread_source.map(Into::into).unwrap_or(ThreadSource::User),
-    })
-    .instrument(exec_span)
-    .await
+        operation
+    }
 }
 
 async fn build_exec_config<BuildConfig, BuildFuture>(
@@ -791,14 +829,14 @@ where
 }
 
 #[allow(clippy::print_stderr)]
-async fn load_bootstrap_config_or_exit(
+async fn load_bootstrap_config_for_startup(
     codex_home: &Path,
     cwd: Option<&AbsolutePathBuf>,
     cli_kv_overrides: Vec<(String, codex_config::TomlValue)>,
     loader_overrides: LoaderOverrides,
     strict_config: bool,
     cloud_config_bundle: CloudConfigBundleLoader,
-) -> ConfigTomlLoadResult {
+) -> anyhow::Result<ConfigTomlLoadResult> {
     match load_config_toml_with_layer_stack(
         codex_home,
         cwd,
@@ -811,21 +849,20 @@ async fn load_bootstrap_config_or_exit(
     )
     .await
     {
-        Ok(config_toml) => config_toml,
+        Ok(config_toml) => Ok(config_toml),
         Err(err) => {
             let config_error = err
                 .get_ref()
                 .and_then(|err| err.downcast_ref::<ConfigLoadError>())
                 .map(ConfigLoadError::config_error);
             if let Some(config_error) = config_error {
-                eprintln!(
+                anyhow::bail!(
                     "Error loading config.toml:\n{}",
                     format_config_error_with_source(config_error)
                 );
             } else {
-                eprintln!("Error loading config.toml: {err}");
+                anyhow::bail!("Error loading config.toml: {err}");
             }
-            std::process::exit(1);
         }
     }
 }
@@ -833,6 +870,7 @@ async fn load_bootstrap_config_or_exit(
 async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
     let ExecRunArgs {
         in_process_start_args,
+        process_final,
         state_db,
         command,
         config,
@@ -899,7 +937,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
                     }
                 })
                 .or(root_prompt);
-            let prompt_text = resolve_prompt(prompt_arg);
+            let prompt_text = resolve_prompt(prompt_arg)?;
             let mut items: Vec<UserInput> = imgs
                 .into_iter()
                 .chain(args.images.iter().cloned())
@@ -910,7 +948,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
                 // CLI input doesn't track UI element ranges, so none are available here.
                 text_elements: Vec::new(),
             });
-            let output_schema = load_output_schema(output_schema_path.clone());
+            let output_schema = load_output_schema(output_schema_path.clone())?;
             (
                 InitialOperation::UserTurn {
                     items,
@@ -922,7 +960,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
         (Some(ExecCommand::Fork(args)), root_prompt, imgs) => {
             let prompt_arg = args.prompt.clone().or(root_prompt);
             if let Some(prompt_arg) = prompt_arg {
-                let prompt_text = resolve_prompt(Some(prompt_arg));
+                let prompt_text = resolve_prompt(Some(prompt_arg))?;
                 let mut items: Vec<UserInput> = imgs
                     .into_iter()
                     .chain(args.images.iter().cloned())
@@ -932,7 +970,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
                     text: prompt_text.clone(),
                     text_elements: Vec::new(),
                 });
-                let output_schema = load_output_schema(output_schema_path);
+                let output_schema = load_output_schema(output_schema_path)?;
                 (
                     InitialOperation::UserTurn {
                         items,
@@ -951,7 +989,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
             }
         }
         (None, root_prompt, imgs) => {
-            let prompt_text = resolve_root_prompt(root_prompt);
+            let prompt_text = resolve_root_prompt(root_prompt)?;
             let mut items: Vec<UserInput> = imgs
                 .into_iter()
                 .map(|path| UserInput::LocalImage { path, detail: None })
@@ -961,7 +999,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
                 // CLI input doesn't track UI element ranges, so none are available here.
                 text_elements: Vec::new(),
             });
-            let output_schema = load_output_schema(output_schema_path);
+            let output_schema = load_output_schema(output_schema_path)?;
             (
                 InitialOperation::UserTurn {
                     items,
@@ -978,8 +1016,7 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
         && !dangerously_bypass_approvals_and_sandbox
         && get_git_repo_root(&default_cwd).is_none()
     {
-        eprintln!("Not inside a trusted directory and --skip-git-repo-check was not specified.");
-        std::process::exit(1);
+        anyhow::bail!("Not inside a trusted directory and --skip-git-repo-check was not specified.");
     }
 
     let mut request_ids = RequestIdSequencer::new();
@@ -1133,6 +1170,9 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
 
     let task_id = match initial_operation {
         InitialOperation::ForkOnly => {
+            if let Some(capability) = &process_final {
+                begin_process_final(capability);
+            }
             request_shutdown(&client, &mut request_ids, &primary_thread_id_for_span)
                 .await
                 .map_err(anyhow::Error::msg)?;
@@ -1293,6 +1333,9 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
                     match event_processor.process_server_notification(notification) {
                         CodexStatus::Running => {}
                         CodexStatus::InitiateShutdown => {
+                            if let Some(capability) = &process_final {
+                                begin_process_final(capability);
+                            }
                             if let Err(err) = request_shutdown(
                                 &client,
                                 &mut request_ids,
@@ -1315,15 +1358,19 @@ async fn run_exec_session(args: ExecRunArgs) -> anyhow::Result<()> {
         }
     }
 
-    if let Err(err) = client.shutdown().await {
-        warn!("in-process app-server shutdown failed: {err}");
+    if let Some(capability) = &process_final {
+        begin_process_final(capability);
     }
+    let shutdown = client
+        .shutdown()
+        .await
+        .map_err(|err| anyhow::anyhow!("in-process app-server shutdown failed: {err}"));
     event_processor.print_final_output();
-    if error_seen {
-        std::process::exit(1);
+    match (error_seen, shutdown) {
+        (false, shutdown) => shutdown,
+        (true, Ok(())) => anyhow::bail!("exec turn failed or was interrupted"),
+        (true, Err(shutdown)) => Err(shutdown.context("exec turn failed or was interrupted")),
     }
-
-    Ok(())
 }
 
 async fn start_thread(
@@ -2130,30 +2177,17 @@ async fn handle_server_request(
     }
 }
 
-fn load_output_schema(path: Option<PathBuf>) -> Option<Value> {
-    let path = path?;
-
-    let schema_str = match std::fs::read_to_string(&path) {
-        Ok(contents) => contents,
-        Err(err) => {
-            eprintln!(
-                "Failed to read output schema file {}: {err}",
-                path.display()
-            );
-            std::process::exit(1);
-        }
+fn load_output_schema(path: Option<PathBuf>) -> anyhow::Result<Option<Value>> {
+    let Some(path) = path else {
+        return Ok(None);
     };
-
-    match serde_json::from_str::<Value>(&schema_str) {
-        Ok(value) => Some(value),
-        Err(err) => {
-            eprintln!(
-                "Output schema file {} is not valid JSON: {err}",
-                path.display()
-            );
-            std::process::exit(1);
-        }
-    }
+    let schema_str = std::fs::read_to_string(&path).map_err(|err| {
+        anyhow::anyhow!("Failed to read output schema file {}: {err}", path.display())
+    })?;
+    let value = serde_json::from_str::<Value>(&schema_str).map_err(|err| {
+        anyhow::anyhow!("Output schema file {} is not valid JSON: {err}", path.display())
+    })?;
+    Ok(Some(value))
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -2229,50 +2263,40 @@ fn decode_utf16(
     String::from_utf16(&units).map_err(|_| PromptDecodeError::InvalidUtf16 { encoding })
 }
 
-fn read_prompt_from_stdin(behavior: StdinPromptBehavior) -> Option<String> {
+fn read_prompt_from_stdin(behavior: StdinPromptBehavior) -> anyhow::Result<Option<String>> {
     let stdin_is_terminal = std::io::stdin().is_terminal();
 
     match behavior {
         StdinPromptBehavior::RequiredIfPiped if stdin_is_terminal => {
-            eprintln!(
+            anyhow::bail!(
                 "No prompt provided. Either specify one as an argument or pipe the prompt into stdin."
             );
-            std::process::exit(1);
         }
         StdinPromptBehavior::RequiredIfPiped => {
             eprintln!("Reading prompt from stdin...");
         }
         StdinPromptBehavior::Forced => {}
-        StdinPromptBehavior::OptionalAppend if stdin_is_terminal => return None,
+        StdinPromptBehavior::OptionalAppend if stdin_is_terminal => return Ok(None),
         StdinPromptBehavior::OptionalAppend => {
             eprintln!("Reading additional input from stdin...");
         }
     }
 
     let mut bytes = Vec::new();
-    if let Err(e) = std::io::stdin().read_to_end(&mut bytes) {
-        eprintln!("Failed to read prompt from stdin: {e}");
-        std::process::exit(1);
-    }
-
-    let buffer = match decode_prompt_bytes(&bytes) {
-        Ok(s) => s,
-        Err(e) => {
-            eprintln!("Failed to read prompt from stdin: {e}");
-            std::process::exit(1);
-        }
-    };
-
+    std::io::stdin()
+        .read_to_end(&mut bytes)
+        .map_err(|err| anyhow::anyhow!("Failed to read prompt from stdin: {err}"))?;
+    let buffer = decode_prompt_bytes(&bytes)
+        .map_err(|err| anyhow::anyhow!("Failed to read prompt from stdin: {err}"))?;
     if buffer.trim().is_empty() {
         match behavior {
-            StdinPromptBehavior::OptionalAppend => None,
+            StdinPromptBehavior::OptionalAppend => Ok(None),
             StdinPromptBehavior::RequiredIfPiped | StdinPromptBehavior::Forced => {
-                eprintln!("No prompt provided via stdin.");
-                std::process::exit(1);
+                anyhow::bail!("No prompt provided via stdin.");
             }
         }
     } else {
-        Some(buffer)
+        Ok(Some(buffer))
     }
 }
 
@@ -2285,30 +2309,28 @@ fn prompt_with_stdin_context(prompt: &str, stdin_text: &str) -> String {
     combined
 }
 
-fn resolve_prompt(prompt_arg: Option<String>) -> String {
+fn resolve_prompt(prompt_arg: Option<String>) -> anyhow::Result<String> {
     match prompt_arg {
-        Some(p) if p != "-" => p,
+        Some(p) if p != "-" => Ok(p),
         maybe_dash => {
             let behavior = if matches!(maybe_dash.as_deref(), Some("-")) {
                 StdinPromptBehavior::Forced
             } else {
                 StdinPromptBehavior::RequiredIfPiped
             };
-            let Some(prompt) = read_prompt_from_stdin(behavior) else {
-                unreachable!("required stdin prompt should produce content");
-            };
-            prompt
+            read_prompt_from_stdin(behavior)?
+                .ok_or_else(|| anyhow::anyhow!("No prompt provided via stdin."))
         }
     }
 }
 
-fn resolve_root_prompt(prompt_arg: Option<String>) -> String {
+fn resolve_root_prompt(prompt_arg: Option<String>) -> anyhow::Result<String> {
     match prompt_arg {
         Some(prompt) if prompt != "-" => {
-            if let Some(stdin_text) = read_prompt_from_stdin(StdinPromptBehavior::OptionalAppend) {
-                prompt_with_stdin_context(&prompt, &stdin_text)
+            if let Some(stdin_text) = read_prompt_from_stdin(StdinPromptBehavior::OptionalAppend)? {
+                Ok(prompt_with_stdin_context(&prompt, &stdin_text))
             } else {
-                prompt
+                Ok(prompt)
             }
         }
         maybe_dash => resolve_prompt(maybe_dash),
@@ -2326,7 +2348,7 @@ fn build_review_request(args: &ReviewArgs) -> anyhow::Result<ReviewRequest> {
             title: args.commit_title.clone(),
         }
     } else if let Some(prompt_arg) = args.prompt.clone() {
-        let prompt = resolve_prompt(Some(prompt_arg)).trim().to_string();
+        let prompt = resolve_prompt(Some(prompt_arg))?.trim().to_string();
         if prompt.is_empty() {
             anyhow::bail!("Review prompt cannot be empty");
         }

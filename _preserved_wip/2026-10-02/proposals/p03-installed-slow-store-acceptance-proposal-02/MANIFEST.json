@@ -1,0 +1,122 @@
+{
+  "status": "proposal02_synthetic_wire_passed_real_host_unexecuted",
+  "repo_mutations": false,
+  "builds_installs_real_storage_real_gui_executions": false,
+  "synthetic_runtime_executed": true,
+  "original_manifest": {
+    "sha256": "05eacbd2f21720dd0776d566c306a7e4771f83c17e74a18dda629c1222fa2b4a",
+    "bytes": 3661
+  },
+  "original_files_preserved": true,
+  "review_path": "/workspace/recovery-backups/20260930T165936Z/p03-installed-slow-store-acceptance-proposal.REVIEW.md",
+  "review_fingerprint": {
+    "sha256": "aceddc7497f0590fe564323fa425d73ffd50ebc0aabcb301b92b2df1e706d168",
+    "bytes": 5927
+  },
+  "admission_boundary": "installed_fixture_before_native_forward",
+  "fixes": [
+    "settle and inspect every directional task result before finished, after native child wait",
+    "hold >45s after observed first manager interrupt acknowledgment, not signal send"
+  ],
+  "files": {
+    "PLAN.md": {
+      "sha256": "c9be794d4eadc9c180cbd6bd1e34b8c290fec253e09509c7ec437fee9b8edfcb",
+      "bytes": 11401
+    },
+    "SMOKE_EVIDENCE.md": {
+      "sha256": "28d2f04a62198eb7bfb6ece3d23afc78ec5613384dfa506931685cd3814ceab6",
+      "bytes": 2908
+    },
+    "installed_slow_store_acceptance.py": {
+      "sha256": "03676488269b58900e77a6518622d540864d385b00b18a117d551dc2ec31d456",
+      "bytes": 17151
+    },
+    "slow_store_relay.py": {
+      "sha256": "5dc8cacb9a5ef5cd2065ef0e9db23d2a55bb2481deaad2514e5c97c62d27fa16",
+      "bytes": 12969
+    },
+    "synthetic_wire_smoke.py": {
+      "sha256": "a0e46ad0c10470264fd69f03492bf5d57bae783e74a198bf737eb555a84803c7",
+      "bytes": 9486
+    }
+  },
+  "audited_source_from_proposal01": {
+    "codex-rs/thread-store-component/src/contract.rs": {
+      "sha256": "2049f0091b3d2545358e6f03119d139880084ca870dd2aab8de5652bbda84586",
+      "bytes": 5245
+    },
+    "codex-rs/thread-store-component/src/wire.rs": {
+      "sha256": "67f3864c5619f78e00124be1738c8a3bee0e0ee4904c6aff90f87bb541f4586d",
+      "bytes": 8857
+    },
+    "codex-rs/thread-store-component/src/service.rs": {
+      "sha256": "e6395e7ffbdac1e9490502037e74442f13724583296379f0e09a4fdd6eba610b",
+      "bytes": 8142
+    },
+    "codex-rs/thread-store-component/src/dispatch.rs": {
+      "sha256": "3117ffa5fa4106454ea2dc1676083da5b43d3e527963d5df6263cda82eb425f3",
+      "bytes": 11152
+    },
+    "codex-rs/thread-store-local-plugin/src/lib.rs": {
+      "sha256": "d2a86db9ed9add78c0c8830ed20e5f136c6aa57923b296b3369dac6a821ec6c1",
+      "bytes": 4958
+    },
+    "codex-rs/thread-store-local-plugin/src/native.rs": {
+      "sha256": "e66ed5dfc1914ee88b5f7cd0486a64ea90fcac2f9b2217877f8a8adc0efa632e",
+      "bytes": 4021
+    },
+    "codex-rs/component-host/src/session_wire/codec.rs": {
+      "sha256": "791349fa4a52a6183c94e3f50ceb5d6dfeadfba44b19327d060a87619ea9966a",
+      "bytes": 2224
+    },
+    "codex-rs/component-host/src/session_wire/assembly.rs": {
+      "sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "bytes": 7433
+    },
+    "codex-rs/component-host/src/session_supervisor.rs": {
+      "sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2",
+      "bytes": 18168
+    },
+    "codex-rs/component-host/src/launch.rs": {
+      "sha256": "794be4a844fb2d2040c61cfd5d0954d6f17eb04c9ddaefe6e5e188ce389b940e",
+      "bytes": 5109
+    },
+    "component-sdk/tests/p01_gui_acceptance.py": {
+      "sha256": "68c1df79a54070f91910c794066dde5908667c7b8f2015e8b4780f8688043932",
+      "bytes": 35100
+    },
+    "component-sdk/tests/gui_browser_driver.cjs": {
+      "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+      "bytes": 2800
+    },
+    "component-sdk/tests/reused_storage_acceptance.py": {
+      "sha256": "a943c1aa37dccc15ca0549845194fcfe49193eb25f7c9cb1bde3af7d7f791c30",
+      "bytes": 15078
+    },
+    "component-sdk/tests/manual_migration_acceptance.py": {
+      "sha256": "fffd7249efbfbc18c8a31a86a4da1212eb35739942f49f10f9d1a61eeaade485",
+      "bytes": 15407
+    },
+    "component-sdk/tests/subreaper_runner.py": {
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    }
+  },
+  "current_source_differences_from_proposal01": [],
+  "runtime_report": {
+    "path": "/workspace/acceptance/p03-installed-slow-store-synthetic-02/report.json",
+    "sha256": "52ad3b188f7c0b6237ed3643371ec5ace5dac653825fd555152497e3c25bdeee",
+    "bytes": 4408
+  },
+  "strict_report": {
+    "path": "/workspace/acceptance/p03-installed-slow-store-synthetic-02.subreaper.json",
+    "sha256": "5a3734ccb66c62211da296bd3799f3ee11da12d519ff778f6a3b418acabfe097",
+    "bytes": 803
+  },
+  "strict_runner": {
+    "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+    "bytes": 4645
+  },
+  "strict_drain_seconds": 5,
+  "real_manager_ack_timing": "AST/source review only; not runtime tested"
+}

@@ -114,6 +114,7 @@ pub(super) struct Harness {
     pub(super) home: tempfile::TempDir,
     transport: AppServerTransport,
     search_lifecycle: crate::file_search_services::SearchShutdownGuard,
+    store_lifecycle: crate::persistence_lifecycle::StoreShutdownGuard,
 }
 
 impl Harness {
@@ -156,13 +157,16 @@ impl Harness {
         ));
         let (search_context, search_lifecycle) =
             crate::file_search_services::start(home.path()).await?;
+        let thread_store = codex_core::thread_store_from_config(&config, None);
+        let store_lifecycle =
+            crate::persistence_lifecycle::StoreShutdownGuard::new(Arc::clone(&thread_store));
         let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
             curated_callbacks: codex_core_plugins::startup_sync::CuratedCallbackScope::new(
                 tokio::runtime::Handle::current(),
             ),
             search_context,
             persistence: codex_core::PersistenceServices {
-                thread_store: codex_core::thread_store_from_config(&config, None),
+                thread_store,
                 host_state_db: None,
             },
             state_db: None,
@@ -193,6 +197,7 @@ impl Harness {
         Ok(Self {
             processor,
             search_lifecycle,
+            store_lifecycle,
             session: Arc::new(ConnectionSessionState::new(origin)),
             auth,
             service,
@@ -280,7 +285,11 @@ impl Harness {
             .drain_background_tasks()
             .await
             .expect("background cleanup");
-        self.processor.shutdown_threads().await;
+        let sessions = self.processor.shutdown_threads().await;
+        assert!(
+            self.store_lifecycle.finish(sessions).await.is_ok(),
+            "session or store cleanup failed"
+        );
         self.search_lifecycle
             .finish()
             .await

@@ -392,7 +392,7 @@ impl InProcessClientHandle {
         // waiting so a required notification cannot block the runtime's drain.
         drop(self.event_rx);
         let (done_tx, done_rx) = oneshot::channel();
-        let deadline = tokio::time::Instant::now() + IN_PROCESS_SHUTDOWN_BUDGET;
+        let deadline = crate::process_final::deadline_after(IN_PROCESS_SHUTDOWN_BUDGET);
         let request = tokio::time::timeout_at(
             deadline,
             self.client
@@ -687,8 +687,8 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
                 .await;
             processor.clear_all_thread_listeners().await;
             let background_cleanup = processor.drain_background_tasks().await;
-            processor.shutdown_threads().await;
-            background_cleanup.map_err(IoError::other)
+            let sessions = processor.shutdown_threads().await;
+            crate::file_search_services::combine(background_cleanup.map_err(IoError::other), sessions)
         });
         let mut pending_request_responses =
             HashMap::<RequestId, oneshot::Sender<PendingClientRequestResponse>>::new();
@@ -870,12 +870,28 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         )
         .await;
         let _ = outbound_shutdown_tx.send(());
-        if let Err(_elapsed) = timeout(SHUTDOWN_TIMEOUT, &mut outbound_handle).await {
-            outbound_handle.abort();
-            let _ = outbound_handle.await;
-        }
+        let outbound_result = match tokio::time::timeout_at(
+            crate::process_final::deadline_after(SHUTDOWN_TIMEOUT), &mut outbound_handle,
+        ).await {
+            Ok(Ok(())) => Ok(()),
+            Ok(Err(_)) => Err(IoError::other("in-process outbound router failed during shutdown")),
+            Err(_) => {
+                outbound_handle.abort();
+                let detail = match outbound_handle.await {
+                    Err(error) if error.is_panic() => "in-process outbound router timed out and panicked",
+                    Err(_) => "in-process outbound router timed out and was cancelled",
+                    Ok(()) => "in-process outbound router completed after its deadline",
+                };
+                Err(IoError::new(ErrorKind::TimedOut, detail))
+            }
+        };
+        let shutdown_result = crate::file_search_services::combine(shutdown_result, outbound_result);
 
-        analytics_events_flush_client.flush().await;
+        let analytics_result = tokio::time::timeout_at(
+            crate::process_final::deadline_after(Duration::from_secs(25)),
+            analytics_events_flush_client.flush(),
+        ).await.map_err(|_| IoError::new(ErrorKind::TimedOut, "analytics shutdown timed out"));
+        let shutdown_result = crate::file_search_services::combine(shutdown_result, analytics_result);
 
         if let Some(done_tx) = shutdown_ack {
             let _ = done_tx.send(());
@@ -905,7 +921,7 @@ async fn finish_processor_and_services(
     // processor; its detached references cannot extend public provider life.
     search.begin_shutdown();
     callbacks.begin_close();
-    let processor_result = match timeout(PROCESSOR_SHUTDOWN_TIMEOUT, &mut *processor).await {
+    let processor_result = match tokio::time::timeout_at(crate::process_final::drain_deadline(PROCESSOR_SHUTDOWN_TIMEOUT), &mut *processor).await {
         Ok(Ok(result)) => result,
         Ok(Err(_)) => Err(IoError::other(
             "in-process request processor failed during shutdown",

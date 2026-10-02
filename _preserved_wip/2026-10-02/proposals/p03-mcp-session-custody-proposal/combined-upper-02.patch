@@ -1,0 +1,1961 @@
+--- a/codex-rs/async-utils/src/lib.rs
++++ b/codex-rs/async-utils/src/lib.rs
+@@ -1,4 +1,9 @@
+ mod backoff;
++mod retained_task;
++
++pub use retained_task::RetainedTask;
++pub use retained_task::RetainedTaskOutcome;
++pub use retained_task::TaskJoinFailure;
+ 
+ pub use backoff::backoff;
+ 
+--- /dev/null
++++ b/codex-rs/async-utils/src/retained_task.rs
+@@ -0,0 +1,191 @@
++//! Primary task custody which outlives cancelled shutdown observers.
++
++use std::any::Any;
++use std::future::Future;
++use std::panic::AssertUnwindSafe;
++use std::panic::catch_unwind;
++use std::pin::Pin;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::OnceLock;
++use std::sync::PoisonError;
++use std::sync::Weak;
++use std::task::Context;
++use std::task::Poll;
++use std::task::Waker;
++use std::time::Duration;
++use tokio::runtime::Handle;
++use tokio::task::JoinError;
++use tokio::task::JoinHandle;
++
++/// Classifies a joined result for registry retirement. Implementations must
++/// return true only for successful completion; this runs outside owner locks.
++pub trait RetainedTaskOutcome: Send + Sync + 'static {
++    fn succeeded(&self) -> bool;
++}
++
++impl RetainedTaskOutcome for () {
++    fn succeeded(&self) -> bool { true }
++}
++
++impl<T: Send + Sync + 'static, E: Send + Sync + 'static> RetainedTaskOutcome for Result<T, E> {
++    fn succeeded(&self) -> bool { self.is_ok() }
++}
++
++/// Bounded public classification; original failures stay in primary custody.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum TaskJoinFailure {
++    Panicked,
++    Cancelled,
++    SpawnPanicked,
++}
++
++impl std::fmt::Display for TaskJoinFailure {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter.write_str(match self {
++            Self::Panicked => "owned task panicked",
++            Self::Cancelled => "owned task was cancelled",
++            Self::SpawnPanicked => "owned task spawn panicked",
++        })
++    }
++}
++
++impl std::error::Error for TaskJoinFailure {}
++
++#[derive(Default)]
++struct Registry {
++    tasks: Mutex<Vec<Arc<dyn Any + Send + Sync>>>,
++}
++
++static TASKS: OnceLock<Arc<Registry>> = OnceLock::new();
++
++struct Completion<T> {
++    result: Result<Arc<T>, TaskJoinFailure>,
++    _join_error: Option<JoinError>,
++    _spawn_panic: Option<Box<dyn Any + Send>>,
++}
++
++enum State<T> {
++    Reserved,
++    Running(JoinHandle<T>),
++    Joining,
++    Complete(Completion<T>),
++}
++
++/// A pre-registered owner of one exact Tokio task and its immutable result.
++/// Waiting never transfers its handle into an abortable observer. Successful
++/// joined tasks retire; failed and unobserved tasks remain process-reachable.
++/// This does not stop the task or prove ownership of work it detaches itself.
++pub struct RetainedTask<T: RetainedTaskOutcome> {
++    registry: Weak<Registry>,
++    state: Mutex<State<T>>,
++}
++
++impl<T: RetainedTaskOutcome> RetainedTask<T> {
++    pub fn spawn(runtime: &Handle, future: impl Future<Output = T> + Send + 'static) -> Arc<Self> {
++        Self::spawn_in(runtime, future, TASKS.get_or_init(Default::default), |_| {})
++    }
++
++    /// Publish the reserved owner into its enclosing lifecycle before the task
++    /// can run. The publisher must not retain a lock when it returns.
++    pub fn spawn_published(
++        runtime: &Handle,
++        future: impl Future<Output = T> + Send + 'static,
++        publish: impl FnOnce(Arc<Self>),
++    ) -> Arc<Self> {
++        Self::spawn_in(runtime, future, TASKS.get_or_init(Default::default), publish)
++    }
++
++    fn spawn_in(
++        runtime: &Handle,
++        future: impl Future<Output = T> + Send + 'static,
++        registry: &Arc<Registry>,
++        publish: impl FnOnce(Arc<Self>),
++    ) -> Arc<Self> {
++        let owner = Arc::new(Self {
++            registry: Arc::downgrade(registry),
++            state: Mutex::new(State::Reserved),
++        });
++        registry.tasks.lock().unwrap_or_else(PoisonError::into_inner).push(owner.clone());
++        // Neither spawning nor destruction of arbitrary future captures may run
++        // under either registry or owner mutex.
++        let state = match catch_unwind(AssertUnwindSafe(|| {
++            publish(Arc::clone(&owner));
++            runtime.spawn(future)
++        })) {
++            Ok(handle) => State::Running(handle),
++            Err(payload) => State::Complete(Completion {
++                result: Err(TaskJoinFailure::SpawnPanicked),
++                _join_error: None,
++                _spawn_panic: Some(payload),
++            }),
++        };
++        *owner.state.lock().unwrap_or_else(PoisonError::into_inner) = state;
++        owner
++    }
++
++    /// The caller supplies any deadline around this observation. Expiry or
++    /// cancellation does not abort, detach, or discard the primary task.
++    pub async fn wait(&self) -> Result<Arc<T>, TaskJoinFailure> {
++        loop {
++            if let Some(result) = self.poll_join() {
++                if result.as_ref().is_ok_and(|outcome| outcome.succeeded()) {
++                    self.retire();
++                }
++                return result;
++            }
++            tokio::time::sleep(Duration::from_millis(/*millis*/ 10)).await;
++        }
++    }
++
++    fn poll_join(&self) -> Option<Result<Arc<T>, TaskJoinFailure>> {
++        let mut handle = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            match &*state {
++                State::Complete(completion) => return Some(completion.result.clone()),
++                State::Running(handle) if handle.is_finished() => {},
++                State::Reserved | State::Running(_) | State::Joining => return None,
++            }
++            let State::Running(handle) = std::mem::replace(&mut *state, State::Joining) else {
++                return None;
++            };
++            handle
++        };
++        // No await between taking and publishing. Concurrent observers see
++        // Joining; an unexpected Pending restores this same handle.
++        let state = match Pin::new(&mut handle).poll(&mut Context::from_waker(Waker::noop())) {
++            Poll::Ready(Ok(output)) => State::Complete(Completion {
++                result: Ok(Arc::new(output)),
++                _join_error: None,
++                _spawn_panic: None,
++            }),
++            Poll::Ready(Err(error)) => State::Complete(Completion {
++                result: Err(if error.is_panic() { TaskJoinFailure::Panicked } else { TaskJoinFailure::Cancelled }),
++                _join_error: Some(error),
++                _spawn_panic: None,
++            }),
++            Poll::Pending => State::Running(handle),
++        };
++        let result = match &state {
++            State::Complete(completion) => Some(completion.result.clone()),
++            State::Reserved | State::Running(_) | State::Joining => None,
++        };
++        *self.state.lock().unwrap_or_else(PoisonError::into_inner) = state;
++        result
++    }
++
++    fn retire(&self) {
++        if let Some(registry) = self.registry.upgrade() {
++            let retired = {
++                let mut tasks = registry.tasks.lock().unwrap_or_else(PoisonError::into_inner);
++                tasks.iter().position(|task| task.downcast_ref::<Self>().is_some_and(|task| std::ptr::eq(task, self)))
++                    .map(|index| tasks.swap_remove(index))
++            };
++            drop(retired);
++        }
++    }
++}
++
++#[cfg(test)]
++#[path = "retained_task_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/async-utils/src/retained_task_tests.rs
+@@ -0,0 +1,129 @@
++use super::*;
++use pretty_assertions::assert_eq;
++use std::error::Error;
++use std::sync::Barrier;
++use std::sync::atomic::AtomicBool;
++use std::sync::atomic::Ordering;
++use tokio::sync::oneshot;
++
++type TestResult = Result<(), Box<dyn Error + Send + Sync>>;
++
++fn count(registry: &Registry) -> usize {
++    registry.tasks.lock().unwrap_or_else(PoisonError::into_inner).len()
++}
++
++#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++async fn reserves_and_publishes_before_execution() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let published = Arc::new(AtomicBool::new(false));
++    let worker_published = Arc::clone(&published);
++    let owner = RetainedTask::spawn_in(&Handle::current(), async move {
++        assert!(worker_published.load(Ordering::Acquire));
++    }, &registry, |owner| {
++        assert_eq!(count(&registry), 1);
++        assert!(matches!(*owner.state.lock().unwrap_or_else(PoisonError::into_inner), State::Reserved));
++        published.store(true, Ordering::Release);
++    });
++    tokio::time::timeout(Duration::from_secs(/*secs*/ 2), owner.wait()).await??;
++    assert_eq!(count(&registry), 0);
++    Ok(())
++}
++
++#[tokio::test]
++async fn cancelled_and_expired_observers_preserve_exact_task() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let (release, held) = oneshot::channel();
++    let owner = RetainedTask::spawn_in(&Handle::current(), async move {
++        let _ = held.await;
++        Ok::<_, ()>(37)
++    }, &registry, |_| {});
++    assert!(tokio::time::timeout(Duration::from_millis(/*millis*/ 2), owner.wait()).await.is_err());
++    let observer = tokio::spawn({ let owner = Arc::clone(&owner); async move { owner.wait().await } });
++    tokio::task::yield_now().await;
++    observer.abort();
++    let error = observer.await.err().ok_or("observer unexpectedly finished")?;
++    assert!(error.is_cancelled());
++    assert_eq!(count(&registry), 1);
++    release.send(()).map_err(|_| "worker lost its release receiver")?;
++    let first = tokio::time::timeout(Duration::from_secs(/*secs*/ 2), owner.wait()).await??;
++    let second = owner.wait().await?;
++    assert!(Arc::ptr_eq(&first, &second));
++    assert_eq!(*first, Ok(37));
++    assert_eq!(count(&registry), 0);
++    Ok(())
++}
++
++#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
++async fn concurrent_native_observers_share_one_completion() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let owner = RetainedTask::spawn_in(&Handle::current(), async { Ok::<_, ()>(91) }, &registry, |_| {});
++    let barrier = Arc::new(Barrier::new(3));
++    let mut observers = Vec::new();
++    for _ in 0..2 {
++        let owner = Arc::clone(&owner);
++        let barrier = Arc::clone(&barrier);
++        let runtime = Handle::current();
++        observers.push(std::thread::spawn(move || {
++            barrier.wait();
++            runtime.block_on(async {
++                tokio::time::timeout(Duration::from_secs(/*secs*/ 2), owner.wait()).await
++            })
++        }));
++    }
++    barrier.wait();
++    let first = observers.remove(0).join().map_err(|_| "observer panicked")???;
++    let second = observers.remove(0).join().map_err(|_| "observer panicked")???;
++    assert!(Arc::ptr_eq(&first, &second));
++    assert_eq!(*first, Ok(91));
++    assert_eq!(count(&registry), 0);
++    Ok(())
++}
++
++#[tokio::test]
++async fn panic_cancellation_and_logical_failure_remain_reachable() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let panic_owner = RetainedTask::<()>::spawn_in(&Handle::current(), async {
++        panic!("controlled retained task panic");
++    }, &registry, |_| {});
++    assert_eq!(panic_owner.wait().await.err(), Some(TaskJoinFailure::Panicked));
++    let cancelled = RetainedTask::spawn_in(&Handle::current(), std::future::pending::<()>(), &registry, |_| {});
++    {
++        let state = cancelled.state.lock().unwrap_or_else(PoisonError::into_inner);
++        if let State::Running(handle) = &*state { handle.abort(); }
++    }
++    assert_eq!(cancelled.wait().await.err(), Some(TaskJoinFailure::Cancelled));
++    let failed = RetainedTask::spawn_in(&Handle::current(), async { Err::<(), _>("original failure") }, &registry, |_| {});
++    assert_eq!(*failed.wait().await?, Err("original failure"));
++    let weak = Arc::downgrade(&failed);
++    drop(failed);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(count(&registry), 3);
++    let state = panic_owner.state.lock().unwrap_or_else(PoisonError::into_inner);
++    assert!(matches!(&*state, State::Complete(completion) if completion._join_error.as_ref().is_some_and(JoinError::is_panic)));
++    Ok(())
++}
++
++struct DropProbe {
++    registry: Arc<Registry>,
++    outside_lock: Arc<AtomicBool>,
++}
++
++impl Drop for DropProbe {
++    fn drop(&mut self) {
++        self.outside_lock.store(self.registry.tasks.try_lock().is_ok(), Ordering::Release);
++    }
++}
++
++#[tokio::test]
++async fn publication_unwind_keeps_failure_and_drops_captures_outside_registry_lock() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let outside_lock = Arc::new(AtomicBool::new(false));
++    let probe = DropProbe { registry: Arc::clone(&registry), outside_lock: Arc::clone(&outside_lock) };
++    let owner = RetainedTask::spawn_in(&Handle::current(), async move { drop(probe); }, &registry, |_| {
++        panic!("controlled publisher panic");
++    });
++    assert_eq!(owner.wait().await.err(), Some(TaskJoinFailure::SpawnPanicked));
++    assert!(outside_lock.load(Ordering::Acquire));
++    assert_eq!(count(&registry), 1);
++    Ok(())
++}
+--- a/codex-rs/core/src/session/session.rs
++++ b/codex-rs/core/src/session/session.rs
+@@ -85,7 +85,7 @@
+     pub(super) mcp_elicitation_lifecycle_handle: OnceLock<codex_mcp::ElicitationLifecycle>,
+     pub(super) mcp_prewarm_tx: async_channel::Sender<()>,
+     pub(super) mcp_prewarm_shutdown: CancellationToken,
+-    pub(super) mcp_prewarm_task: std::sync::Mutex<Option<JoinHandle<()>>>,
++    pub(super) mcp_prewarm_task: std::sync::Mutex<Option<Arc<codex_async_utils::RetainedTask<()>>>>,
+     pub(crate) conversation: Arc<RealtimeConversationManager>,
+     pub(crate) realtime_history: Option<Mutex<crate::realtime_history::RealtimeHistoryState>>,
+     pub(crate) active_turn: Mutex<Option<ActiveTurn>>,
+--- a/codex-rs/core/src/session/mcp_prewarm.rs
++++ b/codex-rs/core/src/session/mcp_prewarm.rs
+@@ -7,6 +7,7 @@
+ 
+ impl Session {
+     pub(crate) fn request_mcp_runtime_refresh(&self) {
++        if self.mcp_prewarm_shutdown.is_cancelled() { return; }
+         // Plugin changes can reuse connections but still change their skill resources.
+         self.services.mcp_runtime.invalidate_resource_caches();
+         self.request_mcp_runtime_reprojection();
+@@ -14,6 +15,7 @@
+ 
+     /// Reproject contributor state without invalidating cached MCP resources.
+     pub(crate) fn request_mcp_runtime_reprojection(&self) {
++        if self.mcp_prewarm_shutdown.is_cancelled() { return; }
+         self.mark_mcp_runtime_dirty();
+         self.schedule_mcp_prewarm();
+     }
+@@ -25,7 +27,7 @@
+     ) {
+         let session = Arc::downgrade(self);
+         let shutdown = self.mcp_prewarm_shutdown.clone();
+-        let worker = self.services.runtime_handle.spawn(async move {
++        let _worker = codex_async_utils::RetainedTask::spawn_published(&self.services.runtime_handle, async move {
+             loop {
+                 let auth_changed = tokio::select! {
+                     biased;
+@@ -55,28 +57,29 @@
+                     _ = session.refresh_mcp_if_dirty() => {},
+                 }
+             }
++        }, |worker| {
++            // Stop observers see Reserved custody before the task can execute.
++            let mut slot = self.mcp_prewarm_task.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
++            assert!(slot.is_none(), "MCP prewarm worker may only start once");
++            *slot = Some(worker);
+         });
+-        *self
+-            .mcp_prewarm_task
+-            .lock()
+-            .unwrap_or_else(std::sync::PoisonError::into_inner) = Some(worker);
+     }
+ 
+     pub(super) fn schedule_mcp_prewarm(&self) {
+         let _ = self.mcp_prewarm_tx.try_send(());
+     }
+ 
+-    pub(super) async fn stop_mcp_prewarm_worker(&self) {
++    pub(super) async fn stop_mcp_prewarm_worker(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
+         self.mcp_prewarm_shutdown.cancel();
++        self.mcp_prewarm_tx.close();
+         let worker = self
+             .mcp_prewarm_task
+             .lock()
+             .unwrap_or_else(std::sync::PoisonError::into_inner)
+-            .take();
+-        if let Some(worker) = worker
+-            && let Err(error) = worker.await
+-        {
+-            warn!(%error, "MCP prewarm worker stopped unexpectedly");
++            .clone();
++        if let Some(worker) = worker {
++            worker.wait().await?;
+         }
++        Ok(())
+     }
+ }
+--- a/codex-rs/core/src/session/mcp_refresh.rs
++++ b/codex-rs/core/src/session/mcp_refresh.rs
+@@ -39,6 +39,15 @@
+     pub(super) fn close(&self) {
+         self.gate.close();
+     }
++
++    /// Closing rejects queued/new work; the sole outstanding permit still owns
++    /// an admitted refresh. Observation cancellation leaves that custody intact.
++    pub(super) async fn wait_closed(&self) {
++        self.close();
++        while self.gate.available_permits() == 0 {
++            tokio::time::sleep(std::time::Duration::from_millis(/*millis*/ 10)).await;
++        }
++    }
+ }
+ 
+ /// Restores a claimed refresh when its task is cancelled before publication.
+@@ -54,3 +63,7 @@
+         }
+     }
+ }
++
++#[cfg(test)]
++#[path = "mcp_refresh_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/core/src/session/mcp_refresh_tests.rs
+@@ -0,0 +1,43 @@
++use super::*;
++use std::sync::Arc;
++use std::time::Duration;
++
++#[tokio::test]
++async fn closing_waits_for_admitted_refresh_and_survives_observer_cancellation() -> anyhow::Result<()> {
++    let refresh = Arc::new(McpRefresh::new());
++    let permit = refresh.acquire().await?;
++    let observer = tokio::spawn({
++        let refresh = Arc::clone(&refresh);
++        async move { refresh.wait_closed().await }
++    });
++    // Wait for actual close admission before cancelling its observer.
++    tokio::time::timeout(Duration::from_secs(/*secs*/ 2), async {
++        while !refresh.gate.is_closed() { tokio::task::yield_now().await; }
++    }).await?;
++    assert!(refresh.acquire().await.is_err());
++    assert!(!observer.is_finished());
++    observer.abort();
++    let error = observer.await.err().ok_or_else(|| anyhow::anyhow!("observer completed before active refresh"))?;
++    assert!(error.is_cancelled());
++    assert!(tokio::time::timeout(Duration::from_millis(/*millis*/ 2), refresh.wait_closed()).await.is_err());
++    drop(permit);
++    tokio::time::timeout(Duration::from_secs(/*secs*/ 2), refresh.wait_closed()).await?;
++    assert!(refresh.acquire().await.is_err());
++    Ok(())
++}
++
++#[tokio::test]
++async fn abandoned_publication_restores_dirty_state_without_reopening_shutdown() -> anyhow::Result<()> {
++    let refresh = McpRefresh::new();
++    refresh.invalidate();
++    let permit = refresh.acquire().await?;
++    assert!(refresh.claim());
++    let publication = McpRefreshInvalidationGuard { refresh: &refresh, published: false };
++    refresh.close();
++    drop(publication);
++    drop(permit);
++    refresh.wait_closed().await;
++    assert!(refresh.is_pending());
++    assert!(refresh.acquire().await.is_err());
++    Ok(())
++}
+--- a/codex-rs/core/src/connectors.rs
++++ b/codex-rs/core/src/connectors.rs
+@@ -335,7 +335,7 @@
+     }
+     let accessible_connectors =
+         with_app_plugin_sources(accessible_connectors, &tool_plugin_context);
+-    mcp_runtime.shutdown().await;
++    mcp_runtime.shutdown().await?;
+     Ok(AccessibleConnectorsStatus {
+         connectors: accessible_connectors,
+         codex_apps_ready,
+--- a/codex-rs/codex-mcp/src/connection_manager.rs
++++ b/codex-rs/codex-mcp/src/connection_manager.rs
+@@ -214,6 +214,7 @@
+     disabled_servers: Vec<String>,
+     required_servers: Vec<String>,
+     optional_startup_deadline: OnceLock<tokio::time::Instant>,
++    shutdown_task: OnceLock<Arc<codex_async_utils::RetainedTask<()>>>,
+     tool_plugin_context: Arc<ToolPluginContext>,
+     prefix_mcp_tool_names: bool,
+     non_prefixed_mcp_tool_servers: Vec<String>,
+@@ -787,6 +788,7 @@
+             disabled_servers,
+             required_servers,
+             optional_startup_deadline: OnceLock::new(),
++            shutdown_task: OnceLock::new(),
+             tool_plugin_context,
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers,
+@@ -845,6 +847,7 @@
+             disabled_servers: Vec::new(),
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
++            shutdown_task: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -925,22 +928,21 @@
+         view.connection.client.ready_transport().is_some() || view.connection.client().await.is_ok()
+     }
+ 
+-    /// Stop all MCP clients owned by this manager and terminate stdio server processes.
+-    pub async fn shutdown(&self) {
+-        let connections = self
+-            .servers
+-            .values()
+-            .map(|view| Arc::clone(&view.connection))
+-            .collect::<Vec<_>>();
+-        // Keep cleanup alive if an interrupt cancels the refresh that requested it.
+-        let shutdown_task = tokio::spawn(async move {
+-            for connection in connections {
+-                connection.shutdown().await;
+-            }
++    /// Observe the exact once-only shutdown task for this connection snapshot.
++    /// Cancelling a waiter preserves its primary task and immutable failure.
++    /// A joined task is not a proof that lower transports joined descendants;
++    /// those transports retain their own shutdown contracts.
++    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
++        let owner = self.shutdown_task.get_or_init(|| {
++            let connections = self.servers.values()
++                .map(|view| Arc::clone(&view.connection)).collect::<Vec<_>>();
++            codex_async_utils::RetainedTask::spawn(&tokio::runtime::Handle::current(), async move {
++                for connection in connections {
++                    connection.shutdown().await;
++                }
++            })
+         });
+-        if let Err(error) = shutdown_task.await {
+-            warn!("MCP client shutdown task failed: {error}");
+-        }
++        owner.wait().await.map(|_| ())
+     }
+ 
+     pub(crate) fn cancel_startup(&self) {
+--- a/codex-rs/codex-mcp/src/connection_manager_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_manager_tests.rs
+@@ -108,6 +108,7 @@
+             disabled_servers: Vec::new(),
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
++            shutdown_task: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -3826,7 +3827,7 @@
+ }
+ 
+ #[tokio::test]
+-async fn shutdown_cancels_pending_tool_listing() {
++async fn shutdown_cancels_pending_tool_listing() -> anyhow::Result<()> {
+     let cancel_token = CancellationToken::new();
+     let cancel_token_for_startup = cancel_token.clone();
+     let (started_tx, started_rx) = tokio::sync::oneshot::channel();
+@@ -3864,14 +3865,14 @@
+ 
+     started_rx.await.expect("tool listing should start");
+     tokio::time::timeout(Duration::from_secs(1), manager.shutdown())
+-        .await
+-        .expect("shutdown should cancel speculative tool listing");
++        .await??;
+     let tools = list_task.await.expect("tool listing task should not panic");
+     assert!(tools.is_empty());
++    Ok(())
+ }
+ 
+ #[tokio::test]
+-async fn shutdown_continues_after_caller_is_aborted() {
++async fn shutdown_continues_after_caller_is_aborted() -> anyhow::Result<()> {
+     let (started_tx, started_rx) = tokio::sync::oneshot::channel();
+     let (completed_tx, completed_rx) = tokio::sync::oneshot::channel();
+     let release = Arc::new(tokio::sync::Notify::new());
+@@ -3923,6 +3924,12 @@
+         .await
+         .expect("client shutdown should survive caller cancellation")
+         .expect("client shutdown completion sender should stay alive");
++    let owner = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("shutdown owner missing"))?;
++    let original = Arc::clone(owner);
++    manager.shutdown().await?;
++    let current = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("shutdown owner missing"))?;
++    assert!(Arc::ptr_eq(&original, current));
++    Ok(())
+ }
+ 
+ #[tokio::test]
+@@ -6577,3 +6584,6 @@
+     );
+     assert_eq!(new_call.tool_approval_mode(), AppToolApproval::Approve);
+ }
++
++#[path = "connection_shutdown_tests.rs"]
++mod shutdown;
+--- /dev/null
++++ b/codex-rs/codex-mcp/src/connection_shutdown_tests.rs
+@@ -0,0 +1,25 @@
++use super::*;
++use codex_async_utils::TaskJoinFailure;
++
++#[tokio::test]
++async fn shutdown_panic_is_sticky_across_observers() {
++    let approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
++    let permission_profile = Constrained::allow_any(PermissionProfile::default());
++    let mut manager = McpConnectionSet::new_uninitialized(&approval_policy, &permission_profile, /*prefix_mcp_tool_names*/ true);
++    let client: ManagedClientFuture = async {
++        panic!("controlled connection shutdown panic");
++    }.boxed().shared();
++    manager.insert_test_client("pending", AsyncManagedClient {
++        client,
++        is_codex_apps_mcp_server: false,
++        server_capabilities: Arc::new(std::sync::Mutex::new(None)),
++        cached_server_info: None,
++        codex_apps_tools_cache_context: None,
++        tool_catalog_cache_context: None,
++        startup_complete: Arc::new(std::sync::atomic::AtomicBool::new(false)),
++        startup_reconnect: None,
++        cancel_token: CancellationToken::new(),
++    });
++    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
++    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
++}
+--- a/codex-rs/codex-mcp/src/runtime.rs
++++ b/codex-rs/codex-mcp/src/runtime.rs
+@@ -777,8 +777,10 @@
+         cancellation.retained_subscription_cancellation = Some(retained);
+     }
+ 
+-    pub async fn shutdown(&self) {
+-        self.latest_connections().shutdown().await;
++    /// Drain the owned shutdown task of the current connection snapshot.
++    /// This does not yet certify lower service or process-group completion.
++    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
++        self.latest_connections().shutdown().await
+     }
+ }
+ 
+--- a/codex-rs/app-server/src/request_processors/thread_lifecycle.rs
++++ b/codex-rs/app-server/src/request_processors/thread_lifecycle.rs
+@@ -3,6 +3,7 @@
+ use codex_app_server_protocol::ThreadQueueChangedNotification;
+ use codex_extension_api::ThreadIdleCause;
+ use codex_protocol::config_types::MultiAgentMode;
++use codex_protocol::error::CodexErrorDetails;
+ 
+ #[derive(Clone)]
+ pub(super) struct ListenerTaskContext {
+@@ -124,6 +125,7 @@
+ pub(super) enum ThreadShutdownResult {
+     Complete,
+     SubmitFailed,
++    ShutdownFailed,
+     TimedOut,
+ }
+ 
+@@ -406,8 +408,17 @@
+ }
+ 
+ pub(super) async fn wait_for_thread_shutdown(thread: &Arc<CodexThread>) -> ThreadShutdownResult {
+-    match tokio::time::timeout(Duration::from_secs(10), thread.shutdown_and_wait()).await {
++    wait_for_shutdown_result(thread.shutdown_and_wait()).await
++}
++
++async fn wait_for_shutdown_result(
++    shutdown: impl std::future::Future<Output = codex_protocol::error::Result<()>>,
++) -> ThreadShutdownResult {
++    match tokio::time::timeout(Duration::from_secs(10), shutdown).await {
+         Ok(Ok(())) => ThreadShutdownResult::Complete,
++        Ok(Err(err)) if matches!(err.details(), CodexErrorDetails::ShutdownFailed) => {
++            ThreadShutdownResult::ShutdownFailed
++        }
+         Ok(Err(_)) => ThreadShutdownResult::SubmitFailed,
+         Err(_) => ThreadShutdownResult::TimedOut,
+     }
+@@ -459,6 +470,10 @@
+             ThreadShutdownResult::SubmitFailed => {
+                 pending_thread_unloads.lock().await.remove(&thread_id);
+                 warn!("failed to submit Shutdown to thread {thread_id}");
++            }
++            ThreadShutdownResult::ShutdownFailed => {
++                pending_thread_unloads.lock().await.remove(&thread_id);
++                warn!("thread {thread_id} shutdown failed; leaving thread loaded");
+             }
+             ThreadShutdownResult::TimedOut => {
+                 pending_thread_unloads.lock().await.remove(&thread_id);
+@@ -931,3 +946,7 @@
+     }
+     thread.status = status;
+ }
++
++#[cfg(test)]
++#[path = "thread_lifecycle_shutdown_tests.rs"]
++mod shutdown_tests;
+--- /dev/null
++++ b/codex-rs/app-server/src/request_processors/thread_lifecycle_shutdown_tests.rs
+@@ -0,0 +1,40 @@
++use super::ThreadShutdownResult;
++use super::wait_for_shutdown_result;
++use codex_protocol::error::CodexErr;
++use pretty_assertions::assert_eq;
++use std::time::Duration;
++use tokio::time::Instant;
++
++#[tokio::test]
++async fn distinguishes_clean_shutdown_from_submission_failure() {
++    assert!(matches!(
++        wait_for_shutdown_result(async { Ok(()) }).await,
++        ThreadShutdownResult::Complete
++    ));
++    assert!(matches!(
++        wait_for_shutdown_result(async { Err(CodexErr::InternalAgentDied) }).await,
++        ThreadShutdownResult::SubmitFailed
++    ));
++}
++
++#[tokio::test(start_paused = true)]
++async fn observes_failure_after_shutdown_has_started() {
++    let started = Instant::now();
++    let result = wait_for_shutdown_result(async {
++        tokio::time::sleep(Duration::from_secs(/*secs*/ 1)).await;
++        Err(CodexErr::ShutdownFailed)
++    })
++    .await;
++
++    assert!(matches!(result, ThreadShutdownResult::ShutdownFailed));
++    assert_eq!(started.elapsed(), Duration::from_secs(/*secs*/ 1));
++}
++
++#[tokio::test(start_paused = true)]
++async fn preserves_timeout_as_a_separate_incomplete_outcome() {
++    let started = Instant::now();
++    let result = wait_for_shutdown_result(std::future::pending()).await;
++
++    assert!(matches!(result, ThreadShutdownResult::TimedOut));
++    assert_eq!(started.elapsed(), Duration::from_secs(/*secs*/ 10));
++}
+--- a/codex-rs/app-server/src/request_processors/thread_processor.rs
++++ b/codex-rs/app-server/src/request_processors/thread_processor.rs
+@@ -1057,22 +1057,51 @@
+         thread_id: ThreadId,
+         operation: &str,
+     ) -> Result<(), JSONRPCErrorError> {
+-        let removed_conversation = self
++        let loaded_conversation = self
+             .thread_manager
+-            .remove_thread_for_client(&thread_id)
++            .get_thread_for_client_removal(&thread_id)
+             .await
+             .map_err(|err| core_thread_write_error(operation, err))?;
+-        if let Some(conversation) = removed_conversation {
++        if let Some(conversation) = loaded_conversation {
+             info!("thread {thread_id} was active; shutting down");
+             match wait_for_thread_shutdown(&conversation).await {
+-                ThreadShutdownResult::Complete => {}
++                ThreadShutdownResult::Complete => {
++                    if self
++                        .thread_manager
++                        .remove_thread_if_matches(&thread_id, &conversation)
++                        .await
++                        .is_none()
++                    {
++                        return Err(internal_error(
++                            "thread runtime changed during shutdown".to_owned(),
++                        ));
++                    }
++                }
+                 ThreadShutdownResult::SubmitFailed => {
+-                    error!(
+-                        "failed to submit Shutdown to thread {thread_id}; proceeding with {operation}"
+-                    );
++                    self.thread_manager
++                        .record_shutdown_failure(&conversation)
++                        .await;
++                    return Err(internal_error(format!(
++                        "failed to submit Shutdown to thread {thread_id} before {operation}"
++                    )));
++                }
++                ThreadShutdownResult::ShutdownFailed => {
++                    self.thread_manager
++                        .record_shutdown_failure(&conversation)
++                        .await;
++                    // Keep the failed session latched above; RetainedTask's
++                    // failure registry keeps outstanding MCP owners in custody
++                    // while this observation blocks the destructive operation.
++                    return Err(internal_error(format!(
++                        "thread {thread_id} shutdown did not complete cleanly before {operation}"
++                    )));
+                 }
+                 ThreadShutdownResult::TimedOut => {
+-                    warn!("thread {thread_id} shutdown timed out; proceeding with {operation}");
++                    // The exact session remains registered. Observer expiry is
++                    // pending cleanup, not an immutable shutdown failure.
++                    return Err(internal_error(format!(
++                        "timed out shutting down thread {thread_id} before {operation}"
++                    )));
+                 }
+             }
+         }
+@@ -1291,18 +1320,24 @@
+         }).await?;
+         let completed = report.completed.len();
+         let submit_failed = report.submit_failed.len();
++        let shutdown_failed = report.shutdown_failed.len();
+         let timed_out = report.timed_out.len();
+         for thread_id in report.submit_failed {
+             warn!("failed to submit Shutdown to thread {thread_id}");
+         }
++        for thread_id in report.shutdown_failed {
++            warn!("thread {thread_id} shutdown did not complete cleanly");
++        }
+         for thread_id in report.timed_out {
+             warn!("timed out waiting for thread {thread_id} to shut down");
+         }
+-        let session_loop_report_clean = submit_failed == 0 && timed_out == 0;
++        let session_loop_report_clean =
++            submit_failed == 0 && shutdown_failed == 0 && timed_out == 0;
+         // This is a session-loop report, not proof of MCP worker handle custody.
+         tracing::info!(target: "codex_app_server::lifecycle",
+             event = "session_shutdown_report_observed", receipt_version = 1_u64,
+             session_completed = completed, session_submit_failed = submit_failed,
++            session_shutdown_failed = shutdown_failed,
+             session_timed_out = timed_out, session_loop_report_clean,
+             "session shutdown report observed");
+         let sessions = if session_loop_report_clean { Ok(()) } else {
+@@ -2210,6 +2245,12 @@
+                 thread_state.lock().await.take_shutdown_drain_waiter();
+                 return Err(internal_error(format!(
+                     "failed to shut down thread {thread_id} before revert"
++                )));
++            }
++            ThreadShutdownResult::ShutdownFailed => {
++                thread_state.lock().await.take_shutdown_drain_waiter();
++                return Err(internal_error(format!(
++                    "thread {thread_id} shutdown did not complete cleanly before revert"
+                 )));
+             }
+             ThreadShutdownResult::TimedOut => {
+@@ -4391,6 +4432,9 @@
+                         ThreadShutdownResult::SubmitFailed => {
+                             warn!("failed to submit Shutdown to thread {existing_thread_id}");
+                         }
++                        ThreadShutdownResult::ShutdownFailed => {
++                            warn!("thread {existing_thread_id} shutdown did not complete cleanly");
++                        }
+                         ThreadShutdownResult::TimedOut => {
+                             warn!("thread {existing_thread_id} shutdown timed out");
+                         }
+--- a/codex-rs/core/src/codex_thread.rs
++++ b/codex-rs/core/src/codex_thread.rs
+@@ -289,9 +289,9 @@
+         self.io.shutdown_and_wait().await
+     }
+ 
+-    /// Wait until the underlying session loop has terminated.
++    /// Wait for termination notification only; use `shutdown_and_wait` to verify cleanup.
+     pub async fn wait_until_terminated(&self) {
+-        self.io.session_loop_termination.clone().await;
++        let _ = self.io.session_loop_termination.clone().await;
+     }
+ 
+     pub(crate) async fn emit_thread_ready_lifecycle(&self) {
+@@ -505,7 +505,8 @@
+             .await
+             .map_err(|_| CodexErr::Fatal("thread suspension reply was lost".to_string()))??;
+         if matches!(&outcome, SuspendTurnOutcome::Suspended { .. }) {
+-            self.io.session_loop_termination.clone().await;
++            self.io.session_loop_termination.clone().await
++                .map_err(|_| CodexErr::ShutdownFailed)?;
+         }
+         Ok(outcome)
+     }
+--- a/codex-rs/core/src/session/handlers.rs
++++ b/codex-rs/core/src/session/handlers.rs
+@@ -1,4 +1,6 @@
+ use super::Submission;
++use super::session_shutdown::SessionShutdownFailure;
++use super::session_shutdown::SessionShutdownOutcome;
+ use crate::realtime_conversation::handle_audio as handle_realtime_conversation_audio;
+ use crate::realtime_conversation::handle_close as handle_realtime_conversation_close;
+ use crate::realtime_conversation::handle_speech as handle_realtime_conversation_speech;
+@@ -284,7 +286,9 @@
+     }
+ }
+ 
+-pub(super) async fn shutdown_session_runtime(sess: &Arc<Session>) {
++pub(super) async fn shutdown_session_runtime(sess: &Arc<Session>) -> SessionShutdownOutcome {
++    // Fence new/queued refreshes before awaiting any local producer.
++    sess.mcp_refresh.close();
+     let startup_prewarm = {
+         let mut state = sess.state.lock().await;
+         // Stop admission and take the current warmup together so resume cannot replace it.
+@@ -311,17 +315,17 @@
+     if let Err(err) = sess.services.code_mode_service.shutdown().await {
+         warn!("failed to shutdown code mode session: {err}");
+     }
+-    sess.stop_mcp_prewarm_worker().await;
+-    {
+-        let _refresh = sess.mcp_refresh.acquire().await;
+-        sess.mcp_refresh.close();
+-        sess.services.mcp_runtime.shutdown().await;
+-    }
++    let prewarm = sess.stop_mcp_prewarm_worker().await
++        .map_err(|_| SessionShutdownFailure::McpPrewarm);
++    sess.mcp_refresh.wait_closed().await;
++    let runtime = sess.services.mcp_runtime.shutdown().await
++        .map_err(|_| SessionShutdownFailure::McpRuntime);
+ 
+     sess.drain_code_mode_messages().await;
+ 
+     crate::hook_runtime::run_session_end_hooks(sess).await;
+     emit_thread_stop_lifecycle(sess).await;
++    prewarm.and(runtime)
+ }
+ 
+ async fn emit_thread_stop_lifecycle(sess: &Session) {
+@@ -335,8 +339,8 @@
+     }
+ }
+ 
+-pub async fn shutdown(sess: &Arc<Session>, sub_id: String) -> bool {
+-    shutdown_session_runtime(sess).await;
++pub async fn shutdown(sess: &Arc<Session>, sub_id: String) -> SessionShutdownOutcome {
++    let mut outcome = shutdown_session_runtime(sess).await;
+     info!("Shutting down Codex instance");
+     let history = sess.clone_history().await;
+     let turn_count = history
+@@ -355,6 +359,7 @@
+         && let Err(e) = live_thread.shutdown().await
+     {
+         warn!("failed to shutdown thread persistence: {e}");
++        outcome = outcome.and(Err(SessionShutdownFailure::Persistence));
+         let event = Event {
+             id: sub_id.clone(),
+             msg: EventMsg::Error(ErrorEvent {
+@@ -366,6 +371,18 @@
+         sess.send_event_raw(event).await;
+     }
+ 
++    if outcome.is_err() {
++        sess.send_event_raw(Event {
++            id: sub_id.clone(),
++            msg: EventMsg::Error(ErrorEvent {
++                misalignment: None,
++                message: "Session shutdown did not complete cleanly".to_owned(),
++                codex_error_info: Some(CodexErrorInfo::InternalServerError),
++            }),
++        }).await;
++    }
++    // This event announces termination. The retained loop result records whether
++    // cleanup succeeded; consumers must not infer clean ownership from this event.
+     let event = Event {
+         id: sub_id,
+         msg: EventMsg::ShutdownComplete,
+@@ -374,10 +391,12 @@
+         .rollout_thread_trace
+         .record_protocol_event(&event.msg);
+     sess.deliver_event_raw(event).await;
+-    sess.services
+-        .rollout_thread_trace
+-        .record_ended(codex_rollout_trace::RolloutStatus::Completed);
+-    true
++    sess.services.rollout_thread_trace.record_ended(if outcome.is_ok() {
++        codex_rollout_trace::RolloutStatus::Completed
++    } else {
++        codex_rollout_trace::RolloutStatus::Failed
++    });
++    outcome
+ }
+ 
+ pub async fn review(
+@@ -421,9 +440,10 @@
+     sess: Arc<Session>,
+     config: Arc<Config>,
+     rx_sub: Receiver<Submission>,
+-) {
++) -> SessionShutdownOutcome {
+     // To break out of this loop, send Op::Shutdown.
+     let mut shutdown_received = false;
++    let mut outcome = Ok(());
+     while let Ok(sub) = rx_sub.recv().await {
+         if matches!(sub.op, Op::ResolveElicitation { .. }) {
+             debug!(submission_id = %sub.id, operation = sub.op.kind(), "Submission");
+@@ -626,7 +646,10 @@
+                         .await;
+                     false
+                 }
+-                Op::Shutdown => shutdown(&sess, sub.id.clone()).await,
++                Op::Shutdown => {
++                    outcome = shutdown(&sess, sub.id.clone()).await;
++                    true
++                }
+                 Op::Review { review_request } => {
+                     review(&sess, &config, sub.id.clone(), review_request).await;
+                     false
+@@ -649,14 +672,16 @@
+     // If the submission loop exits because the channel closed without an
+     // explicit shutdown op, still run session teardown.
+     if !shutdown_received {
+-        shutdown_session_runtime(&sess).await;
++        outcome = shutdown_session_runtime(&sess).await;
+         if let Some(live_thread) = sess.live_thread()
+             && let Err(err) = live_thread.shutdown().await
+         {
+             warn!("failed to shutdown thread persistence after submission channel closed: {err}");
++            outcome = outcome.and(Err(SessionShutdownFailure::Persistence));
+         }
+     }
+     debug!("Agent loop exited");
++    outcome
+ }
+ 
+ async fn approve_guardian_denied_action(sess: &Arc<Session>, event: GuardianAssessmentEvent) {
+--- a/codex-rs/core/src/session/mod.rs
++++ b/codex-rs/core/src/session/mod.rs
+@@ -189,7 +189,6 @@
+ use tokio::sync::RwLock;
+ use tokio::sync::oneshot;
+ use tokio::sync::watch;
+-use tokio::task::JoinHandle;
+ use tokio_util::sync::CancellationToken;
+ use toml::Value as TomlValue;
+ use tracing::Instrument;
+@@ -254,6 +253,7 @@
+ mod rollout_reconstruction;
+ #[allow(clippy::module_inception)]
+ pub(crate) mod session;
++pub(crate) mod session_shutdown;
+ pub(crate) mod startup_prewarm;
+ mod step_activation;
+ pub(crate) mod step_context;
+@@ -411,7 +411,7 @@
+     pub(crate) session_loop_termination: SessionLoopTermination,
+ }
+ 
+-pub(crate) type SessionLoopTermination = Shared<BoxFuture<'static, ()>>;
++pub(crate) type SessionLoopTermination = Shared<BoxFuture<'static, session_shutdown::SessionShutdownOutcome>>;
+ 
+ #[derive(Clone, Copy, Debug, Eq, PartialEq)]
+ pub(crate) enum GitEnrichmentPolicy {
+@@ -932,16 +932,16 @@
+ 
+         // This task will run until Op::Shutdown is received.
+         let session_for_loop = Arc::clone(&session);
+-        let session_loop_handle = tokio::spawn(storage_originator.scope(async move {
++        let session_loop_termination = session_shutdown::spawn_session_loop(storage_originator.scope(async move {
+             submission_loop(session_for_loop, configured_config, rx_sub)
+                 .instrument(info_span!("session_loop", thread_id = %thread_id))
+-                .await;
++                .await
+         }));
+         let io = SessionIo {
+             tx_sub,
+             rx_event,
+             agent_status: agent_status_rx,
+-            session_loop_termination: session_loop_termination_from_handle(session_loop_handle),
++            session_loop_termination,
+         };
+ 
+         if let Some(startup) = startup {
+@@ -1053,8 +1053,7 @@
+             Err(err) if matches!(err.details(), CodexErrorDetails::InternalAgentDied) => {}
+             Err(err) => return Err(err),
+         }
+-        session_loop_termination.await;
+-        Ok(())
++        session_loop_termination.await.map_err(|_| CodexErr::ShutdownFailed)
+     }
+ 
+     pub(crate) async fn next_event(&self) -> CodexResult<Event> {
+@@ -1122,17 +1121,7 @@
+ 
+ #[cfg(test)]
+ pub(crate) fn completed_session_loop_termination() -> SessionLoopTermination {
+-    futures::future::ready(()).boxed().shared()
+-}
+-
+-pub(crate) fn session_loop_termination_from_handle(
+-    handle: JoinHandle<()>,
+-) -> SessionLoopTermination {
+-    async move {
+-        let _ = handle.await;
+-    }
+-    .boxed()
+-    .shared()
++    futures::future::ready(Ok(())).boxed().shared()
+ }
+ 
+ async fn thread_title_from_thread_store(
+--- /dev/null
++++ b/codex-rs/core/src/session/session_shutdown.rs
+@@ -0,0 +1,44 @@
++//! Payload-free session cleanup results backed by an exact retained Tokio task.
++
++use std::future::Future;
++
++use codex_async_utils::RetainedTask;
++use codex_async_utils::TaskJoinFailure;
++use futures::FutureExt;
++
++use super::SessionLoopTermination;
++
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub(crate) enum SessionShutdownFailure {
++    McpPrewarm,
++    McpRuntime,
++    Persistence,
++    Submission,
++    LoopPanicked,
++    LoopCancelled,
++    LoopSpawnPanicked,
++}
++
++pub(crate) type SessionShutdownOutcome = Result<(), SessionShutdownFailure>;
++
++pub(super) fn spawn_session_loop(
++    future: impl Future<Output = SessionShutdownOutcome> + Send + 'static,
++) -> SessionLoopTermination {
++    // Registration precedes spawn. The shared future is only an observer; its
++    // cancellation cannot discard the exact task or its original join failure.
++    let owner = RetainedTask::spawn(&tokio::runtime::Handle::current(), future);
++    async move {
++        match owner.wait().await {
++            Ok(outcome) => *outcome,
++            Err(TaskJoinFailure::Panicked) => Err(SessionShutdownFailure::LoopPanicked),
++            Err(TaskJoinFailure::Cancelled) => Err(SessionShutdownFailure::LoopCancelled),
++            Err(TaskJoinFailure::SpawnPanicked) => Err(SessionShutdownFailure::LoopSpawnPanicked),
++        }
++    }
++    .boxed()
++    .shared()
++}
++
++#[cfg(test)]
++#[path = "session_shutdown_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/core/src/session/session_shutdown_tests.rs
+@@ -0,0 +1,86 @@
++use super::*;
++use crate::agent::AgentStatus;
++use crate::session::SessionIo;
++use crate::session::handlers;
++use crate::session::tests::make_session_and_context;
++use anyhow::Context;
++use codex_protocol::error::CodexErrorDetails;
++use pretty_assertions::assert_eq;
++use std::sync::Arc;
++
++fn closed_io(termination: SessionLoopTermination) -> SessionIo {
++    let (tx_sub, rx_sub) = async_channel::unbounded();
++    drop(rx_sub);
++    let (_tx_event, rx_event) = async_channel::unbounded();
++    SessionIo {
++        tx_sub,
++        rx_event,
++        agent_status: tokio::sync::watch::channel(AgentStatus::PendingInit).1,
++        session_loop_termination: termination,
++    }
++}
++
++#[tokio::test]
++async fn cancelled_observer_does_not_erase_terminal_cleanup_failure() -> anyhow::Result<()> {
++    let (release, held) = tokio::sync::oneshot::channel();
++    let termination = spawn_session_loop(async move {
++        let _ = held.await;
++        Err(SessionShutdownFailure::McpRuntime)
++    });
++    let io = Arc::new(closed_io(termination));
++    let observer = {
++        let io = Arc::clone(&io);
++        tokio::spawn(async move { io.shutdown_and_wait().await })
++    };
++    tokio::task::yield_now().await;
++    observer.abort();
++    let error = observer.await.err().context("observer should be cancelled")?;
++    assert!(error.is_cancelled());
++    release.send(()).map_err(|_| anyhow::anyhow!("retained loop disappeared"))?;
++    let (first, second) = tokio::join!(io.shutdown_and_wait(), io.shutdown_and_wait());
++    for result in [first, second, io.shutdown_and_wait().await] {
++        let error = result.err().context("cleanup failure should remain sticky")?;
++        assert!(matches!(error.details(), CodexErrorDetails::ShutdownFailed));
++    }
++    Ok(())
++}
++
++#[tokio::test]
++async fn joined_loop_panic_is_not_clean_termination() {
++    let termination = spawn_session_loop(async { panic!("controlled loop panic") });
++    assert_eq!(termination.clone().await, Err(SessionShutdownFailure::LoopPanicked));
++    assert_eq!(termination.await, Err(SessionShutdownFailure::LoopPanicked));
++}
++
++#[tokio::test]
++async fn runtime_cancellation_is_retained_after_runtime_drop() -> anyhow::Result<()> {
++    let fixture = std::thread::spawn(|| -> anyhow::Result<SessionLoopTermination> {
++        let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build()?;
++        let termination = runtime.block_on(async {
++            spawn_session_loop(std::future::pending())
++        });
++        drop(runtime);
++        Ok(termination)
++    });
++    let termination = fixture.join().map_err(|_| anyhow::anyhow!("runtime fixture panicked"))??;
++    assert_eq!(termination.clone().await, Err(SessionShutdownFailure::LoopCancelled));
++    assert_eq!(termination.await, Err(SessionShutdownFailure::LoopCancelled));
++    Ok(())
++}
++
++#[tokio::test]
++async fn prewarm_failure_survives_full_session_cleanup_and_repeated_shutdown() {
++    let (session, _context) = make_session_and_context().await;
++    let session = Arc::new(session);
++    let owner = RetainedTask::spawn(&tokio::runtime::Handle::current(), async {
++        panic!("controlled prewarm panic");
++    });
++    let previous = session.mcp_prewarm_task.lock()
++        .unwrap_or_else(std::sync::PoisonError::into_inner).replace(owner);
++    assert!(previous.is_none());
++    assert_eq!(handlers::shutdown(&session, "first-shutdown".to_owned()).await,
++        Err(SessionShutdownFailure::McpPrewarm));
++    assert!(session.async_hook_results.is_closed());
++    assert_eq!(handlers::shutdown(&session, "second-shutdown".to_owned()).await,
++        Err(SessionShutdownFailure::McpPrewarm));
++}
+--- a/codex-rs/core/src/session/startup.rs
++++ b/codex-rs/core/src/session/startup.rs
+@@ -10,6 +10,8 @@
+ 
+ use super::SessionIo;
+ use super::session::Session;
++use super::session_shutdown::SessionShutdownFailure;
++use super::session_shutdown::SessionShutdownOutcome;
+ 
+ #[derive(Default)]
+ pub(crate) struct SessionStartup {
+@@ -19,19 +21,28 @@
+ }
+ 
+ impl SessionStartup {
+-    pub(crate) async fn cleanup(&self) {
++    pub(crate) async fn cleanup(&self) -> SessionShutdownOutcome {
+         if let Some(io) = self.io.get() {
+             // The session loop owns persistence now. Preserve its shutdown semantics even
+             // if registration or the caller's handoff was interrupted after the loop started.
+             self.persistence.lock().await.commit();
+             let _ = io.submit(Op::Interrupt).await;
+-            let _ = io.shutdown_and_wait().await;
++            match io.shutdown_and_wait().await {
++                Ok(()) => Ok(()),
++                Err(error) if matches!(error.details(), codex_protocol::error::CodexErrorDetails::ShutdownFailed) => {
++                    io.session_loop_termination.clone().await
++                }
++                Err(_) => Err(SessionShutdownFailure::Submission),
++            }
+         } else {
+-            if let Some(session) = self.session.get() {
+-                super::handlers::shutdown_session_runtime(session).await;
+-            }
++            let outcome = if let Some(session) = self.session.get() {
++                super::handlers::shutdown_session_runtime(session).await
++            } else {
++                Ok(())
++            };
+             let mut persistence = std::mem::take(&mut *self.persistence.lock().await);
+             persistence.discard().await;
++            outcome
+         }
+     }
+ }
+--- a/codex-rs/core/src/session/step_activation_tests.rs
++++ b/codex-rs/core/src/session/step_activation_tests.rs
+@@ -747,7 +747,7 @@
+     assert_eq!(before.settings.model_info.slug, MODEL_A);
+     assert_eq!(turn.model_info().slug, MODEL_A);
+     drop(submissions);
+-    loop_task.await.expect("submission loop teardown");
++    assert!(loop_task.await.expect("submission loop teardown").is_ok());
+ }
+ 
+ #[derive(Clone, Copy)]
+--- a/codex-rs/core/src/session/tests.rs
++++ b/codex-rs/core/src/session/tests.rs
+@@ -6101,7 +6101,7 @@
+         EventMsg::ThreadSettingsApplied(_)
+     ));
+     drop(tx_sub);
+-    submissions.await;
++    assert!(submissions.await.is_ok());
+ }
+ 
+ #[tokio::test]
+@@ -8652,7 +8652,7 @@
+     session.async_hook_results = result_receiver;
+     let session = Arc::new(session);
+ 
+-    assert!(handlers::shutdown(&session, "sub-1".to_string()).await);
++    assert!(handlers::shutdown(&session, "sub-1".to_string()).await.is_ok());
+     assert!(session.async_hook_results.is_closed());
+     assert!(session.async_hook_results.is_empty());
+     assert!(result_sender.is_closed());
+@@ -8760,7 +8760,7 @@
+     let (tx_sub, rx_sub) = async_channel::bounded(1);
+     drop(tx_sub);
+     let session = Arc::new(session);
+-    submission_loop(session, Arc::clone(&turn_context.config), rx_sub).await;
++    assert!(submission_loop(session, Arc::clone(&turn_context.config), rx_sub).await.is_ok());
+ 
+     assert_eq!(1, calls.load(std::sync::atomic::Ordering::SeqCst));
+     assert_eq!(
+@@ -8845,7 +8845,7 @@
+ 
+     let (tx_sub, rx_sub) = async_channel::bounded(1);
+     drop(tx_sub);
+-    submission_loop(Arc::clone(&session), session.get_config().await, rx_sub).await;
++    assert!(submission_loop(Arc::clone(&session), session.get_config().await, rx_sub).await.is_ok());
+ 
+     assert_eq!(
+         vec!["turn_abort", "thread_stop"],
+@@ -8860,16 +8860,17 @@
+     let (_session, _turn_context) = make_session_and_context().await;
+     let (tx_sub, rx_sub) = async_channel::bounded::<Submission>(4);
+     let (_tx_event, rx_event) = async_channel::unbounded();
+-    let session_loop_handle = tokio::spawn(async move {
++    let session_loop_termination = session_shutdown::spawn_session_loop(async move {
+         let shutdown = rx_sub.recv().await.expect("shutdown submission");
+         assert!(matches!(shutdown.op, Op::Shutdown));
+         tokio::time::sleep(StdDuration::from_millis(50)).await;
++        Ok(())
+     });
+     let io = Arc::new(SessionIo {
+         tx_sub,
+         rx_event,
+         agent_status: watch::channel(AgentStatus::PendingInit).1,
+-        session_loop_termination: session_loop_termination_from_handle(session_loop_handle),
++        session_loop_termination,
+     });
+ 
+     let waiter_1 = {
+@@ -8898,14 +8899,15 @@
+     drop(rx_sub);
+     let (_tx_event, rx_event) = async_channel::unbounded();
+     let (shutdown_complete_tx, shutdown_complete_rx) = tokio::sync::oneshot::channel();
+-    let session_loop_handle = tokio::spawn(async move {
++    let session_loop_termination = session_shutdown::spawn_session_loop(async move {
+         let _ = shutdown_complete_rx.await;
++        Ok(())
+     });
+     let io = Arc::new(SessionIo {
+         tx_sub,
+         rx_event,
+         agent_status: watch::channel(AgentStatus::PendingInit).1,
+-        session_loop_termination: session_loop_termination_from_handle(session_loop_handle),
++        session_loop_termination,
+     });
+ 
+     let waiter = {
+--- a/codex-rs/core/src/session/turn_suspension.rs
++++ b/codex-rs/core/src/session/turn_suspension.rs
+@@ -100,13 +100,14 @@
+     // Stop all producers before flushing their final history and closing its writer.
+     // If either persistence step fails, do not report success: the current worker
+     // retains ownership until worker-failure recovery can take responsibility.
+-    handlers::shutdown_session_runtime(session).await;
++    let cleanup = handlers::shutdown_session_runtime(session).await;
+     live_thread.flush().await.map_err(|error| {
+         CodexErr::Fatal(format!("flush after root turn suspension failed: {error}"))
+     })?;
+     live_thread.shutdown().await.map_err(|error| {
+         CodexErr::Fatal(format!("close suspended root turn writer failed: {error}"))
+     })?;
++    cleanup.map_err(|_| CodexErr::ShutdownFailed)?;
+     // Announce completion only after extension cleanup and writer closure so a
+     // replacement worker cannot write the same thread concurrently.
+     session
+--- a/codex-rs/core/src/thread_manager.rs
++++ b/codex-rs/core/src/thread_manager.rs
+@@ -1,5 +1,7 @@
+ mod managed;
+ mod shared_instructions;
++mod shutdown;
++pub use shutdown::ThreadShutdownReport;
+ 
+ use crate::CodexAppsToolsCache;
+ use crate::agent::LocalAgentControl;
+@@ -99,9 +101,7 @@
+ use codex_thread_store::UpdateThreadMetadataParams;
+ use codex_utils_absolute_path::AbsolutePathBuf;
+ use codex_utils_git_discovery::GitRootDiscovery;
+-use futures::StreamExt;
+ use futures::future::BoxFuture;
+-use futures::stream::FuturesUnordered;
+ use std::collections::HashMap;
+ use std::collections::HashSet;
+ use std::future::Future;
+@@ -109,7 +109,6 @@
+ use std::sync::Arc;
+ use std::sync::atomic::AtomicBool;
+ use std::sync::atomic::Ordering;
+-use std::time::Duration;
+ use tokio::sync::RwLock;
+ use tokio::sync::broadcast;
+ use tracing::instrument;
+@@ -220,19 +219,6 @@
+     fn from(value: usize) -> Self {
+         Self::TruncateBeforeNthUserMessage(value)
+     }
+-}
+-
+-#[derive(Debug, Default, PartialEq, Eq)]
+-pub struct ThreadShutdownReport {
+-    pub completed: Vec<ThreadId>,
+-    pub submit_failed: Vec<ThreadId>,
+-    pub timed_out: Vec<ThreadId>,
+-}
+-
+-enum ShutdownOutcome {
+-    Complete,
+-    SubmitFailed,
+-    TimedOut,
+ }
+ 
+ /// [`ThreadManager`] is responsible for creating threads and maintaining
+@@ -404,6 +390,9 @@
+ pub(crate) struct ThreadManagerState {
+     // Eviction updates this registry and residency together, locking the registry first.
+     pub(crate) threads: Arc<RwLock<HashMap<ThreadId, Arc<CodexThread>>>>,
++    // Sticky custody for cleanup failures, including sessions no longer in the live map.
++    failed_shutdowns: RwLock<Vec<Arc<Session>>>,
++    removed_threads: std::sync::Mutex<Vec<Arc<CodexThread>>>,
+     shared_thread_instructions: shared_instructions::SharedThreadInstructionsProviders,
+     thread_created_tx: broadcast::Sender<ThreadId>,
+     thread_id_generator: ThreadIdGenerator,
+@@ -613,6 +602,8 @@
+         Self {
+             state: Arc::new(ThreadManagerState {
+                 threads: Arc::new(RwLock::new(HashMap::new())),
++                failed_shutdowns: RwLock::new(Vec::new()),
++                removed_threads: std::sync::Mutex::new(Vec::new()),
+                 shared_thread_instructions: Default::default(),
+                 thread_created_tx,
+                 thread_id_generator: default_thread_id_generator(),
+@@ -797,6 +788,8 @@
+         Self {
+             state: Arc::new(ThreadManagerState {
+                 threads: Arc::new(RwLock::new(HashMap::new())),
++                failed_shutdowns: RwLock::new(Vec::new()),
++                removed_threads: std::sync::Mutex::new(Vec::new()),
+                 shared_thread_instructions: Default::default(),
+                 thread_created_tx,
+                 thread_id_generator: default_thread_id_generator(),
+@@ -1392,25 +1385,33 @@
+     /// as `Arc<CodexThread>`, it is possible that other references to it exist elsewhere.
+     /// Returns the thread if the thread was found and removed.
+     pub async fn remove_thread(&self, thread_id: &ThreadId) -> Option<Arc<CodexThread>> {
+-        self.state.threads.write().await.remove(thread_id)
+-    }
+-
+-    /// Removes a runtime for a client request, leaving internal workers with their owner.
+-    /// The access check and removal share the same lock so a rejected worker stays registered.
+-    pub async fn remove_thread_for_client(
++        self.state.remove_thread(thread_id).await
++    }
++
++    /// Looks up a runtime for client removal while retaining it during shutdown.
++    /// Internal workers remain with their owner. A previous failure fences retries.
++    pub async fn get_thread_for_client_removal(
+         &self,
+         thread_id: &ThreadId,
+     ) -> CodexResult<Option<Arc<CodexThread>>> {
+-        let mut threads = self.state.threads.write().await;
+-        if threads
+-            .get(thread_id)
+-            .is_some_and(|thread| thread.session_source.is_internal())
++        if self.state.failed_shutdowns.read().await.iter()
++            .any(|session| session.thread_id() == *thread_id)
+         {
+-            return Err(CodexErr::InvalidRequest(
+-                "live internal threads can only be removed by their owner".to_owned(),
+-            ));
+-        }
+-        Ok(threads.remove(thread_id))
++            return Err(CodexErr::ShutdownFailed);
++        }
++        let thread = {
++            let threads = self.state.threads.read().await;
++            if threads.get(thread_id).is_some_and(|thread| thread.session_source.is_internal()) {
++                return Err(CodexErr::InvalidRequest(
++                    "live internal threads can only be removed by their owner".to_owned(),
++                ));
++            }
++            threads.get(thread_id).cloned()
++        };
++        // A removal observed above published its retained owner before releasing
++        // the live-map write lock. Poll only after releasing the map guard.
++        self.state.observe_removed_for_client(*thread_id)?;
++        Ok(thread)
+     }
+ 
+     /// Removes a thread only if `thread_id` still maps to `expected`.
+@@ -1427,61 +1428,14 @@
+             .get(thread_id)
+             .is_some_and(|thread| Arc::ptr_eq(thread, expected))
+         {
+-            threads.remove(thread_id)
++            let removed = threads.remove(thread_id);
++            if let Some(thread) = &removed {
++                self.state.retain_removed_thread(thread);
++            }
++            removed
+         } else {
+             None
+         }
+-    }
+-
+-    /// Tries to shut down all tracked threads concurrently within the provided timeout.
+-    /// Threads that complete shutdown are removed from the manager; incomplete shutdowns
+-    /// remain tracked so callers can retry or inspect them later.
+-    pub async fn shutdown_all_threads_bounded(&self, timeout: Duration) -> ThreadShutdownReport {
+-        let threads = {
+-            let threads = self.state.threads.read().await;
+-            threads
+-                .iter()
+-                .map(|(thread_id, thread)| (*thread_id, Arc::clone(thread)))
+-                .collect::<Vec<_>>()
+-        };
+-
+-        let mut shutdowns = threads
+-            .into_iter()
+-            .map(|(thread_id, thread)| async move {
+-                let outcome = match tokio::time::timeout(timeout, thread.shutdown_and_wait()).await
+-                {
+-                    Ok(Ok(())) => ShutdownOutcome::Complete,
+-                    Ok(Err(_)) => ShutdownOutcome::SubmitFailed,
+-                    Err(_) => ShutdownOutcome::TimedOut,
+-                };
+-                (thread_id, outcome)
+-            })
+-            .collect::<FuturesUnordered<_>>();
+-        let mut report = ThreadShutdownReport::default();
+-
+-        while let Some((thread_id, outcome)) = shutdowns.next().await {
+-            match outcome {
+-                ShutdownOutcome::Complete => report.completed.push(thread_id),
+-                ShutdownOutcome::SubmitFailed => report.submit_failed.push(thread_id),
+-                ShutdownOutcome::TimedOut => report.timed_out.push(thread_id),
+-            }
+-        }
+-
+-        let mut tracked_threads = self.state.threads.write().await;
+-        for thread_id in &report.completed {
+-            tracked_threads.remove(thread_id);
+-        }
+-
+-        report
+-            .completed
+-            .sort_by_key(std::string::ToString::to_string);
+-        report
+-            .submit_failed
+-            .sort_by_key(std::string::ToString::to_string);
+-        report
+-            .timed_out
+-            .sort_by_key(std::string::ToString::to_string);
+-        report
+     }
+ 
+     /// Fork a legacy thread by snapshotting its full rollout history according to
+@@ -1801,7 +1755,12 @@
+ 
+     /// Remove a thread from the manager by ID, returning it when present.
+     pub(crate) async fn remove_thread(&self, thread_id: &ThreadId) -> Option<Arc<CodexThread>> {
+-        self.threads.write().await.remove(thread_id)
++        let mut threads = self.threads.write().await;
++        let removed = threads.remove(thread_id);
++        if let Some(thread) = &removed {
++            self.retain_removed_thread(thread);
++        }
++        removed
+     }
+ 
+     pub(crate) async fn effective_multi_agent_version_for_spawn(
+@@ -2203,7 +2162,9 @@
+                         thread,
+                     });
+                 }
+-                threads.remove(&resumed.conversation_id);
++                if let Some(removed) = threads.remove(&resumed.conversation_id) {
++                    self.retain_removed_thread(&removed);
++                }
+             }
+         }
+         let agent_control = match (&self.agent_control_factory, agent_control) {
+@@ -2477,6 +2438,7 @@
+         }
+ 
+         if let Err(err) = io.shutdown_and_wait().await {
++            self.record_failed_session(Arc::clone(&session)).await;
+             warn!("failed to shut down duplicate thread {thread_id}: {err}");
+         }
+         Err(CodexErr::InvalidRequest(format!(
+--- a/codex-rs/core/src/thread_manager/managed.rs
++++ b/codex-rs/core/src/thread_manager/managed.rs
+@@ -88,10 +88,14 @@
+                     let _ = sender.send(Err(error));
+                 }
+             }
+-            startup.cleanup().await;
++            let cleanup = startup.cleanup().await;
+             if let Some(state) = state.upgrade()
+                 && let Some(session) = startup.session.get()
+             {
++                if cleanup.is_err() {
++                    state.record_failed_session(Arc::clone(session)).await;
++                    return;
++                }
+                 let mut threads = state.threads.write().await;
+                 let thread_id = session.thread_id();
+                 if threads
+--- /dev/null
++++ b/codex-rs/core/src/thread_manager/shutdown.rs
+@@ -0,0 +1,142 @@
++//! Session cleanup observations and sticky ownership of failed sessions.
++
++use std::sync::Arc;
++use std::time::Duration;
++
++use codex_protocol::ThreadId;
++use codex_protocol::error::CodexErrorDetails;
++use codex_protocol::error::CodexErr;
++use codex_protocol::error::Result as CodexResult;
++use futures::FutureExt;
++use futures::StreamExt;
++use futures::stream::FuturesUnordered;
++
++use super::ThreadManager;
++use super::ThreadManagerState;
++use crate::codex_thread::CodexThread;
++use crate::session::session::Session;
++
++#[derive(Debug, Default, PartialEq, Eq)]
++pub struct ThreadShutdownReport {
++    pub completed: Vec<ThreadId>,
++    pub submit_failed: Vec<ThreadId>,
++    pub shutdown_failed: Vec<ThreadId>,
++    pub timed_out: Vec<ThreadId>,
++}
++
++impl ThreadManagerState {
++    pub(super) fn retain_removed_thread(&self, thread: &Arc<CodexThread>) {
++        let mut removed = self.removed_threads.lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner);
++        if !removed.iter().any(|existing| Arc::ptr_eq(existing, thread)) {
++            removed.push(Arc::clone(thread));
++        }
++    }
++
++    fn retire_removed_thread(&self, thread: &Arc<CodexThread>) {
++        let retired = {
++            let mut removed = self.removed_threads.lock()
++                .unwrap_or_else(std::sync::PoisonError::into_inner);
++            removed.iter().position(|existing| Arc::ptr_eq(existing, thread))
++                .map(|index| removed.swap_remove(index))
++        };
++        drop(retired);
++    }
++
++    pub(super) fn observe_removed_for_client(&self, thread_id: ThreadId) -> CodexResult<()> {
++        let removed = self.removed_threads.lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner).iter()
++            .filter(|thread| thread.session.thread_id() == thread_id)
++            .cloned().collect::<Vec<_>>();
++        for thread in removed {
++            match thread.io.session_loop_termination.clone().now_or_never() {
++                Some(Ok(())) => self.retire_removed_thread(&thread),
++                Some(Err(_)) | None => return Err(CodexErr::ShutdownFailed),
++            }
++        }
++        Ok(())
++    }
++
++    pub(super) async fn record_failed_session(&self, session: Arc<Session>) {
++        let mut failed = self.failed_shutdowns.write().await;
++        if !failed.iter().any(|existing| Arc::ptr_eq(existing, &session)) {
++            failed.push(Arc::clone(&session));
++        }
++        // Drop the argument and any user-owned resources after the registry lock.
++        drop(failed);
++    }
++}
++
++impl ThreadManager {
++    /// Retains a failed session independently of live-map removal or replacement.
++    /// Failure is sticky; a later successful observation cannot erase it.
++    pub async fn record_shutdown_failure(&self, thread: &Arc<CodexThread>) {
++        self.state.record_failed_session(Arc::clone(&thread.session)).await;
++    }
++
++    /// Observe all tracked sessions within the caller's allowance. A timeout
++    /// cancels only this observer; exact session and MCP task custody persists.
++    pub async fn shutdown_all_threads_bounded(&self, timeout: Duration) -> ThreadShutdownReport {
++        let threads = {
++            // Removal publishes custody while holding the live-map write lock.
++            // This matching read order gives a complete live/removed snapshot.
++            let live = self.state.threads.read().await;
++            let mut snapshot = live.values().cloned().collect::<Vec<_>>();
++            let removed = self.state.removed_threads.lock()
++                .unwrap_or_else(std::sync::PoisonError::into_inner);
++            for thread in removed.iter() {
++                if !snapshot.iter().any(|existing| Arc::ptr_eq(existing, thread)) {
++                    snapshot.push(Arc::clone(thread));
++                }
++            }
++            snapshot
++        };
++        let mut shutdowns = threads.into_iter().map(|thread| async move {
++            let result = tokio::time::timeout(timeout, thread.shutdown_and_wait()).await;
++            (thread, result)
++        }).collect::<FuturesUnordered<_>>();
++        let mut report = ThreadShutdownReport::default();
++        while let Some((thread, result)) = shutdowns.next().await {
++            let thread_id = thread.session.thread_id();
++            match result {
++                Ok(Ok(())) => {
++                    // A replacement must survive an older session's completion.
++                    self.remove_thread_if_matches(&thread_id, &thread).await;
++                    self.state.retire_removed_thread(&thread);
++                    report.completed.push(thread_id);
++                }
++                Ok(Err(error)) => {
++                    self.record_shutdown_failure(&thread).await;
++                    if matches!(error.details(), CodexErrorDetails::ShutdownFailed) {
++                        report.shutdown_failed.push(thread_id);
++                    } else {
++                        report.submit_failed.push(thread_id);
++                    }
++                }
++                Err(_) => report.timed_out.push(thread_id),
++            }
++        }
++        // A replacement admitted after the snapshot is still live; do not label
++        // its ID complete merely because the older runtime joined successfully.
++        {
++            let live = self.state.threads.read().await;
++            report.shutdown_failed.extend(report.completed.iter()
++                .copied().filter(|id| live.contains_key(id)));
++        }
++        report.shutdown_failed.extend(self.state.failed_shutdowns.read().await.iter()
++            .map(|session| session.thread_id()));
++        report.shutdown_failed.sort_by_key(std::string::ToString::to_string);
++        report.shutdown_failed.dedup();
++        // Different runtimes can share an ID. A retained failure wins over a
++        // successful replacement in the aggregate report.
++        report.completed.retain(|id| !report.shutdown_failed.contains(id));
++        report.completed.sort_by_key(std::string::ToString::to_string);
++        report.submit_failed.sort_by_key(std::string::ToString::to_string);
++        report.timed_out.sort_by_key(std::string::ToString::to_string);
++        report
++    }
++}
++
++#[cfg(test)]
++#[path = "shutdown_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/core/src/thread_manager/shutdown_tests.rs
+@@ -0,0 +1,84 @@
++use super::*;
++use codex_login::CodexAuth;
++use crate::config::test_config;
++use crate::session::session_shutdown::SessionShutdownFailure;
++use crate::thread_manager::StartThreadOptions;
++use crate::thread_startup_metadata::ThreadStartupMetadata;
++use codex_protocol::error::CodexErrorDetails;
++use futures::FutureExt;
++use pretty_assertions::assert_eq;
++
++async fn failed_thread() -> anyhow::Result<(tempfile::TempDir, ThreadManager, Arc<CodexThread>)> {
++    let home = tempfile::tempdir()?;
++    let mut config = test_config().await;
++    config.codex_home = codex_utils_absolute_path::AbsolutePathBuf::from_absolute_path(home.path())?;
++    let manager = ThreadManager::with_models_provider_and_home_for_tests(
++        CodexAuth::from_api_key("dummy"),
++        config.model_provider.clone(),
++        config.codex_home.to_path_buf(),
++        Arc::new(codex_exec_server::EnvironmentManager::default_for_tests()),
++    );
++    let started = manager.start_thread(StartThreadOptions::new(config)).await?;
++    started.thread.shutdown_and_wait().await?;
++    let mut io = started.thread.io.clone();
++    io.session_loop_termination = futures::future::ready(
++        Err(SessionShutdownFailure::McpRuntime),
++    ).boxed().shared();
++    let failed = Arc::new(CodexThread::new(
++        Arc::clone(&started.thread.session),
++        io,
++        ThreadStartupMetadata::from(&started.session_configured),
++        started.session_configured.rollout_path,
++        started.thread.session_source.clone(),
++    ));
++    manager.state.threads.write().await.insert(started.thread_id, Arc::clone(&failed));
++    Ok((home, manager, failed))
++}
++
++#[tokio::test]
++async fn shutdown_report_retains_failure_after_live_map_removal() -> anyhow::Result<()> {
++    let (_home, manager, failed) = failed_thread().await?;
++    let thread_id = failed.session.thread_id();
++    let expected = ThreadShutdownReport {
++        shutdown_failed: vec![thread_id],
++        ..Default::default()
++    };
++    assert_eq!(manager.shutdown_all_threads_bounded(Duration::from_secs(/*secs*/ 1)).await,
++        expected);
++    let still_registered = manager.get_thread(thread_id).await?;
++    assert!(Arc::ptr_eq(&still_registered, &failed));
++    manager.remove_thread(&thread_id).await;
++    assert_eq!(manager.shutdown_all_threads_bounded(Duration::from_secs(/*secs*/ 1)).await,
++        expected);
++    let result = manager.get_thread_for_client_removal(&thread_id).await;
++    assert!(matches!(result, Err(error) if matches!(error.details(), CodexErrorDetails::ShutdownFailed)));
++    Ok(())
++}
++
++#[tokio::test]
++async fn partial_startup_failure_is_reported_without_live_registration() -> anyhow::Result<()> {
++    let (_home, manager, failed) = failed_thread().await?;
++    let thread_id = failed.session.thread_id();
++    manager.remove_thread(&thread_id).await;
++    // Managed partial startup has a Session before it has a registered CodexThread.
++    manager.state.record_failed_session(Arc::clone(&failed.session)).await;
++    manager.state.record_failed_session(Arc::clone(&failed.session)).await;
++    assert_eq!(manager.state.failed_shutdowns.read().await.len(), 1);
++    let weak = Arc::downgrade(&failed.session);
++    drop(failed);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(manager.shutdown_all_threads_bounded(Duration::from_secs(/*secs*/ 1)).await,
++        ThreadShutdownReport { shutdown_failed: vec![thread_id], ..Default::default() });
++    Ok(())
++}
++
++#[tokio::test]
++async fn generic_removal_keeps_terminal_failure_for_final_observer() -> anyhow::Result<()> {
++    let (_home, manager, failed) = failed_thread().await?;
++    let thread_id = failed.session.thread_id();
++    manager.remove_thread(&thread_id).await;
++    drop(failed);
++    assert_eq!(manager.shutdown_all_threads_bounded(Duration::from_secs(/*secs*/ 1)).await,
++        ThreadShutdownReport { shutdown_failed: vec![thread_id], ..Default::default() });
++    Ok(())
++}
+--- a/codex-rs/core/src/thread_manager_tests.rs
++++ b/codex-rs/core/src/thread_manager_tests.rs
+@@ -967,6 +967,7 @@
+         ThreadShutdownReport {
+             completed,
+             submit_failed: Vec::new(),
++            shutdown_failed: Vec::new(),
+             timed_out: Vec::new(),
+         }
+     );
+--- a/codex-rs/protocol/src/error.rs
++++ b/codex-rs/protocol/src/error.rs
+@@ -173,6 +173,9 @@
+     /// Agent loop died unexpectedly
+     #[error("internal error; agent loop died unexpectedly")]
+     InternalAgentDied,
++    /// The session terminated without a clean shutdown observation.
++    #[error("session shutdown did not complete cleanly")]
++    ShutdownFailed,
+     /// Sandbox error
+     #[error("sandbox error: {0}")]
+     Sandbox(#[from] SandboxErr),
+@@ -338,6 +341,7 @@
+         UsageNotIncluded,
+         InternalServerError,
+         InternalAgentDied,
++        ShutdownFailed,
+         LandlockSandboxExecutableNotProvided,
+     );
+ 
+@@ -393,6 +397,7 @@
+             | CodexErrorDetails::Interrupted
+             | CodexErrorDetails::EnvVar(_)
+             | CodexErrorDetails::Fatal(_)
++            | CodexErrorDetails::ShutdownFailed
+             | CodexErrorDetails::UsageNotIncluded
+             | CodexErrorDetails::QuotaExceeded
+             | CodexErrorDetails::InvalidImageRequest()
+@@ -494,7 +499,8 @@
+             CodexErrorDetails::RefreshTokenFailed(_) => CodexErrorInfo::Unauthorized,
+             CodexErrorDetails::SessionConfiguredNotFirstEvent
+             | CodexErrorDetails::InternalServerError
+-            | CodexErrorDetails::InternalAgentDied => CodexErrorInfo::InternalServerError,
++            | CodexErrorDetails::InternalAgentDied
++            | CodexErrorDetails::ShutdownFailed => CodexErrorInfo::InternalServerError,
+             CodexErrorDetails::UnsupportedOperation(_)
+             | CodexErrorDetails::ThreadNotFound(_)
+             | CodexErrorDetails::AgentLimitReached { .. } => CodexErrorInfo::BadRequest,
+@@ -914,3 +920,7 @@
+ #[cfg(test)]
+ #[path = "error_tests.rs"]
+ mod tests;
++
++#[cfg(test)]
++#[path = "error_shutdown_tests.rs"]
++mod shutdown_tests;
+--- /dev/null
++++ b/codex-rs/protocol/src/error_shutdown_tests.rs
+@@ -0,0 +1,28 @@
++use super::CodexErr;
++use super::CodexErrKind;
++use super::CodexErrorDetails;
++use super::RetryAfter;
++use crate::protocol::CodexErrorInfo;
++use pretty_assertions::assert_eq;
++use std::time::Duration;
++
++#[test]
++fn shutdown_failure_is_terminal_even_with_retry_advice() -> std::io::Result<()> {
++    let advice = RetryAfter::from_delay(Duration::from_secs(1))
++        .ok_or_else(|| std::io::Error::other("retry deadline unavailable"))?;
++    let error = CodexErr::ShutdownFailed.with_retry_after(advice);
++
++    assert!(matches!(error.details(), CodexErrorDetails::ShutdownFailed));
++    assert!(matches!(CodexErrKind::from(&error), CodexErrKind::ShutdownFailed));
++    assert_eq!(error.retry_delay(/*retry_count*/ 1), None);
++    assert_eq!(error.retry_delay(/*retry_count*/ 3), None);
++    Ok(())
++}
++
++#[test]
++fn shutdown_failure_reports_a_fixed_internal_error() {
++    let event = CodexErr::ShutdownFailed.to_error_event(/*message_prefix*/ None);
++
++    assert_eq!(event.message, "session shutdown did not complete cleanly");
++    assert_eq!(event.codex_error_info, Some(CodexErrorInfo::InternalServerError));
++}

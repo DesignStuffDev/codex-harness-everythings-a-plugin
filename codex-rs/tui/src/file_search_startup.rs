@@ -41,6 +41,9 @@ pub(crate) async fn finish<T>(
     app_server: AppServerSession,
     result: color_eyre::Result<T>,
 ) -> color_eyre::Result<T> {
+    // This path ends the TUI, including startup errors and the event-loop exit.
+    // Ordinary embedded-provider replacement never calls this finalizer.
+    crate::process_final::begin();
     runtime.request_shutdown();
     combine(result, app_server.shutdown().await)
 }

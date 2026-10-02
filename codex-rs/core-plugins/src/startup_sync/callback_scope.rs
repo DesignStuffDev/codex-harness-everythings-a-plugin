@@ -13,6 +13,8 @@ use std::sync::MutexGuard;
 use std::sync::OnceLock;
 use std::sync::PoisonError;
 use std::sync::Weak;
+use std::sync::atomic::AtomicBool;
+use std::sync::atomic::Ordering;
 use std::time::Duration;
 use std::time::Instant;
 use tokio::runtime::Handle;
@@ -29,8 +31,55 @@ fn lock<T>(mutex: &Mutex<T>) -> MutexGuard<'_, T> {
 }
 
 #[derive(Default)]
-struct CallbackRegistry {
+pub(super) struct CallbackRegistry {
+    closing: AtomicBool,
     scopes: Mutex<Vec<Arc<CuratedCallbackScope>>>,
+}
+
+impl CallbackRegistry {
+    pub(super) fn begin_close(self: &Arc<Self>) -> CuratedCallbackDrain {
+        let scopes = {
+            let scopes = lock(&self.scopes);
+            // Registration and this snapshot share the same linearization lock.
+            // Dispatch and action admission also consult this sticky fence.
+            self.closing.store(true, Ordering::Release);
+            scopes.clone()
+        };
+        for scope in &scopes {
+            scope.begin_close();
+        }
+        CuratedCallbackDrain { scopes }
+    }
+}
+
+/// A snapshot of scopes retained when process-final registration closes.
+/// Cancelling this observer leaves pending and failed custody in the registry.
+pub(super) struct CuratedCallbackDrain {
+    scopes: Vec<Arc<CuratedCallbackScope>>,
+}
+
+impl CuratedCallbackDrain {
+    pub(super) async fn wait_until(&self, deadline: Instant) -> CuratedCallbackObservation {
+        loop {
+            let mut total = CuratedCallbackObservation::default();
+            for scope in &self.scopes {
+                let observed = scope.poll();
+                total.pending += observed.pending;
+                total.completed += observed.completed;
+                total.suppressed += observed.suppressed;
+                total.failed += observed.failed;
+            }
+            if total.pending == 0 || Instant::now() >= deadline {
+                return total;
+            }
+            let wake = deadline.min(Instant::now() + Duration::from_millis(/*millis*/ 10));
+            tokio::time::sleep_until(wake.into()).await;
+        }
+    }
+}
+
+pub(super) fn begin_process_close() -> CuratedCallbackDrain {
+    CALLBACK_SCOPES.get_or_init(Default::default).begin_close()
 }
 
 #[derive(Clone, Copy)]
@@ -127,13 +176,18 @@ impl CuratedCallbackScope {
         Self::with_registry(runtime, CALLBACK_SCOPES.get_or_init(Default::default))
     }
 
-    fn with_registry(runtime: Handle, registry: &Arc<CallbackRegistry>) -> Arc<Self> {
+    pub(super) fn with_registry(runtime: Handle, registry: &Arc<CallbackRegistry>) -> Arc<Self> {
+        let mut scopes = lock(&registry.scopes);
+        let closed = registry.closing.load(Ordering::Acquire);
         let scope = Arc::new(Self {
             runtime,
             registry: Arc::downgrade(registry),
-            state: Mutex::new(ScopeState::default()),
+            state: Mutex::new(ScopeState { closed, ..ScopeState::default() }),
         });
-        lock(&registry.scopes).push(Arc::clone(&scope));
+        if !closed {
+            scopes.push(Arc::clone(&scope));
+        }
+        drop(scopes);
         scope
     }
 
@@ -183,8 +237,11 @@ impl CuratedCallbackScope {
     }
 
     fn reserve(&self) -> Option<usize> {
+        // Keep registry ownership outside the scope lock, including on rejection.
+        let registry = self.registry.upgrade()?;
         let mut state = lock(&self.state);
         if state.closed
+            || registry.closing.load(Ordering::Acquire)
             || !state.unexpected.is_empty()
             || state
                 .records
@@ -272,6 +329,10 @@ pub struct CuratedSyncCallback {
 }
 
 impl CuratedSyncCallback {
+    pub(crate) fn scope_identity(&self) -> Weak<CuratedCallbackScope> {
+        Arc::downgrade(&self.scope)
+    }
+
     /// Synchronously reserve scope ownership before dispatching onto its captured
     /// runtime. Returns false after closure or an observed failure; true means
     /// registered, not successful. Safe to invoke from a native worker.
@@ -289,7 +350,13 @@ impl CuratedSyncCallback {
         let scope = Arc::clone(&self.scope);
         let action = Arc::clone(&self.action);
         let job: CallbackJob = Box::pin(async move {
-            let admitted = !lock(&scope.state).closed;
+            let admitted = {
+                let registry = scope.registry.upgrade();
+                let state = lock(&scope.state);
+                !state.closed && registry.as_ref().is_some_and(|registry| {
+                    !registry.closing.load(Ordering::Acquire)
+                })
+            };
             if admitted {
                 action().await;
                 ActionOutcome::Completed

@@ -95,7 +95,7 @@ impl SearchShutdownGuard {
     }
     pub(crate) async fn finish(&self) -> io::Result<()> {
         self.begin_shutdown();
-        let outcome = tokio::time::timeout(Duration::from_secs(120), self.provider.shutdown())
+        let outcome = tokio::time::timeout_at(crate::process_final::deadline_after(Duration::from_secs(120)), self.provider.shutdown())
             .await
             .map_err(|_| {
                 io::Error::new(

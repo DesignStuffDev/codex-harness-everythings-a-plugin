@@ -487,35 +487,73 @@ class BridgeShutdownTests(unittest.TestCase):
         return bridge
 
     def test_forced_escalation_is_bounded_and_never_reports_durable_success(self):
-        for last in (-9, subprocess.TimeoutExpired("fixture", 2)):
+        for last in (-9, subprocess.TimeoutExpired("fixture", 0)):
             with self.subTest(last=type(last).__name__):
-                bridge = self.bridge(
-                    [
-                        subprocess.TimeoutExpired("fixture", 200),
-                        subprocess.TimeoutExpired("fixture", 2),
-                        last,
-                    ]
-                )
-                for _ in range(2):
-                    with self.assertRaisesRegex(RuntimeError, "write outcome unknown"):
-                        bridge.close()
+                bridge = self.bridge([
+                    subprocess.TimeoutExpired("fixture", 207),
+                    subprocess.TimeoutExpired("fixture", 2),
+                    last,
+                ])
+                # Graceful wait consumes207, TERM consumes the remaining2;
+                # KILL receipt and reader join cannot receive a fresh budget.
+                with patch("desktop_ui.gateway.time.monotonic", side_effect=[100, 100, 307, 309, 309]):
+                    for _ in range(2):
+                        with self.assertRaisesRegex(RuntimeError, "write outcome unknown"):
+                            bridge.close()
                 self.assertEqual(
                     [call.kwargs for call in bridge.child.wait.call_args_list],
-                    [{"timeout": 200}, {"timeout": 2}, {"timeout": 2}],
+                    [{"timeout": 207}, {"timeout": 2}, {"timeout": 0}],
                 )
+                bridge.reader.join.assert_called_once_with(timeout=0)
                 bridge.child.terminate.assert_called_once()
                 bridge.child.kill.assert_called_once()
                 bridge.child.stdin.close.assert_called_once()
                 bridge.child.stdout.close.assert_called_once()
 
-    def test_nonzero_exit_is_not_masked_by_repeat_cleanup(self):
-        bridge = self.bridge([7])
-        for _ in range(2):
-            with self.assertRaisesRegex(RuntimeError, "write outcome unknown"):
-                bridge.close()
+    def test_reader_join_uses_only_remaining_absolute_budget(self):
+        bridge = self.bridge([0])
+        with patch("desktop_ui.gateway.time.monotonic", side_effect=[100, 100, 308.5]):
+            bridge.close()
+        bridge.child.wait.assert_called_once_with(timeout=207)
+        bridge.reader.join.assert_called_once_with(timeout=0.5)
         bridge.child.terminate.assert_not_called()
         bridge.child.kill.assert_not_called()
-        self.assertEqual(bridge.child.wait.call_count, 1)
+
+    def test_nonzero_exit_is_not_masked_by_repeat_cleanup(self):
+        for status in (7, 124, 125, 126):
+            with self.subTest(status=status):
+                bridge = self.bridge([status])
+                reason = {124: "watchdog deadline expired", 125: "watchdog unavailable", 126: "forced process shutdown requested"}.get(status)
+                for _ in range(2):
+                    with self.assertRaisesRegex(RuntimeError, "write outcome unknown") as caught:
+                        bridge.close()
+                    if reason:
+                        self.assertIn(reason, str(caught.exception))
+                bridge.child.terminate.assert_not_called()
+                bridge.child.kill.assert_not_called()
+                self.assertEqual(bridge.child.wait.call_count, 1)
+
+
+class GatewayShutdownBudgetTests(unittest.TestCase):
+    def test_http_join_shares_bridge_deadline_across_repeat_close(self):
+        gateway = Gateway.__new__(Gateway)
+        gateway.close_lock = threading.Lock()
+        gateway.close_deadline = None
+        gateway.bridge = Mock()
+        gateway.server = Mock()
+        gateway.thread = Mock()
+        gateway.thread.is_alive.return_value = False
+        with patch("desktop_ui.gateway.time.monotonic", side_effect=[100, 308.5, 309]):
+            gateway.close()
+            gateway.close()
+        self.assertEqual(
+            [call.kwargs for call in gateway.bridge.close.call_args_list],
+            [{"deadline": 309}, {"deadline": 309}],
+        )
+        self.assertEqual(
+            [call.kwargs for call in gateway.thread.join.call_args_list],
+            [{"timeout": 0.5}, {"timeout": 0}],
+        )
 
 
 if __name__ == "__main__":

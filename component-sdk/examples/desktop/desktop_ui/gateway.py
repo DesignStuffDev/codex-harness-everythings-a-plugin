@@ -13,12 +13,20 @@ from pathlib import Path
 import secrets
 import subprocess
 import threading
+import time
 from urllib.parse import parse_qs, urlsplit
 
 MAX_FRAME = 4 * 1024 * 1024
 # App-server may drain background work and its selected storage component.
-GRACEFUL_CLOSE_SECONDS = 200
+GRACEFUL_CLOSE_SECONDS = 207
+# One local deadline includes escalation and reader cleanup, below Launch210.
+TOTAL_CLOSE_SECONDS = 209
 SIGNAL_CLOSE_SECONDS = 2
+UNCONFIRMED_PROCESS_EXITS = {
+    124: "process shutdown watchdog deadline expired",
+    125: "process shutdown watchdog unavailable",
+    126: "forced process shutdown requested",
+}
 METHODS = frozenset(
     {
         "thread/list",
@@ -189,13 +197,15 @@ class Bridge:
                 self.closed = True
                 self.condition.notify_all()
 
-    def close(self):
+    def close(self, *, deadline=None):
         # A shutdown hook can run after launch has already observed an exit.
         # Preserve a failed close rather than reporting success on the second call.
         with self.close_lock:
             if not self.close_finished:
                 try:
-                    self._close()
+                    if deadline is None:
+                        deadline = time.monotonic() + TOTAL_CLOSE_SECONDS
+                    self._close(deadline)
                 except (OSError, RuntimeError) as error:
                     self.close_error = error
                 except BaseException:
@@ -208,7 +218,10 @@ class Bridge:
             if self.close_error:
                 raise self.close_error
 
-    def _close(self):
+    def _close(self, deadline):
+        def remaining(stage_limit):
+            return min(stage_limit, max(0.0, deadline - time.monotonic()))
+
         with self.condition:
             self.closed = True
             self.condition.notify_all()
@@ -221,7 +234,7 @@ class Bridge:
                 except OSError:
                     pipe_failed = True
             try:
-                status = self.child.wait(timeout=GRACEFUL_CLOSE_SECONDS)
+                status = self.child.wait(timeout=remaining(GRACEFUL_CLOSE_SECONDS))
             except subprocess.TimeoutExpired:
                 forced = True
                 try:
@@ -229,14 +242,14 @@ class Bridge:
                 except ProcessLookupError:
                     pass
                 try:
-                    status = self.child.wait(timeout=SIGNAL_CLOSE_SECONDS)
+                    status = self.child.wait(timeout=remaining(SIGNAL_CLOSE_SECONDS))
                 except subprocess.TimeoutExpired:
                     try:
                         self.child.kill()
                     except ProcessLookupError:
                         pass
                     try:
-                        status = self.child.wait(timeout=SIGNAL_CLOSE_SECONDS)
+                        status = self.child.wait(timeout=remaining(SIGNAL_CLOSE_SECONDS))
                     except subprocess.TimeoutExpired:
                         raise RuntimeError(
                             "Codex did not exit after forced shutdown; write outcome unknown"
@@ -245,12 +258,15 @@ class Bridge:
                 raise RuntimeError(
                     "Codex required forced shutdown; write outcome unknown"
                 )
+            if status in UNCONFIRMED_PROCESS_EXITS:
+                reason = UNCONFIRMED_PROCESS_EXITS[status]
+                raise RuntimeError(f"Codex cleanup unconfirmed: {reason}; write outcome unknown")
             if status != 0 or pipe_failed:
                 raise RuntimeError(
                     "Codex exited without confirmed cleanup; write outcome unknown"
                 )
         finally:
-            self.reader.join(timeout=2)
+            self.reader.join(timeout=remaining(SIGNAL_CLOSE_SECONDS))
             # An escaped descendant may still own the pipe. Never block here
             # waiting on the reader's buffered-file lock after the bounded wait.
             if not self.reader.is_alive():
@@ -286,6 +302,8 @@ class Gateway:
             raise ValueError(
                 "requires loopback binding and an absolute executable path"
             )
+        self.close_lock = threading.Lock()
+        self.close_deadline = None
         self.token = secrets.token_urlsafe(32)
         self.bridge = Bridge(executable, params.get("codex_home"), params.get("cwd"))
         try:
@@ -303,12 +321,21 @@ class Gateway:
             raise
 
     def close(self):
+        with self.close_lock:
+            if self.close_deadline is None:
+                self.close_deadline = time.monotonic() + TOTAL_CLOSE_SECONDS
+            deadline = self.close_deadline
         try:
-            self.bridge.close()
+            self.bridge.close(deadline=deadline)
         finally:
+            # These stdlib calls are synchronous and cannot be preempted here;
+            # Launch's outer force remains the fallback if they stall.
             self.server.shutdown()
             self.server.server_close()
-            self.thread.join(timeout=2)
+            remaining = max(0.0, deadline - time.monotonic())
+            self.thread.join(timeout=min(SIGNAL_CLOSE_SECONDS, remaining))
+            if self.thread.is_alive():
+                raise RuntimeError("Desktop HTTP cleanup unconfirmed; write outcome unknown")
 
 
 class Handler(BaseHTTPRequestHandler):

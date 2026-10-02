@@ -22,6 +22,7 @@ enum CloseBehavior {
     Complete,
     Fail,
     Stall,
+    Delayed(std::time::Duration),
 }
 
 struct ShutdownProbe {
@@ -79,6 +80,11 @@ impl ThreadStore for ShutdownProbe {
                     message: "backend diagnostic with private-token".to_owned(),
                 }),
                 CloseBehavior::Stall => std::future::pending().await,
+                CloseBehavior::Delayed(delay) => {
+                    tokio::time::sleep(delay).await;
+                    self.completed.store(true, Ordering::Release);
+                    Ok(())
+                }
             }
         })
     }
@@ -287,3 +293,36 @@ async fn client_observes_primary_failure_and_sanitized_storage_cleanup_failure()
 
 #[path = "in_process_search_lifecycle_tests.rs"]
 mod search_services;
+
+// Exercise the actual outer store owner independently of the legacy processor
+// budget. Paused time verifies budget composition; installed-host acceptance
+// remains a separate required runtime gate.
+async fn finish_with_slow_store(primary: IoResult<()>) -> IoResult<()> {
+    let store = ShutdownProbe::new(CloseBehavior::Delayed(std::time::Duration::from_secs(/*secs*/ 46)));
+    let guard = StoreShutdownGuard::new(store.clone());
+    let mut processor = tokio::spawn(async move { primary });
+    let search_home = tempfile::tempdir()?;
+    let (_, search_guard) = crate::file_search_services::start(search_home.path()).await?;
+    let started = tokio::time::Instant::now();
+    let result = finish_processor_and_services(
+        &mut processor, &guard, &search_guard, &CuratedCallbackGuard::new(),
+    ).await;
+    assert!(store.begun.load(Ordering::Acquire));
+    assert!(store.completed.load(Ordering::Acquire));
+    assert!(started.elapsed() >= std::time::Duration::from_secs(/*secs*/ 46));
+    result
+}
+
+#[tokio::test(start_paused = true)]
+async fn selected_store_may_drain_beyond_45_seconds_within_its_owner_budget() -> IoResult<()> {
+    finish_with_slow_store(Ok(())).await
+}
+
+#[tokio::test(start_paused = true)]
+async fn slow_store_success_preserves_an_independent_session_failure() {
+    let result = finish_with_slow_store(Err(IoError::other("session drain failed"))).await;
+    match result {
+        Err(error) => assert_eq!(error.to_string(), "session drain failed"),
+        Ok(()) => panic!("successful store close must not erase the session failure"),
+    }
+}

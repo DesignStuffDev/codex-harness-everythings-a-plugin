@@ -1,0 +1,92 @@
+{
+  "status": "staged_static_only_not_executed",
+  "repo_mutations": false,
+  "builds_installs_runtime_executions": false,
+  "validation": "Python AST parse; source/API review only",
+  "admission_boundary": "installed_fixture_before_native_forward",
+  "known_candidate_at_task_start": "1da290682fc6ddd00994c2af7eac9018c8143dea",
+  "files": {
+    "PLAN.md": {
+      "sha256": "3f746af5c0a1fd3d98020080fbbc98d62fc6cba22a483f046b24df1eaf86d92e",
+      "bytes": 10365
+    },
+    "installed_slow_store_acceptance.py": {
+      "sha256": "d16ba1683a1031c6d15ee514e1a8fe04319efa311ddc141a6c0fa5d34f44f7bc",
+      "bytes": 16254
+    },
+    "slow_store_relay.py": {
+      "sha256": "7bee1198422f8359056ea084cd62e021398b8ad31018a57b93a8931690934ac9",
+      "bytes": 10539
+    }
+  },
+  "audited_source": {
+    "codex-rs/thread-store-component/src/contract.rs": {
+      "sha256": "2049f0091b3d2545358e6f03119d139880084ca870dd2aab8de5652bbda84586",
+      "bytes": 5245
+    },
+    "codex-rs/thread-store-component/src/wire.rs": {
+      "sha256": "67f3864c5619f78e00124be1738c8a3bee0e0ee4904c6aff90f87bb541f4586d",
+      "bytes": 8857
+    },
+    "codex-rs/thread-store-component/src/service.rs": {
+      "sha256": "e6395e7ffbdac1e9490502037e74442f13724583296379f0e09a4fdd6eba610b",
+      "bytes": 8142
+    },
+    "codex-rs/thread-store-component/src/dispatch.rs": {
+      "sha256": "3117ffa5fa4106454ea2dc1676083da5b43d3e527963d5df6263cda82eb425f3",
+      "bytes": 11152
+    },
+    "codex-rs/thread-store-local-plugin/src/lib.rs": {
+      "sha256": "d2a86db9ed9add78c0c8830ed20e5f136c6aa57923b296b3369dac6a821ec6c1",
+      "bytes": 4958
+    },
+    "codex-rs/thread-store-local-plugin/src/native.rs": {
+      "sha256": "e66ed5dfc1914ee88b5f7cd0486a64ea90fcac2f9b2217877f8a8adc0efa632e",
+      "bytes": 4021
+    },
+    "codex-rs/component-host/src/session_wire/codec.rs": {
+      "sha256": "791349fa4a52a6183c94e3f50ceb5d6dfeadfba44b19327d060a87619ea9966a",
+      "bytes": 2224
+    },
+    "codex-rs/component-host/src/session_wire/assembly.rs": {
+      "sha256": "08ea15c40a98ff6d1dfaa496543d40a9017950bff7a2431f6b7d86deba97a543",
+      "bytes": 7433
+    },
+    "codex-rs/component-host/src/session_supervisor.rs": {
+      "sha256": "78c4f6b041dbf8bb91b089ed253adf7c57f7a86f1b525783fe7bd01260c1ada2",
+      "bytes": 18168
+    },
+    "codex-rs/component-host/src/launch.rs": {
+      "sha256": "794be4a844fb2d2040c61cfd5d0954d6f17eb04c9ddaefe6e5e188ce389b940e",
+      "bytes": 5109
+    },
+    "component-sdk/tests/p01_gui_acceptance.py": {
+      "sha256": "68c1df79a54070f91910c794066dde5908667c7b8f2015e8b4780f8688043932",
+      "bytes": 35100
+    },
+    "component-sdk/tests/gui_browser_driver.cjs": {
+      "sha256": "e93669cdd50cdd27b824397b90190d5977988eced55ecae5a667be9074fc6979",
+      "bytes": 2800
+    },
+    "component-sdk/tests/reused_storage_acceptance.py": {
+      "sha256": "a943c1aa37dccc15ca0549845194fcfe49193eb25f7c9cb1bde3af7d7f791c30",
+      "bytes": 15078
+    },
+    "component-sdk/tests/manual_migration_acceptance.py": {
+      "sha256": "fffd7249efbfbc18c8a31a86a4da1212eb35739942f49f10f9d1a61eeaade485",
+      "bytes": 15407
+    },
+    "component-sdk/tests/subreaper_runner.py": {
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    }
+  },
+  "strict_subreaper_default_seconds": 5,
+  "fixture_limitations": [
+    "not native-internal admission proof",
+    "no real host or browser execution yet",
+    "requires new separately assigned migration fixture per mode",
+    "source receipt semantic correctness must be root-reviewed",
+    "sampled process monitoring can miss short-lived descendants"
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "status": "Frozen recovery-only typed codex-mcp integration; no Rust/fmt/tests executed",
+  "upper_combined02_sha256": "d99b4b1ce641d51952eecb0adf9ba761777c1f5bea45ee2c9d7e5d961714dcef",
+  "upper_retirement03_sha256": "9431799f6a8331e5bd2e57db2122c2c25738685eb22d14028e5a869d8a1f319d",
+  "preimage_binding_sha256": "53352014f16d1a69eac86b935479265326c2a52a2a3f7244afe8b29a7b76a016",
+  "files": [
+    {
+      "path": "codex-rs/codex-mcp/src/auth_changes.rs",
+      "preimage_sha256": "6ca379a61936b23dbf56011ae3c0fb436534103399d4b787d4dff712df7da151",
+      "preimage_absent": false,
+      "sha256": "2a5f5efbcde2e2f47bb3e0062d5864bccc9b7be3dc74602c56cf538a1125f3cf",
+      "bytes": 2537,
+      "added": 11,
+      "removed": 1
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/auth_changes_tests.rs",
+      "preimage_sha256": "6eb60b04e1d68874e1273bba9fd5778321fc8948d8463de894c6a28191884b1a",
+      "preimage_absent": false,
+      "sha256": "89ee30b352d988d25018218908916b2650d6e49b1df288b968de01f0edd4124c",
+      "bytes": 3522,
+      "added": 1,
+      "removed": 1
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/binding_tests.rs",
+      "preimage_sha256": "8e57201f49a6a961f083d19f1e4fb36d49cad5f72b6144c35ee4fffa8dc4c1c5",
+      "preimage_absent": false,
+      "sha256": "1b7f15fe5044cb9915b42d72cac3849c8615f6f74cf27e8f4d677c1e94b7af2a",
+      "bytes": 12484,
+      "added": 1,
+      "removed": 1
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/connection_manager.rs",
+      "preimage_sha256": "5333f09c1fc1e47adfce30453dc59308d2d0063827bd6ae3643b616c760e9a6d",
+      "preimage_absent": false,
+      "sha256": "5531f4d0814caeb1996bc556897f53f0f6dc46d794d19d122151e393a64af078",
+      "bytes": 47584,
+      "added": 34,
+      "removed": 11
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/connection_manager/shutdown.rs",
+      "preimage_sha256": null,
+      "preimage_absent": true,
+      "sha256": "5e25597dde87e94d233ed6c74e44355d8e2ea6bddd23fa63d3d84fe38da7d572",
+      "bytes": 533,
+      "added": 15,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/connection_manager_tests.rs",
+      "preimage_sha256": "38b82bd0435ac7e5e2dbfba7356d092c070fc6b09643dba8f5d1a68aee8b0bea",
+      "preimage_absent": false,
+      "sha256": "6243b4a164088f0e6c3bd1273900858edf5237aa39bfbce339df2d9de820c295",
+      "bytes": 239211,
+      "added": 2,
+      "removed": 1
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/connection_shutdown_tests.rs",
+      "preimage_sha256": "da39deeda140ee4d6ca190da4b3a1b6ac7be949fd84c479e43825bf73cd2648f",
+      "preimage_absent": false,
+      "sha256": "0f543ebf84b966c97638ab72f143be115d02b1d5321eb7e28c1733e0b133d357",
+      "bytes": 3842,
+      "added": 56,
+      "removed": 3
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/rmcp_client.rs",
+      "preimage_sha256": "e73f5248a94c243a5f6f8c1e3400c2cc777a1e6e21034f9931db2f1d6fd4344c",
+      "preimage_absent": false,
+      "sha256": "4bb763b1f2348b8b0f19caf6b4061c2bba40aecf628183aec39c373ffaadb666",
+      "bytes": 57646,
+      "added": 8,
+      "removed": 2
+    },
+    {
+      "path": "codex-rs/codex-mcp/src/runtime.rs",
+      "preimage_sha256": "7eaf05f78bb5be3636668911cc7f3f7bfe305c49cd73a6945a4a2283cf1ff888",
+      "preimage_absent": false,
+      "sha256": "c244fcd03640dbc532bae536e6b8df49b7aee4d1a4865de8774f17a910cb99a0",
+      "bytes": 53073,
+      "added": 17,
+      "removed": 4
+    }
+  ],
+  "patch_sha256": "df0ebdc0c09c7ff05178ff32def63c152ca7092708cfdacfc097d94c8c9b3b0e",
+  "lower_prerequisite": "codex_rmcp_client exports McpShutdownConfirmation::{Confirmed,Unconfirmed}, McpShutdownFailure::{Service,Transport,Process,Task,Closed}; RmcpClient::shutdown returns Result<Confirmation,Failure>. Lower lifecycle owners retain exact resources/outcomes independently.",
+  "contracts": [
+    "ConnectionShutdownOutcome custom RetainedTaskOutcome succeeds only on Confirmed; Unconfirmed and known errors remain globally reachable after connection-set observers leave.",
+    "Connection snapshot attempts each nonpanicking connection shutdown; known lower failure wins over any confirmations, Unconfirmed wins over Confirmed. A join panic/cancellation maps to Task and original JoinError stays with RetainedTask.",
+    "AsyncManagedClient startup cancellation/error returns Unconfirmed; startup failure is not automatically a cleanup error and cannot prove partial resources closed.",
+    "McpRuntime::shutdown propagates known lower failures while ordinary Ok(Unconfirmed) remains nonfatal. Exact confirmation is stored by the connection owner before returning and is separately queryable.",
+    "latest_shutdown_confirmation returns Option<Result<Confirmation,Failure>> for CURRENT snapshot only. None is not confirmed; Unconfirmed is never a whole-host clean receipt.",
+    "Auth invalidation caller explicitly distinguishes Confirmed, retained Unconfirmed, and known failure; it emits no successful cleanup receipt from an Unconfirmed outcome."
+  ],
+  "tests": "Two new unexecuted behavioral regressions: dropped-manager Unconfirmed exact task remains primary-reachable; Confirmed empty snapshot retires after exact join. Existing panic test now expects bounded Task error. Existing lower client shutdown tests consume typed Result.",
+  "limits": [
+    "No core changes or new process-final receipt/aggregate in this revision.",
+    "Getter excludes earlier and partially constructed connection snapshots; full per-session/process-final proof still needs scoped generation roster observation.",
+    "Lower HTTP private-worker confirmation and descendant-group proof remain bounded by the lower implementation/pinned SDK; no stronger guarantee from this adaptation.",
+    "Auth watcher is best effort; known shutdown errors are logged as bounded categories and remain retained by lower lifecycle owners for later observation.",
+    "A panic during one connection shutdown terminates the snapshot task, so remaining entries are not all observed on that path. Immutable Task failure prevents a false clean result; independent lower registries retain resources."
+  ],
+  "dependency_impact": "No Cargo or Bazel dependency changes from these nine codex-mcp files; lower rmcp-client proposal has separate dependency/accounting responsibility."
+}

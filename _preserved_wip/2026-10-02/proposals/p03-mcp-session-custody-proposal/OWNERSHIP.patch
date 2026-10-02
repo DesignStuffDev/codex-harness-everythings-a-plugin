@@ -1,0 +1,653 @@
+--- a/codex-rs/async-utils/src/lib.rs
++++ b/codex-rs/async-utils/src/lib.rs
+@@ -1,4 +1,9 @@
+ mod backoff;
++mod retained_task;
++
++pub use retained_task::RetainedTask;
++pub use retained_task::RetainedTaskOutcome;
++pub use retained_task::TaskJoinFailure;
+ 
+ pub use backoff::backoff;
+ 
+--- /dev/null
++++ b/codex-rs/async-utils/src/retained_task.rs
+@@ -0,0 +1,191 @@
++//! Primary task custody which outlives cancelled shutdown observers.
++
++use std::any::Any;
++use std::future::Future;
++use std::panic::AssertUnwindSafe;
++use std::panic::catch_unwind;
++use std::pin::Pin;
++use std::sync::Arc;
++use std::sync::Mutex;
++use std::sync::OnceLock;
++use std::sync::PoisonError;
++use std::sync::Weak;
++use std::task::Context;
++use std::task::Poll;
++use std::task::Waker;
++use std::time::Duration;
++use tokio::runtime::Handle;
++use tokio::task::JoinError;
++use tokio::task::JoinHandle;
++
++/// Classifies a joined result for registry retirement. Implementations must
++/// return true only for successful completion; this runs outside owner locks.
++pub trait RetainedTaskOutcome: Send + Sync + 'static {
++    fn succeeded(&self) -> bool;
++}
++
++impl RetainedTaskOutcome for () {
++    fn succeeded(&self) -> bool { true }
++}
++
++impl<T: Send + Sync + 'static, E: Send + Sync + 'static> RetainedTaskOutcome for Result<T, E> {
++    fn succeeded(&self) -> bool { self.is_ok() }
++}
++
++/// Bounded public classification; original failures stay in primary custody.
++#[derive(Clone, Copy, Debug, PartialEq, Eq)]
++pub enum TaskJoinFailure {
++    Panicked,
++    Cancelled,
++    SpawnPanicked,
++}
++
++impl std::fmt::Display for TaskJoinFailure {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter.write_str(match self {
++            Self::Panicked => "owned task panicked",
++            Self::Cancelled => "owned task was cancelled",
++            Self::SpawnPanicked => "owned task spawn panicked",
++        })
++    }
++}
++
++impl std::error::Error for TaskJoinFailure {}
++
++#[derive(Default)]
++struct Registry {
++    tasks: Mutex<Vec<Arc<dyn Any + Send + Sync>>>,
++}
++
++static TASKS: OnceLock<Arc<Registry>> = OnceLock::new();
++
++struct Completion<T> {
++    result: Result<Arc<T>, TaskJoinFailure>,
++    _join_error: Option<JoinError>,
++    _spawn_panic: Option<Box<dyn Any + Send>>,
++}
++
++enum State<T> {
++    Reserved,
++    Running(JoinHandle<T>),
++    Joining,
++    Complete(Completion<T>),
++}
++
++/// A pre-registered owner of one exact Tokio task and its immutable result.
++/// Waiting never transfers its handle into an abortable observer. Successful
++/// joined tasks retire; failed and unobserved tasks remain process-reachable.
++/// This does not stop the task or prove ownership of work it detaches itself.
++pub struct RetainedTask<T: RetainedTaskOutcome> {
++    registry: Weak<Registry>,
++    state: Mutex<State<T>>,
++}
++
++impl<T: RetainedTaskOutcome> RetainedTask<T> {
++    pub fn spawn(runtime: &Handle, future: impl Future<Output = T> + Send + 'static) -> Arc<Self> {
++        Self::spawn_in(runtime, future, TASKS.get_or_init(Default::default), |_| {})
++    }
++
++    /// Publish the reserved owner into its enclosing lifecycle before the task
++    /// can run. The publisher must not retain a lock when it returns.
++    pub fn spawn_published(
++        runtime: &Handle,
++        future: impl Future<Output = T> + Send + 'static,
++        publish: impl FnOnce(Arc<Self>),
++    ) -> Arc<Self> {
++        Self::spawn_in(runtime, future, TASKS.get_or_init(Default::default), publish)
++    }
++
++    fn spawn_in(
++        runtime: &Handle,
++        future: impl Future<Output = T> + Send + 'static,
++        registry: &Arc<Registry>,
++        publish: impl FnOnce(Arc<Self>),
++    ) -> Arc<Self> {
++        let owner = Arc::new(Self {
++            registry: Arc::downgrade(registry),
++            state: Mutex::new(State::Reserved),
++        });
++        registry.tasks.lock().unwrap_or_else(PoisonError::into_inner).push(owner.clone());
++        // Neither spawning nor destruction of arbitrary future captures may run
++        // under either registry or owner mutex.
++        let state = match catch_unwind(AssertUnwindSafe(|| {
++            publish(Arc::clone(&owner));
++            runtime.spawn(future)
++        })) {
++            Ok(handle) => State::Running(handle),
++            Err(payload) => State::Complete(Completion {
++                result: Err(TaskJoinFailure::SpawnPanicked),
++                _join_error: None,
++                _spawn_panic: Some(payload),
++            }),
++        };
++        *owner.state.lock().unwrap_or_else(PoisonError::into_inner) = state;
++        owner
++    }
++
++    /// The caller supplies any deadline around this observation. Expiry or
++    /// cancellation does not abort, detach, or discard the primary task.
++    pub async fn wait(&self) -> Result<Arc<T>, TaskJoinFailure> {
++        loop {
++            if let Some(result) = self.poll_join() {
++                if result.as_ref().is_ok_and(|outcome| outcome.succeeded()) {
++                    self.retire();
++                }
++                return result;
++            }
++            tokio::time::sleep(Duration::from_millis(/*millis*/ 10)).await;
++        }
++    }
++
++    fn poll_join(&self) -> Option<Result<Arc<T>, TaskJoinFailure>> {
++        let mut handle = {
++            let mut state = self.state.lock().unwrap_or_else(PoisonError::into_inner);
++            match &*state {
++                State::Complete(completion) => return Some(completion.result.clone()),
++                State::Running(handle) if handle.is_finished() => {},
++                State::Reserved | State::Running(_) | State::Joining => return None,
++            }
++            let State::Running(handle) = std::mem::replace(&mut *state, State::Joining) else {
++                return None;
++            };
++            handle
++        };
++        // No await between taking and publishing. Concurrent observers see
++        // Joining; an unexpected Pending restores this same handle.
++        let state = match Pin::new(&mut handle).poll(&mut Context::from_waker(Waker::noop())) {
++            Poll::Ready(Ok(output)) => State::Complete(Completion {
++                result: Ok(Arc::new(output)),
++                _join_error: None,
++                _spawn_panic: None,
++            }),
++            Poll::Ready(Err(error)) => State::Complete(Completion {
++                result: Err(if error.is_panic() { TaskJoinFailure::Panicked } else { TaskJoinFailure::Cancelled }),
++                _join_error: Some(error),
++                _spawn_panic: None,
++            }),
++            Poll::Pending => State::Running(handle),
++        };
++        let result = match &state {
++            State::Complete(completion) => Some(completion.result.clone()),
++            State::Reserved | State::Running(_) | State::Joining => None,
++        };
++        *self.state.lock().unwrap_or_else(PoisonError::into_inner) = state;
++        result
++    }
++
++    fn retire(&self) {
++        if let Some(registry) = self.registry.upgrade() {
++            let retired = {
++                let mut tasks = registry.tasks.lock().unwrap_or_else(PoisonError::into_inner);
++                tasks.iter().position(|task| task.downcast_ref::<Self>().is_some_and(|task| std::ptr::eq(task, self)))
++                    .map(|index| tasks.swap_remove(index))
++            };
++            drop(retired);
++        }
++    }
++}
++
++#[cfg(test)]
++#[path = "retained_task_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/async-utils/src/retained_task_tests.rs
+@@ -0,0 +1,129 @@
++use super::*;
++use pretty_assertions::assert_eq;
++use std::error::Error;
++use std::sync::Barrier;
++use std::sync::atomic::AtomicBool;
++use std::sync::atomic::Ordering;
++use tokio::sync::oneshot;
++
++type TestResult = Result<(), Box<dyn Error + Send + Sync>>;
++
++fn count(registry: &Registry) -> usize {
++    registry.tasks.lock().unwrap_or_else(PoisonError::into_inner).len()
++}
++
++#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++async fn reserves_and_publishes_before_execution() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let published = Arc::new(AtomicBool::new(false));
++    let worker_published = Arc::clone(&published);
++    let owner = RetainedTask::spawn_in(&Handle::current(), async move {
++        assert!(worker_published.load(Ordering::Acquire));
++    }, &registry, |owner| {
++        assert_eq!(count(&registry), 1);
++        assert!(matches!(*owner.state.lock().unwrap_or_else(PoisonError::into_inner), State::Reserved));
++        published.store(true, Ordering::Release);
++    });
++    tokio::time::timeout(Duration::from_secs(2), owner.wait()).await??;
++    assert_eq!(count(&registry), 0);
++    Ok(())
++}
++
++#[tokio::test]
++async fn cancelled_and_expired_observers_preserve_exact_task() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let (release, held) = oneshot::channel();
++    let owner = RetainedTask::spawn_in(&Handle::current(), async move {
++        let _ = held.await;
++        Ok::<_, ()>(37)
++    }, &registry, |_| {});
++    assert!(tokio::time::timeout(Duration::from_millis(2), owner.wait()).await.is_err());
++    let observer = tokio::spawn({ let owner = Arc::clone(&owner); async move { owner.wait().await } });
++    tokio::task::yield_now().await;
++    observer.abort();
++    let error = observer.await.err().ok_or("observer unexpectedly finished")?;
++    assert!(error.is_cancelled());
++    assert_eq!(count(&registry), 1);
++    release.send(()).map_err(|_| "worker lost its release receiver")?;
++    let first = tokio::time::timeout(Duration::from_secs(2), owner.wait()).await??;
++    let second = owner.wait().await?;
++    assert!(Arc::ptr_eq(&first, &second));
++    assert_eq!(*first, Ok(37));
++    assert_eq!(count(&registry), 0);
++    Ok(())
++}
++
++#[tokio::test(flavor = "multi_thread", worker_threads = 4)]
++async fn concurrent_native_observers_share_one_completion() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let owner = RetainedTask::spawn_in(&Handle::current(), async { Ok::<_, ()>(91) }, &registry, |_| {});
++    let barrier = Arc::new(Barrier::new(3));
++    let mut observers = Vec::new();
++    for _ in 0..2 {
++        let owner = Arc::clone(&owner);
++        let barrier = Arc::clone(&barrier);
++        let runtime = Handle::current();
++        observers.push(std::thread::spawn(move || {
++            barrier.wait();
++            runtime.block_on(async {
++                tokio::time::timeout(Duration::from_secs(2), owner.wait()).await
++            })
++        }));
++    }
++    barrier.wait();
++    let first = observers.remove(0).join().map_err(|_| "observer panicked")???;
++    let second = observers.remove(0).join().map_err(|_| "observer panicked")???;
++    assert!(Arc::ptr_eq(&first, &second));
++    assert_eq!(*first, Ok(91));
++    assert_eq!(count(&registry), 0);
++    Ok(())
++}
++
++#[tokio::test]
++async fn panic_cancellation_and_logical_failure_remain_reachable() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let panic_owner = RetainedTask::<()>::spawn_in(&Handle::current(), async {
++        panic!("controlled retained task panic");
++    }, &registry, |_| {});
++    assert_eq!(panic_owner.wait().await.err(), Some(TaskJoinFailure::Panicked));
++    let cancelled = RetainedTask::spawn_in(&Handle::current(), std::future::pending::<()>(), &registry, |_| {});
++    {
++        let state = cancelled.state.lock().unwrap_or_else(PoisonError::into_inner);
++        if let State::Running(handle) = &*state { handle.abort(); }
++    }
++    assert_eq!(cancelled.wait().await.err(), Some(TaskJoinFailure::Cancelled));
++    let failed = RetainedTask::spawn_in(&Handle::current(), async { Err::<(), _>("original failure") }, &registry, |_| {});
++    assert_eq!(*failed.wait().await?, Err("original failure"));
++    let weak = Arc::downgrade(&failed);
++    drop(failed);
++    assert!(weak.upgrade().is_some());
++    assert_eq!(count(&registry), 3);
++    let state = panic_owner.state.lock().unwrap_or_else(PoisonError::into_inner);
++    assert!(matches!(&*state, State::Complete(completion) if completion._join_error.as_ref().is_some_and(JoinError::is_panic)));
++    Ok(())
++}
++
++struct DropProbe {
++    registry: Arc<Registry>,
++    outside_lock: Arc<AtomicBool>,
++}
++
++impl Drop for DropProbe {
++    fn drop(&mut self) {
++        self.outside_lock.store(self.registry.tasks.try_lock().is_ok(), Ordering::Release);
++    }
++}
++
++#[tokio::test]
++async fn publication_unwind_keeps_failure_and_drops_captures_outside_registry_lock() -> TestResult {
++    let registry = Arc::new(Registry::default());
++    let outside_lock = Arc::new(AtomicBool::new(false));
++    let probe = DropProbe { registry: Arc::clone(&registry), outside_lock: Arc::clone(&outside_lock) };
++    let owner = RetainedTask::spawn_in(&Handle::current(), async move { drop(probe); }, &registry, |_| {
++        panic!("controlled publisher panic");
++    });
++    assert_eq!(owner.wait().await.err(), Some(TaskJoinFailure::SpawnPanicked));
++    assert!(outside_lock.load(Ordering::Acquire));
++    assert_eq!(count(&registry), 1);
++    Ok(())
++}
+--- a/codex-rs/core/src/session/session.rs
++++ b/codex-rs/core/src/session/session.rs
+@@ -85,7 +85,7 @@
+     pub(super) mcp_elicitation_lifecycle_handle: OnceLock<codex_mcp::ElicitationLifecycle>,
+     pub(super) mcp_prewarm_tx: async_channel::Sender<()>,
+     pub(super) mcp_prewarm_shutdown: CancellationToken,
+-    pub(super) mcp_prewarm_task: std::sync::Mutex<Option<JoinHandle<()>>>,
++    pub(super) mcp_prewarm_task: std::sync::Mutex<Option<Arc<codex_async_utils::RetainedTask<()>>>>,
+     pub(crate) conversation: Arc<RealtimeConversationManager>,
+     pub(crate) realtime_history: Option<Mutex<crate::realtime_history::RealtimeHistoryState>>,
+     pub(crate) active_turn: Mutex<Option<ActiveTurn>>,
+--- a/codex-rs/core/src/session/mcp_prewarm.rs
++++ b/codex-rs/core/src/session/mcp_prewarm.rs
+@@ -7,6 +7,7 @@
+ 
+ impl Session {
+     pub(crate) fn request_mcp_runtime_refresh(&self) {
++        if self.mcp_prewarm_shutdown.is_cancelled() { return; }
+         // Plugin changes can reuse connections but still change their skill resources.
+         self.services.mcp_runtime.invalidate_resource_caches();
+         self.request_mcp_runtime_reprojection();
+@@ -14,6 +15,7 @@
+ 
+     /// Reproject contributor state without invalidating cached MCP resources.
+     pub(crate) fn request_mcp_runtime_reprojection(&self) {
++        if self.mcp_prewarm_shutdown.is_cancelled() { return; }
+         self.mark_mcp_runtime_dirty();
+         self.schedule_mcp_prewarm();
+     }
+@@ -25,7 +27,7 @@
+     ) {
+         let session = Arc::downgrade(self);
+         let shutdown = self.mcp_prewarm_shutdown.clone();
+-        let worker = self.services.runtime_handle.spawn(async move {
++        let _worker = codex_async_utils::RetainedTask::spawn_published(&self.services.runtime_handle, async move {
+             loop {
+                 let auth_changed = tokio::select! {
+                     biased;
+@@ -55,28 +57,29 @@
+                     _ = session.refresh_mcp_if_dirty() => {},
+                 }
+             }
++        }, |worker| {
++            // Stop observers see Reserved custody before the task can execute.
++            let mut slot = self.mcp_prewarm_task.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
++            assert!(slot.is_none(), "MCP prewarm worker may only start once");
++            *slot = Some(worker);
+         });
+-        *self
+-            .mcp_prewarm_task
+-            .lock()
+-            .unwrap_or_else(std::sync::PoisonError::into_inner) = Some(worker);
+     }
+ 
+     pub(super) fn schedule_mcp_prewarm(&self) {
+         let _ = self.mcp_prewarm_tx.try_send(());
+     }
+ 
+-    pub(super) async fn stop_mcp_prewarm_worker(&self) {
++    pub(super) async fn stop_mcp_prewarm_worker(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
+         self.mcp_prewarm_shutdown.cancel();
++        self.mcp_prewarm_tx.close();
+         let worker = self
+             .mcp_prewarm_task
+             .lock()
+             .unwrap_or_else(std::sync::PoisonError::into_inner)
+-            .take();
+-        if let Some(worker) = worker
+-            && let Err(error) = worker.await
+-        {
+-            warn!(%error, "MCP prewarm worker stopped unexpectedly");
++            .clone();
++        if let Some(worker) = worker {
++            worker.wait().await?;
+         }
++        Ok(())
+     }
+ }
+--- a/codex-rs/core/src/session/mcp_refresh.rs
++++ b/codex-rs/core/src/session/mcp_refresh.rs
+@@ -39,6 +39,15 @@
+     pub(super) fn close(&self) {
+         self.gate.close();
+     }
++
++    /// Closing rejects queued/new work; the sole outstanding permit still owns
++    /// an admitted refresh. Observation cancellation leaves that custody intact.
++    pub(super) async fn wait_closed(&self) {
++        self.close();
++        while self.gate.available_permits() == 0 {
++            tokio::time::sleep(std::time::Duration::from_millis(/*millis*/ 10)).await;
++        }
++    }
+ }
+ 
+ /// Restores a claimed refresh when its task is cancelled before publication.
+@@ -54,3 +63,7 @@
+         }
+     }
+ }
++
++#[cfg(test)]
++#[path = "mcp_refresh_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/core/src/session/mcp_refresh_tests.rs
+@@ -0,0 +1,44 @@
++use super::*;
++use pretty_assertions::assert_eq;
++use std::sync::Arc;
++use std::time::Duration;
++
++#[tokio::test]
++async fn closing_waits_for_admitted_refresh_and_survives_observer_cancellation() -> anyhow::Result<()> {
++    let refresh = Arc::new(McpRefresh::new());
++    let permit = refresh.acquire().await?;
++    let observer = tokio::spawn({
++        let refresh = Arc::clone(&refresh);
++        async move { refresh.wait_closed().await }
++    });
++    // Wait for actual close admission before cancelling its observer.
++    tokio::time::timeout(Duration::from_secs(2), async {
++        while !refresh.gate.is_closed() { tokio::task::yield_now().await; }
++    }).await?;
++    assert!(refresh.acquire().await.is_err());
++    assert!(!observer.is_finished());
++    observer.abort();
++    let error = observer.await.err().ok_or_else(|| anyhow::anyhow!("observer completed before active refresh"))?;
++    assert!(error.is_cancelled());
++    assert!(tokio::time::timeout(Duration::from_millis(2), refresh.wait_closed()).await.is_err());
++    drop(permit);
++    tokio::time::timeout(Duration::from_secs(2), refresh.wait_closed()).await?;
++    assert!(refresh.acquire().await.is_err());
++    Ok(())
++}
++
++#[tokio::test]
++async fn abandoned_publication_restores_dirty_state_without_reopening_shutdown() -> anyhow::Result<()> {
++    let refresh = McpRefresh::new();
++    refresh.invalidate();
++    let permit = refresh.acquire().await?;
++    assert!(refresh.claim());
++    let publication = McpRefreshInvalidationGuard { refresh: &refresh, published: false };
++    refresh.close();
++    drop(publication);
++    drop(permit);
++    refresh.wait_closed().await;
++    assert_eq!(refresh.is_pending(), true);
++    assert!(refresh.acquire().await.is_err());
++    Ok(())
++}
+--- a/codex-rs/core/src/connectors.rs
++++ b/codex-rs/core/src/connectors.rs
+@@ -335,7 +335,7 @@
+     }
+     let accessible_connectors =
+         with_app_plugin_sources(accessible_connectors, &tool_plugin_context);
+-    mcp_runtime.shutdown().await;
++    mcp_runtime.shutdown().await?;
+     Ok(AccessibleConnectorsStatus {
+         connectors: accessible_connectors,
+         codex_apps_ready,
+--- a/codex-rs/codex-mcp/src/connection_manager.rs
++++ b/codex-rs/codex-mcp/src/connection_manager.rs
+@@ -214,6 +214,7 @@
+     disabled_servers: Vec<String>,
+     required_servers: Vec<String>,
+     optional_startup_deadline: OnceLock<tokio::time::Instant>,
++    shutdown_task: OnceLock<Arc<codex_async_utils::RetainedTask<()>>>,
+     tool_plugin_context: Arc<ToolPluginContext>,
+     prefix_mcp_tool_names: bool,
+     non_prefixed_mcp_tool_servers: Vec<String>,
+@@ -787,6 +788,7 @@
+             disabled_servers,
+             required_servers,
+             optional_startup_deadline: OnceLock::new(),
++            shutdown_task: OnceLock::new(),
+             tool_plugin_context,
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers,
+@@ -845,6 +847,7 @@
+             disabled_servers: Vec::new(),
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
++            shutdown_task: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -925,22 +928,21 @@
+         view.connection.client.ready_transport().is_some() || view.connection.client().await.is_ok()
+     }
+ 
+-    /// Stop all MCP clients owned by this manager and terminate stdio server processes.
+-    pub async fn shutdown(&self) {
+-        let connections = self
+-            .servers
+-            .values()
+-            .map(|view| Arc::clone(&view.connection))
+-            .collect::<Vec<_>>();
+-        // Keep cleanup alive if an interrupt cancels the refresh that requested it.
+-        let shutdown_task = tokio::spawn(async move {
+-            for connection in connections {
+-                connection.shutdown().await;
+-            }
++    /// Observe the exact once-only shutdown task for this connection snapshot.
++    /// Cancelling a waiter preserves its primary task and immutable failure.
++    /// A joined task is not a proof that lower transports joined descendants;
++    /// those transports retain their own shutdown contracts.
++    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
++        let owner = self.shutdown_task.get_or_init(|| {
++            let connections = self.servers.values()
++                .map(|view| Arc::clone(&view.connection)).collect::<Vec<_>>();
++            codex_async_utils::RetainedTask::spawn(&tokio::runtime::Handle::current(), async move {
++                for connection in connections {
++                    connection.shutdown().await;
++                }
++            })
+         });
+-        if let Err(error) = shutdown_task.await {
+-            warn!("MCP client shutdown task failed: {error}");
+-        }
++        owner.wait().await.map(|_| ())
+     }
+ 
+     pub(crate) fn cancel_startup(&self) {
+--- a/codex-rs/codex-mcp/src/connection_manager_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_manager_tests.rs
+@@ -108,6 +108,7 @@
+             disabled_servers: Vec::new(),
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
++            shutdown_task: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -3865,13 +3866,14 @@
+     started_rx.await.expect("tool listing should start");
+     tokio::time::timeout(Duration::from_secs(1), manager.shutdown())
+         .await
+-        .expect("shutdown should cancel speculative tool listing");
++        .expect("shutdown should cancel speculative tool listing")
++        .expect("owned shutdown task should join");
+     let tools = list_task.await.expect("tool listing task should not panic");
+     assert!(tools.is_empty());
+ }
+ 
+ #[tokio::test]
+-async fn shutdown_continues_after_caller_is_aborted() {
++async fn shutdown_continues_after_caller_is_aborted() -> anyhow::Result<()> {
+     let (started_tx, started_rx) = tokio::sync::oneshot::channel();
+     let (completed_tx, completed_rx) = tokio::sync::oneshot::channel();
+     let release = Arc::new(tokio::sync::Notify::new());
+@@ -3923,6 +3925,12 @@
+         .await
+         .expect("client shutdown should survive caller cancellation")
+         .expect("client shutdown completion sender should stay alive");
++    let owner = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("shutdown owner missing"))?;
++    let original = Arc::clone(owner);
++    manager.shutdown().await?;
++    let current = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("shutdown owner missing"))?;
++    assert!(Arc::ptr_eq(&original, current));
++    Ok(())
+ }
+ 
+ #[tokio::test]
+@@ -6577,3 +6585,6 @@
+     );
+     assert_eq!(new_call.tool_approval_mode(), AppToolApproval::Approve);
+ }
++
++#[path = "connection_shutdown_tests.rs"]
++mod shutdown;
+--- /dev/null
++++ b/codex-rs/codex-mcp/src/connection_shutdown_tests.rs
+@@ -0,0 +1,25 @@
++use super::*;
++use codex_async_utils::TaskJoinFailure;
++
++#[tokio::test]
++async fn shutdown_panic_is_sticky_across_observers() {
++    let approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
++    let permission_profile = Constrained::allow_any(PermissionProfile::default());
++    let mut manager = McpConnectionSet::new_uninitialized(&approval_policy, &permission_profile, true);
++    let client: ManagedClientFuture = async {
++        panic!("controlled connection shutdown panic");
++    }.boxed().shared();
++    manager.insert_test_client("pending", AsyncManagedClient {
++        client,
++        is_codex_apps_mcp_server: false,
++        server_capabilities: Arc::new(std::sync::Mutex::new(None)),
++        cached_server_info: None,
++        codex_apps_tools_cache_context: None,
++        tool_catalog_cache_context: None,
++        startup_complete: Arc::new(std::sync::atomic::AtomicBool::new(false)),
++        startup_reconnect: None,
++        cancel_token: CancellationToken::new(),
++    });
++    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
++    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
++}
+--- a/codex-rs/codex-mcp/src/runtime.rs
++++ b/codex-rs/codex-mcp/src/runtime.rs
+@@ -777,8 +777,10 @@
+         cancellation.retained_subscription_cancellation = Some(retained);
+     }
+ 
+-    pub async fn shutdown(&self) {
+-        self.latest_connections().shutdown().await;
++    /// Drain the owned shutdown task of the current connection snapshot.
++    /// This does not yet certify lower service or process-group completion.
++    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
++        self.latest_connections().shutdown().await
+     }
+ }
+ 

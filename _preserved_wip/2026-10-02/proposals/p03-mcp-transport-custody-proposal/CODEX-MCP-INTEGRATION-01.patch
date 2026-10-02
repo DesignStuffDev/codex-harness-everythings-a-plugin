@@ -1,0 +1,300 @@
+--- a/codex-rs/codex-mcp/src/auth_changes.rs
++++ b/codex-rs/codex-mcp/src/auth_changes.rs
+@@ -34,7 +34,17 @@
+         while changes.changed().await.is_ok() {
+             if notify(&client, &mut changes).await.is_err() {
+                 tracing::warn!("MCP auth invalidation delivery failed; closing connection");
+-                client.shutdown().await;
++                match client.shutdown().await {
++                    Ok(codex_rmcp_client::McpShutdownConfirmation::Confirmed) => {}
++                    Ok(codex_rmcp_client::McpShutdownConfirmation::Unconfirmed) => {
++                        // The lower lifecycle registry retains this exact uncertain
++                        // outcome; it is not a clean receipt from the auth watcher.
++                    }
++                    Err(error) => {
++                        // Original failures remain with the lower lifecycle owner.
++                        tracing::warn!(%error, "MCP auth invalidation connection shutdown failed");
++                    }
++                }
+                 break;
+             }
+         }
+--- a/codex-rs/codex-mcp/src/auth_changes_tests.rs
++++ b/codex-rs/codex-mcp/src/auth_changes_tests.rs
+@@ -99,6 +99,6 @@
+     );
+     drop(watcher);
+     timeout(SEND_TIMEOUT, changes.closed()).await?;
+-    client.shutdown().await;
++    client.shutdown().await?;
+     Ok(())
+ }
+--- a/codex-rs/codex-mcp/src/binding_tests.rs
++++ b/codex-rs/codex-mcp/src/binding_tests.rs
+@@ -271,7 +271,7 @@
+     .await;
+     assert!(!Arc::ptr_eq(&old.client, &new.client));
+ 
+-    old.client.shutdown().await;
++    assert!(old.client.shutdown().await.is_ok());
+ 
+     let error = old_call
+         .call(
+--- a/codex-rs/codex-mcp/src/connection_manager.rs
++++ b/codex-rs/codex-mcp/src/connection_manager.rs
+@@ -9,6 +9,8 @@
+ mod required;
+ #[path = "connection_manager/resources.rs"]
+ mod resources;
++#[path = "connection_manager/shutdown.rs"]
++mod shutdown;
+ #[path = "connection_manager/startup.rs"]
+ mod startup;
+ #[path = "connection_manager/status.rs"]
+@@ -136,8 +138,8 @@
+         self.client.client().await
+     }
+ 
+-    async fn shutdown(&self) {
+-        self.client.shutdown().await;
++    async fn shutdown(&self) -> shutdown::ShutdownResult {
++        self.client.shutdown().await
+     }
+ 
+     fn cancel_startup(&self) {
+@@ -214,7 +216,8 @@
+     disabled_servers: Vec<String>,
+     required_servers: Vec<String>,
+     optional_startup_deadline: OnceLock<tokio::time::Instant>,
+-    shutdown_task: OnceLock<Arc<codex_async_utils::RetainedTask<()>>>,
++    shutdown_task: OnceLock<Arc<codex_async_utils::RetainedTask<shutdown::ConnectionShutdownOutcome>>>,
++    shutdown_observation: OnceLock<shutdown::ShutdownResult>,
+     tool_plugin_context: Arc<ToolPluginContext>,
+     prefix_mcp_tool_names: bool,
+     non_prefixed_mcp_tool_servers: Vec<String>,
+@@ -789,6 +792,7 @@
+             required_servers,
+             optional_startup_deadline: OnceLock::new(),
+             shutdown_task: OnceLock::new(),
++            shutdown_observation: OnceLock::new(),
+             tool_plugin_context,
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers,
+@@ -848,6 +852,7 @@
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
+             shutdown_task: OnceLock::new(),
++            shutdown_observation: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -928,21 +933,39 @@
+         view.connection.client.ready_transport().is_some() || view.connection.client().await.is_ok()
+     }
+ 
+-    /// Observe the exact once-only shutdown task for this connection snapshot.
+-    /// Cancelling a waiter preserves its primary task and immutable failure.
+-    /// A joined task is not a proof that lower transports joined descendants;
+-    /// those transports retain their own shutdown contracts.
+-    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
++    /// Observe once-only shutdown of this snapshot. Unconfirmed and failed
++    /// outcomes keep their exact task in primary custody after observers leave.
++    pub async fn shutdown(&self) -> shutdown::ShutdownResult {
++        use codex_rmcp_client::McpShutdownConfirmation;
++        use codex_rmcp_client::McpShutdownFailure;
+         let owner = self.shutdown_task.get_or_init(|| {
+             let connections = self.servers.values()
+                 .map(|view| Arc::clone(&view.connection)).collect::<Vec<_>>();
+             codex_async_utils::RetainedTask::spawn(&tokio::runtime::Handle::current(), async move {
++                let mut result = Ok(McpShutdownConfirmation::Confirmed);
+                 for connection in connections {
+-                    connection.shutdown().await;
+-                }
++                    let next = connection.shutdown().await;
++                    // Observe every connection even after a known lower error.
++                    result = match (result, next) {
++                        (Err(error), _) | (_, Err(error)) => Err(error),
++                        (Ok(McpShutdownConfirmation::Unconfirmed), _)
++                        | (_, Ok(McpShutdownConfirmation::Unconfirmed)) => Ok(McpShutdownConfirmation::Unconfirmed),
++                        (Ok(McpShutdownConfirmation::Confirmed), Ok(McpShutdownConfirmation::Confirmed)) => Ok(McpShutdownConfirmation::Confirmed),
++                    };
++                }
++                shutdown::ConnectionShutdownOutcome(result)
+             })
+         });
+-        owner.wait().await.map(|_| ())
++        let result = match owner.wait().await {
++            Ok(outcome) => outcome.0,
++            Err(_) => Err(McpShutdownFailure::Task),
++        };
++        let _ = self.shutdown_observation.set(result);
++        result
++    }
++
++    pub(crate) fn shutdown_confirmation(&self) -> Option<shutdown::ShutdownResult> {
++        self.shutdown_observation.get().copied()
+     }
+ 
+     pub(crate) fn cancel_startup(&self) {
+--- /dev/null
++++ b/codex-rs/codex-mcp/src/connection_manager/shutdown.rs
+@@ -0,0 +1,15 @@
++//! A connection snapshot retains uncertainty as well as known failure.
++
++use codex_async_utils::RetainedTaskOutcome;
++use codex_rmcp_client::McpShutdownConfirmation;
++use codex_rmcp_client::McpShutdownFailure;
++
++pub(crate) type ShutdownResult = Result<McpShutdownConfirmation, McpShutdownFailure>;
++
++pub(super) struct ConnectionShutdownOutcome(pub(super) ShutdownResult);
++
++impl RetainedTaskOutcome for ConnectionShutdownOutcome {
++    fn succeeded(&self) -> bool {
++        matches!(self.0, Ok(McpShutdownConfirmation::Confirmed))
++    }
++}
+--- a/codex-rs/codex-mcp/src/connection_manager_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_manager_tests.rs
+@@ -109,6 +109,7 @@
+             required_servers: Vec::new(),
+             optional_startup_deadline: OnceLock::new(),
+             shutdown_task: OnceLock::new(),
++            shutdown_observation: OnceLock::new(),
+             tool_plugin_context: Arc::new(ToolPluginContext::default()),
+             prefix_mcp_tool_names,
+             non_prefixed_mcp_tool_servers: Vec::new(),
+@@ -451,7 +452,7 @@
+     assert_eq!(tools.len(), 1);
+     assert_eq!(tools[0].tool.name.as_ref(), "first-page");
+     assert_eq!(requests.load(std::sync::atomic::Ordering::SeqCst), 1);
+-    client.shutdown().await;
++    client.shutdown().await?;
+     Ok(())
+ }
+ 
+--- a/codex-rs/codex-mcp/src/connection_shutdown_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_shutdown_tests.rs
+@@ -1,5 +1,5 @@
+ use super::*;
+-use codex_async_utils::TaskJoinFailure;
++use codex_rmcp_client::McpShutdownFailure;
+ 
+ #[tokio::test]
+ async fn shutdown_panic_is_sticky_across_observers() {
+@@ -20,6 +20,59 @@
+         startup_reconnect: None,
+         cancel_token: CancellationToken::new(),
+     });
+-    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
+-    assert_eq!(manager.shutdown().await, Err(TaskJoinFailure::Panicked));
++    assert_eq!(manager.shutdown().await, Err(McpShutdownFailure::Task));
++    assert_eq!(manager.shutdown().await, Err(McpShutdownFailure::Task));
+ }
++
++
++#[tokio::test]
++async fn uncertain_startup_cleanup_retains_exact_owner_after_observers_leave() -> anyhow::Result<()> {
++    use codex_rmcp_client::McpShutdownConfirmation;
++    let approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
++    let permission_profile = Constrained::allow_any(PermissionProfile::default());
++    let mut manager = McpConnectionSet::new_uninitialized(
++        &approval_policy, &permission_profile, /*prefix_mcp_tool_names*/ true,
++    );
++    let client: ManagedClientFuture = async { Err(StartupOutcomeError::Cancelled) }.boxed().shared();
++    manager.insert_test_client("cancelled-startup", AsyncManagedClient {
++        client,
++        is_codex_apps_mcp_server: false,
++        server_capabilities: Arc::new(std::sync::Mutex::new(None)),
++        cached_server_info: None,
++        codex_apps_tools_cache_context: None,
++        tool_catalog_cache_context: None,
++        startup_complete: Arc::new(std::sync::atomic::AtomicBool::new(false)),
++        startup_reconnect: None,
++        cancel_token: CancellationToken::new(),
++    });
++    assert_eq!(manager.shutdown_confirmation(), None);
++    assert_eq!(manager.shutdown().await, Ok(McpShutdownConfirmation::Unconfirmed));
++    assert_eq!(manager.shutdown_confirmation(), Some(Ok(McpShutdownConfirmation::Unconfirmed)));
++    let owner = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("missing shutdown owner"))?;
++    let first = owner.wait().await?;
++    let second = owner.wait().await?;
++    assert!(Arc::ptr_eq(&first, &second));
++    let weak = Arc::downgrade(owner);
++    drop(manager);
++    let retained = weak.upgrade().ok_or_else(|| anyhow::anyhow!("unconfirmed owner retired"))?;
++    assert_eq!(retained.wait().await?.0, Ok(McpShutdownConfirmation::Unconfirmed));
++    Ok(())
++}
++
++#[tokio::test]
++async fn confirmed_empty_snapshot_retires_after_exact_join() -> anyhow::Result<()> {
++    use codex_rmcp_client::McpShutdownConfirmation;
++    let approval_policy = Constrained::allow_any(AskForApproval::OnRequest);
++    let permission_profile = Constrained::allow_any(PermissionProfile::default());
++    let manager = McpConnectionSet::new_uninitialized(
++        &approval_policy, &permission_profile, /*prefix_mcp_tool_names*/ true,
++    );
++    assert_eq!(manager.shutdown_confirmation(), None);
++    assert_eq!(manager.shutdown().await, Ok(McpShutdownConfirmation::Confirmed));
++    assert_eq!(manager.shutdown_confirmation(), Some(Ok(McpShutdownConfirmation::Confirmed)));
++    let owner = manager.shutdown_task.get().ok_or_else(|| anyhow::anyhow!("missing shutdown owner"))?;
++    let weak = Arc::downgrade(owner);
++    drop(manager);
++    assert!(weak.upgrade().is_none());
++    Ok(())
++}
+--- a/codex-rs/codex-mcp/src/rmcp_client.rs
++++ b/codex-rs/codex-mcp/src/rmcp_client.rs
+@@ -569,13 +569,19 @@
+         }
+     }
+ 
+-    pub(crate) async fn shutdown(&self) {
++    pub(crate) async fn shutdown(&self) -> Result<
++        codex_rmcp_client::McpShutdownConfirmation,
++        codex_rmcp_client::McpShutdownFailure,
++    > {
+         self.cancel_token.cancel();
+         match self.client().await {
+             Ok(client) => client.client.shutdown().await,
+-            Err(StartupOutcomeError::Cancelled) => {}
++            // A startup error is not itself a cleanup error. Partial lower
++            // resources have independent owners, so it also cannot certify close.
++            Err(StartupOutcomeError::Cancelled) => Ok(codex_rmcp_client::McpShutdownConfirmation::Unconfirmed),
+             Err(error) => {
+                 warn!("failed to initialize MCP client during shutdown: {error:#}");
++                Ok(codex_rmcp_client::McpShutdownConfirmation::Unconfirmed)
+             }
+         }
+     }
+--- a/codex-rs/codex-mcp/src/runtime.rs
++++ b/codex-rs/codex-mcp/src/runtime.rs
+@@ -777,10 +777,23 @@
+         cancellation.retained_subscription_cancellation = Some(retained);
+     }
+ 
+-    /// Drain the owned shutdown task of the current connection snapshot.
+-    /// This does not yet certify lower service or process-group completion.
+-    pub async fn shutdown(&self) -> Result<(), codex_async_utils::TaskJoinFailure> {
+-        self.latest_connections().shutdown().await
++    /// Stop the current connection snapshot, propagating known lower failures.
++    /// Unconfirmed cleanup does not fail the operation. Its exact outcome remains
++    /// in the connection owner and is exposed separately for cleanup assessment.
++    pub async fn shutdown(&self) -> Result<(), codex_rmcp_client::McpShutdownFailure> {
++        let _confirmation = self.latest_connections().shutdown().await?;
++        Ok(())
++    }
++
++    /// Bounded confirmation for the current snapshot only. None means no completed
++    /// observation of this snapshot; Unconfirmed must not be promoted to clean.
++    /// This excludes earlier/partially constructed snapshots and is not a
++    /// per-session or process-final MCP cleanup certificate.
++    pub fn latest_shutdown_confirmation(&self) -> Option<Result<
++        codex_rmcp_client::McpShutdownConfirmation,
++        codex_rmcp_client::McpShutdownFailure,
++    >> {
++        self.latest_connections().shutdown_confirmation()
+     }
+ }
+ 

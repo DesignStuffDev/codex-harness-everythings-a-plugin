@@ -29,6 +29,7 @@ pub async fn start_stdio_connection(
     transport_event_tx: mpsc::Sender<TransportEvent>,
     initialize_client_name_tx: oneshot::Sender<String>,
     install_shutdown_signal_handler: bool,
+    on_process_shutdown: Option<std::sync::Arc<dyn Fn() + Send + Sync>>,
 ) -> IoResult<JoinHandle<()>> {
     let shutdown_signal = CancellationToken::new();
     #[cfg(unix)]
@@ -40,11 +41,12 @@ pub async fn start_stdio_connection(
         // watchdog must not depend on Tokio or synchronous transport logging.
         let mut signals = Signals::new([SIGTERM])?;
         let shutdown_signal = shutdown_signal.clone();
+        let on_process_shutdown = on_process_shutdown.clone();
         std::thread::Builder::new()
             .name("app-server-signal".to_string())
             .spawn(move || {
                 if signals.forever().next().is_some() {
-                    start_shutdown_watchdog();
+                    if let Some(begin) = on_process_shutdown.as_ref() { begin(); }
                     shutdown_signal.cancel();
                 }
             })?;
@@ -67,6 +69,7 @@ pub async fn start_stdio_connection(
     // alive while the client leaves stdin open. This process-owned thread may
     // remain blocked until process exit, but is not joined by the runtime.
     let (stdin_tx, mut stdin_rx) = mpsc::channel(/*buffer*/ 1);
+    let on_stdin_terminal = on_process_shutdown.clone();
     std::thread::Builder::new()
         .name("app-server-stdin".to_string())
         .spawn(move || {
@@ -75,6 +78,8 @@ pub async fn start_stdio_connection(
                     break;
                 }
             }
+            // EOF must arm independently of a blocked Tokio forwarding task.
+            if let Some(begin) = on_stdin_terminal.as_ref() { begin(); }
         })?;
 
     // Keep stdout's blocking writes off Tokio's pool too. The forwarding future
@@ -124,9 +129,7 @@ pub async fn start_stdio_connection(
 
         // EOF can finish the transport before RPC or runtime cleanup. Start
         // the same process deadline even if no SIGTERM arrives.
-        if cfg!(unix) && install_shutdown_signal_handler {
-            start_shutdown_watchdog();
-        }
+        if let Some(begin) = on_process_shutdown.as_ref() { begin(); }
         let _ = transport_event_tx_for_reader
             .send(TransportEvent::ConnectionClosed { connection_id })
             .await;
@@ -155,7 +158,7 @@ pub async fn start_stdio_connection(
             _ = shutdown_signal.cancelled() => {
                 // Cancelling both forwarding futures drops their queues before
                 // connection teardown, including when EOF already began draining.
-                info!("SIGTERM received; closing stdio connection (45s shutdown deadline)");
+                info!("SIGTERM received; closing stdio connection (200s graceful / 205s hard process deadline)");
                 let _ = transport_event_tx
                     .send(TransportEvent::ConnectionClosed { connection_id })
                     .await;
@@ -163,22 +166,6 @@ pub async fn start_stdio_connection(
             _ = async move { tokio::join!(read_messages, write_messages); } => {}
         }
     }))
-}
-
-fn start_shutdown_watchdog() {
-    // EOF and SIGTERM can both start cleanup; keep the first process deadline.
-    static STARTED: std::sync::Once = std::sync::Once::new();
-    STARTED.call_once(|| {
-        std::thread::Builder::new()
-            .name("app-server-shutdown".to_string())
-            .spawn(|| {
-                // Allow the processor's 30s RPC drain, then bound even Tokio's
-                // runtime teardown. Do not log here: stderr may also be blocked.
-                std::thread::sleep(std::time::Duration::from_secs(45));
-                std::process::exit(/*code*/ 1);
-            })
-            .unwrap_or_else(|_| std::process::exit(/*code*/ 1));
-    });
 }
 
 fn stdio_initialize_client_name(line: &str) -> Option<String> {

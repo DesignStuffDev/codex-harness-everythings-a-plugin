@@ -1055,25 +1055,6 @@ impl PluginsManager {
         }
     }
 
-    fn clear_curated_caches_after_refresh(
-        &self,
-        control: &SyncControl,
-        installed_plugin_cache_refreshed: bool,
-        callback: Option<&CuratedSyncCallback>,
-    ) {
-        self.clear_caches_after_marketplace_source_refresh(
-            installed_plugin_cache_refreshed,
-            /*on_effective_plugins_changed*/ None,
-        );
-        // Cache clearing may wait. Check again at actual callback admission.
-        if installed_plugin_cache_refreshed
-            && !control.is_cancelled()
-            && let Some(callback) = callback
-        {
-            callback.dispatch();
-        }
-    }
-
     /// Resolve plugin hooks for a config layer stack without loading other plugin capabilities.
     pub async fn plugin_hooks_for_layer_stack(
         &self,
@@ -3371,10 +3352,11 @@ impl PluginsManager {
         http_client_factory: HttpClientFactory,
         on_effective_plugins_changed: Option<CuratedSyncCallback>,
     ) {
+        let scoped_callback = on_effective_plugins_changed.is_some();
         let manager = Arc::clone(self);
         let codex_home = self.codex_home.clone();
         let gate = CURATED_REPO_SYNC_WORKER.get_or_init(|| Arc::new(WorkerGate::default()));
-        if let Err(err) = gate.start(move |control| {
+        let admission = gate.start_for_home(codex_home.to_path_buf(), on_effective_plugins_changed, move |control| {
             run_curated_sync(
                 &control,
                 || {
@@ -3399,15 +3381,22 @@ impl PluginsManager {
                         });
                     }
                     match refreshed {
+                        // Each same-home scope receives successful completion,
+                        // even if its manager loaded before this unchanged cache
+                        // was observed. Its owned action clears its own caches.
                         Ok(cache_refreshed) => {
-                            manager.clear_curated_caches_after_refresh(
-                                &control,
-                                cache_refreshed,
-                                on_effective_plugins_changed.as_ref(),
-                            );
+                            // Preserve cache invalidation for callers which
+                            // explicitly request no callback subscription.
+                            if !scoped_callback {
+                                manager.clear_caches_after_marketplace_source_refresh(
+                                    cache_refreshed, /*on_effective_plugins_changed*/ None,
+                                );
+                            }
                             Ok(())
-                        }
+                        },
                         Err(err) => {
+                            // Preserve invalidation after a partial on-disk cache
+                            // refresh failure; no success notification is sent.
                             manager.clear_cache();
                             warn!("failed to refresh curated plugin cache after sync: {err}");
                             Err(SyncFailure::Ordinary(format!(
@@ -3417,8 +3406,18 @@ impl PluginsManager {
                     }
                 },
             )
-        }) {
-            warn!("failed to start curated plugins repo sync task: {err}");
+        });
+        match admission {
+            Err(err) => warn!("failed to start curated plugins repo sync task: {err}"),
+            Ok(crate::startup_sync::worker::HomeAdmission::UnsupportedHome) => warn!(
+                "curated sync for a different home is unsupported while this process retains another home's worker generation"
+            ),
+            Ok(crate::startup_sync::worker::HomeAdmission::Started
+                | crate::startup_sync::worker::HomeAdmission::Subscribed
+                | crate::startup_sync::worker::HomeAdmission::Replayed
+                | crate::startup_sync::worker::HomeAdmission::AlreadyRegistered
+                | crate::startup_sync::worker::HomeAdmission::Closed
+                | crate::startup_sync::worker::HomeAdmission::Unavailable) => {}
         }
     }
 

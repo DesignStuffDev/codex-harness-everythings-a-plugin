@@ -35,6 +35,7 @@ use codex_utils_absolute_path::AbsolutePathBuf;
 use codex_utils_cli::CliConfigOverrides;
 use codex_utils_cli::ProfileV2Name;
 use codex_utils_cli::SharedCliOptions;
+use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use std::collections::HashSet;
 use std::io::IsTerminal;
 use std::io::Write;
@@ -69,6 +70,7 @@ mod mcp_cmd;
 mod mcp_login;
 mod migrate_rollouts;
 mod plugin_cmd;
+mod process_final;
 mod queue_cmd;
 mod remote_control_cmd;
 #[cfg(target_os = "windows")]
@@ -740,15 +742,12 @@ fn handle_app_exit(
     exit_info: AppExitInfo,
     cli_executable: Option<&std::path::Path>,
 ) -> anyhow::Result<()> {
-    let is_fatal = match &exit_info.exit_reason {
-        ExitReason::Fatal(message) => {
-            eprintln!("ERROR: {message}");
-            true
-        }
+    let fatal_message = match &exit_info.exit_reason {
+        ExitReason::Fatal(message) => Some(message.clone()),
         ExitReason::UserRequested
         | ExitReason::Archived(_)
         | ExitReason::TurnInterrupted
-        | ExitReason::ThreadRemoved => false,
+        | ExitReason::ThreadRemoved => None,
     };
 
     let update_action = exit_info.update_action;
@@ -758,9 +757,9 @@ fn handle_app_exit(
             println!("{line}");
         }
     }
-    if is_fatal {
+    if let Some(message) = fatal_message {
         std::io::stdout().flush()?;
-        std::process::exit(1);
+        anyhow::bail!("{message}");
     }
     if let Some(action) = update_action {
         run_update_action(action, cli_executable)?;
@@ -1014,15 +1013,22 @@ fn main() -> anyhow::Result<()> {
     codex_build_info::initialize!();
     let remote_control_disabled = codex_app_server::take_remote_control_disabled_env();
     arg0_dispatch_or_else(move |arg0_paths: Arg0DispatchPaths| async move {
+        let process_final = ProcessFinalCapability::for_executable();
         // Keep the CLI dispatcher off the runtime's stack while the TUI rebuilds a thread.
-        Box::pin(cli_main(arg0_paths, remote_control_disabled)).await?;
-        Ok(())
+        let operation = Box::pin(cli_main(
+            arg0_paths,
+            remote_control_disabled,
+            process_final.clone(),
+        ))
+        .await;
+        process_final::finish(operation, &process_final).await
     })
 }
 
 async fn cli_main(
     arg0_paths: Arg0DispatchPaths,
     remote_control_disabled: bool,
+    process_final: ProcessFinalCapability,
 ) -> anyhow::Result<()> {
     let MultitoolCli {
         config_overrides: mut root_config_overrides,
@@ -1124,6 +1130,7 @@ async fn cli_main(
                 root_remote.clone(),
                 root_remote_auth_token_env.clone(),
                 arg0_paths.clone(),
+                process_final.clone(),
             )
             .await?;
             handle_app_exit(exit_info, daemon_cli_executable.as_deref())?;
@@ -1145,7 +1152,12 @@ async fn cli_main(
                 &mut exec_cli.config_overrides,
                 root_config_overrides.clone(),
             );
-            codex_exec::run_main(exec_cli, arg0_paths.clone()).await?;
+            codex_exec::run_main_with_process_final(
+                exec_cli,
+                arg0_paths.clone(),
+                process_final.clone(),
+            )
+            .await?;
         }
         Some(Subcommand::Review(ReviewCommand {
             strict_config,
@@ -1166,7 +1178,12 @@ async fn cli_main(
                 &mut exec_cli.config_overrides,
                 root_config_overrides.clone(),
             );
-            codex_exec::run_main(exec_cli, arg0_paths.clone()).await?;
+            codex_exec::run_main_with_process_final(
+                exec_cli,
+                arg0_paths.clone(),
+                process_final.clone(),
+            )
+            .await?;
         }
         Some(Subcommand::Mcp(mut mcp_cli)) => {
             reject_remote_mode_for_subcommand(
@@ -1244,6 +1261,7 @@ async fn cli_main(
                     };
                     let auth = auth.try_into_settings()?;
                     let runtime_options = codex_app_server::AppServerRuntimeOptions {
+                        process_final: Some(process_final.clone()),
                         code_mode_host_transport: code_mode_host.into(),
                         managed_daemon,
                         remote_control_startup_mode: match (remote_control, remote_control_disabled)
@@ -1273,8 +1291,13 @@ async fn cli_main(
                     )
                     .await?;
                     if exit == codex_app_server::AppServerExit::Forced {
+                        // Fence admission before preserving the explicit forced exit.
+                        // This branch cannot claim joins or filesystem cleanup completed.
+                        process_final::begin(&process_final);
+                        // Do not print a receipt here: stderr can block. Native worker,
+                        // callback, and storage cleanup remain explicitly unconfirmed.
                         // Runtime teardown can wait forever for blocked rollout I/O.
-                        std::process::exit(0);
+                        std::process::exit(codex_utils_process::process_shutdown::FORCED_SHUTDOWN_EXIT_CODE);
                     }
                 }
                 Some(AppServerSubcommand::Daemon(daemon_cli)) => match daemon_cli.subcommand {
@@ -1422,6 +1445,7 @@ async fn cli_main(
                 remote_control_cli,
                 arg0_paths.clone(),
                 root_config_overrides,
+                process_final.clone(),
             )
             .await?;
         }
@@ -1459,6 +1483,7 @@ async fn cli_main(
                     .remote_auth_token_env
                     .or(root_remote_auth_token_env.clone()),
                 arg0_paths.clone(),
+                process_final.clone(),
             )
             .await?;
             handle_app_exit(exit_info, daemon_cli_executable.as_deref())?;
@@ -1546,6 +1571,7 @@ async fn cli_main(
                     .remote_auth_token_env
                     .or(root_remote_auth_token_env.clone()),
                 arg0_paths.clone(),
+                process_final.clone(),
             )
             .await?;
             handle_app_exit(exit_info, daemon_cli_executable.as_deref())?;
@@ -2379,6 +2405,7 @@ async fn run_interactive_tui(
     remote: Option<String>,
     remote_auth_token_env: Option<String>,
     arg0_paths: Arg0DispatchPaths,
+    process_final: ProcessFinalCapability,
 ) -> std::io::Result<AppExitInfo> {
     if interactive.no_daemon {
         if interactive.agents_overview {
@@ -2441,11 +2468,12 @@ async fn run_interactive_tui(
         Err(err) => return Err(err),
     };
     let start_tui = || {
-        codex_tui::run_main(
+        codex_tui::run_main_with_process_final(
             interactive.clone(),
             arg0_paths.clone(),
             codex_config::LoaderOverrides::default(),
             remote_endpoint.clone(),
+            process_final.clone(),
         )
     };
     run_tui_with_recovery(start_tui, remote_auth_token_env.as_deref()).await
@@ -2708,12 +2736,22 @@ mod tests {
     use pretty_assertions::assert_eq;
 
     #[test]
+    fn fatal_app_exit_returns_to_the_process_cleanup_wrapper() {
+        let result = handle_app_exit(AppExitInfo::fatal("terminal operation failed"), None);
+        let Err(error) = result else {
+            panic!("fatal exit must return an error");
+        };
+        assert!(error.to_string().contains("terminal operation failed"));
+    }
+
+    #[test]
     fn interactive_tui_future_stays_bounded() {
         let future = run_interactive_tui(
             TuiCli::parse_from(["codex"]),
             /*remote*/ None,
             /*remote_auth_token_env*/ None,
             Arg0DispatchPaths::default(),
+            ProcessFinalCapability::for_executable(),
         );
         let size = std::mem::size_of_val(&future);
 

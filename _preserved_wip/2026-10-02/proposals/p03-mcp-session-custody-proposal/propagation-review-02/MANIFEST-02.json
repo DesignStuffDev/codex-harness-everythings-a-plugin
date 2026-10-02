@@ -1,0 +1,24 @@
+{
+  "applies_after": "../PROPAGATION-MANIFEST-01.json",
+  "original_manifest_sha256": "3fd80e8fe17498b42e5f4d58e22e589d38f19a5936d6183444fef373da4965f1",
+  "status": "recovery-only review corrections; not compiled or tested",
+  "corrections": [
+    "AppServer timeout returns incomplete error while retaining registered exact session; it does not permanently latch an observer timeout as terminal cleanup failure.",
+    "Remove unused production Duration import after bounded manager shutdown moved to sibling module. Existing thread_manager_tests.rs imports std::time::Duration itself."
+  ],
+  "files": [
+    {
+      "path": "codex-rs/app-server/src/request_processors/thread_processor.rs",
+      "preimage_sha256": "c1732c22537cdef69e0cb67f02b71b5134a21718c319d557a1e97ddc0d7ddeef",
+      "sha256": "aa4655fa3f13d182875de7868693066efa850c32358fcc75d8ec1a7c5aad19a8",
+      "bytes": 255272
+    },
+    {
+      "path": "codex-rs/core/src/thread_manager.rs",
+      "preimage_sha256": "a6c059341d47a495fce97af60cfb19acbbb75425ecd4b602f28bbd324c8339dd",
+      "sha256": "f50e9e882b70ee102ed26a2c9dbc3f2ad32fd1a96d55167050c099edec79188b",
+      "bytes": 109051
+    }
+  ],
+  "patch_sha256": "ca4386d330f017bab9dc2758dd39d0be371037fafbc28073c6c8be4af234b19a"
+}

@@ -18,6 +18,7 @@ use codex_config::LoaderOverrides;
 use codex_protocol::protocol::SessionSource;
 use codex_utils_absolute_path::AbsolutePathBuf;
 use codex_utils_cli::CliConfigOverrides;
+use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use codex_websocket_auth::WebsocketAuthSettings;
 use serde::Serialize;
 use tokio::sync::watch;
@@ -65,6 +66,7 @@ pub(crate) async fn run(
     command: RemoteControlCommand,
     arg0_paths: Arg0DispatchPaths,
     root_config_overrides: CliConfigOverrides,
+    process_final: ProcessFinalCapability,
 ) -> anyhow::Result<()> {
     match command.subcommand {
         None => {
@@ -72,7 +74,13 @@ pub(crate) async fn run(
                 command.json,
                 "Starting app-server with remote control enabled...",
             )?;
-            run_foreground_remote_control(command.json, arg0_paths, root_config_overrides).await?;
+            run_foreground_remote_control(
+                command.json,
+                arg0_paths,
+                root_config_overrides,
+                process_final,
+            )
+            .await?;
         }
         Some(RemoteControlSubcommand::Start) => {
             print_remote_control_progress(
@@ -111,6 +119,7 @@ async fn run_foreground_remote_control(
     json: bool,
     arg0_paths: Arg0DispatchPaths,
     root_config_overrides: CliConfigOverrides,
+    process_final: ProcessFinalCapability,
 ) -> anyhow::Result<()> {
     let socket_dir = tempfile::Builder::new()
         .prefix("codex-rc-")
@@ -124,11 +133,12 @@ async fn run_foreground_remote_control(
         socket_path: socket_path.clone(),
     };
     let runtime_options = AppServerRuntimeOptions {
+        process_final: Some(process_final.clone()),
         remote_control_startup_mode: codex_app_server::RemoteControlStartupMode::EnabledEphemeral,
         install_shutdown_signal_handler: false,
         ..Default::default()
     };
-    let (stop_rx, stop_signal_task) = foreground_stop_signal();
+    let (stop_rx, stop_signal_task) = foreground_stop_signal(process_final.clone());
     let app_server = codex_app_server::run_main_with_transport_options(
         arg0_paths,
         root_config_overrides,
@@ -151,12 +161,12 @@ async fn run_foreground_remote_control(
     {
         ForegroundStartupResult::Ready(summary) => summary,
         ForegroundStartupResult::Stopped => {
-            abort_foreground_app_server(app_server_task).await;
+            abort_foreground_app_server(app_server_task, Some(&process_final)).await;
             stop_signal_task.abort();
             return Ok(());
         }
         ForegroundStartupResult::ReadyFailed(error) => {
-            abort_foreground_app_server(app_server_task).await;
+            abort_foreground_app_server(app_server_task, Some(&process_final)).await;
             stop_signal_task.abort();
             return Err(error);
         }
@@ -167,26 +177,32 @@ async fn run_foreground_remote_control(
     };
 
     if *stop_rx.borrow() {
-        abort_foreground_app_server(app_server_task).await;
+        abort_foreground_app_server(app_server_task, Some(&process_final)).await;
         stop_signal_task.abort();
         return Ok(());
     }
 
     if let Err(error) = print_foreground_ready_output(&summary, json) {
-        abort_foreground_app_server(app_server_task).await;
+        abort_foreground_app_server(app_server_task, Some(&process_final)).await;
         stop_signal_task.abort();
         return Err(error);
     }
 
-    let result = wait_for_foreground_app_server(app_server_task, stop_rx).await;
+    let result =
+        wait_for_foreground_app_server(app_server_task, stop_rx, Some(&process_final)).await;
     stop_signal_task.abort();
     result
 }
 
-fn foreground_stop_signal() -> (watch::Receiver<bool>, JoinHandle<()>) {
+fn foreground_stop_signal(
+    process_final: ProcessFinalCapability,
+) -> (watch::Receiver<bool>, JoinHandle<()>) {
     let (stop_tx, stop_rx) = watch::channel(false);
     let task = tokio::spawn(async move {
-        if let Err(err) = tokio::signal::ctrl_c().await {
+        let signal = tokio::signal::ctrl_c().await;
+        // This signal terminates the foreground executable, not a replaceable server.
+        crate::process_final::begin(&process_final);
+        if let Err(err) = signal {
             eprintln!("failed to listen for Ctrl-C: {err}");
         }
         let _ = stop_tx.send(true);
@@ -225,6 +241,7 @@ async fn wait_for_foreground_remote_control_start(
 async fn wait_for_foreground_app_server(
     mut app_server_task: JoinHandle<std::io::Result<()>>,
     mut stop_rx: watch::Receiver<bool>,
+    process_final: Option<&ProcessFinalCapability>,
 ) -> anyhow::Result<()> {
     tokio::select! {
         app_server_result = &mut app_server_task => {
@@ -233,7 +250,7 @@ async fn wait_for_foreground_app_server(
                 .context("foreground app-server exited with an error")?;
         }
         _ = wait_for_stop_signal(&mut stop_rx) => {
-            abort_foreground_app_server(app_server_task).await;
+            abort_foreground_app_server(app_server_task, process_final).await;
         }
     }
 
@@ -261,7 +278,13 @@ fn foreground_app_server_exited_before_ready(
     }
 }
 
-async fn abort_foreground_app_server(app_server_task: JoinHandle<std::io::Result<()>>) {
+async fn abort_foreground_app_server(
+    app_server_task: JoinHandle<std::io::Result<()>>,
+    process_final: Option<&ProcessFinalCapability>,
+) {
+    if let Some(capability) = process_final {
+        crate::process_final::begin(capability);
+    }
     app_server_task.abort();
     let _ = timeout(FOREGROUND_APP_SERVER_ABORT_TIMEOUT, app_server_task).await;
 }
@@ -722,7 +745,7 @@ mod tests {
 
         tokio::time::timeout(
             std::time::Duration::from_secs(1),
-            wait_for_foreground_app_server(app_server_task, stop_rx),
+            wait_for_foreground_app_server(app_server_task, stop_rx, None),
         )
         .await
         .expect("foreground wait should return after stop signal")

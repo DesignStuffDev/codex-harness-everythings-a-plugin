@@ -1,0 +1,1280 @@
+--- a/crates/rmcp/src/transport/worker.rs
++++ b/crates/rmcp/src/transport/worker.rs
+@@ -173,8 +173,22 @@
+     request_cancellations: RequestCancellations,
+     control_generation: Arc<AtomicU64>,
+     join_handle: Option<tokio::task::JoinHandle<Result<(), WorkerQuitReason<W::Error>>>>,
++    observed_completion: Option<Arc<WorkerCompletion<W::Error>>>,
+     _drop_guard: tokio_util::sync::DropGuard,
+     ct: CancellationToken,
++}
++
++/// The original task join and worker operation outcome, observed exactly once.
++/// An operation error is separate from transport-specific cleanup evidence.
++#[derive(Debug)]
++pub struct WorkerCompletion<E> {
++    result: Result<Result<(), WorkerQuitReason<E>>, tokio::task::JoinError>,
++}
++
++impl<E> WorkerCompletion<E> {
++    pub fn result(&self) -> &Result<Result<(), WorkerQuitReason<E>>, tokio::task::JoinError> {
++        &self.result
++    }
+ }
+ 
+ #[non_exhaustive]
+@@ -201,6 +215,27 @@
+ }
+ 
+ impl<W: Worker> WorkerTransport<W> {
++    /// Cancel and observe the original worker without moving its handle into
++    /// the observer future. Cancelling this borrow leaves the same handle here;
++    /// repeated successful observations return the same immutable completion.
++    ///
++    /// The caller must retain this transport while observation is pending.
++    /// This does not bound task destructors, runtime teardown or HTTP internals.
++    /// None means the legacy `Transport::close` already consumed the handle
++    /// without retaining an observation; it must not be interpreted as clean.
++    pub async fn close_observed(&mut self) -> Option<Arc<WorkerCompletion<W::Error>>> {
++        if let Some(completion) = &self.observed_completion {
++            return Some(Arc::clone(completion));
++        }
++        self.ct.cancel();
++        let result = self.join_handle.as_mut()?.await;
++        // No await occurs between the exact join and publication of its result.
++        let _ = self.join_handle.take();
++        let completion = Arc::new(WorkerCompletion { result });
++        self.observed_completion = Some(Arc::clone(&completion));
++        Some(completion)
++    }
++
+     pub fn cancel_token(&self) -> CancellationToken {
+         self.ct.clone()
+     }
+@@ -260,6 +295,7 @@
+             request_cancellations,
+             control_generation,
+             join_handle: Some(join_handle),
++            observed_completion: None,
+             ct: transport_task_ct.clone(),
+             _drop_guard: transport_task_ct.drop_guard(),
+         }
+@@ -411,6 +447,10 @@
+ }
+ 
+ #[cfg(all(test, feature = "client"))]
++#[path = "worker_shutdown_tests.rs"]
++mod shutdown_tests;
++
++#[cfg(all(test, feature = "client"))]
+ mod tests {
+     use std::io;
+ 
+--- /dev/null
++++ b/crates/rmcp/src/transport/worker_shutdown_tests.rs
+@@ -0,0 +1,139 @@
++use super::{Transport, Worker, WorkerContext, WorkerQuitReason, WorkerTransport};
++use crate::service::RoleClient;
++use std::{io, sync::Arc, time::Duration};
++use tokio::sync::oneshot;
++use tokio::time::timeout;
++
++type TestResult = Result<(), Box<dyn std::error::Error + Send + Sync>>;
++
++#[derive(Debug)]
++struct OriginalError(Arc<()>);
++
++impl std::fmt::Display for OriginalError {
++    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
++        formatter.write_str("original controlled worker error")
++    }
++}
++
++impl std::error::Error for OriginalError {}
++
++enum Outcome {
++    Success,
++    Fatal(Arc<()>),
++    Panic,
++}
++
++struct HeldWorker {
++    stopped: oneshot::Sender<()>,
++    release: oneshot::Receiver<()>,
++    outcome: Outcome,
++}
++
++impl Worker for HeldWorker {
++    type Error = io::Error;
++    type Role = RoleClient;
++
++    fn err_closed() -> Self::Error {
++        io::Error::other("controlled worker closed")
++    }
++
++    fn err_join(error: tokio::task::JoinError) -> Self::Error {
++        io::Error::other(error)
++    }
++
++    async fn run(self, context: WorkerContext<Self>) -> Result<(), WorkerQuitReason<Self::Error>> {
++        context.cancellation_token.cancelled().await;
++        let _ = self.stopped.send(());
++        self.release.await.map_err(|_| WorkerQuitReason::HandlerTerminated)?;
++        match self.outcome {
++            Outcome::Success => Ok(()),
++            Outcome::Fatal(marker) => Err(WorkerQuitReason::fatal(
++                io::Error::other(OriginalError(marker)), "controlled worker operation",
++            )),
++            Outcome::Panic => panic!("controlled original worker panic"),
++        }
++    }
++}
++
++fn held(outcome: Outcome) -> (WorkerTransport<HeldWorker>, oneshot::Receiver<()>, oneshot::Sender<()>) {
++    let (stopped_tx, stopped) = oneshot::channel();
++    let (release, release_rx) = oneshot::channel();
++    (WorkerTransport::spawn(HeldWorker {
++        stopped: stopped_tx, release: release_rx, outcome,
++    }), stopped, release)
++}
++
++#[tokio::test]
++async fn cancelled_observer_keeps_original_handle_and_repeated_fatal_result() -> TestResult {
++    let marker = Arc::new(());
++    let (mut transport, stopped, release) = held(Outcome::Fatal(Arc::clone(&marker)));
++    // This drops only the borrowed close observer while the actual worker is
++    // held after seeing cancellation. It must not consume the original handle.
++    assert!(timeout(Duration::from_millis(20), transport.close_observed()).await.is_err());
++    timeout(Duration::from_secs(2), stopped).await??;
++    assert!(transport.cancel_token().is_cancelled());
++    release.send(()).map_err(|_| "worker lost release receiver")?;
++    let first = timeout(Duration::from_secs(2), transport.close_observed()).await?
++        .ok_or("original worker completion was lost")?;
++    match first.result() {
++        Ok(Err(WorkerQuitReason::Fatal { error, context })) => {
++            assert_eq!(context.as_ref(), "controlled worker operation");
++            let original = error.get_ref().and_then(|error| error.downcast_ref::<OriginalError>())
++                .ok_or("original concrete operation error was replaced")?;
++            assert!(Arc::ptr_eq(&original.0, &marker));
++        }
++        _ => return Err("expected original inner fatal result after a successful task join".into()),
++    }
++    let repeated = transport.close_observed().await.ok_or("repeated completion was lost")?;
++    assert!(Arc::ptr_eq(&first, &repeated));
++    // Legacy close after observation remains a no-op and cannot erase the cache.
++    transport.close().await?;
++    let after_legacy = transport.close_observed().await.ok_or("legacy close erased observed result")?;
++    assert!(Arc::ptr_eq(&first, &after_legacy));
++    Ok(())
++}
++
++#[tokio::test]
++async fn normal_worker_completion_is_a_successful_outer_and_inner_result() -> TestResult {
++    let (mut transport, stopped, release) = held(Outcome::Success);
++    transport.cancel_token().cancel();
++    timeout(Duration::from_secs(2), stopped).await??;
++    release.send(()).map_err(|_| "worker lost release receiver")?;
++    let completion = timeout(Duration::from_secs(2), transport.close_observed()).await?
++        .ok_or("normal completion was lost")?;
++    assert!(matches!(completion.result(), Ok(Ok(()))));
++    let repeated = transport.close_observed().await.ok_or("normal result was not cached")?;
++    assert!(Arc::ptr_eq(&completion, &repeated));
++    Ok(())
++}
++
++#[tokio::test]
++async fn original_worker_panic_stays_an_outer_join_error() -> TestResult {
++    let (mut transport, stopped, release) = held(Outcome::Panic);
++    transport.cancel_token().cancel();
++    timeout(Duration::from_secs(2), stopped).await??;
++    release.send(()).map_err(|_| "worker lost release receiver")?;
++    let completion = timeout(Duration::from_secs(2), transport.close_observed()).await?
++        .ok_or("panic completion was lost")?;
++    match completion.result() {
++        Err(error) => assert!(error.is_panic()),
++        Ok(_) => return Err("worker panic was converted into an inner operation result".into()),
++    }
++    let repeated = transport.close_observed().await.ok_or("panic result was not cached")?;
++    assert!(Arc::ptr_eq(&completion, &repeated));
++    Ok(())
++}
++
++#[tokio::test]
++async fn legacy_close_preserves_its_result_and_leaves_observation_unavailable() -> TestResult {
++    let (mut transport, stopped, release) = held(Outcome::Fatal(Arc::new(())));
++    transport.cancel_token().cancel();
++    timeout(Duration::from_secs(2), stopped).await??;
++    release.send(()).map_err(|_| "worker lost release receiver")?;
++    // Legacy behavior ignores the inner operation error. The additive API
++    // reports None afterwards, never manufacturing a clean completion receipt.
++    timeout(Duration::from_secs(2), transport.close()).await??;
++    assert!(transport.close_observed().await.is_none());
++    assert!(transport.close_observed().await.is_none());
++    Ok(())
++}
+--- a/crates/rmcp/src/transport/streamable_http_client.rs
++++ b/crates/rmcp/src/transport/streamable_http_client.rs
+@@ -6,7 +6,7 @@
+ };
+ 
+ use futures::{
+-    Stream, StreamExt,
++    FutureExt, Stream, StreamExt,
+     future::BoxFuture,
+     stream::{BoxStream, FuturesUnordered},
+ };
+@@ -36,6 +36,10 @@
+         },
+     },
+ };
++
++#[path = "streamable_http_completion.rs"]
++mod completion;
++pub use completion::{HttpCleanupObserver, HttpCleanupReceipt, HttpRemoteDeleteOutcome};
+ 
+ type BoxedSseStream = BoxStream<'static, Result<Sse, SseError>>;
+ type SseTaskResult<E> = (Option<RequestId>, Result<(), StreamableHttpError<E>>);
+@@ -522,11 +526,42 @@
+     protocol_headers: HashMap<HeaderName, HeaderValue>,
+ }
+ 
+-#[derive(Debug, Clone, Default)]
++impl<C> SessionCleanupInfo<C> {
++    fn from_response(
++        client: C,
++        uri: Arc<str>,
++        auth_header: Option<String>,
++        protocol_headers: HashMap<HeaderName, HeaderValue>,
++        response: &StreamableHttpPostResponse,
++    ) -> Option<Self> {
++        let session = match response {
++            StreamableHttpPostResponse::Json(_, session)
++            | StreamableHttpPostResponse::Sse(_, session) => session.as_deref(),
++            StreamableHttpPostResponse::Accepted => None,
++        }?;
++        Some(Self { client, uri, session_id: Arc::from(session), auth_header, protocol_headers })
++    }
++}
++
++#[derive(Debug)]
+ #[non_exhaustive]
+ pub struct StreamableHttpClientWorker<C: StreamableHttpClient> {
+     pub client: C,
+     pub config: StreamableHttpClientTransportConfig,
++    cleanup: HttpCleanupObserver<C::Error>,
++}
++
++impl<C: StreamableHttpClient> Clone for StreamableHttpClientWorker<C> {
++    fn clone(&self) -> Self {
++        // A clone is a distinct future worker, never the same completion slot.
++        Self::new(self.client.clone(), self.config.clone())
++    }
++}
++
++impl<C: StreamableHttpClient + Default> Default for StreamableHttpClientWorker<C> {
++    fn default() -> Self {
++        Self::new(C::default(), StreamableHttpClientTransportConfig::default())
++    }
+ }
+ 
+ struct PostResult<C: StreamableHttpClient> {
+@@ -552,13 +587,20 @@
+                 uri: url.into(),
+                 ..Default::default()
+             },
++            cleanup: HttpCleanupObserver::default(),
+         }
+     }
+ }
+ 
+ impl<C: StreamableHttpClient> StreamableHttpClientWorker<C> {
+     pub fn new(client: C, config: StreamableHttpClientTransportConfig) -> Self {
+-        Self { client, config }
++        Self { client, config, cleanup: HttpCleanupObserver::default() }
++    }
++
++    /// Obtain this exact worker's local cleanup observation before spawning it.
++    /// A cloned worker has a distinct observation; cloning this observer does not.
++    pub fn cleanup_observer(&self) -> HttpCleanupObserver<C::Error> {
++        self.cleanup.clone()
+     }
+ }
+ 
+@@ -960,6 +1002,7 @@
+         auth_header: Option<String>,
+         custom_headers: HashMap<HeaderName, HeaderValue>,
+         max_sse_event_size: usize,
++        session_cleanup_info: &mut Option<SessionCleanupInfo<C>>,
+     ) -> Result<
+         (
+             Option<Arc<str>>,
+@@ -968,7 +1011,7 @@
+         ),
+         StreamableHttpError<C::Error>,
+     > {
+-        let (init_msg, new_session_id_str) = client
++        let response = client
+             .post_message_with_max_sse_event_size(
+                 uri.clone(),
+                 saved_init_request,
+@@ -977,14 +1020,19 @@
+                 custom_headers.clone(),
+                 max_sse_event_size,
+             )
+-            .await?
+-            .expect_initialized::<C::Error>()
+             .await?;
++        *session_cleanup_info = SessionCleanupInfo::from_response(
++            client.clone(), uri.clone(), auth_header.clone(), custom_headers.clone(), &response,
++        );
++        let (init_msg, new_session_id_str) = response.expect_initialized::<C::Error>().await?;
+ 
+         let new_session_id: Option<Arc<str>> = new_session_id_str.map(|s| Arc::from(s.as_str()));
+ 
+         let (negotiated_version, new_protocol_headers) =
+             negotiate_version_headers(&init_msg, custom_headers);
++        if let Some(cleanup) = session_cleanup_info {
++            cleanup.protocol_headers = new_protocol_headers.clone();
++        }
+ 
+         let initialized_notification = ClientJsonRpcMessage::notification(
+             ClientNotification::InitializedNotification(InitializedNotification {
+@@ -1053,6 +1101,19 @@
+         let config = self.config.clone();
+         let transport_task_ct = context.cancellation_token.clone();
+         let _drop_guard = transport_task_ct.clone().drop_guard();
++        // These resources outlive every fallible/cancellable protocol path.
++        let mut session_cleanup_info: Option<SessionCleanupInfo<C>> = None;
++        let mut streams = tokio::task::JoinSet::new();
++        let mut stream_joins = completion::SseJoins::default();
++        let mut posts = FuturesUnordered::<BoxFuture<'static, PostResult<C>>>::new();
++        let mut control_posts = FuturesUnordered::<BoxFuture<'static, PostResult<C>>>::new();
++        let mut session_cancellation = CancellationToken::new();
++        let mut pending_message: Option<WorkerSendRequest<Self>> = None;
++        let mut recovery_posts = VecDeque::<WorkerSendRequest<Self>>::new();
++        let cleanup_observer = self.cleanup.clone();
++        let operation = std::panic::AssertUnwindSafe(async {
++        // Move the backend into this Send future; the client need not be Sync.
++        let this = self;
+         let WorkerSendRequest {
+             responder,
+             message: startup_request,
+@@ -1075,7 +1136,7 @@
+                 &empty_tool_cache,
+             )
+         };
+-        let (message, session_id) = match self
++        let (message, session_id) = match this
+             .client
+             .post_message_with_max_sse_event_size(
+                 config.uri.clone(),
+@@ -1089,6 +1150,14 @@
+         {
+             Ok(res) => {
+                 let _ = responder.send(Ok(()));
++                // The session header can arrive before a stalled/malformed SSE
++                // initialize body. Keep it available to common cleanup now.
++                if is_legacy_startup {
++                    session_cleanup_info = SessionCleanupInfo::from_response(
++                        this.client.clone(), config.uri.clone(), config.auth_header.clone(),
++                        bootstrap_headers.clone(), &res,
++                    );
++                }
+                 res.expect_initialized::<C::Error>().await.map_err(
+                     WorkerQuitReason::fatal_context("process initialize response"),
+                 )?
+@@ -1108,7 +1177,7 @@
+         } else if let Some(session_id) = session_id {
+             Some(session_id.into())
+         } else {
+-            if !self.config.allow_stateless {
++            if !this.config.allow_stateless {
+                 return Err(WorkerQuitReason::fatal(
+                     StreamableHttpError::<C::Error>::MissingSessionIdInResponse,
+                     "process initialize response",
+@@ -1126,8 +1195,8 @@
+         let mut tool_header_cache: HashMap<String, Arc<JsonObject>> = HashMap::new();
+ 
+         // Store session info for cleanup when run() exits (not spawned, so cleanup completes before close() returns)
+-        let mut session_cleanup_info = session_id.as_ref().map(|sid| SessionCleanupInfo {
+-            client: self.client.clone(),
++        session_cleanup_info = session_id.as_ref().map(|sid| SessionCleanupInfo {
++            client: this.client.clone(),
+             uri: config.uri.clone(),
+             session_id: sid.clone(),
+             auth_header: config.auth_header.clone(),
+@@ -1143,7 +1212,7 @@
+                 &tool_header_cache,
+                 &negotiated_version,
+             );
+-            self.client
++            this.client
+                 .post_message_with_max_sse_event_size(
+                     config.uri.clone(),
+                     initialized_notification.message,
+@@ -1178,15 +1247,9 @@
+                 result: Result<(), StreamableHttpError<C::Error>>,
+             },
+         }
+-        let mut streams = tokio::task::JoinSet::new();
+         let mut pending_stream_response_ids = HashSet::new();
+         let mut request_stream_cancellations =
+             HashMap::<RequestId, Arc<RequestCancellationRegistration>>::new();
+-        let mut posts = FuturesUnordered::<BoxFuture<'static, PostResult<C>>>::new();
+-        let mut control_posts = FuturesUnordered::<BoxFuture<'static, PostResult<C>>>::new();
+-        let mut session_cancellation = CancellationToken::new();
+-        let mut pending_message: Option<WorkerSendRequest<Self>> = None;
+-        let mut recovery_posts = VecDeque::<WorkerSendRequest<Self>>::new();
+         let mut recovery_deadline: Option<tokio::time::Instant> = None;
+         let mut retrying_recovery = false;
+         let mut barrier_in_flight = false;
+@@ -1195,7 +1258,7 @@
+         if let Some(session_id) = &session_id {
+             Self::spawn_common_stream(
+                 &mut streams,
+-                self.client.clone(),
++                this.client.clone(),
+                 session_id.clone(),
+                 &config,
+                 protocol_headers.clone(),
+@@ -1225,19 +1288,19 @@
+                     result = tokio::time::timeout(
+                         config.session_recovery_timeout,
+                         Self::perform_reinitialization(
+-                            self.client.clone(),
++                            this.client.clone(),
+                             saved_init_request.clone().expect("session recovery requires an initialize request"),
+                             config.uri.clone(),
+                             config.auth_header.clone(),
+                             config.custom_headers.clone(),
+                             config.max_sse_event_size,
++                            &mut session_cleanup_info,
+                         ),
+                     ) => result.unwrap_or(Err(StreamableHttpError::SessionRecoveryTimeout)),
+                 };
+                 match recovery {
+                     Ok((new_session_id, new_version, new_headers)) => {
+-                        streams.abort_all();
+-                        while streams.join_next().await.is_some() {}
++                        stream_joins.abort_and_drain(&mut streams).await;
+                         request_stream_cancellations.clear();
+                         Self::drain_queued_stream_messages(
+                             &mut sse_worker_rx,
+@@ -1255,7 +1318,7 @@
+                         negotiated_version = new_version;
+                         protocol_headers = new_headers;
+                         session_cleanup_info = session_id.as_ref().map(|sid| SessionCleanupInfo {
+-                            client: self.client.clone(),
++                            client: this.client.clone(),
+                             uri: config.uri.clone(),
+                             session_id: sid.clone(),
+                             auth_header: config.auth_header.clone(),
+@@ -1267,7 +1330,7 @@
+                         if let Some(session_id) = &session_id {
+                             Self::spawn_common_stream(
+                                 &mut streams,
+-                                self.client.clone(),
++                                this.client.clone(),
+                                 session_id.clone(),
+                                 &config,
+                                 protocol_headers.clone(),
+@@ -1366,11 +1429,13 @@
+                 terminated_stream = streams.join_next(), if !streams.is_empty() => {
+                     match terminated_stream {
+                         Some(Ok((request_id, result))) => {
++                            stream_joins.joined();
+                             Event::StreamResult { request_id, result }
+                         }
+-                        Some(Err(error)) => Event::StreamResult {
+-                            request_id: None,
+-                            result: Err(StreamableHttpError::TokioJoinError(error)),
++                        Some(Err(error)) => {
++                            tracing::warn!("SSE client task did not join normally");
++                            stream_joins.unexpected(error);
++                            continue;
+                         },
+                         None => continue,
+                     }
+@@ -1411,7 +1476,7 @@
+                         &tool_header_cache,
+                     );
+                     control_posts.push(Self::post_request(
+-                        self.client.clone(),
++                        this.client.clone(),
+                         &config,
+                         send_request,
+                         PostSession {
+@@ -1471,7 +1536,7 @@
+                         );
+                         uses_modern_http = false;
+ 
+-                        let response = self
++                        let response = this
+                             .client
+                             .post_message_with_max_sse_event_size(
+                                 config.uri.clone(),
+@@ -1492,6 +1557,10 @@
+                                 continue;
+                             }
+                         };
++                        session_cleanup_info = SessionCleanupInfo::from_response(
++                            this.client.clone(), config.uri.clone(), config.auth_header.clone(),
++                            config.custom_headers.clone(), &response,
++                        );
+                         let (initialize_response, new_session_id) = response
+                             .expect_initialized::<C::Error>()
+                             .await
+@@ -1511,7 +1580,7 @@
+                         );
+                         session_cleanup_info =
+                             session_id.as_ref().map(|session_id| SessionCleanupInfo {
+-                                client: self.client.clone(),
++                                client: this.client.clone(),
+                                 uri: config.uri.clone(),
+                                 session_id: session_id.clone(),
+                                 auth_header: config.auth_header.clone(),
+@@ -1552,7 +1621,7 @@
+                         pending_stream_response_ids.insert(request_id);
+                     }
+                     posts.push(Self::post_request(
+-                        self.client.clone(),
++                        this.client.clone(),
+                         &config,
+                         send_request,
+                         PostSession {
+@@ -1644,12 +1713,12 @@
+                             let sse_stream = Self::response_sse_to_jsonrpc(
+                                 stream,
+                                 session_id.clone(),
+-                                self.client.clone(),
++                                this.client.clone(),
+                                 config.uri.clone(),
+                                 config.auth_header.clone(),
+                                 protocol_headers.clone(),
+                                 config.max_sse_event_size,
+-                                self.config.retry_config.clone(),
++                                this.config.retry_config.clone(),
+                             );
+                             let request_ct = request_cancellation
+                                 .as_ref()
+@@ -1698,7 +1767,7 @@
+                         if let Some(session_id) = &session_id {
+                             Self::spawn_common_stream(
+                                 &mut streams,
+-                                self.client.clone(),
++                                this.client.clone(),
+                                 session_id.clone(),
+                                 &config,
+                                 protocol_headers.clone(),
+@@ -1760,17 +1829,27 @@
+             }
+         };
+ 
+-        // Stop outstanding http requests before deleting their session.
++        loop_result
++        }).catch_unwind();
++        let operation_result = tokio::select! {
++            // Prefer a completed original operation result over a simultaneous stop.
++            biased;
++            result = operation => result,
++            _ = transport_task_ct.cancelled() => Ok(Err(WorkerQuitReason::Cancelled)),
++        };
++
++        // Stop application requests before deleting their known session. Their
++        // futures are owned here; backend-private tasks/DNS are not certified.
+         transport_task_ct.cancel();
++        session_cancellation.cancel();
+         drop(posts);
+         drop(control_posts);
+         drop(pending_message);
+         drop(recovery_posts);
+-        streams.abort_all();
+-
+-        // Cleanup session before returning (ensures close() waits for session deletion)
+-        // Use a timeout to prevent indefinite hangs if the server is unresponsive
+-        if let Some(cleanup) = session_cleanup_info {
++        stream_joins.abort_and_drain(&mut streams).await;
++
++        // Optional remote cleanup is observed separately from local task custody.
++        let remote_delete = if let Some(cleanup) = session_cleanup_info {
+             let cleanup_session_id = cleanup.session_id.clone();
+             match tokio::time::timeout(
+                 SESSION_CLEANUP_TIMEOUT,
+@@ -1787,19 +1866,22 @@
+                     tracing::info!(
+                         session_id = cleanup_session_id.as_ref(),
+                         "delete session success"
+-                    )
++                    );
++                    HttpRemoteDeleteOutcome::Deleted
+                 }
+                 Ok(Err(StreamableHttpError::ServerDoesNotSupportDeleteSession)) => {
+                     tracing::info!(
+                         session_id = cleanup_session_id.as_ref(),
+                         "server doesn't support delete session"
+-                    )
++                    );
++                    HttpRemoteDeleteOutcome::Unsupported
+                 }
+                 Ok(Err(e)) => {
+                     tracing::error!(
+                         session_id = cleanup_session_id.as_ref(),
+                         "fail to delete session: {e}"
+                     );
++                    HttpRemoteDeleteOutcome::Failed(e)
+                 }
+                 Err(_elapsed) => {
+                     tracing::warn!(
+@@ -1807,11 +1889,18 @@
+                         "session cleanup timed out after {:?}",
+                         SESSION_CLEANUP_TIMEOUT
+                     );
++                    HttpRemoteDeleteOutcome::TimedOut
+                 }
+             }
+-        }
+-
+-        loop_result
++        } else {
++            HttpRemoteDeleteOutcome::NoKnownSession
++        };
++        cleanup_observer.publish(stream_joins, remote_delete);
++        match operation_result {
++            Ok(result) => result,
++            // Retain ordinary task panic semantics after joining owned SSE tasks.
++            Err(payload) => std::panic::resume_unwind(payload),
++        }
+     }
+ }
+ 
+@@ -2142,6 +2231,10 @@
+ }
+ 
+ #[cfg(test)]
++#[path = "streamable_http_shutdown_tests.rs"]
++mod shutdown_tests;
++
++#[cfg(test)]
+ mod tests {
+     use std::sync::Mutex;
+ 
+--- /dev/null
++++ b/crates/rmcp/src/transport/streamable_http_completion.rs
+@@ -0,0 +1,115 @@
++//! Local task joins and optional remote session deletion have separate outcomes.
++
++use std::error::Error;
++use std::sync::{Arc, OnceLock};
++
++use super::{SseTaskResult, StreamableHttpError};
++
++/// Deletion concerns the last known remote session only. A missing session ID
++/// does not prove that an interrupted request created no remote state.
++#[derive(Debug)]
++#[non_exhaustive]
++pub enum HttpRemoteDeleteOutcome<E: Error + Send + Sync + 'static> {
++    NoKnownSession,
++    Deleted,
++    Unsupported,
++    Failed(StreamableHttpError<E>),
++    TimedOut,
++}
++
++/// Published only after application requests have been dropped and all owned
++/// SSE task handles joined. Pair this with `WorkerTransport::close_observed`:
++/// seeing this receipt alone does not establish that the worker itself joined.
++/// It makes no universal claim about an HTTP backend's private tasks or DNS.
++#[derive(Debug)]
++pub struct HttpCleanupReceipt<E: Error + Send + Sync + 'static> {
++    pub joined_sse_tasks: u64,
++    pub cancelled_sse_tasks: u64,
++    pub unexpected_sse_task_failures: u64,
++    pub first_sse_task_failure: Option<tokio::task::JoinError>,
++    pub remote_delete: HttpRemoteDeleteOutcome<E>,
++}
++
++impl<E: Error + Send + Sync + 'static> HttpCleanupReceipt<E> {
++    /// All owned application tasks were joined without an unexpected task error.
++    /// Optional request and DELETE errors are deliberately not this predicate.
++    pub fn local_cleanup_complete(&self) -> bool {
++        self.unexpected_sse_task_failures == 0
++    }
++}
++
++/// Read-only observation; only the worker can publish the immutable receipt.
++#[derive(Debug)]
++pub struct HttpCleanupObserver<E: Error + Send + Sync + 'static> {
++    receipt: Arc<OnceLock<Arc<HttpCleanupReceipt<E>>>>,
++}
++
++impl<E: Error + Send + Sync + 'static> Clone for HttpCleanupObserver<E> {
++    fn clone(&self) -> Self {
++        Self { receipt: Arc::clone(&self.receipt) }
++    }
++}
++
++impl<E: Error + Send + Sync + 'static> Default for HttpCleanupObserver<E> {
++    fn default() -> Self {
++        Self { receipt: Arc::new(OnceLock::new()) }
++    }
++}
++
++impl<E: Error + Send + Sync + 'static> HttpCleanupObserver<E> {
++    /// None is pending or unobserved, never a successful cleanup result.
++    pub fn snapshot(&self) -> Option<Arc<HttpCleanupReceipt<E>>> {
++        self.receipt.get().map(Arc::clone)
++    }
++
++    pub(super) fn publish(&self, joins: SseJoins, remote_delete: HttpRemoteDeleteOutcome<E>) {
++        let _ = self.receipt.set(Arc::new(HttpCleanupReceipt {
++            joined_sse_tasks: joins.joined,
++            cancelled_sse_tasks: joins.cancelled,
++            unexpected_sse_task_failures: joins.failures,
++            first_sse_task_failure: joins.first_failure,
++            remote_delete,
++        }));
++    }
++}
++
++/// Keep a bounded failure summary and the first original JoinError, rather
++/// than accumulating one error allocation per failed stream over a long session.
++#[derive(Default)]
++pub(super) struct SseJoins {
++    joined: u64,
++    cancelled: u64,
++    failures: u64,
++    first_failure: Option<tokio::task::JoinError>,
++}
++
++impl SseJoins {
++    pub(super) fn joined(&mut self) {
++        self.joined = self.joined.saturating_add(1);
++    }
++
++    pub(super) fn unexpected(&mut self, error: tokio::task::JoinError) {
++        self.joined();
++        self.failures = self.failures.saturating_add(1);
++        self.first_failure.get_or_insert(error);
++    }
++
++    /// Aborting requests is part of shutdown/recovery. Each original handle is
++    /// still joined; only those expected cancellations are non-failing joins.
++    pub(super) async fn abort_and_drain<E: Error + Send + Sync + 'static>(
++        &mut self,
++        streams: &mut tokio::task::JoinSet<SseTaskResult<E>>,
++    ) {
++        streams.abort_all();
++        while let Some(result) = streams.join_next().await {
++            match result {
++                Ok(_) => self.joined(),
++                Err(error) if error.is_cancelled() => {
++                    self.joined();
++                    self.cancelled = self.cancelled.saturating_add(1);
++                }
++                Err(error) => self.unexpected(error),
++            }
++        }
++    }
++}
+--- /dev/null
++++ b/crates/rmcp/src/transport/streamable_http_shutdown_tests.rs
+@@ -0,0 +1,499 @@
++use super::*;
++use crate::transport::Transport;
++use anyhow::Context;
++use std::future::Future;
++use std::io;
++use std::pin::Pin;
++use std::sync::{Condvar, Mutex};
++use std::sync::atomic::{AtomicUsize, Ordering};
++use std::task::{Context as TaskContext, Poll};
++use tokio::sync::Notify;
++#[derive(Clone, Copy)]
++enum Scenario { Live, StartupStall, BodyStall, InitializedStall, InitializedFailure, ProtocolPanic, SsePanic }
++#[derive(Clone, Copy)]
++enum Delete { Deleted, Unsupported, Failed, Stall, Panic }
++#[derive(Clone, Copy)]
++enum StreamKind { Initial, Common, Response }
++#[derive(Default)]
++struct Signals {
++    startup: Notify,
++    initialized: Notify,
++    initial_body: Notify,
++    common: Notify,
++    response: Notify,
++    delete_started: Notify,
++    dropped_bodies: AtomicUsize,
++    dropped_requests: AtomicUsize,
++    deleted: Mutex<Vec<String>>,
++    drop_gate: Mutex<Option<Arc<DropGate>>>,
++}
++#[derive(Default)]
++struct DropGate { entered: Notify, released: Mutex<bool>, changed: Condvar }
++struct ReleaseDrop(Arc<DropGate>);
++impl Drop for ReleaseDrop {
++    fn drop(&mut self) {
++        *self.0.released.lock().unwrap_or_else(std::sync::PoisonError::into_inner) = true;
++        self.0.changed.notify_all();
++    }
++}
++
++struct HeldRequest(Arc<Signals>);
++impl Drop for HeldRequest {
++    fn drop(&mut self) { self.0.dropped_requests.fetch_add(1, Ordering::SeqCst); }
++}
++
++struct HeldSse { signals: Arc<Signals>, kind: StreamKind, panic_on_poll: bool }
++impl Stream for HeldSse {
++    type Item = Result<Sse, SseError>;
++    fn poll_next(self: Pin<&mut Self>, _cx: &mut TaskContext<'_>) -> Poll<Option<Self::Item>> {
++        match self.kind {
++            StreamKind::Initial => self.signals.initial_body.notify_one(),
++            StreamKind::Common => self.signals.common.notify_one(),
++            StreamKind::Response => self.signals.response.notify_one(),
++        }
++        assert!(!self.panic_on_poll, "controlled SSE task panic");
++        Poll::Pending
++    }
++}
++impl Drop for HeldSse {
++    fn drop(&mut self) {
++        let gate = self.signals.drop_gate.lock()
++            .unwrap_or_else(std::sync::PoisonError::into_inner).clone();
++        if let Some(gate) = gate {
++            gate.entered.notify_one();
++            let mut released = gate.released.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
++            while !*released {
++                released = gate.changed.wait(released).unwrap_or_else(std::sync::PoisonError::into_inner);
++            }
++        }
++        self.signals.dropped_bodies.fetch_add(1, Ordering::SeqCst);
++    }
++}
++
++#[derive(Clone)]
++// This backend is Send but deliberately !Sync. The worker must not borrow C
++// across an await in a way that silently strengthens the public trait contract.
++struct Backend {
++    signals: Arc<Signals>, scenario: Scenario, delete: Delete,
++    _not_sync: std::cell::Cell<()>,
++}
++impl Backend {
++    fn new(scenario: Scenario, delete: Delete) -> Self {
++        Self { signals: Arc::new(Signals::default()), scenario, delete, _not_sync: std::cell::Cell::new(()) }
++    }
++    fn stream(&self, kind: StreamKind) -> BoxedSseStream {
++        HeldSse {
++            signals: Arc::clone(&self.signals), kind,
++            panic_on_poll: matches!(self.scenario, Scenario::SsePanic),
++        }.boxed()
++    }
++}
++
++fn initialize() -> anyhow::Result<ClientJsonRpcMessage> {
++    Ok(serde_json::from_value(serde_json::json!({
++        "jsonrpc": "2.0", "id": 1, "method": "initialize",
++        "params": {"protocolVersion": "2024-11-05", "capabilities": {},
++            "clientInfo": {"name": "shutdown-test", "version": "1"}}
++    }))?)
++}
++fn initialized() -> anyhow::Result<ClientJsonRpcMessage> {
++    Ok(serde_json::from_value(serde_json::json!({
++        "jsonrpc": "2.0", "method": "notifications/initialized"
++    }))?)
++}
++fn tools_request() -> anyhow::Result<ClientJsonRpcMessage> {
++    Ok(serde_json::from_value(serde_json::json!({
++        "jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}
++    }))?)
++}
++fn initialize_response() -> serde_json::Value {
++    serde_json::json!({"jsonrpc": "2.0", "id": 1,
++        "result": {"protocolVersion": "2024-11-05", "capabilities": {},
++            "serverInfo": {"name": "shutdown-test", "version": "1"}}})
++}
++
++impl StreamableHttpClient for Backend {
++    type Error = io::Error;
++    fn post_message(
++        &self, _uri: Arc<str>, message: ClientJsonRpcMessage, _session_id: Option<Arc<str>>,
++        _auth_header: Option<String>, _custom_headers: HashMap<HeaderName, HeaderValue>,
++    ) -> impl Future<Output = Result<StreamableHttpPostResponse, StreamableHttpError<Self::Error>>> + Send + '_ {
++        let this = self.clone();
++        async move {
++        match message {
++            ClientJsonRpcMessage::Request(request)
++                if matches!(request.request, ClientRequest::InitializeRequest(_)) => {
++                this.signals.startup.notify_one();
++                if matches!(this.scenario, Scenario::StartupStall) {
++                    let _held = HeldRequest(Arc::clone(&this.signals));
++                    std::future::pending::<()>().await;
++                }
++                if matches!(this.scenario, Scenario::BodyStall) {
++                    return Ok(StreamableHttpPostResponse::Sse(
++                        this.stream(StreamKind::Initial), Some("known-session".to_owned()),
++                    ));
++                }
++                Ok(StreamableHttpPostResponse::Json(
++                    serde_json::from_value(initialize_response())?, Some("known-session".to_owned()),
++                ))
++            }
++            ClientJsonRpcMessage::Notification(_) => {
++                this.signals.initialized.notify_one();
++                if matches!(this.scenario, Scenario::InitializedStall) {
++                    let _held = HeldRequest(Arc::clone(&this.signals));
++                    std::future::pending::<()>().await;
++                }
++                if matches!(this.scenario, Scenario::InitializedFailure) {
++                    return Err(StreamableHttpError::Client(io::Error::other("initialized rejected")));
++                }
++                Ok(StreamableHttpPostResponse::Accepted)
++            }
++            _ => {
++                assert!(!matches!(this.scenario, Scenario::ProtocolPanic), "controlled POST panic");
++                Ok(StreamableHttpPostResponse::Sse(this.stream(StreamKind::Response), None))
++            }
++        }
++        }
++    }
++    fn delete_session(
++        &self, _uri: Arc<str>, session_id: Arc<str>, _auth_header: Option<String>,
++        _custom_headers: HashMap<HeaderName, HeaderValue>,
++    ) -> impl Future<Output = Result<(), StreamableHttpError<Self::Error>>> + Send + '_ {
++        let this = self.clone();
++        async move {
++        this.signals.deleted.lock().unwrap_or_else(std::sync::PoisonError::into_inner)
++            .push(session_id.to_string());
++        this.signals.delete_started.notify_one();
++        match this.delete {
++            Delete::Deleted => Ok(()),
++            Delete::Unsupported => Err(StreamableHttpError::ServerDoesNotSupportDeleteSession),
++            Delete::Failed => Err(StreamableHttpError::Client(io::Error::other("delete rejected"))),
++            Delete::Stall => std::future::pending().await,
++            Delete::Panic => panic!("controlled cleanup panic"),
++        }
++        }
++    }
++    fn get_stream(
++        &self, _uri: Arc<str>, _session_id: Option<Arc<str>>, _last_event_id: Option<String>,
++        _auth_header: Option<String>, _custom_headers: HashMap<HeaderName, HeaderValue>,
++    ) -> impl Future<Output = Result<BoxedSseStream, StreamableHttpError<Self::Error>>> + Send + '_ {
++        let stream = self.stream(StreamKind::Common);
++        async move { Ok(stream) }
++    }
++}
++
++type TestTransport = WorkerTransport<StreamableHttpClientWorker<Backend>>;
++fn worker(backend: Backend) -> (TestTransport, HttpCleanupObserver<io::Error>) {
++    let worker = StreamableHttpClientWorker::new(backend,
++        StreamableHttpClientTransportConfig::with_uri("http://fixture.invalid/mcp"));
++    let observer = worker.cleanup_observer();
++    (WorkerTransport::spawn(worker), observer)
++}
++async fn start(transport: &mut TestTransport) -> anyhow::Result<()> {
++    transport.send(initialize()?).await?;
++    transport.receive().await.context("missing initialize response")?;
++    transport.send(initialized()?).await?;
++    Ok(())
++}
++async fn wait(signal: &Notify) -> anyhow::Result<()> {
++    tokio::time::timeout(Duration::from_secs(/*secs*/ 2), signal.notified()).await?;
++    Ok(())
++}
++
++#[tokio::test]
++async fn stalled_startup_request_is_dropped_without_inventing_remote_session() -> anyhow::Result<()> {
++    let backend = Backend::new(Scenario::StartupStall, Delete::Deleted);
++    let signals = Arc::clone(&backend.signals);
++    let (mut transport, observer) = worker(backend);
++    let send = tokio::spawn(transport.send(initialize()?));
++    wait(&signals.startup).await?;
++    let completion = tokio::time::timeout(Duration::from_secs(/*secs*/ 2), transport.close_observed())
++        .await?.context("missing worker completion")?;
++    let sent = send.await?;
++    let receipt = observer.snapshot().context("missing cleanup receipt")?;
++    assert!(sent.is_err());
++    assert!(matches!(completion.result(), Ok(Err(WorkerQuitReason::Cancelled))));
++    assert!(receipt.local_cleanup_complete());
++    assert!(matches!(&receipt.remote_delete, HttpRemoteDeleteOutcome::NoKnownSession));
++    assert_eq!(signals.dropped_requests.load(Ordering::SeqCst), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn stalled_initialize_body_preserves_known_session_for_delete() -> anyhow::Result<()> {
++    let backend = Backend::new(Scenario::BodyStall, Delete::Deleted);
++    let signals = Arc::clone(&backend.signals);
++    let (mut transport, observer) = worker(backend);
++    transport.send(initialize()?).await?;
++    wait(&signals.initial_body).await?;
++    let completion = transport.close_observed().await.context("missing completion")?;
++    let receipt = observer.snapshot().context("missing receipt")?;
++    assert!(matches!(completion.result(), Ok(Err(WorkerQuitReason::Cancelled))));
++    assert!(receipt.local_cleanup_complete());
++    assert!(matches!(&receipt.remote_delete, HttpRemoteDeleteOutcome::Deleted));
++    assert_eq!(signals.dropped_bodies.load(Ordering::SeqCst), 1);
++    assert_eq!(*signals.deleted.lock().unwrap_or_else(std::sync::PoisonError::into_inner),
++        vec!["known-session".to_owned()]);
++    Ok(())
++}
++
++#[tokio::test]
++async fn initialized_error_and_stall_both_run_session_cleanup() -> anyhow::Result<()> {
++    for scenario in [Scenario::InitializedFailure, Scenario::InitializedStall] {
++        let backend = Backend::new(scenario, Delete::Deleted);
++        let signals = Arc::clone(&backend.signals);
++        let (mut transport, observer) = worker(backend);
++        transport.send(initialize()?).await?;
++        transport.receive().await.context("missing initialize response")?;
++        let send = tokio::spawn(transport.send(initialized()?));
++        wait(&signals.initialized).await?;
++        let completion = transport.close_observed().await.context("missing completion")?;
++        let sent = send.await?;
++        let receipt = observer.snapshot().context("early exit bypassed cleanup")?;
++        assert!(sent.is_err());
++        assert!(matches!(completion.result(), Ok(Err(_))));
++        assert!(receipt.local_cleanup_complete());
++        assert!(matches!(&receipt.remote_delete, HttpRemoteDeleteOutcome::Deleted));
++    }
++    Ok(())
++}
++
++#[tokio::test(start_paused = true)]
++async fn remote_delete_outcomes_do_not_erase_actual_sse_joins() -> anyhow::Result<()> {
++    for delete in [Delete::Deleted, Delete::Unsupported, Delete::Failed, Delete::Stall] {
++        let backend = Backend::new(Scenario::Live, delete);
++        let signals = Arc::clone(&backend.signals);
++        let (mut transport, observer) = worker(backend);
++        start(&mut transport).await?;
++        wait(&signals.common).await?;
++        transport.send(tools_request()?).await?;
++        wait(&signals.response).await?;
++        let completion = transport.close_observed().await.context("missing completion")?;
++        let receipt = observer.snapshot().context("missing receipt")?;
++        assert!(completion.result().is_ok());
++        assert!(receipt.local_cleanup_complete());
++        assert_eq!(receipt.joined_sse_tasks, 2);
++        assert_eq!(signals.dropped_bodies.load(Ordering::SeqCst), 2);
++        assert!(match (delete, &receipt.remote_delete) {
++            (Delete::Deleted, HttpRemoteDeleteOutcome::Deleted)
++            | (Delete::Unsupported, HttpRemoteDeleteOutcome::Unsupported)
++            | (Delete::Stall, HttpRemoteDeleteOutcome::TimedOut) => true,
++            (Delete::Failed, HttpRemoteDeleteOutcome::Failed(StreamableHttpError::Client(error))) =>
++                error.to_string() == "delete rejected",
++            _ => false,
++        });
++    }
++    Ok(())
++}
++
++#[tokio::test]
++async fn protocol_panic_still_joins_sse_before_preserving_original_panic() -> anyhow::Result<()> {
++    let backend = Backend::new(Scenario::ProtocolPanic, Delete::Deleted);
++    let signals = Arc::clone(&backend.signals);
++    let (mut transport, observer) = worker(backend);
++    start(&mut transport).await?;
++    wait(&signals.common).await?;
++    let sent = transport.send(tools_request()?).await;
++    let completion = transport.close_observed().await.context("missing completion")?;
++    let receipt = observer.snapshot().context("panic skipped common cleanup")?;
++    assert!(sent.is_err());
++    assert!(matches!(completion.result(), Err(error) if error.is_panic()));
++    assert!(receipt.local_cleanup_complete());
++    assert_eq!(receipt.joined_sse_tasks, 1);
++    assert_eq!(signals.dropped_bodies.load(Ordering::SeqCst), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn actual_sse_task_panic_is_retained_in_cleanup_receipt() -> anyhow::Result<()> {
++    let backend = Backend::new(Scenario::SsePanic, Delete::Deleted);
++    let signals = Arc::clone(&backend.signals);
++    let (mut transport, observer) = worker(backend);
++    start(&mut transport).await?;
++    wait(&signals.common).await?;
++    let _completion = transport.close_observed().await.context("missing completion")?;
++    let receipt = observer.snapshot().context("missing receipt")?;
++    assert!(!receipt.local_cleanup_complete());
++    assert_eq!(receipt.unexpected_sse_task_failures, 1);
++    assert!(receipt.first_sse_task_failure.as_ref().is_some_and(tokio::task::JoinError::is_panic));
++    assert_eq!(signals.dropped_bodies.load(Ordering::SeqCst), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn cloned_worker_observations_cannot_report_another_workers_completion() -> anyhow::Result<()> {
++    let first = StreamableHttpClientWorker::new(Backend::new(Scenario::StartupStall, Delete::Deleted),
++        StreamableHttpClientTransportConfig::with_uri("http://fixture.invalid/mcp"));
++    let second = first.clone();
++    let first_observer = first.cleanup_observer();
++    let shared_observer = first_observer.clone();
++    let second_observer = second.cleanup_observer();
++    let mut first = WorkerTransport::spawn(first);
++    let mut second = WorkerTransport::spawn(second);
++    let _first_completion = first.close_observed().await.context("first completion missing")?;
++    let receipt = first_observer.snapshot().context("first receipt missing")?;
++    let shared = shared_observer.snapshot().context("cloned observer receipt missing")?;
++    assert!(Arc::ptr_eq(&receipt, &shared));
++    assert!(second_observer.snapshot().is_none());
++    let _second_completion = second.close_observed().await.context("second completion missing")?;
++    assert!(second_observer.snapshot().is_some());
++    Ok(())
++}
++
++
++#[cfg(feature = "transport-streamable-http-client-reqwest")]
++#[tokio::test]
++async fn actual_http_sse_task_joins_before_worker_completion() -> anyhow::Result<()> {
++    use axum::body::Body;
++    use axum::response::Response;
++
++    async fn post(body: String) -> Result<Response, StatusCode> {
++        let message: serde_json::Value = serde_json::from_str(&body)
++            .map_err(|_| StatusCode::BAD_REQUEST)?;
++        let response = if message["method"] == "initialize" {
++            Response::builder().status(StatusCode::OK)
++                .header("content-type", "application/json")
++                .header("mcp-session-id", "real-sse-session")
++                .body(Body::from(initialize_response().to_string()))
++        } else {
++            Response::builder().status(StatusCode::ACCEPTED).body(Body::empty())
++        };
++        response.map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)
++    }
++
++    let get_started = Arc::new(Notify::new());
++    let stop = CancellationToken::new();
++    let deletes = Arc::new(AtomicUsize::new(0));
++    let get_signal = Arc::clone(&get_started);
++    let release_body = stop.clone();
++    let delete_count = Arc::clone(&deletes);
++    let app = axum::Router::new().route("/mcp", axum::routing::post(post)
++        .get(move || {
++            let started = Arc::clone(&get_signal);
++            let release = release_body.clone();
++            async move {
++                started.notify_one();
++                // The real HTTP GET and open response exercise the pinned SSE
++                // task. This gate does not claim that a body chunk was parsed.
++                let body = futures::stream::once(async { Ok::<_, io::Error>(": held\n\n") })
++                    .chain(futures::stream::once(async move {
++                        release.cancelled().await;
++                        Ok::<_, io::Error>("")
++                    }));
++                ([(http::header::CONTENT_TYPE, "text/event-stream")], Body::from_stream(body))
++            }
++        })
++        .delete(move || {
++            let deletes = Arc::clone(&delete_count);
++            async move {
++                deletes.fetch_add(1, Ordering::SeqCst);
++                StatusCode::NO_CONTENT
++            }
++        }));
++    let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await?;
++    let uri = format!("http://{}/mcp", listener.local_addr()?);
++    let shutdown = stop.clone();
++    let server = tokio::spawn(async move {
++        axum::serve(listener, app).with_graceful_shutdown(shutdown.cancelled_owned()).await
++    });
++    let worker = StreamableHttpClientWorker::new(reqwest::Client::new(),
++        StreamableHttpClientTransportConfig::with_uri(uri));
++    let observer = worker.cleanup_observer();
++    let mut transport = WorkerTransport::spawn(worker);
++    let exchange = async {
++        transport.send(initialize()?).await?;
++        transport.receive().await.context("missing network initialize response")?;
++        transport.send(initialized()?).await?;
++        wait(&get_started).await?;
++        anyhow::Ok(())
++    }.await;
++    // Always release and join the owned fixture server before returning an
++    // operation error or checking assertions; no server JoinHandle is detached.
++    let completion = transport.close_observed().await;
++    stop.cancel();
++    server.await??;
++    exchange?;
++    let completion = completion.context("missing network worker completion")?;
++    let receipt = observer.snapshot().context("missing network cleanup receipt")?;
++    assert!(completion.result().is_ok());
++    assert!(receipt.local_cleanup_complete());
++    assert_eq!(receipt.joined_sse_tasks, 1);
++    assert!(matches!(&receipt.remote_delete, HttpRemoteDeleteOutcome::Deleted));
++    assert_eq!(deletes.load(Ordering::SeqCst), 1);
++    Ok(())
++}
++
++
++#[tokio::test]
++async fn cleanup_panic_leaves_receipt_absent_after_sse_was_joined() -> anyhow::Result<()> {
++    let backend = Backend::new(Scenario::Live, Delete::Panic);
++    let signals = Arc::clone(&backend.signals);
++    let (mut transport, observer) = worker(backend);
++    start(&mut transport).await?;
++    wait(&signals.common).await?;
++    let completion = transport.close_observed().await.context("missing completion")?;
++    assert!(matches!(completion.result(), Err(error) if error.is_panic()));
++    assert!(observer.snapshot().is_none());
++    assert_eq!(signals.dropped_bodies.load(Ordering::SeqCst), 1);
++    Ok(())
++}
++
++#[tokio::test]
++async fn runtime_abort_during_delete_cannot_publish_a_clean_receipt() -> anyhow::Result<()> {
++    let fixture = std::thread::spawn(|| -> anyhow::Result<_> {
++        let runtime = tokio::runtime::Builder::new_current_thread().enable_all().build()?;
++        let observed = runtime.block_on(async {
++            let backend = Backend::new(Scenario::Live, Delete::Stall);
++            let signals = Arc::clone(&backend.signals);
++            let (mut transport, observer) = worker(backend);
++            start(&mut transport).await?;
++            let mut close = Box::pin(transport.close_observed());
++            tokio::select! {
++                _ = signals.delete_started.notified() => {}
++                _ = &mut close => anyhow::bail!("held DELETE completed unexpectedly"),
++            }
++            drop(close);
++            anyhow::Ok((transport, observer))
++        });
++        drop(runtime);
++        observed
++    });
++    let (mut transport, observer) = fixture.join()
++        .map_err(|_| anyhow::anyhow!("runtime fixture panicked"))??;
++    let completion = transport.close_observed().await.context("cancelled worker completion missing")?;
++    assert!(matches!(completion.result(), Err(error) if error.is_cancelled()));
++    assert!(observer.snapshot().is_none());
++    Ok(())
++}
++
++
++#[tokio::test(flavor = "multi_thread", worker_threads = 2)]
++async fn close_observation_waits_for_actual_sse_task_destructor_completion() -> anyhow::Result<()> {
++    let backend = Backend::new(Scenario::Live, Delete::Deleted);
++    let signals = Arc::clone(&backend.signals);
++    let gate = Arc::new(DropGate::default());
++    let release = ReleaseDrop(Arc::clone(&gate));
++    *signals.drop_gate.lock().unwrap_or_else(std::sync::PoisonError::into_inner) = Some(Arc::clone(&gate));
++    let (mut transport, observer) = worker(backend);
++    start(&mut transport).await?;
++    wait(&signals.common).await?;
++    let mut close = Box::pin(transport.close_observed());
++    tokio::select! {
++        _ = gate.entered.notified() => {}
++        _ = &mut close => anyhow::bail!("worker completed before held SSE destructor"),
++    }
++    drop(close);
++    let pending = tokio::time::timeout(Duration::from_millis(/*millis*/ 5), transport.close_observed()).await.is_err();
++    let unpublished = observer.snapshot().is_none();
++    // This guard also releases the native wait on every error/unwind path.
++    drop(release);
++    let completion = tokio::time::timeout(Duration::from_secs(/*secs*/ 2), transport.close_observed())
++        .await?.context("missing completion after destructor release")?;
++    let receipt = observer.snapshot().context("missing joined teardown receipt")?;
++    assert!(pending && unpublished);
++    assert!(completion.result().is_ok());
++    assert!(receipt.local_cleanup_complete());
++    assert_eq!(receipt.joined_sse_tasks, 1);
++    assert_eq!(signals.dropped_bodies.load(Ordering::SeqCst), 1);
++    Ok(())
++}

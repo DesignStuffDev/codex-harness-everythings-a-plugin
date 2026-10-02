@@ -13,8 +13,11 @@ use clap::Parser;
 use codex_arg0::Arg0DispatchPaths;
 use codex_arg0::arg0_dispatch_or_else;
 use codex_exec::Cli;
-use codex_exec::run_main;
+use codex_exec::run_main_with_process_final;
 use codex_utils_cli::CliConfigOverrides;
+use codex_utils_process::process_shutdown::ProcessFinalCapability;
+
+mod process_final;
 
 #[derive(Parser, Debug)]
 struct TopCli {
@@ -34,8 +37,10 @@ fn main() -> anyhow::Result<()> {
             .config_overrides
             .prepend_root_overrides(top_cli.config_overrides);
 
-        run_main(inner, arg0_paths).await?;
-        Ok(())
+        let process_final = ProcessFinalCapability::for_executable();
+        let operation =
+            run_main_with_process_final(inner, arg0_paths, process_final.clone()).await;
+        process_final::finish(operation, &process_final).await
     })
 }
 

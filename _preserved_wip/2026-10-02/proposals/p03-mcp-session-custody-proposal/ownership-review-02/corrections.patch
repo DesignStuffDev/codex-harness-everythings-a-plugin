@@ -1,0 +1,25 @@
+--- a/codex-rs/codex-mcp/src/connection_manager_tests.rs
++++ b/codex-rs/codex-mcp/src/connection_manager_tests.rs
+@@ -3827,7 +3827,7 @@
+ }
+ 
+ #[tokio::test]
+-async fn shutdown_cancels_pending_tool_listing() {
++async fn shutdown_cancels_pending_tool_listing() -> anyhow::Result<()> {
+     let cancel_token = CancellationToken::new();
+     let cancel_token_for_startup = cancel_token.clone();
+     let (started_tx, started_rx) = tokio::sync::oneshot::channel();
+@@ -3865,11 +3865,10 @@
+ 
+     started_rx.await.expect("tool listing should start");
+     tokio::time::timeout(Duration::from_secs(1), manager.shutdown())
+-        .await
+-        .expect("shutdown should cancel speculative tool listing")
+-        .expect("owned shutdown task should join");
++        .await??;
+     let tools = list_task.await.expect("tool listing task should not panic");
+     assert!(tools.is_empty());
++    Ok(())
+ }
+ 
+ #[tokio::test]

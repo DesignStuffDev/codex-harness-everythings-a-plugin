@@ -246,9 +246,19 @@ where
                 main_fn,
             ))
         })?;
-    match handle.join() {
+    // The native main thread has now dropped its Tokio runtime. Only this
+    // point can disarm the independent process-final watchdog.
+    let result = match handle.join() {
         Ok(result) => result,
-        Err(payload) => std::panic::resume_unwind(payload),
+        Err(payload) => {
+            let _ = codex_utils_process::process_shutdown::finish_after_runtime();
+            std::panic::resume_unwind(payload)
+        }
+    };
+    match (result, codex_utils_process::process_shutdown::finish_after_runtime()) {
+        (Ok(()), cleanup) => cleanup.map_err(Into::into),
+        (Err(error), Ok(())) => Err(error),
+        (Err(error), Err(cleanup)) => Err(error.context(cleanup)),
     }
 }
 

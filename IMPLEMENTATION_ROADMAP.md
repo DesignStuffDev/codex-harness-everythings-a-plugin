@@ -1054,3 +1054,23 @@ Keep C2b extraction, repository/SHA recovery journal, host-death fencing, native
 remaining P04–P19 extraction and P18U real upstream integration/rollback on the ordered queue.
 Main stays source655 until the combined host contract gates pass. Viewer connectivity is optional;
 P00M provenance and verified source/evidence checkpoints continue without it.
+
+### Process-final integration in progress — 2026-10-02
+
+The owning checkout now contains the reviewed process-final/replacement-delivery candidate,
+with its exact source, tests and remaining gates recorded at the top of EXECUTION_STATE.md.
+Native703 and App Server431 library checks passed. Client01 executed no tests because linking
+failed at zero free disk; the separately recorded unchanged-source client retry passed42/42
+with strict0/null. Preserve the failed attempt and each source binding.
+No fresh full-host proof or new extracted-component count follows from those library results.
+
+Next: complete actual client/exec/CLI/TUI/manager and App Server lifecycle checks; rebuild
+the real host and manager; then run held production Git/HTTP and separately installed storage /
+GUI recovery, including real manager shutdown with an admitted relay-held write exceeding45
+seconds and a forced-uncertainty case. The relay boundary is before native storage admission.
+MCP session/transport custody and pinned HTTP-worker completion remain separately staged and
+uncompiled; their own source/ownership/real-worker gates are required before any all-host claim.
+Keep source922's prior green runtime checkpoint separate from the current native candidate.
+
+This is still the P03 prerequisite gate. P04–P19 and the required P18U updater retain their
+original scope and acceptance criteria; optional viewer networking remains independent.

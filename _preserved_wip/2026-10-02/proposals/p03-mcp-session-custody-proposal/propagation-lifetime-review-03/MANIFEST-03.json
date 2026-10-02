@@ -1,0 +1,57 @@
+{
+  "status": "Frozen additive03 review correction, no adoption/Rust/fmt/tests executed",
+  "applies_after": "../COMBINED-MANIFEST-02.json",
+  "combined02_sha256": "d99b4b1ce641d51952eecb0adf9ba761777c1f5bea45ee2c9d7e5d961714dcef",
+  "files": [
+    {
+      "path": "codex-rs/core/src/agent/control/spawn_guard.rs",
+      "preimage_sha256": "8ac3ab1d47171c01ed5fb4b9901ec4230af7d10a35df5f0d713c092885efa86f",
+      "sha256": "b5b8566b509abd87f35bfb5a270557bf97cc38dcb7aa949186346d79d04867d4",
+      "added": 14,
+      "removed": 7
+    },
+    {
+      "path": "codex-rs/core/src/thread_manager/managed.rs",
+      "preimage_sha256": "70a88ecf800545c8df8e332cda9e051725cf5b6ca16446bf1036497aba7f24f6",
+      "sha256": "c6e27c4a40edee042c9742c8dd8408ff83e2da683bc451db2a5063ef0cc471ad",
+      "added": 8,
+      "removed": 3
+    },
+    {
+      "path": "codex-rs/core/src/thread_manager/shutdown.rs",
+      "preimage_sha256": "5d66b01df9e988bd6e99a12b590aff2f28fdb2e583efedf9403f1703718c9ded",
+      "sha256": "90666d905d8e867e098f0402755c0698a4250dbac4c452c5aaffa566c8e3c1c3",
+      "added": 13,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core/src/thread_manager/shutdown_tests.rs",
+      "preimage_sha256": "d87c1996b8bd8b958d6e04f7d7279f0e46ebd39ec91d8da32e315d893e2df9ce",
+      "sha256": "7da530706a312d416af8674cf03efce0749cf68c9965272c39c1ed3d38a700eb",
+      "added": 52,
+      "removed": 0
+    },
+    {
+      "path": "codex-rs/core/src/thread_manager.rs",
+      "preimage_sha256": "f50e9e882b70ee102ed26a2c9dbc3f2ad32fd1a96d55167050c099edec79188b",
+      "sha256": "daedb84a96827ef56f2002763ce8ab33500fdbf6d1844b3f0ec2d8c20c15adc9",
+      "added": 20,
+      "removed": 17
+    }
+  ],
+  "patch_sha256": "909c317bec8aedac13b8fc74ac84827dbf582f8c681bb95d029baf57118fb9a4",
+  "behavior": [
+    "Successful exact removed owners retire after clean termination observation during normal removals, new admission and existing managed/spawn cleanup, outside live/removed registry locks.",
+    "Pending and failed owners remain reachable. Same-ID replacement cannot retire the older failed owner by ID alone.",
+    "No new task or detached cleanup introduced. Existing spawn-guard cleanup no longer discards persistence after known typed shutdown failure.",
+    "Successful retirement requires exact joined SessionLoopTermination Ok, never AgentStatus or mere process exit."
+  ],
+  "tests": "Two new unexecuted tests: four distinct real-session clean open/shutdown/remove cycles alternating both removal APIs, asserting weak owner release and empty removed registry; pending+failure exact owners survive sweep.",
+  "known_limits": [
+    "A completion with no existing observer and no later manager activity stays conservatively retained until another observation/admission/removal/final drain. This is not a background reaper.",
+    "Process-final new-session admission and vanished-manager aggregate gaps remain unchanged.",
+    "Existing spawn-guard outer cleanup task predates this patch; no new detached task is introduced or claim of all task ownership made.",
+    "Lower MCP service/transport and HTTP confirmation remain separate unadopted work."
+  ],
+  "validation": "Independent static review of all5 source files/preimages ACK; only a subsequent initial_messages comment changed. Zero-fuzz zero-offset replay passed; all5 final hashes matched. No runtime tests."
+}

@@ -69,7 +69,7 @@ pub(super) async fn run_main_inner(
         #[allow(clippy::print_stderr)]
         Err(e) => {
             eprintln!("Error parsing -c overrides: {e}");
-            std::process::exit(1);
+            return Err(std::io::Error::other(e));
         }
     };
     if explicit_remote_endpoint.is_some()
@@ -89,7 +89,7 @@ pub(super) async fn run_main_inner(
         Ok(codex_home) => codex_home.to_path_buf(),
         Err(err) => {
             eprintln!("Error finding codex home: {err}");
-            std::process::exit(1);
+            return Err(err);
         }
     };
 
@@ -126,7 +126,7 @@ pub(super) async fn run_main_inner(
         let mut validation_loader_overrides = launch_loader_overrides.clone();
         validation_loader_overrides.ignore_login_requirements =
             validation_target.uses_remote_workspace();
-        let validation_bootstrap = load_bootstrap_config_or_exit(
+        let validation_bootstrap = load_bootstrap_config_for_startup(
             &codex_home,
             validation_cwd.as_ref(),
             cli_kv_overrides.clone(),
@@ -134,7 +134,7 @@ pub(super) async fn run_main_inner(
             strict_config,
             CloudConfigBundleLoader::default(),
         )
-        .await;
+        .await?;
         let validation_cloud_config_bundle = if workload_identity_selected {
             cloud_config_bundle_for_app_server_target(
                 &validation_target,
@@ -146,7 +146,7 @@ pub(super) async fn run_main_inner(
         } else {
             CloudConfigBundleLoader::default()
         };
-        load_config_or_exit(
+        load_config_for_startup(
             cli_kv_overrides.clone(),
             ConfigOverrides {
                 model: cli.model.clone(),
@@ -170,7 +170,7 @@ pub(super) async fn run_main_inner(
             validation_cloud_config_bundle,
             strict_config,
         )
-        .await;
+        .await?;
     }
 
     let mut daemon_exclusion = daemon_startup::exclusion(
@@ -357,7 +357,7 @@ pub(super) async fn run_main_inner(
             // auth/base-url settings needed to fetch the bundle. If OSS mode
             // needs a default provider from config, reload with the bundle.
             bootstrap_config_with_cloud_config = startup_draft
-                .run_until(load_bootstrap_config_or_exit(
+                .run_until(load_bootstrap_config_for_startup(
                     &codex_home,
                     config_cwd.as_ref(),
                     cli_kv_overrides.clone(),
@@ -365,7 +365,7 @@ pub(super) async fn run_main_inner(
                     strict_config,
                     cloud_config_bundle.clone(),
                 ))
-                .await?;
+                .await??;
             &bootstrap_config_with_cloud_config.config_toml
         } else {
             bootstrap_config_toml
@@ -440,14 +440,14 @@ pub(super) async fn run_main_inner(
     };
 
     let mut config = startup_draft
-        .run_until(load_config_or_exit(
+        .run_until(load_config_for_startup(
             cli_kv_overrides.clone(),
             overrides.clone(),
             loader_overrides.clone(),
             cloud_config_bundle.clone(),
             strict_config,
         ))
-        .await?;
+        .await??;
     if app_server_target.uses_embedded_network_policy() {
         embedded_network_policy.activate(&mut config);
     }
@@ -735,18 +735,23 @@ pub(super) async fn run_main_inner(
     ) {
         #[allow(clippy::print_stderr)]
         {
+            process_final::begin();
             restore_terminal_before_fatal_exit();
             eprintln!("Error adding directories: {warning}");
             if let Some(worktree) = managed_worktree.as_ref() {
                 worktree.report_startup_failure();
             }
             launch_telemetry.record(&app_server_target, /*connected*/ false);
+            let result = process_final::finish(Err(std::io::Error::other(format!(
+                "Error adding directories: {warning}"
+            ))))
+            .await;
             if let Some(otel) = otel {
                 let _ = otel
                     .shutdown_with_timeout(INTERACTIVE_OTEL_SHUTDOWN_TIMEOUT)
                     .await;
             }
-            std::process::exit(1);
+            return result;
         }
     }
 
@@ -756,18 +761,20 @@ pub(super) async fn run_main_inner(
             .run_until(enforce_login_restrictions(&config.auth_config()))
             .await?
         {
+            process_final::begin();
             restore_terminal_before_fatal_exit();
             eprintln!("{err}");
             if let Some(worktree) = managed_worktree.as_ref() {
                 worktree.report_startup_failure();
             }
             launch_telemetry.record(&app_server_target, /*connected*/ false);
+            let result = process_final::finish(Err(err)).await;
             if let Some(otel) = otel {
                 let _ = otel
                     .shutdown_with_timeout(INTERACTIVE_OTEL_SHUTDOWN_TIMEOUT)
                     .await;
             }
-            std::process::exit(1);
+            return result;
         }
     }
 
@@ -888,6 +895,8 @@ pub(super) async fn run_main_inner(
             .unwrap_or_else(|err| std::io::Error::other(err.to_string()))
     });
 
+    // Emit the ownership receipt before telemetry shutdown and file-guard drop.
+    let app_result = process_final::finish(app_result).await;
     if let Some(worktree) = managed_worktree.as_ref() {
         worktree.report_startup_failure();
     }

@@ -183,7 +183,7 @@ pub(super) async fn prepare(
         if cli.cwd.is_none() {
             let cwd = latest_thread_cwd(thread.path, thread.cwd.into_path_buf()).await;
             let cwd = AbsolutePathBuf::from_absolute_path(cwd)?;
-            let bootstrap = load_bootstrap_config_or_exit(
+            let bootstrap = load_bootstrap_config_for_startup(
                 &source.codex_home,
                 Some(&cwd),
                 cli_overrides.clone(),
@@ -191,7 +191,7 @@ pub(super) async fn prepare(
                 strict_config,
                 CloudConfigBundleLoader::default(),
             )
-            .await;
+            .await?;
             let source_bundle = cloud_config_bundle_for_app_server_target(
                 target,
                 &bootstrap,
@@ -200,14 +200,14 @@ pub(super) async fn prepare(
             )
             .await?;
             overrides.cwd = Some(cwd.into_path_buf());
-            source = load_config_or_exit(
+            source = load_config_for_startup(
                 cli_overrides.clone(),
                 overrides.clone(),
                 loader_overrides.clone(),
                 source_bundle,
                 strict_config,
             )
-            .await;
+            .await?;
         }
     }
     if !source.features.enabled(codex_features::Feature::Worktrees) {
@@ -226,7 +226,7 @@ pub(super) async fn prepare(
             *path = invocation_cwd.join(&*path);
         }
     }
-    let host = load_bootstrap_config_or_exit(
+    let host = load_bootstrap_config_for_startup(
         &source.codex_home,
         /*cwd*/ None,
         Vec::new(),
@@ -234,7 +234,7 @@ pub(super) async fn prepare(
         strict_config,
         CloudConfigBundleLoader::default(),
     )
-    .await;
+    .await?;
     let manager = codex_worktree::WorktreeManager::new(
         codex_worktree::WorktreeSettings::for_cli(
             &source.codex_home,

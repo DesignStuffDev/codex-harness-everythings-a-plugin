@@ -133,6 +133,7 @@ mod notification_media;
 mod otel_reloader;
 mod outgoing_message;
 mod persistence_lifecycle;
+mod process_final;
 mod plugin_config_reload;
 mod request_processors;
 mod request_serialization;
@@ -479,6 +480,8 @@ pub struct AppServerRuntimeOptions {
     pub remote_control_startup_mode: RemoteControlStartupMode,
     pub install_shutdown_signal_handler: bool,
     pub managed_daemon: bool,
+    /// Only executable owners may irreversibly stop process-wide startup work.
+    pub process_final: Option<codex_utils_process::process_shutdown::ProcessFinalCapability>,
 }
 
 impl Default for AppServerRuntimeOptions {
@@ -489,6 +492,7 @@ impl Default for AppServerRuntimeOptions {
             remote_control_startup_mode: RemoteControlStartupMode::ResolvePersisted,
             install_shutdown_signal_handler: true,
             managed_daemon: false,
+            process_final: None,
         }
     }
 }
@@ -505,6 +509,7 @@ pub async fn run_main_with_transport_options(
     auth: WebsocketAuthSettings,
     runtime_options: AppServerRuntimeOptions,
 ) -> IoResult<AppServerExit> {
+    let process_final = runtime_options.process_final.clone();
     #[cfg(target_os = "windows")]
     let _registered_core = codex_windows_sandbox::registered_core_requested();
     let loader_overrides = loader_overrides_with_test_user_config_file(
@@ -812,6 +817,10 @@ pub async fn run_main_with_transport_options(
                 transport_event_tx.clone(),
                 stdio_client_name_tx,
                 runtime_options.install_shutdown_signal_handler,
+                process_final.clone().map(|capability| {
+                    Arc::new(move || process_final::begin(Some(&capability)))
+                        as Arc<dyn Fn() + Send + Sync>
+                }),
             )
             .await?;
             transport_accept_handles.push(handle);
@@ -985,6 +994,7 @@ pub async fn run_main_with_transport_options(
     let processor_search_lifecycle = search_lifecycle.fork();
     let processor_callback_lifecycle = curated_callback_lifecycle.fork();
     let processor_handle = tokio::spawn({
+        let process_final = process_final.clone();
         let auth_manager = Arc::clone(&auth_manager);
         let initialize_notification_sender = outgoing_message_sender.clone();
         let outbound_control_tx = outbound_control_tx;
@@ -1072,6 +1082,7 @@ pub async fn run_main_with_transport_options(
                     ShutdownAction::Finish
                 );
                 if ready_to_exit {
+                    process_final::begin(process_final.as_ref());
                     if let Some(task) = &recovery_task {
                         task.abort();
                     }
@@ -1079,7 +1090,7 @@ pub async fn run_main_with_transport_options(
                     if finished {
                         transport_shutdown_token.cancel();
                     }
-                    if managed_daemon && shutdown_state.forced() {
+                    if shutdown_state.forced() {
                         break "forced_shutdown_requested";
                     }
                     if !clients_disconnected {
@@ -1106,6 +1117,7 @@ pub async fn run_main_with_transport_options(
                                 continue;
                             }
                         };
+                        process_final::begin(process_final.as_ref());
                         let running_turn_count = *running_turn_count_rx.borrow();
                         shutdown_state.on_signal(signal, connections.len(), running_turn_count, &processor.turn_admission);
                     }
@@ -1131,6 +1143,7 @@ pub async fn run_main_with_transport_options(
                         }
                         match event {
                             TransportEvent::DaemonShutdown => {
+                                process_final::begin(process_final.as_ref());
                                 shutdown_state.on_signal(ShutdownSignal::Forceable, connections.len(), *running_turn_count_rx.borrow(), &processor.turn_admission);
                             }
                             TransportEvent::ConnectionOpened {
@@ -1337,6 +1350,7 @@ pub async fn run_main_with_transport_options(
                 }
             };
 
+            process_final::begin(process_final.as_ref());
             if let Some(task) = recovery_task {
                 task.abort();
             }
@@ -1345,7 +1359,7 @@ pub async fn run_main_with_transport_options(
             processor_search_lifecycle.begin_shutdown();
             processor.request_curated_callbacks_shutdown();
             processor.request_search_shutdown();
-            let background_cleanup = if !shutdown_state.forced() {
+            let background_cleanup = process_final::phase(async { if !shutdown_state.forced() {
                 futures::future::join_all(connections.iter().map(
                     |(&connection_id, connection_state)| {
                         processor.connection_closed(connection_id, &connection_state.session)
@@ -1354,19 +1368,19 @@ pub async fn run_main_with_transport_options(
                 .await;
                 connection_cleanup_tasks.drain().await;
                 let cleanup = processor.drain_background_tasks().await;
-                processor.shutdown_threads().await;
-                cleanup
+                let sessions = processor.shutdown_threads().await;
+                file_search_services::combine(cleanup.map_err(std::io::Error::other), sessions)
             } else {
                 connection_cleanup_tasks.abort();
                 Ok(())
-            };
+            }}).await;
             info!(
                 exit_reason,
                 remaining_connection_count = connections.len(),
                 shutdown_forced = shutdown_state.forced(),
                 "processor task exited"
             );
-            if managed_daemon && shutdown_state.forced() {
+            if shutdown_state.forced() {
                 Ok(AppServerExit::Forced)
             } else {
                 background_cleanup.map_err(std::io::Error::other)?;
@@ -1378,6 +1392,7 @@ pub async fn run_main_with_transport_options(
     drop(transport_event_tx);
 
     let processor_exit = processor_handle.await;
+    process_final::begin(process_final.as_ref());
     search_lifecycle.begin_shutdown();
     // Ancillary routers can retain senders after request processing stops; do
     // not postpone the storage fence until all transport tasks have exited.
@@ -1388,16 +1403,20 @@ pub async fn run_main_with_transport_options(
     if matches!(&processor_result, Ok(AppServerExit::Forced)) {
         return Ok(AppServerExit::Forced);
     }
-    let _ = outbound_handle.await;
+    let outbound_result = process_final::join(outbound_handle).await;
 
     transport_shutdown_token.cancel();
-    let _ = otel_reloader_handle.await;
+    let otel_result = process_final::join(otel_reloader_handle).await;
+    let mut transport_result = Ok(());
     for handle in transport_accept_handles {
-        let _ = handle.await;
+        transport_result = file_search_services::combine(transport_result, process_final::join(handle).await);
     }
 
-    processor_result
+    let result = file_search_services::combine(processor_result, outbound_result);
+    let result = file_search_services::combine(result, otel_result);
+    file_search_services::combine(result, transport_result)
     }.await;
+    process_final::begin(process_final.as_ref());
     if matches!(&result, Ok(AppServerExit::Forced)) {
         // Force shutdown remains responsive. Drop fences storage immediately;
         // its supervisor/runtime teardown owns termination. Accepted write
@@ -1407,7 +1426,8 @@ pub async fn run_main_with_transport_options(
     let result = curated_callback_lifecycle.finish(result).await;
     let (store_result, search_result) =
         tokio::join!(store_lifecycle.finish(result), search_lifecycle.finish());
-    file_search_services::combine(store_result, search_result)
+    let result = file_search_services::combine(store_result, search_result);
+    process_final::finish(result, process_final.as_ref()).await
 }
 
 struct SqliteRecoveryNotice {

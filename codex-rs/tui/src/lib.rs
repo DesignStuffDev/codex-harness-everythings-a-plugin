@@ -72,6 +72,7 @@ use codex_utils_absolute_path::canonicalize_existing_preserving_symlinks;
 use codex_utils_home_dir::find_codex_home;
 use codex_utils_oss::ensure_oss_provider_ready;
 use codex_utils_oss::get_default_model_for_oss_provider;
+use codex_utils_process::process_shutdown::ProcessFinalCapability;
 use color_eyre::eyre::WrapErr;
 use crossterm::SynchronizedUpdate;
 use cwd_prompt::CwdPromptAction;
@@ -184,6 +185,7 @@ mod npm_registry;
 pub(crate) mod onboarding;
 mod oss_selection;
 mod pager_overlay;
+mod process_final;
 mod projectless;
 pub(crate) mod public_widgets;
 mod render;
@@ -740,6 +742,7 @@ async fn shutdown_startup_session(
     app_server: Option<AppServerSession>,
     terminal_restore_guard: &mut TerminalRestoreGuard,
 ) {
+    process_final::begin();
     shutdown_app_server_if_present(app_server).await;
     terminal_restore_guard.restore_silently();
     session_log::log_session_end();
@@ -1076,7 +1079,7 @@ fn loader_overrides_are_default(loader_overrides: &LoaderOverrides) -> bool {
     loader_overrides_are_default
 }
 
-/// Restore terminal modes before a fatal startup exit bypasses destructor cleanup.
+/// Restore terminal modes and the unsent draft before reporting a fatal startup error.
 fn restore_terminal_before_fatal_exit() {
     if crossterm::terminal::is_raw_mode_enabled().unwrap_or(false) {
         let _ = tui::restore_after_exit();
@@ -1090,18 +1093,50 @@ pub async fn run_main(
     loader_overrides: LoaderOverrides,
     explicit_remote_endpoint: Option<RemoteAppServerEndpoint>,
 ) -> std::io::Result<AppExitInfo> {
+    process_final::scope(
+        /*capability*/ None,
+        run_main_inner(cli, arg0_paths, loader_overrides, explicit_remote_endpoint),
+    )
+    .await
+}
+
+/// Run a TUI whose final exit belongs to the calling executable.
+///
+/// The caller must observe process cleanup before dropping its runtime. Recoverable
+/// state-db startup errors leave process admission open for the caller's retry.
+pub async fn run_main_with_process_final(
+    cli: Cli,
+    arg0_paths: Arg0DispatchPaths,
+    loader_overrides: LoaderOverrides,
+    explicit_remote_endpoint: Option<RemoteAppServerEndpoint>,
+    capability: ProcessFinalCapability,
+) -> std::io::Result<AppExitInfo> {
+    process_final::scope(
+        Some(capability),
+        run_main_inner(cli, arg0_paths, loader_overrides, explicit_remote_endpoint),
+    )
+    .await
+}
+
+async fn run_main_inner(
+    cli: Cli,
+    arg0_paths: Arg0DispatchPaths,
+    loader_overrides: LoaderOverrides,
+    explicit_remote_endpoint: Option<RemoteAppServerEndpoint>,
+) -> std::io::Result<AppExitInfo> {
     system_motion::initialize().await;
     startup_recovery::scope(async move {
         // Startup retains a large future for the whole session. Keep it off callers' stacks,
         // which also need room to construct a replacement chat widget on `/new`.
-        match Box::pin(startup_orchestration::run_main_inner(
+        let result = Box::pin(startup_orchestration::run_main_inner(
             cli,
             arg0_paths,
             loader_overrides,
             explicit_remote_endpoint,
         ))
-        .await
-        {
+        .await;
+        process_final::begin_after_result(&result);
+        match result {
             Err(err) if startup_draft::StartupCancelled::matches(&err) => Ok(AppExitInfo {
                 token_usage: TokenUsage::default(),
                 thread_id: None,
@@ -1370,7 +1405,7 @@ async fn run_ratatui_app(
                     if !uses_remote_workspace
                         && (onboarding_result.directory_trust_persisted || show_login_screen)
                     {
-                        load_config_or_exit_with_fallback_cwd(
+                        load_config_for_startup_with_fallback_cwd(
                             cli_kv_overrides.clone(),
                             overrides.clone(),
                             loader_overrides.clone(),
@@ -1379,7 +1414,7 @@ async fn run_ratatui_app(
                             /*fallback_cwd*/ None,
                             managed_worktree.as_ref(),
                         )
-                        .await
+                        .await?
                     } else {
                         initial_config
                     },
@@ -1463,6 +1498,7 @@ async fn run_ratatui_app(
             match target_session {
                 Some(target_session) => resume_picker::SessionSelection::Fork(target_session),
                 None => {
+                    process_final::begin();
                     shutdown_app_server_if_present(app_server.take()).await;
                     return missing_session_exit(
                         id_str,
@@ -1565,6 +1601,7 @@ async fn run_ratatui_app(
         match target_session {
             Some(target_session) => resume_picker::SessionSelection::Resume(target_session),
             None => {
+                process_final::begin();
                 shutdown_app_server_if_present(app_server.take()).await;
                 return missing_session_exit(
                     id_str,
@@ -1713,7 +1750,7 @@ async fn run_ratatui_app(
             startup_draft
                 .run_until(
                     &mut tui,
-                    load_config_or_exit_with_fallback_cwd(
+                    load_config_for_startup_with_fallback_cwd(
                         cli_kv_overrides.clone(),
                         overrides.clone(),
                         loader_overrides.clone(),
@@ -1729,7 +1766,7 @@ async fn run_ratatui_app(
             startup_draft
                 .run_until(
                     &mut tui,
-                    load_config_or_exit(
+                    load_config_for_startup(
                         cli_kv_overrides.clone(),
                         overrides.clone(),
                         loader_overrides.clone(),
@@ -1739,11 +1776,11 @@ async fn run_ratatui_app(
                 )
                 .await
         }
-        _ => Ok(config),
+        _ => Ok(Ok(config)),
     };
     let mut config = match reloaded_config {
-        Ok(config) => config,
-        Err(err) => {
+        Ok(Ok(config)) => config,
+        Ok(Err(err)) | Err(err) => {
             shutdown_startup_session(app_server.take(), &mut terminal_restore_guard).await;
             return Err(err.into());
         }
@@ -1839,7 +1876,7 @@ async fn run_ratatui_app(
         startup_account = None;
         if consent.directory_trust_persisted && !uses_remote_workspace {
             let previous_provider = config.model_provider_id.clone();
-            config = load_config_or_exit_with_fallback_cwd(
+            config = load_config_for_startup_with_fallback_cwd(
                 cli_kv_overrides.clone(),
                 overrides.clone(),
                 loader_overrides.clone(),
@@ -1848,7 +1885,7 @@ async fn run_ratatui_app(
                 Some(config.cwd.to_path_buf()),
                 managed_worktree.as_ref(),
             )
-            .await;
+            .await?;
             if app_server_target.uses_embedded_network_policy() {
                 embedded_network_policy.bind_config(&mut config);
             }
@@ -1891,7 +1928,7 @@ async fn run_ratatui_app(
                 });
             }
             if !uses_remote_workspace {
-                config = load_config_or_exit_with_fallback_cwd(
+                config = load_config_for_startup_with_fallback_cwd(
                     cli_kv_overrides.clone(),
                     overrides.clone(),
                     loader_overrides.clone(),
@@ -1900,7 +1937,7 @@ async fn run_ratatui_app(
                     Some(current_cwd.to_path_buf()),
                     managed_worktree.as_ref(),
                 )
-                .await;
+                .await?;
             }
             session_selection = resume_picker::SessionSelection::AgentsOverview;
             cli.prompt = None;
@@ -2038,6 +2075,7 @@ async fn run_ratatui_app(
             Err(error) => {
                 // Selection/capability failure is terminal for this launch. Preserve
                 // the server cleanup error and restore the terminal before exit.
+                process_final::begin();
                 let result = file_search_startup::combine(Err(error), app_server.shutdown().await);
                 terminal_restore_guard.restore_silently();
                 session_log::log_session_end();
@@ -2073,6 +2111,7 @@ async fn run_ratatui_app(
     ))
     .await;
 
+    process_final::begin();
     terminal_restore_guard.restore_silently();
     // The owner outlives the entire App future, including early startup returns.
     let app_result = match file_search_runtime.shutdown().await {
@@ -2181,14 +2220,14 @@ async fn get_login_status(
     Ok((login_status, account))
 }
 
-async fn load_config_or_exit(
+async fn load_config_for_startup(
     cli_kv_overrides: Vec<(String, toml::Value)>,
     overrides: ConfigOverrides,
     loader_overrides: LoaderOverrides,
     cloud_config_bundle: CloudConfigBundleLoader,
     strict_config: bool,
-) -> Config {
-    load_config_or_exit_with_fallback_cwd(
+) -> std::io::Result<Config> {
+    load_config_for_startup_with_fallback_cwd(
         cli_kv_overrides,
         overrides,
         loader_overrides,
@@ -2201,7 +2240,7 @@ async fn load_config_or_exit(
 }
 
 #[allow(clippy::too_many_arguments)]
-async fn load_config_or_exit_with_fallback_cwd(
+async fn load_config_for_startup_with_fallback_cwd(
     cli_kv_overrides: Vec<(String, toml::Value)>,
     overrides: ConfigOverrides,
     loader_overrides: LoaderOverrides,
@@ -2209,7 +2248,7 @@ async fn load_config_or_exit_with_fallback_cwd(
     strict_config: bool,
     fallback_cwd: Option<PathBuf>,
     worktree: Option<&ManagedTuiWorktree>,
-) -> Config {
+) -> std::io::Result<Config> {
     #[allow(clippy::print_stderr)]
     match load_config_with_worktree_source_policy(
         cli_kv_overrides,
@@ -2222,14 +2261,15 @@ async fn load_config_or_exit_with_fallback_cwd(
     )
     .await
     {
-        Ok(config) => config,
+        Ok(config) => Ok(config),
         Err(err) => {
+            process_final::begin();
             restore_terminal_before_fatal_exit();
             eprintln!("Error loading configuration: {err}");
             if let Some(worktree) = worktree {
                 worktree.report_startup_failure();
             }
-            std::process::exit(1);
+            Err(err)
         }
     }
 }
@@ -2269,14 +2309,14 @@ async fn load_config_with_worktree_source_policy(
 }
 
 #[allow(clippy::print_stderr)]
-async fn load_bootstrap_config_or_exit(
+async fn load_bootstrap_config_for_startup(
     codex_home: &Path,
     cwd: Option<&AbsolutePathBuf>,
     cli_kv_overrides: Vec<(String, codex_config::TomlValue)>,
     loader_overrides: LoaderOverrides,
     strict_config: bool,
     cloud_config_bundle: CloudConfigBundleLoader,
-) -> ConfigTomlLoadResult {
+) -> std::io::Result<ConfigTomlLoadResult> {
     match load_config_toml_with_layer_stack(
         codex_home,
         cwd,
@@ -2289,8 +2329,9 @@ async fn load_bootstrap_config_or_exit(
     )
     .await
     {
-        Ok(config_toml) => config_toml,
+        Ok(config_toml) => Ok(config_toml),
         Err(err) => {
+            process_final::begin();
             restore_terminal_before_fatal_exit();
             let config_error = err
                 .get_ref()
@@ -2304,7 +2345,7 @@ async fn load_bootstrap_config_or_exit(
             } else {
                 eprintln!("Error loading config.toml: {err}");
             }
-            std::process::exit(1);
+            Err(err)
         }
     }
 }

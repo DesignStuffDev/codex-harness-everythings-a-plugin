@@ -1,0 +1,78 @@
+{
+  "status": "local read-only source-preservation plan; no external copy, publication, adoption, build, Git operation, or checkout creation",
+  "plan_version": 1,
+  "selected_files": 204,
+  "selected_bytes": 7971037,
+  "plan_artifacts": {
+    "PLAN.md": {
+      "bytes": 7328,
+      "sha256": "275f5b3a96dad64bce29ce084481a950dfffc0854435e96973d0a37a39777dca"
+    },
+    "ALLOWLIST.json": {
+      "bytes": 109968,
+      "sha256": "45630ed70152b44237de33af9a50125fdf636a16f8edb65fc196b6511aaad521"
+    },
+    "ALLOWLIST.tsv": {
+      "bytes": 60770,
+      "sha256": "8bf32c43f4716c57621d82311e1cc86993b37f47b73a7a57401ecafac9045853"
+    }
+  },
+  "verified_manifests": {
+    "p03-mcp-session-custody-proposal/COMBINED-MANIFEST-02.json": "d99b4b1ce641d51952eecb0adf9ba761777c1f5bea45ee2c9d7e5d961714dcef",
+    "p03-mcp-session-custody-proposal/propagation-lifetime-review-03/MANIFEST-03.json": "9431799f6a8331e5bd2e57db2122c2c25738685eb22d14028e5a869d8a1f319d",
+    "p03-mcp-transport-custody-proposal/LOWER-WORKSPACE-MANIFEST-01.json": "2b587ab16cf31e8798b0f5ceead85f6d1324ecf3ba78694292df0323b4bba2b4",
+    "p03-pinned-rmcp-http-completion-proposal/MANIFEST-01.json": "3882d8b918b2ba3f411488210b4a7cac24dc1f78ea01bfa3c4fb22420e2b8095",
+    "p03-installed-slow-store-acceptance-proposal/MANIFEST.json": "05eacbd2f21720dd0776d566c306a7e4771f83c17e74a18dda629c1222fa2b4a",
+    "p03-installed-slow-store-acceptance-proposal-02/MANIFEST.json": "313fbe4f70d7b550df3e50b9e7b5d330d5e0062a2008ada0e5843f6e35308a63"
+  },
+  "verification": {
+    "frozen_source_paths": 98,
+    "preimage_paths": 64,
+    "patch_and_metadata_paths": 23,
+    "excluded_replay_paths": 103,
+    "private_pattern_flags": [],
+    "all_selected_regular_utf8_text": true
+  },
+  "licensing_inputs": [
+    {
+      "source": "/workspace/codex-harness-everythings-a-plugin/LICENSE",
+      "preservation_path": "licenses/codex/LICENSE",
+      "group": "codex-license",
+      "role": "license-notice",
+      "bytes": 10926,
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "mode": "0o600",
+      "regular_utf8_text": true
+    },
+    {
+      "source": "/workspace/codex-harness-everythings-a-plugin/NOTICE",
+      "preservation_path": "licenses/codex/NOTICE",
+      "group": "codex-license",
+      "role": "license-notice",
+      "bytes": 242,
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "mode": "0o600",
+      "regular_utf8_text": true
+    },
+    {
+      "source": "/workspace/recovery-backups/20260930T165936Z/p03-pinned-rmcp-http-completion-proposal/UPSTREAM-LICENSE",
+      "preservation_path": "proposals/p03-pinned-rmcp-http-completion-proposal/UPSTREAM-LICENSE",
+      "group": "p03-pinned-rmcp-http-completion-proposal",
+      "role": "license-notice",
+      "bytes": 12227,
+      "sha256": "0382b0057770ca05e9c350a50aa3b1c1fea84da0bc81d723bf00b9aa841be58a",
+      "mode": "0o600",
+      "regular_utf8_text": true
+    }
+  ],
+  "preservation_order": [
+    "Store all enumerated proposals inertly and retain old versions; preserve current candidate separately through root.",
+    "Potential adoption order only: upper02 then retirement03 then lower workspace; pinned SDK needs approved immutable source identity and consumer/lock integration.",
+    "Slow-store01 is historical; slow-store02 is proposed fixture with synthetic-only execution evidence."
+  ],
+  "excluded_paths": "Anything not explicitly enumerated; all runtime/private homes/auth data, caches/compiled outputs, generated replay trees, and other recovery roots. Do not follow source/provenance document references.",
+  "recheck_required": "Root must revalidate every selected regular file size/hash immediately before any separately authorized external preservation and verify destination hashes afterward.",
+  "source_changes": false,
+  "rust_or_runtime_executed": false,
+  "external_durability_established": false
+}
