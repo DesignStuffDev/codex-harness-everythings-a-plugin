@@ -32,7 +32,11 @@ Last published development candidate: `ba87799c2e9ab821a326f10715c11cf6ec256896`
 Receipt: R/`p03-curated-callback-publication.json`. Combined callback source0c1 passed953
 library tests, lint and reviewed formatting; it did not have fresh full-host proof.
 
-**Current adopted candidate is unpublished.** It adds process-final authority/callers,
+**Current adopted candidate is preserved as unfinished WIP** at
+`d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`, branch
+`wip/p03-process-final-and-mcp-preservation-20261002`; all270 selected blobs read back.
+This is not a main promotion or release. Receipt:
+R/`p03-wip-preservation-publication/publication-receipt.json`. It adds process-final authority/callers,
 curated admission fencing/native and callback observations, coordinated shutdown budgets and
 same-home replacement delivery. Exact56-path manifest:
 R/`p03-process-final-native-retry02-source.json`, SHA256
@@ -129,6 +133,9 @@ R/`codex-recovered-workspace.tar.zst`, SHA256
 `3ed6902a915654787bcc6166fcd27da8c71feb0a186f180b5d98f823854e9cbd`.
 All later source/proposal/proof archives and retirement receipts remain in R. These are VM-local
 recovery, not externally durable backups. Published GitHub refs preserve only their included source.
+The new WIP commit additionally preserves204 inert MCP/slow-store proposal/preimage/license files,
+the current56 native paths and root planning/status/history documents. No binary/runtime archives
+were exported; unadopted proposal status remains unchanged.
 Current703/431 test ELFs and failed client linker output are archived and verified; their inactive
 mutable build paths were retired. Source922 CLI is also archived/retired; historical symlinks dangle.
 Never use an alias name as binary identity. No broad cargo clean or source deletion.
