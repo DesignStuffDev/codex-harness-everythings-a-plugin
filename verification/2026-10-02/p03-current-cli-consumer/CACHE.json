@@ -1,0 +1,191 @@
+{
+  "conditional_retry_budget": {
+    "arithmetic_checked": true,
+    "combined_planning_requirement_bytes": 1118416896,
+    "conditions": [
+      "Fresh compiler ownership, disk/tmp/memory and exact source preflight required before dispatch.",
+      "Current feature/code output sizes may differ from historical exact paths.",
+      "Tmpfs capacity shares the memory cgroup and is not free extra disk.",
+      "Successful CLI03 evidence belongs to its separate source/strict/test receipts."
+    ],
+    "historical_exact_path_allocated_bytes": 412827648,
+    "historical_final_CLI_test_ELF_bytes": 302936064,
+    "known_missing_ordinary_output_count": 43,
+    "known_outputs_plus_test_ELF_bytes": 715763712,
+    "link_and_overlay_safety_reserve_bytes": 268435456,
+    "meaning": "Source-specific historical-size estimate plus two explicit reserves; conditional planning input, not measured current peak or successful retry proof.",
+    "unknown_support_and_growth_reserve_bytes": 134217728
+  },
+  "input_manifest_sha256": "996e3f7acd480b1e2d1a01cc6a3f976919446de79e751a3f3148f2d63c3b7cdd",
+  "limits": [
+    "This audit reads completed immutable receipts and journal rows; it does not replay guards, execute actions, or assert retired paths remain absent after compiler reuse.",
+    "Recorded allocated bytes are not a promise of equal current free space or a present budget.",
+    "Reference scans have two allowlisted infrastructure-process blind spots and do not prove external-root or bind-mount alias absence.",
+    "No lifecycle/all-process cleanup, executable runtime acceptance or new component extraction is proved by cache retirement.",
+    "Never replay completed retirement actions or reuse their stale candidate lists."
+  ],
+  "no_tests_runtime_or_cache_actions_executed_by_auditor": true,
+  "preservation_scope": [
+    "Recorded guards kept current production CLI and manager, source/index, 10 protected files, 17 proof documents and 231 archive metadata entries.",
+    "Candidates excluded the recorded current test closure and all unresolved test dependency families.",
+    "Actions selected ordinary nonexecutable single-link library/metadata files only, not runtime homes, shared executables, restorations or source.",
+    "Future lint/normal-production rebuilds must regenerate the retired caches."
+  ],
+  "retirements": [
+    {
+      "allocated_bytes": 71364608,
+      "batch": "cache",
+      "checks": {
+        "candidates_outside_recorded_test_graph_and_unresolved_families": true,
+        "journal_hash_and_exact_ordered_plan_rows_match": true,
+        "manifest_and_action_guard_plan_pins_match": true,
+        "pinned_original_source_receipt_matches": true,
+        "protected_sets_disjoint": true,
+        "recorded_source_map_and_protected_counts_match": true,
+        "regular_nonexecutable_single_link_candidates": true,
+        "unique_candidates_and_recorded_allocated_sum_match": true
+      },
+      "extension_counts": {
+        ".rmeta": 3
+      },
+      "historical_free_space_only": {
+        "overlay_bytes_after": 69619712,
+        "tmp_bytes_after": 474640384
+      },
+      "recorded_graph": {
+        "closures_recomputed_by_recorded_guard": false,
+        "input_count": 7213,
+        "protected_current_test_nodes": 1360,
+        "unresolved_family_count": 25
+      },
+      "recorded_protected_counts": {
+        "archives": 231,
+        "files": 10,
+        "proof_documents": 17
+      },
+      "recorded_reference_scan": {
+        "active_named_writers": 0,
+        "alias_scan_errors": 0,
+        "allowlisted_infrastructure_unreadable_areas": 2,
+        "argv_or_environment_read": false,
+        "not_lifecycle_acceptance": true,
+        "outside_roots_and_bind_mount_alias_absence_proven": false,
+        "scanned_roots": 4
+      },
+      "removed_count": 3,
+      "retirement_sha256": "b11d03f0ac5ca1104d245ad11ba91c253877c256bd83211a7c1259aaa9ca012f",
+      "runtime_ELF_pins_recorded_protected": {
+        "CLI": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+        "manager": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+      },
+      "status": "complete"
+    },
+    {
+      "allocated_bytes": 977203200,
+      "batch": "production90",
+      "checks": {
+        "candidates_outside_recorded_test_graph_and_unresolved_families": true,
+        "journal_hash_and_exact_ordered_plan_rows_match": true,
+        "manifest_and_action_guard_plan_pins_match": true,
+        "pinned_original_source_receipt_matches": true,
+        "protected_sets_disjoint": true,
+        "recorded_source_map_and_protected_counts_match": true,
+        "regular_nonexecutable_single_link_candidates": true,
+        "unique_candidates_and_recorded_allocated_sum_match": true
+      },
+      "extension_counts": {
+        ".rlib": 45,
+        ".rmeta": 45
+      },
+      "historical_free_space_only": {
+        "overlay_bytes_after": 1041690624,
+        "tmp_bytes_after": 469983232
+      },
+      "recorded_graph": {
+        "closures_recomputed_by_recorded_guard": true,
+        "input_count": 7213,
+        "protected_current_test_nodes": 1360,
+        "unresolved_family_count": 25
+      },
+      "recorded_protected_counts": {
+        "archives": 231,
+        "files": 10,
+        "proof_documents": 17
+      },
+      "recorded_reference_scan": {
+        "active_named_writers": 0,
+        "alias_scan_errors": 0,
+        "allowlisted_infrastructure_unreadable_areas": 2,
+        "argv_or_environment_read": false,
+        "not_lifecycle_acceptance": true,
+        "outside_roots_and_bind_mount_alias_absence_proven": false,
+        "scanned_roots": 4
+      },
+      "removed_count": 90,
+      "retirement_sha256": "cc22cc3e4626af382cb5a41caf5f406f7ca9a21e6772baabc44df7fc88c0863b",
+      "runtime_ELF_pins_recorded_protected": {
+        "CLI": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+        "manager": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+      },
+      "status": "complete"
+    },
+    {
+      "allocated_bytes": 134381568,
+      "batch": "lint-margin",
+      "checks": {
+        "candidates_outside_recorded_test_graph_and_unresolved_families": true,
+        "journal_hash_and_exact_ordered_plan_rows_match": true,
+        "manifest_and_action_guard_plan_pins_match": true,
+        "pinned_original_source_receipt_matches": true,
+        "protected_sets_disjoint": true,
+        "recorded_source_map_and_protected_counts_match": true,
+        "regular_nonexecutable_single_link_candidates": true,
+        "unique_candidates_and_recorded_allocated_sum_match": true
+      },
+      "extension_counts": {
+        ".rmeta": 36
+      },
+      "historical_free_space_only": {
+        "overlay_bytes_after": 1173544960,
+        "tmp_bytes_after": 449077248
+      },
+      "recorded_graph": {
+        "closures_recomputed_by_recorded_guard": true,
+        "input_count": 7213,
+        "protected_current_test_nodes": 1360,
+        "unresolved_family_count": 25
+      },
+      "recorded_protected_counts": {
+        "archives": 231,
+        "files": 10,
+        "proof_documents": 17
+      },
+      "recorded_reference_scan": {
+        "active_named_writers": 0,
+        "alias_scan_errors": 0,
+        "allowlisted_infrastructure_unreadable_areas": 2,
+        "argv_or_environment_read": false,
+        "not_lifecycle_acceptance": true,
+        "outside_roots_and_bind_mount_alias_absence_proven": false,
+        "scanned_roots": 4
+      },
+      "removed_count": 36,
+      "retirement_sha256": "c2236adb704170b817830fae0d281a861d6463148c2ffb8b1eb4090b1e53938e",
+      "runtime_ELF_pins_recorded_protected": {
+        "CLI": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+        "manager": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+      },
+      "status": "complete"
+    }
+  ],
+  "schema": "cli-consumer-cache-evidence-v1",
+  "source_file_count": 8936,
+  "source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+  "status": "read_only_receipt_audit_complete",
+  "total_extension_counts": {
+    ".rlib": 45,
+    ".rmeta": 84
+  },
+  "total_recorded_allocated_bytes": 1182949376,
+  "total_removed_unique_files": 129
+}

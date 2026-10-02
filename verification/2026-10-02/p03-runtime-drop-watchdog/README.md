@@ -1,0 +1,11 @@
+# Watchdog independence regression test
+
+**4 tests passed, 0 skipped** using `just test -p codex-utils-process --lib`. The source and strict wrappers exited 0 with no runner error; the tested 8,936-path source map is `8d2daf26…`. Scoped `just fix -p codex-utils-process` also exited 0 with unchanged source and strict 0/null. It emitted three existing workspace Clippy disallowed-type configuration warnings for Tokio mutex/read/write guards unavailable in this small feature scope; none were suppressed.
+
+Only `codex-rs/utils/process/src/process_shutdown_tests.rs` changed. The three existing tests were retained; the added test holds real Tokio blocking work, observes an independent watchdog callback while runtime completion remains unavailable, releases the work, joins the runtime owner, and confirms both completed work and a retained timeout result. Production process-shutdown logic, HTTP constructors and dependency files were unchanged.
+
+The test signals immediately before calling `drop(runtime)`, so it does not instrument the internal Tokio teardown stack. Its shortened deadlines do not prove precise 15ms timing or the production 205-second forced-exit path. The final thread join is unbounded after release. This is useful unit-level regression evidence, not another component extraction or whole-host shutdown proof.
+
+The first lint dispatch was rejected by a generic memory preflight before compilation. Its failure is preserved. A separately reviewed single-package budget required 1.25 GiB hard unused memory and 1.5 GiB effective headroom, with conditional credit capped at 256 MiB. The actual preflight passed these floors; this estimate is neither measured peak usage nor a guarantee for broader builds. No tests were rerun solely because lint completed.
+
+The root fetched the preimage from GitHub at exact commit `2ce48a6`; its Git blob matches the preserved local preimage. `SOURCE_LINEAGE.json` pins the actual parent, authored and formatted source hashes, the originating proposal and pinned upstream path absence. `EVIDENCE.json` records the exact test/ELF/strict scope. Private raw reports and process identities are not copied. Earlier attachment and CLI evidence remains unchanged.

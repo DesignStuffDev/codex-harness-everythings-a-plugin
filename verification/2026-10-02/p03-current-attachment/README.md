@@ -1,0 +1,27 @@
+# Current production attachment regression
+
+The fresh production CLI attachment run passed all five case groups and17 commands against the unchanged current host. This closes the bounded CLI image regression gap left by the earlier text-only storage/GUI fixtures. It does not add another extracted subsystem or complete P03.
+
+The actual CLI remains `bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853`; manager `f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954`. Source map `f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328` covers8,936 files; candidate `ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c`. The source wrapper recorded identical before/after maps, and review rehashed both actual binary files. Exact build/receipt/package/command references are in [EVIDENCE.json](EVIDENCE.json).
+
+| Case | Actual proof |
+| --- | --- |
+| Builtin baseline | Real `codex exec --image` reaches the deterministic model with one inline image. |
+| Installed native inline package | Original independently built native ELF reused, installed and explicitly selected without rebuilding the host. Private tracing observes one exact installed executable, five owned threads, one readonly staging-file open and native leader exit0. Model-facing bytes equal the builtin baseline; no upload fallback warning observed. |
+| Custom upload and cold resume | A separately packaged counted fixture returns a synthetic file reference. A fresh CLI resume preserves that reference and the same thread; upload count stays1→1. |
+| Typed failure fallback | Custom upload count advances to2, typed backend failure produces the positive fallback-warning control, and the real model request retains the exact prepared image bytes. |
+| Removal/reset | Remove the unselected native provider while retaining its immutable package object and empty state directory; reset the remaining custom selection. Fresh CLI image turn uses builtin behavior without increasing the custom counter. |
+
+Native removal retained **zero native state files**. This demonstrates preservation of an empty directory and package object, not nonempty native state or stored attachment-data durability. The extracted inline backend does not store remote objects; no production `AttachmentStore::resolve` caller was exercised. Structured App Server thread-attachment metadata is a separate contract.
+
+All17 nested commands and the outer command completed0 with strict runner-error null, confirmed unforced cleanup and tracked absence. Exact adopted statuses matter: each of the six image/resume CLI commands recorded `-9:2, 0:1`; each of the other11 build/management commands recorded `0:1`; outer wrapper `0:1`. The traced native leader itself exited0. No cause is assigned to the adopted -9 statuses and no all-graceful/every-descendant claim is made.
+
+The native proof is intentionally bounded: exact upload-path invocation, matching model-facing bytes and no observed error fallback. It does not inspect the native result envelope or prove every staged byte was read. Independent review correlated the retained trace's native exec, post-exec thread births, staged open and exit and checked its80 file hashes (187,607 bytes;1,496 lines). Raw traces, stderr, configuration, internal identities and session IDs remain private. The model and counted store are trusted synthetic fixtures; no live provider or file service is implied.
+
+[Failed runtime01](FAILED_RUNTIME01.json) remains failed: installing a second attachment provider without explicit selection correctly triggered the host's ambiguity guard before any image case. Four Python build/install commands passed, the fifth management command failed1 with clean strict drain, and zero image cases ran. Proposal02 fixes orchestration only: builtin baseline first, select counted before installing native, then remove unselected native before reset. All37 existing assertions remain, eight checks were added, and execution helpers/deadlines/strict policy are unchanged. No production host change was made.
+
+[Pure parser13](POLICY.json) passed against proposal01. Its parser/tests and model/counted-store files are byte-identical in proposal02, so that focused parser proof is reused explicitly. It is not image/runtime proof. [Independent source review](PROPOSAL02_REVIEW.json) and [lineage](SOURCE_LINEAGE.json) keep this transition and unrelated CLI compilation ENOSPC101 separate.
+
+Frozen exact-byte [proposal01](../recovered-gate-proposals/p03-attachment-production-01/) and [proposal02](../recovered-gate-proposals/p03-attachment-production-02/) retain their historical README/manifest “not executed” labels. This later evidence records what subsequently ran. Use proposal02 COMMANDS as reviewed templates with fresh exclusive output directories and current source/binary pins; never overwrite original receipts or relabel their source. Historical absolute paths identify this VM, not portable defaults. The frozen source lives under the existing formatter exclusion; active code policy is unchanged.
+
+This was a CLI-only fixture phase, with no new GUI feature or browser interaction. Prior current-source GUI evidence remains separate. No MCP, HTTP-pool, whole-host or general replacement completion is inferred. Native replacement coverage is still three bounded families; full P03, further extraction, consumer suites and real upstream-integration/rollback acceptance remain outstanding. These staged files are VM-local until root publishes selected paths.

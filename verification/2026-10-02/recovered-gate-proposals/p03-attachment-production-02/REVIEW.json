@@ -1,0 +1,70 @@
+{
+  "ast_parse_only": true,
+  "correction": "Respect existing catalog ambiguity validation: baseline before competitor install; explicit counted selection before native install; remove unselected native before resetting remaining provider.",
+  "current_require_calls": 45,
+  "independent_reviews": [
+    "Parent and child reviewed orchestration and current catalog semantics; no blocking defect found."
+  ],
+  "limits": [
+    "No production02 runtime or new tests executed by proposal authors.",
+    "Original failed production01 preserved as failed, not rewritten or retroactively passed.",
+    "No native result envelope, production resolve caller, live provider or whole-host claim."
+  ],
+  "native_or_checkout_changes": false,
+  "new_assertions": [
+    "Initial immutable object files preserved across later native installation.",
+    "Exact registry removal delta retains other settings and counted selection.",
+    "Native object, native state directory and every pre-removal state file retained."
+  ],
+  "original_require_calls_preserved": 37,
+  "preserved_production01_failure": {
+    "case_count": 0,
+    "failure_stage": "install-native-inline_before_image_cases",
+    "host_unchanged": true,
+    "outer_runner_error": null,
+    "outer_strict_exit": 1,
+    "report_sha256": "1a86aa56f3e3eb1d262127c6d66c7e52c458a656d81484c947ea44f94a68ec33",
+    "source_sha256": "9f7b4c1c4da92701f5d177e8167da0db09b4612f38258924d9b4038621f5003d",
+    "source_unchanged": true,
+    "strict_sha256": "96651806f3da7e9aed4065f8aed254306a13af56bbe190ddd2b1a07fdc7c4424"
+  },
+  "prior_pure_scope": "exact unchanged trace parser and tests, not production acceptance",
+  "prior_pure_test_methods_passed": 13,
+  "proposal02_execution_status": "not_run",
+  "python_files": [
+    {
+      "lines": 295,
+      "path": "attachment_production_acceptance.py",
+      "test_methods": 0
+    },
+    {
+      "lines": 28,
+      "path": "counted_store.py",
+      "test_methods": 0
+    },
+    {
+      "lines": 45,
+      "path": "model_probe.py",
+      "test_methods": 0
+    },
+    {
+      "lines": 101,
+      "path": "test_trace_native_upload.py",
+      "test_methods": 13
+    },
+    {
+      "lines": 185,
+      "path": "trace_native_upload.py",
+      "test_methods": 0
+    }
+  ],
+  "python_line_count": 654,
+  "schema": "attachment-proposal-static-review-v2",
+  "unchanged_deadlines_and_strict_runner": true,
+  "unchanged_fixture_modules": {
+    "counted_store.py": "2687cb62388acb26928de37705f13f9b5a05876c96db880758eeadc757ed717b",
+    "model_probe.py": "b74a794ffadab1d74b40c594825233deaf8ca970d121c64501b495926b988cf2",
+    "test_trace_native_upload.py": "03439c7fac2d07e90f9487d71b8172d91161f937dc6730f805064697f2a1f0a4",
+    "trace_native_upload.py": "677fa84845500478ba65e36c250684ba15d9d641f9fcfbf57e198c15673e17ce"
+  }
+}

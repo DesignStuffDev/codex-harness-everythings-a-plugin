@@ -1,0 +1,54 @@
+--- proposal01/attachment_production_acceptance.py
++++ proposal02/attachment_production_acceptance.py
+@@ -193,7 +193,6 @@
+     try:
+         build_fixture(MODEL, "model_transport", "model_probe.py")
+         build_fixture(CUSTOM, "attachment_store", "counted_store.py")
+-        run("install-native-inline", management + ["install", package])
+         run("select-model", management + ["select", "model_transport", "default", MODEL])
+         (home / "config.toml").write_text('model = "gpt-5.1-codex"\nmodel_provider = "attachment_fixture"\n'
+             '[model_providers.attachment_fixture]\nname = "Deterministic attachment fixture"\n'
+@@ -201,10 +200,18 @@
+         image = project / "fixture.png"
+         image.write_bytes(image_bytes())
+         installed = home / "components/objects"
+-        packages_before = inventory(installed)
++        initial_objects = inventory(installed)
+         baseline, _, base_cmd = image_turn("builtin-baseline")
+         require(baseline["kind"] == "inline" and base_cmd["fallback_warning_count"] == 0, "builtin_baseline")
+         report["cases"]["builtin_baseline"] = {"passed": True, "model_image": baseline}
++        require(inventory(installed) == initial_objects, "initial_objects_changed_during_baseline")
++        run("select-counted-before-native-install", management + ["select", "attachment_store", "default", CUSTOM])
++        run("install-native-inline", management + ["install", package])
++        settings = read_json(home / "components/config.json")
++        require(settings["selections"].get("attachment_store:default") == CUSTOM, "native_install_changed_selection")
++        packages_before = inventory(installed)
++        require(all(packages_before.get(name) == value for name, value in initial_objects.items()), "initial_objects_changed_during_install")
++        report["initial_objects_preserved_through_native_install"] = True
+         run("select-native-inline", management + ["select", "attachment_store", "default", NATIVE])
+         settings = read_json(home / "components/config.json")
+         native_path = installed / settings["installed"][NATIVE] / native_manifest["entrypoint"]
+@@ -244,6 +251,23 @@
+         require(failed["kind"] == "inline" and failed["sha256"] == failure["prepared_sha256"] and failed["bytes"] == failure["bytes"], "fallback_prepared_bytes_changed")
+         report["cases"]["typed_error_inline_fallback"] = {"passed": True, "upload_count": 2,
+             "prepared_bytes_preserved": True, "fallback_warning_positive_control": True}
++        native_state = home / "components/state" / NATIVE
++        require(native_state.is_dir(), "native_state_directory_missing")
++        native_state_before = inventory(native_state)
++        before_removal = read_json(home / "components/config.json")
++        require(before_removal["selections"].get("attachment_store:default") == CUSTOM, "remove_target_still_selected")
++        expected_settings = json.loads(json.dumps(before_removal))
++        expected_settings["enabled"] = [item for item in expected_settings["enabled"] if item != NATIVE]
++        expected_settings["installed"].pop(NATIVE)
++        expected_settings["selections"] = {key: value for key, value in expected_settings["selections"].items() if value != NATIVE}
++        run("remove-unselected-native", management + ["remove", NATIVE])
++        require(read_json(home / "components/config.json") == expected_settings, "native_removal_registry_mismatch")
++        require(inventory(installed) == packages_before and native_path.is_file(), "native_removal_changed_immutable_objects")
++        require(native_state.is_dir() and inventory(native_state) == native_state_before, "native_removal_changed_state")
++        report["native_removal"] = {"passed": True, "activation_and_installed_mapping_removed": True,
++            "counted_selection_preserved": True, "immutable_objects_retained": True,
++            "native_state_directory_retained": True, "native_state_files_unchanged": True,
++            "native_state_file_count": len(native_state_before)}
+         run("reset-attachment", management + ["reset", "attachment_store", "default"])
+         restored, _, reset_cmd = image_turn("builtin-restored")
+         require(restored == baseline and reset_cmd["fallback_warning_count"] == 0, "builtin_restore")

@@ -1,0 +1,148 @@
+{
+  "schema": "current-attachment-failed-runtime-evidence-v1",
+  "status": "failed_before_image_cases",
+  "source_receipt": {
+    "path": "/workspace/acceptance/p03-featured-warmup-current-attachment-01.source.json",
+    "bytes": 2488797,
+    "sha256": "9f7b4c1c4da92701f5d177e8167da0db09b4612f38258924d9b4038621f5003d"
+  },
+  "strict_receipt": {
+    "path": "/workspace/acceptance/p03-featured-warmup-current-attachment-01.strict.json",
+    "bytes": 991,
+    "sha256": "96651806f3da7e9aed4065f8aed254306a13af56bbe190ddd2b1a07fdc7c4424"
+  },
+  "private_log_reference": {
+    "path": "/workspace/acceptance/p03-featured-warmup-current-attachment-01.log",
+    "bytes": 71,
+    "sha256": "d3737c8db2cfdf51857e185b7918b64770544543e530307dd19eefd47f279bf2"
+  },
+  "private_runtime_report": {
+    "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/acceptance.json",
+    "bytes": 5279,
+    "sha256": "1a86aa56f3e3eb1d262127c6d66c7e52c458a656d81484c947ea44f94a68ec33"
+  },
+  "private_failed_command_stderr": {
+    "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/command-04.stderr",
+    "bytes": 156,
+    "sha256": "c22600d511fa0ed91c546efc253ffac2f5610af611d4c52580ec1a65095f258e"
+  },
+  "source_unchanged": true,
+  "source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+  "source_count": 8936,
+  "outer_strict": {
+    "command_returncode": 1,
+    "exit_status": 1,
+    "runner_error": null,
+    "subreaper": true,
+    "adopted_status_histogram": {
+      "1": 1
+    }
+  },
+  "commands": [
+    {
+      "label": "build-test.attachment-model-probe",
+      "passed": true,
+      "wrapper_returncode": 0,
+      "command_returncode": 0,
+      "strict_exit_status": 0,
+      "strict_runner_error": null,
+      "adopted_status_histogram": {
+        "0": 1
+      },
+      "cleanup_confirmed": true,
+      "tracked_processes_absent": true,
+      "forced_fixture_cleanup": false,
+      "strict_receipt": {
+        "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/command-00.strict.json",
+        "bytes": 659,
+        "sha256": "ea843b4d097050688842682b82ce815d8ad97425069ca713e168e9f1a7ee949e"
+      }
+    },
+    {
+      "label": "install-test.attachment-model-probe",
+      "passed": true,
+      "wrapper_returncode": 0,
+      "command_returncode": 0,
+      "strict_exit_status": 0,
+      "strict_runner_error": null,
+      "adopted_status_histogram": {
+        "0": 1
+      },
+      "cleanup_confirmed": true,
+      "tracked_processes_absent": true,
+      "forced_fixture_cleanup": false,
+      "strict_receipt": {
+        "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/command-01.strict.json",
+        "bytes": 599,
+        "sha256": "fd1923cc9c99013b12313c83a43628fdec7310586b52bc412871ae38b847aa54"
+      }
+    },
+    {
+      "label": "build-test.attachment-counted",
+      "passed": true,
+      "wrapper_returncode": 0,
+      "command_returncode": 0,
+      "strict_exit_status": 0,
+      "strict_runner_error": null,
+      "adopted_status_histogram": {
+        "0": 1
+      },
+      "cleanup_confirmed": true,
+      "tracked_processes_absent": true,
+      "forced_fixture_cleanup": false,
+      "strict_receipt": {
+        "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/command-02.strict.json",
+        "bytes": 651,
+        "sha256": "0935cf2d3d4205cfaf9fbb5b71f29d08a8c23f9dc72e8bb112b06c26e1b58f64"
+      }
+    },
+    {
+      "label": "install-test.attachment-counted",
+      "passed": true,
+      "wrapper_returncode": 0,
+      "command_returncode": 0,
+      "strict_exit_status": 0,
+      "strict_runner_error": null,
+      "adopted_status_histogram": {
+        "0": 1
+      },
+      "cleanup_confirmed": true,
+      "tracked_processes_absent": true,
+      "forced_fixture_cleanup": false,
+      "strict_receipt": {
+        "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/command-03.strict.json",
+        "bytes": 595,
+        "sha256": "b30c43b55c2d3b8babde23a1a242eef933ba08afb5b45381a4aceeacbb0f44a1"
+      }
+    },
+    {
+      "label": "install-native-inline",
+      "passed": false,
+      "wrapper_returncode": 1,
+      "command_returncode": 1,
+      "strict_exit_status": 1,
+      "strict_runner_error": null,
+      "adopted_status_histogram": {
+        "1": 1
+      },
+      "cleanup_confirmed": true,
+      "tracked_processes_absent": true,
+      "forced_fixture_cleanup": false,
+      "strict_receipt": {
+        "path": "/tmp/p03-featured-warmup-current-attachment-01-runtime/command-04.strict.json",
+        "bytes": 571,
+        "sha256": "30683c5cf196ee9c1e520045c795c76de094ed1d6f7d01d7553cb7bc444366a6"
+      }
+    }
+  ],
+  "completed_image_case_count": 0,
+  "diagnosis": "Fixture installed two enabled attachment_store:default providers without explicit selection; current catalog correctly rejects ambiguity. No host defect or image behavior was demonstrated.",
+  "preservation": "Original proposal01/failed runtime kept unchanged; pure13 parser success remains separate.",
+  "closure": {
+    "host_unchanged": true,
+    "native_package_unchanged": true,
+    "external_report_and_proposal_inputs_unchanged": true,
+    "helper_sources_unchanged": true
+  },
+  "recommended_fixture_only_repair": "Builtin baseline with only counted installed/unselected; explicitly select counted before adding native; test native then custom; remove unselected native before resetting sole remaining counted provider. Preserve object/state bytes and all assertions/deadlines."
+}

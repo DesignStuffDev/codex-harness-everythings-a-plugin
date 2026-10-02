@@ -1,0 +1,247 @@
+{
+  "actual_test_ELF": {
+    "allocated_bytes_at_independent_read_only_audit": 302977024,
+    "bytes": 306754624,
+    "compiler_test_intent_bound_to_same_output_suffix": true,
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex-65eee2a45383cad7",
+    "production_CLI_binary_is_distinct": true,
+    "recorded_allocated_bytes_at_terminal": 302972928,
+    "sha256": "93ffbf74e26bb7eb6e978d55681e4dabe66bb0cb3b8b7206245f74ebde2b78e7"
+  },
+  "attempts": [
+    {
+      "attempt": "01",
+      "evidence_kind": "preserved_parent_preflight_report",
+      "planned_outputs_observed_absent_count": 5,
+      "preflight_returncode": 1,
+      "reason": "Scheduling guard counted a stably terminated scheduler record as an active driver. This was a capacity-scheduling failure, not lifecycle acceptance.",
+      "receipt": {
+        "bytes": 713,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-current-consumer-focused-runplan-02/PREVIOUS_PREFLIGHT_FAILURE.json",
+        "sha256": "509761ff972da6cef04f748efe7b20f9102b88c7a239d312b067a69662bedf45"
+      },
+      "source_or_strict_receipt_created": false,
+      "status": "failed_before_test_dispatch",
+      "test_executed": false
+    },
+    {
+      "attempt": "02",
+      "candidate_manifest_sha256": "ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c",
+      "failure": "ENOSPC while compiling codex-history-notes-extension; no test results",
+      "inputs": {
+        "log": {
+          "bytes": 5693,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-02.log",
+          "sha256": "6e6d710d60e52fd823f6efd008995cdb6ae362ae9d9750b4e0394fa340e70a66"
+        },
+        "preflight.json": {
+          "bytes": 1772,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-02.preflight.json",
+          "sha256": "715152b3c35ed27ba8edb5c2f462193190850a4b61349b80d708c7f21f9f301f"
+        },
+        "source.json": {
+          "bytes": 2488232,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-02.source.json",
+          "sha256": "7561059e77080af17c1e12264a1e4453106726f5b9402488aff65bfa117f227d"
+        },
+        "strict.json": {
+          "bytes": 443,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-02.strict.json",
+          "sha256": "9ee683aac480b7dc09670373bf261b76ffaab8d7a15f2deb534283d42a251d93"
+        }
+      },
+      "passing_preflight_was_not_sufficient": true,
+      "preflight": {
+        "credit_is_not_free_RAM_or_guaranteed_reclaim": true,
+        "discounted_clean_file_credit_bytes": 2040416256,
+        "disk_free_bytes_at_preflight": {
+          "/dev/shm": 8375599104,
+          "/tmp/p03-featured-warmup-current-production-build-01": 478621696,
+          "/workspace": 979886080
+        },
+        "hard_unused_memory_bytes": 1421504512,
+        "not_lifecycle_exemption": true,
+        "status": "read_only_preflight_passed_not_test_pass",
+        "terminated_records_excluded_only_from_scheduling": true
+      },
+      "returncode": 101,
+      "source_file_count": 8936,
+      "source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+      "source_unchanged": true,
+      "status": "compile_failed_before_tests",
+      "strict": {
+        "adopted_returncode_histogram": {
+          "101": 1
+        },
+        "command_returncode": 101,
+        "exit_status": 101,
+        "reaped_count": 1,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "tests_executed": false
+    },
+    {
+      "attempt": "03",
+      "candidate_manifest_sha256": "ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c",
+      "inputs": {
+        "log": {
+          "bytes": 3418,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-03.log",
+          "sha256": "d0bbd846646e8637bf03391bcfcb5a39cbad18c6d2824986f917f4e555f3cb1a"
+        },
+        "preflight.json": {
+          "bytes": 2627,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-03.preflight.json",
+          "sha256": "f5a1ee2c576b4838e3143a6941f35a932714798795919bd639c000ebb9e195e2"
+        },
+        "source.json": {
+          "bytes": 2488230,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-03.source.json",
+          "sha256": "54b8ef49974edbcb11f399b68cdc287a737de4446e085cd89fc242b5c73332f1"
+        },
+        "strict.json": {
+          "bytes": 429,
+          "path": "/workspace/acceptance/p03-featured-warmup-current-cli-focused-03.strict.json",
+          "sha256": "2f87957d250df3e99f5222258faadcd5c304b7207a110b851a753c62f6de60b7"
+        }
+      },
+      "preflight": {
+        "credit_is_not_free_RAM_or_guaranteed_reclaim": true,
+        "discounted_clean_file_credit_bytes": 1741969408,
+        "disk_free_bytes_at_preflight": {
+          "/dev/shm": 8375599104,
+          "/tmp/p03-featured-warmup-current-production-build-01": 448999424,
+          "/workspace": 1169461248
+        },
+        "hard_unused_memory_bytes": 2288738304,
+        "not_lifecycle_exemption": true,
+        "status": "read_only_preflight_passed_not_test_pass",
+        "terminated_records_excluded_only_from_scheduling": true
+      },
+      "returncode": 0,
+      "source_file_count": 8936,
+      "source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328",
+      "source_unchanged": true,
+      "status": "selected_tests_passed",
+      "strict": {
+        "adopted_returncode_histogram": {
+          "0": 1
+        },
+        "command_returncode": 0,
+        "exit_status": 0,
+        "reaped_count": 1,
+        "runner_error": null,
+        "subreaper": true
+      },
+      "test_scope": "finish_with async cleanup sequencing and error combination, using controlled cleanup futures; the tests do not directly instantiate PluginStartupProcessShutdown ownership.",
+      "tests": {
+        "complete_CLI_suite": false,
+        "failed": 0,
+        "names": [
+          "process_final::tests::cleanup_is_awaited_on_success_and_error",
+          "process_final::tests::cleanup_failure_retains_the_operation_error",
+          "process_final::tests::cleanup_failure_is_reported_after_success"
+        ],
+        "passed": 3,
+        "skipped_by_filter": 297
+      }
+    }
+  ],
+  "auditor_actions": "Read immutable evidence/source and independently hash actual ELF; staged only this proposal. No tests, runtime, source/cache mutations or process actions.",
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-cli",
+    "--bin",
+    "codex",
+    "-E",
+    "test(process_final::tests::)"
+  ],
+  "limits": [
+    "Only three process_final::tests tests ran; 297 were filtered out. No complete CLI, exec, TUI, or complete workspace suite is claimed.",
+    "These tests cover controlled cleanup futures, not a direct real PluginStartupProcessShutdown owner, actual hosted model or GUI flow. Separate published runtime evidence retains its own scope.",
+    "Capacity scheduling may exclude a twice-observed stably terminated scheduler record; lifecycle strict runner and assertions were unchanged. This is not a zombie cleanup exemption.",
+    "Cache receipts preserve completed exact actions only. Never replay them or infer future fits from the historical resource budget.",
+    "Normal production library/metadata cache has regeneration debt; working saved production binaries do not imply a fresh production rebuild fits.",
+    "No new extraction family, full P03 acceptance, whole-host cleanup, MCP custody closure, or upstream update integration/rollback is established."
+  ],
+  "resource_observation": {
+    "budget_is_not_peak_measurement_or_future_build_guarantee": true,
+    "cgroup_event_deltas": {
+      "high": 0,
+      "low": 0,
+      "max": 23003,
+      "oom": 0,
+      "oom_group_kill": 0,
+      "oom_kill": 0
+    },
+    "conditional_overlay_planning_floor_bytes": 1118416896,
+    "conditional_tmp_planning_floor_bytes": 419430400,
+    "credit_formula": "max(0,limit-current)+min(2GiB,max(0,active_file+inactive_file-file_dirty-file_writeback-file_mapped)//2); discounted credit is not free RAM or guaranteed reclaim",
+    "memory_pressure_absence_claimed": false,
+    "minimum_effective_memory_headroom_bytes": 2147483648,
+    "minimum_sampled_free_bytes": {
+      "/dev/shm": 8375599104,
+      "/tmp": 448864256,
+      "/workspace": 451301376
+    },
+    "new_OOM_and_OOM_kill_events": false,
+    "normal_production_cache_remains_complete": false,
+    "normal_production_intermediate_regeneration_debt_bytes": 977203200,
+    "samples_are_not_exact_peak_measurement": true,
+    "terminal_evidence": {
+      "bytes": 2384,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-current-cli-retry03-observation-01/TERMINAL_EVIDENCE.json",
+      "sha256": "8b242ef66836d6c15b8323534adb78c6793e81868b575a132340b107ae7ffb5e"
+    }
+  },
+  "runtime_baseline": {
+    "CLI_sha256": "bbed687d4c1a59f64c8b071ad0e5a328520d3db18d5e3dc37c8f064d196c9853",
+    "manager_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+    "production_build_receipt_sha256": "ee94d8dee01f3abd5c49fb094cc65cd1a53d62ace8a70017308c5bb31f230bc5",
+    "runtime_acceptance_is_separate_from_these_three_unit_tests": true
+  },
+  "schema": "current-cli-focused-evidence-v1",
+  "sealed_attachment_proposal": {
+    "bytes": 7260,
+    "independent_evidence_unchanged": true,
+    "not_part_of_CLI_unit_test_count": true,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-current-attachment-publication-proposal-01/MANIFEST.json",
+    "sha256": "2081d539353ce8fb882105f3310ee90723fc337522dcd91e9a936bdfe8f61394"
+  },
+  "source": {
+    "candidate": {
+      "bytes": 19456,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-featured-warmup-stage-c-source-01.json",
+      "sha256": "ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c"
+    },
+    "native_source_base_reference": "2ce48a627876b3a9a53e388f356df83e5ccff254",
+    "published_runtime_baseline_reference": "4550046b80292be75b2604052fba3708c835d9fb",
+    "reference_commits_are_not_substitutes_for_actual_tested_map": true,
+    "relevant_paths": [
+      {
+        "bytes": 1831,
+        "git_blob_sha1": "57caef9d0574d4ea0e29241df804d0a04a79709f",
+        "path": "codex-rs/cli/src/process_final.rs",
+        "sha256": "2bbc8a7b8f9736d304b9724f46ae564b0a8d5e7c70a1397f876b71824c2e91c7"
+      },
+      {
+        "bytes": 1340,
+        "git_blob_sha1": "7af721ca43d1e744c8faeacdfb30919e9038bc68",
+        "path": "codex-rs/cli/src/process_final_tests.rs",
+        "sha256": "8abb70cb8a1abeda51012edd4a221460bcf24fa0ad8a1aace1d4f23dc8495340"
+      },
+      {
+        "bytes": 4645,
+        "git_blob_sha1": "753ac1d79fd46e20b408d0088bb8eaa2909b0a68",
+        "path": "component-sdk/tests/subreaper_runner.py",
+        "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875"
+      }
+    ],
+    "source_file_count": 8936,
+    "source_map_sha256": "f05b8b9f19a7d8a9a78691970549c30fc0660b5c64769c03d94dc5292c523328"
+  },
+  "status": "selected_current_source_tests_passed_after_two_preserved_failures"
+}

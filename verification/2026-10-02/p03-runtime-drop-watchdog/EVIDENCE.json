@@ -1,0 +1,181 @@
+{
+  "ELF_binding_limit": "Post-terminal ELF/fingerprint binding; no live compiler observation was captured for this short run. This is not the production CLI binary.",
+  "actual_test_ELF": {
+    "bytes": 2615016,
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_utils_process-e2e7266c195c6691",
+    "sha256": "97f7d381b0d0fdc2734ec012719e001aa7fd0b14e1145d0e2399d1440fb52665"
+  },
+  "auditor_actions": "Read-only evidence/source/hash inspection; R-only draft. No tests, runtime actions or checkout edits.",
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-utils-process",
+    "--lib"
+  ],
+  "format": {
+    "changed_paths": [
+      "codex-rs/utils/process/src/process_shutdown_tests.rs"
+    ],
+    "mechanical_review_complete": true,
+    "receipt": {
+      "bytes": 2466847,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-runtime-drop-test-adoption-01/FORMAT_TRANSITION.json",
+      "sha256": "ddebbcdbdb16d284a79b427b35823b98855116ad737ce17103437a3812e4687e"
+    },
+    "returncode": 0
+  },
+  "limits": [
+    "The teardown signal precedes drop(runtime); the test does not instrument exact internal Tokio drop-stack entry.",
+    "The 5ms/15ms fixture deadlines are shortened; a 5-second receive bounds callback observation, not precise 15ms timing.",
+    "The runtime thread join after release is unbounded; channel receive budgets are not an absolute whole-test timeout guarantee.",
+    "This does not exercise real 200/205-second executable deadlines, global CLOCK, process exit124, actual HTTP cancellation, installed plugin replacement, or whole-host ownership cleanup.",
+    "Setup failures before release/assertion cleanup do not exercise the same explicit join sequence; they are not covered by the passing path.",
+    "Prior attachment and CLI source-map evidence remains frozen and is not relabeled as testing this added test source."
+  ],
+  "new_test_proof": [
+    "A real Tokio spawn_blocking task reports entry, then waits on the release channel.",
+    "An independent std::thread watchdog callback arrives while the runtime-completed channel is still Empty and blocking work remains held.",
+    "The fixture releases blocking work before substantive assertions, observes runtime return, joins its owner thread, and requires Clock::finish to preserve TimedOut.",
+    "The retained native JoinHandle is polled Ready(Ok(())) after release."
+  ],
+  "preserved_failed_lint_preflight": {
+    "conditional_credit_bytes": 465637376,
+    "conditional_total_bytes": 2036228096,
+    "disk_and_scheduling_gates_passed": true,
+    "files_changed": false,
+    "hard_headroom_bytes": 1570590720,
+    "reason": "generic conditional memory floor not met",
+    "receipt": {
+      "bytes": 747,
+      "path": "/workspace/acceptance/p03-runtime-drop-fix-01.preflight-failed.json",
+      "sha256": "b4f8f3fd50ce2c78175fff3bd84461cc2849a8f18961d8d25a9d7a99625d4d32"
+    },
+    "required_generic_floor_bytes": 2147483648,
+    "returncode": 1,
+    "stage": "Before toolchain/source/strict runner dispatch",
+    "strict_assertions_modified": false,
+    "test_or_lint_started": false
+  },
+  "reviewed_single_package_memory_budget": {
+    "actual_preflight": {
+      "conditional_credit_bytes": 268435456,
+      "disk_free_bytes": {
+        "/tmp": 448475136,
+        "/workspace": 426086400
+      },
+      "effective_bytes": 1842905088,
+      "hard_unused_bytes": 1574469632
+    },
+    "credit_is_not_free_RAM_or_guaranteed_reclaim": true,
+    "maximum_conditional_credit_bytes": 268435456,
+    "minimum_effective_headroom_bytes": 1610612736,
+    "minimum_hard_unused_bytes": 1342177280,
+    "no_cleanup_signals_or_automatic_retry_authorized_by_budget": true,
+    "planning_not_measured_or_enforced_peak_cap": true,
+    "receipt": {
+      "bytes": 3631,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-runtime-drop-fix-memory-budget-02/MEMORY_BUDGET.json",
+      "sha256": "229d992976b96d49cb55ccbbdbdb6edb33c861ce82291a60f136dc2d12c56074"
+    },
+    "root_reported_stricter_credit_rule": "min(eligible_clean_unmapped_file_bytes/2, inactive_file_bytes/2, 256MiB); root retained this eligibility rule rather than broadening it",
+    "rule_evidence_limit": "Typed preflight records actual amounts and the reviewed budget hash; the exact dispatch expression is parent-reported rather than independently replayed by this audit",
+    "scope": "Single-job codex-utils-process scoped Clippy; not transferable to native HTTP, core-plugins, App Server, CLI, exec, TUI, linking or whole workspace"
+  },
+  "schema": "runtime-drop-watchdog-evidence-v1",
+  "scope": "Test-only; no production logic or dependency changes",
+  "scoped_lint": {
+    "candidate_manifest_sha256": "f8558f717ad43dcf6987592eaf2c2af63341ae6a2f50c3aeb74463bba483f75c",
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-utils-process"
+    ],
+    "inputs": {
+      "log": {
+        "bytes": 1358,
+        "path": "/workspace/acceptance/p03-runtime-drop-fix-02.log",
+        "sha256": "40080bf43c3eba70dea754de4881f9f73d5622a053f9137cd1e26777471dca17"
+      },
+      "preflight.json": {
+        "bytes": 678,
+        "path": "/workspace/acceptance/p03-runtime-drop-fix-02.preflight.json",
+        "sha256": "a7acd78fdf31fbcc87f72f8a05d48e6adee681dd8e4ce3b16c9eb51fb6573899"
+      },
+      "source.json": {
+        "bytes": 2468559,
+        "path": "/workspace/acceptance/p03-runtime-drop-fix-02.source.json",
+        "sha256": "5a9eaf327fa36c29fe2dcbd5d730092f0f0eaa0222ca259d0a6faa1eb5215a37"
+      },
+      "strict.json": {
+        "bytes": 366,
+        "path": "/workspace/acceptance/p03-runtime-drop-fix-02.strict.json",
+        "sha256": "abeec1470c622bf89c4613df1ab855facd8ef37241dcb82a026e16170cdf4b97"
+      }
+    },
+    "no_code_edits_or_test_rerun_from_lint": true,
+    "source_map_sha256": "8d2daf261bf0be11e1de3344b08e3bc8b6cff3065b91c5363ad8e7832bf07660",
+    "source_unchanged": true,
+    "status": "passed_with_three_existing_workspace_configuration_warnings",
+    "strict": {
+      "adopted_returncode_histogram": {
+        "0": 1
+      },
+      "command_returncode": 0,
+      "exit_status": 0,
+      "reaped_count": 1,
+      "runner_error": null,
+      "subreaper": true
+    },
+    "warnings": {
+      "count": 3,
+      "reason": "Workspace clippy.toml disallowed-types entries do not resolve in this small package feature scope. The entries predate this test-only change; they were not suppressed.",
+      "source_path": "codex-rs/clippy.toml",
+      "source_sha256": "323037ae6e8136646a8a80fd59724b32bbb3e3b2b7ea745ac79841443d4a71a9",
+      "types": [
+        "tokio::sync::MutexGuard",
+        "tokio::sync::RwLockReadGuard",
+        "tokio::sync::RwLockWriteGuard"
+      ]
+    }
+  },
+  "source": {
+    "candidate": {
+      "bytes": 763,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-runtime-drop-test-adoption-01/CANDIDATE.json",
+      "sha256": "f8558f717ad43dcf6987592eaf2c2af63341ae6a2f50c3aeb74463bba483f75c"
+    },
+    "only_test_path_changed_from_parent": "codex-rs/utils/process/src/process_shutdown_tests.rs",
+    "source_count": 8936,
+    "source_map_sha256": "8d2daf261bf0be11e1de3344b08e3bc8b6cff3065b91c5363ad8e7832bf07660",
+    "unchanged_during_test": true
+  },
+  "status": "four_tests_and_scoped_lint_completed_source_unchanged",
+  "strict": {
+    "adopted_returncode_histogram": {
+      "0": 1
+    },
+    "command_returncode": 0,
+    "exit_status": 0,
+    "reaped_count": 1,
+    "runner_error": null,
+    "subreaper": true
+  },
+  "supersedes_pending_draft_only": {
+    "bytes": 821,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-runtime-drop-test-adoption-01/publication-draft-01/MANIFEST.json",
+    "sha256": "1b3a03db944a0e6823d346deb6b60103fcfc56d049c4104073f697af78a0081d"
+  },
+  "tests": {
+    "failed": 0,
+    "names": [
+      "process_shutdown::tests::repeated_stop_preserves_first_absolute_deadline_and_joins_watchdog",
+      "process_shutdown::tests::independent_expiry_remains_failure_after_watchdog_join",
+      "process_shutdown::tests::disarming_wakes_and_joins_without_waiting_for_hard_timeout",
+      "process_shutdown::tests::watchdog_expires_before_blocked_runtime_teardown_can_finish"
+    ],
+    "passed": 4,
+    "skipped": 0
+  }
+}

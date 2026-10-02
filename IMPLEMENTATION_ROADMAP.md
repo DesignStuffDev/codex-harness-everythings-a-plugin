@@ -8,9 +8,9 @@ Git/HTTP cases. An added task-receipt postcheck also passed all eight. The curre
 [evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md)
 binds exact source/binary/package identities and preserves earlier failures.
 Core Plugins553 and App Server432 scoped tests plus real in-process caller and
-curated replacement cases passed separately. CLI/exec/TUI consumer suites and a
-fresh attachment-content caller case remain pending. Browser checks used real
+curated replacement cases passed separately. The [fresh attachment caller gate](verification/2026-10-02/p03-current-attachment/README.md) passed five case groups and17 commands on the unchanged production host: native upload, custom reference cold resume, typed error fallback and remove/reset. Native state was empty; this is not a production resolve or stored-blob durability claim. CLI focused retry03 passed3 tests after preserved preflight/ENOSPC failures; exec/TUI scopes and remaining lint are pending. Browser checks used real
 Chromium with deterministic inference; in-app Browser is unavailable here.
+The subsequent [watchdog test](verification/2026-10-02/p03-runtime-drop-watchdog/README.md) passes four utils-process cases and scoped lint (three existing feature-scope configuration warnings), with production logic unchanged. Exec/TUI compilation remains resource-blocked; HTTP constructor custody is still under review.
 This is lifecycle support in coupled native services, not a fourth extracted family.
 The early auxiliary-admission race, MCP custody, transitive HTTP/pool ownership and
 remaining P03 broker gates stay open. Follow [execution state](EXECUTION_STATE.md).

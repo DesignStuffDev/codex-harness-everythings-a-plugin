@@ -1,0 +1,52 @@
+{
+  "ast_parse_only": true,
+  "execution_status": "not_run",
+  "imports_of_tested_code": false,
+  "independent_reviews": [
+    "Parent reviewed current native API invocation, process/helper usage, trace semantics and boundaries.",
+    "Child reviewed main/model/store error flow and privacy; found no concrete defect."
+  ],
+  "limitations": [
+    "Static review only; proposed parser tests and production acceptance have not run.",
+    "Trace readonly open proves open, not completed read or successful native result envelope.",
+    "Focused warning rejection needs typed-error positive control during actual runtime.",
+    "Raw logs have post-run bounds, not a hard disk quota."
+  ],
+  "native_or_checkout_changes": false,
+  "python_files": [
+    {
+      "lines": 271,
+      "path": "attachment_production_acceptance.py",
+      "test_methods": 0
+    },
+    {
+      "lines": 28,
+      "path": "counted_store.py",
+      "test_methods": 0
+    },
+    {
+      "lines": 45,
+      "path": "model_probe.py",
+      "test_methods": 0
+    },
+    {
+      "lines": 101,
+      "path": "test_trace_native_upload.py",
+      "test_methods": 13
+    },
+    {
+      "lines": 185,
+      "path": "trace_native_upload.py",
+      "test_methods": 0
+    }
+  ],
+  "python_line_count": 630,
+  "reported_corrections": [
+    "Unconfirmed descendant cleanup now invokes labelled emergency cleanup even after wrapper leader exits; custom continuation requires prior unforced quiescence.",
+    "Historical native report, proposal inputs, pinned helper sources and native package/host are checked at finalization.",
+    "Current manager uses repository target/debug path; legacy component-target manager is excluded."
+  ],
+  "root_capability_probe": "Own /bin/true subprocess trace succeeded separately; pinned only as a readiness reference, not production evidence.",
+  "runtime_or_test_execution_by_authors": false,
+  "schema": "attachment-proposal-static-review-v1"
+}

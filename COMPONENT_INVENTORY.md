@@ -98,7 +98,7 @@ now passed storage, four migrations, both GUI modes, both slow Launch modes and
 all eight held Git/HTTP cases plus the added task-receipt postcheck. Exact
 [current evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md)
 keeps reused independent packages, deterministic inference and browser fallback
-limits explicit. Consumer suites and fresh attachment-content proof remain pending.
+limits explicit. [Fresh attachment caller proof](verification/2026-10-02/p03-current-attachment/README.md) now covers five groups/17 commands on that unchanged host, including installed native upload and custom file-reference cold resume without reupload. Native state was empty; production resolve, native result envelope and stored-blob durability remain unproven. CLI focused retry03 passed3 tests; exec/TUI scopes and remaining lint are pending.
 This is lifecycle support within coupled native services, distinct from our custom
 component installation mechanism. Shared HTTP internals, neighboring startup tasks,
 MCP custody and the remaining P03 contracts retain their existing open status.

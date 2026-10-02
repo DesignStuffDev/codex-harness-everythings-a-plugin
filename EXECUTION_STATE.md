@@ -35,11 +35,33 @@ Detailed earlier runs, failures and completed resource actions are preserved in
    layout-only correction and all8 live receipt gates. All89 original assertions,
    deadlines and the unchanged strict runner were retained. Do not splice partial
    failed matrices into a pass; scope/process receipt counts are not lifetime totals.
-4. Complete affected CLI/exec/TUI scoped tests and lint as headroom allows. The
-   read-only scope audit R/p03-executable-consumer-coverage-audit-01 lists exact
-   just test commands. A TUI test-name filter still builds its full large test ELF.
-   No current consumer test pass is claimed yet; production CLI does not compile
-   standalone TUI main. Preserve proof binaries before compiler path reuse.
+4. Complete affected CLI/exec/TUI scoped tests and lint. Pure attachment parser13
+   and production attachment02 now passed on C/f05b/bbed:17 commands, five cases,
+   native upload-path tracing, separate counted custom cold resume/no reupload,
+   positive error-fallback control, remove/reset/builtin restore. Native state was
+   empty; no nonempty native state/resolve/result-envelope claim. Original01
+   install-order ambiguity failed before image cases and is preserved.
+   CLI preflight01 stopped on a terminated process entry. Scheduling guard02
+   distinguishes stable terminated generations without changing strict assertions.
+   Actual CLI focused02 compiled a new test-feature chain but failed101/ENOSPC
+   before tests; source unchanged, strict101/null. Source receipt SHA256
+   7561059e77080af17c1e12264a1e4453106726f5b9402488aff65bfa117f227d.
+   No Rust command was killed. Reviewed cache recovery completed; retry03 passed
+   all3 selected CLI tests (297 filter-skipped), strict0/null, source unchanged.
+   Its revised remaining-output/reserve budget was1,118,416,896B. Exact evidence:
+   R/p03-current-cli-retry03-observation-01/TERMINAL_EVIDENCE.json SHA256
+   8b242ef66836d6c15b8323534adb78c6793e81868b575a132340b107ae7ffb5e.
+   Do not repeat the failed attempt with unchanged resources. Production CLI
+   does not compile standalone TUI main; exec/TUI scopes remain unrun.
+   Fresh resource review does not support their compilation at the remaining
+   ~426MB overlay margin. Do not retry with unchanged space or weaken tests.
+   The smaller watchdog/runtime regression passed all4 utils-process tests;
+   scoped fix02 passed0 with unchanged source and three existing Clippy config
+   warnings. Fix01 stopped at a memory preflight before Rust; the reviewed
+   smaller-scope estimate and failed attempt are preserved.
+   Attachment evidence and exact fixtures are now adopted at
+   verification/2026-10-02/p03-current-attachment/; no native source changed.
+
 5. Publish the accurately bounded verified milestone on the existing WIP branch.
    Main promotion awaits the applicable acceptance gates. Continue P03 and later
    dependency-ordered extraction; do not stop at this ledger or a plan.
@@ -90,18 +112,35 @@ Receipt directory R/p03-current-b553-c432-proof-preservation-02; release SHA256
 The first resource audit rejected newly found aliases before mutation; it remains
 preserved. These exact test proofs now require restoration from the verified archive.
 After release:985923584B overlay/478621696B tmp free; remeasure before each large task.
+After the CLI02 ENOSPC failure, three guarded cache-only actions retired exactly
+3 lint metadata files,90 normal-production library/metadata files and36 more lint
+metadata files (1,182,949,376 allocated bytes). Both runtime binaries, all proof
+archives, source/index, unresolved test families and runtime homes were retained.
+Receipts are /tmp/p03-cli-enospc-{cache,production90,lint-margin}-recovery-01/RETIREMENT.json:
+b11d03f0ac5ca1104d245ad11ba91c253877c256bd83211a7c1259aaa9ca012f;
+cc22cc3e4626af382cb5a41caf5f406f7ca9a21e6772baabc44df7fc88c0863b;
+c2236adb704170b817830fae0d281a861d6463148c2ffb8b1eb4090b1e53938e.
+A later normal production build must regenerate those ordinary caches. The actual
+bbed CLI and manager still run unchanged. Never replay completed cache actions.
+After CLI03, observed available space:451,301,376B overlay/448,864,256B tmp.
+Remeasure before another build. OOM counters stayed9 events/4 kills (historical).
+Current control-plane status1470 is connected/running on the same environment;
+actual test execution, not status alone, establishes executor access.
+
 
 ## Published source and current proof
 
 Upstream: openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478.
 Exact-tree import ae720ae9a98bad29ca2cff998e7d5baaf05cec86; retain LICENSE/NOTICE.
-Latest WIP: **2ce48a627876b3a9a53e388f356df83e5ccff254**, tree
-8d201a7149663256c9ed8364bc85178a874f8aea, parent706bf9e, branch
-wip/p03-process-final-and-mcp-preservation-20261002. All36 selected remote blobs
+Latest WIP: **4550046b80292be75b2604052fba3708c835d9fb**, tree
+446fb9899aa39b49690560adbb7a61c6fa3026c5, parent2ce48a6, branch
+wip/p03-process-final-and-mcp-preservation-20261002. All35 selected remote blobs
 and both refs verified after nonforce update. Main is unchanged at
 781080f7e3c8bfe1953378001d777dff33d74bc3.
-R/p03-featured-warmup-bc-publication-01/PUBLICATION.json SHA256
-6c7ad1c4de4ea3e03d2362052ca1594157c55cbd54a811d24d3abee9ab05771e.
+R/p03-featured-warmup-runtime-publication-01/PUBLICATION.json SHA256
+e077d374d1af15c6dfc414cd0751c5364f23087a599be175392b49fd56f78d85.
+Native source remains2ce48a6; later commit adds exact runtime evidence, frozen
+receipt fixtures, screenshots and canonical documents, not another extraction.
 
 Current C candidate R/p03-featured-warmup-stage-c-source-01.json SHA256
 ffcc9711a3418d30c429e2b8bd14cc10a89dfc83a95119448ba936619322b99c;
@@ -118,8 +157,12 @@ maps; candidate labels alone are not proof. Test ELF252dfaf2… is not a product
 | Caller lifecycle | Real A public Drop → held peer EOF before observer/global close; joined cancellation; B same-home public shutdown. A runtime-result join/cache/whole-host claims remain false. |
 | Current App Server lint/format | Both0, source unchanged, no lint warnings. No tests rerun solely for lint/style. |
 | Current production CLI/GUI | Build0/unchanged; storage13 checks, four migrations, both GUI modes, normal/forced slow Launch and all8 held cases plus task-receipt postcheck passed. |
+| Current CLI attachments | Five case groups/17 commands passed; installed native upload, custom reference cold resume, positive error fallback and remove/reset. Native state empty; no native result-envelope/production resolve claim. |
+| Current CLI consumer tests | Retry03 passed3 selected tests;297 filter-skipped; exact C/f05b source unchanged. Exec/TUI and remaining lint outstanding. |
 
 [Current production evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md),
+[current attachment gate](verification/2026-10-02/p03-current-attachment/README.md),
+[CLI and resource evidence](verification/2026-10-02/p03-current-cli-consumer/README.md),
 [Stage B evidence](verification/2026-10-02/p03-featured-warmup-stage-b/README.md),
 [Stage C evidence](verification/2026-10-02/p03-featured-warmup-stage-c/README.md),
 and their upstream lineage maps keep each source boundary separate. Strict adopted
@@ -132,6 +175,17 @@ and a fresh all8 held matrix passed. Original auxiliary-admission race and earli
 failed matrices remain open/preserved. [Prior evidence](verification/2026-10-02/P03_CURRENT_PRODUCTION_RUNTIME_EVIDENCE.md)
 must not be relabeled as current B/C proof. Independent package-build identities
 are reused, not claimed as fresh Rust builds.
+
+The only subsequent adopted source change is a test for the existing independent
+watchdog while Tokio teardown waits on held blocking work. Candidate
+R/p03-runtime-drop-test-adoption-01/CANDIDATE.json SHA256
+f8558f717ad43dcf6987592eaf2c2af63341ae6a2f50c3aeb74463bba483f75c;
+actual8936-path map8d2daf261bf0be11e1de3344b08e3bc8b6cff3065b91c5363ad8e7832bf07660.
+Production code/dependencies are unchanged. Do not relabel the earlier f05b
+CLI/runtime tests as this later test-source map. The four tests and lint02 have
+their own actual source receipts at A/p03-runtime-drop-{tests-01,fix-02}.
+This is test-clock evidence, not a production205s/exit124 or HTTP custody proof.
+[Watchdog evidence](verification/2026-10-02/p03-runtime-drop-watchdog/README.md).
 
 ## Coverage and remaining implementation
 
@@ -146,6 +200,27 @@ custody/cohort lifetime and a closed-publication fence; preserve late cache publ
 while a pool stays open. Closing one featured task must not close shared HTTP consumers.
 Universal in-process reqwest join is not an exposed contract or a prerequisite to
 invent; retained constructor custody and truthful transport uncertainty remain required.
+The current HTTP audit found catalog queue coalescing ignores HTTP cohort identity
+and retains an earlier service_config. Closing that shared pool with one processor
+could affect unrelated accepted foreground work. The next bounded native slice is
+retained constructor/result-disposal custody per existing pool lineage, last-public-
+lease publication fencing and process-final close/drain using existing deadlines.
+Per-processor HTTP cohort shutdown stays blocked on the explicit queue-transfer
+contract; do not change merge keys or claim it is implemented. R-only StageA
+cfg(test) code is design material, not a native extraction milestone.
+The later actual constructor proposal01 is preserved under
+/tmp/p03-http-native-constructor-proposal-01, manifestb2942d2392a5d2a49644e92a9e39a6dcdb8f5c55cea6626de1ee334f4e47394b.
+Review found cleanup was permanently tied to the original Tokio runtime, so
+later runtimes could not recover abandoned results/capacity. No HTTP source was
+adopted. Proposal02 must positively join canceled cleanup/disposal generations
+before transferring observation to runtime B, preserve panic uncertainty and
+first-close deadlines, and prove direct native pool/cross-runtime behavior.
+Only its independent watchdog test was adopted as described above.
+The exact original proposal is also preserved in a55-member, stream-verified
+VM-local archive, SHA256d5efa0e1c3913e51f8d0bd9b9fa904c0fdad6431699eeda739a451dfdbfd3796.
+A clearly labeled copy is selected for this WIP checkpoint at
+verification/2026-10-02/unadopted-proposals/http-constructor-01/.
+This archive is unfinished source preservation, not accepted implementation.
 MCP upper owner → retirement → lower transport → pinned SDK → late-admission proposals
 remain isolated and unadopted; preserve every version. Curated archive/publication/host-
 death fences, general Session acquisition, model-v2, activated broker capabilities and
@@ -178,6 +253,8 @@ pure02 passed58/58. Live held8 and its featured postcheck passed separately. The
 original auxiliary-admission race remains unexercised, MCP/whole-host cleanup and
 HTTP-internal custody remain unproven. See R/p03-featured-owner-postchecker-proposal-02
 and A/p03-featured-warmup-held-all-mode-ack-01 / held-featured-postcheck-01.
-Fresh attachment-content runtime acceptance has not yet run on bbed: the storage
-and migration fixtures do not send image bytes. Earlier attachment evidence retains
-its original source identity.
+The fresh attachment02 gate is separate from text-only storage/migration proof.
+It reuses the original native package without a new Rust build and builds separate
+Python model/counted-store fixtures outside the host source. All host/package
+hashes stayed unchanged; private traces remain private. No live provider, resolve
+production caller or whole-host cleanup is inferred. Earlier proof identities remain.
