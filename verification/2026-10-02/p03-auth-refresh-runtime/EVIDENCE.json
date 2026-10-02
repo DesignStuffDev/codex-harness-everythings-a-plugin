@@ -1,0 +1,1982 @@
+{
+  "binaries": {
+    "codex": {
+      "bytes": 635999960,
+      "sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0"
+    },
+    "codex-component": {
+      "bytes": 7274296,
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+    }
+  },
+  "completed_gate_count": 12,
+  "completed_gates": {
+    "attachment": {
+      "cases": {
+        "builtin_baseline": {
+          "passed": true
+        },
+        "builtin_restored": {
+          "custom_upload_count_unchanged": true,
+          "passed": true
+        },
+        "counted_upload_and_cold_resume": {
+          "fixture_file_reference_retained": true,
+          "passed": true,
+          "same_thread_internal_check": true,
+          "upload_count_after_resume": 1,
+          "upload_count_before_resume": 1
+        },
+        "native_inline": {
+          "fallback_warning_count": 0,
+          "model_payload_matches_builtin": true,
+          "native_result_envelope_inspected": false,
+          "passed": true,
+          "trace": {
+            "native_exec_count": 1,
+            "native_leader_exit_zero": true,
+            "native_result_envelope_proven": false,
+            "native_upload_path_invoked": true,
+            "owned_thread_count": 5,
+            "staged_read_open_count": 1,
+            "whole_host_clean": false
+          }
+        },
+        "typed_error_inline_fallback": {
+          "fallback_warning_positive_control": true,
+          "passed": true,
+          "prepared_bytes_preserved": true,
+          "upload_count": 2
+        }
+      },
+      "command_count": 17,
+      "commands": [
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "build-test.attachment-model-probe",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e2485df1bcb4c67ef260ef070f9df793e17ce149c6bee1447068e1566d212796",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "f18c2f199070cb6de0478fb1f05853d4b5ff9dbdb4317e88d8b8237acb361201",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "install-test.attachment-model-probe",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "1a49ac67e4e76f16286ea5d6b86ebc3dc5f9ec30ae790b8908dec1fcb91d4d1f",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "dd63bcbdd393c8d8a1dccc8d9ed9dbfdd33ae2b40768917fe104c2fd87894ef3",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "build-test.attachment-counted",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "9b6073ede74c24f1700b6eeb3de57560a74980a85371a7af54ad21ff81b90b0c",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "e8045cb351807dc4f6a03f84ba762680b02a61d455edf394dd9df065d2c61f46",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "install-test.attachment-counted",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "24f245e2c86e850f298da8a8f90e218947a29e22f5e5a8ba6187df0cf49d8d73",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "8a57cc112037ce4f607c1ce55647919f3bc25012319734659316499eda80ee8f",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-model",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "d81a7b51174cd1f1d0a22c6a9099b72005311c1774e93a1b16accc37f27d05b9",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "builtin-baseline",
+          "passed": true,
+          "stderr_sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "stdout_sha256": "d65e79200a2be471eec14dd3c9d8d6316ff14ef8061a6b837a52ba5050cfd857",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "847c89130b84b2128912f1afe7894d497b60c0548b7e813c6212f48e5e1ec600",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-counted-before-native-install",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "4bf2fad7306ed6eeeabdf9190a3d0f2e9dab11b7a66eff99d8f62da0e42a41db",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "install-native-inline",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "8a2217cd53d454e0b201dc3f3284f2def6443b51dc212bccbe416bb2e029084c",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "6e96de3bf8df33e27aa53e0f86f27ab5ff86bb60231536f1ddf079138aef02b3",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-native-inline",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "47fcc8e6663f38f97059cfb3c4539849752e24f406dab05f207538475322c741",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "native-inline",
+          "passed": true,
+          "stderr_sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "stdout_sha256": "de1ea528daf20b08af1c92a1b436772aaebb6d831cf4327d84dfb9ebd5080df1",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "8e43f0e395858bd96ebcfdb00924859cd4b742a494f3ea57f25f38c89cf3c1f0",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "select-counted",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "60a92f8d56eaea3ff9678ceaf9cc8a7061351e9bfc002f1122c5f2774f4401e2",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "counted-upload",
+          "passed": true,
+          "stderr_sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "stdout_sha256": "51d5cf6ac907784e33e891b1b4f4123badbb6770ab984103918ac3b042119dae",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "76610759dcb127a51ed3c767f20d8e0ed2bc7003b11ca14394734939b9ecfcef",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "counted-cold-resume",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "51d5cf6ac907784e33e891b1b4f4123badbb6770ab984103918ac3b042119dae",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "0fb0c1686d6590853897bbb30081bf0d6f63aa88c418d806f476fa0047bc30c7",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 1,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 1,
+          "forced_fixture_cleanup": false,
+          "label": "counted-error-fallback",
+          "passed": true,
+          "stderr_sha256": "46ec0cab05c5cc369b994513e31857e89141d8f81b6dc374a8ebb3f51c12c141",
+          "stdout_sha256": "596578d8d7be341e22802047f865ed67637bcde2d54b29be34fc561cebc1e889",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "e6ec66a4716da87001e61a31be00d176a3fd8d84742f7f8d6ebf33e143e538b4",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "remove-unselected-native",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "1b72622cb49e0ee37e9381d6bf69e23dea23071d1237b3ae82f82bd076508cc0",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "reset-attachment",
+          "passed": true,
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "3395b68cb6f82b28c675d66c33451e68b1e154c44f523e75882386eb6c3e997b",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        },
+        {
+          "adopted_status_histogram": {
+            "-9": 2,
+            "0": 1
+          },
+          "cleanup_confirmed": true,
+          "command_returncode": 0,
+          "fallback_warning_count": 0,
+          "forced_fixture_cleanup": false,
+          "label": "builtin-restored",
+          "passed": true,
+          "stderr_sha256": "1aa26269eb1cc57f86b235a03cda53c004edb5b1e9fc99d4da4f00843293d721",
+          "stdout_sha256": "d9632c3e45ae304935ad3f8a4e1f1f67372ffcc6a871ee184815d6fed380a45c",
+          "strict_exit_status": 0,
+          "strict_report_sha256": "a5ab3f61c765d513a20ad99be775426b1ed363bb70c91d80f97380e0b5904cd3",
+          "strict_runner_error": null,
+          "tracked_processes_absent": true,
+          "wrapper_returncode": 0
+        }
+      ],
+      "external_report_and_proposal_inputs_unchanged": true,
+      "helper_sources_unchanged": true,
+      "host_unchanged": true,
+      "installed_packages_unchanged": true,
+      "limits": [
+        "Real CLI image upload caller and exact native plugin execution/open trace; no production resolve caller proof and no inspected native result envelope.",
+        "Native state directory retention contains zero files; it is not a nonempty-state retention test.",
+        "Counted custom upload, cold reuse, typed fallback and reset are separate fixture cases.",
+        "No raw private traces/credential/configuration contents or process identities are included."
+      ],
+      "native_independent_report_sha256": "4d1b3fc14c3034de488f83dbb1ad7971de96811744e7f8d8b40ef95b4dbde82b",
+      "native_package_build": "reused_exact_historical_independent_package_no_new_build",
+      "native_package_unchanged": true,
+      "native_removal": {
+        "activation_and_installed_mapping_removed": true,
+        "counted_selection_preserved": true,
+        "immutable_objects_retained": true,
+        "native_state_directory_retained": true,
+        "native_state_file_count": 0,
+        "native_state_files_unchanged": true,
+        "passed": true
+      },
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "934d99ad74617839bab442d3c028328ff1f2cc6227a87914dfe67c3ce7d68362",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "fac68573582a1803e69639b85f7cabf7b421bd234a928527b2f749c817f6f06e",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      }
+    },
+    "featured-postcheck": {
+      "case_count": 8,
+      "cases": [
+        {
+          "case_id": "git-exec-success",
+          "case_report_sha256": "afa6021dbdf43c6296073c1e26d88174c2f1d38ccb54e1ed0200a04d3f355cb0",
+          "featured_receipt_sha256": "25c8178a6e71c81d07c74ccfc20ead879c96b62ed55dc277302fca1126d26960",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "35209f18983534afaaf57615f642779b7db75ac854ed624f54f0c406f9e4f8cb",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "cdde4df50e52d12864fb5177ad78255dbb6012c97e3f32ec73bfda2b3928c14b",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "git-exec-error",
+          "case_report_sha256": "32f768c94dd741010acc28155129f42d087d4a3d9d2f663725b7f2b3c4a9aa49",
+          "featured_receipt_sha256": "78847af80ca47cad167db204931b8e6768bfe4042edcaa4ba1afb1b077f0eef6",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "1501b9761e4f80e7d06498c77a10f18b0de236bb654652d0a95316c61c4fef07",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "0beb4a9d078933d9f34a5dfeb8f70f99a87b5f3a199eff340c7b5b556d4d134e",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "git-app-server-eof",
+          "case_report_sha256": "7c3046855349f6acb2ecb6b026b13ea151fa05780df3ef4cb72fa029ede8f6b9",
+          "featured_receipt_sha256": "57eacdae7b81aa8722ce5aa1e40ca0afee3cf7d7e0a3ed7b9213c94d4e9d062c",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "d3c1645f7825193a07c9af0b6b3bc20621b6dea492013ee87ef04ba35f1f2976",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "6a3d7cb777a98004368efe71fa973a6ab6c1d522ed3155c4ff3599f753abfc32",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "git-app-server-sigterm",
+          "case_report_sha256": "ea1e91111a1fb8c9ff2c87c2612cff10386b9acf123550a5d6837f4110606416",
+          "featured_receipt_sha256": "207da92162820399cc3c48ea198e148ec0a2c214a28229053d3cca0c7862cb4b",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "02ba92762a7a728b697ded9ae70cc6efa997b775038a8ebcd1cc8a819d34f65a",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "279c192b4bae6f212c7376f8c72f5640b02acb4d662bbb0259b219797df0add4",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "fallback-exec-success",
+          "case_report_sha256": "f7da19bea755dda612be889877136d3ec8e185026500a6839e29e74c0d71d996",
+          "featured_receipt_sha256": "20cd6c3eedd32cea106a1656dfb9c12fd94ec31b7a581aa269bf8b8d743b3dab",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "47e1d3197671028a16ed67cc214c92cf37b0d93fc73ea7e21905a272e9e9be41",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "06651d056f693daf85a92f411dfafff5a9d797379e67e76bebb3aaf9a29e9e80",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "fallback-exec-error",
+          "case_report_sha256": "27066f7a9527fec02f40f30e3815e22b6336d61192142bfc1be1a6742489ac9e",
+          "featured_receipt_sha256": "eff34f3cae5e497bf1df6167d3675c0a21ee53da820f07e52a408f192b600744",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "3d4329c82ded500fdeee42a8d094099a1a52915fa79eba28c2a625ecd1ab30d6",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "a919929bfdf4a2867bad0c6a52c4c4af08d4dd80bbdfc20cb88bc277f80e2ca5",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "fallback-app-server-eof",
+          "case_report_sha256": "96f382852f07f1e7b1624e7756355b600d30b9a8481e8c662fa77923dcdda038",
+          "featured_receipt_sha256": "c56a4fa556e6823c92ffb90886cf09687b59994aa6343415e1e745ddba859e8c",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "22ee8dc71dc602f38a30b24f3f71cc23b54c092118f58d927e8d3c3309567906",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "e9d46928f30874d554c99986380ec8c1fd96c16fa3d23535cf1aff18f59a46a3",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        },
+        {
+          "case_id": "fallback-app-server-sigterm",
+          "case_report_sha256": "aaeb2796c416b3fbaad9cbce8fd80eb60d1232517d3fc34f614599eab586887c",
+          "featured_receipt_sha256": "5b381728eeed9871e7c597acf6616cfad2ef51c83fd32c53ff780290da40273c",
+          "featured_task_ownership_receipts_clean": true,
+          "http_cleanup_proven": false,
+          "idle_scope_receipts": 0,
+          "joined_scope_receipts": 1,
+          "mcp_cleanup_proven": false,
+          "original_receipt_sha256": "947eda1020ff631614a504d6a95996b936894016262f2a1d0a9a91ae72c584e5",
+          "process_receipt_count": 2,
+          "process_snapshot_counts_are_lifetime_totals": false,
+          "scope_receipt_count": 1,
+          "started_work_requires_independent_gate": true,
+          "stderr_sha256": "771db8b33ebd58861d4253e6980f2615d1177c97b12991a49a69a454f6e9a51e",
+          "whole_host_clean": false,
+          "zero_joined_process_snapshots": 2
+        }
+      ],
+      "http_cleanup_proven": false,
+      "limits": [
+        "Separate featured task receipt gate supplements every original held-case check; it does not reinterpret the frozen fixture.",
+        "One joined scope plus two zero-joined process snapshots are scoped observations, not lifetime totals or independent proof that work started.",
+        "Joined optional fetch failure may still be clean; lower HTTP, MCP and whole-host custody remain unproven."
+      ],
+      "mcp_cleanup_proven": false,
+      "original_frozen_fixture_results_reinterpreted": false,
+      "original_matrix_sha256": "ce47c685085f338056805dcec47043e81dabfe2825f6cdd7dfd1457e8680b1d5",
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "e4e77e3049b8898d657cd3d1741aa8a4667d396a1513b0b75a6cdb473b56215c",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "source_bindings": {
+        "binary_sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+        "collector_sha256": "11ff7c0da681711e434c53fde9e95336a3bda1dda86b14d15cf22e20531ebcb4",
+        "fixture_sha256": "ccce09a1dcf6cad7ba7cd4af90985072e766aea195c78475af0f717c5afe6981",
+        "source_commit": "15bd9d19804094d9f22dbe470ef5c0c0cc526f1b",
+        "source_tree": "ee4ef7d763ee50fd5c28bdd57ab23c5833e94c41"
+      },
+      "source_reference_is_not_actual_source_map": true,
+      "whole_host_clean": false
+    },
+    "gui-normal": {
+      "browser": "real Chromium/Playwright fallback; in-app Browser not used",
+      "cycles": [
+        {
+          "approval_turn_observed": true,
+          "cycle": 1,
+          "file_search": {
+            "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
+            "passed": true,
+            "verified": [
+              "real filesystem results",
+              "relative root rejected without RPC or draft/input changes",
+              "click insertion with spaces/quotes/backslash",
+              "keyboard insertion without submitting",
+              "draft preservation",
+              "A-B-A query fence",
+              "root replacement fence",
+              "explicit close fence",
+              "task replacement fence"
+            ]
+          },
+          "first_sigint": true,
+          "manager_status": 0,
+          "passed": true,
+          "shutdown_seconds": 0.26581201000954024,
+          "shutdown_turn_observed": true,
+          "stop_interrupted_turn_observed": true,
+          "streaming_turn_observed": true,
+          "subreaper_adopted_status_histogram": {
+            "0": 3
+          },
+          "subreaper_drain_passed": true,
+          "tracked_processes_absent": true
+        },
+        {
+          "approval_turn_observed": false,
+          "cycle": 2,
+          "file_search": {
+            "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
+            "passed": true,
+            "verified": [
+              "real filesystem results",
+              "relative root rejected without RPC or draft/input changes",
+              "click insertion with spaces/quotes/backslash",
+              "keyboard insertion without submitting",
+              "draft preservation",
+              "A-B-A query fence",
+              "root replacement fence",
+              "explicit close fence",
+              "task replacement fence"
+            ]
+          },
+          "first_sigint": true,
+          "manager_status": 0,
+          "passed": true,
+          "shutdown_seconds": 0.3148137330135796,
+          "shutdown_turn_observed": true,
+          "stop_interrupted_turn_observed": false,
+          "streaming_turn_observed": true,
+          "subreaper_adopted_status_histogram": {
+            "0": 2
+          },
+          "subreaper_drain_passed": true,
+          "tracked_processes_absent": true
+        }
+      ],
+      "final_drain_adopted_status_histogram": {},
+      "final_drain_passed": true,
+      "host_unchanged": true,
+      "inference": "deterministic installed fixture; no live provider",
+      "installed_packages_unchanged": true,
+      "limits": [
+        "Approval response and Stop are exercised in cycle1; cold cycle2 checks recovery, streaming, search and normal closure.",
+        "A new current-source pass does not explain or relabel the old source7a selected-search timeout.",
+        "Tracked cleanup is bounded; no universal graceful/whole-host custody inference."
+      ],
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "de4bf5b929c0644e78fac61d67da09f836057a13e5c9b742399a6dde7b473a04",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "ad1688e9e51da4a610cfc26917706ba81a22206ccf188774ac331cfc697d1d10",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "root_viewed_screenshots": [
+        {
+          "bytes": 78042,
+          "path": "/tmp/p03-auth-refresh-newhost-gui-normal-01-runtime/recovered-1.png",
+          "sha256": "6cf357ebf6812b3c76094f557a18fded2c91e542504d3c7bee379b9136ce9cca",
+          "visual_review": "root reported visual inspection; not in-app Browser interaction"
+        }
+      ]
+    },
+    "gui-search": {
+      "browser": "real Chromium/Playwright fallback; in-app Browser not used",
+      "cycles": [
+        {
+          "approval_turn_observed": true,
+          "cycle": 1,
+          "file_search": {
+            "backend": "selected external native.file-search-local through real App Server fuzzyFileSearch",
+            "passed": true,
+            "verified": [
+              "real filesystem results",
+              "relative root rejected without RPC or draft/input changes",
+              "click insertion with spaces/quotes/backslash",
+              "keyboard insertion without submitting",
+              "draft preservation",
+              "A-B-A query fence",
+              "root replacement fence",
+              "explicit close fence",
+              "task replacement fence"
+            ]
+          },
+          "first_sigint": true,
+          "manager_status": 0,
+          "passed": true,
+          "selected_search_worker_count": 1,
+          "selected_search_workers_absent": true,
+          "shutdown_seconds": 0.2669247819867451,
+          "shutdown_turn_observed": true,
+          "stop_interrupted_turn_observed": true,
+          "streaming_turn_observed": true,
+          "subreaper_adopted_status_histogram": {
+            "0": 3
+          },
+          "subreaper_drain_passed": true,
+          "tracked_processes_absent": true
+        },
+        {
+          "approval_turn_observed": false,
+          "cycle": 2,
+          "file_search": {
+            "backend": "selected external native.file-search-local through real App Server fuzzyFileSearch",
+            "passed": true,
+            "verified": [
+              "real filesystem results",
+              "relative root rejected without RPC or draft/input changes",
+              "click insertion with spaces/quotes/backslash",
+              "keyboard insertion without submitting",
+              "draft preservation",
+              "A-B-A query fence",
+              "root replacement fence",
+              "explicit close fence",
+              "task replacement fence"
+            ]
+          },
+          "first_sigint": true,
+          "manager_status": 0,
+          "passed": true,
+          "selected_search_worker_count": 1,
+          "selected_search_workers_absent": true,
+          "shutdown_seconds": 0.2647945139906369,
+          "shutdown_turn_observed": true,
+          "stop_interrupted_turn_observed": false,
+          "streaming_turn_observed": true,
+          "subreaper_adopted_status_histogram": {
+            "0": 2
+          },
+          "subreaper_drain_passed": true,
+          "tracked_processes_absent": true
+        }
+      ],
+      "final_drain_adopted_status_histogram": {},
+      "final_drain_passed": true,
+      "host_unchanged": true,
+      "inference": "deterministic installed fixture; no live provider",
+      "installed_packages_unchanged": true,
+      "limits": [
+        "Approval response and Stop are exercised in cycle1; cold cycle2 checks recovery, streaming, search and normal closure.",
+        "A new current-source pass does not explain or relabel the old source7a selected-search timeout.",
+        "Tracked cleanup is bounded; no universal graceful/whole-host custody inference."
+      ],
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "0b05186142f0f1c660160de1002e759e3f3c73000faa3a64e0ea7ab9787f4a03",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "4f48671f7ae45efe93584dc4f17f496e90159b6c179993ddf1d5830691041650",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "root_viewed_screenshots": [
+        {
+          "bytes": 122446,
+          "path": "/tmp/p03-auth-refresh-newhost-gui-search-01-runtime/search-inserted-2.png",
+          "sha256": "e656a61c01b4e7733667fae182ecfe3855811bfbb75b60cc9856138ca148cdd0",
+          "visual_review": "root reported visual inspection; not in-app Browser interaction"
+        }
+      ]
+    },
+    "held8": {
+      "actual_source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+      "assertion_policy": "Exact frozen fixture; existing89 requirements and200/205/210-second shutdown budgets unchanged.",
+      "case_count": 8,
+      "cases": [
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "git-exec-success",
+          "case_report_sha256": "afa6021dbdf43c6296073c1e26d88174c2f1d38ccb54e1ed0200a04d3f355cb0",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 2,
+            "event_count": 14,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": null,
+          "featured_receipt_sha256": "25c8178a6e71c81d07c74ccfc20ead879c96b62ed55dc277302fca1126d26960",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 0,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "unverified_no_receipt"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "a544505613bf6ebcb0947329b63a837775ae18be7bd72d7bd1d8c105bd5e24c2",
+          "outer_git_ack_sha256": "a93890a7a41bb5bb745af34e10f42466741ff75b08fd37ad81acd08de0e23e9c",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 0,
+            "held_connections": 0
+          },
+          "receipt_sha256": "35209f18983534afaaf57615f642779b7db75ac854ed624f54f0c406f9e4f8cb",
+          "seconds_from_external_trigger_to_exit": 0.115751456,
+          "strict": {
+            "adopted_status_histogram": {
+              "-9": 2,
+              "0": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "a219c9c8586ab66ae2f1c925d381d61892e41ebd6ec850311fc8250baa6b08a5",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "git-exec-error",
+          "case_report_sha256": "32f768c94dd741010acc28155129f42d087d4a3d9d2f663725b7f2b3c4a9aa49",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 2,
+            "event_count": 14,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": null,
+          "featured_receipt_sha256": "78847af80ca47cad167db204931b8e6768bfe4042edcaa4ba1afb1b077f0eef6",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 1,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "unverified_no_receipt"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "6ff215c327ade8ea7579f3cd81bad6b2be35d95097e69038e3ec62b857fa2236",
+          "outer_git_ack_sha256": "9eb084ad274634e593e7e321e977a7f08dc1e23d1deb86c5aee9d34d98cdfcf9",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 0,
+            "held_connections": 0
+          },
+          "receipt_sha256": "1501b9761e4f80e7d06498c77a10f18b0de236bb654652d0a95316c61c4fef07",
+          "seconds_from_external_trigger_to_exit": 0.063875039,
+          "strict": {
+            "adopted_status_histogram": {
+              "-9": 2,
+              "0": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "f22df3daaaf7039857380ac2dddf724b6e978399bc7c7403e7c1b23f94c948db",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "git-app-server-eof",
+          "case_report_sha256": "7c3046855349f6acb2ecb6b026b13ea151fa05780df3ef4cb72fa029ede8f6b9",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 2,
+            "event_count": 15,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": null,
+          "featured_receipt_sha256": "57eacdae7b81aa8722ce5aa1e40ca0afee3cf7d7e0a3ed7b9213c94d4e9d062c",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 0,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "session_loop_report_clean_not_mcp_proof"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "95f197792622efb5f5f1cb7c737bfa8a4dd34bf24049c87003e992ff849215b4",
+          "outer_git_ack_sha256": "689e8f5ea601e6e0ae04ecbfcd0f69c8bd849d95c5af651e77549bb15536f8c6",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 0,
+            "held_connections": 0
+          },
+          "receipt_sha256": "d3c1645f7825193a07c9af0b6b3bc20621b6dea492013ee87ef04ba35f1f2976",
+          "seconds_from_external_trigger_to_exit": 0.033395306,
+          "strict": {
+            "adopted_status_histogram": {
+              "-9": 1,
+              "0": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "2b5e4170901317807edf5c2f2e585198d876f0e6fd93981f2761d2390debf57d",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "git-app-server-sigterm",
+          "case_report_sha256": "ea1e91111a1fb8c9ff2c87c2612cff10386b9acf123550a5d6837f4110606416",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 2,
+            "event_count": 15,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": null,
+          "featured_receipt_sha256": "207da92162820399cc3c48ea198e148ec0a2c214a28229053d3cca0c7862cb4b",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 0,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "session_loop_report_clean_not_mcp_proof"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "4d37d4362315954bf63d017014eaeba10e76ab0b8c91a9f22a24e6e21b8bdef0",
+          "outer_git_ack_sha256": "92b1ab1b78b546c3a646ef013e2704e688e65ba7d31965b6fe9e1c0d62806b13",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 0,
+            "held_connections": 0
+          },
+          "receipt_sha256": "02ba92762a7a728b697ded9ae70cc6efa997b775038a8ebcd1cc8a819d34f65a",
+          "seconds_from_external_trigger_to_exit": 0.031740507,
+          "strict": {
+            "adopted_status_histogram": {
+              "-9": 2,
+              "0": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "de867ac07d15f830bedbe5380c6f9dffc9d89f7dc2e74261fe2335ac6c4e3e08",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "fallback-exec-success",
+          "case_report_sha256": "f7da19bea755dda612be889877136d3ec8e185026500a6839e29e74c0d71d996",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 3,
+            "event_count": 19,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": true,
+          "featured_receipt_sha256": "20cd6c3eedd32cea106a1656dfb9c12fd94ec31b7a581aa269bf8b8d743b3dab",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 0,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "unverified_no_receipt"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "235fcfdf0cf88d54fbf7a2e5897b14e1f6229280de2cabdc6a150a69bb71324d",
+          "outer_git_ack_sha256": "07a51e76dc293b37efe35473af1e4b7b5cb3411d27979ad211514403099553b7",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 1,
+            "held_connections": 0
+          },
+          "receipt_sha256": "47e1d3197671028a16ed67cc214c92cf37b0d93fc73ea7e21905a272e9e9be41",
+          "seconds_from_external_trigger_to_exit": 0.064230769,
+          "strict": {
+            "adopted_status_histogram": {
+              "0": 1,
+              "128": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "4b7fb4cba2abbf952b58d8fb53723e47891c90cb37a484d53878fa1518f74bce",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "fallback-exec-error",
+          "case_report_sha256": "27066f7a9527fec02f40f30e3815e22b6336d61192142bfc1be1a6742489ac9e",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 3,
+            "event_count": 19,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": true,
+          "featured_receipt_sha256": "eff34f3cae5e497bf1df6167d3675c0a21ee53da820f07e52a408f192b600744",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 1,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "unverified_no_receipt"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "d1606609c009e46605669c8196a4bbe4a69b304a69394c54b71123156916a1fc",
+          "outer_git_ack_sha256": "72245e998381f549993e76a9f7c10b19cb39f975edf04cd56197cffe48330dac",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 1,
+            "held_connections": 0
+          },
+          "receipt_sha256": "3d4329c82ded500fdeee42a8d094099a1a52915fa79eba28c2a625ecd1ab30d6",
+          "seconds_from_external_trigger_to_exit": 0.063942188,
+          "strict": {
+            "adopted_status_histogram": {
+              "0": 1,
+              "128": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "2d621993a3a37fe440d0e3d0fed94f72a4ab634051b7cbf0c4b7ac9711b78d39",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "fallback-app-server-eof",
+          "case_report_sha256": "96f382852f07f1e7b1624e7756355b600d30b9a8481e8c662fa77923dcdda038",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 3,
+            "event_count": 20,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": true,
+          "featured_receipt_sha256": "c56a4fa556e6823c92ffb90886cf09687b59994aa6343415e1e745ddba859e8c",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 0,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "session_loop_report_clean_not_mcp_proof"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "fb9257252d5dbca74bdd41409f303229565ab3335b391896a7d3cbc6a32c40d5",
+          "outer_git_ack_sha256": "06df17e1059559c83cd9a7954db256463bc337901e825368df7e2c0c1211b0b5",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 1,
+            "held_connections": 0
+          },
+          "receipt_sha256": "22ee8dc71dc602f38a30b24f3f71cc23b54c092118f58d927e8d3c3309567906",
+          "seconds_from_external_trigger_to_exit": 0.032882331,
+          "strict": {
+            "adopted_status_histogram": {
+              "0": 1,
+              "128": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "821af834fadb81f607f1dfb8550abc06d17caeacfdf90260153616281d8bc601",
+          "whole_host_clean": false
+        },
+        {
+          "ack_exact_trusted_git_hash": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+          "ack_matches_retained_observer_generation_and_ancestry": true,
+          "ack_precedes_held_ready_and_stop": true,
+          "case_id": "fallback-app-server-sigterm",
+          "case_report_sha256": "aaeb2796c416b3fbaad9cbce8fd80eb60d1232517d3fc34f614599eab586887c",
+          "cleanup_errors": [],
+          "connection_observations": {
+            "connection_count": 3,
+            "event_count": 20,
+            "maximum_events_per_sequence": 6,
+            "native_admission_observed": false,
+            "overflow": false,
+            "socket_stage_order_checked": true,
+            "within_frozen_caps": true
+          },
+          "curated_final": {
+            "callback_completed": 0,
+            "callback_failed": 0,
+            "callback_pending": 0,
+            "callback_suppressed": 0,
+            "curated_ownership_clean": true,
+            "optional_sync_outcome": "failed",
+            "receipt_version": 1,
+            "worker_disposition": "joined",
+            "worker_generation": 1,
+            "worker_quarantined": false,
+            "worker_unexpected_handles": 0
+          },
+          "fallback_ack_precedes_502": true,
+          "featured_receipt_sha256": "5b381728eeed9871e7c597acf6616cfad2ef51c83fd32c53ff780290da40273c",
+          "fixture_forced_cleanup": false,
+          "host_binary_unchanged": true,
+          "host_original_returncode": 0,
+          "independent_component_status": {
+            "mcp": "unverified_no_receipt",
+            "session_loop": "session_loop_report_clean_not_mcp_proof"
+          },
+          "observer_diagnostic_complete": true,
+          "observer_diagnostic_failures": [],
+          "observer_report_sha256": "dc2e92f7c88c5db47ecd4c7b165673b4192fe9451ab552ef69f54452823122c5",
+          "outer_git_ack_sha256": "29fa863f17cf86d1bcefecca27b8c23f7773d5ea43c4b7a2254c8a961bd0f7a3",
+          "passed": true,
+          "policy_seconds": {
+            "graceful": 200,
+            "launcher_outer": 210,
+            "native_hard": 205
+          },
+          "proxy": {
+            "auxiliary_held_connections": 0,
+            "auxiliary_peer_eof": 1,
+            "auxiliary_request_path_attributed": false,
+            "auxiliary_started": 1,
+            "git_502_count": 1,
+            "held_connections": 0
+          },
+          "receipt_sha256": "947eda1020ff631614a504d6a95996b936894016262f2a1d0a9a91ae72c584e5",
+          "seconds_from_external_trigger_to_exit": 0.015960798,
+          "strict": {
+            "adopted_status_histogram": {
+              "0": 1,
+              "128": 1
+            },
+            "command_returncode": 0,
+            "exit_status": 0,
+            "runner_error": null,
+            "subreaper": true
+          },
+          "strict_report_sha256": "d0fcad177bbde5d81efeda3157bcd534afe056eff3bc1e0a76eee93d308d1a58",
+          "whole_host_clean": false
+        }
+      ],
+      "fixture_sha256": "ccce09a1dcf6cad7ba7cd4af90985072e766aea195c78475af0f717c5afe6981",
+      "limits": [
+        "Git acknowledgment proves the retained independently observed generation and ancestry, not identity with the inner sampler, a particular Git operation, or ownership of the held transport.",
+        "Peer EOF and strict drain are actual bounded observations; return codes including SIGKILL/128 are retained without causal or graceful inference.",
+        "Curated worker/callback receipts do not establish MCP/session-loop or lower HTTP/transitive ownership.",
+        "Connection diagnostics do not observe native admission, and this fresh pass does not resolve the preserved earlier auxiliary startup race.",
+        "CONNECT establishment only; no held TLS response-body, current same-process A-to-B, or whole-host-clean proof."
+      ],
+      "no_outer_strict_report": "Each of eight case runners has its own original strict receipt; none is fabricated for the matrix.",
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "bfcef794928e37fc69aafd2a9162bfee53d3d21264b1b4e45ee53ddcff684640",
+        "source_unchanged": true
+      },
+      "source_reference_only": {
+        "commit": "15bd9d19804094d9f22dbe470ef5c0c0cc526f1b",
+        "tree": "ee4ef7d763ee50fd5c28bdd57ab23c5833e94c41"
+      },
+      "whole_host_clean": false
+    },
+    "migration-normal": {
+      "command_count": 10,
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "observed_storage_count": 1,
+          "status": 0
+        }
+      ],
+      "host_unchanged": true,
+      "independent_report_fingerprint": {
+        "bytes": 5895,
+        "sha256": "c10f10fb1fe222eeaedc0d720f83b4cb2e51162b9a9fca3ccb0f0517d63ce252"
+      },
+      "limits": [
+        "Real CLI/App Server migration and recovery with deterministic inference; browser validation is a separate gate.",
+        "Process counts are scoped observations; descendant return codes remain in strict evidence without attribution."
+      ],
+      "observed_storage_process_count": 6,
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "8d05d16f8834efd36c86890c3aca1c67ee36c81a7218512ad5ba4addb15f9d40",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "cfe78923cdc1616189e7b32015941d06edef65f85eeedabe450d5e9fa2fa09bc",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 4,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    "migration-search": {
+      "command_count": 10,
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "observed_storage_count": 1,
+          "status": 0
+        }
+      ],
+      "host_unchanged": true,
+      "independent_report_fingerprint": {
+        "bytes": 5895,
+        "sha256": "c10f10fb1fe222eeaedc0d720f83b4cb2e51162b9a9fca3ccb0f0517d63ce252"
+      },
+      "limits": [
+        "Real CLI/App Server migration and recovery with deterministic inference; browser validation is a separate gate.",
+        "Process counts are scoped observations; descendant return codes remain in strict evidence without attribution."
+      ],
+      "observed_storage_process_count": 6,
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "84d96440f0d8951e6799b5f8454feef7d7fe6e326a0b7ba655dc0d72d89a1074",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "297041233b44336c18ed2c75686078d1bdc589af706af74db189b520ab2e10ab",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 6,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    "migration-slow-forced": {
+      "command_count": 10,
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "observed_storage_count": 1,
+          "status": 0
+        }
+      ],
+      "host_unchanged": true,
+      "independent_report_fingerprint": {
+        "bytes": 5895,
+        "sha256": "c10f10fb1fe222eeaedc0d720f83b4cb2e51162b9a9fca3ccb0f0517d63ce252"
+      },
+      "limits": [
+        "Real CLI/App Server migration and recovery with deterministic inference; browser validation is a separate gate.",
+        "Process counts are scoped observations; descendant return codes remain in strict evidence without attribution."
+      ],
+      "observed_storage_process_count": 6,
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "fb0eae233bcaf08eb459c334519e71f057082c9806d2b9f28ba49f7aa37a4373",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "6e78a6ea6de886c7ae51d5cf3ec458153ae793548eb2af1cfe06ee84b5be3cfe",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 6,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    "migration-slow-normal": {
+      "command_count": 10,
+      "commands": [
+        {
+          "label": "prepare-gui",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "install-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "select-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-dry-run",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "reset-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "native-dry-run",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "reselect-native",
+          "observed_storage_count": 0,
+          "status": 0
+        },
+        {
+          "label": "selected-apply",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "selected-repeated",
+          "observed_storage_count": 1,
+          "status": 0
+        },
+        {
+          "label": "cli-resume",
+          "observed_storage_count": 1,
+          "status": 0
+        }
+      ],
+      "host_unchanged": true,
+      "independent_report_fingerprint": {
+        "bytes": 5895,
+        "sha256": "c10f10fb1fe222eeaedc0d720f83b4cb2e51162b9a9fca3ccb0f0517d63ce252"
+      },
+      "limits": [
+        "Real CLI/App Server migration and recovery with deterministic inference; browser validation is a separate gate.",
+        "Process counts are scoped observations; descendant return codes remain in strict evidence without attribution."
+      ],
+      "observed_storage_process_count": 6,
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "10f6d3eecd7606ba7bceda957211ff8c81e05e1420a3524664532950f36f1091",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "e778965066bad9247de74003ec7e18d3ce6f089938ea12b08ef1639653b7ce64",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 5,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "verified": [
+        "matching independent-source package and unchanged host",
+        "real legacy App Server conversation",
+        "native/selected dry-run parity and unchanged storage bytes",
+        "selected CLI migration and idempotent repeated apply",
+        "cold CLI resume retains user/assistant history",
+        "cold App Server paginated history",
+        "post-migration turn cancellation and process reaping"
+      ]
+    },
+    "slow-forced": {
+      "cold_recovered_held_prompt": false,
+      "cold_shutdown": {
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.42077987699303776,
+        "tracked_processes_absent": true
+      },
+      "command_count": 4,
+      "command_statuses": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "durability_classification": "forced_shutdown_explicitly_unknown",
+      "emergency_cleanup": false,
+      "held_runtime_all_tracked_processes_absent": true,
+      "host_unchanged": true,
+      "limits": [
+        "Actual component-manager Launch and SIGINT are exercised; canonical accepted ItemCompleted(UserMessage) is held before native forwarding.",
+        "The original response-only interrupted UI projection gap is not fixed by this fixture.",
+        "Normal46-second hold exceeds the earlier45-second cutoff; forced second SIGINT must report durability uncertainty.",
+        "Real Chromium fallback and deterministic fixture inference; tracked descendants and strict drain are bounded checks."
+      ],
+      "manager_status": 1,
+      "mode": "forced",
+      "native_internal_admission_before_release_proven": false,
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "df4e88ed0d85519a185661650fcd83d635cb8324f6fce6ebaf2e2d486875ca1a",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "16c0326033651e4ccfdc57f324e7cb6bf19334d37f9e7e1c9c203eb2a60bb851",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 7
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "response_only_interrupted_history_gap_fixed": false,
+      "selected_history_event": "ItemCompleted(UserMessage)",
+      "shutdown_seconds": 2.040751248
+    },
+    "slow-normal": {
+      "cold_recovered_held_prompt": true,
+      "cold_shutdown": {
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.4701464449753985,
+        "tracked_processes_absent": true
+      },
+      "command_count": 4,
+      "command_statuses": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "durability_classification": "native_cleanup_and_cold_recovery_confirmed",
+      "emergency_cleanup": false,
+      "held_runtime_all_tracked_processes_absent": true,
+      "host_unchanged": true,
+      "limits": [
+        "Actual component-manager Launch and SIGINT are exercised; canonical accepted ItemCompleted(UserMessage) is held before native forwarding.",
+        "The original response-only interrupted UI projection gap is not fixed by this fixture.",
+        "Normal46-second hold exceeds the earlier45-second cutoff; forced second SIGINT must report durability uncertainty.",
+        "Real Chromium fallback and deterministic fixture inference; tracked descendants and strict drain are bounded checks."
+      ],
+      "manager_status": 0,
+      "mode": "normal",
+      "native_internal_admission_before_release_proven": false,
+      "normal_gate": {
+        "acknowledged_shutdown_hold_seconds": 46.023230564,
+        "all_directional_results_observed": true,
+        "held_append_acknowledged": true
+      },
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "ac74a7a05558efff4e483e3c1004922fed3e0b2b8941a74d79fb0c56cfa9154c",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "62317e5cf270f86fa0d7807022ec8b5ce854f7a6a0d6f90ab825297540dbd18d",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "0": 5
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "response_only_interrupted_history_gap_fixed": false,
+      "selected_history_event": "ItemCompleted(UserMessage)",
+      "shutdown_seconds": 46.452335498
+    },
+    "storage": {
+      "all_tracked_storage_children_terminated": true,
+      "command_count": 13,
+      "command_statuses": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "contract_version": 2,
+      "host_unchanged": true,
+      "independent_build_report_fingerprint": {
+        "bytes": 8530,
+        "sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e"
+      },
+      "limits": [
+        "Native package was built independently earlier; this is fresh actual-host integration using the exact package.",
+        "Inference/tool/context plugins are deterministic fixtures; no live-provider proof.",
+        "Tracked cleanup and unchanged strict runner do not prove universally graceful or whole-host termination."
+      ],
+      "new_independent_build": false,
+      "package_files": {
+        "LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "codex-component.json": {
+          "bytes": 309,
+          "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48"
+        },
+        "codex-thread-store-local-plugin": {
+          "bytes": 71203368,
+          "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99"
+        }
+      },
+      "package_files_unchanged": true,
+      "package_mode": "exact_historical_independently_built_package_reused_no_new_native_build",
+      "package_version": "0.2.0",
+      "passed": true,
+      "receipt": {
+        "command_returncode": 0,
+        "log_sha256": "d51f4baefa85848c48c078d98b97fcf44e0c3ef1aa6882e0a3210a0e0731c5fc",
+        "source_count": 8949,
+        "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+        "source_receipt_sha256": "db75e4957fd8167d5473db631aa6303739b2960d6cc12f76ee49050181b9e41b",
+        "source_unchanged": true,
+        "strict": {
+          "adopted_status_histogram": {
+            "-9": 6,
+            "0": 1
+          },
+          "command_returncode": 0,
+          "exit_status": 0,
+          "runner_error": null,
+          "subreaper": true
+        }
+      },
+      "source_export_absent_after": true,
+      "tracked_storage_children": 3,
+      "verified": [
+        "independent builds",
+        "source removed",
+        "real CLI turn",
+        "external tool execution",
+        "context contribution",
+        "model event streaming",
+        "persisted session resume",
+        "zero native inference while replacement selected",
+        "native restoration with retained history",
+        "selected native storage process",
+        "cold storage process restart and resume",
+        "storage child termination after each CLI process",
+        "native storage restoration with retained history"
+      ]
+    }
+  },
+  "evidence_method": "Completed control/report JSON only; explicit allowlists omit identities/configuration/environment/raw outputs. No native payload reread, runtime execution, or source edits by projector.",
+  "global_limits": [
+    "Scoped current-source runtime acceptance is not whole-harness extraction or full P03 completion.",
+    "Installed native packages were previously built independently and are reused exactly; host/package before-after bindings verify no host rebuild during their installation/exercise.",
+    "New additive tool/model/context fixtures are not additional native extraction families.",
+    "Inference uses deterministic fixtures; GUI automation uses Chromium fallback, not the in-app Browser.",
+    "Nested adopted SIGKILL return codes remain recorded without attribution; no universal graceful or whole-host cleanliness claim.",
+    "Older failed source/build/GUI/matrix runs remain failed and separately preserved.",
+    "Upstream maintenance real revision integration/rollback and final clean-install platform acceptance remain open.",
+    "TUI cfg(test) OOM remains a failed gate; current-source App Server consumer/replacement gates and lower-transport/MCP custody remain separate work."
+  ],
+  "pending_gate_ids": [],
+  "schema": "source42-current-runtime-evidence-v1",
+  "source_count": 8949,
+  "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+  "status": "completed_all_12_bounded_runtime_gates"
+}

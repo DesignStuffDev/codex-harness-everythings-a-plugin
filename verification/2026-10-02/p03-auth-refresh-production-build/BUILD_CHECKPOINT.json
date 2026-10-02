@@ -1,0 +1,251 @@
+{
+  "schema": "source42-production-build-checkpoint-v1",
+  "created_utc": "2026-10-02T21:58:51.943902+00:00",
+  "status": "production_build_succeeded_and_outputs_bound_runtime_pending",
+  "source": {
+    "count": 8949,
+    "map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+    "before_after_equal": true,
+    "candidate_manifest_sha256": "7f6a7aaf7fd772b8b6aa66e172dfeba7af7ad3f3cce6839c0b2dbb90c713d4a9",
+    "actual_source_receipt_sha256": "41ca3a3332a3f7f6d4a4e80320f259c9b95ed37fd0eab281caf216afb6752857"
+  },
+  "build": {
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--offline",
+      "-p",
+      "codex-cli",
+      "--bin",
+      "codex",
+      "-p",
+      "codex-component-host",
+      "--bin",
+      "codex-component"
+    ],
+    "scope": "CLI codex and component-manager codex-component targets only",
+    "started_utc": "2026-10-02T21:50:31Z",
+    "finished_utc": "2026-10-02T21:54:54Z",
+    "wrapper_elapsed_seconds": 263,
+    "exit_code": 0,
+    "accepted_terminal_sha256": "a4c03e7ada2762fa3b6451b58c600f5bebf4d2dda3d900f49cfab35f3e224b0a",
+    "full_workspace_suite": false,
+    "runtime_acceptance": false,
+    "terminal_binary_binding_pending_is_historical": true,
+    "binding_completed_by_later_receipt_sha256": "6bc100403f78a5588f383aecfba8984fa076bddc91de4c8f16a913c613cc3556",
+    "log_sha256": "160d8e85fa143f97842658ab15d743ea78af1280cfbe416175287e5756f5cec7",
+    "log_payload_omitted": true
+  },
+  "outputs": {
+    "cli": {
+      "selector": "codex-rs/target/debug/codex",
+      "bytes": 635999960,
+      "sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+      "replaces_historical_production78d": true,
+      "source42_output": true,
+      "recorded_root_double_hash_binding": true
+    },
+    "manager": {
+      "selector": "codex-rs/target/debug/codex-component",
+      "bytes": 7274296,
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "matches_preserved_existing_f054": true,
+      "reused_unchanged_artifact_not_new_manager_compile_claim": true,
+      "recorded_root_double_hash_binding": true
+    }
+  },
+  "resource_receipts": {
+    "preceding_frozen_projection_sha256": "efa197d790ff62d83358032260d44f67da57c9b59ed7ad4467fad03d82fadf02",
+    "before_build": {
+      "conditional_clean_file_credit_not_guaranteed_ram": 2147483648,
+      "effective_memory_headroom_bytes": 3928956928,
+      "hard_unused_memory_bytes": 1781473280,
+      "oom": {
+        "oom": 10,
+        "oom_group_kill": 0,
+        "oom_kill": 5
+      },
+      "overlay_free_bytes": 1491427328,
+      "temporary_free_bytes": 1459408896
+    },
+    "after_command": {
+      "conditional_clean_file_credit_not_guaranteed_ram": 1999149056,
+      "effective_memory_headroom_bytes": 4339361792,
+      "hard_unused_memory_bytes": 2340212736,
+      "oom": {
+        "oom": 10,
+        "oom_group_kill": 0,
+        "oom_kill": 5
+      },
+      "overlay_free_bytes": 521224192,
+      "temporary_free_bytes": 1459408896
+    },
+    "after_source_receipt": {
+      "conditional_clean_file_credit_not_guaranteed_ram": 2001584128,
+      "effective_memory_headroom_bytes": 4340150272,
+      "hard_unused_memory_bytes": 2338566144,
+      "oom": {
+        "oom": 10,
+        "oom_group_kill": 0,
+        "oom_kill": 5
+      },
+      "overlay_free_bytes": 521224192,
+      "temporary_free_bytes": 1459408896
+    },
+    "oom_before_after": {
+      "oom": 10,
+      "oom_kill": 5,
+      "unchanged": true
+    },
+    "snapshot": {
+      "utc": "2026-10-02T21:58:51.943783+00:00",
+      "free_bytes": {
+        "/workspace": 511156224,
+        "/tmp": 1140502528,
+        "/dev/shm": 7467732992
+      },
+      "hard_unused_memory_bytes": 1417003008,
+      "conditional_credit_bytes": 1891614720,
+      "effective_headroom_bytes": 3308617728,
+      "conditional_credit_not_guaranteed_ram": true,
+      "tmp_and_shm_are_cgroup_accounted": true,
+      "oom_counters": {
+        "low": 0,
+        "high": 0,
+        "max": 22801516,
+        "oom": 10,
+        "oom_kill": 5,
+        "oom_group_kill": 0
+      },
+      "process_observation": {
+        "counts": {
+          "processes_seen": 400,
+          "stable_live_records": 43,
+          "stable_z_records": 357,
+          "vanished_or_generation_moved": 0
+        },
+        "bound_cli_or_manager_owners": [
+          {
+            "pid": 1060171,
+            "name": "codex-component",
+            "start_ticks": 21724517,
+            "state_before": "S",
+            "state_after": "S",
+            "references": [
+              {
+                "kind": "exe",
+                "role": "manager"
+              },
+              {
+                "kind": "mapped",
+                "role": "manager"
+              }
+            ]
+          },
+          {
+            "pid": 1060179,
+            "name": "codex",
+            "start_ticks": 21724523,
+            "state_before": "S",
+            "state_after": "S",
+            "references": [
+              {
+                "kind": "exe",
+                "role": "cli"
+              },
+              {
+                "kind": "mapped",
+                "role": "cli"
+              }
+            ]
+          }
+        ],
+        "known_old_gui_records": [
+          {
+            "pid": 371357,
+            "name": "codex-component",
+            "start_ticks": 3197153,
+            "state_before": "S",
+            "state_after": "S",
+            "untouched": true
+          },
+          {
+            "pid": 371365,
+            "name": "codex",
+            "start_ticks": 3197161,
+            "state_before": "S",
+            "state_after": "S",
+            "untouched": true
+          },
+          {
+            "pid": 371835,
+            "name": "chromium",
+            "start_ticks": 3212801,
+            "state_before": "S",
+            "state_after": "S",
+            "untouched": true
+          }
+        ],
+        "process_arguments_environment_payloads_read": false,
+        "scope": "One generation-checked exe/FD/map metadata sample for two bound artifacts; not a process lifecycle acceptance assertion or exclusive owner lock.",
+        "unreadable_summary": {
+          "field_failures": 363,
+          "distinct_pid_count": 359,
+          "counts_by_field": {
+            "exe": 2,
+            "fd_directory": 359,
+            "maps": 2
+          },
+          "known_daemon_ids_present": [
+            199,
+            250
+          ],
+          "complete_metadata_list_sha256": "a1bec2cbefcd4925490c7b19c4063001a97e2178271a3ce8b1a42b50003abaac",
+          "raw_pid_field_list_omitted_for_compactness": true,
+          "limitation": "Field permission failures are not equated with live ownership or lifecycle failure/success. No blanket claim that they are all zombie-related."
+        },
+        "named_compiler_or_archive_summary": {
+          "total_records": 2,
+          "live_or_transitioning_records": [],
+          "stable_z_count": 2,
+          "raw_metadata_sha256": "6ec041ff9d308a1c8e6a36643b80261227e358ffe88acf2cb627d884eb5018aa",
+          "not_lifecycle_acceptance": true
+        }
+      },
+      "bound_artifacts": [
+        {
+          "role": "cli",
+          "recorded_binding_sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+          "metadata_matched_recorded_binding": true,
+          "payload_rehashed": false
+        },
+        {
+          "role": "manager",
+          "recorded_binding_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+          "metadata_matched_recorded_binding": true,
+          "payload_rehashed": false
+        }
+      ]
+    }
+  },
+  "runtime_planning": {
+    "remaining_gate_status": "Current-source rebuilt-host storage/migration/UI/shutdown/recovery/replacement gates remain separate; this report does not execute or accept them.",
+    "capacity_concern": "About 0.5 GB overlay remains. Retained runtime output/copies must use their already-authorized guarded locations; this snapshot is not admission for another substantial native build.",
+    "execution_order": "Sequential runtime gates with fresh per-step disk and memory checks; /tmp and /dev/shm capacity consumes the same cgroup memory.",
+    "no_automatic_cleanup_or_process_termination": true
+  },
+  "publication_reference": {
+    "commit": "15bd9d19804094d9f22dbe470ef5c0c0cc526f1b",
+    "tree": "ee4ef7d763ee50fd5c28bdd57ab23c5833e94c41",
+    "reference_only": true,
+    "not_substitute_for_actual_source_and_binary_receipts": true
+  },
+  "limits": [
+    "No new large artifact hashing; current artifact identities were metadata-compared with the completed root binding.",
+    "Only completed source/control/log receipts were read; full source maps and log payload are omitted.",
+    "Compilation and binding do not prove plugin runtime behavior, storage durability, shutdown or UI acceptance.",
+    "Known inaccessible process metadata fields are recorded; Z-state records do not establish successful lifecycle cleanup.",
+    "Original resource projection remains separate and unchanged; all preservation archives remain VM-local unless separately published externally."
+  ]
+}

@@ -20,14 +20,15 @@ the newly adopted five-path native ownership change against exact upstream objec
 and the preceding tested source. It includes formatted hashes and intentional
 customizations. Five focused tests,297 full grouped login tests and108 grouped
 provider tests now pass; scoped login lint03 also passed without source changes.
-Current production/UI checks remain pending.
+That standalone source0742 cohort had no production/UI gate; the later source42
+composition now has separate accepted production/runtime evidence below.
 The map is provenance, not updater acceptance or an
 additional extracted component. The [refresh follow-up map](upstream/p03-auth-refresh-source-lineage.json)
 now binds the adopted/formatted3-path candidate42e3899 to exact native upstream
 refresh/publication symbols. Four current-source causal tests now pass on a new
 login ELF, followed by301/301 full login cases with zero skips/retries. Current
 provider regression also passes108/108 with zero skips/retries. Scoped login lint02
-passed with unchanged source; new production/UI gates remain pending. Earlier reload results
+passed with unchanged source; new production/UI gates subsequently pass; see the current runtime supplement. Earlier reload results
 do not validate this source, and no updater
 integration result is implied.
 
@@ -745,3 +746,17 @@ an accepted composition or credited as tested auth behavior. The normalized
 current provenance index, independently installed updater, real later-upstream
 candidate, coordinated migration/version gates and failed-update recovery remain
 unfinished. No polling or live update is activated.
+
+### Current auth-refresh production/runtime binding — 2026-10-02
+
+Source map42e3899a/count8,949 now has a new production CLI8e8a5dac and reused
+managerf054d84a, with all12 current runtime recipes passing. Preserve this exact
+[build evidence](verification/2026-10-02/p03-auth-refresh-production-build/README.md)
+and the runtime records in EXECUTION_STATE.md during future upstream adaptation.
+Normal Launch allowed a46.452s storage hold then recovered the canonical message;
+forced termination reported uncertainty and did not recover the held message.
+The native storage/attachment/search packages were reused without host recompilation
+during installation; no new package build or upstream revision is claimed.
+P18U's real later-revision integration, migration/compatibility gates and failed-update
+external recovery remain required. A read-only installed maintenance adapter is being
+evaluated separately; it cannot substitute for those acceptance scenarios.

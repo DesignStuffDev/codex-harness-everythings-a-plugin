@@ -28,6 +28,13 @@ and current-source storage/migration/GUI/shutdown gates are published at
 [EXECUTION_STATE.md](EXECUTION_STATE.md) for all12 passing runtime slots, the
 preserved first GUI failure, reused package identities and remaining limits. These helpers are not an independently installed HTTP component and do not increase the three bounded native replacement families. A subsequent lexical test-scope correction passes formatting and scoped lint without warnings; no tests were repeated solely for style. See [HTTP evidence](verification/2026-10-02/p03-http-native-constructor-stage-a/README.md) and `EXECUTION_STATE.md` for exact source transitions.
 
+Current auth-refresh host continuation: source42 (8,949 files), CLI8e8a5dac/reused
+managerf054d84a now pass all12 rebuilt-host runtime recipes, including four Chromium
+cycles, native selected storage/attachments/search and normal/forced Launch behavior.
+[Execution state](EXECUTION_STATE.md) records exact scope and remaining P03 gates.
+This revalidates existing bounded replacement families; it adds no native extraction.
+The409 auth/provider package cases and scoped lint are distinct from runtime proof.
+
 ## Functional boundaries, contracts and remaining work
 
 The paths in this section are relative to the repository. Source modules inside `core` or `app-server` are intentionally listed as owners even when their crates appear only once in the package ledger. `codex-rs/core/src/state/service.rs` is a useful concrete dependency inventory: `SessionServices` still owns many native services that must be addressed.
@@ -121,10 +128,11 @@ passed on source map `0742356b`; scoped login lint03 subsequently passed with un
 This does not extract authentication. Permanent refresh-failure publication is now
 adopted/formatted on a separate42e3899 source and passes four causal tests plus
 the full301-case login gate and108 provider cases. Scoped login lint02 passed without
-source changes; current production/UI gates remain pending. See its
+source changes; current production/UI gates subsequently pass; see EXECUTION_STATE.md. See its
 [source map](upstream/p03-auth-refresh-source-lineage.json). Successful refresh/install
 persistence, conditional backend writes and request admission remain coupled and
-require separate contracts. No new extracted family or runtime acceptance is claimed.
+require separate contracts. No new extracted family or independently installed
+authentication-component acceptance is claimed.
 
 ## Complete explicit workspace package ledger
 

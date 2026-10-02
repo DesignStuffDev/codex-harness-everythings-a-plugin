@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "Adopted and formatted; focused4, full login301/provider108 and scoped login lint02 passed on unchanged source42. New production/UI gates pending. Native ownership prerequisite, no additional extracted component.",
+  "status": "Adopted/formatted source42; focused4/full login301/provider108 and scoped lint pass. Fresh source-bound production CLI and all12 installed-package/GUI/shutdown runtime recipes pass. P03 and further native extraction remain incomplete.",
   "upstream": {
     "repository": "https://github.com/openai/codex",
     "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
@@ -138,7 +138,7 @@
   ],
   "execution": {
     "new_tests_executed": true,
-    "production_matches_source": false,
+    "production_matches_source": true,
     "installed_auth_storage_component": false,
     "real_upstream_update_integration": false,
     "scheduled_polling": false,
@@ -171,5 +171,19 @@
       "no_tests_repeated_solely_for_lint": true
     }
   },
-  "license": "Apache-2.0 LICENSE and NOTICE retained."
+  "license": "Apache-2.0 LICENSE and NOTICE retained.",
+  "production_runtime": {
+    "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+    "source_count": 8949,
+    "cli_sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+    "reused_manager_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+    "binary_receipt_sha256": "2d8d116c6a10a3d68425389aa9109e90e05d7283a4e99f0dbeef670bcf3b73b0",
+    "runtime_recipes_passed": 12,
+    "build_evidence": "verification/2026-10-02/p03-auth-refresh-production-build/BUILD_CHECKPOINT.json",
+    "runtime_evidence": "verification/2026-10-02/p03-auth-refresh-runtime/EVIDENCE.json",
+    "browser": "Real Chromium via Playwright; in-app Browser unavailable",
+    "inference": "Deterministic; no live provider",
+    "upstream_revision_changed": false,
+    "new_extracted_family": false
+  }
 }

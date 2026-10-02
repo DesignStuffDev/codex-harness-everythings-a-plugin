@@ -1,0 +1,217 @@
+{
+  "schema": "sanitized-source42-production-resource-checkpoint-v1",
+  "created_utc": "2026-10-02T21:52:28.458648+00:00",
+  "scope": "Completed preservation/consolidation and ordinary build-cache retirement; production admission only",
+  "source": {
+    "files": 8949,
+    "map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+    "git_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59",
+    "unchanged_by_resource_actions": true
+  },
+  "four_artifact_proof": {
+    "producer_scopes": [
+      {
+        "name": "focused4",
+        "passed_tests": 4,
+        "observer_records": 6,
+        "executed_roles": [
+          "login-lib"
+        ]
+      },
+      {
+        "name": "full301",
+        "passed_tests": 301,
+        "observer_records": 305,
+        "executed_roles": [
+          "login-lib",
+          "login-integration"
+        ]
+      },
+      {
+        "name": "provider108",
+        "passed_tests": 108,
+        "observer_records": 110,
+        "executed_roles": [
+          "provider-lib"
+        ]
+      }
+    ],
+    "observer_records": 421,
+    "overlap": "Focused4 is included in full301; producer scopes and observer records are not added into a new unique-test total.",
+    "compiled_cli_library_executed": false,
+    "artifacts": [
+      {
+        "selector": "codex-rs/target/debug/deps/codex_login-36e9bc4560b410c1",
+        "role": "login-lib",
+        "executed_as_test": true,
+        "logical_bytes": 156165112,
+        "allocated_bytes_before": 154402816,
+        "sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2"
+      },
+      {
+        "selector": "codex-rs/target/debug/deps/all-ca6d95d908331531",
+        "role": "login-integration",
+        "executed_as_test": true,
+        "logical_bytes": 139874648,
+        "allocated_bytes_before": 138260480,
+        "sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3"
+      },
+      {
+        "selector": "codex-rs/target/debug/deps/codex_model_provider-dde3fa35793b881d",
+        "role": "provider-lib",
+        "executed_as_test": true,
+        "logical_bytes": 111260968,
+        "allocated_bytes_before": 109973504,
+        "sha256": "9ed024bb63152abf8159d5cb1eb4ecd88d0f5169cc21087c144fcba83189414e"
+      },
+      {
+        "selector": "codex-rs/target/debug/deps/codex_cli-1c7c8438401a2545",
+        "role": "compiled-cli-lib",
+        "executed_as_test": false,
+        "logical_bytes": 197917024,
+        "allocated_bytes_before": 195485696,
+        "sha256": "882ecabb6dc010fc7c356b382ef017e8bafc67239c3424eb5538a6b6df609132"
+      }
+    ],
+    "archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-current4-proof-preservation-01/CURRENT_REFRESH_FOUR_ARTIFACT_PROOF.tar.zst",
+      "sha256": "745dcc5685359d684b18c3fd153bf32f4bb4ee12971dd25b872797362599400d",
+      "bytes": 136134715,
+      "cap_bytes": 167772160,
+      "exact_regular_members": 563,
+      "full_restoration_logical_bytes": 620733592,
+      "full_stream_and_materialized_hash_verification": true
+    },
+    "phase_receipts": {
+      "audit": "fec609c2092119b00985d441ab67f7e2addac8246fad957d6b66db043963b7b4",
+      "preservation": "0d6f8ff20e16fdbbd4dbefdc8525b6852af3b6597e536efbd23458394de96eea",
+      "retirement": "64ee999efae17b98f53c17dcf738e8d043702150c90a69b7318e29cc4fe64ebe",
+      "fresh_restore_release": "0d4bd253349db971f759f7e782f3649b1c0185d21d35f685e219078d12c2a9c6"
+    },
+    "original_four_paths_retired_after_verified_full_restoration": true,
+    "only_new_full_verification_restore_released": true,
+    "old_restorations_untouched": true,
+    "audit_included_target_hash_fsync_and_bounded_clean_page_advice": true,
+    "new_test_execution_claim": false
+  },
+  "manager_proof": {
+    "result_sha256": "45d536cc837b93d492b2dde7750ac9d2bd98c3a3261b905313886804594c3268",
+    "artifact_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+    "artifact_bytes": 7274296,
+    "archive": {
+      "bytes": 7290880,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-current-manager-f054-preservation-01/CURRENT_MANAGER_PROOF.tar",
+      "sha256": "b0e0fcacc8d19a80d853d412b2bc016f426118078c1e4249a69213bf802de8e5"
+    },
+    "archive_member_count": 4,
+    "uncompressed_archive": true,
+    "full_verified_restore_retained": true,
+    "restored_hardlink_count": 2,
+    "original_pair_remained_available_at_resource_boundary": true,
+    "originals_retired": false,
+    "new_compilation_or_execution_claim": false
+  },
+  "ordinary_build_cache": {
+    "audit_sha256": "e57509465211792e7200e69883939f963be8885bc492173765fab8ca5e42abb3",
+    "retirement_sha256": "b40442c3a5d8f4beb5fda9fc0e9de8b0567f9baa8db391f8e348fbc461ce48f8",
+    "removed_files": [
+      {
+        "selector": "codex-rs/target/debug/deps/libcodex_core-60003fedd2493676.rlib",
+        "allocated_bytes": 178704384,
+        "role": "reproducible grouped-test-context static library or metadata"
+      },
+      {
+        "selector": "codex-rs/target/debug/deps/libcodex_core-60003fedd2493676.rmeta",
+        "allocated_bytes": 36638720,
+        "role": "reproducible grouped-test-context static library or metadata"
+      },
+      {
+        "selector": "codex-rs/target/debug/deps/libcodex_tui-0f947099065ccc9e.rlib",
+        "allocated_bytes": 193396736,
+        "role": "reproducible grouped-test-context static library or metadata"
+      },
+      {
+        "selector": "codex-rs/target/debug/deps/libcodex_tui-0f947099065ccc9e.rmeta",
+        "allocated_bytes": 33853440,
+        "role": "reproducible grouped-test-context static library or metadata"
+      }
+    ],
+    "allocated_bytes_retired": 442593280,
+    "normal_cli_context_records": 1338,
+    "normal_manager_context_records": 86,
+    "exact_recorded_production_intersections": 0,
+    "unknown_dependency_edges": 0,
+    "retained_normal_contexts": [
+      "codex-core-f4094ecc5af207cb",
+      "codex-tui-ca2a96a82bd348bd"
+    ],
+    "future_grouped_test_rebuild_debt": true,
+    "ordinary_variants_source_invalidated_claim": false,
+    "actual_proof_executable_or_source_retirement_in_this_action": false,
+    "audit_included_hash_fsync_and_bounded_clean_page_advice": true
+  },
+  "production_admission": {
+    "preflight_receipt": {
+      "path": "/workspace/acceptance/p03-auth-refresh-current-production-build-01.preflight.json",
+      "sha256": "f52b66e90445a04fece523a808a56ed96664b5471ee114f7fea85dde3d6050a1"
+    },
+    "budget_sha256": "cc63787b54ca9536004db0383ecd3a263ebce07af1159fcabc642316cc0711a9",
+    "minimums": {
+      "effective_memory_headroom_bytes": 3221225472,
+      "hard_unused_memory_bytes": 1610612736,
+      "overlay_free_bytes": 1458762560,
+      "temporary_free_bytes": 268435456
+    },
+    "observed_resources": {
+      "conditional_clean_file_credit_not_guaranteed_ram": 2147483648,
+      "effective_memory_headroom_bytes": 3928956928,
+      "hard_unused_memory_bytes": 1781473280,
+      "oom": {
+        "oom": 10,
+        "oom_group_kill": 0,
+        "oom_kill": 5
+      },
+      "overlay_free_bytes": 1491427328,
+      "temporary_free_bytes": 1459408896
+    },
+    "overlay_margin_above_inherited_estimate": 32664768,
+    "canonical_output_route": "Existing canonical target/debug outputs; no new checkout, target directory or output symlink.",
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "--offline",
+      "-p",
+      "codex-cli",
+      "--bin",
+      "codex",
+      "-p",
+      "codex-component-host",
+      "--bin",
+      "codex-component"
+    ],
+    "build_started_reported_by_root": true,
+    "build_completion_inspected": false,
+    "build_success_claim": false,
+    "runtime_acceptance": false
+  },
+  "oom": {
+    "counter": 10,
+    "kill_counter": 5,
+    "unchanged_through_completed_resource_steps_and_preflight": true,
+    "not_a_future_build_peak_or_safety_guarantee": true,
+    "completed_resource_snapshots_checked": 9
+  },
+  "durability": {
+    "archive_files_retained_in_original_vm": true,
+    "external_durability_established_by_these_archives": false,
+    "archival_preserves_recoverable_bytes_not_running_host_availability": true
+  },
+  "inspection_limits": [
+    "Only completed JSON/journal/control receipts were read for this projection; no active output, ELF, static library or archive payload was read or rehashed.",
+    "The report validates receipt consistency; it does not rerun preservation, process ownership checks, tests, or compilation.",
+    "Known bounded process/alias visibility limitations of the reviewed actions remain.",
+    "The disk/RAM admission is an estimate with a 256 MiB output reserve, not a measured future compile peak guarantee.",
+    "No claim that whole-harness extraction, current production runtime gates, or the prior TUI lib-test failure is resolved."
+  ]
+}

@@ -1,59 +1,39 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
-Latest production-tested source checkpoint is WIP `d229296b29947ef1328cbe931c810276f220a23c`;
-its source-specific build/runtime evidence is published at
-`c463a4f46318ccbbc811c202639d53f733d5831f` on
-`wip/p03-process-final-and-mcp-preservation-20261002`. Main remains the separate
-verified baseline `781080f7e3c8bfe1953378001d777dff33d74bc3`.
+The current source42 production/runtime checkpoint now passes the12 planned
+rebuilt-host gates. Source code is preserved by WIP047e91e; subsequent15bd9d1 records
+409 package tests and scoped lint. Current build/runtime publication is being prepared
+on the same `wip/p03-process-final-and-mcp-preservation-20261002` branch. Main remains
+`781080f7e3c8bfe1953378001d777dff33d74bc3` until the remaining promotion gates pass.
 
-The [retained production build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md)
-passed offline on source map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`.
-All12 planned runtime slots now have passing attempts:13 successful commands,
-including a fresh migration for the selected-search GUI retry. The
-[first five gates](verification/2026-10-02/p03-http-stage-b-current-runtime-first-five/README.md)
-cover installed storage, migration, ordinary GUI and attachments;
-[six later gates](verification/2026-10-02/p03-http-stage-b-current-runtime-shutdown/README.md)
-cover slow normal/forced Launch shutdown, held Git/HTTP cases and owner postchecks;
-[search GUI retry02](verification/2026-10-02/p03-http-stage-b-current-search-gui/README.md)
-passes both cold-recovery cycles. The original search GUI01 timeout remains a
-preserved failure with unresolved cause. These are real Chromium/host checks with
-deterministic inference; in-app Browser and live-provider validation are unavailable.
+[New production build](verification/2026-10-02/p03-auth-refresh-production-build/README.md)
+passed locked/offline on source map42e3899a (8,949 files), new CLI8e8a5dac and reused
+managerf054d84a. All12 current runtime recipes passed on their first attempts:
+installed storage, four isolated manual migrations, ordinary/selected-search GUI,
+attachments, slow/forced Launch shutdown, eight held Git/HTTP cases and owner postcheck.
+Normal slow shutdown waited46.452s and recovered the canonical held message. Forced
+second-interrupt shutdown exited1 after2.041s with explicit durability uncertainty;
+the held message was absent on recovery. Four real Chromium cycles exercised approval,
+native commands, Stop, streaming, file search, cold history and actual manager Ctrl+C.
+These used deterministic inference; in-app Browser and live-provider validation are
+unavailable. Earlier source7a GUI01 timeout remains preserved with unresolved cause.
 
-Native HTTP Stage A passed139 scoped tests and four configured-CA classification
-checks; [Stage B](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md)
-passed553 library tests, one real HTTP composition case and scoped lint.
-Current-source CLI diagnostics now pass3/3 tests and two reviewed snapshots,
-with297 tests filtered and no retries. The grouped CLI+Exec gate also passed9/9
-with64 filtered and zero retries on that same source. The TUI build was killed
-by the cgroup OOM handler before any tests ran; its six-test gate and App Server
-replacement tests remain open. Older results retain their original source identity.
-The native reload source-ownership fix has now been adopted and formatted locally
-(five paths, source map0742356b) and passes five focused causal tests plus the
-full grouped login gate:297/297, plus108/108 provider tests, zero retries/skips,
-serial execution. Scoped login lint03 now also passes with unchanged source and
-no new OOM. The first two attempts remain precompiler resource blocks. A redundant
-old verification copy was released only after fresh complete archive/member/restore
-verification, enabling the unchanged admission floors. The preserved production CLI
-represents preceding7a source and is currently archive-only; new production/UI
-validation remains pending.
-The next ownership slice, permanent refresh-failure publication, is now adopted
-and formatted as source42e3899 (8,949 files). Its
-[four causal tests](verification/2026-10-02/p03-auth-refresh-focused/README.md)
-pass on a newly built login ELF. The subsequent
-[full login regression](verification/2026-10-02/p03-auth-refresh-full/README.md)
-passes301/301 with zero skips/retries and no new OOM, including those four cases.
-Its source and runtime acceptance remain separate from this completed reload
-package/lint checkpoint. The current provider suite also passes108/108 with zero
-skips/retries; the combined package total is409. Strict checks passed while retaining
-the observed child status−9 without a causal or universal graceful-cleanup claim.
-Scoped login lint02 also passed in1m08s with unchanged source and protected proofs,
-strict0/null and no new OOM. [Evidence](verification/2026-10-02/p03-auth-refresh-login-lint/README.md).
-Current production/UI gates remain pending. Fresh preflight admitted compilation after a verified
-release of two redundant archived copies.
-Source and all retired test/production proofs are preserved. The successful runtime
-checkpoint does not close
-P03, prove whole-host graceful cleanup, or resolve every storage durability case.
+Current auth source passes301 login +108 provider tests, focused4 overlapping301,
+zero skips/retries, serialized full-package execution and scoped login lint02. The
+preceding reload slice passed297+108 and scoped lint03. Native HTTP Stage A139 plus
+four CA-classification checks and Stage B553 plus real HTTP composition retain their
+original source identities, as do historical CLI3/Exec9. The TUI OOM ran zero tests;
+TUI6+2 snapshots, App Server lifecycle/search/storage16 and same-process replacement
+parents remain open. No full workspace result is claimed. Source42 success does not
+retroactively rebind old package results or prove universally graceful cleanup.
+
+[Preservation evidence](verification/2026-10-02/p03-auth-refresh-production-resources/README.md)
+records fully restored proof archives before exact test-artifact/cache retirement.
+The remaining roughly477MB overlay is insufficient admission for another substantial
+Rust build without a new resource plan; advance independent feasible work rather than
+repeat an unchanged blocked build. P03 credential writes, MCP/lower transport custody,
+actual broker/catalog activation and the remaining subsystem extractions stay open.
 
 Coverage is still three bounded native replacement families: thread storage/manual
 migration, inline attachments and native file search. The installed GUI is additive.
