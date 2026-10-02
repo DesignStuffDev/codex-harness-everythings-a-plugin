@@ -275,6 +275,9 @@ pub(super) async fn build_test_processor(
         .await
         .expect("search provider");
     let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+        curated_callbacks: codex_core_plugins::startup_sync::CuratedCallbackScope::new(
+            tokio::runtime::Handle::current(),
+        ),
         search_context,
         persistence: codex_core::PersistenceServices {
             thread_store: codex_core::thread_store_from_config(&config, None),

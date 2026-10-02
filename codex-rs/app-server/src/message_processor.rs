@@ -1,3 +1,5 @@
+use crate::curated_callback_lifecycle::CuratedCallbackGuard;
+use codex_core_plugins::startup_sync::CuratedCallbackScope;
 use std::collections::HashSet;
 use std::future::Future;
 use std::sync::Arc;
@@ -142,6 +144,7 @@ fn reject_removed_permission_profile(request: &JSONRPCRequest) -> Result<(), JSO
 }
 
 pub(crate) struct MessageProcessor {
+    curated_callback_lifecycle: CuratedCallbackGuard,
     pub(crate) turn_admission: TurnAdmission,
     user_verification: Arc<crate::user_verification::Service>,
     outgoing: Arc<OutgoingMessageSender>,
@@ -251,6 +254,7 @@ impl ConnectionSessionState {
 }
 
 pub(crate) struct MessageProcessorArgs {
+    pub(crate) curated_callbacks: Arc<CuratedCallbackScope>,
     pub(crate) outgoing: Arc<OutgoingMessageSender>,
     pub(crate) analytics_events_client: AnalyticsEventsClient,
     pub(crate) arg0_paths: Arg0DispatchPaths,
@@ -279,6 +283,7 @@ impl MessageProcessor {
     /// `Sender` so handlers can enqueue messages to be written to stdout.
     pub(crate) fn new(args: MessageProcessorArgs) -> Self {
         let MessageProcessorArgs {
+            curated_callbacks,
             outgoing,
             analytics_events_client,
             arg0_paths,
@@ -300,6 +305,8 @@ impl MessageProcessor {
             remote_control_handle,
             plugin_startup_tasks,
         } = args;
+        let curated_callback_lifecycle =
+            CuratedCallbackGuard::from_scope(Arc::clone(&curated_callbacks));
         // Startup credential reads must not open a browser before initialize selects the policy.
         let gateway_login_control =
             codex_login::GatewayLoginControl::for_runtime(&auth_manager.runtime_config());
@@ -425,6 +432,7 @@ impl MessageProcessor {
             outgoing.clone(),
             Arc::clone(&config),
             config_manager.clone(),
+            Arc::clone(&curated_callbacks),
         );
         let apps_processor = AppsRequestProcessor::new(
             auth_manager.clone(),
@@ -558,12 +566,18 @@ impl MessageProcessor {
             };
             let on_effective_plugins_changed =
                 plugin_processor.effective_plugins_changed_callback();
+            let on_curated_plugins_changed =
+                crate::effective_plugin_change::curated_plugins_changed_callback(
+                    &curated_callbacks,
+                    Arc::clone(&thread_manager),
+                );
             thread_manager
                 .plugins_manager()
                 .maybe_start_plugin_startup_tasks_for_config(
                     &config.plugins_config_input(),
                     reload_config,
                     Some(on_effective_plugins_changed),
+                    Some(on_curated_plugins_changed),
                 );
         }
         let external_agent_config_processor =
@@ -591,6 +605,7 @@ impl MessageProcessor {
         );
 
         Self {
+            curated_callback_lifecycle,
             turn_admission,
             user_verification,
             outgoing,
@@ -625,11 +640,16 @@ impl MessageProcessor {
     }
 
     pub(crate) fn clear_runtime_references(&self) {
+        self.request_curated_callbacks_shutdown();
         self.request_search_shutdown();
         self.account_processor.clear_external_auth();
         self.apps_processor.shutdown();
         self.models_refresh_worker.shutdown();
         self.skills_watcher.shutdown();
+    }
+
+    pub(crate) fn request_curated_callbacks_shutdown(&self) {
+        self.curated_callback_lifecycle.begin_close();
     }
 
     /// Fence search admission and callbacks even when forced exit skips joins.
@@ -857,12 +877,19 @@ impl MessageProcessor {
     }
 
     pub(crate) async fn drain_background_tasks(&self) -> anyhow::Result<()> {
+        self.request_curated_callbacks_shutdown();
         self.models_refresh_worker.shutdown();
         if let Some(worker) = &self.turn_cost_worker {
             worker.shutdown();
         }
         self.thread_processor.drain_background_tasks().await;
-        self.search_processor.shutdown().await
+        let callbacks = self.curated_callback_lifecycle.finish(Ok(())).await;
+        let search = self
+            .search_processor
+            .shutdown()
+            .await
+            .map_err(std::io::Error::other);
+        crate::file_search_services::combine(callbacks, search).map_err(anyhow::Error::from)
     }
 
     pub(crate) async fn cancel_active_login(&self) {

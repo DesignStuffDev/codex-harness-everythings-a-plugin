@@ -107,6 +107,7 @@ mod config_manager;
 mod config_manager_service;
 mod connection_cleanup;
 mod connection_rpc_gate;
+mod curated_callback_lifecycle;
 mod current_time;
 mod daemon_thread_recovery;
 mod dynamic_tools;
@@ -675,6 +676,7 @@ pub async fn run_main_with_transport_options(
             Ok(services) => services,
             Err(error) => return store_lifecycle.finish(Err(error)).await,
         };
+    let curated_callback_lifecycle = curated_callback_lifecycle::CuratedCallbackGuard::new();
     // Every failure after selecting storage must observe its cleanup. The
     // outer guard also fences admission if this startup/runtime future is cancelled.
     let result = async {
@@ -981,11 +983,13 @@ pub async fn run_main_with_transport_options(
 
     let recovery_file = daemon_recovery_file_path(&config.codex_home);
     let processor_search_lifecycle = search_lifecycle.fork();
+    let processor_callback_lifecycle = curated_callback_lifecycle.fork();
     let processor_handle = tokio::spawn({
         let auth_manager = Arc::clone(&auth_manager);
         let initialize_notification_sender = outgoing_message_sender.clone();
         let outbound_control_tx = outbound_control_tx;
         let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+            curated_callbacks: processor_callback_lifecycle.scope(),
             outgoing: outgoing_message_sender,
             analytics_events_client,
             arg0_paths,
@@ -1023,6 +1027,7 @@ pub async fn run_main_with_transport_options(
         let mut remote_control_status = remote_control_status_rx.borrow().clone();
         let transport_shutdown_token = transport_shutdown_token.clone();
         async move {
+            let _curated_callback_lifecycle = processor_callback_lifecycle;
             let recovery_task = if managed_daemon {
                 match daemon_thread_recovery::start_recovery(
                     recovery_file.clone(),
@@ -1338,6 +1343,7 @@ pub async fn run_main_with_transport_options(
             drop(snapshot);
             drop(thread_listener_tasks);
             processor_search_lifecycle.begin_shutdown();
+            processor.request_curated_callbacks_shutdown();
             processor.request_search_shutdown();
             let background_cleanup = if !shutdown_state.forced() {
                 futures::future::join_all(connections.iter().map(
@@ -1398,6 +1404,7 @@ pub async fn run_main_with_transport_options(
         // completion and durability are unknown on this path.
         return result;
     }
+    let result = curated_callback_lifecycle.finish(result).await;
     let (store_result, search_result) =
         tokio::join!(store_lifecycle.finish(result), search_lifecycle.finish());
     file_search_services::combine(store_result, search_result)

@@ -1,3 +1,4 @@
+use crate::curated_callback_lifecycle::CuratedCallbackGuard;
 use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
@@ -123,7 +124,13 @@ async fn stalled_processor_is_aborted_then_storage_closes_with_other_holders_ali
     let (_, search_guard) = crate::file_search_services::start(search_home.path())
         .await
         .expect("search provider");
-    let result = finish_processor_and_services(&mut processor, &guard, &search_guard).await;
+    let result = finish_processor_and_services(
+        &mut processor,
+        &guard,
+        &search_guard,
+        &CuratedCallbackGuard::new(),
+    )
+    .await;
     assert_eq!(
         result.expect_err("processor timeout is reported").kind(),
         ErrorKind::TimedOut
@@ -163,9 +170,14 @@ async fn processor_cleanup_failure_reaches_client_after_storage_is_joined() {
     let (_, search_guard) = crate::file_search_services::start(search_home.path())
         .await
         .expect("search provider");
-    let error = finish_processor_and_services(&mut processor, &guard, &search_guard)
-        .await
-        .expect_err("search cleanup failure must not become successful shutdown");
+    let error = finish_processor_and_services(
+        &mut processor,
+        &guard,
+        &search_guard,
+        &CuratedCallbackGuard::new(),
+    )
+    .await
+    .expect_err("search cleanup failure must not become successful shutdown");
     assert_eq!(error.kind(), ErrorKind::Other);
     assert_eq!(error.to_string(), "search publisher cleanup failed");
     assert_eq!(
@@ -180,6 +192,9 @@ async fn processor_cleanup_failure_reaches_client_after_storage_is_joined() {
 #[tokio::test]
 async fn cancelling_client_shutdown_fences_storage_while_runtime_is_detached() {
     let store = ShutdownProbe::new(CloseBehavior::Complete);
+    let callback_guard = CuratedCallbackGuard::new();
+    let callback_scope = callback_guard.scope();
+    let callback = callback_scope.callback(|| async {});
     let (client_tx, mut client_rx) = mpsc::channel(1);
     let (_event_tx, event_rx) = mpsc::channel(1);
     let runtime_handle = tokio::spawn(std::future::pending::<IoResult<()>>());
@@ -190,6 +205,7 @@ async fn cancelling_client_shutdown_fences_storage_while_runtime_is_detached() {
         runtime_handle,
         _store_lifecycle: Some(StoreShutdownGuard::new(store.clone())),
         _search_lifecycle: None,
+        _curated_callback_lifecycle: Some(callback_guard),
         _test_codex_home: None,
     };
     let shutting_down = tokio::spawn(client.shutdown());
@@ -203,6 +219,13 @@ async fn cancelling_client_shutdown_fences_storage_while_runtime_is_detached() {
             .is_cancelled()
     );
     assert!(store.begun.load(Ordering::Acquire));
+    assert!(!callback.dispatch());
+    assert!(
+        callback_scope
+            .wait_until(std::time::Instant::now())
+            .await
+            .is_complete()
+    );
     abort_runtime.abort();
 }
 
@@ -245,6 +268,7 @@ async fn client_observes_primary_failure_and_sanitized_storage_cleanup_failure()
         runtime_handle,
         _store_lifecycle: Some(StoreShutdownGuard::new(store)),
         _search_lifecycle: None,
+        _curated_callback_lifecycle: None,
         _test_codex_home: None,
     };
     let error = client

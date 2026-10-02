@@ -77,6 +77,7 @@ use crate::remote_plugin_id_resolver::RemoteInstalledPluginsSnapshot;
 use crate::remote_plugin_id_resolver::RemotePluginIdResolver;
 use crate::remote_plugin_id_resolver::persisted_remote_plugin_id_for_installation;
 use crate::skill_snapshots::new_plugin_skill_snapshots;
+use crate::startup_sync::CuratedSyncCallback;
 use crate::startup_sync::OPENAI_PLUGINS_GIT_URL;
 use crate::startup_sync::SyncControl;
 use crate::startup_sync::SyncFailure;
@@ -165,23 +166,6 @@ fn run_curated_sync(
         });
     }
     refresh(version)
-}
-
-fn guard_curated_sync_callback(
-    control: &Arc<SyncControl>,
-    callback: Option<EffectivePluginsChangedCallback>,
-) -> Option<EffectivePluginsChangedCallback> {
-    callback.map(|callback| {
-        let control = Arc::clone(control);
-        let guarded: EffectivePluginsChangedCallback = Arc::new(move |change| {
-            // Cache clearing may have waited since the prior checkpoint. Check
-            // again before invoking the existing runtime dispatch wrapper.
-            if !control.is_cancelled() {
-                callback(change);
-            }
-        });
-        guarded
-    })
 }
 
 const FEATURED_PLUGIN_IDS_CACHE_TTL: std::time::Duration =
@@ -814,7 +798,7 @@ impl PluginsManager {
     pub fn maybe_start_curated_repo_sync_for_config(
         self: &Arc<Self>,
         config: &PluginsConfigInput,
-        on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
+        on_effective_plugins_changed: Option<CuratedSyncCallback>,
     ) {
         self.maybe_start_curated_repo_sync_for_config_with_start(
             config,
@@ -828,8 +812,8 @@ impl PluginsManager {
     fn maybe_start_curated_repo_sync_for_config_with_start(
         self: &Arc<Self>,
         config: &PluginsConfigInput,
-        on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
-        start: impl FnOnce(HttpClientFactory, Option<EffectivePluginsChangedCallback>),
+        on_effective_plugins_changed: Option<CuratedSyncCallback>,
+        start: impl FnOnce(HttpClientFactory, Option<CuratedSyncCallback>),
     ) {
         if config.plugins_enabled
             && !self.remote_global_catalog_active(config)
@@ -1068,6 +1052,25 @@ impl PluginsManager {
             }
         } else {
             self.tool_suggest_metadata_cache.clear();
+        }
+    }
+
+    fn clear_curated_caches_after_refresh(
+        &self,
+        control: &SyncControl,
+        installed_plugin_cache_refreshed: bool,
+        callback: Option<&CuratedSyncCallback>,
+    ) {
+        self.clear_caches_after_marketplace_source_refresh(
+            installed_plugin_cache_refreshed,
+            /*on_effective_plugins_changed*/ None,
+        );
+        // Cache clearing may wait. Check again at actual callback admission.
+        if installed_plugin_cache_refreshed
+            && !control.is_cancelled()
+            && let Some(callback) = callback
+        {
+            callback.dispatch();
         }
     }
 
@@ -2895,12 +2898,10 @@ impl PluginsManager {
         config: &PluginsConfigInput,
         reload_config: ConfigLayerReload,
         on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
+        on_curated_plugins_changed: Option<CuratedSyncCallback>,
     ) {
         if config.plugins_enabled {
-            self.maybe_start_curated_repo_sync_for_config(
-                config,
-                on_effective_plugins_changed.clone(),
-            );
+            self.maybe_start_curated_repo_sync_for_config(config, on_curated_plugins_changed);
             let should_spawn_marketplace_auto_upgrade = {
                 let mut state = match self.configured_marketplace_upgrade_state.write() {
                     Ok(state) => state,
@@ -3368,27 +3369,12 @@ impl PluginsManager {
     fn start_curated_repo_sync(
         self: &Arc<Self>,
         http_client_factory: HttpClientFactory,
-        on_effective_plugins_changed: Option<EffectivePluginsChangedCallback>,
+        on_effective_plugins_changed: Option<CuratedSyncCallback>,
     ) {
-        let on_effective_plugins_changed =
-            on_effective_plugins_changed.map(|on_effective_plugins_changed| {
-                let Ok(runtime) = tokio::runtime::Handle::try_current() else {
-                    return on_effective_plugins_changed;
-                };
-                let callback: EffectivePluginsChangedCallback = Arc::new(move |change| {
-                    let on_effective_plugins_changed = Arc::clone(&on_effective_plugins_changed);
-                    runtime.spawn(async move {
-                        on_effective_plugins_changed(change);
-                    });
-                });
-                callback
-            });
         let manager = Arc::clone(self);
         let codex_home = self.codex_home.clone();
         let gate = CURATED_REPO_SYNC_WORKER.get_or_init(|| Arc::new(WorkerGate::default()));
         if let Err(err) = gate.start(move |control| {
-            let on_effective_plugins_changed =
-                guard_curated_sync_callback(&control, on_effective_plugins_changed);
             run_curated_sync(
                 &control,
                 || {
@@ -3414,7 +3400,8 @@ impl PluginsManager {
                     }
                     match refreshed {
                         Ok(cache_refreshed) => {
-                            manager.clear_caches_after_marketplace_source_refresh(
+                            manager.clear_curated_caches_after_refresh(
+                                &control,
                                 cache_refreshed,
                                 on_effective_plugins_changed.as_ref(),
                             );

@@ -19,6 +19,23 @@ use crate::request_serialization::RequestSerializationAccess;
 use crate::request_serialization::RequestSerializationQueueKey;
 use crate::request_serialization::RequestSerializationQueues;
 
+/// Own the curated callback body through its final awaited operation.
+/// MCP invalidation requests session refresh; session shutdown owns that work.
+pub(crate) fn curated_plugins_changed_callback(
+    scope: &Arc<codex_core_plugins::startup_sync::CuratedCallbackScope>,
+    thread_manager: Arc<ThreadManager>,
+) -> codex_core_plugins::startup_sync::CuratedSyncCallback {
+    scope.callback(move || {
+        let thread_manager = Arc::clone(&thread_manager);
+        async move {
+            thread_manager.plugins_manager().clear_cache();
+            thread_manager.skills_service().clear_cache();
+            thread_manager.invalidate_mcp_runtimes().await;
+            thread_manager.refresh_hook_runtimes().await;
+        }
+    })
+}
+
 /// Refresh plugin consumers and trust hooks from newly materialized Workspace + Listed bundles.
 pub(crate) fn effective_plugins_changed_callback(
     auth_manager: Arc<AuthManager>,

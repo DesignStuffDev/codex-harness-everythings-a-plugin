@@ -2,6 +2,7 @@
 //! guards. The controlled backend admits no work and makes no native/process
 //! extraction claim; its gate represents an outstanding shutdown receipt.
 
+use crate::curated_callback_lifecycle::CuratedCallbackGuard;
 use std::future::Future;
 use std::future::poll_fn;
 use std::io;
@@ -167,7 +168,12 @@ async fn stalled_search_and_storage_share_the_service_cleanup_budget() {
 
     let error = timeout(
         Duration::from_secs(200),
-        finish_processor_and_services(&mut processor, &storage, &search),
+        finish_processor_and_services(
+            &mut processor,
+            &storage,
+            &search,
+            &CuratedCallbackGuard::new(),
+        ),
     )
     .await
     .expect("processor plus concurrent service budgets must fit the runtime deadline")
@@ -208,7 +214,13 @@ async fn storage_completes_while_search_cleanup_is_pending_and_then_fails() {
     let search = search_guard(&backend);
     let mut processor = tokio::spawn(async { Ok(()) });
     let finishing = tokio::spawn(async move {
-        finish_processor_and_services(&mut processor, &storage, &search).await
+        finish_processor_and_services(
+            &mut processor,
+            &storage,
+            &search,
+            &CuratedCallbackGuard::new(),
+        )
+        .await
     });
     bounded(backend.entered.acquire()).await.unwrap().forget();
     bounded(async {
@@ -258,6 +270,7 @@ async fn processor_error_keeps_its_kind_and_both_service_failures() {
         &mut processor,
         &storage,
         &search,
+        &CuratedCallbackGuard::new(),
     ))
     .await
     .expect_err("all shutdown failures must survive");

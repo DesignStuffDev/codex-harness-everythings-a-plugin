@@ -157,6 +157,9 @@ impl Harness {
         let (search_context, search_lifecycle) =
             crate::file_search_services::start(home.path()).await?;
         let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+            curated_callbacks: codex_core_plugins::startup_sync::CuratedCallbackScope::new(
+                tokio::runtime::Handle::current(),
+            ),
             search_context,
             persistence: codex_core::PersistenceServices {
                 thread_store: codex_core::thread_store_from_config(&config, None),

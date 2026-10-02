@@ -52,6 +52,7 @@ use std::time::Duration;
 
 use crate::analytics_utils::analytics_events_client_from_config;
 use crate::config_manager::ConfigManager;
+use crate::curated_callback_lifecycle::CuratedCallbackGuard;
 use crate::error_code::OVERLOADED_ERROR_CODE;
 use crate::error_code::internal_error;
 use crate::error_code::invalid_request;
@@ -293,6 +294,8 @@ impl InProcessClientSender {
 /// through `codex-app-server-client`, which adds worker-task buffering,
 /// request/response helpers, and surface-specific startup policy.
 pub struct InProcessClientHandle {
+    // Independent closure even when shutdown is cancelled or processor Arcs survive.
+    _curated_callback_lifecycle: Option<CuratedCallbackGuard>,
     client: InProcessClientSender,
     event_rx: mpsc::Receiver<InProcessServerEvent>,
     runtime_handle: tokio::task::JoinHandle<IoResult<()>>,
@@ -381,6 +384,9 @@ impl InProcessClientHandle {
     /// take up to 120 seconds within the overall 200-second budget; incomplete
     /// cleanup returns an error, including uncertainty about accepted writes.
     pub async fn shutdown(self) -> IoResult<()> {
+        if let Some(callbacks) = &self._curated_callback_lifecycle {
+            callbacks.begin_close();
+        }
         let mut runtime_handle = self.runtime_handle;
         // This method consumes the only event receiver. Release it before
         // waiting so a required notification cannot block the runtime's drain.
@@ -522,6 +528,9 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             Err(error) => return runtime_store_lifecycle.finish(Err(error)).await,
         };
     let handle_search_lifecycle = runtime_search_lifecycle.fork();
+    let runtime_callback_lifecycle = CuratedCallbackGuard::new();
+    let handle_callback_lifecycle = runtime_callback_lifecycle.fork();
+    let curated_callbacks = runtime_callback_lifecycle.scope();
     let (client_tx, mut client_rx) = mpsc::channel::<InProcessClientMessage>(channel_capacity);
     let (event_tx, event_rx) = mpsc::channel::<InProcessServerEvent>(channel_capacity);
 
@@ -574,6 +583,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         let (processor_tx, mut processor_rx) = mpsc::channel::<ProcessorCommand>(channel_capacity);
         let mut processor_handle = tokio::spawn(async move {
             let processor = Arc::new(MessageProcessor::new(MessageProcessorArgs {
+                curated_callbacks,
                 outgoing: Arc::clone(&processor_outgoing),
                 analytics_events_client,
                 arg0_paths: args.arg0_paths,
@@ -835,6 +845,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             }
         }
 
+        runtime_callback_lifecycle.begin_close();
         drop(writer_rx);
         drop(processor_tx);
         outgoing_message_sender
@@ -855,6 +866,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
             &mut processor_handle,
             &runtime_store_lifecycle,
             &runtime_search_lifecycle,
+            &runtime_callback_lifecycle,
         )
         .await;
         let _ = outbound_shutdown_tx.send(());
@@ -877,6 +889,7 @@ async fn start_uninitialized(mut args: InProcessStartArgs) -> IoResult<InProcess
         runtime_handle,
         _store_lifecycle: Some(handle_store_lifecycle),
         _search_lifecycle: Some(handle_search_lifecycle),
+        _curated_callback_lifecycle: Some(handle_callback_lifecycle),
         #[cfg(test)]
         _test_codex_home: None,
     })
@@ -886,10 +899,12 @@ async fn finish_processor_and_services(
     processor: &mut tokio::task::JoinHandle<IoResult<()>>,
     store: &StoreShutdownGuard,
     search: &SearchShutdownGuard,
+    callbacks: &CuratedCallbackGuard,
 ) -> IoResult<()> {
     // Fence every connection and local picker before waiting for an abortable
     // processor; its detached references cannot extend public provider life.
     search.begin_shutdown();
+    callbacks.begin_close();
     let processor_result = match timeout(PROCESSOR_SHUTDOWN_TIMEOUT, &mut *processor).await {
         Ok(Ok(result)) => result,
         Ok(Err(_)) => Err(IoError::other(
@@ -904,6 +919,9 @@ async fn finish_processor_and_services(
             ))
         }
     };
+    // Callback dependencies remain alive through actual task completion. An
+    // enclosing runtime timeout may abandon observation, never task custody.
+    let processor_result = callbacks.finish(processor_result).await;
     // Do not append two 120-second service budgets sequentially to the
     // 45-second processor budget inside the 200-second runtime deadline.
     let (store_result, search_result) =
@@ -1118,6 +1136,7 @@ mod tests {
             runtime_handle,
             _store_lifecycle: None,
             _search_lifecycle: None,
+            _curated_callback_lifecycle: None,
             _test_codex_home: None,
         };
 

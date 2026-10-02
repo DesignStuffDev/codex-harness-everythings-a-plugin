@@ -274,59 +274,107 @@ fn curated_sync_late_stop_blocks_cache_and_callback_admission() {
     assert_eq!(callbacks, 0);
 }
 
-#[test]
-fn curated_sync_stop_during_admitted_cache_clear_blocks_fresh_callback() -> anyhow::Result<()> {
+#[tokio::test]
+async fn curated_sync_stop_during_admitted_cache_clear_blocks_fresh_callback() -> anyhow::Result<()>
+{
     let tmp = TempDir::new()?;
     let manager = Arc::new(test_plugins_manager(tmp.path().to_path_buf()));
     let control = Arc::new(SyncControl::default());
-    let callbacks = Arc::new(std::sync::atomic::AtomicUsize::new(0));
+    let callbacks = Arc::new(std::sync::atomic::AtomicUsize::new(/*v*/ 0));
     let observed_callbacks = Arc::clone(&callbacks);
-    let callback: EffectivePluginsChangedCallback = Arc::new(move |_| {
-        observed_callbacks.fetch_add(1, std::sync::atomic::Ordering::SeqCst);
+    let scope = crate::startup_sync::CuratedCallbackScope::new(tokio::runtime::Handle::current());
+    let callback = scope.callback(move || {
+        let observed_callbacks = Arc::clone(&observed_callbacks);
+        async move {
+            observed_callbacks.fetch_add(/*val*/ 1, std::sync::atomic::Ordering::SeqCst);
+        }
     });
-    let callback = guard_curated_sync_callback(&control, Some(callback));
-    let cache_guard = manager
-        .loaded_plugins_cache
-        .lock()
-        .unwrap_or_else(std::sync::PoisonError::into_inner);
-    let original_generation = cache_guard.generation;
-    let worker_manager = Arc::clone(&manager);
-    let worker_control = Arc::clone(&control);
-    let (admitted_tx, admitted_rx) = std::sync::mpsc::channel();
-    let worker = std::thread::spawn(move || {
-        run_curated_sync(
-            &worker_control,
-            || Ok("fixture-published-version".to_string()),
-            |_| {
-                admitted_tx
-                    .send(())
-                    .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
-                worker_manager
-                    .clear_caches_after_marketplace_source_refresh(true, callback.as_ref());
-                Ok(())
-            },
-        )
-    });
-    let admitted = admitted_rx.recv_timeout(Duration::from_secs(5));
-    control.request_stop(Instant::now());
-    drop(cache_guard);
-    let outcome = worker
-        .join()
-        .map_err(|_| anyhow::anyhow!("fixture worker panicked"))?;
-    admitted?;
-    assert!(
-        outcome.is_ok(),
-        "already admitted cache clearing may finish"
-    );
-    assert_eq!(
-        manager
+    {
+        let cache_guard = manager
             .loaded_plugins_cache
             .lock()
-            .unwrap_or_else(std::sync::PoisonError::into_inner)
-            .generation,
-        original_generation.wrapping_add(1)
-    );
+            .unwrap_or_else(std::sync::PoisonError::into_inner);
+        let original_generation = cache_guard.generation;
+        let worker_manager = Arc::clone(&manager);
+        let worker_control = Arc::clone(&control);
+        let (admitted_tx, admitted_rx) = std::sync::mpsc::channel();
+        let worker = std::thread::spawn(move || {
+            run_curated_sync(
+                &worker_control,
+                || Ok("fixture-published-version".to_string()),
+                |_| {
+                    admitted_tx
+                        .send(())
+                        .map_err(|error| SyncFailure::Ordinary(error.to_string()))?;
+                    worker_manager.clear_curated_caches_after_refresh(
+                        &worker_control,
+                        /*installed_plugin_cache_refreshed*/ true,
+                        Some(&callback),
+                    );
+                    Ok(())
+                },
+            )
+        });
+        let admitted = admitted_rx.recv_timeout(Duration::from_secs(/*secs*/ 5));
+        control.request_stop(Instant::now());
+        drop(cache_guard);
+        let outcome = worker
+            .join()
+            .map_err(|_| anyhow::anyhow!("fixture worker panicked"))?;
+        admitted?;
+        assert!(
+            outcome.is_ok(),
+            "already admitted cache clearing may finish"
+        );
+        assert_eq!(
+            manager
+                .loaded_plugins_cache
+                .lock()
+                .unwrap_or_else(std::sync::PoisonError::into_inner)
+                .generation,
+            original_generation.wrapping_add(1)
+        );
+    }
+    assert!(scope.wait().await.is_complete());
     assert_eq!(callbacks.load(std::sync::atomic::Ordering::SeqCst), 0);
+    Ok(())
+}
+
+#[tokio::test]
+async fn curated_cache_refresh_dispatches_owned_action_only_after_cache_changes()
+-> anyhow::Result<()> {
+    let home = TempDir::new()?;
+    let manager = test_plugins_manager(home.path().to_path_buf());
+    for changed in [false, true] {
+        let scope =
+            crate::startup_sync::CuratedCallbackScope::new(tokio::runtime::Handle::current());
+        let completed = Arc::new(tokio::sync::Semaphore::new(/*permits*/ 0));
+        let callback = scope.callback({
+            let completed = Arc::clone(&completed);
+            move || {
+                let completed = Arc::clone(&completed);
+                async move {
+                    completed.add_permits(/*n*/ 1);
+                }
+            }
+        });
+        manager.clear_curated_caches_after_refresh(
+            &SyncControl::default(),
+            changed,
+            Some(&callback),
+        );
+        if changed {
+            tokio::time::timeout(Duration::from_secs(/*secs*/ 5), completed.acquire())
+                .await??
+                .forget();
+        }
+        let observation = scope
+            .wait_until(Instant::now() + Duration::from_secs(/*secs*/ 5))
+            .await;
+        assert!(observation.is_complete());
+        assert_eq!(observation.completed, usize::from(changed));
+        assert_eq!(observation.suppressed, 0);
+    }
     Ok(())
 }
 

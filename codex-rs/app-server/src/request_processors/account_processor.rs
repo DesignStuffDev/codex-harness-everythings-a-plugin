@@ -95,6 +95,7 @@ impl Drop for ActiveLogin {
 
 #[derive(Clone)]
 pub(crate) struct AccountRequestProcessor {
+    curated_callbacks: Arc<codex_core_plugins::startup_sync::CuratedCallbackScope>,
     auth_manager: Arc<AuthManager>,
     thread_manager: Arc<ThreadManager>,
     outgoing: Arc<OutgoingMessageSender>,
@@ -117,6 +118,7 @@ impl AccountRequestProcessor {
         outgoing: Arc<OutgoingMessageSender>,
         config: Arc<Config>,
         config_manager: ConfigManager,
+        curated_callbacks: Arc<codex_core_plugins::startup_sync::CuratedCallbackScope>,
     ) -> Arc<Self> {
         let gateway_notifications = crate::gateway_oauth_notifications::spawn(
             Arc::clone(&auth_manager),
@@ -129,6 +131,7 @@ impl AccountRequestProcessor {
             config_manager.clone(),
         ));
         let processor = Arc::new(Self {
+            curated_callbacks,
             _gateway_notifications: Arc::new(gateway_notifications),
             auth_manager,
             thread_manager,
@@ -265,6 +268,7 @@ impl AccountRequestProcessor {
         config_manager: &ConfigManager,
         thread_manager: &Arc<ThreadManager>,
         auth: Option<CodexAuth>,
+        curated_callbacks: &Arc<codex_core_plugins::startup_sync::CuratedCallbackScope>,
     ) {
         thread_manager
             .plugins_manager()
@@ -290,11 +294,19 @@ impl AccountRequestProcessor {
                         refresh_config_manager.clone(),
                     );
                 });
+                let curated_thread_manager = Arc::clone(thread_manager);
+                let curated_config_manager = config_manager.clone();
+                let on_curated_plugins_changed = curated_callbacks.callback(move || {
+                    Self::refresh_effective_plugins(
+                        Arc::clone(&curated_thread_manager),
+                        curated_config_manager.clone(),
+                    )
+                });
                 thread_manager
                     .plugins_manager()
                     .maybe_start_curated_repo_sync_for_config(
                         &plugins_config,
-                        Some(Arc::clone(&on_effective_plugins_changed)),
+                        Some(on_curated_plugins_changed),
                     );
                 thread_manager
                     .plugins_manager()
@@ -316,13 +328,20 @@ impl AccountRequestProcessor {
         thread_manager: Arc<ThreadManager>,
         config_manager: ConfigManager,
     ) {
-        tokio::spawn(async move {
-            thread_manager.plugins_manager().clear_cache();
-            thread_manager.skills_service().clear_cache();
-            crate::mcp_refresh::reload_mcp_config_best_effort(&thread_manager, &config_manager)
-                .await;
-            thread_manager.invalidate_mcp_runtimes().await;
-        });
+        tokio::spawn(Self::refresh_effective_plugins(
+            thread_manager,
+            config_manager,
+        ));
+    }
+
+    async fn refresh_effective_plugins(
+        thread_manager: Arc<ThreadManager>,
+        config_manager: ConfigManager,
+    ) {
+        thread_manager.plugins_manager().clear_cache();
+        thread_manager.skills_service().clear_cache();
+        crate::mcp_refresh::reload_mcp_config_best_effort(&thread_manager, &config_manager).await;
+        thread_manager.invalidate_mcp_runtimes().await;
     }
 
     async fn login_v2(
@@ -934,6 +953,7 @@ impl AccountRequestProcessor {
                 &self.config_manager,
                 &self.thread_manager,
                 self.auth_manager.auth_cached(),
+                &self.curated_callbacks,
             )
             .await;
         }
@@ -1062,6 +1082,7 @@ impl AccountRequestProcessor {
             &self.config_manager,
             &self.thread_manager,
             self.auth_manager.auth_cached(),
+            &self.curated_callbacks,
         )
         .await;
 
