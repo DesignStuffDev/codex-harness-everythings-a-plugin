@@ -16,20 +16,25 @@ Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`; exact-tree im
 Last verified main: `781080f7e3c8bfe1953378001d777dff33d74bc3`, tree
 `22cf918cf77f16d5d947a59b968e342cde7f71d0`. Main source remains native installer
 `65511842d7051b2a1f5cc52917f3ebb5c03be4f3`; later main changes are documentation.
-The previous candidate publication is `a69fa42ffd83a134624842e7649502abd30455b1`;
-receipt `p03-curated-http-await-publication.json` verifies both refs and thirteen changed blobs.
+The preceding verified candidate publication is `2ac44529d0dfa261c6d2a09005a34b3ee22754ed`,
+tree `a25f9c7a740124967f2c7dbf93627d2baf6d370a`; receipt
+`p03-source922-runtime-publication.json` verifies source922's full-host evidence and both refs.
 
 **Active development source**, present in the owning checkout:
+`27d004ccd824b54a86400cee215af7ccd1148c76`, tree
+`2fa75acdf837420041e35d72ec2c157be1d0a37d`, parent `2ac44529`.
+This adds exact native-worker completion observation and a process-final begin API to the
+retained curated worker. First scoped compile/run passed 587 tests; lint and formatting are
+recorded separately below. No production process-final caller or owned callback scope is added.
+Its destination remains `work/p03-curated-sync-lifecycle`, **not main**.
+Before continuing, verify `p03-worker-completion-publication.json` and the remote branch;
+this file cannot contain its own eventual documentation commit SHA. Source-created receipt
+records six remote blob readbacks before branch advancement. Until that publication is verified,
+`2ac44529` remains the last verified branch ref; do not infer branch movement from commit creation.
+The latest full CLI/runtime proof remains **source922**, commit
 `92212516ad4d12bcf60546ee5f879b983ed44682`, tree
-`746d93dcdc89de6882dba313d4ad3626d33b0ad0`, parent candidate `8d1216a3`.
-This propagates the exact stop control through policy-aware HTTP send/body reads, with one
-request deadline, observed byte caps and existing charset/BOM decoding. Ordinary client/runtime
-teardown finishes on the retained native worker before later stages. Its destination remains
-`work/p03-curated-sync-lifecycle`, **not main**.
-Before continuing, verify `p03-source922-runtime-publication.json` and the remote branch;
-this file cannot contain its own eventual documentation commit SHA. Source922 now has scoped
-and fresh full-host regression proof, while its shutdown contract remains incomplete. C2b
-bounded extraction is staged separately; the original extractor is unchanged.
+`746d93dcdc89de6882dba313d4ad3626d33b0ad0`; do not relabel that binary for source27d.
+C2b bounded extraction is staged separately; the original extractor remains unchanged.
 
 Local HEAD/index remain upstream; local main is stale. Use exact reviewed temporary
 indices and connector publication; do not reset/rebase/rewrite the real index.
@@ -147,29 +152,54 @@ caller, native completion receipt or owned curated callback scope is present at 
 The45s stdio watchdog/longer service budgets still need coordinated deadline/slow-cleanup proof.
 Main remains source655; keep this work on the candidate branch until the contract gate passes.
 
-A frozen completion proposal is preserved at recovery/p03-curated-worker-completion-proposal;
-manifest `f5d541d283275b90d384aaeba183e2a554c54a251cd48a2ea1eb4b8e644ef8db`,
-patch `d4df562e2b6ccd447cfebf70282e3e653538a0e1dfb0e0245bf1e30976ed44aa`.
-Six files/451 changed lines/seven new tests; exact replay and two static reviews passed.
-It is not adopted, compiled or tested at this evidence checkpoint. Callback scope work is
-being staged separately against that frozen proposal. Preserve both; do not assume adoption.
-The source922 runtime runplan and held-startup shutdown test plan are in recovery, with
-strict arguments/default startup retained and private report projection rules.
+## Native completion primitive checkpoint — 2026-10-02
+
+[Source27d completion evidence](verification/2026-10-02/P03_WORKER_COMPLETION_EVIDENCE.md)
+and [lineage](upstream/p03-worker-completion-lineage.json) bind six adopted files to source27d.
+`begin_curated_repo_sync_process_stop` permanently closes process-wide admission and returns
+an observer of the exact native handle. Awaiting attachment, Running, Joining, Joined,
+Panicked and SpawnFailed remain distinct from the original typed sync outcome. Observer
+expiry/cancellation preserves unfinished handle custody; a stopped retry join preserves its
+original record. Competing native observers share one join, outside the gate mutex.
+
+First compile/run **587/587** passed (516 core-plugins + 71 PTY), zero skips/retries,
+strict exit 0/null error; 8,902 scoped files unchanged. Seven new tests cover closure,
+attachment ordering, timeout/cancelled observers, competing observers, stopped spawn failure,
+post-outcome native panic and Linux TLS-controlled stop during retry join. The 53 raw adopted
+wait statuses include 17 nonzero results without executable attribution; no all-child-success
+claim is made. Scoped lint exited 0 with no warnings or edits. Global format changed five
+files only (imports/layout/closures/trailing commas); no tests repeated solely for formatting.
+Tested map `1ccba62059edc9e98e83d3970eadf07b983ee57d0a6de17ccedef377a3e40c49`;
+formatted map `83d21c866a170f6ffba815b9311615d3108aff3a88dae7b49cb10dd7ab34cfd0`.
+
+This is preparatory native lifecycle work, **not another installed component or full-host repair**.
+No production caller or callback ownership was added. Native TLS teardown, synchronous join
+and panic-payload destruction can exceed an observer deadline; !pending does not imply success,
+clear quarantine, establish descendant fencing or prove durability. Source922's passing full-host
+checks remain separate. Callback scope and real process-final authority/integration are next.
+The preserved completion proposal was adopted with a pretest cancellation-assertion lint fix and
+exact parameter comments; its original bytes remain in recovery. Separately staged callback and
+C2b proposals remain unadopted. The held-startup shutdown runplan retains native default startup,
+strict arguments and private-report projection rules.
 
 ## Ordered implementation queue
 
-1. Verify source922 publication/ref and exact-source evidence. Keep main source655 until
-   combined full-host gates pass; preserve the superseded C2a proposal and pending C2b separately.
+1. Verify source27d's final evidence publication/ref against its six-file source manifest and
+   exact test/style maps. Keep source922's latest full-host result separate and main source655
+   unchanged until the combined shutdown contract gates pass. Preserve pending C2b separately.
 2. B1a retained ownership, B1b shared cancellation and C2a HTTP awaits are scoped-tested.
    Preserve sticky quarantine and original outcomes; direct-child reaping never clears them.
    External termination/fencing is required for recovery; restarting alone is insufficient.
-3. The latest user request prioritized the fresh source922 runtime gate; it now passes as
-   recorded above. Next preserve the new CLI/test evidence, then adopt/test the reviewed exact
-   native-worker completion slice. Add owned curated async callbacks and real process-final
-   callers as one host-repair acceptance, preserving per-embedded replacement/sibling scopes.
-   A completion primitive alone is preparatory. Pending/cancelled observers retain custody;
-   native finalization may outlast observation deadlines, so external watchdog/uncertainty
-   policy must remain explicit. Never turn !pending or a joined uncertain outcome into success.
+3. Source922's fresh runtime gate and source27d's separate completion primitive now pass their
+   recorded scopes. Source922 CLI and prior preformat core proof ELF are archived before reuse.
+   Next review/rebase the staged callback scope onto source27d; register admitted async work
+   before spawn/enqueue and retain exact handles through awaited completion while dependencies
+   live. Add explicit binary-owned process-final authority and actual success/error/shutdown
+   callers as one host-repair acceptance, preserving embedded replacement/sibling scopes.
+   Pending/cancelled observers retain custody; native finalization may outlast observation
+   deadlines, so independent watchdog/uncertainty policy must remain explicit. Never turn
+   !pending or a joined uncertain outcome into success. Complete late-owner visibility review
+   before treating callback close/acknowledgement as drain completion.
 4. Run deliberately held production Git/HTTPS with exec success/error and App Server EOF/SIGTERM,
    then repeat unchanged installed storage, migration, GUI/session/streaming/approval/cancel/
    recovery/actual Launch Ctrl+C gates on the actual repaired source. Coordinate the45s stdio
@@ -215,14 +245,31 @@ Original failed reports, tests-only candidates, both working trees and WIP branc
 Filesystem archives are local recovery, not proven external backups; GitHub provides external
 source durability only for included published paths.
 
+Source27d six-file checkpoint plus manifest: `p03-worker-completion-source.tar.gz`, SHA256
+`14e2e5204433650639d2b544cbcd648ee6557fa97239d03e413900da88dcaa31` (42,897 bytes, seven members).
+Original completion proposal: `p03-curated-worker-completion-proposal-preserved.tar.gz`, SHA256
+`9ad6b58d322cb0554d78675f5accc3910bf9520aa937d44024b993a74cee2c41`.
+Source922 CLI, all four source wrappers and strict runtime receipts are preserved in
+`p03-source922-cli-preserved.tar.zst`, SHA256
+`32a3ec3233a54369e8bfe95f313d4cc3dec8a87be09f447836b2a21d061f7ef5` (138,845,342 bytes).
+Its receipt binds the exact CLI and two hardlinks/eight historical aliases; no CLI retirement
+was performed. The old HTTP-await core proof ELF was archived before completion tests reused
+its mutable target: `p03-http-await-core-proof-preserved.tar.zst`, SHA256
+`8650fb77202d9028d4df79d5529775a8d50bbd7ca217727d5dddf73b946396f4` (45,943,911 bytes).
+It preserves the 509-case core executable from the 580-test cohort and separately binds tested
+versus later formatted source. Its binary hash was observed during preservation, not captured
+at test time; do not claim contemporaneous ELF identity or that all four cohort ELFs are archived.
+
 The inactive source99 CLI c711 and its2mutable hardlinks were retired **after** full archive
 and reference verification to recover625,934,336 allocated bytes. Archive
 `p03-source-owner-cli-archive-preserved.tar.zst` SHA256
 `68102a992d8d7ebe3105933d5377c9ec215ed5d51c8f814891555f81fb098222`;
 retirement receipt `p03-source-owner-cli-recoverable-retirement.json` SHA256
 `4e08e878403129680208a6fac8c0e52c194f8bfad2353d247c03b1c0a3e9f0ba`.
-Eight historical mutable-target symlinks remain unchanged and temporarily dangle; restore exact
-archived bytes/metadata or rebuild before using them. Original GUI PID371365 still uses the
+Eight historical mutable-target symlink paths remain unchanged. The later source922 build
+repopulated their shared target; alias names do not establish old source99 identity. Verify the
+current binary hash or restore an isolated archived target before reusing historical commands.
+Original GUI PID371365 still uses the
 separate frozen `/workspace/verified-component-checkpoint-v2-20260930/codex`; leave it intact.
 Three inactive installer proof ELFs are verified in `p03-install-order-green-test-executables.tar.zst`
 SHA256 `f289ec637ffccf8d400b335daa6c811b282162689fe58ca36acd47b2b8084fb8`; receipt
@@ -231,8 +278,12 @@ SHA256 `f289ec637ffccf8d400b335daa6c811b282162689fe58ca36acd47b2b8084fb8`; recei
 This binds preformat400-test source separately from formatted source655. Their3build aliases
 were retired after verification; Cargo metadata/source and current transport tests remain.
 
-No Rust/runtime command is active at this checkpoint. Before commands verify current disk/cgroup
-headroom, not a historical estimate. `/tmp` is nearly full. Source
+No Rust/runtime command is active at this checkpoint. Additional exact unused Cargo artifacts
+were retired under guarded manifests to build source922 and the completion tests; retain receipts
+`p03-source922-build-cache-retirement.json`, `p03-source922-postbuild-cache-retirement.json` and
+`p03-worker-completion-build-cache-retirement.json`. Source, depfiles/fingerprints, static V8,
+proof archives and the frozen GUI were preserved. No broad cargo clean is authorized.
+Before commands verify current disk/cgroup headroom, not a historical estimate. `/tmp` is nearly full. Source
 `/workspace/toolchains/component-verification-env.sh`; set `CARGO_BUILD_JOBS=1` and
 `TMPDIR=/workspace/acceptance/p03-source-owner-runtime-temp` (0700). Read AGENTS.md; use unique
 `/tmp/run-p02-check.py` report prefixes/actual maps, `just test --locked --retries 0`, scoped

@@ -981,11 +981,41 @@ remained unchanged during runtime; actual Launch Ctrl+C exited0 in both cycles.
 The earlier source99 lifecycle failures remain separate. Sampled Git SIGPIPE statuses and
 fixture/browser limitations are recorded, not dismissed.
 
-This is current-source compatibility/regression proof, not another extracted component or
-completed shutdown contract. The next slice is exact native-worker completion, then owned
-curated callback scopes and explicit process-final integration, held Git/HTTPS and slow-cleanup
-checks with coordinated watchdog deadlines. The reviewed completion proposal is not compiled
-at this checkpoint. Keep C2b extraction separate, preserve quarantine and the repository/SHA
-journal/fencing requirements, and do not promote merely because fast regression passed.
+This is exact-source922 compatibility/regression proof, not another extracted component or
+completed shutdown contract. Native-worker completion was the next slice and is now scoped-tested
+at source27d below; source922's runtime passes are not tests of those newer bytes. Owned curated
+callback scopes, explicit process-final integration and held Git/HTTPS/slow-cleanup checks with
+coordinated watchdog deadlines remain required. Keep C2b extraction separate, preserve quarantine
+and repository/SHA journal/fencing requirements, and do not promote merely because fast regression passed.
 Auth/provider extraction, all remaining inventory rows and the P18U updater acceptance remain
 required; the optional remote viewer does not block them.
+
+
+### Native completion observer checkpoint (source27d) — 2026-10-02
+
+Source `27d004ccd824b54a86400cee215af7ccd1148c76`, tree
+`2fa75acdf837420041e35d72ec2c157be1d0a37d`, adds the explicit process-final begin API and
+retained observation of the exact native worker handle. [Evidence](verification/2026-10-02/P03_WORKER_COMPLETION_EVIDENCE.md)
+and [lineage](upstream/p03-worker-completion-lineage.json) preserve proposal, adopted/tested and
+formatted identities. First scoped compilation/run passed **587/587** (516 core-plugins + 71 PTY),
+zero skips/retries, unchanged strict runner exit 0/null error. Lint made no edits; reviewed
+format-only changes affect five files. Tests were not rerun solely for formatting.
+
+Seven native regressions exercise idle closure, result-before-attachment ordering, observer
+expiry/cancellation, two concurrent native observers, spawn failure, post-outcome panic and
+Linux TLS-controlled stop during retry join. Exact join status stays separate from immutable
+sync outcomes and quarantine. Pending observation retains unfinished custody. Synchronous join
+and arbitrary panic-payload destruction can exceed polling deadlines; no hard return bound,
+universal descendant fence or durability receipt is established.
+
+**Next:** rebase/review the separately staged callback scope, synchronously register accepted
+work before spawn/enqueue, retain exact handles and await accepted work before dependencies
+drop. Complete late-owner visibility and owned refresh/config-work review. Integrate one explicit
+binary-owned process-final authority across actual success/error/final shutdown paths while
+embedded replacement and sibling scopes remain usable. Run held production Git/HTTPS, cancelled
+observers and shortened-deadline uncertainty tests before repeating rebuilt CLI/installed storage,
+migration and GUI Launch cancellation/recovery/shutdown gates with coordinated watchdog budgets.
+No production caller/callback scope was included in source27d, and source922's prior runtime
+successes are not proof of that missing integration. This prerequisite adds no independently
+installed component. C2b extraction, publication recovery, native auth/catalog extraction, all
+remaining P04–P19 subsystems and P18U real upstream update/rollback acceptance remain required.

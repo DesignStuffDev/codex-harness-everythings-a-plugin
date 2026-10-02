@@ -1,0 +1,763 @@
+{
+  "schema_version": 1,
+  "status": "verified_scoped_native_worker_completion_primitive",
+  "finalized": true,
+  "generated_utc": "2026-10-02T00:38:34.069174+00:00",
+  "scope": "Native completion primitive only; production callback and process-final ownership remain unimplemented.",
+  "base": {
+    "upstream_repository": "https://github.com/openai/codex",
+    "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "proposal_base_source_commit": "92212516ad4d12bcf60546ee5f879b983ed44682",
+    "proposal_base_source_tree": "746d93dcdc89de6882dba313d4ad3626d33b0ad0",
+    "adoption_base_commit": "2ac44529d0dfa261c6d2a09005a34b3ee22754ed",
+    "adoption_base_tree": "a25f9c7a740124967f2c7dbf93627d2baf6d370a",
+    "tested_candidate_tree": "1462d432673b9ac0647ab1cfcf1c2cd5fb52862d",
+    "source_commit": "27d004ccd824b54a86400cee215af7ccd1148c76",
+    "source_tree": "2fa75acdf837420041e35d72ec2c157be1d0a37d"
+  },
+  "inputs": {
+    "adoption": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-worker-completion-adoption.json",
+      "sha256": "bc36b04ab4d615864938b586b3b486517ed15ab572e944e54ebf2e7265cacdc8",
+      "bytes": 2338
+    },
+    "proposal_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-worker-completion-proposal/MANIFEST.json",
+      "sha256": "f5d541d283275b90d384aaeba183e2a554c54a251cd48a2ea1eb4b8e644ef8db",
+      "bytes": 4010
+    },
+    "proposal_source_bindings": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-worker-completion-proposal/SOURCE_BINDINGS.json",
+      "sha256": "f763556ab5fef740504020744d1eb6999ae5f21992a2cebf489bbd0e2858ad6e",
+      "bytes": 2828
+    },
+    "proposal_callsite_plan": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-worker-completion-proposal/CALLSITE_PLAN.md",
+      "sha256": "78c6190f2780a008551a41309f2411ed4845a94478d644d6c354f6c50ce374be",
+      "bytes": 8424
+    },
+    "proposal_callsite_bindings": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-worker-completion-proposal/CALLSITE_BINDINGS.json",
+      "sha256": "c87c511971818817471d48a9db84fea95fe1f54a195a73aac14b019f919f0c84",
+      "bytes": 5522
+    },
+    "proposal_preserved_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-worker-completion-proposal-preserved.tar.gz",
+      "sha256": "9ad6b58d322cb0554d78675f5accc3910bf9520aa937d44024b993a74cee2c41",
+      "bytes": 176175
+    },
+    "strict_runner": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "sha256": "fe01097ae1741cbcb76e15fb07c0c936108a4dc35c08b4264c1caa9eb1e08875",
+      "bytes": 4645
+    }
+  },
+  "root_pretest_delta": "Replace denied unwrap_err in cancellation test with err().context(...)? and identical cancellation assertion. Add exact parameter comments for millis/secs/n/value opaque literals. Frozen proposal preserved unchanged.",
+  "source_paths": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "new_in_this_change": false,
+      "base": {
+        "sha256": "0719c863347a08db90d96996779c087527c3aca5370aa2503c86a2c4152e82b1",
+        "bytes": 151560,
+        "git_blob_sha1": "5060302397bea4c7f29ac4713a3df62315eb988e",
+        "source_tree_verified_in_proposal": true
+      },
+      "frozen_proposal": {
+        "sha256": "0122e40d3ed1fef21bff1411753912b3eb1de0ab18d18892e4ffc0196a751a60",
+        "bytes": 152293,
+        "git_blob_sha1": "a117155d7598511f3071889106f7397b2ae43d5a"
+      },
+      "tested": {
+        "sha256": "0122e40d3ed1fef21bff1411753912b3eb1de0ab18d18892e4ffc0196a751a60",
+        "bytes": 152293,
+        "git_blob_sha1": "a117155d7598511f3071889106f7397b2ae43d5a"
+      },
+      "final": {
+        "sha256": "0122e40d3ed1fef21bff1411753912b3eb1de0ab18d18892e4ffc0196a751a60",
+        "bytes": 152293,
+        "git_blob_sha1": "a117155d7598511f3071889106f7397b2ae43d5a"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "new_in_this_change": false,
+      "base": {
+        "sha256": "3c5a8ad269fb435df5c7327dd17c1ea918c0688c3ed49d83531e0161f83a0ed0",
+        "bytes": 44641,
+        "git_blob_sha1": "84a3e014673039f5f7ed46fadd5125871bc3015d",
+        "source_tree_verified_in_proposal": true
+      },
+      "frozen_proposal": {
+        "sha256": "874ab3adc50316009d92ce06e87f508f8b523dc408c62d65f4cb21901c7e5c22",
+        "bytes": 44801,
+        "git_blob_sha1": "a85c00755772af51291767bec98e2b08350c656e"
+      },
+      "tested": {
+        "sha256": "874ab3adc50316009d92ce06e87f508f8b523dc408c62d65f4cb21901c7e5c22",
+        "bytes": 44801,
+        "git_blob_sha1": "a85c00755772af51291767bec98e2b08350c656e"
+      },
+      "final": {
+        "sha256": "43dc73b88bd525a77afa40846df4d31832517810dcdbfed7b60d609663400388",
+        "bytes": 44801,
+        "git_blob_sha1": "6df246a5ba22f7ae647757284516a5f881daafa1"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "new_in_this_change": false,
+      "base": {
+        "sha256": "4167e469b515d8649a19da8fcfc8d8e9c060f805c03e987cb592c911975d91bf",
+        "bytes": 7283,
+        "git_blob_sha1": "5cc38b3e63a9bb9b039d11b907e809247c37004b",
+        "source_tree_verified_in_proposal": true
+      },
+      "frozen_proposal": {
+        "sha256": "7391817d8dd05b6c8458e937f9de7ed071dfb5faefa057a8cce72fe8c67228f4",
+        "bytes": 8587,
+        "git_blob_sha1": "c50e7acf567aece4117902cff3967ab4da97c76b"
+      },
+      "tested": {
+        "sha256": "7391817d8dd05b6c8458e937f9de7ed071dfb5faefa057a8cce72fe8c67228f4",
+        "bytes": 8587,
+        "git_blob_sha1": "c50e7acf567aece4117902cff3967ab4da97c76b"
+      },
+      "final": {
+        "sha256": "82eab23511d7b9d6ff6edbe23eacc7b5f9a1e628e87b2ea919119f691751a2c1",
+        "bytes": 8554,
+        "git_blob_sha1": "e8445d576ddeec78f0d4069c9cf39e89271e68a2"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_completion.rs",
+      "new_in_this_change": true,
+      "base": null,
+      "frozen_proposal": {
+        "sha256": "cc5690af94886e464fa10e68cd28c08de2b657f207730548a4cba033dda742a3",
+        "bytes": 5406,
+        "git_blob_sha1": "2a179cab65b4dfb6ddf26fca8a60c2f0c8abda2e"
+      },
+      "tested": {
+        "sha256": "67763a3eefd220599a4f1164aa1b62755de11eab27d3d505d4af319a12d42e83",
+        "bytes": 5417,
+        "git_blob_sha1": "466c1b403027646a0d924a8033f704ad7a9c023c"
+      },
+      "final": {
+        "sha256": "85c20c99d9e011f86912f981122c65f3c6abe95f6c9a4c98403909dc0f91cc37",
+        "bytes": 5646,
+        "git_blob_sha1": "823b53ac60351bc160826f753a34a8ff38aeff63"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_completion_tests.rs",
+      "new_in_this_change": true,
+      "base": null,
+      "frozen_proposal": {
+        "sha256": "6e8513cdfdb6d5ce64b354044c5b2651347db3bb2abcbfc959c9bf9164dcee43",
+        "bytes": 9689,
+        "git_blob_sha1": "98b2006e868a1a6677dffdfd14e4c036aa0b2e83"
+      },
+      "tested": {
+        "sha256": "a600f4a96ca383df0303c6c98e3b51841b0ceae9cc6b06c6d18900b127942726",
+        "bytes": 9784,
+        "git_blob_sha1": "467aa313d74223aa88fef98a4b20886ac8df9617"
+      },
+      "final": {
+        "sha256": "8da57359fca021209db1db572cc535f3cf794cee3b5313c444b18919fa70a91f",
+        "bytes": 10644,
+        "git_blob_sha1": "07ce330b1ff2ee4f4e79893fcef64a02f1a807d0"
+      }
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_tests.rs",
+      "new_in_this_change": false,
+      "base": {
+        "sha256": "c15359013bfcedae7cf9ba26eaae5e16f0ebc79a6f092e8b3fcb541f667bbcf1",
+        "bytes": 14030,
+        "git_blob_sha1": "6982a063a9397d534c3c2f41a7357394d505ed46",
+        "source_tree_verified_in_proposal": true
+      },
+      "frozen_proposal": {
+        "sha256": "07f100b1f1beb0c712cc4a0d3cf293e4511f82218dccc593d32122d8c528518b",
+        "bytes": 14168,
+        "git_blob_sha1": "11519fac384dd62936d6add7f2f22dbd7882b9f5"
+      },
+      "tested": {
+        "sha256": "07f100b1f1beb0c712cc4a0d3cf293e4511f82218dccc593d32122d8c528518b",
+        "bytes": 14168,
+        "git_blob_sha1": "11519fac384dd62936d6add7f2f22dbd7882b9f5"
+      },
+      "final": {
+        "sha256": "4560e9c3e261308b4f4277e9527103ba7890f382afb53b1eb4acdf35f858fc05",
+        "bytes": 14220,
+        "git_blob_sha1": "369cde3eeedac66a145464cc5e1bbbe68b4427dd"
+      }
+    }
+  ],
+  "tests": {
+    "status": "finished",
+    "command": [
+      "python3",
+      "../component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p03-worker-completion-tests.subreaper.json",
+      "--",
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "--test-threads",
+      "2",
+      "-p",
+      "codex-core-plugins",
+      "-p",
+      "codex-utils-pty"
+    ],
+    "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+    "started_utc": "2026-10-02T00:28:17Z",
+    "finished_utc": "2026-10-02T00:29:04Z",
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "source_report": {
+      "path": "/workspace/acceptance/p03-worker-completion-tests.source.json",
+      "sha256": "3a751c46707181f768a420cc692f48649ca7069d11dc3572d68eee5edef90112",
+      "bytes": 2458711
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-worker-completion-tests.log",
+      "sha256": "7503eedf5976da271e806e520569b2561721a873af954a782c67055cc2e35df4",
+      "bytes": 78492
+    },
+    "source_entries_before": 8902,
+    "source_entries_after": 8902,
+    "source_map_before_sha256": "1ccba62059edc9e98e83d3970eadf07b983ee57d0a6de17ccedef377a3e40c49",
+    "source_map_after_sha256": "1ccba62059edc9e98e83d3970eadf07b983ee57d0a6de17ccedef377a3e40c49",
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "changed_paths": [],
+    "executed": 587,
+    "passed": 587,
+    "skipped": 0,
+    "retries_configured": 0,
+    "retry_lines_present": false,
+    "nextest_seconds": 14.212,
+    "binaries": 4,
+    "passed_by_test_binary_label": {
+      "codex-core-plugins": 516,
+      "codex-utils-pty": 71
+    },
+    "new_test_names": [
+      "startup_sync::worker::completion::tests::completed_job_is_pending_until_its_exact_handle_is_attached",
+      "startup_sync::worker::completion::tests::concurrent_observers_share_one_join_and_preserve_original_uncertainty",
+      "startup_sync::worker::completion::tests::native_panic_after_success_is_separate_and_payload_drops_outside_mutex",
+      "startup_sync::worker::completion::tests::spawn_failure_after_stop_is_explicit_and_never_looks_like_a_join",
+      "startup_sync::worker::completion::tests::stop_before_start_returns_idle_without_admitting_work",
+      "startup_sync::worker::completion::tests::stop_during_retry_join_keeps_the_exact_joined_record",
+      "startup_sync::worker::completion::tests::timeout_and_cancelled_observer_preserve_worker_during_native_teardown"
+    ],
+    "new_test_count": 7,
+    "strict": {
+      "report": {
+        "path": "/workspace/acceptance/p03-worker-completion-tests.subreaper.json",
+        "sha256": "029a358812e5a2027aaf8d3f851147fa8f398c43e4fc7c3a4ada5f694f33628e",
+        "bytes": 4667
+      },
+      "exit_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "elapsed_seconds": 43.98085893999087,
+      "raw_reaps": [
+        {
+          "pid": 870205,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870207,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870215,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870297,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870322,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870422,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870441,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870668,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 870930,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871253,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871254,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871264,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871305,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871327,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871333,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 871393,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871398,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871402,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871448,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871489,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871498,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871503,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871507,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 871558,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872005,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872008,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872016,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872013,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872125,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872144,
+          "wait_status": 32768,
+          "returncode": 128
+        },
+        {
+          "pid": 872152,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872170,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872177,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872196,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872206,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872311,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872330,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872337,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872351,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872367,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872377,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 872518,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872525,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872719,
+          "wait_status": 15,
+          "returncode": -15
+        },
+        {
+          "pid": 872720,
+          "wait_status": 32512,
+          "returncode": 127
+        },
+        {
+          "pid": 872818,
+          "wait_status": 13,
+          "returncode": -13
+        },
+        {
+          "pid": 872849,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872864,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872870,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872913,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872925,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 872933,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 869848,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "raw_reap_count": 53,
+      "nonzero_raw_reap_count": 17,
+      "nonzero_returncode_counts": {
+        "128": 2,
+        "-9": 12,
+        "-15": 1,
+        "127": 1,
+        "-13": 1
+      },
+      "attribution": "Raw child wait statuses have no executable attribution in this report. They are not all successful children and are not dismissed as zombies. Runner exit 0 is the recorded strict result."
+    }
+  },
+  "lint": {
+    "status": "finished",
+    "command": [
+      "just",
+      "fix",
+      "-p",
+      "codex-core-plugins"
+    ],
+    "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+    "started_utc": "2026-10-02T00:30:58Z",
+    "finished_utc": "2026-10-02T00:31:12Z",
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "source_report": {
+      "path": "/workspace/acceptance/p03-worker-completion-fix.source.json",
+      "sha256": "5a0053a8c8a094faa6610f6421fb8c7095e657a1d640d174e0a8ef6e2469f4c8",
+      "bytes": 2458441
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-worker-completion-fix.log",
+      "sha256": "6500283b508e565dd2cd161efa73dfaf716606eed90eaabfcd92681d5d45640f",
+      "bytes": 218
+    },
+    "source_entries_before": 8902,
+    "source_entries_after": 8902,
+    "source_map_before_sha256": "1ccba62059edc9e98e83d3970eadf07b983ee57d0a6de17ccedef377a3e40c49",
+    "source_map_after_sha256": "1ccba62059edc9e98e83d3970eadf07b983ee57d0a6de17ccedef377a3e40c49",
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "changed_paths": [],
+    "source_before_matches_tested_map": true,
+    "warning_lines": []
+  },
+  "format": {
+    "status": "finished",
+    "command": [
+      "just",
+      "fmt"
+    ],
+    "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+    "started_utc": "2026-10-02T00:32:08Z",
+    "finished_utc": "2026-10-02T00:32:28Z",
+    "returncode": 0,
+    "scoped_source_unchanged": false,
+    "source_report": {
+      "path": "/workspace/acceptance/p03-worker-completion-fmt.source.json",
+      "sha256": "729044e8e4d02f08c484b1f8e3495ee56bd6f2476461fa1cf2e0865d2424e9e0",
+      "bytes": 2458406
+    },
+    "log": {
+      "path": "/workspace/acceptance/p03-worker-completion-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "source_entries_before": 8902,
+    "source_entries_after": 8902,
+    "source_map_before_sha256": "1ccba62059edc9e98e83d3970eadf07b983ee57d0a6de17ccedef377a3e40c49",
+    "source_map_after_sha256": "83d21c866a170f6ffba815b9311615d3108aff3a88dae7b49cb10dd7ab34cfd0",
+    "historical_wrapper_baseline_not_source_identity": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad",
+    "changed_paths": [
+      "codex-rs/core-plugins/src/startup_sync.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker_completion.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker_completion_tests.rs",
+      "codex-rs/core-plugins/src/startup_sync/worker_tests.rs"
+    ],
+    "source_before_matches_lint_after_map": true
+  },
+  "source_publication": {
+    "source_commit": "27d004ccd824b54a86400cee215af7ccd1148c76",
+    "source_tree": "2fa75acdf837420041e35d72ec2c157be1d0a37d",
+    "parent_commit": "2ac44529d0dfa261c6d2a09005a34b3ee22754ed",
+    "verified_file_hashes": {
+      "codex-rs/core-plugins/src/manager.rs": "0122e40d3ed1fef21bff1411753912b3eb1de0ab18d18892e4ffc0196a751a60",
+      "codex-rs/core-plugins/src/startup_sync.rs": "43dc73b88bd525a77afa40846df4d31832517810dcdbfed7b60d609663400388",
+      "codex-rs/core-plugins/src/startup_sync/worker.rs": "82eab23511d7b9d6ff6edbe23eacc7b5f9a1e628e87b2ea919119f691751a2c1",
+      "codex-rs/core-plugins/src/startup_sync/worker_completion.rs": "85c20c99d9e011f86912f981122c65f3c6abe95f6c9a4c98403909dc0f91cc37",
+      "codex-rs/core-plugins/src/startup_sync/worker_completion_tests.rs": "8da57359fca021209db1db572cc535f3cf794cee3b5313c444b18919fa70a91f",
+      "codex-rs/core-plugins/src/startup_sync/worker_tests.rs": "4560e9c3e261308b4f4277e9527103ba7890f382afb53b1eb4acdf35f858fc05"
+    },
+    "source_manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-worker-completion-source-manifest.json",
+      "bytes": 2715,
+      "sha256": "e0178a1101bdbdb39e5530af4d81d6f17219dae9b7a1d9d0629979c1899a7977"
+    },
+    "source_archive": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-worker-completion-source.tar.gz",
+      "bytes": 42897,
+      "sha256": "14e2e5204433650639d2b544cbcd648ee6557fa97239d03e413900da88dcaa31"
+    },
+    "source_archive_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-worker-completion-source-archive-receipt.json",
+      "bytes": 635,
+      "sha256": "af58862c539fa03ccd4ed4f7b1694867198f875ee285d80aea1e7f3ca6b8ef09"
+    },
+    "local_archive_members_verified": 7,
+    "local_archive_scope": "Six final source files and manifest; VM-local checkpoint only.",
+    "source_commit_created_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-worker-completion-source-created.json",
+      "bytes": 429,
+      "sha256": "dcea17b234ac4d76aed1ad3be58358d4f97467e94844d5c113bfad373214d3e1"
+    },
+    "root_reported_remote_source_blob_readbacks": 6,
+    "readback_scope": "Root created the remote source commit and read back six blobs; this evidence worker independently checked local manifest/blob identities and all source archive members.",
+    "branch_updated_at_source_checkpoint": false,
+    "target_branch": "work/p03-curated-sync-lifecycle",
+    "main_promoted": false,
+    "receipt_bookkeeping_note": "First local receipt serialization failed on Python boolean; zero-byte receipt repaired immediately. Remote source commit created successfully; no branch update."
+  },
+  "prior_source922_runtime": {
+    "source_commit": "92212516ad4d12bcf60546ee5f879b983ed44682",
+    "source_tree": "746d93dcdc89de6882dba313d4ad3626d33b0ad0",
+    "evidence_publication_commit": "2ac44529d0dfa261c6d2a09005a34b3ee22754ed",
+    "evidence_publication_tree": "a25f9c7a740124967f2c7dbf93627d2baf6d370a",
+    "evidence": "verification/2026-10-02/p03-source922-full-host-results.json",
+    "local_evidence": {
+      "path": "/workspace/codex-harness-everythings-a-plugin/verification/2026-10-02/p03-source922-full-host-results.json",
+      "sha256": "92e335b48f8dee71da64f74b46cafbeef88a9c3b2ce2dc41805cff709bde3f9f",
+      "bytes": 28957
+    },
+    "runtime_gates_passed": true,
+    "host_shutdown_contract_complete": false,
+    "applies_to_this_new_primitive": false
+  },
+  "full_host_acceptance_for_this_source": false,
+  "new_installable_component": false,
+  "limits": [
+    "Native worker completion observation is a preparatory lifecycle primitive, not an independently installable component or new extraction.",
+    "No production binary/process-final caller or owned callback scope is added. App Server/CLI/exec/TUI callback drain, late owner visibility and actual final shutdown integration remain open.",
+    "Observer deadlines are checked between observations; synchronous final join and arbitrary panic-payload destruction cannot be interrupted by an async timeout. No hard wall-clock return bound is established.",
+    "An unfinished native handle remains in gate custody. Pending HTTP Runtime teardown may outlast the observer deadline. No detached cleanup thread or background Runtime teardown is added.",
+    "Not pending does not imply success: panic, spawn failure, typed sync failure, quarantine and unexpected handles retain distinct meanings. Native join is not a universal descendant fence or durability receipt.",
+    "No production quarantine reset or complete crash/publication recovery is introduced. C2b ZIP extraction and publication journaling remain separate.",
+    "This change has scoped Linux core-plugins/PTY tests and lint/format only. No rebuilt full CLI, installed-package, GUI, in-app Browser, live-provider or cross-platform runtime run is claimed for these new bytes.",
+    "The separately published source922 storage/migration/GUI successes remain valid for their exact older binary/source maps. They do not prove this new primitive is integrated into host shutdown.",
+    "Detailed reports, frozen source snapshots and archives are cloud-local recovery checkpoints; external durability only applies to source/evidence actually published and read back.",
+    "Whole-harness extraction, maintenance updater and upstream integration/rollback acceptance are not complete."
+  ],
+  "no_build_source_git_or_cache_mutation_by_evidence_worker": true,
+  "final_source_anchors": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "symbols": [
+        {
+          "line": 805,
+          "declaration": "pub fn begin_curated_repo_sync_process_stop(",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/manager.rs#L805"
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "symbols": [
+        {
+          "line": 75,
+          "declaration": "fn start_with_spawn(",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker.rs#L75"
+        },
+        {
+          "line": 149,
+          "declaration": "fn reserve(&self) -> Option<(Generation, Arc<SyncControl>)> {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker.rs#L149"
+        },
+        {
+          "line": 221,
+          "declaration": "fn attach(&self, generation: Generation, handle: JoinHandle<()>) {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker.rs#L221"
+        }
+      ]
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_completion.rs",
+      "symbols": [
+        {
+          "line": 13,
+          "declaration": "pub enum CuratedSyncNativeCompletion {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker_completion.rs#L13"
+        },
+        {
+          "line": 25,
+          "declaration": "pub struct CuratedSyncWorkerObservation {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker_completion.rs#L25"
+        },
+        {
+          "line": 63,
+          "declaration": "pub struct CuratedSyncStop {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker_completion.rs#L63"
+        },
+        {
+          "line": 75,
+          "declaration": "pub async fn wait_until(&self, deadline: Instant) -> CuratedSyncWorkerObservation {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker_completion.rs#L75"
+        },
+        {
+          "line": 88,
+          "declaration": "pub(crate) fn begin_stop(self: &Arc<Self>, deadline: Instant) -> CuratedSyncStop {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker_completion.rs#L88"
+        },
+        {
+          "line": 95,
+          "declaration": "fn poll_stop(&self) -> CuratedSyncWorkerObservation {",
+          "url": "https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/blob/27d004ccd824b54a86400cee215af7ccd1148c76/codex-rs/core-plugins/src/startup_sync/worker_completion.rs#L95"
+        }
+      ]
+    }
+  ],
+  "post_format_test_run": false,
+  "format_review": {
+    "artifact": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-worker-completion-evidence-stage/observations/tested-to-formatted.diff",
+      "sha256": "9156d834bd701d69f66514c385bfd4566e05586ba2ced195426e1d680bca805e",
+      "bytes": 15022
+    },
+    "observed_changes": "Import ordering, line wrapping, expression closure formatting and optional trailing commas; no behavior change found in read-only diff review. This review is not another test execution."
+  }
+}
