@@ -36,6 +36,7 @@ library tests, lint and reviewed formatting; it did not have fresh full-host pro
 `d989351c0f016a3f8c8bc2ea3248c1c19e915dd5`, branch
 `wip/p03-process-final-and-mcp-preservation-20261002`; all270 selected blobs read back.
 The WIP report/readback supplement is `248420e4bf8e6dc4c98c8ec04ee2f71b79b4f1f3`.
+Terminal TUI failure and current status are published at `bff986f90cacfa210b54edf5435f3e7220f52436`; all three changed blobs read back, main unchanged.
 This is not a main promotion or release. Receipt:
 R/`p03-wip-preservation-publication/publication-receipt.json`. It adds process-final authority/callers,
 curated admission fencing/native and callback observations, coordinated shutdown budgets and
@@ -60,6 +61,7 @@ Current evidence prefixes are `/workspace/acceptance/p03-process-final-`:
 | `client-tests-02` |42/42; strict0/null |Unchanged-source retry;7 adopted SIGPIPE statuses unattributed. |
 | `exec-tests-01` |73/73; strict0/null |69 library +4 executable tests; actual production-host run still pending. |
 | `cli-tests-01` |299/299 executed; one ignored helper; strict0/null |Four new lifecycle/fatal cases passed; skipped `blocked_probe_fixture` is not counted passed. |
+| `manager-tests-01` |88/88 executed, one ignored subprocess helper; strict0/null |Six launcher cases; short injected budgets, not actual210s cleanup proof. Three raw adopted SIGKILL statuses not attributed here. |
 | `desktop-tests` |14/14; strict0/null |Python transport fixtures on pre-compiler-repair source; no real browser/engine. |
 | `native-tests-01` |compiler101; zero tests |One extra `>` repaired, original failure retained. |
 | `client-tests-01` |linker101; zero tests |Signal7/Bus error at zero free disk; source unchanged, separate evidence. |
@@ -68,7 +70,7 @@ Current evidence prefixes are `/workspace/acceptance/p03-process-final-`:
 Green native runs have zero retries and identical before/after source maps. Only CLI reports one
 ignored helper; the other completed native suites have zero skips.
 No claim that all child processes exited0; strict descendant assertions were not weakened.
-Current TUI/manager, changed App Server integration, lint and full runtime gates remain.
+Manager88 checks now pass. TUI, changed App Server integration, lint and full runtime gates remain.
 
 Last actual rebuilt-host/runtime proof remains **source922**, commit
 `92212516ad4d12bcf60546ee5f879b983ed44682`, publication
@@ -148,7 +150,9 @@ R/`codex-recovered-workspace.tar.zst`, SHA256
 All later source/proposal/proof archives and retirement receipts remain in R. These are VM-local
 recovery, not externally durable backups. Published GitHub refs preserve only their included source.
 The new WIP commit additionally preserves204 inert MCP/slow-store proposal/preimage/license files,
-the current56 native paths and root planning/status/history documents. No binary/runtime archives
+the current56 native paths and root planning/status/history documents. New observer/callback/actual
+replacement acceptance proposals are frozen outside that earlier set (ordered plan under
+R/`p03-curated-replacement-acceptance-ordered-plan-01`, manifest2916793d…); not adopted/tested. No binary/runtime archives
 were exported; unadopted proposal status remains unchanged.
 Current703/431 test ELFs and failed client linker output are archived and verified; their inactive
 mutable build paths were retired. Source922 CLI is also archived/retired; historical symlinks dangle.
@@ -176,9 +180,18 @@ Only the byte-verified68MB SHM duplicate of the preserved failed-client archive 
 the nonidentical large TMP/SHM candidates remain intact. The inactive historical P01 CLI
 was archived with all23 members verified (archive63f59e07…), then its exact426,586,112-byte
 allocated path retired with fresh reference guards (receipt a5e0a16c…). This is VM-local
-recovery, not external binary backup. The fresh post-TUI metadata-only policy752f6689…
-identifies422 old internal cache candidates; none have been removed under that policy yet.
-Inactive generated test-plugin caches are being assessed separately. Resource receipts are in R.
+recovery, not external binary backup. The initial post-TUI policy752f6689… was rejected for runtime-first work because it
+included ordinary TUI/CLI inputs. Policy02 SHA25a76a88… retains their exact dependency closure
+and selects350 old internal cache files (448.6MB disk /1.775GB tmpfs). Exact audit03
+SHA4f3e163a… passed with pinned guard bytes. Root action03 completed:350 obsolete regular
+cache files and180 exact aliases retired,448,643,072 disk bytes and1,774,649,344 tmpfs bytes
+reclaimed, source/current closure/proof metadata unchanged. Receipt892fdd3d… . Audit02 is
+retained but rejected because guard source changed during that read-only run.
+97 inactive generated test-plugin cache subdirectories (parents retained) are being
+archived privately (archiveabb99ada…,239,382,700B,88,546 members verified), then retired
+with fresh guards:97 exact subdirectories/61,507 file aliases removed, all parents retained,
+2,220,015,616B unique tmpfs allocation recovered. Receipt under
+R/`p03-test-cache-preservation-proposal-01/RETIREMENT_RECEIPT.json`; VM-local recovery only. Resource receipts are in R.
 Further cache or proof-artifact actions require their new exact guards; never reuse an old list. Read actual current processes before starting another Rust command.
 Do not print raw private GUI/auth reports, environment or credentials.
 

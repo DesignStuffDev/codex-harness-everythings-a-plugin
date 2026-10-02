@@ -1,0 +1,183 @@
+--- /dev/null
++++ b/codex-rs/core-plugins/src/startup_sync/callback_activity.rs
+@@ -0,0 +1,63 @@
++//! Non-closing, non-harvesting activity diagnostics for an owned callback scope.
++
++use super::CuratedCallbackScope;
++use super::Record;
++use super::lock;
++use std::sync::atomic::Ordering;
++
++/// Activity of exact registered actions, without consuming any task result.
++///
++/// A finished-but-unjoined task may have succeeded, been suppressed, panicked,
++/// or been cancelled. Only the existing final scope wait observes that outcome.
++/// This snapshot is not a successful-completion or downstream MCP receipt.
++#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
++pub struct CuratedCallbackActivity {
++    pub admission_closed: bool,
++    pub awaiting_handle: usize,
++    pub running: usize,
++    pub finished_unjoined: usize,
++    pub joining: usize,
++    pub completed: usize,
++    pub suppressed: usize,
++    pub failed: usize,
++    /// Unexpected records remain retained and always require failure reporting.
++    pub unexpected: usize,
++}
++
++impl CuratedCallbackScope {
++    /// Inspect scope state and exact handle readiness without closing, polling,
++    /// taking/joining handles, dispatching actions or exposing captured payloads.
++    /// New admission can occur after this snapshot; a caller requiring a stable
++    /// generation boundary must separately establish its producer has finished.
++    pub fn activity(&self) -> CuratedCallbackActivity {
++        // Any last registry reference must drop outside the scope mutex.
++        let registry = self.registry.upgrade();
++        let state = lock(&self.state);
++        let mut observed = CuratedCallbackActivity {
++            admission_closed: state.closed
++                || registry.as_ref().is_none_or(|registry| {
++                    registry.closing.load(Ordering::Acquire)
++                }),
++            unexpected: state.unexpected.len(),
++            ..Default::default()
++        };
++        for record in &state.records {
++            match record {
++                Record::AwaitingHandle => observed.awaiting_handle += 1,
++                Record::Running(handle) if handle.is_finished() => observed.finished_unjoined += 1,
++                Record::Running(_) => observed.running += 1,
++                Record::Joining => observed.joining += 1,
++                Record::Completed => observed.completed += 1,
++                Record::Suppressed => observed.suppressed += 1,
++                Record::Failed { .. } => observed.failed += 1,
++            }
++        }
++        drop(state);
++        drop(registry);
++        observed
++    }
++}
++
++#[cfg(test)]
++#[path = "callback_activity_tests.rs"]
++mod tests;
+--- /dev/null
++++ b/codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs
+@@ -0,0 +1,92 @@
++use super::*;
++use super::super::CallbackRegistry;
++use crate::startup_sync::CuratedCallbackObservation;
++use anyhow::Context;
++use pretty_assertions::assert_eq;
++use std::sync::Arc;
++use std::time::Duration;
++use std::time::Instant;
++use tokio::sync::Semaphore;
++
++const BUDGET: Duration = Duration::from_secs(/*secs*/ 5);
++
++struct ReleaseOnDrop(Arc<Semaphore>);
++
++impl Drop for ReleaseOnDrop {
++    fn drop(&mut self) {
++        self.0.add_permits(/*n*/ 1);
++    }
++}
++
++#[tokio::test]
++async fn activity_preserves_admission_and_exact_tasks_until_explicit_final_wait() -> anyhow::Result<()> {
++    let registry = Arc::new(CallbackRegistry::default());
++    let scope = CuratedCallbackScope::with_registry(tokio::runtime::Handle::current(), &registry);
++    let entered = Arc::new(Semaphore::new(/*permits*/ 0));
++    let release = Arc::new(Semaphore::new(/*permits*/ 0));
++    let release_on_drop = ReleaseOnDrop(Arc::clone(&release));
++    let callback = scope.callback({
++        let (entered, release) = (Arc::clone(&entered), Arc::clone(&release));
++        move || {
++            let (entered, release) = (Arc::clone(&entered), Arc::clone(&release));
++            async move {
++                entered.add_permits(/*n*/ 1);
++                match tokio::time::timeout(BUDGET, release.acquire()).await {
++                    Ok(Ok(permit)) => permit.forget(),
++                    result => panic!("fixture release failed: {result:?}"),
++                }
++            }
++        }
++    });
++    assert!(callback.dispatch());
++    tokio::time::timeout(BUDGET, entered.acquire()).await??.forget();
++    let handle_id = {
++        let state = lock(&scope.state);
++        match state.records.first().context("registered action")? {
++            Record::Running(handle) => handle.id(),
++            _ => anyhow::bail!("fixture should own a running handle"),
++        }
++    };
++    let running = CuratedCallbackActivity { running: 1, ..Default::default() };
++    assert_eq!(scope.activity(), running);
++    assert_eq!(scope.activity(), running);
++    assert_eq!({
++        let state = lock(&scope.state);
++        match state.records.first().context("retained action")? {
++            Record::Running(handle) => handle.id(),
++            _ => anyhow::bail!("activity changed task custody"),
++        }
++    }, handle_id);
++    assert!(scope.callback(|| async {}).dispatch(), "read must leave admission open");
++    drop(release_on_drop);
++    tokio::time::timeout(BUDGET, async {
++        while scope.activity().finished_unjoined != 2 { tokio::task::yield_now().await; }
++    }).await?;
++    assert_eq!(scope.activity(), CuratedCallbackActivity { finished_unjoined: 2, ..Default::default() });
++    assert_eq!(scope.wait_until(Instant::now() + BUDGET).await, CuratedCallbackObservation {
++        pending: 0, completed: 2, suppressed: 0, failed: 0,
++    });
++    assert_eq!(scope.activity(), CuratedCallbackActivity {
++        admission_closed: true, completed: 2, ..Default::default()
++    });
++    Ok(())
++}
++
++#[tokio::test]
++async fn finished_activity_does_not_turn_task_panic_into_success() -> anyhow::Result<()> {
++    let registry = Arc::new(CallbackRegistry::default());
++    let scope = CuratedCallbackScope::with_registry(tokio::runtime::Handle::current(), &registry);
++    assert!(scope.callback(|| async { panic!("fixture callback panic") }).dispatch());
++    tokio::time::timeout(BUDGET, async {
++        while scope.activity().finished_unjoined != 1 { tokio::task::yield_now().await; }
++    }).await?;
++    assert_eq!(scope.activity(), CuratedCallbackActivity { finished_unjoined: 1, ..Default::default() });
++    assert_eq!(scope.wait_until(Instant::now() + BUDGET).await, CuratedCallbackObservation {
++        pending: 0, completed: 0, suppressed: 0, failed: 1,
++    });
++    assert_eq!(scope.activity(), CuratedCallbackActivity {
++        admission_closed: true, failed: 1, ..Default::default()
++    });
++    assert!(!scope.callback(|| async {}).dispatch());
++    Ok(())
++}
+--- a/codex-rs/core-plugins/src/startup_sync/callback_scope.rs
++++ b/codex-rs/core-plugins/src/startup_sync/callback_scope.rs
+@@ -24,6 +24,9 @@
+ type Action = dyn Fn() -> Pin<Box<dyn Future<Output = ()> + Send>> + Send + Sync;
+ type CallbackJob = Pin<Box<dyn Future<Output = ActionOutcome> + Send>>;
+ 
++#[path = "callback_activity.rs"]
++pub(super) mod activity;
++
+ static CALLBACK_SCOPES: OnceLock<Arc<CallbackRegistry>> = OnceLock::new();
+ 
+ fn lock<T>(mutex: &Mutex<T>) -> MutexGuard<'_, T> {
+--- a/codex-rs/core-plugins/src/startup_sync.rs
++++ b/codex-rs/core-plugins/src/startup_sync.rs
+@@ -29,6 +29,7 @@
+ pub use process_shutdown::CuratedProcessShutdown;
+ pub use process_shutdown::CuratedProcessShutdownObservation;
+ pub use callback_scope::CuratedCallbackObservation;
++pub use callback_scope::activity::CuratedCallbackActivity;
+ pub use callback_scope::CuratedCallbackScope;
+ pub use callback_scope::CuratedSyncCallback;
+ pub(crate) mod worker;

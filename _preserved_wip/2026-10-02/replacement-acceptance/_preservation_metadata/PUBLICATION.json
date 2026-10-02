@@ -1,0 +1,40 @@
+{
+  "status": "prepared only; root sole publisher; WIP preservation is not implementation acceptance",
+  "intended_destination_root": "_preserved_wip/2026-10-02/replacement-acceptance",
+  "allowlist_sha256": "7f43d2f98305892092610395869aacbd1f410a05f5561fe7c2524ba7141f77d8",
+  "proposal_file_count": 40,
+  "proposal_bytes": 890669,
+  "suggested_commit_subject": "WIP: preserve unadopted replacement acceptance source proposals",
+  "suggested_commit_body": "Preserve four frozen source-only proposal directories under the inert _preserved_wip/2026-10-02/replacement-acceptance path. Include original preimages, proposed sources, exact patches, review and application instructions, manifests, and Apache-2.0 license notices. Exclude replay duplicates, caches, binaries, runtime homes and credentials. All proposals remain unadopted, uncompiled and unrun; static checks do not certify native or host acceptance. No main/candidate source adoption is implied.",
+  "destination_mode": "All preserved proposal and plan files should use regular Git blob mode100644; these are inert source records.",
+  "root_steps": [
+    "Verify ALLOWLIST and each source byte immediately before preservation.",
+    "Copy only the listed mappings to the intended inert WIP path in roots explicitly authorized publication flow; do not discover extra recovery files or follow symlinks.",
+    "If adding this preservation metadata, map only the four named metadata files listed below plus their manifest; retain exact bytes.",
+    "Verify the resulting intended-tree blobs match every listed size/SHA/Git blob, and no unexpected destination path is included.",
+    "Publish only the explicitly designated WIP preservation ref and verify remote ref/tree independently; do not move main or label these tests compiled/passed."
+  ],
+  "optional_metadata_mappings": [
+    {
+      "source": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-acceptance-source-preservation-plan-01/ALLOWLIST.json",
+      "destination": "_preserved_wip/2026-10-02/replacement-acceptance/_preservation_metadata/ALLOWLIST.json"
+    },
+    {
+      "source": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-acceptance-source-preservation-plan-01/VERIFICATION.json",
+      "destination": "_preserved_wip/2026-10-02/replacement-acceptance/_preservation_metadata/VERIFICATION.json"
+    },
+    {
+      "source": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-acceptance-source-preservation-plan-01/PUBLICATION.json",
+      "destination": "_preserved_wip/2026-10-02/replacement-acceptance/_preservation_metadata/PUBLICATION.json"
+    },
+    {
+      "source": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-acceptance-source-preservation-plan-01/README.md",
+      "destination": "_preserved_wip/2026-10-02/replacement-acceptance/_preservation_metadata/README.md"
+    },
+    {
+      "source": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-acceptance-source-preservation-plan-01/MANIFEST.json",
+      "destination": "_preserved_wip/2026-10-02/replacement-acceptance/_preservation_metadata/MANIFEST.json"
+    }
+  ],
+  "no_runtime_status_upgrade": true
+}

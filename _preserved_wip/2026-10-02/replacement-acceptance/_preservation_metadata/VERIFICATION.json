@@ -1,0 +1,70 @@
+{
+  "status": "read-only byte verification complete; no Rust/Git/runtime/network execution",
+  "checks": {
+    "manifest_sizes_hashes": 40,
+    "git_blob_hashes": 5,
+    "external_reference_hashes": 7,
+    "ordered_unit_bindings": 4,
+    "readonly_source_references": 11,
+    "regular_text_files": 40,
+    "symlink_free_files_and_ancestors": 40
+  },
+  "groups": [
+    {
+      "directory": "p03-curated-lifecycle-observation-proposal-01",
+      "manifest_sha256": "09f621f1a67105a6794894f441322f92bc2af53348e89ce55be6c32269c42f4d",
+      "files": 13,
+      "bytes": 467599,
+      "status": "unadopted/uncompiled/unrun; source preservation only"
+    },
+    {
+      "directory": "p03-curated-callback-activity-proposal-01",
+      "manifest_sha256": "340033c388567d294cb471ecb741e62da0cb1f14e3f508ba4134f5afec53fa10",
+      "files": 11,
+      "bytes": 147372,
+      "status": "unadopted/uncompiled/unrun; source preservation only"
+    },
+    {
+      "directory": "p03-curated-replacement-production-acceptance-proposal-01",
+      "manifest_sha256": "afb5820fc67def3799ee9d2220cb3936f7370bd3a202b6e5524a8181060de334",
+      "files": 13,
+      "bytes": 257518,
+      "status": "unadopted/uncompiled/unrun; source preservation only"
+    },
+    {
+      "directory": "p03-curated-replacement-acceptance-ordered-plan-01",
+      "manifest_sha256": "2916793d6706c28fe1741799c7ee05c87bd36141f396f978ecc6f9849a98f0db",
+      "files": 3,
+      "bytes": 18180,
+      "status": "unadopted/uncompiled/unrun; source preservation only"
+    }
+  ],
+  "excluded_replay_duplicates": {
+    "files": 13,
+    "paths": [
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01/replay/codex-rs/core-plugins/src/startup_sync.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01/replay/codex-rs/core-plugins/src/manager.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01/replay/codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01/replay/codex-rs/core-plugins/src/startup_sync/worker_observation.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01/replay/codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-callback-activity-proposal-01/replay/codex-rs/core-plugins/src/startup_sync.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-callback-activity-proposal-01/replay/codex-rs/core-plugins/src/startup_sync/callback_scope.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-callback-activity-proposal-01/replay/codex-rs/core-plugins/src/startup_sync/callback_activity.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-callback-activity-proposal-01/replay/codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01/replay/codex-rs/app-server/src/in_process.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01/replay/codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01/replay/component-sdk/tests/curated_replacement_acceptance.py",
+      "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01/replay/component-sdk/tests/curated_replacement_acceptance.md"
+    ]
+  },
+  "scope_review": {
+    "all_selected_files_utf8_text": true,
+    "nul_or_binary_files": 0,
+    "symlink_entries_or_ancestors": 0,
+    "unexpected_nonreplay_files": 0,
+    "source_preimage_or_manifest_authorized_artifacts_only": true,
+    "private_runtime_home_auth_data_included": false,
+    "caches_or_compiled_binaries_included": false,
+    "note": "API/auth/home names inside source code are program identifiers or fresh-fixture logic, not collected user values. Static replay transcript includes patch paths only. Absolute provenance paths remain historic references, not extra preservation inputs."
+  }
+}

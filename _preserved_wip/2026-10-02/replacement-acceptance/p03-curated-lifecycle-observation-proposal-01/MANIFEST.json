@@ -1,0 +1,77 @@
+{
+  "status": "frozen recovery-only source proposal; static reviewed; unadopted/uncompiled/unrun",
+  "base": "current source56 candidate",
+  "base_candidate_manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-process-final-native-retry02-source.json",
+    "sha256": "0a46a9a3f50670a4cc10180012dd3adb09ee2226c75efb8db8c86fbb093d4065"
+  },
+  "source_files": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "preimage_sha256": "2b9ae53b2aafd775cbb0e6d81d6a38360725bac0bc8ae93c229b477bedb840b7",
+      "preimage_bytes": 152368,
+      "proposed_sha256": "66872cbfe74d53c08a27d7c4b3bebbed49f5ac53f363fa99a37928be11d6e280",
+      "proposed_bytes": 152964
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "preimage_sha256": "c6695dca12309ad65f55d51291a26a43505fd65280186d80f2d3424e6884a783",
+      "preimage_bytes": 11762,
+      "proposed_sha256": "a19162ea7789b879dcdf2747676c0821738960e83f4e136ac26164702befe0cc",
+      "proposed_bytes": 11825
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_observation.rs",
+      "preimage_sha256": null,
+      "preimage_bytes": null,
+      "proposed_sha256": "b7d8a9df80210d989a48068fd2bbf9015c0b1da80da8b5512e2a8e246e981355",
+      "proposed_bytes": 3672
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs",
+      "preimage_sha256": null,
+      "preimage_bytes": null,
+      "proposed_sha256": "2940c95648e2df470a2f92d14117af4fdc3718932d3afbb83cbac6e05ae7a240",
+      "proposed_bytes": 8792
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "preimage_sha256": "28bff2dee620b35f52d50d4b10303aa05948e58255ff66cbfb79e74898cb6a45",
+      "preimage_bytes": 45097,
+      "proposed_sha256": "aee146ea6e2b0b6002b79935844e81b59e2ff8c7e2d8c6392ff7810208d3483e",
+      "proposed_bytes": 45221
+    }
+  ],
+  "changed_lines": {
+    "added": 293,
+    "removed": 0,
+    "total": 293
+  },
+  "tests_added": 4,
+  "artifacts": {
+    "proposal.patch": {
+      "bytes": 14713,
+      "sha256": "1358dc7cab61d39da5ae2c9bc450a3f02225b983052cc2f224242c3a53c1a6b7"
+    },
+    "REVIEW.md": {
+      "bytes": 6962,
+      "sha256": "78a735dcf786bc62d73ee8ea3768edef540e47d1f0ea1b608f4ea84f291c32b0"
+    },
+    "LICENSE": {
+      "bytes": 10926,
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+    },
+    "NOTICE": {
+      "bytes": 242,
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+    }
+  },
+  "constraints": [
+    "no primary repo/Git/Rust/runtime/cache mutation",
+    "no dependency or lock changes",
+    "read-only observation never initializes/closes/signals/takes/joins/dispatches",
+    "no source paths/error payloads/credentials in observation"
+  ],
+  "license": "Preserved repository LICENSE and NOTICE; no new external implementation",
+  "validation": "Independent static source ACK; source/preimage hashes verified; tests unrun; root must rebase against final formatted source before adoption"
+}

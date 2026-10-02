@@ -1,0 +1,125 @@
+{
+  "status": "frozen recovery-only source proposal; static reviewed; unadopted/uncompiled/unrun",
+  "base_candidate_manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-process-final-native-retry02-source.json",
+    "sha256": "0a46a9a3f50670a4cc10180012dd3adb09ee2226c75efb8db8c86fbb093d4065",
+    "candidate_tree": "1da290682fc6ddd00994c2af7eac9018c8143dea"
+  },
+  "dependencies": [
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-lifecycle-observation-proposal-01/MANIFEST.json",
+      "sha256": "09f621f1a67105a6794894f441322f92bc2af53348e89ce55be6c32269c42f4d"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-callback-activity-proposal-01/MANIFEST.json",
+      "sha256": "340033c388567d294cb471ecb741e62da0cb1f14e3f508ba4134f5afec53fa10"
+    }
+  ],
+  "source_files": [
+    {
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "preimage_sha256": "4e712f2dbef027d1b337100a6c372f4b5aee23bf5df1e34f67dba1a6b0bc56be",
+      "preimage_bytes": 54434,
+      "preimage_git_blob_sha1": "2ad389cfb1fd407077918faa82f28565add0f3f3",
+      "proposed_sha256": "8982a538f66809f340c9a5683f4f213501a302613e66f4fb567f1c40291f7838",
+      "proposed_bytes": 54557,
+      "proposed_git_blob_sha1": "84f1052f3d1464f3252c6a94257e868d962b7470"
+    },
+    {
+      "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+      "preimage_sha256": null,
+      "preimage_bytes": null,
+      "preimage_git_blob_sha1": null,
+      "proposed_sha256": "ca8d0f8eda37f77415b1e4d8e4e8ff5ce9d110648a7fec4dac388a975bace0c2",
+      "proposed_bytes": 27769,
+      "proposed_git_blob_sha1": "70a1b254eea8ad04ede8a4f4a8e1ced7123b7282"
+    },
+    {
+      "path": "component-sdk/tests/curated_replacement_acceptance.md",
+      "preimage_sha256": null,
+      "preimage_bytes": null,
+      "preimage_git_blob_sha1": null,
+      "proposed_sha256": "bbde7ac9bec81e90339c606408aa73548f44bdc7415f462ac46441b92e5d8c5b",
+      "proposed_bytes": 6556,
+      "proposed_git_blob_sha1": "0b774194c4988657c6d618e47fc23d50e6685b28"
+    },
+    {
+      "path": "component-sdk/tests/curated_replacement_acceptance.py",
+      "preimage_sha256": null,
+      "preimage_bytes": null,
+      "preimage_git_blob_sha1": null,
+      "proposed_sha256": "0f969ecc2a5264e1d4ec9cc58d914a39754af080e256ee3d7d9af50fac701ad3",
+      "proposed_bytes": 27002,
+      "proposed_git_blob_sha1": "cc042a0c61d64b398b2b7ed900b1ae763e9ca8b4"
+    }
+  ],
+  "review_units": {
+    "01-native-child.patch": {
+      "paths": [
+        "codex-rs/app-server/src/in_process.rs",
+        "codex-rs/app-server/src/in_process_curated_replacement_tests.rs"
+      ],
+      "added": 554,
+      "removed": 0,
+      "total": 554
+    },
+    "02-sdk-parent.patch": {
+      "paths": [
+        "component-sdk/tests/curated_replacement_acceptance.md",
+        "component-sdk/tests/curated_replacement_acceptance.py"
+      ],
+      "added": 561,
+      "removed": 0,
+      "total": 561
+    }
+  },
+  "tests_added": {
+    "ignored_rust_child": 1,
+    "parent_cases": [
+      "pending",
+      "replay",
+      "race"
+    ]
+  },
+  "artifacts": {
+    "01-native-child.patch": {
+      "bytes": 28770,
+      "sha256": "bba77f6ab2f59115bd0302ae4b83873b7ce5ed9b014c60239e9386ee7ae56879"
+    },
+    "02-sdk-parent.patch": {
+      "bytes": 34302,
+      "sha256": "f68cb11c55fea9b58ed1546345c68f2c4de8d27b59ab837e4b6acac85e352171"
+    },
+    "REVIEW.md": {
+      "bytes": 4837,
+      "sha256": "3eec7fc069825012b9c99e20bbd05695a46aba9c93a31727b9a4ec92c9ac4076"
+    },
+    "READ_ONLY_SOURCE_BINDINGS.json": {
+      "bytes": 2953,
+      "sha256": "9b85f85af262a14bc03af47e184bf7ab591baead03602a9b886d0e7118b170f5"
+    },
+    "STATIC_REPLAY.txt": {
+      "bytes": 402,
+      "sha256": "842c4f95b0c8e7994ac76a9ab624dc526832abf0e69df4a891e8c1ba3ceb7ba5"
+    },
+    "LICENSE": {
+      "bytes": 10926,
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+    },
+    "NOTICE": {
+      "bytes": 242,
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+    }
+  },
+  "license": "Preserved repository Apache-2.0 LICENSE and NOTICE; no new external dependency implementation",
+  "validation": "Python AST only; exact zero-fuzz/no-offset static patch replay; source/preimage hashes verified; Rust compile/lint/fmt and all runtime tests unrun",
+  "explicit_nonclaims": [
+    "whole-host/MCP shutdown custody",
+    "different-home curated synchronization",
+    "HTTPS TLS/body cancellation",
+    "store durability",
+    "publication journal",
+    "arbitrary process-group completeness"
+  ],
+  "preservation": "Not part of the earlier frozen 204-file allowlist; preserve source_files and artifacts only, excluding replay/"
+}
