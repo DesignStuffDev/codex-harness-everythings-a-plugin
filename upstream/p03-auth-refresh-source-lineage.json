@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "status": "Adopted and formatted; not compiled or tested. Native ownership prerequisite, no additional extracted component.",
+  "upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "tree": "147ac2447134294359c4071b0aeb495922760db7",
+    "manager_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+    "manager_sha256": "d2081e3e4f2f339a7a1aa52ea62d8485e7785c2b0a12dde1a7f470019d56dc2a"
+  },
+  "predecessor_verified_checkpoint": "41bafa170f8a8d943a19705d19146df427885152",
+  "source_binding": {
+    "source_count": 8949,
+    "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59",
+    "preimage_source_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+    "format_changed_paths": [
+      "codex-rs/login/src/auth/auth_refresh_failure_tests.rs",
+      "codex-rs/login/src/auth/auth_source_tests.rs",
+      "codex-rs/login/src/auth/manager.rs"
+    ]
+  },
+  "candidate_sha256": "7f6a7aaf7fd772b8b6aa66e172dfeba7af7ad3f3cce6839c0b2dbb90c713d4a9",
+  "mapping": [
+    {
+      "before_sha256": null,
+      "formatted_sha256": "09cfe1e7d9dd1dce1ce33e63e31f2f3f532afaa7354d677f36c1bea9ca456b9d",
+      "path": "codex-rs/login/src/auth/auth_refresh_failure_tests.rs",
+      "pre_format_sha256": "64ff3684b4b9092633d04c7db016cd64ba4e8a1ef86517f50515b06fdea1abda",
+      "computed_git_blob": "6173305963cfefadd1373ee59d86fe6ceb26e9ef",
+      "classification": "custom_test_module",
+      "upstream_behavior_anchors": [
+        {
+          "symbol": "AuthManager::refresh_token_from_authority_impl",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 2894
+        },
+        {
+          "symbol": "AuthManager::refresh_external_auth",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 3025
+        },
+        {
+          "symbol": "AuthManager::record_permanent_refresh_failure_if_unchanged",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 2557
+        }
+      ],
+      "whole_file_upstream_derivation_claimed": false
+    },
+    {
+      "before_sha256": "52255b4e459277d827173b0cee5ded07a724f177d8fc83d2f99814ec506efb6b",
+      "formatted_sha256": "26f78b644e15e726e6890752e5f185c0b7388545cc69f09c514dbea27b2d2884",
+      "path": "codex-rs/login/src/auth/auth_source_tests.rs",
+      "pre_format_sha256": "c3ca7c250ebf6e92a3c7f2c5347127b9b1911bbb38d41844ec00be813d4bb719",
+      "computed_git_blob": "63c4b806cf6f640bf102d18fbe3c5e472e80ef81",
+      "classification": "custom_test_module",
+      "upstream_behavior_anchors": [
+        {
+          "symbol": "AuthManager::refresh_token_from_authority_impl",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 2894
+        },
+        {
+          "symbol": "AuthManager::refresh_external_auth",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 3025
+        },
+        {
+          "symbol": "AuthManager::record_permanent_refresh_failure_if_unchanged",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 2557
+        }
+      ],
+      "whole_file_upstream_derivation_claimed": false
+    },
+    {
+      "before_sha256": "b337559a9b0cbe8286d2c632d9a5a1927687f667ecd9ad52cbb9db399d27f83b",
+      "formatted_sha256": "c8d9380990cbf93343b97974159bea8fc9a57093527ff3c0e29c233787376a1e",
+      "path": "codex-rs/login/src/auth/manager.rs",
+      "pre_format_sha256": "8c4b59c9ab07c2c2d317edbde08b3d1aa8734f92034f178f79d479ef813a8bbf",
+      "computed_git_blob": "bdf68576968c51d2494bc2db90ad86906201d790",
+      "classification": "native_method_adapted",
+      "upstream_behavior_anchors": [
+        {
+          "symbol": "AuthManager::refresh_token_from_authority_impl",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 2894
+        },
+        {
+          "symbol": "AuthManager::refresh_external_auth",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 3025
+        },
+        {
+          "symbol": "AuthManager::record_permanent_refresh_failure_if_unchanged",
+          "upstream_path": "codex-rs/login/src/auth/manager.rs",
+          "upstream_blob": "cdc9c8d3560359aca41ebf28b1b313e1a1793304",
+          "upstream_line": 2557
+        }
+      ],
+      "whole_file_upstream_derivation_claimed": false
+    }
+  ],
+  "intentional_customization": "Capture one source/cache/auth/provider snapshot and policy before refresh; conditionally publish permanent failure through the existing ownership-aware commit. A stale operation returns its original failure to its waiter but cannot attach it to replacement cache state. Retain the selected provider and previous account identity coherently. Move credential-only failure seeding into cfg(test).",
+  "unchanged_contracts": [
+    "public auth signatures and error types",
+    "component wire",
+    "storage formats",
+    "dependencies",
+    "native sandbox/network guards"
+  ],
+  "required_tests": [
+    "four causal refresh tests",
+    "full scoped login regression including existing reload cases",
+    "affected provider regression",
+    "scoped lint",
+    "new source production/plugin/UI gates"
+  ],
+  "open_boundaries": [
+    "successful refresh and install persistence",
+    "Ephemeral complete writer/logout activation",
+    "durable conditional writes and migrations",
+    "request-dispatch authority and transitive cancellation"
+  ],
+  "updater_gates": [
+    "review upstream refresh/publication semantics, not only text merge",
+    "preserve custom source/cache/policy ordering and test scenarios",
+    "bind tests and host/plugin/UI to actual candidate revision",
+    "coordinate compatible versions, migration artifacts and rollback before activation"
+  ],
+  "execution": {
+    "new_tests_executed": false,
+    "production_matches_source": false,
+    "installed_auth_storage_component": false,
+    "real_upstream_update_integration": false,
+    "scheduled_polling": false
+  },
+  "license": "Apache-2.0 LICENSE and NOTICE retained."
+}

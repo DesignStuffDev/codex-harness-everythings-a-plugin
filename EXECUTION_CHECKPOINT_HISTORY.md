@@ -2023,3 +2023,8 @@ migration, inline attachments and file search. GUI is an additive presentation
 package. HTTP/auth custody and SDK/host infrastructure are not additional extracted
 families. Most engine subsystems and final clean-install/plugin/UI/updater gates
 remain unfinished.
+
+
+## Auth reload/lint through refresh candidate42
+
+The detailed resource/publication chain is preserved in [this dated ledger snapshot](verification/2026-10-02/p03-auth-refresh-ledger-history.md). Current execution order remains in root EXECUTION_STATE.md.

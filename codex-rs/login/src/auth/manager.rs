@@ -2612,25 +2612,6 @@ impl AuthManager {
         }
     }
 
-    /// Records a permanent refresh failure only if the failed refresh was
-    /// attempted against the auth snapshot that is still cached.
-    fn record_permanent_refresh_failure_if_unchanged(
-        &self,
-        attempted_auth: &CodexAuth,
-        error: &RefreshTokenFailedError,
-    ) {
-        if let Ok(mut guard) = self.inner.write() {
-            let current_auth_matches =
-                Self::auths_equal_for_refresh(Some(attempted_auth), guard.auth.as_ref());
-            if current_auth_matches {
-                guard.permanent_refresh_failure = Some(AuthScopedRefreshFailure {
-                    auth: attempted_auth.clone(),
-                    error: error.clone(),
-                });
-            }
-        }
-    }
-
     async fn load_auth(&self) -> Result<LoadedAuth, AuthLoadError> {
         let policy = self.auth_policy_snapshot().map_err(AuthLoadError::Policy)?;
         // Select the committed source and its cache in one snapshot before any await.
@@ -2947,19 +2928,33 @@ impl AuthManager {
     async fn refresh_token_from_authority_impl(&self) -> Result<(), RefreshTokenError> {
         tracing::info!("Refreshing token");
 
-        let attempted_auth = self.auth_cached();
-        if let Some(error) = attempted_auth
-            .as_ref()
-            .and_then(|auth| self.refresh_failure_for_auth(auth))
-        {
-            return Err(RefreshTokenError::Permanent(error));
+        // These stamps fence failure publication only, not refresh dispatch or persistence.
+        let policy = self
+            .auth_policy_snapshot()
+            .ok()
+            .map(|policy| policy.stamp());
+        let captured = self.inner.read().ok().map(|cached| cached.clone());
+        let attempted_auth = captured.as_ref().and_then(|cached| cached.auth.as_ref());
+        if let Some(failure) = captured.as_ref().and_then(|cached| {
+            cached.permanent_refresh_failure.as_ref().filter(|failure| {
+                Self::auths_equal_for_refresh(attempted_auth, Some(&failure.auth))
+            })
+        }) {
+            return Err(RefreshTokenError::Permanent(failure.error.clone()));
         }
 
-        let result = if self.has_external_auth() {
-            self.refresh_external_auth(ExternalAuthRefreshReason::Unauthorized)
-                .await
+        let external_auth = captured
+            .as_ref()
+            .and_then(|cached| cached.external_auth.clone());
+        let result = if let Some(external_auth) = external_auth {
+            self.refresh_external_auth(
+                external_auth,
+                ExternalAuthRefreshReason::Unauthorized,
+                attempted_auth.and_then(CodexAuth::get_account_id),
+            )
+            .await
         } else {
-            match attempted_auth.as_ref() {
+            match attempted_auth {
                 Some(CodexAuth::Chatgpt(chatgpt_auth)) => {
                     let token_data = chatgpt_auth.current_token_data().ok_or_else(|| {
                         RefreshTokenError::Transient(std::io::Error::other(
@@ -2981,10 +2976,20 @@ impl AuthManager {
                 | None => Ok(()),
             }
         };
-        if let Some(attempted_auth) = attempted_auth.as_ref()
-            && let Err(RefreshTokenError::Permanent(error)) = &result
+        if let (Some(captured), Some(policy), Err(RefreshTokenError::Permanent(error))) =
+            (captured, policy, &result)
         {
-            self.record_permanent_refresh_failure_if_unchanged(attempted_auth, error);
+            // A stale source/cache/policy may still return its original error to its waiter,
+            // but cannot attach that error to the current source's credential cache.
+            let _ = self.commit_auth_load(LoadedAuth {
+                policy,
+                revision: captured.revision,
+                source: captured.source_revision,
+                update: AuthLoadUpdate::Preserve {
+                    attempted: captured.auth,
+                    failure: Some(error.clone()),
+                },
+            });
         }
         result
     }
@@ -3077,17 +3082,10 @@ impl AuthManager {
 
     async fn refresh_external_auth(
         &self,
+        external_auth: Arc<dyn ExternalAuth>,
         reason: ExternalAuthRefreshReason,
+        previous_account_id: Option<String>,
     ) -> Result<(), RefreshTokenError> {
-        let Some(external_auth) = self.external_auth_provider() else {
-            return Err(RefreshTokenError::Transient(std::io::Error::other(
-                "external auth is not configured",
-            )));
-        };
-        let previous_account_id = self
-            .auth_cached()
-            .as_ref()
-            .and_then(CodexAuth::get_account_id);
         let context = ExternalAuthRefreshContext {
             reason,
             previous_account_id,
@@ -3172,3 +3170,7 @@ mod auth_source_tests;
 #[cfg(test)]
 #[path = "auth_install_tests.rs"]
 mod auth_install_tests;
+
+#[cfg(test)]
+#[path = "auth_refresh_failure_tests.rs"]
+mod auth_refresh_failure_tests;

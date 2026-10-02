@@ -22,8 +22,10 @@ customizations. Five focused tests,297 full grouped login tests and108 grouped
 provider tests now pass; scoped login lint03 also passed without source changes.
 Current production/UI checks remain pending.
 The map is provenance, not updater acceptance or an
-additional extracted component. The refresh follow-up remains
-a separate unadopted proposal.
+additional extracted component. The [refresh follow-up map](upstream/p03-auth-refresh-source-lineage.json)
+now binds the adopted/formatted3-path candidate42e3899 to exact native upstream
+refresh/publication symbols. It is uncompiled and untested; neither the prior reload
+gates nor an updater integration result validates it.
 
 ## Recorded starting point
 

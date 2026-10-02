@@ -1,0 +1,432 @@
+{
+  "created_utc": "2026-10-02T20:57:40.931709+00:00",
+  "current_candidate": {
+    "git_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59",
+    "new_source_tests_proven_by_this_projection": false,
+    "production_matches_source": false,
+    "reference": {
+      "bytes": 1237279,
+      "recovery_relative_path": "p03-auth-refresh-adoption-01/CANDIDATE_FORMATTED.json",
+      "sha256": "7f6a7aaf7fd772b8b6aa66e172dfeba7af7ad3f3cce6839c0b2dbb90c713d4a9"
+    },
+    "source_count": 8949,
+    "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59"
+  },
+  "cutoff_completed_action_utc": "2026-10-02T20:53:14.314078+00:00",
+  "evidence_method": {
+    "archive_or_binary_payloads_read_by_projection": false,
+    "causal_receipt_hash_links_checked": true,
+    "receipt_claims_are_not_independent_runtime_reexecution": true,
+    "small_control_receipt_hashes_recomputed": true,
+    "source_tree_or_cache_mutation_by_projection": false
+  },
+  "limits": [
+    "These archives are checkpoints inside the original VM; no external archive backup or user download is established.",
+    "Production78d is archived and absent at both normal selectors. A verified restore or new build is required before real-host tests use it.",
+    "The login ELF pair is preserved as source0742 proof, not evidence that source42 refresh tests passed.",
+    "Root actions used sampled process, descriptor, mapping and alias ownership guards with the two documented infrastructure visibility exceptions; they do not prevent an uncoordinated new owner after a scan.",
+    "Clean-page hints do not modify file bytes and do not guarantee a specific reclaim amount. No compiler admission is established by this projection; fresh per-command disk/RAM/OOM guards remain required.",
+    "All source, Git state, recovery archives, the separate older live GUI, and symlink-backed libraries remained outside retirement scope. Ordinary lint cache was not retired in these actions."
+  ],
+  "login_pair_preservation": {
+    "archive": {
+      "bytes": 68334364,
+      "durability": "existing VM filesystem only",
+      "fresh_payload_hash_by_this_projection": false,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/CURRENT_LOGIN_LIBRARY_INTEGRATION_PROOF.tar.zst",
+      "sha256_recorded_by_completed_action": "13b0eb7a5b1a90b0060240c0ad3347cd67f8280a024906eb0ba6c2dbbcd06ebd",
+      "verified_member_count": 362
+    },
+    "audit_bounded_clean_page_advice_performed": true,
+    "audit_was_strictly_read_only": false,
+    "failed_predecessor": {
+      "archive_created": false,
+      "compiler_started": false,
+      "exit_code": 1,
+      "only_mismatch": "production consolidation action.py ctime metadata; SHA256 unchanged",
+      "original_plan_and_failure_preserved": true,
+      "originals_retired": false,
+      "receipt": {
+        "bytes": 762,
+        "recovery_relative_path": "p03-auth-current-login297-proof-preservation-01/ROOT_AUDIT_INPUT_FAILURE_01.json",
+        "sha256": "51a8249a59ec1ad42755add35871944e8e46980f84dddb98dc2d02d50c64b8d5"
+      },
+      "stage": "input metadata guard",
+      "successor_change": "Exact changed control-file metadata rebound; distinct successor output/restore paths; historical targets, member inventory and proof source retained"
+    },
+    "full_restore_verified_members": 362,
+    "historical_elf_members": {
+      "bin/login-integration": {
+        "bytes": 139872288,
+        "sha256": "fb25da3c5079f339f51c979af68d09e142e67975ad015d84c6402e3af4cf5543"
+      },
+      "bin/login-lib": {
+        "bytes": 156026712,
+        "sha256": "73b95bfe4a82af5ec52383e202e8e0730145c144496b077e63a41db2f4cca723"
+      }
+    },
+    "observer_receipt_members": 308,
+    "old_restorations_untouched_by_pair_action": true,
+    "phase_order": [
+      "audit with bounded clean-page advice",
+      "archive plus complete fresh SHM restoration and member verification",
+      "retire exact two original test ELFs",
+      "release only newly created verification restore"
+    ],
+    "released_new_restore_directory_count": 21,
+    "released_new_restore_file_count": 362,
+    "removed_original_count": 2,
+    "resources_after_new_restore_release": {
+      "conditional_credit_bytes": 2055477248,
+      "conditional_credit_is_not_guaranteed_memory": true,
+      "hard_unused_memory_bytes": 1318031360,
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 1146028032,
+      "shm_free_bytes": 7467749376
+    },
+    "resources_after_preservation": {
+      "conditional_credit_bytes": 2054029312,
+      "conditional_credit_is_not_guaranteed_memory": true,
+      "hard_unused_memory_bytes": 1010065408,
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 853950464,
+      "shm_free_bytes": 7160274944
+    },
+    "resources_after_retirement": {
+      "conditional_credit_bytes": 2055170048,
+      "conditional_credit_is_not_guaranteed_memory": true,
+      "hard_unused_memory_bytes": 1010094080,
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 1146171392,
+      "shm_free_bytes": 7160274944
+    },
+    "resources_before_preservation": {
+      "conditional_credit_bytes": 2019047424,
+      "conditional_credit_is_not_guaranteed_memory": true,
+      "hard_unused_memory_bytes": 1388347392,
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 922292224,
+      "shm_free_bytes": 7467749376
+    },
+    "successor_receipts": {
+      "AUDIT.json": {
+        "bytes": 7722,
+        "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/AUDIT.json",
+        "sha256": "c95001fa0711714a8d9702a7c3bf1ed0b5900983154fc45891a4fdb9622f4248"
+      },
+      "PRESERVATION_RECEIPT.json": {
+        "bytes": 256993,
+        "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/PRESERVATION_RECEIPT.json",
+        "sha256": "35bd258688ba8ee4ff5de791e6b51995b0fa9d1c56057a5b19c55a8d7bd06d5f"
+      },
+      "RELEASE_RECEIPT.json": {
+        "bytes": 1256,
+        "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/RELEASE_RECEIPT.json",
+        "sha256": "9607d47b338a9c06009a576ed53520eaa468dd9293e3043d383f658ec33e9c02"
+      },
+      "RETIREMENT_RECEIPT.json": {
+        "bytes": 1548,
+        "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/RETIREMENT_RECEIPT.json",
+        "sha256": "69b05b4e78c48d1227c65133c120e0024b6b2ba75038b5b3d551f023cc27a7b8"
+      }
+    }
+  },
+  "next_gate_budget_reference": {
+    "bytes": 4630,
+    "recovery_relative_path": "p03-auth-refresh-focused-budget-01/BUDGET.json",
+    "sha256": "5589dd160834688dc040e97fe98eed0b14fadf6bb0af86e04293914b484dbf8f"
+  },
+  "old_verification_copy_consolidation": {
+    "archive_files_removed": false,
+    "fresh_complete_archive_member_and_existing_copy_hashes_recorded": true,
+    "measured_memory_change_not_attributed_to_each_hint_individually": true,
+    "new_extraction_created": false,
+    "proofs": [
+      {
+        "allocated_copy_bytes": 511852544,
+        "elf_sha256": "26777e075411f0a4e7b6761d106aad0c365a2c342bc5ff74a8aa49adf2ca3291",
+        "generated_copy_basename": "codex_app_server-4a5773d640636e8f",
+        "retained_archive": {
+          "bytes": 110764046,
+          "durability": "existing VM filesystem only",
+          "fresh_payload_hash_by_this_projection": false,
+          "recovery_relative_path": "p03-pre-featured-integration-appserver431-proof-01.tar.zst",
+          "sha256_recorded_by_completed_action": "d135cf6c95c13380bfb4e095541b6554c9648f17b0351aed2e1da63dbbb6ed9c",
+          "verified_member_count": 5
+        }
+      },
+      {
+        "allocated_copy_bytes": 218054656,
+        "elf_sha256": "24871d0e983901b62225b695e300a4093adc36b1c23e7f1450e7d54b72ddfa84",
+        "generated_copy_basename": "codex_core_plugins-881c017cdeccdc01",
+        "retained_archive": {
+          "bytes": 47139150,
+          "durability": "existing VM filesystem only",
+          "fresh_payload_hash_by_this_projection": false,
+          "recovery_relative_path": "p03-current542-coreplugins-proof-preserved-01.tar.zst",
+          "sha256_recorded_by_completed_action": "671307822b180bc2ae18ad7035b48d41a4792e858e4babd8335343b833f88f77",
+          "verified_member_count": 6
+        }
+      }
+    ],
+    "receipt_chain": {
+      "action_sha256": "d5f2c8b4f1410aafcd62f95ceee65e8251f15f227b91ae8d9f294b0f7ea914f8",
+      "intent_sha256": "41f8f0a27634a7483e9dd8268f9217ca53d8f664223f25afd19d80b4f279e693",
+      "plan_sha256": "a4cc87e9fbd7fe528fcc1cc0b4d5acece572e1d5d451f53053a4c2a40e716087",
+      "progress_sha256": "5db069d7821d0846a58babfc1b185168cb42911d4e13d2fd6ebb1f659fc02241",
+      "verification_sha256": "0128bbd0ea779974284e87a6ef7eaa15745b909c428e347a036f39c06c1215e5"
+    },
+    "reclaim_is_not_guaranteed": true,
+    "removed_empty_directory_count": 2,
+    "removed_generated_copy_count": 2,
+    "resources_after": {
+      "hard_unused_memory_bytes": 2375909376,
+      "observed_utc": "2026-10-02T20:53:14.314216+00:00",
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 1144639488,
+      "shm_free_bytes": 7467749376,
+      "tmp_free_bytes": 1459408896
+    },
+    "resources_before": {
+      "hard_unused_memory_bytes": 1326161920,
+      "observed_utc": "2026-10-02T20:53:05.337272+00:00",
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 1144688640,
+      "shm_free_bytes": 7467749376,
+      "tmp_free_bytes": 729501696
+    },
+    "result": {
+      "bytes": 12653,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/RESULT.json",
+      "sha256": "337d2432f4dedba550ccfb378f160757432981b9ea7bb90547e9b0519eb382c1"
+    },
+    "retained_file_bytes_changed": false,
+    "retained_file_clean_page_advice_count": 5,
+    "root_operation": "69520",
+    "unique_allocated_copy_bytes_before": 729907200
+  },
+  "production_consolidation": {
+    "aliases_retained_unmodified": true,
+    "fresh_stream_member_and_live_elf_verification_recorded": true,
+    "historic_alias_count": 16,
+    "historic_aliases_temporarily_dangling": true,
+    "new_full_extraction_created": false,
+    "original_allocated_bytes": 636006400,
+    "original_hardlink_selectors_removed": [
+      "codex-rs/target/debug/codex",
+      "codex-rs/target/debug/deps/codex-a3117600d193c2ba"
+    ],
+    "prior_full_restore_proof_pinned": true,
+    "production_cli_available": false,
+    "production_elf_sha256": "78d9194cd4329e9b83b75fe07389d524d8b1f425353d71df9a68607be2945e83",
+    "receipt_chain": {
+      "action_sha256": "25249183c40d0a0a20b5c87aa2de0f4e93aa6b5c560effacfc7715922d85bf42",
+      "intent_sha256": "283e0bfaf1618f63888e68fd8e2582eb7f08777320ba93badec2664d198dfa41",
+      "plan_sha256": "4139de2d358cd858f8fec7194d848b3db85a7398f8a49d78108f217939ee1f71",
+      "progress_sha256": "6f524440e0fc0d4c7399a8e426d2ff3f477b26ab68837752ce114afa2fc0020f",
+      "verification_sha256": "b3a339e2b406a36a92d80fe0964de88481b5269f772bdb703e4fa6fb9dfab9be"
+    },
+    "resources_after": {
+      "hard_unused_memory_bytes": 1184370688,
+      "observed_utc": "2026-10-02T20:36:48.730438+00:00",
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 925962240,
+      "shm_free_bytes": 7467749376,
+      "tmp_free_bytes": 729501696
+    },
+    "resources_before": {
+      "hard_unused_memory_bytes": 694308864,
+      "observed_utc": "2026-10-02T20:36:40.535144+00:00",
+      "oom": 10,
+      "oom_kill": 5,
+      "overlay_free_bytes": 290070528,
+      "shm_free_bytes": 7467749376,
+      "tmp_free_bytes": 729501696
+    },
+    "result": {
+      "bytes": 12005,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/RESULT.json",
+      "sha256": "fefdeec0cd2cd53c5125bc385756d5ac4f050bd571d96add9eb5694d48fe2031"
+    },
+    "retained_archive": {
+      "bytes": 139859859,
+      "durability": "existing VM filesystem only",
+      "fresh_payload_hash_by_this_projection": false,
+      "recovery_relative_path": "p03-current-production78d-proof-preservation-01/CURRENT_PRODUCTION_CLI_PROOF.tar.zst",
+      "sha256_recorded_by_completed_action": "b4c79bcc83cb356d9f2707fb9a17a3deae10c86860e9ac601af25d8b8d8154bf",
+      "verified_member_count": 34
+    },
+    "root_operation": "40318",
+    "unique_payload_inodes_released": 1,
+    "verified_member_count": 34
+  },
+  "references": [
+    {
+      "bytes": 12005,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/RESULT.json",
+      "sha256": "fefdeec0cd2cd53c5125bc385756d5ac4f050bd571d96add9eb5694d48fe2031"
+    },
+    {
+      "bytes": 37655,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/PLAN.json",
+      "sha256": "4139de2d358cd858f8fec7194d848b3db85a7398f8a49d78108f217939ee1f71"
+    },
+    {
+      "bytes": 27162,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/VERIFICATION.json",
+      "sha256": "b3a339e2b406a36a92d80fe0964de88481b5269f772bdb703e4fa6fb9dfab9be"
+    },
+    {
+      "bytes": 12232,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/action.py",
+      "sha256": "25249183c40d0a0a20b5c87aa2de0f4e93aa6b5c560effacfc7715922d85bf42"
+    },
+    {
+      "bytes": 623,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/INTENT.json",
+      "sha256": "283e0bfaf1618f63888e68fd8e2582eb7f08777320ba93badec2664d198dfa41"
+    },
+    {
+      "bytes": 1046,
+      "recovery_relative_path": "p03-auth-production78d-archive-consolidation-01/PROGRESS.jsonl",
+      "sha256": "6f524440e0fc0d4c7399a8e426d2ff3f477b26ab68837752ce114afa2fc0020f"
+    },
+    {
+      "bytes": 7722,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/AUDIT.json",
+      "sha256": "c95001fa0711714a8d9702a7c3bf1ed0b5900983154fc45891a4fdb9622f4248"
+    },
+    {
+      "bytes": 256993,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/PRESERVATION_RECEIPT.json",
+      "sha256": "35bd258688ba8ee4ff5de791e6b51995b0fa9d1c56057a5b19c55a8d7bd06d5f"
+    },
+    {
+      "bytes": 1548,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/RETIREMENT_RECEIPT.json",
+      "sha256": "69b05b4e78c48d1227c65133c120e0024b6b2ba75038b5b3d551f023cc27a7b8"
+    },
+    {
+      "bytes": 1256,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/RELEASE_RECEIPT.json",
+      "sha256": "9607d47b338a9c06009a576ed53520eaa468dd9293e3043d383f658ec33e9c02"
+    },
+    {
+      "bytes": 455076,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/PLAN.json",
+      "sha256": "704de2aed2940e541280d18578306b51c138e6c051266de4c71a1b1e9880f37b"
+    },
+    {
+      "bytes": 24661,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-02/action.py",
+      "sha256": "4eaaedefd26400f279486f0ce08bdb0fbab7171ce179ff3eecc46044336c56d4"
+    },
+    {
+      "bytes": 762,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-01/ROOT_AUDIT_INPUT_FAILURE_01.json",
+      "sha256": "51a8249a59ec1ad42755add35871944e8e46980f84dddb98dc2d02d50c64b8d5"
+    },
+    {
+      "bytes": 451872,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-01/PLAN.json",
+      "sha256": "50927f9af98a4140d8d113bacac8e9c20c31143e74aa595334047ca95474e218"
+    },
+    {
+      "bytes": 24661,
+      "recovery_relative_path": "p03-auth-current-login297-proof-preservation-01/action.py",
+      "sha256": "c0af9acee1160e96a5679965aa3749cb9dfcf791bed36d463f78373f8b715d60"
+    },
+    {
+      "bytes": 12653,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/RESULT.json",
+      "sha256": "337d2432f4dedba550ccfb378f160757432981b9ea7bb90547e9b0519eb382c1"
+    },
+    {
+      "bytes": 64055,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/PLAN.json",
+      "sha256": "a4cc87e9fbd7fe528fcc1cc0b4d5acece572e1d5d451f53053a4c2a40e716087"
+    },
+    {
+      "bytes": 35719,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/VERIFICATION.json",
+      "sha256": "0128bbd0ea779974284e87a6ef7eaa15745b909c428e347a036f39c06c1215e5"
+    },
+    {
+      "bytes": 14882,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/action.py",
+      "sha256": "d5f2c8b4f1410aafcd62f95ceee65e8251f15f227b91ae8d9f294b0f7ea914f8"
+    },
+    {
+      "bytes": 1359,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/INTENT.json",
+      "sha256": "41f8f0a27634a7483e9dd8268f9217ca53d8f664223f25afd19d80b4f279e693"
+    },
+    {
+      "bytes": 3573,
+      "recovery_relative_path": "p03-old431-542-verification-copy-release-01/PROGRESS.jsonl",
+      "sha256": "5db069d7821d0846a58babfc1b185168cb42911d4e13d2fd6ebb1f659fc02241"
+    },
+    {
+      "bytes": 1237279,
+      "recovery_relative_path": "p03-auth-refresh-adoption-01/CANDIDATE_FORMATTED.json",
+      "sha256": "7f6a7aaf7fd772b8b6aa66e172dfeba7af7ad3f3cce6839c0b2dbb90c713d4a9"
+    },
+    {
+      "bytes": 2181,
+      "recovery_relative_path": "p03-auth-production78d-consolidation-independent-review-01/REVIEW.json",
+      "sha256": "764fd008c01af78cc512659b8f857cc2c97083e8ce206005ed94ca2c62883f52"
+    },
+    {
+      "bytes": 4184,
+      "recovery_relative_path": "p03-auth-current-login297-proof-static-review-01/REVIEW.json",
+      "sha256": "be3130c16fbafcf6836c331268679a55ac0d3f86e6fc0745dc25c48e0180d833"
+    },
+    {
+      "bytes": 1994,
+      "recovery_relative_path": "p03-old431-542-release-independent-review-01/REVIEW.json",
+      "sha256": "9eecc593692cec673992711236939812f6dcba962225d8c077cb4859f104b168"
+    },
+    {
+      "bytes": 6875,
+      "recovery_relative_path": "p03-auth-production78d-usage-audit-01/AUDIT.json",
+      "sha256": "23954022564224f5360aab42350b11b791d9c697aead1209132b38af6044517b"
+    },
+    {
+      "bytes": 4630,
+      "recovery_relative_path": "p03-auth-refresh-focused-budget-01/BUDGET.json",
+      "sha256": "5589dd160834688dc040e97fe98eed0b14fadf6bb0af86e04293914b484dbf8f"
+    }
+  ],
+  "schema": "codex-resource-evidence-projection-v1",
+  "scope": "Completed resource preservation/consolidation only; no new test or compiler acceptance",
+  "source_cohorts": [
+    {
+      "production_available_at_normal_selectors_after_actions": false,
+      "role": "archived production78d",
+      "source_count": 8947,
+      "source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e"
+    },
+    {
+      "focused_cases_are_subset_not_additional_unique_full_suite_cases": true,
+      "focused_reload_cases": 5,
+      "full_login_cases": 297,
+      "role": "previously executed login library/integration proof",
+      "source_count": 8948,
+      "source_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+      "test_acceptance_is_historical_to_current_candidate": true
+    },
+    {
+      "no_test_acceptance_inferred_from_resource_actions": true,
+      "role": "adopted refresh candidate",
+      "source_count": 8949,
+      "source_map_sha256": "42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59"
+    }
+  ]
+}

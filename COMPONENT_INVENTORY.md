@@ -118,9 +118,11 @@ Its five causal tests,297 full grouped login tests and108 grouped provider tests
 passed on source map `0742356b`; scoped login lint03 subsequently passed with unchanged source and no new OOM. A rebuilt host remains a separate gate. See the
 [source map](upstream/p03-auth-reload-source-lineage.json) and
 [focused evidence](verification/2026-10-02/p03-auth-reload-focused/README.md).
-This does not extract authentication. Permanent refresh-failure publication is a
-staged follow-up; successful refresh/install persistence, conditional backend
-writes and request admission remain coupled and require separate contracts.
+This does not extract authentication. Permanent refresh-failure publication is now
+adopted/formatted but uncompiled on a separate42e3899 source; see its
+[source map](upstream/p03-auth-refresh-source-lineage.json). Successful refresh/install
+persistence, conditional backend writes and request admission remain coupled and
+require separate contracts. No new extracted family or runtime acceptance is claimed.
 
 ## Complete explicit workspace package ledger
 

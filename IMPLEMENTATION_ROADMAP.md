@@ -34,10 +34,15 @@ full grouped login gate:297/297, plus108/108 provider tests, zero retries/skips,
 serial execution. Scoped login lint03 now also passes with unchanged source and
 no new OOM. The first two attempts remain precompiler resource blocks. A redundant
 old verification copy was released only after fresh complete archive/member/restore
-verification, enabling the unchanged admission floors. The restored production CLI
-still represents preceding7a source; new production/UI validation remains pending.
-The next ownership slice fences permanent refresh failures. Its source and runtime
-acceptance remain separate from this completed reload package/lint checkpoint. The successful runtime
+verification, enabling the unchanged admission floors. The preserved production CLI
+represents preceding7a source and is currently archive-only; new production/UI
+validation remains pending.
+The next ownership slice, permanent refresh-failure publication, is now adopted
+and formatted as source42e3899 (8,949 files), with four causal tests now compiling.
+Its source and runtime acceptance remain separate from this completed reload
+package/lint checkpoint. Its fresh preflight admitted compilation after a verified
+release of two redundant archived copies; no new test pass is yet claimed.
+Source and all retired test/production proofs are preserved. The successful runtime
 checkpoint does not close
 P03, prove whole-host graceful cleanup, or resolve every storage durability case.
 

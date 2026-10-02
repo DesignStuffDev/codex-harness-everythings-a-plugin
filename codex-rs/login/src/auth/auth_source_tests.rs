@@ -1,4 +1,5 @@
 use super::AuthManager;
+use super::AuthScopedRefreshFailure;
 use super::CodexAuth;
 use super::ExternalAuth;
 use super::ExternalAuthFuture;
@@ -253,4 +254,26 @@ async fn poisoned_credential_owner_cannot_expose_an_external_source() {
     assert!(matches!(error, RefreshTokenError::Transient(_)));
     manager.clear_external_auth();
     assert_eq!(manager.auth_cached(), None);
+}
+
+// Existing tests seed failure metadata directly; production publication uses captured ownership.
+impl AuthManager {
+    /// Records a permanent refresh failure only if the failed refresh was
+    /// attempted against the auth snapshot that is still cached.
+    pub(super) fn record_permanent_refresh_failure_if_unchanged(
+        &self,
+        attempted_auth: &CodexAuth,
+        error: &RefreshTokenFailedError,
+    ) {
+        if let Ok(mut guard) = self.inner.write() {
+            let current_auth_matches =
+                Self::auths_equal_for_refresh(Some(attempted_auth), guard.auth.as_ref());
+            if current_auth_matches {
+                guard.permanent_refresh_failure = Some(AuthScopedRefreshFailure {
+                    auth: attempted_auth.clone(),
+                    error: error.clone(),
+                });
+            }
+        }
+    }
 }
