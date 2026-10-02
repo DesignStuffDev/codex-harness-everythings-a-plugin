@@ -1,0 +1,150 @@
+{
+  "actual_elfs": {
+    "exec-bin": {
+      "bytes": 65013232,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_exec-a04c984dec84d85f",
+      "sha256": "bbb2cfc21ad2e4df40517c3a2bab81d76c9fa765dee1176db86d9fa3fd804777"
+    },
+    "exec-lib": {
+      "bytes": 165343088,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_exec-d6590e986a1a4a9f",
+      "sha256": "678e92596e86635977a92d06079478a3cf6dd4aac3fbad54cf11c066f0b092d8"
+    }
+  },
+  "actual_source_count": 8947,
+  "actual_source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+  "adopted_exit_status_histogram": {
+    "0": 1
+  },
+  "archived_cli_test_proof_unchanged": true,
+  "ca_environment_preserved_by_observer": true,
+  "candidate": {
+    "bytes": 1236427,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-http-stage-b-adoption-01/CANDIDATE_FORMATTED.json",
+    "sha256": "f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092"
+  },
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-exec",
+    "--lib",
+    "--bin",
+    "codex-exec",
+    "-E",
+    "package(codex-exec) & (test(process_final::tests::) | test(process_final_input_tests::))"
+  ],
+  "compile_profile_finished_seconds": 18.54,
+  "compiled_only_not_listed_or_executed": {
+    "cli-lib": {
+      "bytes": 197911928,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex_cli-1c7c8438401a2545",
+      "sha256": "ba3b51cffc6cb77ef619a0c3528f42cadfbfa9eea093d21227443edad31fdb2b"
+    }
+  },
+  "configured_nextest_retries": 1,
+  "discovery_invocations": {
+    "exec-bin": 2,
+    "exec-lib": 2
+  },
+  "exact_invocations": 9,
+  "executed_instances": [
+    {
+      "invocations": 1,
+      "name": "process_final::tests::cleanup_failure_is_reported_after_success",
+      "role": "exec-bin"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final::tests::cleanup_failure_retains_the_operation_error",
+      "role": "exec-bin"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final::tests::cleanup_is_awaited_on_success_and_error",
+      "role": "exec-bin"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final::tests::cleanup_failure_is_reported_after_success",
+      "role": "exec-lib"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final::tests::cleanup_failure_retains_the_operation_error",
+      "role": "exec-lib"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final::tests::cleanup_is_awaited_on_success_and_error",
+      "role": "exec-lib"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final_input_tests::direct_prompt_and_absent_schema_still_succeed",
+      "role": "exec-lib"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final_input_tests::invalid_output_schema_returns_an_error_instead_of_exiting",
+      "role": "exec-lib"
+    },
+    {
+      "invocations": 1,
+      "name": "process_final_input_tests::missing_output_schema_returns_an_error_instead_of_exiting",
+      "role": "exec-lib"
+    }
+  ],
+  "full_p03_complete": false,
+  "grouped_feature_configuration_not_standalone_suite": true,
+  "guarded_command_elapsed_seconds": 25.55706624899176,
+  "independent_postchecks": [
+    "Source/producer/strict/log/candidate/command equality",
+    "Exact per-role PASS lines and thirteen observer records bound to stable actual ELF hashes",
+    "Six library and three binary cases; zero CLI-library invocations",
+    "Three current ELF hashes and target fingerprint references",
+    "Two protected CLI snapshot-file hashes",
+    "Unchanged source/production/archive guards and cgroup OOM counters"
+  ],
+  "just_defaults": {
+    "NEXTEST_PROFILE": "local",
+    "RUST_MIN_STACK": "8388608",
+    "cargo_nextest_args": [
+      "run",
+      "--no-fail-fast"
+    ],
+    "cwd": "codex-rs",
+    "defaults_not_overridden": true,
+    "inherited_local_timeout": "30s x2",
+    "inherited_retry_count": 1
+  },
+  "new_extracted_family": false,
+  "no_new_oom_events": true,
+  "observed_test_retries": 0,
+  "passed_instances": 9,
+  "production_binaries_unchanged": true,
+  "proof_limit": "Observed pre-exec ELF identity plus matching nextest passes and stable terminal artifacts, not syscall attestation; controlled futures and input errors do not prove native owner/transport lifecycle or full-host shutdown.",
+  "protected_cli_snapshot_file_hash_checks": 2,
+  "raw_environment_values_recorded": false,
+  "remaining_consumer_gates": [
+    "TUI six focused cases",
+    "App Server sixteen focused library cases and fresh exact-ELF curated/featured replacement callers"
+  ],
+  "resource_estimate_not_measured_peak": true,
+  "schema": "current-b-grouped-exec-consumer-evidence-v1",
+  "scope_limit": "Grouped CLI+Exec dependency features, nine Exec instances across library/binary. CLI library is compiled as a selected root but package filtering skips its listing and execution. Controlled cleanup/error composition and input validation; not standalone package suite, real-owner/watchdog or whole-host lifecycle proof.",
+  "selected_exec_snapshot_assertions": 0,
+  "skipped_binaries": 1,
+  "skipped_tests": 64,
+  "source_unchanged": true,
+  "status": "passed",
+  "strict": {
+    "command_returncode": 0,
+    "exit_status": 0,
+    "runner_error": null,
+    "subreaper": true
+  },
+  "test_summary_seconds": 0.312
+}

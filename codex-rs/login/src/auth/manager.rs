@@ -2633,18 +2633,21 @@ impl AuthManager {
 
     async fn load_auth(&self) -> Result<LoadedAuth, AuthLoadError> {
         let policy = self.auth_policy_snapshot().map_err(AuthLoadError::Policy)?;
-        // Capture before source selection and any await; a later cache transition rejects this load.
-        let revision = self
+        // Select the committed source and its cache in one snapshot before any await.
+        // Keep the existing lock order: credentials, then policy at publication.
+        let captured = self
             .inner
             .read()
             .map_err(|_| AuthLoadError::CacheUnavailable)?
-            .revision
             .clone();
-        let update = if let Some(external_auth) = self.external_auth_provider() {
-            let cached_auth = self.auth_cached();
-            if cached_auth
+        let update = if let Some(external_auth) = &captured.external_auth {
+            let cached_auth = captured.auth.clone();
+            if captured
+                .permanent_refresh_failure
                 .as_ref()
-                .is_some_and(|auth| self.refresh_failure_for_auth(auth).is_some())
+                .is_some_and(|failure| {
+                    Self::auths_equal_for_refresh(cached_auth.as_ref(), Some(&failure.auth))
+                })
             {
                 AuthLoadUpdate::Preserve {
                     attempted: cached_auth,
@@ -2722,7 +2725,8 @@ impl AuthManager {
             .map_err(AuthLoadError::Policy)?;
         Ok(LoadedAuth {
             policy: policy.stamp(),
-            revision,
+            revision: captured.revision,
+            source: captured.source_revision,
             update,
         })
     }

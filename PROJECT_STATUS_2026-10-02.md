@@ -69,7 +69,7 @@ responses, native shell approvals, cancellation, continuation, cold recovery and
 selected search. CLI/headless use works with the GUI absent. This is our interface,
 not source reuse or modification of the official installed Codex desktop app.
 
-Current acceptance runs two real Chromium cycles for both ordinary and selected
+The latest tested production baseline runs two real Chromium cycles for both ordinary and selected
 search configurations. Approval, native command and Stop are first-cycle checks;
 cold history, interrupted state, continuation and search are second-cycle checks.
 Actual manager Launch shutdown is included. Inference is deterministic. The in-app
@@ -90,7 +90,7 @@ native family. HTTP error classification preserves certificate trust policy.
   retain their own source identities.
 - Stage B passed553 core-plugins library tests, one real native HTTP composition
   case and scoped lint. Consumer-specific tests remain separate.
-- The current offline production build passed on8,947 scoped source files, map
+- The latest tested offline production build passed on8,947 scoped source files, map
   `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`.
 - All12 planned production-runtime slots have passing attempts:13 successful
   top-level commands because the selected-search retry required fresh migration.
@@ -108,17 +108,29 @@ native family. HTTP error classification preserves certificate trust policy.
   A scoped clean result is not a claim that every host service shut down gracefully.
 
 These counts overlap earlier checkpoints and are not one project-wide test total.
-The original2,694-pass core library suite is historical, not a complete workspace
-run or current-source substitute. Full workspace approval is not recorded;
+The corrected September30 core library rerun passed2,694 cases; the original
+run's four failures remain preserved in [its analysis](verification/2026-09-30/recovery-core-failure-analysis.md).
+That result is historical, not a complete workspace run or a current-source
+substitute. Full workspace approval is not recorded;
 verification uses scoped `just test` entrypoints.
 
 Current-source CLI shutdown tests now pass3/3, with297 filtered tests, two
 reviewed snapshots and no retries. Their current test ELF and unchanged source/host
 bindings are recorded in the [focused CLI evidence](verification/2026-10-02/p03-http-stage-b-cli-focused/README.md). This is a focused check, not the
-full CLI suite. Exec/TUI, App Server lifecycle and actual same-process replacement acceptance remain
-open. Auth reload-source and permanent-refresh-failure proposals are preserved and
-reviewed but remain unadopted and untested. Successful-refresh durable persistence
-needs its own conditional ownership protocol.
+full CLI suite. The subsequent [grouped CLI+Exec gate](verification/2026-10-02/p03-http-stage-b-exec-grouped/README.md)
+passed nine Exec instances across its library and binary, with64 filtered tests
+and no retries. The CLI library was compiled but not executed. This uses the
+CLI dependency-feature composition; it is not a standalone Exec package suite.
+The TUI compilation subsequently received SIGKILL while cgroup OOM/kill counters
+increased; zero tests ran. [That failure is preserved](verification/2026-10-02/p03-http-stage-b-tui-grouped-failure/README.md).
+TUI, App Server lifecycle and actual same-process replacement acceptance remain
+open. The production executable has been restored from its hash-verified archive
+and its version command succeeds. The next five-path auth reload-source fix is
+now applied and formatted, but remains uncompiled and untested; it is newer than
+that production executable. The permanent-refresh-failure follow-up remains an
+unadopted proposal. Successful-refresh durable persistence needs its own conditional
+ownership protocol. Memory/disk constraints are being addressed with bounded
+preservation and target selection, without removing test dependencies or guards.
 
 Detailed evidence:
 [build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md),

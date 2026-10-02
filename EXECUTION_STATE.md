@@ -8,10 +8,16 @@ preservation/resource chains remain in [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTI
 
 ## Current checkpoint
 
-Publication verified: evidence commit `c463a4f46318ccbbc811c202639d53f733d5831f`,
-all55 selected Git blobs and both remote refs checked. Main remains unchanged.
-Receipt: R/p03-http-stage-b-runtime-publication-01/PUBLICATION.json.
-Unadopted auth-source archives now have verified GitHub preservation.
+Latest publication verified: `bb48fe352dbc5e86edbdbb0f992f63fdcbee80c9`,
+tree `f18132d22033ec0ea2cadf451bfa20dfaa5c9546`; all14 selected Git blobs
+(259,293B) and both remote refs checked. Main remains unchanged. This publishes
+focused CLI and capacity evidence plus synchronized project/roadmap/status docs.
+Receipt: R/p03-cli-capacity-status-publication-01/PUBLICATION.json SHA256
+`afc6c79cbdef3598ff86d5697d91692f5ec73ce4fbbee8e85a3772a9f7e711ba`.
+Parent `c463a4f46318ccbbc811c202639d53f733d5831f` preserves55 production/runtime
+and unadopted auth-source artifact files, separately verified. No active Rust/SDK
+implementation changes in either evidence-only checkpoint; the original index
+remains unchanged. VM-wide external backup is not claimed.
 
 - Original VM commands execute; stale access blocker is cleared. Checkout
   `/workspace/codex-harness-everythings-a-plugin`, origin
@@ -64,84 +70,87 @@ Unadopted auth-source archives now have verified GitHub preservation.
   Both cycles passed;12 search responses each, no diagnostic overflow/errors or
   pending bodies at close. Preserve01; a retry pass does not explain its cause.
 
+## Current continuation — read before running commands
+
+- TUI grouped command1433 finished with compiler exit101: rustc lib-test received
+  SIGKILL and cgroup OOM counters rose9→10 / kills4→5. **Zero tests executed.**
+  Source7a stayed unchanged. A/p03-http-stage-b-tui-grouped-01 preserves log,
+  source/strict/preflight/terminal receipts. Do not repeat the unchanged TUI attempt.
+  The six-test/two-snapshot gate is open; CLI3 and Exec9 results do not satisfy it.
+- Production CLI78d has been restored from the full34-member verified archive.
+  Both original hardlinks and16 unchanged home aliases resolve again. Receipt
+  R/p03-current-production78d-proof-preservation-01/RESTORATION_RECEIPT.json:
+  `f6e67f8a6a5eaf5948f1c8999f7f89de913c91fe5047f5f0cef0a65c4323a8d2`.
+  Actual `codex --version` returned0; READINESS.json records this bounded check.
+  This restores previously tested bytes, not a new regression pass.
+- **Current source is newer than production.** Five-path native auth reload change
+  adopted after exact preimage checks; original files and patch preserved in
+  R/p03-auth-reload-adoption-01. Required `just fmt` returned0, changing only the
+  new test module and manager formatting within those five paths. No dependency,
+  public API, wire or state-format change. Source8,948 files, map
+  `0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f`.
+  Candidate SHA256 `a3e21f97c6d5e83cab69821a4507e223deaecf5604fd2d7aaffbc7b19c1e6f4f`.
+  **Uncompiled and untested.** Prior source7a runtime results do not validate it.
+  Reload publication now checks committed source identity as well as cache/policy
+  identity; five causal tests cover replacement, ABA, stale failures and cancellation.
+  This is a native ownership prerequisite, not an additional extracted family.
+- Exec grouped9/9 current7a tests passed, zero retries,64 filtered, strict0/null.
+  [Exec evidence](verification/2026-10-02/p03-http-stage-b-exec-grouped/README.md)
+  and [CLI proof preservation](verification/2026-10-02/p03-current-cli-proof-capacity/README.md)
+  are copied locally but not yet published. Exec and CLI proof ELFs were archived,
+  fully restored/hash checked, then only their original files/new verification
+  restores were retired. All old proofs/restores remain. See historical ledger.
+- Current production archive SHA256
+  `b4c79bcc83cb356d9f2707fb9a17a3deae10c86860e9ac601af25d8b8d8154bf`;
+  Exec archive `90c667161c10b669ea4392c1398f228df707622168990e23b829d4d3372f62e1`;
+  CLI-test archive `f5197d265f3742c497d44eff0252936438b5cd88fb9e406ae41d3da21ca7101f`.
+  These are VM-local, not external binary backups. Completed resource actions
+  must never be replayed after path reuse. Original Git index remains unchanged.
+
 ## Ordered next actions
 
-1. Evidence publication is complete as recorded above. Preserve this checkpoint
-   while taking the next guarded resource/consumer/auth action below.
-2. Exact63-file ordinary-cache retirement completed after independent review,
-   audit, second full guard/hash pass and fsynced journal. Receipt
-   R/p03-post-runtime-ordinary-cache-action-01/RETIREMENT.json SHA256
-   `62fe7f98b882612ec72f0f75ba6c4b0e992d0dc532e4cc53bd27509b4e94e023`.
-   Source/index/runtime-selector metadata unchanged; all source, proof ELFs,
-   archives/restorations/symlinks and runtime homes were outside the action.
-   Overlay afterward785,997,824B; hard unused RAM464,089,088B, no new OOM.
-   No Rust build is admitted. Historical CLI test closure still lacks930,639,872B
-   of ordinary outputs plus302,977,024B test ELF before scratch/reserve;221,200,384B
-   of that missing total comes from the63 retired files and is not hidden.
-   Login's142 missing outputs have no exact size receipts. A fresh metadata audit
-   found two stale CLI build-script digests, so the old CLI closure is not an
-   exact zero-unresolved proof. The new plan conservatively retains all four
-   same-package build/run contexts and explicitly records this limit.
-   Bounded clean-page advice completed on31 inactive ordinary cache files; no
-   candidate content reads, deletion or rewriting. Receipt
-   R/p03-current-ordinary-clean-page-advice-01/RESULT.json SHA256
-   `dcf6af5df49e454369ae679fbeea17aaf31a681a536d149065cb91e572c581ac`.
-   Hard unused RAM afterward1,267,326,976B, overlay785,600,512B, no new OOM.
-   The separately reviewed47-file obsolete-context retirement then completed:
-   R/p03-post-runtime-exact-context-cache-action-01/RETIREMENT.json SHA256
-   `074af2e0fbffa0503d4795fe588c5b48639d949ea06f54b096b4176b445c9271`.
-   It removed1,084,129,280B of exact ordinary libraries, preserving21 recorded
-   current/prospective roots and2,769 dependency records. Both missing old CLI
-   build-script edges remain explicitly qualified through conservative protection.
-   Source/index and four production runtime paths were unchanged; no observed
-   references/aliases in the declared scan scope, with two pinned infrastructure
-   daemon visibility exceptions. Proof archives, executable/restored binaries,
-   symlinks and runtime homes were excluded. Root reviewed the immutable audit
-   before a second guard/hash pass and fsynced per-file retirement journal.
-   Overlay afterward1,867,800,576B, hard unused RAM about1.23GB, no new OOM.
-   This admits a separate fresh resource check, not automatic build success.
-   Unrelated historical feature contexts may need regeneration. Never replay
-   completed actions after path reuse.
-
-3. Current CLI gate completed successfully (root exec50524, exit0):3/3 tests,
-   297 filtered, two unchanged snapshots, zero actual retries; two separate
-   discovery invocations. Source8,947/map7a and production CLI/manager unchanged.
-   Fresh test ELF SHA256
-   `2c6a89e4c5386bdc2300208b4648be7bec8d6368d530d4c953180647ee9e9c8d`,
-   307,079,712B at target/debug/deps/codex-65eee2a45383cad7. Preserve this new
-   proof; old retirement actions for that path MUST NOT be replayed.
-   A/p03-http-stage-b-cli-focused-01.terminal.json SHA256
-   `cc2f9170ef7df481185a67657952800ffe34ba3ed6f27ef126b1d2c6d6085ecb`.
-   Strict command/exit0, runner_error null, reaped histogram{0:1}. Build6m41s;
-   full guarded command410.164s. OOM counters remain9/4. Overlay afterward
-   629,207,040B and hard unused RAM2,067,320,832B; next compile requires its own
-   budget. These controlled cleanup/error-composition tests do not replace real
-   owner/watchdog/runtime gates. Frozen plan
-   R/p03-http-stage-b-cli-focused-plan-01/MANIFEST.json SHA256
-   `11c61cfd25710462e22d44934a0ef6e39d240e9f36f1c2694a62b5d1a863a255`.
-   [Published-bundle candidate](verification/2026-10-02/p03-http-stage-b-cli-focused/README.md)
-   holds sanitized result and source/runner/ELF hashes; publication pending.
-   Next: distinct exec/TUI process-final tests and App Server lifecycle/search/
-   storage plus actual same-process featured/curated replacement parent runners.
-   Production/runtime passes do not replace those gates.
-4. Advance native auth source custody: preserved reload proposal, then permanent
-   refresh-failure publication. Neither is adopted, compiled or tested. Verify
-   preimages; run causal tests, scoped login/model-provider regression, lint/format
-   and later rebuilt-host checks. Recovered disk alone does not admit login tests:
-   core_test_support links core even when only five tests are selected.
-5. Successful refresh/request dispatch still needs conditional durable storage
-   ownership across participating writers; a pre-save recheck is insufficient.
-   Preserve equal-value/absence ABA, cross-manager/process, keyring/Auto recovery
-   and legacy-writer limits. Then use MCP proposals in order: Session prewarm/refresh
-   custody, connection retirement, lower transport, pinned SDK, late admission.
-   Resolve marketplace queue transfer before closing per-processor HTTP pools.
-6. Activate negotiated broker/model-service composition; extract actual native
-   OpenAiModelsManager discovery/merge/cache with separate native/custom builds,
-   installation, selection, cancellation, removal/default and GUI proof.
-   Continue P04–P19. Required P18U still needs installed maintenance/external recovery,
-   real later-upstream integration preserving custom plugins/UI, coordinated versions,
-   migrations, incompatible-update rejection and rollback. Offline17+22 planner/
-   lineage fixtures do not satisfy those gates.
+1. Compiled-only CLI library ELF ba3b51 and47 provenance members were archived,
+   fully restored and hash checked. Only the original cached ELF and new verification
+   restore were retired. Archive SHA256
+   `e32848acf97b6f6dbd4df26bf9f7244c37f0b1891399bc53beb9244504ca90d3`;
+   release receipt `9bca0ff99227a104698f6bfa9c61f62730dc0955e623040938cbd9c1c71be5c8`.
+   [Adoption and preservation evidence](verification/2026-10-02/p03-auth-reload-adoption/README.md).
+   A future compiler may now reuse that selector. Keep restored
+   production78d, all recovery archives, old restores and the separate older GUI.
+   Review fresh disk/RAM/process headroom; TUI OOM proves prior admission was not
+   sufficient. No Rust command currently runs as of this ledger update.
+2. Run the five focused reload causal tests through `just test`, then the login
+   and model-provider scoped regressions using a feasible explicitly bound feature
+   composition. Unconditional core_test_support cannot be removed to avoid cost.
+   One compiler job; do not kill Rust commands. Full workspace approval is absent.
+   Record actual source, exact executed binaries, original failures and retry counts.
+3. Only after the reload stage is verified, adopt the separately preserved permanent
+   refresh-failure publication fix. Formatting changed its manager preimage, so
+   explicitly rebind/review that transition before applying it. Run its four causal
+   tests, scoped regression, scoped lint and required format. Successful refresh,
+   durable writes and request dispatch remain separate ownership gaps.
+4. TUI six tests, App Server lifecycle/search/storage16 and actual same-process
+   featured/curated replacement parent runners remain open. AS additionally
+   enables rmcp elicitation and invalidates a47-record parent cohort (~1.158GB
+   historical output scale). Do not repeatedly run unchanged resource-blocked builds.
+   Future rebuilt-host/UI checks must bind the actual new source; old78d is retained
+   baseline proof only. Browser unavailable; label real Chromium and deterministic
+   inference fallback explicitly. Preserve the search GUI01 failure.
+5. Preserve source-to-component provenance and publish reviewed coherent milestones
+   on the existing WIP branch with nonforce ref checks, main untouched until accepted.
+   Successful-refresh/request dispatch needs conditional durable ownership across
+   participating writers, including equal-value/absence ABA, cross-process/keyring
+   and Auto/legacy-writer limits. Then integrate MCP custody proposals in order:
+   Session prewarm/refresh, connection retirement, lower transport, pinned SDK,
+   late admission. Resolve marketplace queue transfer before closing HTTP pools.
+6. Activate negotiated broker/model-service composition and extract the actual
+   native OpenAiModelsManager discovery/merge/cache. Require separate native/custom
+   builds, installation/selection/cancellation/removal/default and GUI proof against
+   an unchanged host. Continue remaining dependency-ordered P04–P19.
+7. Required P18U needs installed maintenance plus external recovery, a real later
+   upstream integration preserving custom plugins/UI, coordinated versions/state
+   migrations, incompatible-update rejection and rollback. Offline17+22 support
+   tests do not meet those gates. No scheduled polling or live unattended update.
 
 ## Preservation and execution rules
 
@@ -152,9 +161,9 @@ Unadopted auth-source archives now have verified GitHub preservation.
   `e6ab98fe2bd9625c10fe67979eaf308b4f7e4ee7892548482ff0750d9847df5e`.
   Keep later snapshots, failures, unadopted MCP/auth proposals and old restored
   proofs. VM-local archives are not externally durable backups.
-- Auth reload/refresh source archives are explicitly unadopted under
-  `verification/2026-10-02/unadopted-proposals/auth-source-ownership/`; external
-  preservation requires verified GitHub publication.
+- Original auth reload/refresh proposal archives are preserved as unadopted snapshots under
+  `verification/2026-10-02/unadopted-proposals/auth-source-ownership/`; both were externally preserved at c463a4f. Reload is now locally adopted as recorded
+  above; that historical label does not describe current source.
 - Root owns source/Git/compiler/cache mutations. Local HEAD/index remain upstream,
   local main is stale. Do not reset/stage the real index. Index SHA256
   `0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59`.

@@ -24,10 +24,15 @@ Native HTTP Stage A passed139 scoped tests and four configured-CA classification
 checks; [Stage B](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md)
 passed553 library tests, one real HTTP composition case and scoped lint.
 Current-source CLI diagnostics now pass3/3 tests and two reviewed snapshots,
-with297 tests filtered and no retries. Distinct exec/TUI consumer and App Server
+with297 tests filtered and no retries. The grouped CLI+Exec gate also passed9/9
+with64 filtered and zero retries on that same source. The TUI build was killed
+by the cgroup OOM handler before any tests ran; its six-test gate and App Server
 replacement tests remain open. Older results retain their original source identity.
-The immediate next gate is resource-checked remaining scoped consumers before
-adopting preserved auth/MCP work. The successful runtime checkpoint does not close
+The native reload source-ownership fix has now been adopted and formatted locally
+(five paths, source map0742356b); it is not compiled or tested yet. The restored
+production CLI remains the preceding7a source. The next feasible gate is scoped
+auth verification after preserving existing proof binaries. The successful runtime
+checkpoint does not close
 P03, prove whole-host graceful cleanup, or resolve every storage durability case.
 
 Coverage is still three bounded native replacement families: thread storage/manual

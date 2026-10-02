@@ -15,6 +15,13 @@ This support tool performs no fetch, candidate preparation, install, migration o
 It does not satisfy later-upstream integration, independently installed maintenance or rollback
 acceptance. Current normalized provenance remains incomplete; no periodic polling was enabled.
 
+The [auth reload source map](upstream/p03-auth-reload-source-lineage.json) records
+the newly adopted five-path native ownership change against exact upstream objects
+and the preceding tested source. It includes formatted hashes and intentional
+customizations. This change is not yet compiled or tested; the map is provenance,
+not acceptance or an additional extracted component. The refresh follow-up remains
+a separate unadopted proposal.
+
 ## Recorded starting point
 
 - Upstream: <https://github.com/openai/codex>, exact revision

@@ -17,7 +17,7 @@ use super::validate_auth_restrictions;
 use std::sync::Arc;
 
 /// Retained identities prevent source/intent ABA without allocating a growing ticket ledger.
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 pub(super) struct AuthSourceRevision(AuthCacheRevision);
 impl AuthSourceRevision {
     pub(super) fn new() -> Self {

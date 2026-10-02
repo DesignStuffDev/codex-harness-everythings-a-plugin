@@ -1,0 +1,131 @@
+{
+  "accepted": false,
+  "cache_advice": {
+    "bytes_not_changed": true,
+    "explicit_advisory_kernel_operation": true,
+    "not_pure_read_only": true,
+    "receipt": {
+      "bytes": 2325,
+      "path": "/workspace/acceptance/p03-http-stage-b-tui-grouped-01.cache-advice.json",
+      "sha256": "876af306960acac87ba92be499a15cfd097467aeb4637ab972110c9dd7ad8449"
+    },
+    "reclamation_guaranteed": false,
+    "scope": [
+      "preserved_cli_test_archive",
+      "preserved_production_archive",
+      "compiled_only_cli_library"
+    ]
+  },
+  "command": [
+    "just",
+    "test",
+    "-p",
+    "codex-cli",
+    "-p",
+    "codex-tui",
+    "--lib",
+    "-E",
+    "package(codex-tui) & test(process_final::tests::)"
+  ],
+  "limits": [
+    "This is a failed current-source grouped TUI compilation, not six tests or a runtime pass.",
+    "Cgroup OOM and kill counters increased during the failed command; no peak allocation or individual allocation cause is established.",
+    "The live protected production binary during this run was the manager; CLI executables were absent with verified archive custody. This describes the run, not later restoration status.",
+    "No assertion, timeout, retry, source or resource floor was changed to convert this failure into a pass. An unchanged TUI retry is not authorized by this evidence.",
+    "Existing successful CLI, Exec, installed-plugin and GUI results remain separate historical proofs.",
+    "VM-local proof archives are not an externally durable backup."
+  ],
+  "outcome": {
+    "acceptance_error": "source wrapper/test command did not pass",
+    "accepted_binary_receipt_present": false,
+    "command_returncode": 101,
+    "compiler_signal": "SIGKILL (9)",
+    "final_resource_observation_error": "new cgroup OOM event during terminal proof checks requires review",
+    "guarded_elapsed_seconds": 211.35133065099944,
+    "planned_test_instances": 6,
+    "rustc_target": "codex-tui lib test",
+    "snapshot_execution_proven": false,
+    "test_execution_observer_records": 0,
+    "test_instances_executed": 0,
+    "test_passes": 0
+  },
+  "protected_artifacts": {
+    "archived_production_proof_unchanged": true,
+    "preserved_cli_test_proof_unchanged": true,
+    "production_cli_available": false,
+    "production_protection_mode": "archive",
+    "production_source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+    "protected_existing_test_elfs_unchanged": true,
+    "protected_live_production_binaries_unchanged": true
+  },
+  "resources": {
+    "after_all_terminal_proof_checks": {
+      "conditional_credit": 422066176,
+      "credit_is_not_free_ram": true,
+      "effective": 4568975360,
+      "hard_unused": 4146909184,
+      "oom": 10,
+      "oom_kill": 5,
+      "space": {
+        "/dev/shm": 7467765760,
+        "/tmp": 94101504,
+        "/workspace": 1090936832
+      }
+    },
+    "after_command": {
+      "conditional_credit": 213405696,
+      "credit_is_not_free_ram": true,
+      "effective": 4778053632,
+      "hard_unused": 4564647936,
+      "oom": 10,
+      "oom_kill": 5,
+      "space": {
+        "/dev/shm": 7467765760,
+        "/tmp": 94101504,
+        "/workspace": 1090936832
+      }
+    },
+    "before": {
+      "conditional_credit": 1220788224,
+      "credit_is_not_free_ram": true,
+      "effective": 3564302336,
+      "hard_unused": 2343514112,
+      "oom": 9,
+      "oom_kill": 4,
+      "space": {
+        "/dev/shm": 7467765760,
+        "/tmp": 94101504,
+        "/workspace": 1094840320
+      }
+    },
+    "budget_is_estimate_not_peak_guarantee": true,
+    "minimums": {
+      "credit_cap_bytes": 2147483648,
+      "effective_memory_bytes": 3221225472,
+      "hard_unused_memory_bytes": 1073741824,
+      "overlay_bytes": 947527680,
+      "tmpfs_bytes": 134217728
+    },
+    "new_oom_events": 1,
+    "new_oom_kills": 1,
+    "peak_memory_not_measured": true
+  },
+  "schema": "sanitized_failed_consumer_run_v1",
+  "source": {
+    "before_equals_after": true,
+    "candidate_sha256": "f9f2bf498167a8ab7fb68360af7e22f5aada7ea11304b51223661479a1c86092",
+    "file_count": 8947,
+    "historical_run_source_only": true,
+    "map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e"
+  },
+  "status": "failed_compilation_no_tests_executed",
+  "strict": {
+    "adopted_returncode_histogram": {
+      "101": 1
+    },
+    "command_returncode": 101,
+    "exit_status": 101,
+    "runner_error": null,
+    "subreaper": true
+  }
+}

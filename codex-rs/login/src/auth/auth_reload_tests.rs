@@ -462,3 +462,6 @@ mod acquisition_tests;
 
 #[path = "auth_cache_revision_tests.rs"]
 mod cache_revision_tests;
+
+#[path = "auth_reload_source_tests.rs"]
+mod source_revision_tests;

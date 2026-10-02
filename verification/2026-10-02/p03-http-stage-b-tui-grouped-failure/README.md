@@ -1,0 +1,7 @@
+The grouped TUI gate failed while compiling `codex-tui` library tests: rustc received SIGKILL, the command exited 101, and cgroup OOM/kill counters rose 9→10 / 4→5. **No tests executed**; no test ELF acceptance receipt was created. The six planned tests and two planned snapshot comparisons remain unverified.
+
+The source wrapper confirms all 8,947 source files stayed unchanged (map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`). Strict handling recorded exit 101, no runner error, and adopted status `{101: 1}`. The production/archive and compiled-only CLI-library guards stayed intact. During this run the production CLI was archived and unavailable; the manager remained live. Later restoration is a separate action.
+
+The admitted resource estimate and bounded cache advice did not guarantee enough peak memory. Final checks detected the new OOM event and retained `accepted: false`. No assertion, deadline, retry, or resource floor was weakened. Preserve this failure and change the resource/target strategy before any further TUI attempt. Authentication work may proceed independently against its own source and admission checks.
+
+`INPUTS.json` pins terminal private receipts without publishing their raw contents. `EVIDENCE.json` contains only allowlisted results, counts, hashes and resource measurements. No credentials, environment values, process identities or raw rustc command lines are included.

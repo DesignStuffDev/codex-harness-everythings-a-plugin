@@ -1,4 +1,4 @@
-//! Policy-checked in-memory reload publication. Persistent refresh is a separate boundary.
+//! Source/cache/policy-checked reload publication. Persistent refresh is a separate boundary.
 use super::AuthManager;
 use super::AuthPolicyError;
 use super::AuthPolicyStamp;
@@ -52,6 +52,7 @@ pub(super) enum AuthLoadError {
 pub(super) struct LoadedAuth {
     pub(super) policy: AuthPolicyStamp,
     pub(super) revision: AuthCacheRevision,
+    pub(super) source: AuthSourceRevision,
     pub(super) update: AuthLoadUpdate,
 }
 
@@ -85,6 +86,7 @@ pub(super) enum CachePolicy<'a> {
     Captured {
         policy: &'a AuthPolicyStamp,
         revision: &'a AuthCacheRevision,
+        source: &'a AuthSourceRevision,
     },
 }
 pub(super) struct CacheChange {
@@ -109,6 +111,7 @@ impl AuthManager {
             CachePolicy::Captured {
                 policy: &loaded.policy,
                 revision: &loaded.revision,
+                source: &loaded.source,
             },
         )
     }
@@ -146,6 +149,7 @@ impl AuthManager {
             Some(context) => CachePolicy::Captured {
                 policy: &context.policy,
                 revision: &context.cache,
+                source: &context.source,
             },
             None => policy,
         };
@@ -177,6 +181,12 @@ impl AuthManager {
                 changed: false,
                 credentials_changed: false,
             });
+        }
+        if let CachePolicy::Captured { source, .. } = &policy
+            && &cached.source_revision != *source
+        {
+            drop(cached);
+            return Err(AuthLoadError::SourceChanged);
         }
         if let CachePolicy::Captured { revision, .. } = &policy
             && &cached.revision != *revision
