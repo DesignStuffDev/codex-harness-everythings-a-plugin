@@ -8,6 +8,11 @@ preservation/resource chains remain in [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTI
 
 ## Current checkpoint
 
+Publication verified: evidence commit `c463a4f46318ccbbc811c202639d53f733d5831f`,
+all55 selected Git blobs and both remote refs checked. Main remains unchanged.
+Receipt: R/p03-http-stage-b-runtime-publication-01/PUBLICATION.json.
+Unadopted auth-source archives now have verified GitHub preservation.
+
 - Original VM commands execute; stale access blocker is cleared. Checkout
   `/workspace/codex-harness-everythings-a-plugin`, origin
   `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
@@ -61,21 +66,68 @@ preservation/resource chains remain in [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTI
 
 ## Ordered next actions
 
-1. Publish and verify this bounded evidence and unadopted auth-source preservation
-   on the existing WIP branch, nonforce; recheck both remote refs first. Record the
-   resulting publication receipt and last verified checkpoint.
-2. Recover only qualified unused ordinary compiler outputs if required. Metadata
-   discovery R/p03-post-runtime-ordinary-cache-discovery-01 found63 files/528,506,880B;
-   this is not a qualified retirement plan. Require source/index/inode/alias/process/reference
-   and dependency guards. Preserve all ELFs, archives, old restorations, source and
-   runtime homes. No compiler is running; do not replay completed runtime queues.
-3. Complete distinct current-source CLI/exec/TUI process-final tests and App Server
-   lifecycle/search/storage plus actual same-process featured/curated replacement
-   parent runners. Production/runtime passes do not replace those gates.
+1. Evidence publication is complete as recorded above. Preserve this checkpoint
+   while taking the next guarded resource/consumer/auth action below.
+2. Exact63-file ordinary-cache retirement completed after independent review,
+   audit, second full guard/hash pass and fsynced journal. Receipt
+   R/p03-post-runtime-ordinary-cache-action-01/RETIREMENT.json SHA256
+   `62fe7f98b882612ec72f0f75ba6c4b0e992d0dc532e4cc53bd27509b4e94e023`.
+   Source/index/runtime-selector metadata unchanged; all source, proof ELFs,
+   archives/restorations/symlinks and runtime homes were outside the action.
+   Overlay afterward785,997,824B; hard unused RAM464,089,088B, no new OOM.
+   No Rust build is admitted. Historical CLI test closure still lacks930,639,872B
+   of ordinary outputs plus302,977,024B test ELF before scratch/reserve;221,200,384B
+   of that missing total comes from the63 retired files and is not hidden.
+   Login's142 missing outputs have no exact size receipts. A fresh metadata audit
+   found two stale CLI build-script digests, so the old CLI closure is not an
+   exact zero-unresolved proof. The new plan conservatively retains all four
+   same-package build/run contexts and explicitly records this limit.
+   Bounded clean-page advice completed on31 inactive ordinary cache files; no
+   candidate content reads, deletion or rewriting. Receipt
+   R/p03-current-ordinary-clean-page-advice-01/RESULT.json SHA256
+   `dcf6af5df49e454369ae679fbeea17aaf31a681a536d149065cb91e572c581ac`.
+   Hard unused RAM afterward1,267,326,976B, overlay785,600,512B, no new OOM.
+   The separately reviewed47-file obsolete-context retirement then completed:
+   R/p03-post-runtime-exact-context-cache-action-01/RETIREMENT.json SHA256
+   `074af2e0fbffa0503d4795fe588c5b48639d949ea06f54b096b4176b445c9271`.
+   It removed1,084,129,280B of exact ordinary libraries, preserving21 recorded
+   current/prospective roots and2,769 dependency records. Both missing old CLI
+   build-script edges remain explicitly qualified through conservative protection.
+   Source/index and four production runtime paths were unchanged; no observed
+   references/aliases in the declared scan scope, with two pinned infrastructure
+   daemon visibility exceptions. Proof archives, executable/restored binaries,
+   symlinks and runtime homes were excluded. Root reviewed the immutable audit
+   before a second guard/hash pass and fsynced per-file retirement journal.
+   Overlay afterward1,867,800,576B, hard unused RAM about1.23GB, no new OOM.
+   This admits a separate fresh resource check, not automatic build success.
+   Unrelated historical feature contexts may need regeneration. Never replay
+   completed actions after path reuse.
+
+3. Current CLI gate completed successfully (root exec50524, exit0):3/3 tests,
+   297 filtered, two unchanged snapshots, zero actual retries; two separate
+   discovery invocations. Source8,947/map7a and production CLI/manager unchanged.
+   Fresh test ELF SHA256
+   `2c6a89e4c5386bdc2300208b4648be7bec8d6368d530d4c953180647ee9e9c8d`,
+   307,079,712B at target/debug/deps/codex-65eee2a45383cad7. Preserve this new
+   proof; old retirement actions for that path MUST NOT be replayed.
+   A/p03-http-stage-b-cli-focused-01.terminal.json SHA256
+   `cc2f9170ef7df481185a67657952800ffe34ba3ed6f27ef126b1d2c6d6085ecb`.
+   Strict command/exit0, runner_error null, reaped histogram{0:1}. Build6m41s;
+   full guarded command410.164s. OOM counters remain9/4. Overlay afterward
+   629,207,040B and hard unused RAM2,067,320,832B; next compile requires its own
+   budget. These controlled cleanup/error-composition tests do not replace real
+   owner/watchdog/runtime gates. Frozen plan
+   R/p03-http-stage-b-cli-focused-plan-01/MANIFEST.json SHA256
+   `11c61cfd25710462e22d44934a0ef6e39d240e9f36f1c2694a62b5d1a863a255`.
+   [Published-bundle candidate](verification/2026-10-02/p03-http-stage-b-cli-focused/README.md)
+   holds sanitized result and source/runner/ELF hashes; publication pending.
+   Next: distinct exec/TUI process-final tests and App Server lifecycle/search/
+   storage plus actual same-process featured/curated replacement parent runners.
+   Production/runtime passes do not replace those gates.
 4. Advance native auth source custody: preserved reload proposal, then permanent
    refresh-failure publication. Neither is adopted, compiled or tested. Verify
    preimages; run causal tests, scoped login/model-provider regression, lint/format
-   and later rebuilt-host checks. Current~250MiB overlay does not admit login tests:
+   and later rebuilt-host checks. Recovered disk alone does not admit login tests:
    core_test_support links core even when only five tests are selected.
 5. Successful refresh/request dispatch still needs conditional durable storage
    ownership across participating writers; a pre-save recheck is insufficient.

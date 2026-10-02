@@ -1,0 +1,84 @@
+{
+  "actual_elf_proof_limit": "Observer records pre-exec ELF identity/arguments; matched to nextest passed names and stable terminal ELF. Not syscall attestation.",
+  "actual_pass_count": 3,
+  "actual_source_count": 8947,
+  "actual_source_map_sha256": "7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e",
+  "actual_test_count": 3,
+  "actual_test_elf": {
+    "bytes": 307079712,
+    "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/codex-65eee2a45383cad7",
+    "sha256": "2c6a89e4c5386bdc2300208b4648be7bec8d6368d530d4c953180647ee9e9c8d"
+  },
+  "adopted_exit_status_histogram": {
+    "0": 1
+  },
+  "ca_environment_preserved_by_observer": true,
+  "case_count_not_invocation_count": true,
+  "configured_nextest_retries": 1,
+  "discovery_invocations": 2,
+  "exact_invocations": 3,
+  "executed_tests": [
+    "process_final::tests::cleanup_failure_is_reported_after_success",
+    "process_final::tests::cleanup_failure_retains_the_operation_error",
+    "process_final::tests::cleanup_is_awaited_on_success_and_error"
+  ],
+  "historical_cli03_not_promoted": true,
+  "just_defaults": {
+    "NEXTEST_PROFILE": "local",
+    "RUST_MIN_STACK": "8388608",
+    "cargo_nextest_args": [
+      "run",
+      "--no-fail-fast"
+    ],
+    "cwd": "codex-rs",
+    "defaults_not_overridden": true,
+    "inherited_local_timeout": "30s x2",
+    "inherited_retry_count": 1
+  },
+  "new_extracted_component_family": false,
+  "observed_test_retries": 0,
+  "production_binaries_unchanged": true,
+  "production_binding_verified_before_and_after": true,
+  "raw_environment_values_recorded": false,
+  "resource_result": {
+    "historical_disk_estimate_not_exact_dependency_closure": true,
+    "oom_counter_unchanged": true,
+    "oom_kill_counter_unchanged": true,
+    "peak_memory_not_measured": true
+  },
+  "schema": "current-b-cli-focused-evidence-v1",
+  "scope_limit": "Three controlled finish_with/error-composition tests and two reviewed snapshot comparisons; not real owner/watchdog/full-host lifecycle or full CLI-suite proof.",
+  "snapshot_comparisons": 2,
+  "snapshot_refs": [
+    {
+      "bytes": 232,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/cli/src/snapshots/codex__process_final__tests__constructor_cleanup_after_success.snap",
+      "sha256": "b6c6cd3ca0f57b0f4c8113385702e83a8aeb9c7785aa9f3daa2f13ce85f60125"
+    },
+    {
+      "bytes": 269,
+      "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/cli/src/snapshots/codex__process_final__tests__constructor_cleanup_preserves_operation.snap",
+      "sha256": "01df9a42afe4cd3f5cbbb8c10910430d857331e1b2eb9a15160528a3a2bb50b0"
+    }
+  ],
+  "source_unchanged": true,
+  "status": "passed",
+  "strict": {
+    "command_returncode": 0,
+    "exit_status": 0,
+    "runner_error": null,
+    "subreaper": true
+  },
+  "test_command": [
+    "just",
+    "test",
+    "-p",
+    "codex-cli",
+    "--bin",
+    "codex",
+    "-E",
+    "test(process_final::tests::)"
+  ],
+  "test_process_returncode": 0,
+  "whole_p03_completed": false
+}

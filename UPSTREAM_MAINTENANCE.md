@@ -699,4 +699,33 @@ The package passed139 tests, including ten unchanged custom-CA integration cases
 
 [Stage B lineage and evidence](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md) map twelve custom paths (seven modifications, five additions) against the exact published Stage A parent and pinned upstream. The aggregate closes native HTTP construction with the existing first deadline, observes retained ownership, and preserves cleanup failure diagnostics in executable clients. One real native request/closure integration,553 Core Plugins library tests and clean scoped lint pass on source7a147c. Observation runners preserve ambient settings and exact child statuses; no fixture or deadline weakening is implied.
 
-The public Rust observation adds a constructor field, requiring downstream source-compatibility review; component wire/config/state schemas are unchanged. CLI/exec/TUI/App Server individual entrypoint/snapshot/replacement tests and a fresh production CLI/storage/GUI remain separate acceptance gates. Preserve cached/fresh typed closure and constructor accounting during future upstream adaptation. This is compiled lifecycle integration, not native HTTP package extraction, an upstream revision integration or rollback acceptance. The P18U requirements remain unchanged.
+The public Rust observation adds a constructor field, requiring downstream source-compatibility review; component wire/config/state schemas are unchanged. CLI/exec/TUI/App Server individual entrypoint/snapshot/replacement tests and a fresh production CLI/storage/GUI were separate acceptance gates at that checkpoint. Preserve cached/fresh typed closure and constructor accounting during future upstream adaptation. This is compiled lifecycle integration, not native HTTP package extraction, an upstream revision integration or rollback acceptance. The P18U requirements remain unchanged.
+
+### Current-source production and runtime supplement
+
+The subsequent source checkpoint `d229296b29947ef1328cbe931c810276f220a23c`
+has a successful offline production build and runtime evidence published at
+`c463a4f46318ccbbc811c202639d53f733d5831f`. The exact tested source map is
+`7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`.
+The [build binding](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md),
+[storage/attachment/ordinary GUI gates](verification/2026-10-02/p03-http-stage-b-current-runtime-first-five/README.md),
+[shutdown gates](verification/2026-10-02/p03-http-stage-b-current-runtime-shutdown/README.md)
+and [selected-search retry](verification/2026-10-02/p03-http-stage-b-current-search-gui/README.md)
+must remain separate, linked evidence when adapting this source to upstream.
+
+All12 planned production-runtime slots have passing attempts, with13 successful
+commands because the search retry required fresh migration state. Retain the
+original GUI01 timeout and its unresolved cause; a later pass is not a causal
+explanation. The installed native packages were independently built earlier and
+reused with the rebuilt host. Deterministic inference and real Chromium are not
+live-provider or in-app Browser proof. Slow shutdown proves a held pre-forwarding
+operation and canonical-message recovery, not every native durable-admission or
+response-history condition. Individual current-source consumer and same-process
+replacement tests remain separate open gates.
+
+Auth reload and permanent-refresh-failure proposals are preserved as explicitly
+unadopted source archives in this publication. They must not be incorporated into
+an accepted composition or credited as tested auth behavior. The normalized
+current provenance index, independently installed updater, real later-upstream
+candidate, coordinated migration/version gates and failed-update recovery remain
+unfinished. No polling or live update is activated.

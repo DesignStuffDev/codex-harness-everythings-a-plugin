@@ -1,19 +1,41 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
-Current production checkpoint: native featured-task ownership is activated in published
-WIP `2ce48a6`; the rebuilt CLI passed installed storage, four migrations, ordinary
-and selected-search GUI, normal/forced slow Launch shutdown and all eight held
-Git/HTTP cases. An added task-receipt postcheck also passed all eight. The current
-[evidence](verification/2026-10-02/p03-featured-warmup-current-production/README.md)
-binds exact source/binary/package identities and preserves earlier failures.
-Core Plugins553 and App Server432 scoped tests plus real in-process caller and
-curated replacement cases passed separately. The [fresh attachment caller gate](verification/2026-10-02/p03-current-attachment/README.md) passed five case groups and17 commands on the unchanged production host: native upload, custom reference cold resume, typed error fallback and remove/reset. Native state was empty; this is not a production resolve or stored-blob durability claim. CLI focused retry03 passed3 tests after preserved preflight/ENOSPC failures; exec/TUI scopes and remaining lint are pending. Browser checks used real
-Chromium with deterministic inference; in-app Browser is unavailable here.
-The subsequent [watchdog test](verification/2026-10-02/p03-runtime-drop-watchdog/README.md) passes four utils-process cases and scoped lint (three existing feature-scope configuration warnings), with production logic unchanged. Exec/TUI scopes remain outstanding. The newer HTTP constructor Stage A now passes139 package tests plus four configured-CA classification checks; a subsequent lexical test-scope correction passes formatting and scoped lint without warnings. [Exact HTTP source and evidence](verification/2026-10-02/p03-http-native-constructor-stage-a/README.md) keep the tested and styled source separate. Native constructor/result handles, later-runtime cleanup recovery and last-public-lease publication fencing are implemented. The HTTP package checkpoint is published at6f0bb26. The subsequent [12-path process-final integration](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md) passes one real native HTTP composition case,553 library tests and clean scoped lint on unchanged source. Individual consumer and rebuilt-host/GUI gates remain open; a resource-safe production rebuild is next. Earlier production evidence does not cover this source.
-This is lifecycle support in coupled native services, not a fourth extracted family.
-The early auxiliary-admission race, MCP custody, transitive HTTP/pool ownership and
-remaining P03 broker gates stay open. Follow [execution state](EXECUTION_STATE.md).
+Latest source checkpoint is WIP `d229296b29947ef1328cbe931c810276f220a23c`;
+current-source build/runtime evidence is published at
+`c463a4f46318ccbbc811c202639d53f733d5831f` on
+`wip/p03-process-final-and-mcp-preservation-20261002`. Main remains the separate
+verified baseline `781080f7e3c8bfe1953378001d777dff33d74bc3`.
+
+The [current production build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md)
+passed offline on source map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`.
+All12 planned runtime slots now have passing attempts:13 successful commands,
+including a fresh migration for the selected-search GUI retry. The
+[first five gates](verification/2026-10-02/p03-http-stage-b-current-runtime-first-five/README.md)
+cover installed storage, migration, ordinary GUI and attachments;
+[six later gates](verification/2026-10-02/p03-http-stage-b-current-runtime-shutdown/README.md)
+cover slow normal/forced Launch shutdown, held Git/HTTP cases and owner postchecks;
+[search GUI retry02](verification/2026-10-02/p03-http-stage-b-current-search-gui/README.md)
+passes both cold-recovery cycles. The original search GUI01 timeout remains a
+preserved failure with unresolved cause. These are real Chromium/host checks with
+deterministic inference; in-app Browser and live-provider validation are unavailable.
+
+Native HTTP Stage A passed139 scoped tests and four configured-CA classification
+checks; [Stage B](verification/2026-10-02/p03-http-native-constructor-stage-b/README.md)
+passed553 library tests, one real HTTP composition case and scoped lint.
+Current-source CLI diagnostics now pass3/3 tests and two reviewed snapshots,
+with297 tests filtered and no retries. Distinct exec/TUI consumer and App Server
+replacement tests remain open. Older results retain their original source identity.
+The immediate next gate is resource-checked remaining scoped consumers before
+adopting preserved auth/MCP work. The successful runtime checkpoint does not close
+P03, prove whole-host graceful cleanup, or resolve every storage durability case.
+
+Coverage is still three bounded native replacement families: thread storage/manual
+migration, inline attachments and native file search. The installed GUI is additive.
+HTTP/auth custody is lifecycle support in coupled native services, not another
+extracted family. Most engine services remain coupled; broker/model-catalog
+activation, further extraction and updater acceptance remain unfinished. Follow
+[execution state](EXECUTION_STATE.md) for current evidence, limitations and order.
 
 This is the execution plan across runs. Read [EXECUTION_STATE.md](EXECUTION_STATE.md)
 first on resume, then the [source inventory](COMPONENT_INVENTORY.md). Historical
