@@ -779,6 +779,17 @@ impl PluginsManager {
             .request_stop(deadline);
     }
 
+    /// Observe the current process-wide worker without requesting stop or joining.
+    ///
+    /// `None` means no gate has been initialized. This snapshot does not create
+    /// one, close admission, cancel work, or dispatch callbacks. A successful
+    /// operation has published the generation's success latch; callback bodies,
+    /// native joining, descendants and publication durability remain separate.
+    pub fn observe_curated_repo_sync(
+    ) -> Option<crate::startup_sync::CuratedSyncLifecycleObservation> {
+        CURATED_REPO_SYNC_WORKER.get().map(|gate| gate.observe())
+    }
+
     /// Begins irreversible process-final stop of the native curated worker.
     ///
     /// The returned observer retains access to the registered native handle;

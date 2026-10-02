@@ -1,0 +1,182 @@
+{
+  "schema": "p03-curated-observation-lineage-v1",
+  "status": "adopted_542_scoped_library_tests_passed_lint_format_runtime_pending",
+  "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+  "base_lineage": "upstream/p03-process-final-lineage.json",
+  "files": [
+    {
+      "path": "codex-rs/core-plugins/src/manager.rs",
+      "before_sha256": "2b9ae53b2aafd775cbb0e6d81d6a38360725bac0bc8ae93c229b477bedb840b7",
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 1,
+          "preimage_sha256": "2b9ae53b2aafd775cbb0e6d81d6a38360725bac0bc8ae93c229b477bedb840b7",
+          "proposed_sha256": "66872cbfe74d53c08a27d7c4b3bebbed49f5ac53f363fa99a37928be11d6e280"
+        }
+      ],
+      "after_sha256": "66872cbfe74d53c08a27d7c4b3bebbed49f5ac53f363fa99a37928be11d6e280",
+      "after_git_blob": "7497fb9d661ccba5f81d353b1bd20c3c32c531eb",
+      "bytes": 152964,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker.rs",
+      "before_sha256": "c6695dca12309ad65f55d51291a26a43505fd65280186d80f2d3424e6884a783",
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 1,
+          "preimage_sha256": "c6695dca12309ad65f55d51291a26a43505fd65280186d80f2d3424e6884a783",
+          "proposed_sha256": "a19162ea7789b879dcdf2747676c0821738960e83f4e136ac26164702befe0cc"
+        }
+      ],
+      "after_sha256": "a19162ea7789b879dcdf2747676c0821738960e83f4e136ac26164702befe0cc",
+      "after_git_blob": "d3477be71f8e291cd5a30601d8025cf09fe905b6",
+      "bytes": 11825,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_observation.rs",
+      "before_sha256": null,
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 1,
+          "preimage_sha256": null,
+          "proposed_sha256": "b7d8a9df80210d989a48068fd2bbf9015c0b1da80da8b5512e2a8e246e981355"
+        }
+      ],
+      "after_sha256": "b7d8a9df80210d989a48068fd2bbf9015c0b1da80da8b5512e2a8e246e981355",
+      "after_git_blob": "5de1fb2b3c608a87a81e3214bd139b345856161c",
+      "bytes": 3672,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs",
+      "before_sha256": null,
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 1,
+          "preimage_sha256": null,
+          "proposed_sha256": "2940c95648e2df470a2f92d14117af4fdc3718932d3afbb83cbac6e05ae7a240"
+        },
+        {
+          "unit": 2,
+          "preimage_sha256": "2940c95648e2df470a2f92d14117af4fdc3718932d3afbb83cbac6e05ae7a240",
+          "proposed_sha256": "4de9e72dbaca94a990592239a8e55549aab5821de90a3aa920ce54a8341a1528"
+        }
+      ],
+      "after_sha256": "4de9e72dbaca94a990592239a8e55549aab5821de90a3aa920ce54a8341a1528",
+      "after_git_blob": "7ebbdb6b989e0f83331ac97c609e18f716a91dcb",
+      "bytes": 8868,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync.rs",
+      "before_sha256": "28bff2dee620b35f52d50d4b10303aa05948e58255ff66cbfb79e74898cb6a45",
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 1,
+          "preimage_sha256": "28bff2dee620b35f52d50d4b10303aa05948e58255ff66cbfb79e74898cb6a45",
+          "proposed_sha256": "aee146ea6e2b0b6002b79935844e81b59e2ff8c7e2d8c6392ff7810208d3483e"
+        },
+        {
+          "unit": 3,
+          "preimage_sha256": "aee146ea6e2b0b6002b79935844e81b59e2ff8c7e2d8c6392ff7810208d3483e",
+          "proposed_sha256": "e0029ec20810e9ac0fa538976d9befedfbb488382936dd1f22d9bf0b97e943d4"
+        }
+      ],
+      "after_sha256": "e0029ec20810e9ac0fa538976d9befedfbb488382936dd1f22d9bf0b97e943d4",
+      "after_git_blob": "263b29b53397e993ce3ced8d67973f2338d8a9db",
+      "bytes": 45280,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/callback_activity.rs",
+      "before_sha256": null,
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 3,
+          "preimage_sha256": null,
+          "proposed_sha256": "7da83199a1f51ea64e395ce7cd0a21920dd7418104001e80e58a17e4bb4507c0"
+        }
+      ],
+      "after_sha256": "7da83199a1f51ea64e395ce7cd0a21920dd7418104001e80e58a17e4bb4507c0",
+      "after_git_blob": "ebcb818e4d5d488a6aa6cd848352d2cf40b692ee",
+      "bytes": 2534,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs",
+      "before_sha256": null,
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 3,
+          "preimage_sha256": null,
+          "proposed_sha256": "004acff87fd35e29ff2ee308aebf52dc1886afe5271db7f2d080dfd3e188eab0"
+        }
+      ],
+      "after_sha256": "004acff87fd35e29ff2ee308aebf52dc1886afe5271db7f2d080dfd3e188eab0",
+      "after_git_blob": "0c1c1abdb38de586d117d08dcc1742a190c329e8",
+      "bytes": 3905,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    },
+    {
+      "path": "codex-rs/core-plugins/src/startup_sync/callback_scope.rs",
+      "before_sha256": "9ef2402b1be63556d9f1b5409d5883a5d0e0842cf6b8bf0507502d99f1303dae",
+      "base_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+      "original_proposal_steps": [
+        {
+          "unit": 3,
+          "preimage_sha256": "9ef2402b1be63556d9f1b5409d5883a5d0e0842cf6b8bf0507502d99f1303dae",
+          "proposed_sha256": "7db4cc7ef62299a7fb2b698e5891512d9a7f1ad6906dcba0fb3634a96f77d122"
+        }
+      ],
+      "after_sha256": "7db4cc7ef62299a7fb2b698e5891512d9a7f1ad6906dcba0fb3634a96f77d122",
+      "after_git_blob": "f04a3dfe6dc42fb74f47bcfb87dd85cac8ec7d5a",
+      "bytes": 13229,
+      "upstream_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "kind": "custom_observation_or_test_not_new_plugin",
+      "native_ancestor": "codex-rs/core-plugins/src/startup_sync.rs and manager.rs; prior process-final/callback lineage",
+      "ownership": "Existing worker and callback records keep their exact handles; API copies categories/counters without new stop/join/retry authority."
+    }
+  ],
+  "semantic_update_hazards": [
+    "Joined differs from finished-but-unjoined; do not replace exact owner receipts with snapshots.",
+    "Operation success latch precedes callback completion.",
+    "Snapshot cannot clear quarantine/reopen admission/consume handles.",
+    "Callback admission_closed is explicit closure; failed/unexpected counters can also reject dispatch.",
+    "Replay-test timeout must fail; do not infer callback success from ignored semaphore result."
+  ],
+  "new_component_extraction": false,
+  "normalized_index_advanced": false,
+  "updater_implemented": false,
+  "runtime_acceptance": "Pending actual new library ELF and same-process A-to-B pending/replay/race; current58 build02 is historical.",
+  "evidence": "verification/2026-10-02/P03_OBSERVATION_STAGE1_EVIDENCE.json"
+}

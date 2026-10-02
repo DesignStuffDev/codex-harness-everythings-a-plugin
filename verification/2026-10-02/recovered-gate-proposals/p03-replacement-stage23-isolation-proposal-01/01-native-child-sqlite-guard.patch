@@ -1,0 +1,11 @@
+--- a/codex-rs/app-server/src/in_process_curated_replacement_tests.rs
++++ b/codex-rs/app-server/src/in_process_curated_replacement_tests.rs
+@@ -176,6 +176,8 @@
+             .harness_overrides(ConfigOverrides {
+                 cwd: Some(home.to_path_buf()), bypass_hook_trust: Some(true), ..Default::default()
+             }).build().await?);
++        ensure!(config.sqlite_config().home() == home,
++            "resolved SQLite home differs from fixture home");
+         let state_db = codex_rollout::state_db::try_init(config.as_ref()).await?;
+         let mut client = start(InProcessStartArgs {
+             arg0_paths: Arg0DispatchPaths::default(), config,

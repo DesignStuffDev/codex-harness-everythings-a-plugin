@@ -8,6 +8,9 @@
 #[path = "worker_completion.rs"]
 pub(crate) mod completion;
 
+#[path = "worker_observation.rs"]
+pub(crate) mod observation;
+
 #[path = "worker_delivery.rs"]
 mod delivery;
 pub(crate) use delivery::HomeAdmission;

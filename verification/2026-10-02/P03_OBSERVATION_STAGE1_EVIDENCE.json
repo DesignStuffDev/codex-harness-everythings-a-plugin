@@ -1,0 +1,326 @@
+{
+  "schema": "p03-observation-stage1-evidence-v1",
+  "status": "scoped_library_passed_lint_format_runtime_pending",
+  "manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-observation-stage1-source.json",
+    "bytes": 15890,
+    "sha256": "f0535c6c86c35e46b34fc361e5c60e495c6048688cf49bc616add66e8734a019"
+  },
+  "adoption_receipt": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-observation-stage1-adoption-01/ADOPTION.json",
+    "bytes": 3890,
+    "sha256": "a7ba83ad0a88a142734ec789378b7d8c3118acc06b36b41addfcfeed327830f6"
+  },
+  "base_published_commit": "f8a5905bb666846a7885171280d9454a9b8a269b",
+  "source_map": {
+    "base_index": "P03_RECOVERED_HOST_SOURCE_MAP.json",
+    "base_sha256": "15e9a44f54f414972eff02de9cd4afdfa5f900263d46b69a96119499779c136b",
+    "files": 8925,
+    "sha256": "6f11c7510a48fe24f500abca6fa90364b70fff79c96d1d9c781473a1b353b72d",
+    "changed_or_new_paths": {
+      "codex-rs/core-plugins/src/manager.rs": {
+        "before_sha256": "2b9ae53b2aafd775cbb0e6d81d6a38360725bac0bc8ae93c229b477bedb840b7",
+        "after_sha256": "66872cbfe74d53c08a27d7c4b3bebbed49f5ac53f363fa99a37928be11d6e280"
+      },
+      "codex-rs/core-plugins/src/startup_sync/callback_activity.rs": {
+        "before_sha256": null,
+        "after_sha256": "7da83199a1f51ea64e395ce7cd0a21920dd7418104001e80e58a17e4bb4507c0"
+      },
+      "codex-rs/core-plugins/src/startup_sync/callback_activity_tests.rs": {
+        "before_sha256": null,
+        "after_sha256": "004acff87fd35e29ff2ee308aebf52dc1886afe5271db7f2d080dfd3e188eab0"
+      },
+      "codex-rs/core-plugins/src/startup_sync/callback_scope.rs": {
+        "before_sha256": "9ef2402b1be63556d9f1b5409d5883a5d0e0842cf6b8bf0507502d99f1303dae",
+        "after_sha256": "7db4cc7ef62299a7fb2b698e5891512d9a7f1ad6906dcba0fb3634a96f77d122"
+      },
+      "codex-rs/core-plugins/src/startup_sync/worker.rs": {
+        "before_sha256": "c6695dca12309ad65f55d51291a26a43505fd65280186d80f2d3424e6884a783",
+        "after_sha256": "a19162ea7789b879dcdf2747676c0821738960e83f4e136ac26164702befe0cc"
+      },
+      "codex-rs/core-plugins/src/startup_sync/worker_observation.rs": {
+        "before_sha256": null,
+        "after_sha256": "b7d8a9df80210d989a48068fd2bbf9015c0b1da80da8b5512e2a8e246e981355"
+      },
+      "codex-rs/core-plugins/src/startup_sync/worker_observation_tests.rs": {
+        "before_sha256": null,
+        "after_sha256": "4de9e72dbaca94a990592239a8e55549aab5821de90a3aa920ce54a8341a1528"
+      },
+      "codex-rs/core-plugins/src/startup_sync.rs": {
+        "before_sha256": "28bff2dee620b35f52d50d4b10303aa05948e58255ff66cbfb79e74898cb6a45",
+        "after_sha256": "e0029ec20810e9ac0fa538976d9befedfbb488382936dd1f22d9bf0b97e943d4"
+      }
+    },
+    "removed_paths": []
+  },
+  "source_receipt": {
+    "path": "/workspace/acceptance/p03-observation-stage1-tests-01.source.json",
+    "bytes": 2481569,
+    "sha256": "6f4fe93279527ebbfb5ab2d914375acb0d91cc873e3059ac3f824a7f6f367254"
+  },
+  "strict_receipt": {
+    "path": "/workspace/acceptance/p03-observation-stage1-tests-01.strict.json",
+    "bytes": 3675,
+    "sha256": "e8979c07be5de1ff91285504d143bcda38ce6e78a8b502b95a1f20c337181827"
+  },
+  "log": {
+    "path": "/workspace/acceptance/p03-observation-stage1-tests-01.log",
+    "bytes": 81776,
+    "sha256": "e05b1328ebc8409e4946f06cbca049b2fbe63b8f05ed0a58b8ed345fc6b5be00"
+  },
+  "command": [
+    "python3",
+    "-B",
+    "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+    "--report",
+    "/workspace/acceptance/p03-observation-stage1-tests-01.strict.json",
+    "--",
+    "just",
+    "test",
+    "-p",
+    "codex-core-plugins",
+    "--lib"
+  ],
+  "tests": {
+    "executed": 542,
+    "passed": 542,
+    "skipped": 0,
+    "new_tests": 6,
+    "warnings": 0
+  },
+  "strict": {
+    "command": [
+      "just",
+      "test",
+      "-p",
+      "codex-core-plugins",
+      "--lib"
+    ],
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 934679,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 934687,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 934691,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 934772,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 934845,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 934880,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 934881,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935119,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935368,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935677,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935694,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935695,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935702,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935714,
+        "wait_status": 32768,
+        "returncode": 128
+      },
+      {
+        "pid": 935734,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935739,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935743,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935801,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935838,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935850,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935953,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935960,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 935964,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936063,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936451,
+        "wait_status": 9,
+        "returncode": -9
+      },
+      {
+        "pid": 936454,
+        "wait_status": 9,
+        "returncode": -9
+      },
+      {
+        "pid": 936605,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936625,
+        "wait_status": 32768,
+        "returncode": 128
+      },
+      {
+        "pid": 936633,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936659,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936676,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936695,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936705,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936459,
+        "wait_status": 9,
+        "returncode": -9
+      },
+      {
+        "pid": 936462,
+        "wait_status": 9,
+        "returncode": -9
+      },
+      {
+        "pid": 936771,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936805,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936821,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936837,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936870,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 936888,
+        "wait_status": 0,
+        "returncode": 0
+      },
+      {
+        "pid": 932740,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ],
+    "command_pid": 932740,
+    "command_wait_status": 0,
+    "command_returncode": 0,
+    "runner_error": null,
+    "exit_status": 0,
+    "elapsed_seconds": 210.31716766901081
+  },
+  "proof_limits": [
+    "Six new ownership observation unit tests plus existing scoped library regressions; no same-process production A-to-B result.",
+    "No native subsystem extracted by observation APIs. No new stop/join/retry authority.",
+    "Actual current58 CLI/GUI evidence remains on its prior source map; no proof transfer to new native source.",
+    "Adopted128/-9 statuses are retained without causal attribution; strict0/null does not mean every process exited0.",
+    "Scoped lint/global formatting, next AppServerlib and actual replacement/held-host gates remain pending."
+  ]
+}

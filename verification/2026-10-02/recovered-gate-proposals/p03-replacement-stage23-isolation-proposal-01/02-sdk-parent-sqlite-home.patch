@@ -1,0 +1,10 @@
+--- a/component-sdk/tests/curated_replacement_acceptance.py
++++ b/component-sdk/tests/curated_replacement_acceptance.py
+@@ -409,6 +409,7 @@
+             for name in ("CODEX_API_KEY", "OPENAI_API_KEY", "CHATGPT_API_KEY"):
+                 env.pop(name, None)
+             env.update({"CODEX_HOME": str(fixture.home), "HOME": str(fixture.home),
++                        "CODEX_SQLITE_HOME": str(fixture.home),
+                         "GIT_CONFIG_GLOBAL": str(fixture.git_config),
+                         "CODEX_TEST_CURATED_REPLACEMENT_HOME": str(fixture.home),
+                         "CODEX_TEST_CURATED_REPLACEMENT_CASE": case,

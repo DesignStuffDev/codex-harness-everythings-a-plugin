@@ -1,0 +1,22 @@
+{
+  "status": "read_only_preserved_result_analysis",
+  "matrix_accepted_cases": 4,
+  "matrix_required_cases": 8,
+  "fifth_case_accepted": false,
+  "fifth_failure": "frozen_observer_real_git_missing",
+  "remaining_cases_not_run": 3,
+  "git_connect_to_502_ns": 14563684,
+  "local_hash_observation_to_502_ns": 60710,
+  "outer_requested_sample_interval_seconds": 0.05,
+  "outer_executable_count": 3,
+  "outer_executable_sha256s": [
+    "fa67443527ed9647f760d807e2a38f26340757123e643c4639cf273ed15d5ea7",
+    "d716c6ee9c738c2db9197fbb2ab91d3918839d0b6d32f4556e8a7e1fa2717a92",
+    "223fe8564b60636bc738b6178d3ba9a50ef7d791266b0efae6363bb716e4c47f"
+  ],
+  "local_git_sha256": "37d928337f8e6c6b4c875d79fd33ee2f440594a589f584c89146bbf0aeafd63e",
+  "large_host_hash_blocks_sampling": false,
+  "hash_order_source_evidence": "Frozen observer records live executable descriptors while sampling; all hashes are in finally after child.wait. No 635 MB hash is done during the sampling window.",
+  "conclusion": "Sampling race is supported: 502 was released after only local Git evidence during a 14.564 ms CONNECT window, shorter than the outer 50 ms nominal sample interval. No native lifecycle pass is inferred for the fifth case.",
+  "proposal": "Withhold fallback 502 until the independently ancestry-tracked outer observer publishes a positive live exact-Git SHA acknowledgment; reuse the existing 60-second CONNECT deadline."
+}

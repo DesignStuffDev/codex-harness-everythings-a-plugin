@@ -1,0 +1,36 @@
+{
+  "status": "prepared_not_executed",
+  "cwd": "/workspace/recovery-backups/20260930T165936Z/p03-held-host-observer-ack-proposal-01/proposed",
+  "argv": [
+    "python3",
+    "-B",
+    "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+    "--report",
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.strict.json",
+    "--",
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/workspace/recovery-backups/20260930T165936Z/p03-held-host-observer-ack-proposal-01/proposed",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "no_clobber_outputs": [
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.strict.json",
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.log"
+  ],
+  "expected_tests": 15,
+  "expected_outcomes": {
+    "returncode": 0,
+    "strict_exit_status": 0,
+    "strict_runner_error": null
+  },
+  "limits": "Pure contract checks use temp files and mocked /proc. No native host, network socket or listener; not real lifecycle evidence. Pin this proposal and unchanged strict runner immediately before execution. No host/source identity claim is made by these fixture-only checks.",
+  "capture_stdout_and_stderr_to": "/workspace/acceptance/p03-held-host-observer-ack-policy-01.log",
+  "requires_reviewed_input_manifest": "/workspace/recovery-backups/20260930T165936Z/p03-held-host-observer-ack-proposal-01/MANIFEST.json",
+  "current58_binding_role": "Historical diagnosis only; newly adopted native source requires a newly built and bound host before future runtime acceptance."
+}

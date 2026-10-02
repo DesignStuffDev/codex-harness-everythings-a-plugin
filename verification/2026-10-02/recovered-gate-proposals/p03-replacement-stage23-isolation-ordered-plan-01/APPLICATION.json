@@ -1,0 +1,185 @@
+{
+  "status": "remaining_stages_only_after_root_stage1_terminal_checkpoint",
+  "base_manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-observation-stage1-source.json",
+    "sha256": "f0535c6c86c35e46b34fc361e5c60e495c6048688cf49bc616add66e8734a019",
+    "bytes": 15890
+  },
+  "do_not_reapply_stage1": true,
+  "ordered_units": [
+    {
+      "order": 1,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01",
+      "manifest_sha256": "afb5820fc67def3799ee9d2220cb3936f7370bd3a202b6e5524a8181060de334",
+      "patch": "01-native-child.patch",
+      "patch_sha256": "bba77f6ab2f59115bd0302ae4b83873b7ce5ed9b014c60239e9386ee7ae56879",
+      "changed_lines": 554,
+      "files": [
+        {
+          "path": "codex-rs/app-server/src/in_process.rs",
+          "preimage_sha256": "4e712f2dbef027d1b337100a6c372f4b5aee23bf5df1e34f67dba1a6b0bc56be",
+          "preimage_bytes": 54434,
+          "preimage_git_blob_sha1": "2ad389cfb1fd407077918faa82f28565add0f3f3",
+          "proposed_sha256": "8982a538f66809f340c9a5683f4f213501a302613e66f4fb567f1c40291f7838",
+          "proposed_bytes": 54557,
+          "proposed_git_blob_sha1": "84f1052f3d1464f3252c6a94257e868d962b7470"
+        },
+        {
+          "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "preimage_git_blob_sha1": null,
+          "proposed_sha256": "ca8d0f8eda37f77415b1e4d8e4e8ff5ce9d110648a7fec4dac388a975bace0c2",
+          "proposed_bytes": 27769,
+          "proposed_git_blob_sha1": "70a1b254eea8ad04ede8a4f4a8e1ced7123b7282"
+        }
+      ],
+      "original_order": 3
+    },
+    {
+      "order": 2,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage23-isolation-proposal-01",
+      "manifest_sha256": "861c871911ed603a5e1e7cf78990498a1f5bcd98e28c6701101432842f096f87",
+      "patch": "01-native-child-sqlite-guard.patch",
+      "patch_sha256": "4d1c4c2367f28c2a20964c3b83f17e3aec646d3fa5cc8f808fc5699bbc13df98",
+      "changed_lines": 2,
+      "files": [
+        {
+          "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+          "preimage_sha256": "ca8d0f8eda37f77415b1e4d8e4e8ff5ce9d110648a7fec4dac388a975bace0c2",
+          "preimage_bytes": 27769,
+          "proposed_sha256": "30e5367526cf0da1b825f6347a97613e62d1f4b0dbeaa36df5cccc79a4c88ec5",
+          "proposed_bytes": 27887
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01",
+      "manifest_sha256": "afb5820fc67def3799ee9d2220cb3936f7370bd3a202b6e5524a8181060de334",
+      "patch": "02-sdk-parent.patch",
+      "patch_sha256": "f68cb11c55fea9b58ed1546345c68f2c4de8d27b59ab837e4b6acac85e352171",
+      "changed_lines": 561,
+      "files": [
+        {
+          "path": "component-sdk/tests/curated_replacement_acceptance.md",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "preimage_git_blob_sha1": null,
+          "proposed_sha256": "bbde7ac9bec81e90339c606408aa73548f44bdc7415f462ac46441b92e5d8c5b",
+          "proposed_bytes": 6556,
+          "proposed_git_blob_sha1": "0b774194c4988657c6d618e47fc23d50e6685b28"
+        },
+        {
+          "path": "component-sdk/tests/curated_replacement_acceptance.py",
+          "preimage_sha256": null,
+          "preimage_bytes": null,
+          "preimage_git_blob_sha1": null,
+          "proposed_sha256": "0f969ecc2a5264e1d4ec9cc58d914a39754af080e256ee3d7d9af50fac701ad3",
+          "proposed_bytes": 27002,
+          "proposed_git_blob_sha1": "cc042a0c61d64b398b2b7ed900b1ae763e9ca8b4"
+        }
+      ],
+      "original_order": 4
+    },
+    {
+      "order": 4,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage23-isolation-proposal-01",
+      "manifest_sha256": "861c871911ed603a5e1e7cf78990498a1f5bcd98e28c6701101432842f096f87",
+      "patch": "02-sdk-parent-sqlite-home.patch",
+      "patch_sha256": "bec923b3e020cdb5ea3335ff7bc2d8d83be4f9f43e782759cda5abaa2054805b",
+      "changed_lines": 1,
+      "files": [
+        {
+          "path": "component-sdk/tests/curated_replacement_acceptance.py",
+          "preimage_sha256": "0f969ecc2a5264e1d4ec9cc58d914a39754af080e256ee3d7d9af50fac701ad3",
+          "preimage_bytes": 27002,
+          "proposed_sha256": "d640f64c3d77e7714fe3ad7cdf09cdadbf724623fcddc388f74f8140db5c8710",
+          "proposed_bytes": 27066
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "proposal_directory": "/workspace/recovery-backups/20260930T165936Z/p03-replacement-stage23-isolation-proposal-01",
+      "manifest_sha256": "861c871911ed603a5e1e7cf78990498a1f5bcd98e28c6701101432842f096f87",
+      "patch": "03-sdk-documentation.patch",
+      "patch_sha256": "0847954aefc3226a5ba727324a96481643343f717bef17158da4ecde9097977a",
+      "changed_lines": 2,
+      "files": [
+        {
+          "path": "component-sdk/tests/curated_replacement_acceptance.md",
+          "preimage_sha256": "bbde7ac9bec81e90339c606408aa73548f44bdc7415f462ac46441b92e5d8c5b",
+          "preimage_bytes": 6556,
+          "proposed_sha256": "6a2e7db79d67228a061a4341e3d75a1d3698845c299c741f2f49d0454ecd978f",
+          "proposed_bytes": 6744
+        }
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "stage": 2,
+      "units": [
+        1,
+        2
+      ],
+      "changed_lines": 556,
+      "test": [
+        "just",
+        "test",
+        "-p",
+        "codex-app-server",
+        "--lib"
+      ]
+    },
+    {
+      "stage": 3,
+      "units": [
+        3,
+        4,
+        5
+      ],
+      "changed_lines": 564,
+      "test": "Exact new library test ELF through parent and unchanged strict/source wrappers"
+    }
+  ],
+  "read_only_hash_checks": [
+    {
+      "unit": 1,
+      "path": "codex-rs/app-server/src/in_process.rs",
+      "preimage_and_proposed_match": true
+    },
+    {
+      "unit": 1,
+      "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+      "preimage_and_proposed_match": true
+    },
+    {
+      "unit": 2,
+      "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+      "preimage_and_proposed_match": true
+    },
+    {
+      "unit": 3,
+      "path": "component-sdk/tests/curated_replacement_acceptance.md",
+      "preimage_and_proposed_match": true
+    },
+    {
+      "unit": 3,
+      "path": "component-sdk/tests/curated_replacement_acceptance.py",
+      "preimage_and_proposed_match": true
+    },
+    {
+      "unit": 4,
+      "path": "component-sdk/tests/curated_replacement_acceptance.py",
+      "preimage_and_proposed_match": true
+    },
+    {
+      "unit": 5,
+      "path": "component-sdk/tests/curated_replacement_acceptance.md",
+      "preimage_and_proposed_match": true
+    }
+  ],
+  "no_compilation_or_execution": true
+}

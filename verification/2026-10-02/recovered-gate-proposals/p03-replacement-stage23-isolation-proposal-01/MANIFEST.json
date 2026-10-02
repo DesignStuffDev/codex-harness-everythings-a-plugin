@@ -1,0 +1,103 @@
+{
+  "status": "staged_only_unadopted_uncompiled_unrun",
+  "scope": "Fresh-fixture SQLite isolation; no production source or lifecycle assertion change",
+  "depends_on_original_manifest": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-curated-replacement-production-acceptance-proposal-01/MANIFEST.json",
+    "sha256": "afb5820fc67def3799ee9d2220cb3936f7370bd3a202b6e5524a8181060de334",
+    "bytes": 4768
+  },
+  "corrections": [
+    {
+      "patch": "01-native-child-sqlite-guard.patch",
+      "patch_sha256": "4d1c4c2367f28c2a20964c3b83f17e3aec646d3fa5cc8f808fc5699bbc13df98",
+      "changed_lines": 2,
+      "file": {
+        "path": "codex-rs/app-server/src/in_process_curated_replacement_tests.rs",
+        "preimage_sha256": "ca8d0f8eda37f77415b1e4d8e4e8ff5ce9d110648a7fec4dac388a975bace0c2",
+        "preimage_bytes": 27769,
+        "proposed_sha256": "30e5367526cf0da1b825f6347a97613e62d1f4b0dbeaa36df5cccc79a4c88ec5",
+        "proposed_bytes": 27887
+      }
+    },
+    {
+      "patch": "02-sdk-parent-sqlite-home.patch",
+      "patch_sha256": "bec923b3e020cdb5ea3335ff7bc2d8d83be4f9f43e782759cda5abaa2054805b",
+      "changed_lines": 1,
+      "file": {
+        "path": "component-sdk/tests/curated_replacement_acceptance.py",
+        "preimage_sha256": "0f969ecc2a5264e1d4ec9cc58d914a39754af080e256ee3d7d9af50fac701ad3",
+        "preimage_bytes": 27002,
+        "proposed_sha256": "d640f64c3d77e7714fe3ad7cdf09cdadbf724623fcddc388f74f8140db5c8710",
+        "proposed_bytes": 27066
+      }
+    },
+    {
+      "patch": "03-sdk-documentation.patch",
+      "patch_sha256": "0847954aefc3226a5ba727324a96481643343f717bef17158da4ecde9097977a",
+      "changed_lines": 2,
+      "file": {
+        "path": "component-sdk/tests/curated_replacement_acceptance.md",
+        "preimage_sha256": "bbde7ac9bec81e90339c606408aa73548f44bdc7415f462ac46441b92e5d8c5b",
+        "preimage_bytes": 6556,
+        "proposed_sha256": "6a2e7db79d67228a061a4341e3d75a1d3698845c299c741f2f49d0454ecd978f",
+        "proposed_bytes": 6744
+      }
+    }
+  ],
+  "checkout_mutated": false,
+  "tests_executed": 0,
+  "files": {
+    "01-native-child-sqlite-guard.patch": {
+      "sha256": "4d1c4c2367f28c2a20964c3b83f17e3aec646d3fa5cc8f808fc5699bbc13df98",
+      "bytes": 662
+    },
+    "02-sdk-parent-sqlite-home.patch": {
+      "sha256": "bec923b3e020cdb5ea3335ff7bc2d8d83be4f9f43e782759cda5abaa2054805b",
+      "bytes": 632
+    },
+    "03-sdk-documentation.patch": {
+      "sha256": "0847954aefc3226a5ba727324a96481643343f717bef17158da4ecde9097977a",
+      "bytes": 2062
+    },
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "bytes": 10926
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "bytes": 242
+    },
+    "REVIEW.md": {
+      "sha256": "e68177ac21f8299a0bf9c50293c85943e9dc6f477864fe9e2dfcdaeda315bb47",
+      "bytes": 7190
+    },
+    "SOURCE_REVIEW.json": {
+      "sha256": "c5977e24db5344c983ccbd26f81e02cace6525a757e81dc3546f01457531e31e",
+      "bytes": 11172
+    },
+    "preimage/codex-rs/app-server/src/in_process_curated_replacement_tests.rs": {
+      "sha256": "ca8d0f8eda37f77415b1e4d8e4e8ff5ce9d110648a7fec4dac388a975bace0c2",
+      "bytes": 27769
+    },
+    "preimage/component-sdk/tests/curated_replacement_acceptance.md": {
+      "sha256": "bbde7ac9bec81e90339c606408aa73548f44bdc7415f462ac46441b92e5d8c5b",
+      "bytes": 6556
+    },
+    "preimage/component-sdk/tests/curated_replacement_acceptance.py": {
+      "sha256": "0f969ecc2a5264e1d4ec9cc58d914a39754af080e256ee3d7d9af50fac701ad3",
+      "bytes": 27002
+    },
+    "proposed/codex-rs/app-server/src/in_process_curated_replacement_tests.rs": {
+      "sha256": "30e5367526cf0da1b825f6347a97613e62d1f4b0dbeaa36df5cccc79a4c88ec5",
+      "bytes": 27887
+    },
+    "proposed/component-sdk/tests/curated_replacement_acceptance.md": {
+      "sha256": "6a2e7db79d67228a061a4341e3d75a1d3698845c299c741f2f49d0454ecd978f",
+      "bytes": 6744
+    },
+    "proposed/component-sdk/tests/curated_replacement_acceptance.py": {
+      "sha256": "d640f64c3d77e7714fe3ad7cdf09cdadbf724623fcddc388f74f8140db5c8710",
+      "bytes": 27066
+    }
+  }
+}

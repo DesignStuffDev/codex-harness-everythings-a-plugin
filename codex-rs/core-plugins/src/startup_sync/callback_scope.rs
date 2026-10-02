@@ -24,6 +24,9 @@ use tokio::task::JoinHandle;
 type Action = dyn Fn() -> Pin<Box<dyn Future<Output = ()> + Send>> + Send + Sync;
 type CallbackJob = Pin<Box<dyn Future<Output = ActionOutcome> + Send>>;
 
+#[path = "callback_activity.rs"]
+pub(super) mod activity;
+
 static CALLBACK_SCOPES: OnceLock<Arc<CallbackRegistry>> = OnceLock::new();
 
 fn lock<T>(mutex: &Mutex<T>) -> MutexGuard<'_, T> {

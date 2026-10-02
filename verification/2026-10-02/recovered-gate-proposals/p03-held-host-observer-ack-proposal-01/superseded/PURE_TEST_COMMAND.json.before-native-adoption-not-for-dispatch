@@ -1,0 +1,51 @@
+{
+  "status": "prepared_not_executed",
+  "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+  "argv": [
+    "python3",
+    "-B",
+    "/workspace/recovery-backups/20260930T165936Z/run-process-final-check.py",
+    "--candidate-manifest",
+    "/workspace/recovery-backups/20260930T165936Z/p03-process-final-search-reuse-source.json",
+    "--prefix",
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01",
+    "--scope",
+    "codex-rs",
+    "--scope",
+    "component-sdk",
+    "--scope",
+    "MODULE.bazel",
+    "--scope",
+    "MODULE.bazel.lock",
+    "--",
+    "python3",
+    "-B",
+    "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+    "--report",
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.strict.json",
+    "--",
+    "python3",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "/workspace/recovery-backups/20260930T165936Z/p03-held-host-observer-ack-proposal-01/proposed",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "no_clobber_outputs": [
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.source.json",
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.log",
+    "/workspace/acceptance/p03-held-host-observer-ack-policy-01.strict.json"
+  ],
+  "expected_tests": 15,
+  "expected_outcomes": {
+    "returncode": 0,
+    "strict_exit_status": 0,
+    "strict_runner_error": null,
+    "scoped_source_unchanged": true
+  },
+  "limits": "Pure contract checks use temp files and mocked /proc. No native host, network socket or listener; not real lifecycle evidence. Fresh reviewed guards and unchanged exact build02/current58 binding required before root dispatch."
+}

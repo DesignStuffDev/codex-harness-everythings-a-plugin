@@ -1,0 +1,81 @@
+# Held-host fallback observer acknowledgment proposal
+
+Staged only under recovery storage. No checkout changes, tests, listeners,
+processes, readiness guard or runtime matrix were executed. Original frozen
+observer, fixture, runplans and all failed reports remain unchanged.
+
+## Observed failure and attribution limits
+
+Attempt03 accepted four Git-held cases. The fifth, fallback-exec-success, passed
+its local native case and strict runner but failed `frozen_observer_real_git_missing`.
+The matrix is **4/8**, not 5/8 or complete; the final three cases did not run.
+
+The preserved Git CONNECT lasted 14.563684 ms before the fixture sent 502. The
+local sampler recorded the expected Git SHA just 60.710 microseconds before that
+502. The outer observer sampled every 50 ms plus /proc scan overhead and missed
+Git. It recorded Python, Codex and Bash only. Its 635,421,216-byte host digest did
+not block sampling: every hash in the original observer is deferred until after
+the sampling window and wrapped-child exit. The source and timing support a
+sampling race; they do not establish an additional native lifecycle failure.
+`DIAGNOSIS.json` and `INPUTS.json` bind the actual preserved evidence.
+
+## Minimal synchronization change
+
+The new observer has a distinct pinned identity. Its default ancestry discovery,
+existing event/executable retention, final deferred hashes, own-child waiting,
+return status and no-signal/no-subreaper behavior remain. Optional arguments are
+provided for fallback cases only. It considers only a descendant found by its
+own existing ancestry scan, selects the exact trusted Git inode, hashes that live
+19 MB descriptor with `pread`, and rechecks PID generation, non-zombie state,
+current executable inode/size/mtime and the expected SHA. `pread` preserves the
+held descriptor offset for the unchanged final hash. It does not hash the host
+in the sampling loop.
+
+The observer publishes an allowlisted acknowledgment in that case's new private
+output directory: exclusive temporary file, fsync, atomic no-overwrite hard link,
+then removal of the temporary name. No command line, environment, request or
+credential values are recorded. Missing, malformed or mismatched acknowledgment
+fails closed. The case fixture withholds its existing fallback 502 until this
+positive proof appears, within the existing CONNECT 60-second deadline; the
+original overall readiness deadline also remains. This is not a fixed sleep or
+a delay treated as proof. Nothing forwards traffic or changes proxy/DNS policy.
+
+All original `require` assertions remain verbatim, including the independent
+final Git hash and strict gate. Additional fallback checks bind acknowledgment
+file, observer and case receipts; exact wrapper root; recorded ancestry and token;
+final unchanged stable executable hash; and acknowledgment before every 502.
+The local Git sampler is unchanged and still required. No fake Git or wrapper is
+introduced. The acknowledgment proves a sampled real Git descendant of this
+case, not ownership of a particular socket or a specific Git operation. It may
+identify a different real Git generation than the local sampler; no same-PID
+claim is made. The observer's existing /proc sampling limitations remain.
+
+The four Git-mode paths run without acknowledgment options. The auxiliary policy
+remains one CONNECT per case, no target-readiness credit, no response forwarding,
+explicit peer EOF, no endpoint attribution. Strict default 5 seconds, 200-second
+graceful gate, 210-second rescue, one-second EOF tail, original host statuses,
+curated receipt and optional session/MCP limitations remain unchanged.
+
+## Review and verification still required
+
+`observer-ack.patch` contains the two executable changes; source preimages are
+preserved. An independent read-only review found no blocking defect or circular
+wait. Tests were not executed. The seven previous auxiliary contract checks are
+retained; their isolated 502 branch now stubs and counts the acknowledgment call.
+Eight new checks cover receipt identity/hash/metadata binding, missing/expired
+proof, live descriptor hashing, PID reuse, changed executable metadata and final
+hash-offset preservation. They use temporary files and mocked /proc, not the host.
+
+Root should review the patch and proposal pins, then execute the prepared
+15-test pure command under the unchanged strict runner, capturing its log at
+the declared new path. These fixture-only tests make no native source/build
+claim. Root has reported adopting newer native observer/callback source after
+checkpoint f8a5905; current58/build02 is now historical provenance only. The
+next runtime plan must bind the actual appropriate source and freshly built
+host, plus these new observer/fixture hashes, without weakening source guards.
+Rerun the complete eight-case matrix under a new prefix; do not combine prior
+four cases with a new four-case run to claim acceptance. Preserve every failure. A passing pure test, build or
+local case alone cannot establish the outer observation/lifecycle gates.
+
+This proposal changes no host binary, component source,
+Git executable, feature configuration, SDK checkout test, cache or existing proof.

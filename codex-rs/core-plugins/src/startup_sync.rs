@@ -29,6 +29,7 @@ mod process_shutdown;
 pub use process_shutdown::CuratedProcessShutdown;
 pub use process_shutdown::CuratedProcessShutdownObservation;
 pub use callback_scope::CuratedCallbackObservation;
+pub use callback_scope::activity::CuratedCallbackActivity;
 pub use callback_scope::CuratedCallbackScope;
 pub use callback_scope::CuratedSyncCallback;
 pub(crate) mod worker;
@@ -39,6 +40,8 @@ pub(crate) use ownership::SyncFailure;
 pub use worker::completion::CuratedSyncNativeCompletion;
 pub use worker::completion::CuratedSyncStop;
 pub use worker::completion::CuratedSyncWorkerObservation;
+pub use worker::observation::CuratedSyncLifecycleObservation;
+pub use worker::observation::CuratedSyncOperationDisposition;
 
 const GITHUB_API_BASE_URL: &str = "https://api.github.com";
 const GITHUB_API_ACCEPT_HEADER: &str = "application/vnd.github+json";

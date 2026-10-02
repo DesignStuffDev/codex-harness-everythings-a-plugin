@@ -4,6 +4,15 @@ The project is a working partial component platform, with three bounded native f
 
 This checkpoint distinguishes published source, completed tests of the newer working candidate, and proposals awaiting adoption. It does not promote the candidate to main or transfer an older runtime result to newer source.
 
+## Latest native continuation
+
+The next eight-path native stage adds read-only worker/callback lifecycle observations needed
+for the same-process replacement gate. Scoped core-plugins tests passed542/542, zero skipped.
+Lint/format and real replacement remain pending; no extra subsystem extraction is counted.
+The checkpoint below is current58 runtime evidence, while the active native source is now
+stage1 map6f11c751. Do not transfer old CLI/GUI proof to the newer source. See the
+[stage1 report](verification/2026-10-02/P03_OBSERVATION_STAGE1_EVIDENCE.md).
+
 ## Current recovery and development checkpoint
 
 The original VM and source are recovered and verified. Full-source and test-fixture archives

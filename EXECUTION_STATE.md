@@ -6,6 +6,35 @@ Coverage: [COMPONENT_INVENTORY.md](COMPONENT_INVENTORY.md).
 Required updater: [UPSTREAM_MAINTENANCE.md](UPSTREAM_MAINTENANCE.md).
 Detailed earlier results: [checkpoint history](EXECUTION_CHECKPOINT_HISTORY.md).
 
+## Active continuation after published recovery checkpoint
+
+Recovery/current58 checkpoint `f8a5905bb666846a7885171280d9454a9b8a269b` (tree
+`43763a456fe80361d24f8912c0328ce9ffdd8eba`) was pushed nonforce to the existing WIP branch;
+all43 changed blobs and both branch refs were read back. Main remains781080f7. Publication
+receipt: R/`p03-current58-publication-preparation/PUBLICATION.json`.
+
+Root then adopted the reviewed stage1 read-only worker/callback observation APIs and explicit
+replay-test semaphore-timeout failure correction: eight paths, no new stop/join authority.
+The new62-path manifest is R/`p03-observation-stage1-source.json`, SHA256
+`f0535c6c86c35e46b34fc361e5c60e495c6048688cf49bc616add66e8734a019`.
+Original current58 source and proposal preimages remain preserved. Current checkout native
+source is now newer than the build02 CLI; do not call that old binary current-source proof.
+
+Scoped `just test -p codex-core-plugins --lib` started with source wrapper/unchanged strict
+runner, one build job and test fixtures under `/tmp/p03-observation-stage1-tests-01`. Prefix
+`/workspace/acceptance/p03-observation-stage1-tests-01`. The command finished0:542/542 tests passed,0 skipped, unchanged source; strict exit0/error-null.
+Preflight free overlay1.286GB; only about245MB remains after dependency recompilation. Do not
+start the larger App Server build before fresh headroom review. Never kill Rust commands.
+After stage1, review/adopt native A→B child, run scoped App Server library checks, bind the new
+actual child ELF and execute parent pending/replay/race. Reaudit resources before that larger
+build. The held Git→HTTP fixture needs positive independent Git observation before releasing
+502; its original4/8 result and all strict assertions remain.
+The new positive-observation fixture is staged under R/`p03-held-host-observer-ack-proposal-01`,
+manifest14c27cff51d2e369cdfbe7caa5e2f94ce4e20e535f06dee1f240fcef6d878568. All15 pure
+fixture checks passed strict0/null, proposal files unchanged; prefix
+`/workspace/acceptance/p03-held-host-observer-ack-policy-01`. No native runtime rerun is claimed. Stage this separately, then bind
+any rerun to the actual tested native source/binary rather than relabeling build02.
+
 ## Current verified recovery — 2026-10-02
 
 The original executor is usable again: the read-only marker executed successfully, followed

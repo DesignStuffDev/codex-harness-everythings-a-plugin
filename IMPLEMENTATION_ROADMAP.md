@@ -1126,3 +1126,14 @@ the raw-input-without-UI-event interrupted-history gap as P07/P16/P14 work. The 
 retained failed attempts and next action live in EXECUTION_STATE.md and the recovered-host report.
 P04–P19/P18U retain their scope; no upstream integration/rollback acceptance or whole-host clean
 claim follows from these bounded passes.
+
+### Native observation stage1 continuation
+
+[Eight-path lineage](upstream/p03-curated-observation-lineage.json) records copy-only worker and
+callback snapshots: finished handles remain distinct from joined ownership. Six new tests and
+the existing core-plugins library suite passed542/542, with exact source/strict evidence in
+[the stage1 report](verification/2026-10-02/P03_OBSERVATION_STAGE1_EVIDENCE.md). This adds no
+installed subsystem. Lint/format, actual same-process replacement and a rebuilt-host held matrix
+remain pending. Preserve prior current58 runtime proof separately. The remaining replacement
+fixture must explicitly isolate its SQLite root before initialization. P18U impact review must
+retain these ownership/observation distinctions; no update integration or rollback has run.

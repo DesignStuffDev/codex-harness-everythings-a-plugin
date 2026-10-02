@@ -1,0 +1,11 @@
+--- a/component-sdk/tests/curated_replacement_acceptance.md
++++ b/component-sdk/tests/curated_replacement_acceptance.md
+@@ -36,7 +36,7 @@
+ 
+ Linux, Python 3.9+, trusted system Git with `http-backend`, and the compiled Rust child are required. No additional Cargo/Python dependency is introduced. The per-case parent deadline includes fixture preparation and protocol execution. Fixture cleanup uses finite failure waits; any forced child/backend cleanup or unconfirmed pipe drain fails acceptance. The unchanged strict runner independently waits/reports adopted descendants using its existing five-second drain; do not relax it. Review its command result, runner error and each raw adopted-child outcome rather than assuming all descendants exited zero.
+ 
+-The parent supplies all environment before child startup, keeps sandbox/network policy variables unchanged, and never substitutes a PATH Git wrapper. Fresh fixture homes contain no production credentials. Auth environment keys for API access are removed from this test child; the local mock provider requires none. Hook trust uses the existing supported test harness override. No production DNS, proxy, CA, allowlist or transport policy is weakened. A rejected normal Git rewrite is a setup failure, not permission to bypass production policy.
++The parent supplies all environment before child startup, keeps sandbox/network policy variables unchanged, and never substitutes a PATH Git wrapper. Fresh fixture homes contain no production credentials. The parent binds `CODEX_SQLITE_HOME` to the case home, and the child checks the resolved SQLite home before state initialization so managed overrides fail before opening another database. Auth environment keys for API access are removed from this test child; the local mock provider requires none. Hook trust uses the existing supported test harness override. No production DNS, proxy, CA, allowlist or transport policy is weakened. A rejected normal Git rewrite is a setup failure, not permission to bypass production policy.
+ 
+ ## Evidence and limits
+ 
