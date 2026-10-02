@@ -15,14 +15,16 @@ Detailed superseded receipts/actions are preserved in
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Last verified publication: `41bafa170f8a8d943a19705d19146df427885152`, tree
-  `7602e2c3676fdc3147857923e57a1a6ccbabdfad`, on
+- Last verified publication: `047e91eae0cbd34e8d20271510b9c616af134587`, tree
+  `fa2756dcadfb5c004b261981b47bb71375941adf`, on
   `wip/p03-process-final-and-mcp-preservation-20261002`.
-  All10 selected files/276,318B and both refs read back. Parent96a4339 publishes
-  provider108/resource evidence; parent e996f0d preserves login297 and proposals.
+  All19 selected files/687,181B and both refs read back. This WIP snapshot preserves
+  source42, resource evidence and unadopted Ephemeral design/primitives while focused
+  compilation was in progress. Its later focused pass is separate evidence below.
+  Parent41bafa1 publishes the accepted reload lint;96a4339 provider108 evidence.
   Main remains `781080f7e3c8bfe1953378001d777dff33d74bc3`; no promotion is implied.
-- Publication receipt: R/p03-auth-reload-lint-publication-01/PUBLICATION.json,
-  SHA256 `4d0d72f65c0a3d222ac30e9159e35b110159e58d56ea15a8a00e3f146f1c3115`.
+- Publication receipt: R/p03-auth-refresh-source-publication-01/PUBLICATION.json,
+  SHA256 `567100339e15dfac7dd9b118aa379b90793346a49ae7054f178b674986102053`.
 - R = `/workspace/recovery-backups/20260930T165936Z`;
   A = `/workspace/acceptance`. Full two-worktree/Git/SDK/evidence archive:
   R/codex-recovered-workspace.tar.zst, SHA256
@@ -38,7 +40,7 @@ Detailed superseded receipts/actions are preserved in
 
 | Cohort | State |
 | --- | --- |
-| Current refresh42 | Three-path permanent refresh-failure ownership fix adopted after reload acceptance. Source8,949/map `42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59`. Four causal tests added; root6487 is compiling, **no test result yet**. |
+| Current refresh42 | Three-path permanent refresh-failure ownership fix adopted after reload acceptance. Source8,949/map `42e3899a688183ae740926d188204ea1222d24f79db1e4b9cb37d51aa046dc59`. Focused4, full login301 and provider108 pass. Scoped lint and production/UI remain pending. |
 | Preceding reload0742 | Source8,948/map `0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f`. Focused5, full login297, provider108 and scoped login lint03 passed; no new production/UI proof. |
 | Last production7a | Source8,947/map `7a147c1d2929659d92eea648a4411e746c2726712a7f3b5485f332de83bacd4e`. Offline build02 and12 runtime slots have passing attempts, with original failures retained. This does not validate either later auth cohort. |
 
@@ -51,6 +53,36 @@ in the same3 paths. Original index unchanged. Exact
 The fix captures one source/cache/provider snapshot before refresh and conditionally
 publishes permanent failure; stale waiters still receive their original error.
 It does not fence successful writes, request dispatch or provider-spawned tasks.
+
+Focused refresh proof: A/p03-auth-refresh-focused-01.terminal.json SHA256
+`3dbafe629867343726f2d5d8819156ff4769ded61d3a6b4e96cb61722f37d7f3`.
+Root6487 returned0 after4m41s compilation:4/4 tests,255 filtered,2 discovery calls,
+zero retries, strict0/null and reaped{0:1}; source unchanged, OOM10/kill5 unchanged.
+Executed login ELF156,165,112B SHA256
+`a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2`.
+Twelve internal scenarios are not twelve tests. The grouped CLI library was compiled
+but not executed. Earlier source0742 login297/provider108 do not validate source42.
+
+Full login proof: root74098 returned0;301/301, zero skips/retries,4 discovery calls,
+all existing reload5 and new refresh4 present. Serial execution preserves original
+timeouts/retries/security fixtures; it is not default-concurrency coverage. Strict0/null
+reaped{0:1}; source unchanged; OOM10/kill5 unchanged. Terminal
+A/p03-auth-refresh-full-01.terminal.json SHA256
+`3330cbfe72c0e92d9f7d2287986ba27e3ffdbed24f1584d0e3e34ada66d7069e`.
+Fresh integration ELF139,874,648B SHA256
+`303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3`;
+focused login ELF reused unchanged. The four focused tests are included in301.
+No network guard was true at observed pre-exec; conditional port-early-return
+body execution is not independently attested.
+
+Provider proof: root77518 returned0,108/108 with zero skips/retries and2 discovery
+calls. Terminal A/p03-auth-refresh-provider-full-01.terminal.json SHA256
+`f253121785e50507c5d17b68262d6bfb328047bd361b7ed34ea848d385116e5c`.
+New provider ELF111,260,968B SHA256
+`9ed024bb63152abf8159d5cb1eb4ecd88d0f5169cc21087c144fcba83189414e`.
+Strict0/null; reaped{-9:1,0:1} is retained without causal or universally graceful
+cleanup attribution. OOM10/kill5/source unchanged; old6e8 archive remains historical.
+Current package total is409; focused4 overlap the301 and are not added again.
 
 Reload proof: [focused5](verification/2026-10-02/p03-auth-reload-focused/README.md),
 [full login297](verification/2026-10-02/p03-auth-login-full/README.md),
@@ -90,12 +122,22 @@ remained unchanged. No tests were repeated solely for lint/format.
   Oldba3 compiled library, CLI/Exec tests and all earlier proofs remain preserved;
   complete chains are in the historical ledger. Never replay completed actions
   after compiler selector reuse.
-- Current manager and provider test ELF remain live/protected. Keep7 symlink-backed
+- Current manager and source42 login/integration/provider/compiled-only CLI test artifacts
+  remain live/protected. Historical provider108 is now archive-only: root11460 audit,
+  97877 preservation,32079 retirement,51629 restore-release all returned0.
+  R/p03-auth-provider108-proof-preservation-01/CURRENT_PROVIDER108_PROOF.tar.zst
+  is26,936,562B, SHA256
+  `79844ffc3266938501fc6a1dd85689004bc3642d1d209823176421cca94b5c08`.
+  All163 members were fully restored/hash checked before retiring only old6e8;
+  source42/index/current test artifacts remained protected. Release receipt
+  `1d012b89e71eba3d77fb0af2e64ee585004c2b8613b88f8424e48aa057113274`.
+  This is VM-local historical proof, not a new provider test result. Keep7 symlink-backed
   core libraries and genuine registry archive backing. Keep85 new lint metadata
   outputs (164,130,816 allocated B); no ordinary-cache cleanup has been authorized
   from their metadata delta alone.
-- Last actual post-release resources: overlay1,144,639,488B; hard-unused RAM
-  2,375,909,376B; OOM10/kill5. Root6487 now runs the focused compile/test gate.
+- Last actual post-provider-test resources: overlay612,175,872B;
+  hard-unused RAM957,460,480B; OOM10/kill5.
+  Root6487/74098/77518 are complete; no compiler runs. Preserve all new test artifacts.
   Focused refresh budget:845,438,976B overlay,512MiB executable SHM,2GiB hard /
   3GiB effective RAM; conditional credit is not free RAM. Fresh preflight must
   recheck these floors before admitting the compiler.
@@ -113,16 +155,29 @@ remained unchanged. No tests were repeated solely for lint/format.
 
 1. Preserve the completed old431/542 consolidation receipt and its exact two-file
    scope. Never replay this action; all recovery archives/source/current proof remain.
-2. Inspect root6487 and A/p03-auth-refresh-focused-01 before any new compiler command.
+2. Preserve accepted root6487 and A/p03-auth-refresh-focused-01 evidence.
    R/p03-auth-refresh-focused-plan-01/MANIFEST.json SHA256
    `da0cdf413acf5ffbfbb509724e7547d541ecc998677ac14fe59fff7c864b0ddf`
    binds source42, historical archives and four exact test names. Fresh admission:
    hard2,498,850,816/effective4,328,507,392B, overlay1,144,455,168B; OOM10/kill5.
    Keep unchanged CLI+login feature composition and strict observer/source/ELF guards.
-   Distinguish discovery calls, actual executions and retries; no test pass yet.
-3. Once focused passes, run the full scoped login gate serially. Reuse only the NEW
-   focused library; discover counts dynamically, requiring existing reload5 plus
-   new refresh4. Run affected provider regression and scoped lint/required format.
+   Distinguish discovery calls, actual executions and retries; four actual cases pass.
+3. Preserve accepted root74098. Full plan manifest
+   `cbd15b3b174a8f2aa16e697220d0832949e90e56bb7e99ff09136246e23e841c`
+   in R/p03-auth-refresh-full-plan-01 pins actual focused proof and the integration-only
+   budget083e0cc9:339,582,976B overlay/128MiB SHM/1GiB hard/2GiB effective.
+   This is a separate warm-target budget, not a reduced focused-build threshold.
+   It reused the new focused library and measured301 cases including required9.
+   Historical provider6e8 preservation is complete; never replay those actions.
+   Preserve accepted root77518. Source42 provider regression in
+   R/p03-auth-refresh-provider-full-plan-01 is sealed with manifest
+   `c0d9fa87a3ea40db4f9cb57ca5a5ee0cc639d68022409ced2486b3a0279460ec`,
+   actual archive chain and budget4b8dea51 (311,300,096B overlay,
+   128MiB SHM,1GiB hard/2GiB effective);108 current-source tests pass.
+   Next: finish scoped lint via R/p03-auth-refresh-login-lint-plan-02 with actual
+   newprovider proof/protection and fresh unchanged floors. It is not run.
+   Keep budgets and actual source/ELF/archive guards; never overwrite old executed
+   proof without complete verified preservation. Run scoped lint/required format.
    Do not rerun tests solely for mechanical fix/fmt. Preserve original failures.
 4. Rebuild actual production from the accepted combined source and close current
    installed storage/migration/replacement/shutdown/recovery/GUI gates. P03 TUI6
@@ -134,7 +189,13 @@ remained unchanged. No tests were repeated solely for lint/format.
    [contract snapshot](verification/2026-10-02/unadopted-proposals/ephemeral-auth-design/README.md)
    cover manager→policy→map, equal/absence ABA, logout/revoke and native RMW writers.
    R/p03-ephemeral-auth-primitives-proposal-01 is unadopted/uncompiled:3 paths,+452/−45,
-   8 proposed tests, MANIFEST5be1110f. Complete caller Stage B is being drafted.
+   8 proposed tests, MANIFEST5be1110f. Caller proposal B is now sealed under
+   R/p03-ephemeral-auth-caller-activation-proposal-01, MANIFEST3d164963;12 afterimages,
+   no compilation/tests/adoption. Root source-only export271c91f4 has51 byte-verified
+   members and is staged in verification/2026-10-02/unadopted-proposals/ephemeral-auth-callers.
+   Five review units are not independently safe activation stages. A compliant safe
+   implementation staging plan is under review; remaining cancellation/post-logout
+   causal tests must be closed before acceptance.
    Do not call a primitive or partial writer patch a complete ownership fix/extraction.
    File/Keyring/Auto, shared secrets initialization and cooperative cross-process
    transactions need their own complete activation, migration/recovery and tests.

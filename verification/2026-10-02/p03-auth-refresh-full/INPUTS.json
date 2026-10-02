@@ -1,0 +1,2516 @@
+{
+  "inputs": {
+    "binary": {
+      "bytes": 2617,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.binaries.json",
+      "sha256": "547d8ff440a3d37e339a0c6416ce3c67362de0df0feb6651105a38914005877a"
+    },
+    "budget": {
+      "bytes": 14097,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-full-grouped-login-budget-01/BUDGET.json",
+      "sha256": "083e0cc9bcc05d0f0b043f342505a3b3a098363b7dffec2328f38def7b380734"
+    },
+    "cache_advice": {
+      "bytes": 4329,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.cache-advice.json",
+      "sha256": "700a62ed45704684ef01d45db4cff3973a58d05ad1ac96499019f88da2f1dd0a"
+    },
+    "candidate": {
+      "bytes": 1237279,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-adoption-01/CANDIDATE_FORMATTED.json",
+      "sha256": "7f6a7aaf7fd772b8b6aa66e172dfeba7af7ad3f3cce6839c0b2dbb90c713d4a9"
+    },
+    "dispatcher": {
+      "bytes": 48675,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-full-plan-01/dispatch_full_login.py",
+      "sha256": "7517204dd8426f19bccd173f0ffd2e19938297fe9777afe4ee33816f047ac688"
+    },
+    "historical_artifacts": {
+      "bytes": 5659,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.historical-artifacts.json",
+      "sha256": "8aeef160a3ae1134a8ea884d0c73a7c96f79b0c566aa093d1f798ea2377c13f1"
+    },
+    "log": {
+      "bytes": 39974,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.log",
+      "sha256": "dd6c12dfe1629b94601afebd985e9d4cb414b33a3f00b6a7c37e99e9cb29c167"
+    },
+    "manifest": {
+      "bytes": 4101,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-full-plan-01/MANIFEST.json",
+      "sha256": "cbd15b3b174a8f2aa16e697220d0832949e90e56bb7e99ff09136246e23e841c"
+    },
+    "observer": {
+      "bytes": 891,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-full-plan-01/target-runner/runner.py",
+      "sha256": "0534306c2dab19c18a09619069e2c358c7ae23b6706ff6bbcb0920146a74fb23"
+    },
+    "plan": {
+      "bytes": 27666,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-auth-refresh-full-plan-01/PLAN.json",
+      "sha256": "e19d0fa3d7770566479dd176a415589df7504a6ff312891eef6dcfcf90a53e8b"
+    },
+    "preflight": {
+      "bytes": 7410,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.preflight.json",
+      "sha256": "376d10b6d978752bf8e7082f32288b46fd83e7e410f0e3f3aa3c273937304b20"
+    },
+    "source": {
+      "bytes": 3726955,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.source.json",
+      "sha256": "ef979af7848dd4f99170ef1c9d405bb42dd7e0c6ecbbf4b87a514369df05ca31"
+    },
+    "strict": {
+      "bytes": 487,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.strict.json",
+      "sha256": "a2c531798a835a6047dd4ef69c3b8baa03fa79185695343c12a0ed0e3f3c76df"
+    },
+    "terminal": {
+      "bytes": 179511,
+      "path": "/workspace/acceptance/p03-auth-refresh-full-01.terminal.json",
+      "sha256": "3330cbfe72c0e92d9f7d2287986ba27e3ffdbed24f1584d0e3e34ada66d7069e"
+    }
+  },
+  "observer_records": [
+    {
+      "bytes": 466,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "discovery",
+      "label": "observer-001",
+      "role": "login-lib",
+      "sha256": "ecd5c2e4d2832df46734a8e8f930b6436f21e13edf9022052828c5ff384432dd"
+    },
+    {
+      "bytes": 479,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "discovery",
+      "label": "observer-002",
+      "role": "login-lib",
+      "sha256": "e26ce1e0d583c64e990936d4f14665464ec6de3a73bac8d0c15bd70f40aa4bb6"
+    },
+    {
+      "bytes": 458,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "discovery",
+      "label": "observer-003",
+      "role": "login-integration",
+      "sha256": "04cc3593fb86d6144df157f299219d34ccfd89d67e38694630153f9a47175d2d"
+    },
+    {
+      "bytes": 471,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "discovery",
+      "label": "observer-004",
+      "role": "login-integration",
+      "sha256": "666e2bba958f442de576ab422d5ce393344154c474a4d52f3a7838f861cc4fd5"
+    },
+    {
+      "bytes": 535,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-005",
+      "role": "login-lib",
+      "sha256": "e29da861f80f2808ea6842cd4f0f7653102216f19c76b2c13267775b9645c81b"
+    },
+    {
+      "bytes": 517,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-006",
+      "role": "login-lib",
+      "sha256": "1b929d4794254fe6728f26806b92425e2530d815cd2782711b8d8f91ab009fa3"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-007",
+      "role": "login-lib",
+      "sha256": "b8f4fe15b92a30d8858a606d68c0e4d135a6505d4e86ce0d48942c564ccd36ba"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-008",
+      "role": "login-lib",
+      "sha256": "894b0772f9cde03ca8c918f62a05fc9dbbeae934096e61e0d3156af337e40cbc"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-009",
+      "role": "login-lib",
+      "sha256": "777438cdfc9693080f139f2a8d603e0dea34b390685229f9a1c0a37c576ae038"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-010",
+      "role": "login-lib",
+      "sha256": "3fa3016b2847b75454dcf53f1972e26b90a22d3a9a80ac10947fd53519c1bb05"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-011",
+      "role": "login-lib",
+      "sha256": "742cab62f10b74fc6f7d0af9833402bb9caaf1a2ab57c1b06d0c2adb68bd5582"
+    },
+    {
+      "bytes": 541,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-012",
+      "role": "login-lib",
+      "sha256": "1993abc9c395ead95543851c9f3c63a6e50f055f3523ed0d246be965855c62d8"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-013",
+      "role": "login-lib",
+      "sha256": "05549ea0e8e460752b32e70f6e42cd57a589fda9bf8706faf8f7be3c70e61ea9"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-014",
+      "role": "login-lib",
+      "sha256": "55f65a8b3ecc63b4030da82c8217087b55630a10f635e5ee72f9990fbfacb04d"
+    },
+    {
+      "bytes": 522,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-015",
+      "role": "login-lib",
+      "sha256": "aa505ab2d43b4159d77272959e80da9b46e61bd22d9d0b1d5e1b6b046d797170"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-016",
+      "role": "login-lib",
+      "sha256": "135328c36dc812ad8e4f16b5a3a1222cd23bda18e3171035504ef76b2dc96b08"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-017",
+      "role": "login-lib",
+      "sha256": "d713afd8e8fc5b06af64475643cc9c17379fbc6301e8e0c7321b30b61c720306"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-018",
+      "role": "login-lib",
+      "sha256": "6499cd785d5d301533e5f1ec22307442308afa3e1aea1f39ed7bdf76baedc357"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-019",
+      "role": "login-lib",
+      "sha256": "41d50b9f27cc6d39e0575119de03fea03aa92c581944810c0128211835a4f955"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-020",
+      "role": "login-lib",
+      "sha256": "35d2aa398c1db222496f7deee7e2b96e6feb128512fc16bc0c73a46b5604355e"
+    },
+    {
+      "bytes": 554,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-021",
+      "role": "login-lib",
+      "sha256": "76195da235739099f8d7b1642fe0ff6bca6cf0e454bfb819a333461d375eceb9"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-022",
+      "role": "login-lib",
+      "sha256": "22cb3f716c28a63aafa0dfc04a894c6ca61ef68875f65a9a1f4de0607b043427"
+    },
+    {
+      "bytes": 533,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-023",
+      "role": "login-lib",
+      "sha256": "a44fedfb61c3c4997ffc274ba44aff822d4abebe0b5fb17ac04ac320b8bb0261"
+    },
+    {
+      "bytes": 519,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-024",
+      "role": "login-lib",
+      "sha256": "a7f16fa09df7e07edc6cc6c7ce735c8277028cfaca9edbfa8dedbb4067667144"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-025",
+      "role": "login-lib",
+      "sha256": "853cada3674f7308f4c28acb635cd26d6314e40b55a70ae6a99be61ffea0f9d2"
+    },
+    {
+      "bytes": 527,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-026",
+      "role": "login-lib",
+      "sha256": "9e046518c893604fb5650c2525268707d0e8669ea104819a5bb582abce59dab3"
+    },
+    {
+      "bytes": 564,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-027",
+      "role": "login-lib",
+      "sha256": "8d31e11da985500dda922b55c7b9578a5dcad1ec93ba7f2016fc9fa4bcfe99a4"
+    },
+    {
+      "bytes": 563,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-028",
+      "role": "login-lib",
+      "sha256": "8d6da673bd32051cd2b9f06eac6c944df83f66092b20c74dbebe6671a7e2eac8"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-029",
+      "role": "login-lib",
+      "sha256": "c74df35035ea1ffd4c0ee5f5c4c491d11183515deab4ea382f1df8a30fd29750"
+    },
+    {
+      "bytes": 559,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-030",
+      "role": "login-lib",
+      "sha256": "603f5a5d3c532da7ced5188fe965a5fb272ce397a946b2ffe26ade12fb053f62"
+    },
+    {
+      "bytes": 561,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-031",
+      "role": "login-lib",
+      "sha256": "fa92c33f3c483c46bdccc34c3862578af90dffcb6fa2ac2453dd80d7fb89fafa"
+    },
+    {
+      "bytes": 566,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-032",
+      "role": "login-lib",
+      "sha256": "d38ac9d3975a0993c755afdb1ca0e560e5cc36020653872b8f85114a745973a5"
+    },
+    {
+      "bytes": 564,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-033",
+      "role": "login-lib",
+      "sha256": "929039f44abfd604caf957eb360e90a4db34f926cb9cb0498c6bc5ebe960e0d7"
+    },
+    {
+      "bytes": 560,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-034",
+      "role": "login-lib",
+      "sha256": "c118cff094f5b492394a93cdd1179d640733980ce3aca32b8e0d03d8e803294a"
+    },
+    {
+      "bytes": 561,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-035",
+      "role": "login-lib",
+      "sha256": "72f752bd1721bac9884319a704c73c4686b917829b2133928fb305cab6ba6684"
+    },
+    {
+      "bytes": 570,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-036",
+      "role": "login-lib",
+      "sha256": "cfd82aebed337b24c4033ad91a5819183bee184917cb50be2a502e15cd600308"
+    },
+    {
+      "bytes": 556,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-037",
+      "role": "login-lib",
+      "sha256": "a9b460078853070a0d7e0039c9596fc8c6fd0bf5ab38735d7e8fc89b4e754071"
+    },
+    {
+      "bytes": 558,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-038",
+      "role": "login-lib",
+      "sha256": "f34ff88269d530c8822a43e7991db156edf3631bb8e1108a5444a815b5d2be5f"
+    },
+    {
+      "bytes": 568,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-039",
+      "role": "login-lib",
+      "sha256": "89f21df467bdb5d5ab0553cbb50448f5ada5eafddef7dd8ecb407eeec54b145a"
+    },
+    {
+      "bytes": 562,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-040",
+      "role": "login-lib",
+      "sha256": "7cb2c3c159eca9c225b320890598015134b6ca3951cc68ff020a371712420bf1"
+    },
+    {
+      "bytes": 562,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-041",
+      "role": "login-lib",
+      "sha256": "7d39efe3752814bfed08fcb8b4db998bd6e6f294a31f172ccfb91fa83ea7c55b"
+    },
+    {
+      "bytes": 589,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-042",
+      "role": "login-lib",
+      "sha256": "6438e79f727c7379e209125c1a43e34dd7f379059b26bbbec8031da68cbff3ad"
+    },
+    {
+      "bytes": 576,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-043",
+      "role": "login-lib",
+      "sha256": "baf812369fc6449d5fc6e0d176e8cff13f5db692d7d404bad4bdcc8ebd6b5470"
+    },
+    {
+      "bytes": 580,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-044",
+      "role": "login-lib",
+      "sha256": "e64e359d91ec12318c448b23640065beb411567f5f53b91181dc28c8e829d47e"
+    },
+    {
+      "bytes": 565,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-045",
+      "role": "login-lib",
+      "sha256": "1f4b6a655a8c9e74bd36368785dc537c16ce336e705df82e836ba4414eb9888a"
+    },
+    {
+      "bytes": 584,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-046",
+      "role": "login-lib",
+      "sha256": "fd1b5c2ecd75021c0abfc59b8110606a04c5f3f496ad72a476b18afb9bf3f0df"
+    },
+    {
+      "bytes": 588,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-047",
+      "role": "login-lib",
+      "sha256": "26f22b762e70bb376f91230cb747fd3d79caefb8ee36212261ab8620401a803f"
+    },
+    {
+      "bytes": 574,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-048",
+      "role": "login-lib",
+      "sha256": "802c15318e21a829b3a1a6035f680854c8d5048537f85549e97a7a2e43b0b131"
+    },
+    {
+      "bytes": 587,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-049",
+      "role": "login-lib",
+      "sha256": "5dc776b52e04c39ed0bc49d64a0fe201e8d4ef248734eb40bebd8b5bca083fb9"
+    },
+    {
+      "bytes": 568,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-050",
+      "role": "login-lib",
+      "sha256": "6bf36d68a8f3c4c35b359aedebb6c9a2a300b25d2eb752ab0851da01e0106497"
+    },
+    {
+      "bytes": 563,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-051",
+      "role": "login-lib",
+      "sha256": "68c913ec740ac4125c22821ea97700133ee334c9fb1a5fd76beaaec1ff18bd14"
+    },
+    {
+      "bytes": 569,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-052",
+      "role": "login-lib",
+      "sha256": "08348b31305ff21d09e32214758412dbcc3aa4a0b8887f951471c4d9641e60c4"
+    },
+    {
+      "bytes": 584,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-053",
+      "role": "login-lib",
+      "sha256": "d68d2b22434d47ecb44b837f289d64717a218b4abba7136c4b16df364a5d1882"
+    },
+    {
+      "bytes": 588,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-054",
+      "role": "login-lib",
+      "sha256": "b1882e637f99091c1b464df658556c96696447dc81de7ad421dd5690e343331f"
+    },
+    {
+      "bytes": 580,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-055",
+      "role": "login-lib",
+      "sha256": "a4615f3e0923ad5bde19f2810f0176ed45d7b8f96374dda2ad775d25dfad3583"
+    },
+    {
+      "bytes": 582,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-056",
+      "role": "login-lib",
+      "sha256": "71ddbdf9ecc672e79ca56d2aaf45ba20d9480284d6536a173e338d78b89dd517"
+    },
+    {
+      "bytes": 574,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-057",
+      "role": "login-lib",
+      "sha256": "d82fe00808cca2557670a873056ad75ce1e4e6e005fc89eba4f4cf7762360351"
+    },
+    {
+      "bytes": 579,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-058",
+      "role": "login-lib",
+      "sha256": "4570539404987cd5ba0553fd3eead6d2800400aa303dfd3cbff1ed048f7a4ba5"
+    },
+    {
+      "bytes": 565,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-059",
+      "role": "login-lib",
+      "sha256": "f8d1604de798cddcd1b983ebd9bdda616b6a8c31abeaf5c822ff8e75ebf52c49"
+    },
+    {
+      "bytes": 566,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-060",
+      "role": "login-lib",
+      "sha256": "22142dc1a233547d7a354895d4dab5ccffc63217102a65d3cae52f25028068cc"
+    },
+    {
+      "bytes": 575,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-061",
+      "role": "login-lib",
+      "sha256": "84340d33e2392a83a75115f1b63287551db6513cc46720f54bd2a474b43ce48f"
+    },
+    {
+      "bytes": 567,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-062",
+      "role": "login-lib",
+      "sha256": "977f6d54c57e0b357cd07fdda36294aa132bdd1f1ed63f10f358e8268a700dc4"
+    },
+    {
+      "bytes": 591,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-063",
+      "role": "login-lib",
+      "sha256": "5b15d00b315fc2ce7ec801c49222ee43bf7f1cc7eb9dda111dd01c4d01f65be6"
+    },
+    {
+      "bytes": 580,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-064",
+      "role": "login-lib",
+      "sha256": "b9c5b71b005cd30d93ac15a899559b279201320e1a7accf8141493b828969cc5"
+    },
+    {
+      "bytes": 597,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-065",
+      "role": "login-lib",
+      "sha256": "a306b5486937a38feb87c18138027dfafcec98d1b1109ab1b71fa3ac2daef2e4"
+    },
+    {
+      "bytes": 595,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-066",
+      "role": "login-lib",
+      "sha256": "3b31beb13f48c1b69f99ac287cc33486456bf778ddc0ed7e251b33cb56d75b8c"
+    },
+    {
+      "bytes": 583,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-067",
+      "role": "login-lib",
+      "sha256": "88e932ce3c5b50abdcedd5255906ad4bcc2fce4ea7859d6622495cf19171905e"
+    },
+    {
+      "bytes": 571,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-068",
+      "role": "login-lib",
+      "sha256": "c8d7ede85682e2322de0dcc4c40da8c09f9deb56df70894d3b0a1e355e9be7cb"
+    },
+    {
+      "bytes": 562,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-069",
+      "role": "login-lib",
+      "sha256": "29ee85dcbd6c46e3a0ce6d56ad6278549cc29b56c65096e948504132a95122fc"
+    },
+    {
+      "bytes": 554,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-070",
+      "role": "login-lib",
+      "sha256": "dcdb1c02062eb43cd7575218d5bb045bd659281df9916e165574f74257aeef9c"
+    },
+    {
+      "bytes": 558,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-071",
+      "role": "login-lib",
+      "sha256": "e5152035986aa70a2962148312fee7a5f1275df94c2b3e9d541399c7112dc2ca"
+    },
+    {
+      "bytes": 563,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-072",
+      "role": "login-lib",
+      "sha256": "146a7ebbc9f39ed51788c456d9076d252667e1e1512a9f4d2ea76c372f2c8649"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-073",
+      "role": "login-lib",
+      "sha256": "f74e8fc177c6d0b2c14c18ea84dcef2cbf093191711161645dccec3542a2bdab"
+    },
+    {
+      "bytes": 566,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-074",
+      "role": "login-lib",
+      "sha256": "c4fc1159e1b99a4a9dc465b9893df45320924a7a00bdfe44be5a06afeb22a3bd"
+    },
+    {
+      "bytes": 563,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-075",
+      "role": "login-lib",
+      "sha256": "3d6d09b2f3dfae5630d1cf3ffa64e04760332ac4c765ea0b042d85a2c041d439"
+    },
+    {
+      "bytes": 550,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-076",
+      "role": "login-lib",
+      "sha256": "f420fed4ebc1dc34191b4c8704f2fb4a35bdac6d6c1ece58d0257cb039420ba7"
+    },
+    {
+      "bytes": 567,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-077",
+      "role": "login-lib",
+      "sha256": "78e94542550772448382b7d75870ad34aedd60f85a2daad80d1140027bec52e9"
+    },
+    {
+      "bytes": 566,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-078",
+      "role": "login-lib",
+      "sha256": "f392873d15052f70e9cad7fb88a6d1f2a330d64b5b38ed747d6de694d6f5280f"
+    },
+    {
+      "bytes": 578,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-079",
+      "role": "login-lib",
+      "sha256": "ddef0aaef4fac540c77c97a71f3da7c49ae722439299821a70b69f321a4a3fee"
+    },
+    {
+      "bytes": 559,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-080",
+      "role": "login-lib",
+      "sha256": "6b0aa21d40110228aaa29cb8cf449037821c12897b759a72f507df2d6246f2be"
+    },
+    {
+      "bytes": 553,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-081",
+      "role": "login-lib",
+      "sha256": "e7239b58af5eb0cafbbeb3b571f482d4ac928a8b4dea73d532d2ccb2fb7a0af3"
+    },
+    {
+      "bytes": 556,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-082",
+      "role": "login-lib",
+      "sha256": "41e6db716ad4370bd8749188a77e8239058a6b1eeb24a2ee4e11257b73ac5443"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-083",
+      "role": "login-lib",
+      "sha256": "a4310edcbf0ab44b21be558c9ca7c01e4f4c45b22587d46940919260512d094d"
+    },
+    {
+      "bytes": 550,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-084",
+      "role": "login-lib",
+      "sha256": "17f5dde4a5c1585659ce8bd000154a13dc8098a74bf5db3e4b2d6f5a4d862a42"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-085",
+      "role": "login-lib",
+      "sha256": "31337b2b97eacdea21641c626a809078160ad5029898b8d53ac238b5dea3cfe0"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-086",
+      "role": "login-lib",
+      "sha256": "360f589805a13e45b668759db128de3006b5299d17d3d2f2d7edde954f0892c1"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-087",
+      "role": "login-lib",
+      "sha256": "98bdebfd0df7acbbfe94124a32c2c1a2f762453ada4d05149b194a1fd556ae42"
+    },
+    {
+      "bytes": 541,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-088",
+      "role": "login-lib",
+      "sha256": "ee5cea2ac921013879ab9c3bc7ff5a8a12da2b73e43ab2e10f6b963d5df67bef"
+    },
+    {
+      "bytes": 524,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-089",
+      "role": "login-lib",
+      "sha256": "e4dc7289d824b5728f843c87722d164cdef689ddc45371cc44c7ec69de78d8b5"
+    },
+    {
+      "bytes": 543,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-090",
+      "role": "login-lib",
+      "sha256": "7c7d8451e3605ccb345c6db169c2322235890ac3996716c1e7c842f079750c39"
+    },
+    {
+      "bytes": 552,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-091",
+      "role": "login-lib",
+      "sha256": "3144f0163d37b8bc918a1508dd955820b8bd6b8eb77ace0aa6e9ab18d825e9d1"
+    },
+    {
+      "bytes": 555,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-092",
+      "role": "login-lib",
+      "sha256": "cd808945a0f0da0d19bd97d0aaac64d766007f58b34c120195963dc6b094bc84"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-093",
+      "role": "login-lib",
+      "sha256": "d51d1eabc58965203d3b92d7b38bb8c7f96fb43ad786164defcc353f8b93a7c8"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-094",
+      "role": "login-lib",
+      "sha256": "02528730ed7863c517b33d5f0a6f024bd6e9b2bda4e79a6342a27236aefd3797"
+    },
+    {
+      "bytes": 550,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-095",
+      "role": "login-lib",
+      "sha256": "71d61b03c851134c5f2d3064976d9434d1075a0eaa5d84275fd88df85d32443b"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-096",
+      "role": "login-lib",
+      "sha256": "3cfbe09cf82724469651bf28ab8cc919c636133340754f249b4a64e083374a4b"
+    },
+    {
+      "bytes": 555,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-097",
+      "role": "login-lib",
+      "sha256": "f6332238a65a0642dd3e62d029469e19b1ee412ec5408ced0d1336e784edfb8b"
+    },
+    {
+      "bytes": 551,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-098",
+      "role": "login-lib",
+      "sha256": "8b669973d7447338a1be07776f47f1e485cb4fbdb5c37b31fac11764f6a6bd89"
+    },
+    {
+      "bytes": 591,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-099",
+      "role": "login-lib",
+      "sha256": "e3e6943a7de1deb5f0001564423afdd3e2acedf15518e233e8e5a8bd553bc45d"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-100",
+      "role": "login-lib",
+      "sha256": "39eb3ced40c7238a64264764d040db4eacf463ddc1650efc3ad32b396b6b7562"
+    },
+    {
+      "bytes": 554,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-101",
+      "role": "login-lib",
+      "sha256": "f1a9120c0dee477a2f905ed4259d9c821fc518231e80f9a67b1646219130d8da"
+    },
+    {
+      "bytes": 560,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-102",
+      "role": "login-lib",
+      "sha256": "827cad10e933f192ba2d6948dd0fb801e2cf6bd6ae7432260bd3bfe8d013fed4"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-103",
+      "role": "login-lib",
+      "sha256": "664dd8de1e4d577e7d1ce2dcd3396de2130dce658139c9e93b0d27b3af8b9dd9"
+    },
+    {
+      "bytes": 567,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-104",
+      "role": "login-lib",
+      "sha256": "d1a5fe257162f595fb2f72571b9f60809b37405da31e847549992e6761f615b4"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-105",
+      "role": "login-lib",
+      "sha256": "9df542f046b180e58825df687790582b898c42140931fdff3882f8b1851ce39e"
+    },
+    {
+      "bytes": 556,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-106",
+      "role": "login-lib",
+      "sha256": "4a92bc527758ebae446c7138315dfb1afd710cf2bca499f6dc219d2a523a9e3b"
+    },
+    {
+      "bytes": 529,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-107",
+      "role": "login-lib",
+      "sha256": "6ce6a7cc64966d3b8aa016fbae172a9858cc84c38e74dcc4d70cf217c6ff6a0b"
+    },
+    {
+      "bytes": 564,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-108",
+      "role": "login-lib",
+      "sha256": "310e69e638ad7d9929f8705f29e3be1e17a215e3dfbedf1b35de57feb96a88b3"
+    },
+    {
+      "bytes": 552,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-109",
+      "role": "login-lib",
+      "sha256": "471a9318875739ea664da0683f2826fb8245a603d55295a577cce3b50a68ee16"
+    },
+    {
+      "bytes": 547,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-110",
+      "role": "login-lib",
+      "sha256": "add7ab3b4c32f76c59e5b00c970fc188ad1bc31606f36dc35a3f702a33e65b0a"
+    },
+    {
+      "bytes": 530,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-111",
+      "role": "login-lib",
+      "sha256": "97483a8d0e3c72373a59809e54b4310c71c04c6b33107292d3a51b3654a97b87"
+    },
+    {
+      "bytes": 549,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-112",
+      "role": "login-lib",
+      "sha256": "f967e5b998ecd6a547359401fc67b10068903020e5ab7de26a6f8e351df3e089"
+    },
+    {
+      "bytes": 533,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-113",
+      "role": "login-lib",
+      "sha256": "68f32023a35383bea3b496084a95579c6d8e063e14d8efedefcbcdc600460024"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-114",
+      "role": "login-lib",
+      "sha256": "82108f30824cae16fbb770a909ff2f004cdfc1b0b7210a49e030230e6aca219c"
+    },
+    {
+      "bytes": 524,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-115",
+      "role": "login-lib",
+      "sha256": "367f8a7ef03c60dbf39fde467f47b502cd86d6ca4151f6bba1077ff2985bceca"
+    },
+    {
+      "bytes": 533,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-116",
+      "role": "login-lib",
+      "sha256": "f7557b978eb30bfad738b6eea8d0858fb81458e7795c0dd76aa1f809f8d5ef7f"
+    },
+    {
+      "bytes": 515,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-117",
+      "role": "login-lib",
+      "sha256": "1b825a30e24471788d274540931b007c7200e03279076703eac1ff87e11994c6"
+    },
+    {
+      "bytes": 552,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-118",
+      "role": "login-lib",
+      "sha256": "cb1eece73b16cf74caaf4fbe0f6e1ae520d09679dc1d21105c3129c71f653fab"
+    },
+    {
+      "bytes": 530,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-119",
+      "role": "login-lib",
+      "sha256": "385f391843c325bbbf3570b8cb617c431370bc8df3ee8839c9a304cccd72b6b1"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-120",
+      "role": "login-lib",
+      "sha256": "47477e7a6e6f9c080f99c6bb68dab7aa854108e712b146ff15b809a5112f5060"
+    },
+    {
+      "bytes": 559,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-121",
+      "role": "login-lib",
+      "sha256": "80f1c22395f1cf7d0c429603d51030f5c0dc4f7ec323472a622ff6305cf1ad09"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-122",
+      "role": "login-lib",
+      "sha256": "dd3b2d33595824d09b7b472ef0630eda75c3bcbb4b8d43ea5d5315eb50e94b72"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-123",
+      "role": "login-lib",
+      "sha256": "0f995981f3476e3bd113030e891f8c6ad02e07f10ad351027007ad009a41b3a9"
+    },
+    {
+      "bytes": 544,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-124",
+      "role": "login-lib",
+      "sha256": "47b26ad86e85922b6176967ffaffd4c0f5229281bfa812082c7d0866c04365dd"
+    },
+    {
+      "bytes": 535,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-125",
+      "role": "login-lib",
+      "sha256": "8e84daad832ee26e07b9c12e5f1f7735ec0253fa6601589cb54893ffe930b94f"
+    },
+    {
+      "bytes": 511,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-126",
+      "role": "login-lib",
+      "sha256": "c259453200c1c00a5bc2deb9e16c0a7ad0063d9c03f3002ccf1f883ee6213984"
+    },
+    {
+      "bytes": 517,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-127",
+      "role": "login-lib",
+      "sha256": "d2399472ac1a6be422ec8c27f527e4646b5c6b8701c1d73476b71b9f0b0c8d93"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-128",
+      "role": "login-lib",
+      "sha256": "32ed77449b07e1887142c5cd0b55f34775186181a38185285452707ede17989a"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-129",
+      "role": "login-lib",
+      "sha256": "570620fd58b1320d847855e30fa12baf3257061fc60d361f326e5e3d15ba9812"
+    },
+    {
+      "bytes": 533,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-130",
+      "role": "login-lib",
+      "sha256": "9fa3d5ff4f30265ad1b0c492eea4a9370f2870f1d131b2598351cb84dea743cd"
+    },
+    {
+      "bytes": 512,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-131",
+      "role": "login-lib",
+      "sha256": "99e714628ad74bd1fa9a82fb4fc9374a3881ce9c5e9acaae98eea274fcd6c60f"
+    },
+    {
+      "bytes": 538,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-132",
+      "role": "login-lib",
+      "sha256": "b4d73af2a3054a5607bde1a76401a25b0e8bd1e0573976fef0f219ccfd4b1437"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-133",
+      "role": "login-lib",
+      "sha256": "0f97aeb74c91943d9622fe98b0f471d2b51064a5126fa7621f7bacbdd64b96e3"
+    },
+    {
+      "bytes": 532,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-134",
+      "role": "login-lib",
+      "sha256": "8428716536834f38dfdf04547d014671de24b065ba453365e230a6202b42991d"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-135",
+      "role": "login-lib",
+      "sha256": "cb731659c12dad4c5cf813bdab1d2c250773a1dff89ff7caad003802077fb3c7"
+    },
+    {
+      "bytes": 511,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-136",
+      "role": "login-lib",
+      "sha256": "4cfd207a1878f5f0418d74f079816641df038c405280e40b0d4e2049eb2d4c7e"
+    },
+    {
+      "bytes": 535,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-137",
+      "role": "login-lib",
+      "sha256": "adf38c0f0399f39b1305d78f191f9f8fa5b6074702a0fa101b22cc95f4d09016"
+    },
+    {
+      "bytes": 543,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-138",
+      "role": "login-lib",
+      "sha256": "60cb493077bd60150c45189cda906f0c607a639e510e694ca61445c3708752f6"
+    },
+    {
+      "bytes": 556,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-139",
+      "role": "login-lib",
+      "sha256": "5d35e9c280a3dd415275c14c64aa12271e17368749dc567fcb0e87c46b069319"
+    },
+    {
+      "bytes": 538,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-140",
+      "role": "login-lib",
+      "sha256": "d683269d2753036f025226bcef1ea262674f6ebf873b85f6fe5afb29fac5e1bb"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-141",
+      "role": "login-lib",
+      "sha256": "f645f484d3f0843a417bfccb1d278e00ef97a7fef2251fc3bad75ecc4949d856"
+    },
+    {
+      "bytes": 555,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-142",
+      "role": "login-lib",
+      "sha256": "9d2fa7a8a1f0741fecbba2fb8be9ef38aceca51953c550f7bfa9cb91247ba6cb"
+    },
+    {
+      "bytes": 549,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-143",
+      "role": "login-lib",
+      "sha256": "9efe93fd5011b14674fcc4c8c0d22c989759a2b59bd710194aec1ecc96b414fc"
+    },
+    {
+      "bytes": 569,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-144",
+      "role": "login-lib",
+      "sha256": "24b50e9e4640f4bb553a63f4e6cbca98c124e9beb783848b094788a3d749c669"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-145",
+      "role": "login-lib",
+      "sha256": "5c5a54da314c625dde98e886164b789c62ee9a6725795b936d5335a835f3d89d"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-146",
+      "role": "login-lib",
+      "sha256": "f695edf3516daeb7152d59559eb305f11639ddf937238af4d626fb881dd319ae"
+    },
+    {
+      "bytes": 543,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-147",
+      "role": "login-lib",
+      "sha256": "f90186e441cea1875f0de3794f27535bf16b6709f076438f273d7d2b18780e40"
+    },
+    {
+      "bytes": 581,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-148",
+      "role": "login-lib",
+      "sha256": "6de7322c685a6521523227822731d5a347aacd50c832d8a593278cb101a7f1c7"
+    },
+    {
+      "bytes": 554,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-149",
+      "role": "login-lib",
+      "sha256": "67e8e7efa5394c88eb89996cde7f9d70cdbb8539c1343198d521b629337fa29d"
+    },
+    {
+      "bytes": 582,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-150",
+      "role": "login-lib",
+      "sha256": "e744536f1f2b2d6b8e180230470e0f836026027995eac198a615ef51643301bd"
+    },
+    {
+      "bytes": 569,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-151",
+      "role": "login-lib",
+      "sha256": "14d7178ad7b563208384b99fb3c43b268e6264faf4d3b9920368e2399295d755"
+    },
+    {
+      "bytes": 565,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-152",
+      "role": "login-lib",
+      "sha256": "cce2b5fcad3795888e6b6764cf915536ede8b6819233f464de537f5ab70f9723"
+    },
+    {
+      "bytes": 571,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-153",
+      "role": "login-lib",
+      "sha256": "bf3ef1e9ac3cd0ab77edbf88cdc00612ed244696897fb030b3388b155c948bf9"
+    },
+    {
+      "bytes": 574,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-154",
+      "role": "login-lib",
+      "sha256": "14fdbc091b346a9c438d9eb35645bd1188266c22fa4b31e9c798551f3fdad342"
+    },
+    {
+      "bytes": 573,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-155",
+      "role": "login-lib",
+      "sha256": "46944447e8c7c1f2a3b8f23d48d9284fea85c80484311cef9d00bfd35a07cda6"
+    },
+    {
+      "bytes": 532,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-156",
+      "role": "login-lib",
+      "sha256": "f380178930c0b576f8839671602b324bd18c55b4216bc59aaf18e5b2e3c25286"
+    },
+    {
+      "bytes": 550,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-157",
+      "role": "login-lib",
+      "sha256": "d84de83bca394286ae8eda2d7967e3a543243cbf8d9dc83d918da211642bcad0"
+    },
+    {
+      "bytes": 532,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-158",
+      "role": "login-lib",
+      "sha256": "8316f55f9dfc678d73898ea5bd87de09b3eacd9938c5c6a079c12c6ac3965485"
+    },
+    {
+      "bytes": 510,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-159",
+      "role": "login-lib",
+      "sha256": "709790fda0a7914a8ccfdfb8383970b53a969fce011be925d2b1e5e7c3b903ca"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-160",
+      "role": "login-lib",
+      "sha256": "e4a3515af0ef3f8271c3cfb4d37ff03ffcdf4a56a1eac31f4fa5f3ad4da32eca"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-161",
+      "role": "login-lib",
+      "sha256": "02d33d972c2ad8e5627f3c42e2fa04b96e7c4687863f7b9e65f529e00a6e490c"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-162",
+      "role": "login-lib",
+      "sha256": "df8870c6d6b009b610c2a64587b7cabce012cf71079936eecc5f2a1f4881ae3b"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-163",
+      "role": "login-lib",
+      "sha256": "a770660befba73de74c37ff62e68cbedfc59486ef0ca545f067faa082a216374"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-164",
+      "role": "login-lib",
+      "sha256": "037372f8a9fb7be297616aa3634dd0b353ed5d454cec857e75e067f66fb5d854"
+    },
+    {
+      "bytes": 535,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-165",
+      "role": "login-lib",
+      "sha256": "1e101e431d64a8ee64e4cb998d11cf0870839c9422c34ef66a31dbe2054e295c"
+    },
+    {
+      "bytes": 524,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-166",
+      "role": "login-lib",
+      "sha256": "e281874687aff8d2bfa9c0336e77664776c3fd657dc93b7b5b3d23123cfd8056"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-167",
+      "role": "login-lib",
+      "sha256": "580c9741f6d98ac00b5a86f6e350da48cd9e981b70e7e096e02a7f95178b3b33"
+    },
+    {
+      "bytes": 527,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-168",
+      "role": "login-lib",
+      "sha256": "21d066856d3ff19e5867fab1a8cc38ccb19f08ef47f2e9f45694e130e9585a48"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-169",
+      "role": "login-lib",
+      "sha256": "4d97adaa0120e3ce64c5930b1c4b78579ead151b2f0a8dae76db1cd810711c82"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-170",
+      "role": "login-lib",
+      "sha256": "dbc435f368eb9ca429928d3ca407724f43832e95b9f50169fc63dca65359a863"
+    },
+    {
+      "bytes": 538,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-171",
+      "role": "login-lib",
+      "sha256": "80c1d89d961daf58c56a588431fd71e6817dc2505856e614eec2da51d862b237"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-172",
+      "role": "login-lib",
+      "sha256": "b771eb9cf47f291f610239f63b0fe63c745b9cf133ed4c3b2e931861a68a6513"
+    },
+    {
+      "bytes": 527,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-173",
+      "role": "login-lib",
+      "sha256": "44584cc731eb869af19d522cde8e268d089e6d824b695873e4e73a99cdbff054"
+    },
+    {
+      "bytes": 551,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-174",
+      "role": "login-lib",
+      "sha256": "b341f516028327d0c0db284b64cf5dc4e83a0b5b21342c8fa506c11a4c684807"
+    },
+    {
+      "bytes": 544,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-175",
+      "role": "login-lib",
+      "sha256": "82509dc0a6b9b47f556162a5a40337e1f0e7c41b3d730dcefe68ee87235271d2"
+    },
+    {
+      "bytes": 544,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-176",
+      "role": "login-lib",
+      "sha256": "74811675b4b005716cd680117e78a6b1743ffac3eb77e6341c0e0341984c7c7c"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-177",
+      "role": "login-lib",
+      "sha256": "53993e5975e3bc8a196b47d81c151b3381e321e51242374f9a61b68638628a74"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-178",
+      "role": "login-lib",
+      "sha256": "2f46cba753e2237fec0ecc26149b736949b87932caf7d81fb7323d08f9f7d2f7"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-179",
+      "role": "login-lib",
+      "sha256": "605dc2b024cbc3fd4c9d251180be4c097a7755e2900b72e66634186db1db5817"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-180",
+      "role": "login-lib",
+      "sha256": "99479929237a18e7dae1e89578a4a3894428c1c71f23b63b52783429a4836764"
+    },
+    {
+      "bytes": 533,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-181",
+      "role": "login-lib",
+      "sha256": "c162527c480caefe38ff997c4e4aedd3956297fb6a13f11468cde3f604c0b9a8"
+    },
+    {
+      "bytes": 549,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-182",
+      "role": "login-lib",
+      "sha256": "5b422c9da006104aa9d40c0bd6e67dd20f85230f75730cb1b57119c5e6b3ae22"
+    },
+    {
+      "bytes": 563,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-183",
+      "role": "login-lib",
+      "sha256": "64491d0935ef8a88e1fb1381124ea848a9aecfee730f44ffdb8e4cd55f106b15"
+    },
+    {
+      "bytes": 565,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-184",
+      "role": "login-lib",
+      "sha256": "892850729ecf0bdce364c53d3cf90416a0100777c3392282620f838bcfaeaeb8"
+    },
+    {
+      "bytes": 547,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-185",
+      "role": "login-lib",
+      "sha256": "12f499012485223f87cd5895ee263f93f4b0dd36520f0925f1ef81f672f44c74"
+    },
+    {
+      "bytes": 558,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-186",
+      "role": "login-lib",
+      "sha256": "62c73f63913e7a2d715452c6c995508468b1ca226013fa426ee3f326a37a26a4"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-187",
+      "role": "login-lib",
+      "sha256": "1ce5ea6da66fa4cbcb52ce0a9c1099c77d747d407ba166a57100064d6eb4be5c"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-188",
+      "role": "login-lib",
+      "sha256": "3c1ad904ad053e71b57b3ce3d1229e81c6bdb04314c3725d904cba1e26ec8983"
+    },
+    {
+      "bytes": 530,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-189",
+      "role": "login-lib",
+      "sha256": "c1ae6dfac909d6c5b0adb095f6e9553f09f2f8bc6696bc21c1b0403428aa83f5"
+    },
+    {
+      "bytes": 541,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-190",
+      "role": "login-lib",
+      "sha256": "a2edd9341ab833d64d697a81e298c7fa64b7e9784fc8493a6715100b152d189c"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-191",
+      "role": "login-lib",
+      "sha256": "493a3fc195477449245a9b40be6b4621cf146bbb5b88f75cf5d66af10de7df92"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-192",
+      "role": "login-lib",
+      "sha256": "67bb3eeb9416b5482415d7f3fa5a48b2abbc43d655e76caf3f168df09ccbbe6d"
+    },
+    {
+      "bytes": 532,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-193",
+      "role": "login-lib",
+      "sha256": "f99781387b5791a6a6490b81819ed7066afcc86153a2def23f0784f500b1c1a7"
+    },
+    {
+      "bytes": 547,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-194",
+      "role": "login-lib",
+      "sha256": "1e22a0f4b8fc5d5ed5f38299ae738f6ebfc8609f9aaabf1cbdef44155e826b76"
+    },
+    {
+      "bytes": 554,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-195",
+      "role": "login-lib",
+      "sha256": "045dd5c6e6539f3272de5b475908c48c99597f0ac75f399a4d7cca2dc31b2ff6"
+    },
+    {
+      "bytes": 558,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-196",
+      "role": "login-lib",
+      "sha256": "8cbf9de49d6706096ce4f4a0c41ecc22525feaea9049a58c55b5fddb1782339f"
+    },
+    {
+      "bytes": 552,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-197",
+      "role": "login-lib",
+      "sha256": "c1f250b9babe5323adf57ac1e43f14059a6611e6476549699acb28a31cd5fc41"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-198",
+      "role": "login-lib",
+      "sha256": "31df2ea6a64f813506df16e5b9247aad9888fdba59d93ab3386524ed066c3cfc"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-199",
+      "role": "login-lib",
+      "sha256": "25459ed5b098ac3e624c60c40591c00b0841ffbe93b42ad0906320965f42da62"
+    },
+    {
+      "bytes": 555,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-200",
+      "role": "login-lib",
+      "sha256": "5491ad7475cdd870c72a350e915ef0f2ac14ba975d4852cc34488ff4bff6808b"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-201",
+      "role": "login-lib",
+      "sha256": "39410614d025153d52f391a15a22a8892ca4245442631807a99532dd9d1f65eb"
+    },
+    {
+      "bytes": 551,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-202",
+      "role": "login-lib",
+      "sha256": "2e5d78047ba8027a7ff6554e6dce0e9f80507825dd7286cd9ebc1d781cf14212"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-203",
+      "role": "login-lib",
+      "sha256": "365b4d7cc4e34fd5c6188236976b849ca20153b39c86de6dafeb0fab2389f04f"
+    },
+    {
+      "bytes": 555,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-204",
+      "role": "login-lib",
+      "sha256": "21cab3c98f4565736870c548d0cbf0621ff4e01c22188b97d3b38f19dbad1195"
+    },
+    {
+      "bytes": 533,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-205",
+      "role": "login-lib",
+      "sha256": "163100d1c2d6dc0ab23bc6f095d0df3e9994da543b2f4674609cbeca84111273"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-206",
+      "role": "login-lib",
+      "sha256": "af0a73d524f491eaa9966e67d5f6b9bf43b0669531359b0e10efd63b92ec019b"
+    },
+    {
+      "bytes": 551,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-207",
+      "role": "login-lib",
+      "sha256": "f657d8a7a4f04cc295b5971dfd16292660ac1ebc76fa6213b9a85f0456dd37bd"
+    },
+    {
+      "bytes": 549,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-208",
+      "role": "login-lib",
+      "sha256": "2dc83c48d843884d7134211d13db350df6342ab4e1c3e6e95a545d8709af05b2"
+    },
+    {
+      "bytes": 541,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-209",
+      "role": "login-lib",
+      "sha256": "7418d619020c326a649a30d44c165013eb2ae339d851841cd4b013fd92179370"
+    },
+    {
+      "bytes": 544,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-210",
+      "role": "login-lib",
+      "sha256": "89ed06e116c5948a5bcd4b9c657eb63c48dc471e2747926c5290ff3d420bf5b0"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-211",
+      "role": "login-lib",
+      "sha256": "b45208af75191cf5024db293b52d3dde756a20d40e48bfd17e8f1e953f4e0a19"
+    },
+    {
+      "bytes": 555,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-212",
+      "role": "login-lib",
+      "sha256": "7e929ebb6b3fa4e90e067b39b8f7a917b31f9c4682bdeac7b228f77565602386"
+    },
+    {
+      "bytes": 560,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-213",
+      "role": "login-lib",
+      "sha256": "6529128587cb85ad9dd0e886d490c58098aeb812400a66c0c9d84f9809a52bd7"
+    },
+    {
+      "bytes": 544,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-214",
+      "role": "login-lib",
+      "sha256": "c6dc9ace10afb7b4dfb949a213631663dc841754a5353aaa50c83d53fc52ce3c"
+    },
+    {
+      "bytes": 550,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-215",
+      "role": "login-lib",
+      "sha256": "12ebc4b8eeb5058fcba262c2c19f771c66cb3a1cc1fa5f4cca3c8e3a0ae6cde6"
+    },
+    {
+      "bytes": 564,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-216",
+      "role": "login-lib",
+      "sha256": "7e0a8ec222492bf20d01d36b62c02f3b19a485182e207fc6b6bf9c8700ef166c"
+    },
+    {
+      "bytes": 544,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-217",
+      "role": "login-lib",
+      "sha256": "3fecbfa008460ab4c54be0764ccd179afb8889833d4c4442c1a0f283b24018fa"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-218",
+      "role": "login-lib",
+      "sha256": "00770c33d4b59e048a3cb99d0fb9245d2b5884693e5141869c6cac850ca857bd"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-219",
+      "role": "login-lib",
+      "sha256": "45a49cbca015a9ac67b0d09e49d528a6ef69b35d91a799c3a871281361b63521"
+    },
+    {
+      "bytes": 556,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-220",
+      "role": "login-lib",
+      "sha256": "57f4bf30a3c6956219e3fc9f89c7f144cb2054059c6e77c11d15474ebff37f3a"
+    },
+    {
+      "bytes": 556,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-221",
+      "role": "login-lib",
+      "sha256": "8b8464f7f3e397bcdab31b927e68480045fc25fc5aa2ad65124f7dbd139f7ccd"
+    },
+    {
+      "bytes": 565,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-222",
+      "role": "login-lib",
+      "sha256": "6b80685bd04d203448a8fb0259598cc503b5a78e602be8a72daf3a8ff75b29b3"
+    },
+    {
+      "bytes": 549,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-223",
+      "role": "login-lib",
+      "sha256": "d0a6b19f77ad089ba8258120550a4c68f501761ba1dfd4ac26aa4040dcc9b5fc"
+    },
+    {
+      "bytes": 568,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-224",
+      "role": "login-lib",
+      "sha256": "b60b55cb53a6e85ae69cdd546cc9f28deb2c06e6aade0c11a40070f9e11ef1ac"
+    },
+    {
+      "bytes": 554,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-225",
+      "role": "login-lib",
+      "sha256": "110bd8f14e20b73ef5e4005a5b7e0cd75d0a7589037fea7a3545d7af075e6983"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-226",
+      "role": "login-lib",
+      "sha256": "0e74ca5d93734481293b2a00665120b4151064ee6bc2e777b83af03fd0dd089d"
+    },
+    {
+      "bytes": 561,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-227",
+      "role": "login-lib",
+      "sha256": "5c216e9160a1cddd52a8dc2f2270b1a1b43b60fc2dbb6a39f51db139633e0475"
+    },
+    {
+      "bytes": 551,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-228",
+      "role": "login-lib",
+      "sha256": "81b04321497427c92fef3c393248402f95a809c3a2f8778bf0621d6db94f9e6f"
+    },
+    {
+      "bytes": 561,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-229",
+      "role": "login-lib",
+      "sha256": "db27d863c7dfb4aa5abc7ff22eb592ca21c7673ec9fb5b6958470491f29f3eeb"
+    },
+    {
+      "bytes": 528,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-230",
+      "role": "login-lib",
+      "sha256": "f5b8dadaaeb92ca00fc2e44957f921da50d60bf14911e6a2be7db45b937de4f4"
+    },
+    {
+      "bytes": 549,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-231",
+      "role": "login-lib",
+      "sha256": "659fd05cb83f27d28265b5c59759e25ff02898bed0e2d5f8915a169ca49c8dbc"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-232",
+      "role": "login-lib",
+      "sha256": "64e2103f79c9650c959c021bb5dcc4de03d8404575e1b69b03250180f16df8e2"
+    },
+    {
+      "bytes": 565,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-233",
+      "role": "login-lib",
+      "sha256": "063f9e8b12f65f3fddbce3390404344d4e59c65c0d082680d05d401b1f60c093"
+    },
+    {
+      "bytes": 572,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-234",
+      "role": "login-lib",
+      "sha256": "0baa7b7ed153343a545908f678f894e771c46b271121a0a1e89b9f2872cfba35"
+    },
+    {
+      "bytes": 538,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-235",
+      "role": "login-lib",
+      "sha256": "2e34a4341d9daa1f3b08ddd0a111b16ecf61131aa98a7789daed39aa8f815362"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-236",
+      "role": "login-lib",
+      "sha256": "1145bf999dac8fa53053a62c32a972d708713848e408339e720aa98113c1c50a"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-237",
+      "role": "login-lib",
+      "sha256": "46ad53c7e0bcd72d123932c392933c75e07b4b30c04c29c278edf595e2c41b7e"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-238",
+      "role": "login-lib",
+      "sha256": "e9e62cc4fd0d1ed0abfa91a4df641826e6e7edb562cb87dba30199d2bcd97626"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-239",
+      "role": "login-lib",
+      "sha256": "4777bfdf6b1ef85ad6a6826981225199af7d3dce4c9a905b97f179b3961ef8b0"
+    },
+    {
+      "bytes": 545,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-240",
+      "role": "login-lib",
+      "sha256": "a032cf507a0de1019283f8892e47dbadaefa0176bc2c3a7576f16183125652d9"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-241",
+      "role": "login-lib",
+      "sha256": "123ca2b0c2a35562489d0b774273da1ae338768a81146ea9f77b7de0b5b02994"
+    },
+    {
+      "bytes": 546,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-242",
+      "role": "login-lib",
+      "sha256": "3381d1bd58fe6a76950d4b055efbb357d39b1b9fce8bacc01c57a57c73d2295a"
+    },
+    {
+      "bytes": 534,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-243",
+      "role": "login-lib",
+      "sha256": "0b44acb82d9bad73c33ee3d7fbb34508307cf7f3cc37ac07c93bb025399b2774"
+    },
+    {
+      "bytes": 528,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-244",
+      "role": "login-lib",
+      "sha256": "94eec99093a498421dcd48e18b66526d7ac62537691c56f4ea1bd9f4f65e4011"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-245",
+      "role": "login-lib",
+      "sha256": "7871f6f786485c829fc570270804e058832eab39b444c9a73c359f51be477193"
+    },
+    {
+      "bytes": 525,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-246",
+      "role": "login-lib",
+      "sha256": "105c40581a54e3636a73ffd75082cf5dea9a82fb3d664c1e484020e0901faa1d"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-247",
+      "role": "login-lib",
+      "sha256": "fb6014f67d9711c60135c1f46e91dcf98d11abb3f78f3c08150fbad4d47b9a73"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-248",
+      "role": "login-lib",
+      "sha256": "77b098f60d271985f6136a00d37ff4b387645b7e3b469419a49022e1544c6acb"
+    },
+    {
+      "bytes": 532,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-249",
+      "role": "login-lib",
+      "sha256": "d95a5ac7a688f7bf6a250e6068512f49acf028c5937f8ca20da30081e9521779"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-250",
+      "role": "login-lib",
+      "sha256": "486e67cc3492f5edc9a56552f51f836cddb5ebaee1e3992c0ac677bf21d57777"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-251",
+      "role": "login-lib",
+      "sha256": "c0afb91a420b1d2892f187eabf4a507f40f9b82a271b34d07c8bd87538a46de8"
+    },
+    {
+      "bytes": 519,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-252",
+      "role": "login-lib",
+      "sha256": "c18d7354a585e52f61405d4f601d9599b6b6096004afb8bb09d6db70a627ce4a"
+    },
+    {
+      "bytes": 515,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-253",
+      "role": "login-lib",
+      "sha256": "3c0ca0a3592bbb6c61cf795d2fb99bc60e3a561cece67cfeb0cada09f642d3a5"
+    },
+    {
+      "bytes": 535,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-254",
+      "role": "login-lib",
+      "sha256": "575cd5b4ab75f73c0a63f2ffdfbb036d915c261bc4e0a6fc9a793d369913989d"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-255",
+      "role": "login-lib",
+      "sha256": "3e5c1cd2e34c89d1452fcc0be0eb5bebdb6dfd8ad061975f96659c7cf4bab6d9"
+    },
+    {
+      "bytes": 512,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-256",
+      "role": "login-lib",
+      "sha256": "ea52ec4d9368c99574041e6f14c5abe0fa134130b722e2e08c9ffbd7e2488850"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-257",
+      "role": "login-lib",
+      "sha256": "f176b6cb119e77aae9df8000ecf9cac8087703897ae2f9eddc8bba17858f2683"
+    },
+    {
+      "bytes": 537,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-258",
+      "role": "login-lib",
+      "sha256": "f03b3eb13240abe1729845ad84780ec2e695299ea3bb3e1e5149f5ff55988832"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-259",
+      "role": "login-lib",
+      "sha256": "bda83b1dba676bd4e24b6fbf569a977e694ed4ead622acef9b2d492b585067cc"
+    },
+    {
+      "bytes": 518,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-260",
+      "role": "login-lib",
+      "sha256": "6dc11c31ad667a00e9893efa90f79dddb866f1d7217b7527bba9dc0e8a470f79"
+    },
+    {
+      "bytes": 515,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-261",
+      "role": "login-lib",
+      "sha256": "22eaeddf86f3e3addaac9fd86105353acfdf96d93893c001b9d19a7d6c447d2c"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-262",
+      "role": "login-lib",
+      "sha256": "6109fa383c7c85217c878e2c02d0b3cba0d5cdefd6798dafa89b1d1c3607c085"
+    },
+    {
+      "bytes": 535,
+      "elf_sha256": "a87bdcd23d7da0b00392603d059160291f435795e7e6dcd24cf9bb02c75771f2",
+      "invocation_kind": "case",
+      "label": "observer-263",
+      "role": "login-lib",
+      "sha256": "d991755fd21fbc06cfa43dfeb5191c58ecd0cec99f4c3dc114c4869c31ac0bac"
+    },
+    {
+      "bytes": 525,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-264",
+      "role": "login-integration",
+      "sha256": "11d4f2214be4d749c67c39e0241b9b826a9f36fa4714fcc7d3fff36c260d5a00"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-265",
+      "role": "login-integration",
+      "sha256": "44209dfcd1c02a44fcdba3f6c3481bf6b77b89f10f225232b87312df9e8c9aa9"
+    },
+    {
+      "bytes": 538,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-266",
+      "role": "login-integration",
+      "sha256": "cdf5352f6edc0e860b02ba8c6c824c5a17e25051296c7cc84c929291c2edb7c4"
+    },
+    {
+      "bytes": 524,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-267",
+      "role": "login-integration",
+      "sha256": "2b1d034b4c6864efea92dd57403e248a33905f65c7d66b2ddb27b1858a02fc6f"
+    },
+    {
+      "bytes": 532,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-268",
+      "role": "login-integration",
+      "sha256": "8b71fd24d6c3a9992c964e5ea8f44952403b49b591dbea4ce34e18e12b3ee3a2"
+    },
+    {
+      "bytes": 539,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-269",
+      "role": "login-integration",
+      "sha256": "1b05b53d064beb4929fbb0c13cf305a7cc3ce74facd174457dfc5bc796c95c3e"
+    },
+    {
+      "bytes": 530,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-270",
+      "role": "login-integration",
+      "sha256": "9dc0feb6af225ef12c0cd31b8df58aef2e775f992757bdce728dfcb7f3cd9207"
+    },
+    {
+      "bytes": 543,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-271",
+      "role": "login-integration",
+      "sha256": "d72109dc9c787173f8a34c89daabf3552d1800f2f34caaad28922fabb2f36159"
+    },
+    {
+      "bytes": 518,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-272",
+      "role": "login-integration",
+      "sha256": "b86e28f3803c50448d24d1c8241064288e1cc6bf59658ebeac438dd218ea9ba9"
+    },
+    {
+      "bytes": 519,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-273",
+      "role": "login-integration",
+      "sha256": "ea1da2f37603b58b734ca960567823ffd1ef0c61ec8ef04c72d6c8273b5aa010"
+    },
+    {
+      "bytes": 541,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-274",
+      "role": "login-integration",
+      "sha256": "5253a38bd88606c2281c916ca46f3b01872e7ec3e8110dbb86da6ed6e095df3f"
+    },
+    {
+      "bytes": 524,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-275",
+      "role": "login-integration",
+      "sha256": "9d0b8923d8103b9bc55d6cd5b7f4387596b9ea27bc28bd7840b8bfa171e6dc1c"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-276",
+      "role": "login-integration",
+      "sha256": "2ae60e129424b9fe4f3c8c9bb6585048a80f5e0308f0415044d6b654455c365b"
+    },
+    {
+      "bytes": 541,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-277",
+      "role": "login-integration",
+      "sha256": "58a0e685fa63199f78f78f92c19349f94c366d5d71bda823c8b619c57ec73dbc"
+    },
+    {
+      "bytes": 523,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-278",
+      "role": "login-integration",
+      "sha256": "b2633a53d464037f7a82cbd17c05e1636a03c8f02488d9d77fc46d97ec5bd517"
+    },
+    {
+      "bytes": 516,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-279",
+      "role": "login-integration",
+      "sha256": "ad7f5ae61e432a9d3f5e88bb3b221fe740d887deb7863c56fb86660846eabb18"
+    },
+    {
+      "bytes": 522,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-280",
+      "role": "login-integration",
+      "sha256": "a3c62b2822c967dbe0d6f606673950b5a6b7742c8dfac02ec90fa810b4c44be9"
+    },
+    {
+      "bytes": 504,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-281",
+      "role": "login-integration",
+      "sha256": "864af745effe79b95e5ea4571d9f5c98ae48be796d1c65c791dfc56673519d19"
+    },
+    {
+      "bytes": 526,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-282",
+      "role": "login-integration",
+      "sha256": "b2f8c1a71edb6047f6b74460dfecadd1f816c11160842514efba10759f49b5ce"
+    },
+    {
+      "bytes": 529,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-283",
+      "role": "login-integration",
+      "sha256": "beaa580f54145c7f93ff57c3ab4b359edbae197fd2d2e8139311fc6668acf417"
+    },
+    {
+      "bytes": 521,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-284",
+      "role": "login-integration",
+      "sha256": "c302b4d1693533538834411595e66b59d851c264ad60ca8d7c4fc0dc0081bae6"
+    },
+    {
+      "bytes": 534,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-285",
+      "role": "login-integration",
+      "sha256": "259864ff9fdb41dbfd61048d05bd71f1b9036ba5b2fc81b1e13af6e35b0446da"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-286",
+      "role": "login-integration",
+      "sha256": "ae78dbf0169708b5c30dc8afaff7040b780754f2c9517bf13900fd4052b33123"
+    },
+    {
+      "bytes": 557,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-287",
+      "role": "login-integration",
+      "sha256": "33cd04b50663c139b102676873f88c9da6daa20c7f8e999b3c23b428e55b6a92"
+    },
+    {
+      "bytes": 521,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-288",
+      "role": "login-integration",
+      "sha256": "f3d579c18a713bdc057f8f2a73e2eccf652e7964d9ae16ef75ae4d23a1b214e7"
+    },
+    {
+      "bytes": 527,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-289",
+      "role": "login-integration",
+      "sha256": "e30ae534de944b2c507be3da730e52c88d532c5bc3856d8e8c8ececed0863d46"
+    },
+    {
+      "bytes": 534,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-290",
+      "role": "login-integration",
+      "sha256": "486f79820c068aa0c059f5f26364e4d27bead110e3a9809e5af6bebe353a690c"
+    },
+    {
+      "bytes": 542,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-291",
+      "role": "login-integration",
+      "sha256": "164ef234e01fa9d5ef8c24f60a0831d071201bd9c85c23c329d897fdcf1e04b7"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-292",
+      "role": "login-integration",
+      "sha256": "1f8a9ee6fe8ac8fb198fc0d118caae10ccaa79cda7a1798bb9c229a0994b1d81"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-293",
+      "role": "login-integration",
+      "sha256": "93f2606fdab2bc39fa3b5cbd7a73727c97d14265c791922826ee3d9f266d4a95"
+    },
+    {
+      "bytes": 512,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-294",
+      "role": "login-integration",
+      "sha256": "a71eab3562c70e890e70049f8c7132996b890c709a0761a5d3358dd2b0e04a49"
+    },
+    {
+      "bytes": 522,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-295",
+      "role": "login-integration",
+      "sha256": "3bb96c3056ba622be7bdfb12823203626fabd5d07aeae90efe65c24fab4a09a7"
+    },
+    {
+      "bytes": 548,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-296",
+      "role": "login-integration",
+      "sha256": "f7a34aefc3adb35c26342e72f8bf0f766696e6b647109017990a4b2fcda3c5bd"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-297",
+      "role": "login-integration",
+      "sha256": "68891a6bf9abaaa673a4532dcf0e6496c59b22fffeaa818a932a7524261eec3e"
+    },
+    {
+      "bytes": 531,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-298",
+      "role": "login-integration",
+      "sha256": "7d50f36696f5dcc0fb6dd835040a3e5a75a32b958b74bf788c097b7a491c54e1"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-299",
+      "role": "login-integration",
+      "sha256": "058ab0a5b827af51c4d40075cac1c8ae367da73473d92309b13079a0fafdffa1"
+    },
+    {
+      "bytes": 551,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-300",
+      "role": "login-integration",
+      "sha256": "b04aae69bd9a25c76a99fc5dfbc5e28fd75f2c3fdf839f731a4c63b4a11f2116"
+    },
+    {
+      "bytes": 540,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-301",
+      "role": "login-integration",
+      "sha256": "77e4c176c8849db4a07f1d9005f3d2c52f63f2928b9244d630ca3bb6e33c24a4"
+    },
+    {
+      "bytes": 520,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-302",
+      "role": "login-integration",
+      "sha256": "9567bbb2d19e0603ab5a31c13210e19c8067558e86c73b01360f06d7f8fd81da"
+    },
+    {
+      "bytes": 521,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-303",
+      "role": "login-integration",
+      "sha256": "591e526ad41e370d985980fb027d87f5bd1d5496deab6964139382939fd6d889"
+    },
+    {
+      "bytes": 530,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-304",
+      "role": "login-integration",
+      "sha256": "57ed43f81242cf9d31b991935fa9c1077c7be56f4dd3977ef49ffbdf4041dedb"
+    },
+    {
+      "bytes": 536,
+      "elf_sha256": "303fccbe8339e6bae1349fbfb67ad104dc591db22448b9c8435958f66110acf3",
+      "invocation_kind": "case",
+      "label": "observer-305",
+      "role": "login-integration",
+      "sha256": "ea29cc0e2098e38bf3161486e156c30a565813d4b9fb5207646a40911ffc1c16"
+    }
+  ]
+}

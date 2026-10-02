@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "Adopted and formatted; not compiled or tested. Native ownership prerequisite, no additional extracted component.",
+  "status": "Adopted and formatted; focused4, full login301 and provider108 passed on source42. Scoped lint and new production/UI gates pending. Native ownership prerequisite, no additional extracted component.",
   "upstream": {
     "repository": "https://github.com/openai/codex",
     "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
@@ -137,11 +137,26 @@
     "coordinate compatible versions, migration artifacts and rollback before activation"
   ],
   "execution": {
-    "new_tests_executed": false,
+    "new_tests_executed": true,
     "production_matches_source": false,
     "installed_auth_storage_component": false,
     "real_upstream_update_integration": false,
-    "scheduled_polling": false
+    "scheduled_polling": false,
+    "focused_cases_passed": 4,
+    "focused_terminal_sha256": "3dbafe629867343726f2d5d8819156ff4769ded61d3a6b4e96cb61722f37d7f3",
+    "focused_evidence": "verification/2026-10-02/p03-auth-refresh-focused/EVIDENCE.json",
+    "full_login_cases_passed": 301,
+    "focused_cases_included_in_full_login": true,
+    "full_login_terminal_sha256": "3330cbfe72c0e92d9f7d2287986ba27e3ffdbed24f1584d0e3e34ada66d7069e",
+    "full_login_evidence": "verification/2026-10-02/p03-auth-refresh-full/EVIDENCE.json",
+    "provider_cases_passed": 108,
+    "provider_terminal_sha256": "f253121785e50507c5d17b68262d6bfb328047bd361b7ed34ea848d385116e5c",
+    "provider_evidence": "verification/2026-10-02/p03-auth-refresh-provider/EVIDENCE.json",
+    "provider_adopted_exit_status_histogram": {
+      "-9": 1,
+      "0": 1
+    },
+    "provider_exit_cause_attributed": false
   },
   "license": "Apache-2.0 LICENSE and NOTICE retained."
 }

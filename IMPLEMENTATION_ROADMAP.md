@@ -38,10 +38,17 @@ verification, enabling the unchanged admission floors. The preserved production 
 represents preceding7a source and is currently archive-only; new production/UI
 validation remains pending.
 The next ownership slice, permanent refresh-failure publication, is now adopted
-and formatted as source42e3899 (8,949 files), with four causal tests now compiling.
+and formatted as source42e3899 (8,949 files). Its
+[four causal tests](verification/2026-10-02/p03-auth-refresh-focused/README.md)
+pass on a newly built login ELF. The subsequent
+[full login regression](verification/2026-10-02/p03-auth-refresh-full/README.md)
+passes301/301 with zero skips/retries and no new OOM, including those four cases.
 Its source and runtime acceptance remain separate from this completed reload
-package/lint checkpoint. Its fresh preflight admitted compilation after a verified
-release of two redundant archived copies; no new test pass is yet claimed.
+package/lint checkpoint. The current provider suite also passes108/108 with zero
+skips/retries; the combined package total is409. Strict checks passed while retaining
+the observed child status−9 without a causal or universal graceful-cleanup claim.
+Scoped lint and production/UI gates remain pending. Fresh preflight admitted compilation after a verified
+release of two redundant archived copies.
 Source and all retired test/production proofs are preserved. The successful runtime
 checkpoint does not close
 P03, prove whole-host graceful cleanup, or resolve every storage durability case.
