@@ -19,7 +19,8 @@ The [auth reload source map](upstream/p03-auth-reload-source-lineage.json) recor
 the newly adopted five-path native ownership change against exact upstream objects
 and the preceding tested source. It includes formatted hashes and intentional
 customizations. Five focused tests,297 full grouped login tests and108 grouped
-provider tests now pass; lint and current production/UI checks remain pending.
+provider tests now pass; scoped login lint03 also passed without source changes.
+Current production/UI checks remain pending.
 The map is provenance, not updater acceptance or an
 additional extracted component. The refresh follow-up remains
 a separate unadopted proposal.

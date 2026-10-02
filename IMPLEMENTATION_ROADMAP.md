@@ -31,14 +31,13 @@ replacement tests remain open. Older results retain their original source identi
 The native reload source-ownership fix has now been adopted and formatted locally
 (five paths, source map0742356b) and passes five focused causal tests plus the
 full grouped login gate:297/297, plus108/108 provider tests, zero retries/skips,
-serial execution. Lint and new production/UI validation remain pending. The restored
-production CLI remains the preceding7a source. Scoped login lint was blocked by
-its RAM floor before compiler startup; provider regression then passed independently.
-The compiled-only CLI artifact has been archived and its generated copies released.
-Disk headroom is restored, but lint02 again stopped before compilation at the
-unchanged RAM floor. A redundant older verification-copy release is under review;
-its complete archive and unique source will be retained. These are resource
-admission results, not lint passes or code failures. The successful runtime
+serial execution. Scoped login lint03 now also passes with unchanged source and
+no new OOM. The first two attempts remain precompiler resource blocks. A redundant
+old verification copy was released only after fresh complete archive/member/restore
+verification, enabling the unchanged admission floors. The restored production CLI
+still represents preceding7a source; new production/UI validation remains pending.
+The next ownership slice fences permanent refresh failures. Its source and runtime
+acceptance remain separate from this completed reload package/lint checkpoint. The successful runtime
 checkpoint does not close
 P03, prove whole-host graceful cleanup, or resolve every storage durability case.
 

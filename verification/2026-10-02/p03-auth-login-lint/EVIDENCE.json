@@ -1,0 +1,139 @@
+{
+  "admitted_resources": {
+    "conditional_credit": 1565675520,
+    "credit_is_not_free_ram": true,
+    "effective": 3870150656,
+    "hard_unused": 2304475136,
+    "oom": 10,
+    "oom_kill": 5,
+    "space": {
+      "/dev/shm": 7467749376,
+      "/tmp": 729501696,
+      "/workspace": 462958592
+    }
+  },
+  "command": [
+    "just",
+    "fix",
+    "-p",
+    "codex-login"
+  ],
+  "command_returncode": 0,
+  "compiler_started": true,
+  "limits": [
+    "This is scoped just fix/Clippy evidence, not a new test, installed-plugin, production-host or GUI pass.",
+    "Existing focused5/full297/provider108 results retain their exact tested source identity. Counts overlap and are not a cumulative test total.",
+    "Any source delta requires root semantic review; no automatic equivalence with earlier test results is asserted. No tests are rerun solely for mechanical style.",
+    "The reviewed generated-restore release and bounded memory hints do not independently establish compiler admission; this attempt records fresh admission at unchanged floors.",
+    "Both prior precompiler failures remain preserved. No source or threshold was changed to convert them into passes.",
+    "Proof archives and raw reports remain VM-local; public source/evidence durability only covers published files."
+  ],
+  "new_test_execution": false,
+  "prior_admission_failures": [
+    {
+      "observed_resources": {
+        "conditional_credit": 1542756352,
+        "credit_is_not_free_ram": true,
+        "effective": 3392063488,
+        "hard_unused": 1849307136,
+        "oom": 10,
+        "oom_kill": 5,
+        "space": {
+          "/dev/shm": 7467765760,
+          "/tmp": 94081024,
+          "/workspace": 428666880
+        }
+      },
+      "reason": "hard unused RAM floor unmet",
+      "reference": {
+        "bytes": 493,
+        "path": "/workspace/acceptance/p03-auth-login-fix-01.preflight-failed.json",
+        "sha256": "2999acf1e44edf0f714db16d76db0600d1b6fe7fe4422d31fd3cc38b11218ad3"
+      },
+      "source_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+      "status": "blocked_before_compiler"
+    },
+    {
+      "observed_resources": {
+        "conditional_credit": 1494145024,
+        "credit_is_not_free_ram": true,
+        "effective": 3307030528,
+        "hard_unused": 1812885504,
+        "oom": 10,
+        "oom_kill": 5,
+        "space": {
+          "/dev/shm": 7467749376,
+          "/tmp": 94081024,
+          "/workspace": 463826944
+        }
+      },
+      "reason": "hard unused RAM floor unmet",
+      "reference": {
+        "bytes": 493,
+        "path": "/workspace/acceptance/p03-auth-login-fix-02.preflight-failed.json",
+        "sha256": "fd166b9c11910871d1d7ea43b4f1740c8b587e40fd86a3595f8bd8631e463765"
+      },
+      "source_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+      "status": "blocked_before_compiler"
+    }
+  ],
+  "production_matches_auth_source": false,
+  "protected_proofs_unchanged": true,
+  "resources_after_command": {
+    "conditional_credit": 1746640896,
+    "credit_is_not_free_ram": true,
+    "effective": 3645562880,
+    "hard_unused": 1898921984,
+    "oom": 10,
+    "oom_kill": 5,
+    "space": {
+      "/dev/shm": 7467749376,
+      "/tmp": 729501696,
+      "/workspace": 293621760
+    }
+  },
+  "resources_after_proof_checks": {
+    "conditional_credit": 2147483648,
+    "credit_is_not_free_ram": true,
+    "effective": 2823163904,
+    "hard_unused": 675680256,
+    "oom": 10,
+    "oom_kill": 5,
+    "space": {
+      "/dev/shm": 7467749376,
+      "/tmp": 729501696,
+      "/workspace": 293617664
+    }
+  },
+  "schema": "p03_auth_login_lint_completed_evidence_v1",
+  "source": {
+    "after_count": 8948,
+    "after_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+    "before_count": 8948,
+    "before_map_sha256": "0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f",
+    "changed_paths": [],
+    "hashes": {},
+    "semantic_classification": "no_source_bytes_changed",
+    "test_equivalence_automatically_claimed": false,
+    "unchanged": true
+  },
+  "status": "scoped_lint_and_guards_passed",
+  "strict": {
+    "command_returncode": 0,
+    "exit_status": 0,
+    "no_process_attribution_or_graceful_cleanup_inference": true,
+    "reaped_count": 1,
+    "reaped_exit_histogram": {
+      "0": 1
+    },
+    "runner_error_is_null": true,
+    "subreaper": true
+  },
+  "unchanged_required_floors": {
+    "credit_cap_bytes": 2147483648,
+    "effective_memory_bytes": 3221225472,
+    "hard_unused_memory_bytes": 2147483648,
+    "overlay_bytes": 391987200,
+    "tmpfs_bytes": 134217728
+  }
+}

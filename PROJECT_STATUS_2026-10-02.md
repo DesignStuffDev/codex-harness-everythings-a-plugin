@@ -132,7 +132,8 @@ and no new OOM events. Tests ran serially; this is not default-concurrency cover
 The [provider library gate](verification/2026-10-02/p03-auth-model-provider-full/README.md)
 also passed108/108, zero retries/skips. Its strict runner returned0 and retained
 adopted statuses{-9:1,0:1} without attribution or universal graceful-cleanup claims.
-Lint and rebuilt-host/UI validation remain pending; this source is newer
+Scoped login lint03 now passes without source changes or new OOM. Rebuilt-host/UI
+validation remains pending; this source is newer
 than the production executable. The permanent-refresh-failure follow-up remains an
 unadopted proposal. Successful-refresh durable persistence needs its own conditional
 ownership protocol. Memory/disk constraints are being addressed with bounded
@@ -144,8 +145,11 @@ with its separate lower resource requirement; lint's floor remains unchanged.
 A second lint admission also stopped before compilation at1,812,885,504B hard-unused
 RAM after disk headroom was restored. [The resource evidence](verification/2026-10-02/p03-auth-post-provider-resource/README.md)
 retains both blocked attempts, the verified compiled-only artifact archive and exact
-cache-advice actions. A separately reviewed release of a redundant old verification
-copy may free RAM; its complete archive and all unique source remain protected.
+cache-advice actions. A separately reviewed redundant verification-copy release
+recovered RAM while preserving its complete verified archive and all unique source.
+[Lint03](verification/2026-10-02/p03-auth-login-lint/README.md) then passed at the same
+resource floors. This completes the reload package/lint gate, not rebuilt-host or
+whole-platform acceptance.
 
 Detailed evidence:
 [build](verification/2026-10-02/p03-http-stage-b-production-build/REPORT.md),

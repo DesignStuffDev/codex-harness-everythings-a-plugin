@@ -115,7 +115,7 @@ and source maps must not be relabelled as proof for current working code.
 The later C06 reload change extends the native in-memory publication check to the
 committed auth-source identity, including equal-credential replacement and ABA.
 Its five causal tests,297 full grouped login tests and108 grouped provider tests
-passed on source map `0742356b`; lint and a rebuilt host remain separate gates. See the
+passed on source map `0742356b`; scoped login lint03 subsequently passed with unchanged source and no new OOM. A rebuilt host remains a separate gate. See the
 [source map](upstream/p03-auth-reload-source-lineage.json) and
 [focused evidence](verification/2026-10-02/p03-auth-reload-focused/README.md).
 This does not extract authentication. Permanent refresh-failure publication is a

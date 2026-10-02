@@ -8,6 +8,16 @@ preservation/resource chains remain in [EXECUTION_CHECKPOINT_HISTORY.md](EXECUTI
 
 ## Current checkpoint
 
+Latest publication verified: `96a433904fb888fe717677216c3ed16e3e535179`,
+tree `f4b27007c1b1306757705613ed6662c305c911e0`, parent e996f0d below.
+All14 selected files (348,119B) and both refs were read back. This publishes the
+current-source provider108 result, both precompiler lint blocks, resource evidence
+and synchronized docs/provenance. It changes no active Rust source. The later
+current58 verification-copy release/lint03 are not claimed by this checkpoint.
+Main and the original index are unchanged. Receipt:
+R/p03-auth-provider-resource-publication-01/PUBLICATION.json SHA256
+`9ae219e619db9745aed82d17978d1f2ea7bb8ea5934cfba5df50c84fb98a9d87`.
+
 Latest publication verified: `e996f0db617318f06ab3a5f8d2db8498298777e2`,
 tree `38acb622744bcf0f6809175e887ca97f4859a945`, parent75a42cc below.
 All22 selected files (406,889B) and both refs were read back. This publishes the
@@ -109,7 +119,7 @@ remains unchanged. VM-wide external backup is not claimed.
   `0742356b9ff442a4d38f6704928930602f92df0fdfe89bfb250897fda470729f`.
   Candidate SHA256 `a3e21f97c6d5e83cab69821a4507e223deaecf5604fd2d7aaffbc7b19c1e6f4f`.
   Five focused,297 full login and108 provider tests now pass as recorded below.
-  Lint and rebuilt-host validation are pending. Prior source7a runtime results do not validate this change.
+  Scoped login lint03 now passes with unchanged source; rebuilt-host validation is pending. Prior source7a runtime results do not validate this change.
   Reload publication now checks committed source identity as well as cache/policy
   identity; five causal tests cover replacement, ABA, stale failures and cancellation.
   This is a native ownership prerequisite, not an additional extracted family.
@@ -146,9 +156,8 @@ remains unchanged. VM-wide external backup is not claimed.
    Overlay afterward942,952,448B; source/index and production metadata unchanged.
    This adds339,161,088B of future production rebuild debt, not warm-test debt.
    Fresh test admission remains separate; never replay the completed action.
-2. Focused reload, full login and provider gates are complete below; finish scoped
-   lint using a feasible explicitly bound feature
-   composition. Unconditional core_test_support cannot be removed to avoid cost.
+2. Focused reload, full login, provider and scoped lint gates are complete below.
+   The scoped feature compositions remain explicit. Unconditional core_test_support cannot be removed to avoid cost.
    One compiler job; do not kill Rust commands. Full workspace approval is absent.
    Record actual source, exact executed binaries, original failures and retry counts.
    Focused root command70340 completed: **5/5 passed**,250 filtered, zero actual
@@ -197,7 +206,7 @@ remains unchanged. VM-wide external backup is not claimed.
    actual111,256,736B provider ELF SHA256
    `6e8d48e93e721e322a204ff45a730b0b8fe76c7c6203eda9a13420f31e909f8b`.
    [Provider evidence](verification/2026-10-02/p03-auth-model-provider-full/README.md)
-   is copied locally, not yet published. Overlay afterward313,868,288B, below
+   was published at96a4339 above. Overlay afterward313,868,288B, below
    lint's391,987,200B floor. Next resource proposal preserves and retires only the
    current compiled-only CLI library21f25, retaining all executed test ELFs.
    This resource chain has now completed in
@@ -220,10 +229,26 @@ remains unchanged. VM-wide external backup is not claimed.
    no Clippy invocation, source edit or lint verdict occurred. Do not replay or lower
    the floors. Read-only audit identified one redundant old current58 verification
    restore (two hardlinks to one635,424,768B tmpfs inode). Its complete7-member
-   archive remains in R. Root must freshly verify archive/member/restore bytes and
-   live references before releasing only that generated copy. Source, runtime homes,
-   current executed binaries and all recovery archives remain protected. A new lint
-   attempt needs a measured resource change and fresh admission, not elapsed time.
+   archive remains in R. Root action25222 has now verified all7 archive members,
+   freshly hashed the restored inode, checked live references and released only the
+   two generated hardlinks/empty directory. RESULT in
+   R/p03-old-current58-verification-copy-release-01 has SHA256
+   `31574f4d66578cc60e087513fd136c297b703a21a6042cec894a4c6cde4759c5`.
+   Source, index,12 protected selectors and all recovery archives remain unchanged.
+   Hard-unused RAM rose1,829,593,088→2,319,495,168B; /tmp available729,501,696B,
+   overlay463,011,840B, OOM10/kill5 unchanged. Archive is still VM-local; no new
+   extraction or outside backup is claimed. Never replay that release action.
+   Lint03 root14488 passed after fresh admission: `just fix -p codex-login`,
+   dev-profile completion2m29s, strict0/null and reaped{0:1}. No source bytes changed;
+   source0742356 and protected proofs/index are unchanged, OOM10/kill5 unchanged.
+   Terminal SHA256 `a70696c21f35f066035855b1cdf6afd5c9d245ee2bb714a90d052885e3bd66ef`.
+   [Lint evidence](verification/2026-10-02/p03-auth-login-lint/README.md).
+   Admission hard2,304,475,136B/effective3,870,150,656B; overlay462,958,592B.
+   After command overlay293,621,760B; protected-proof hashing then warmed cache.
+   This is lint success on the tested auth source, not new production/UI proof.
+   No tests are repeated solely for lint/format. The next refresh source needs its
+   own candidate and tests. Current disk is below its conservative~845MB preflight;
+   review bounded cache/proof consolidation before a new compiler attempt.
    Record any eventual Clippy source transition; do not rerun tests solely for
    formatting/lint. No compiler currently runs.
 3. Only after the reload stage is verified, adopt the separately preserved permanent

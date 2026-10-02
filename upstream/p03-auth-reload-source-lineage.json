@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "status": "Adopted/formatted; five focused reload,297 full grouped login and108 grouped provider tests passed. Lint blocked before compiler; rebuilt-host/UI pending. Native ownership support, no new extracted component.",
+  "status": "Adopted/formatted; focused5/full login297/provider108 and scoped login lint03 passed. Lint changed no source. Rebuilt-host/UI pending. Native ownership support, no new extracted component.",
   "upstream": {
     "repository": "https://github.com/openai/codex",
     "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
@@ -445,6 +445,22 @@
       "causal_cleanup_attribution": false,
       "evidence": "verification/2026-10-02/p03-auth-model-provider-full/EVIDENCE.json",
       "evidence_sha256": "cf1c1e7bdfecbf182d632850620a76c02a0414c1921dd4951776144b560ac572"
+    },
+    "scoped_lint": {
+      "command": [
+        "just",
+        "fix",
+        "-p",
+        "codex-login"
+      ],
+      "passed": true,
+      "source_unchanged": true,
+      "strict_exit": 0,
+      "new_oom": false,
+      "evidence": "verification/2026-10-02/p03-auth-login-lint/EVIDENCE.json",
+      "evidence_sha256": "59a0d04c365d2b69cd4e77d84bc7db83a85b7eaf1896f3ac49c2f9bc0876580a",
+      "terminal_sha256": "a70696c21f35f066035855b1cdf6afd5c9d245ee2bb714a90d052885e3bd66ef",
+      "prior_precompiler_failures_retained": true
     }
   },
   "license": "Apache-2.0 LICENSE and NOTICE retained."
