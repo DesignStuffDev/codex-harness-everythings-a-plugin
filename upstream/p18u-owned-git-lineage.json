@@ -1,0 +1,242 @@
+{
+  "schema": "codex-maintenance-owned-git-lineage-v1",
+  "status": "Current-source installed package and two direct-Git lifecycle modes verified; P18U update execution remains incomplete",
+  "official_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "source_paths_extracted_by_this_slice": []
+  },
+  "published_predecessor_implementation": "914cc59374c1149463e78bc33851d83e3f14d0a4",
+  "published_predecessor_ledger": "777ee7ce49eb284d1fea80c927207433ca64a9fc",
+  "phase": "P18U",
+  "boundary": "C27",
+  "component_id": "codex.maintenance.upstream-review",
+  "before_version": "0.1.0",
+  "version": "0.1.1",
+  "contract": {
+    "host_component_api": 1,
+    "kind": "tool",
+    "name": "upstream_impact_review",
+    "version": 1
+  },
+  "new_native_extracted_families": 0,
+  "native_families_total_unchanged": 3,
+  "new_host_build": false,
+  "source_binding": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p18u-owned-git-adoption-01/CANDIDATE_FORMATTED.json",
+    "bytes": 1237994,
+    "sha256": "51fda6355cb9f071b2e0a9b422c2e5580c668e20949a46c3c86c2ed3d6411ee3",
+    "source_count": 8964,
+    "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+    "base_source_map_sha256": "27c3eda0c294717768fe7d40af7ddad8363e3f59f7c21784875b39addac4d4f6",
+    "rust_source_unchanged": true,
+    "format_changes": [
+      "component-sdk/tests/test_owned_git.py"
+    ]
+  },
+  "source_rows": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/README.md",
+      "base_sha256": "058445ca7fdc07bc982634124ca3908f3cb23a894e3a946816d685c7f694916c",
+      "formatted_sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3",
+      "formatted_bytes": 7277,
+      "official_upstream_origin_path": null,
+      "classification": "custom additive maintenance adapter, packaging or test; not native extraction"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "base_sha256": "df670dd9b0aef1603bbd1f0134cefbc85a3ac5d2ab9b939cd2978c9393b950b3",
+      "formatted_sha256": "e15a73933c45f901cd1a1a2f0078eed89a89c397f3948ee7db3cf653a02b8220",
+      "formatted_bytes": 1269,
+      "official_upstream_origin_path": null,
+      "classification": "custom additive maintenance adapter, packaging or test; not native extraction"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+      "base_sha256": "61b92034c42ec7393854416a0668db89654c294460557c56d30743de881ac4e5",
+      "formatted_sha256": "41b92269918b3e8fb69fe08c275aa6e9624eb0324affd8861c333ceb96f12a96",
+      "formatted_bytes": 11337,
+      "official_upstream_origin_path": null,
+      "classification": "custom additive maintenance adapter, packaging or test; not native extraction"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/owned_git.py",
+      "base_sha256": null,
+      "formatted_sha256": "9ce921c3d864bdc7be223f521a5f86b8711c03749843697c12bd2a0bdf9a8976",
+      "formatted_bytes": 3785,
+      "official_upstream_origin_path": null,
+      "classification": "custom additive maintenance adapter, packaging or test; not native extraction"
+    },
+    {
+      "path": "component-sdk/tests/test_owned_git.py",
+      "base_sha256": null,
+      "formatted_sha256": "1ba098f9a60a4a166853eeedf8519eff2df01fd27f087d56148f40aa9472768f",
+      "formatted_bytes": 4945,
+      "official_upstream_origin_path": null,
+      "classification": "custom additive maintenance adapter, packaging or test; not native extraction"
+    },
+    {
+      "path": "component-sdk/tests/test_upstream_maintenance.py",
+      "base_sha256": "7ff5c0dc4be8a1516211d3a6fedfbbb4cfe3382e2a4b61ce9289062297ec452c",
+      "formatted_sha256": "7c67a782d7d871f4ca2d2e4b1ea6519d7ed051c87e5c4831ecc236e395ca4fd5",
+      "formatted_bytes": 9864,
+      "official_upstream_origin_path": null,
+      "classification": "custom additive maintenance adapter, packaging or test; not native extraction"
+    }
+  ],
+  "unchanged_dependencies": [
+    {
+      "path": "upstream/validate_checkpoint_lineage.py",
+      "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c",
+      "bytes": 30194,
+      "symbols": [
+        "GitObjects",
+        "GitObjects.command"
+      ],
+      "relationship": "Repository-local custom maintenance object interface; not an OpenAI native Git runner.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/validate_checkpoint_lineage.py",
+      "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c",
+      "bytes": 30194,
+      "symbols": [
+        "GitObjects",
+        "GitObjects.command"
+      ],
+      "relationship": "Unchanged vendored copy of project-local validator; LocalObjects overrides command.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "upstream/plan_upstream_impact.py",
+      "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+      "bytes": 16266,
+      "symbols": [
+        "plan"
+      ],
+      "relationship": "Repository-local impact logic whose recoverable catch sets remain unchanged.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plan_upstream_impact.py",
+      "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+      "bytes": 16266,
+      "symbols": [
+        "plan"
+      ],
+      "relationship": "Unchanged vendored planner; terminal custody errors bypass its ValueError recovery.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "component-sdk/codex_component_sdk/__init__.py",
+      "sha256": "1987d1ca5b6fb76f01eed3cc79ab27f2022dc8962d09a2a5f22b0b771c755738",
+      "bytes": 8523,
+      "symbols": [
+        "RequestContext.watch_shutdown",
+        "Plugin.run",
+        "Plugin.run.watch_shutdown",
+        "Plugin.run.read_shutdown"
+      ],
+      "relationship": "Unchanged SDK framed shutdown/EOF/invalid-control event; handler executes with watcher thread present.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+      "sha256": "530163f565ec34c6108ffca6f006a058c2e3c058337428675bb5fc1fb3c9090a",
+      "bytes": 978,
+      "symbols": [
+        "plan"
+      ],
+      "relationship": "Unchanged tool-v1 handler supplies watch_shutdown event; success requires review_required.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "codex-rs/component-host/src/main.rs",
+      "sha256": "902694445ccbb2b905ec05630d9ea6f5a65bc9e4cc367e0d2c7ce5e8591a3952",
+      "bytes": 4891,
+      "symbols": [
+        "Command::Call",
+        "Command::Launch"
+      ],
+      "relationship": "Unchanged manager; one-shot Call lacks Launch-style SIGINT forwarding.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "codex-rs/component-host/src/process.rs",
+      "sha256": "2417783ccff48083969d1a247367488759148e95c30cf96704de84b983aeaa3a",
+      "bytes": 18998,
+      "symbols": [
+        "plugin_command"
+      ],
+      "relationship": "Unchanged Linux direct-plugin parent-death guard and existing process-group supervision; does not by itself arm Git grandchildren.",
+      "changed_by_this_slice": false
+    },
+    {
+      "path": "component-sdk/codex_component_sdk/__main__.py",
+      "sha256": "b4824d3f922b9371fc0f3d29a3c8b6a14c84d9ea74f48c6f4572476f8d77c0b7",
+      "bytes": 7005,
+      "symbols": [
+        "build"
+      ],
+      "relationship": "Unchanged SDK builder bundles new Python module in independently built plugin.pyz.",
+      "changed_by_this_slice": false
+    }
+  ],
+  "symbol_mapping": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+      "symbols": [
+        "LocalObjects.__init__",
+        "LocalObjects.command",
+        "review_request"
+      ],
+      "change": "Clampable 90-second deadline remains; terminal ownership failure is latched before any later command admission. Outer request preserves cancelled vs invalid status and stable diagnostic outside vendored recoverable catch sets."
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/owned_git.py",
+      "symbols": [
+        "OwnedGitError",
+        "child_main",
+        "_kill_and_reap",
+        "capture"
+      ],
+      "change": "New custom direct-child owner. Fresh isolated Python exec arms Linux parent-death SIGKILL with parent checks, then execs Git. Active poll, 30-second command budget, 2-second direct-child reap and explicit cleanup failure."
+    }
+  ],
+  "state_ownership": {
+    "LocalObjects": "request-scoped cache, deadline and terminal diagnostic",
+    "owned_git.capture": "one Popen direct child and stdout pipe",
+    "SDK": "framed control stream and shutdown event",
+    "host": "existing plugin process/group and outer invocation deadline"
+  },
+  "intentional_custom_behavior": [
+    "Terminal custody failures use RuntimeError to escape vendored recoverable ValueError catches.",
+    "Caller cancellation or command/job deadline returns cancelled; failed cleanup returns invalid; both suppress completed plan/tool success.",
+    "Linux wrapper is a fresh Python process, not unsafe preexec_fn in the threaded plugin.",
+    "No new process group; existing host ownership remains outer boundary."
+  ],
+  "limitations": [
+    "Direct Git only, not arbitrary descendant-tree isolation.",
+    "Abrupt parent-death guarantee applies only to ordinary Linux exec; portable cooperative cancellation remains separate.",
+    "Capture bounds remain post-capture; no streaming-memory claim.",
+    "No official native subsystem extraction, updater application, migration, activation or rollback.",
+    "Model/provider/UI behavior is not established by standalone manager tool calls.",
+    "Installed direct SDK shutdown was exercised separately; the manager Call subcommand was interrupted abruptly, not proved to forward a graceful shutdown frame."
+  ],
+  "evidence": "verification/2026-10-04/p18u-owned-git/README.md",
+  "runtime_evidence": {
+    "package_acceptance_commands": 23,
+    "manager_commands": 19,
+    "abrupt_manager_status": -2,
+    "abrupt_tracked_absent_seconds": 0.001505898999994315,
+    "cooperative_plugin_status": 0,
+    "cooperative_tracked_absent_seconds": 0.07241201900001215,
+    "both_real_git_fifo_ack_precedes_cancellation": true,
+    "both_fifo_writers_held_until_primary_verdict": true,
+    "no_rescue": true,
+    "subsequent_successful_manager_invocations": 2,
+    "host_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+    "package_plugin_sha256": "d7d918a5f27cd82df4d8c89b36b453de235e099c711544a0fd09fa1218e9d1e2",
+    "new_model_or_GUI_evidence": false
+  }
+}

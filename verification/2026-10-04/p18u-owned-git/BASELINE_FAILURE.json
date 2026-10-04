@@ -1,0 +1,183 @@
+{
+  "schema": "codex-maintenance-owned-git-baseline-failure-v1",
+  "package_id": "codex.maintenance.upstream-review",
+  "package_version": "0.1.0",
+  "old_source_map_sha256": "27c3eda0c294717768fe7d40af7ddad8363e3f59f7c21784875b39addac4d4f6",
+  "source_unchanged": true,
+  "old_package": {
+    "LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "bytes": 10926
+    },
+    "NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "bytes": 242
+    },
+    "README.md": {
+      "sha256": "406051fbd28a88da79b557df847a14a1a8271b32020033eff3d79bd0a7bd5878",
+      "bytes": 5853
+    },
+    "SDK-LICENSE": {
+      "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+      "bytes": 10926
+    },
+    "SDK-NOTICE": {
+      "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+      "bytes": 242
+    },
+    "bootstrap.py": {
+      "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+      "bytes": 332
+    },
+    "codex-component.json": {
+      "sha256": "bd0ef338dfabffe18b52e8a7bf9fa3d289872ff42a7b3488c33d42298b904173",
+      "bytes": 1699
+    },
+    "plugin.pyz": {
+      "sha256": "7fd642a11726e5e5dc06ea5ae9b84b9f50788b6a5d2126ca582d2ffaa71c4837",
+      "bytes": 28586
+    }
+  },
+  "host": {
+    "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+    "bytes": 7274296
+  },
+  "primary_before_rescue": {
+    "passed": false,
+    "writer_held": true,
+    "manager_status": -2,
+    "signal": "SIGINT to manager PID only",
+    "rescue_used": false,
+    "signal_monotonic_ns": 220036853632687,
+    "failure": "AssertionError",
+    "elapsed_seconds": 5.009346327977255,
+    "remaining": [
+      {
+        "pid": 1080771,
+        "ppid": 1080751,
+        "group": 1080769,
+        "state": "S",
+        "start_ticks": "22003666",
+        "executable": "/usr/local/bin/git"
+      }
+    ]
+  },
+  "readiness": {
+    "git": {
+      "pid": 1080771,
+      "ppid": 1080769,
+      "group": 1080769,
+      "state": "S",
+      "start_ticks": "22003666",
+      "executable": "/usr/local/bin/git"
+    },
+    "fifo_dev_inode": [
+      33,
+      1552485
+    ],
+    "git_fifo_fd": 3,
+    "ack_monotonic_ns": 220036853625226,
+    "owned_snapshot": [
+      {
+        "pid": 1080762,
+        "ppid": 1080751,
+        "group": 1080762,
+        "state": "S",
+        "start_ticks": "22003660",
+        "executable": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component"
+      },
+      {
+        "pid": 1080769,
+        "ppid": 1080762,
+        "group": 1080769,
+        "state": "S",
+        "start_ticks": "22003660",
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12"
+      },
+      {
+        "pid": 1080771,
+        "ppid": 1080769,
+        "group": 1080769,
+        "state": "S",
+        "start_ticks": "22003666",
+        "executable": "/usr/local/bin/git"
+      }
+    ]
+  },
+  "final_passed": false,
+  "rescue_used": true,
+  "recovery_after_rescue": {
+    "passed": true,
+    "status": "review_required",
+    "update_allowed": false
+  },
+  "inputs_unchanged": true,
+  "installed_packages_unchanged": true,
+  "strict": {
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--host",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--package",
+      "/tmp/p18u-installed-impact-01/runtime/package-0",
+      "--request",
+      "/workspace/acceptance/p18u-installed-impact-01/request.json",
+      "--real-git",
+      "/usr/local/bin/git",
+      "--work-dir",
+      "/tmp/p18u-active-git-cancel-old-02-runtime"
+    ],
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 1080751,
+        "wait_status": 256,
+        "returncode": 1
+      }
+    ],
+    "command_pid": 1080751,
+    "command_wait_status": 256,
+    "command_returncode": 1,
+    "runner_error": null,
+    "exit_status": 1,
+    "elapsed_seconds": 8.951221037015785
+  },
+  "inputs": [
+    {
+      "path": "/tmp/p18u-active-git-cancel-old-02-runtime/acceptance-private.json",
+      "bytes": 5240,
+      "sha256": "2c16a04fe3d34e50ffeb7d950df9ac27d35c42036c02e2b0296528fb69f11c46"
+    },
+    {
+      "path": "/tmp/p18u-active-git-cancel-old-02-runtime/primary-before-rescue.json",
+      "bytes": 445,
+      "sha256": "7695f90ce8fa95201e2708603d170c3c724ca3f297a103fa9cde9f808a27cd08"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-active-git-cancel-old-02.source.json",
+      "bytes": 3732462,
+      "sha256": "169a1b88fa8136dd26ac831594ba1e3048ee97463390e932fc44ca6e2ee9bc54"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-active-git-cancel-old-02.strict.json",
+      "bytes": 892,
+      "sha256": "545e59ba3edaf8f7572d03aaefe15850a3061171448c4d602cca155359da1f39"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-cancellation-start-01/BASELINE_GIT_SELECTOR_CORRECTION.json",
+      "bytes": 1188,
+      "sha256": "ab3f336e9970a5fa3613042c7009e6c9d4546646e7124a5d37eb458e4425a958"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "bytes": 11936,
+      "sha256": "8257c0f1d7d1bfb22ccaa03a64878598c07f891e28f712ef27c543da1f52181e"
+    }
+  ],
+  "interpretation": "FAIL. Actual Git held the exact FIFO read descriptor before SIGINT to manager PID only. At 5.009346327977255s Git remained sleeping after plugin/manager termination. Primary failure was fsynced before rescue. Rescue and later successful invocation do not convert it to a passing gate. Old01 failed to establish readiness with an alternate Git selector and is not cancellation evidence.",
+  "graceful_protocol_proven": false
+}

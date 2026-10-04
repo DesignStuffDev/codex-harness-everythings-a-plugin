@@ -1,6 +1,6 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-Status: **incomplete platform; verified partial baseline**. Updated 2026-10-02.
+Status: **incomplete platform; verified partial baseline**. Updated 2026-10-04.
 The current source42 production/runtime checkpoint now passes the12 planned
 rebuilt-host gates. Source code is preserved by WIP047e91e; subsequent15bd9d1 records
 409 package tests and scoped lint. Current build/runtime evidence is published at `ad2fc04768ff7abc8bbd623de462dee6d9b69c07`
@@ -59,6 +59,18 @@ Published/read-back checkpoint: `914cc59374c1149463e78bc33851d83e3f14d0a4` on th
 existing WIP branch. Fresh migration and two Chromium GUI cycles also passed; the
 next native auth-install slice remains source-only pending the documented
 [capacity gate](verification/2026-10-02/p18u-installed-impact/NEXT_NATIVE_CAPACITY.md).
+
+The October4 maintenance0.1.1 checkpoint closes its real direct-Git lifecycle gap:
+58 focused cases and fresh external install/replacement/removal, abrupt manager
+SIGINT, cooperative protocol shutdown and subsequent invocation pass on unchanged
+hostf054. [Evidence](verification/2026-10-04/p18u-owned-git/README.md) preserves the
+original failed cancellation and the lost temporary-report limitation. This adds
+no native extracted family. The next feasible P18U slice is a bounded, independently
+installed source-input capsule for actual later upstream2e5fea64 and custom914cc593;
+source preparation must not be relabeled candidate integration or rollback.
+Reattachment cleared volatile build backing and prior services; the native gate
+remains closed despite more free RAM. Follow the current execution-state inventory
+and qualified recovery plan before any further Rust compilation.
 
 ## 1. Endpoint and scope
 

@@ -1,0 +1,65 @@
+{
+  "schema": "maintenance-cancellation-original-setup-failure-v1",
+  "interpretation": "Original old01 never established real-Git readiness with /usr/local/libexec/git-core/git; exit1 is fixture setup failure, not cancellation evidence. old02 corrected selector to actual /usr/local/bin/git and its real failure remains BASELINE_FAILURE.json.",
+  "strict": {
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--host",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--package",
+      "/tmp/p18u-installed-impact-01/runtime/package-0",
+      "--request",
+      "/workspace/acceptance/p18u-installed-impact-01/request.json",
+      "--real-git",
+      "/usr/local/libexec/git-core/git",
+      "--work-dir",
+      "/tmp/p18u-active-git-cancel-old-01-runtime"
+    ],
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 1080629,
+        "wait_status": 256,
+        "returncode": 1
+      }
+    ],
+    "command_pid": 1080629,
+    "command_wait_status": 256,
+    "command_returncode": 1,
+    "runner_error": null,
+    "exit_status": 1,
+    "elapsed_seconds": 10.19922693099943
+  },
+  "selector_correction": {
+    "reason": "Initial helper used an alternate installed Git path; actual PATH Git is /usr/local/bin/git. Baseline01 never established readiness and does not prove the native cancellation gap. Unchanged helper and assertions; only executable selector and fresh output paths differ.",
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p18u-active-git-cancel-old-02.strict.json",
+      "--",
+      "python3",
+      "-B",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--host",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--package",
+      "/tmp/p18u-installed-impact-01/runtime/package-0",
+      "--request",
+      "/workspace/acceptance/p18u-installed-impact-01/request.json",
+      "--real-git",
+      "/usr/local/bin/git",
+      "--work-dir",
+      "/tmp/p18u-active-git-cancel-old-02-runtime"
+    ],
+    "helper_sha256": "8257c0f1d7d1bfb22ccaa03a64878598c07f891e28f712ef27c543da1f52181e"
+  },
+  "original_detailed_tmp_report_survives": false
+}

@@ -1,0 +1,197 @@
+{
+  "passed": true,
+  "scope": "direct installed-component SDK protocol",
+  "manager_graceful_forwarding_tested": false,
+  "package_version": "0.1.1",
+  "before": {
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "package": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "README.md": {
+        "sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3",
+        "bytes": 7277
+      },
+      "SDK-LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "SDK-NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "bootstrap.py": {
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+        "bytes": 332
+      },
+      "codex-component.json": {
+        "sha256": "e6f1c56f5c491ce8baecfdf35db67a8c5094aeb6933d313050d70e5045d75a5c",
+        "bytes": 1699
+      },
+      "plugin.pyz": {
+        "sha256": "d7d918a5f27cd82df4d8c89b36b453de235e099c711544a0fd09fa1218e9d1e2",
+        "bytes": 30214
+      }
+    }
+  },
+  "request": {
+    "sha256": "0b4d908d232c7cdf6fc93894752b83322a133d4483c47406f459f4175f83f16e",
+    "bytes": 645
+  },
+  "real_git": "/usr/local/bin/git",
+  "tracking_limit": "sampled identities plus unchanged owner/subreaper checks",
+  "rescue_used": false,
+  "commands": [
+    {
+      "label": "install",
+      "pid": 8531,
+      "returncode": 0
+    },
+    {
+      "label": "list",
+      "pid": 8538,
+      "returncode": 0
+    },
+    {
+      "label": "git-init",
+      "pid": 8544,
+      "returncode": 0
+    },
+    {
+      "label": "git-common",
+      "pid": 8546,
+      "returncode": 0
+    },
+    {
+      "label": "protocol",
+      "pid": 8548
+    },
+    {
+      "label": "recovery",
+      "pid": 8567,
+      "returncode": 0
+    }
+  ],
+  "installed_entrypoint": "/workspace/acceptance/p18u-resume-20261004-protocol-runtime/component-home/components/objects/codex.maintenance.upstream-review-8531-18db78877506182b-0/plugin.pyz",
+  "readiness": {
+    "git": {
+      "pid": 8557,
+      "ppid": 8548,
+      "group": 8548,
+      "state": "S",
+      "start_ticks": "37866",
+      "executable": "/usr/local/bin/git"
+    },
+    "fifo_dev_inode": [
+      27,
+      1313991
+    ],
+    "git_fifo_fd": 3,
+    "ack_monotonic_ns": 378710597419
+  },
+  "primary": {
+    "passed": true,
+    "writer_held": true,
+    "signal_sent": false,
+    "control_frame": {
+      "type": "shutdown"
+    },
+    "rescue_used": false,
+    "shutdown_sent_monotonic_ns": 378710599893,
+    "typed_result": {
+      "contract_version": 1,
+      "diagnostic_code": "cancelled_or_deadline_reached",
+      "fetch_source_mutation_or_activation_performed": false,
+      "planning_only": true,
+      "required_next_action": "No update was applied. Explicitly invoke a new review after resolving the cancellation or deadline.",
+      "schema": "codex-installed-upstream-impact-review-v1",
+      "status": "cancelled",
+      "update_allowed": false
+    },
+    "plugin_status": 0,
+    "elapsed_seconds": 0.07241201900001215,
+    "tracked": [
+      {
+        "pid": 8548,
+        "ppid": 8525,
+        "group": 8548,
+        "state": "R",
+        "start_ticks": "37859",
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12"
+      },
+      {
+        "pid": 8557,
+        "ppid": 8548,
+        "group": 8548,
+        "state": "S",
+        "start_ticks": "37866",
+        "executable": "/usr/local/bin/git"
+      }
+    ],
+    "reaped_orphans": [],
+    "remaining": []
+  },
+  "pre_recovery_drain": {
+    "passed": true,
+    "reaped": []
+  },
+  "recovery": {
+    "passed": true,
+    "status": "review_required"
+  },
+  "installed_package_unchanged": true,
+  "final_drain": {
+    "passed": true,
+    "reaped": []
+  },
+  "after": {
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "package": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "README.md": {
+        "sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3",
+        "bytes": 7277
+      },
+      "SDK-LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "SDK-NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "bootstrap.py": {
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+        "bytes": 332
+      },
+      "codex-component.json": {
+        "sha256": "e6f1c56f5c491ce8baecfdf35db67a8c5094aeb6933d313050d70e5045d75a5c",
+        "bytes": 1699
+      },
+      "plugin.pyz": {
+        "sha256": "d7d918a5f27cd82df4d8c89b36b453de235e099c711544a0fd09fa1218e9d1e2",
+        "bytes": 30214
+      }
+    }
+  },
+  "inputs_unchanged": true
+}

@@ -1,0 +1,186 @@
+{
+  "passed": true,
+  "package_id": "codex.maintenance.upstream-review",
+  "package_version": "0.1.1",
+  "before": {
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "package": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "README.md": {
+        "sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3",
+        "bytes": 7277
+      },
+      "SDK-LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "SDK-NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "bootstrap.py": {
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+        "bytes": 332
+      },
+      "codex-component.json": {
+        "sha256": "e6f1c56f5c491ce8baecfdf35db67a8c5094aeb6933d313050d70e5045d75a5c",
+        "bytes": 1699
+      },
+      "plugin.pyz": {
+        "sha256": "d7d918a5f27cd82df4d8c89b36b453de235e099c711544a0fd09fa1218e9d1e2",
+        "bytes": 30214
+      }
+    }
+  },
+  "request": {
+    "sha256": "0b4d908d232c7cdf6fc93894752b83322a133d4483c47406f459f4175f83f16e",
+    "bytes": 645
+  },
+  "real_git": "/usr/local/bin/git",
+  "rescue_used": false,
+  "graceful_protocol_proven": false,
+  "tracking_limit": "sampled identities plus unchanged owner/subreaper checks",
+  "commands": [
+    {
+      "label": "install",
+      "pid": 4962,
+      "returncode": 0
+    },
+    {
+      "label": "git-init",
+      "pid": 4969,
+      "returncode": 0
+    },
+    {
+      "label": "git-common",
+      "pid": 4971,
+      "returncode": 0
+    },
+    {
+      "label": "held-call",
+      "pid": 4973
+    },
+    {
+      "label": "recovery-call",
+      "pid": 4988,
+      "returncode": 0
+    }
+  ],
+  "readiness": {
+    "git": {
+      "pid": 4984,
+      "ppid": 4980,
+      "group": 4980,
+      "state": "S",
+      "start_ticks": "33424",
+      "executable": "/usr/local/bin/git"
+    },
+    "fifo_dev_inode": [
+      27,
+      1103532
+    ],
+    "git_fifo_fd": 3,
+    "ack_monotonic_ns": 334297639873,
+    "owned_snapshot": [
+      {
+        "pid": 4973,
+        "ppid": 4959,
+        "group": 4973,
+        "state": "S",
+        "start_ticks": "33416",
+        "executable": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component"
+      },
+      {
+        "pid": 4980,
+        "ppid": 4973,
+        "group": 4980,
+        "state": "S",
+        "start_ticks": "33416",
+        "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12"
+      },
+      {
+        "pid": 4984,
+        "ppid": 4980,
+        "group": 4980,
+        "state": "S",
+        "start_ticks": "33424",
+        "executable": "/usr/local/bin/git"
+      }
+    ]
+  },
+  "primary": {
+    "passed": true,
+    "writer_held": true,
+    "manager_status": -2,
+    "signal": "SIGINT to manager PID only",
+    "rescue_used": false,
+    "signal_monotonic_ns": 334297646523,
+    "elapsed_seconds": 0.001505898999994315,
+    "remaining": []
+  },
+  "after_held_drain": {
+    "passed": true,
+    "reaped": []
+  },
+  "recovery": {
+    "passed": true,
+    "status": "review_required",
+    "update_allowed": false
+  },
+  "installed_packages_unchanged": true,
+  "final_drain": {
+    "passed": true,
+    "reaped": []
+  },
+  "after": {
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "package": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "README.md": {
+        "sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3",
+        "bytes": 7277
+      },
+      "SDK-LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "SDK-NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "bootstrap.py": {
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+        "bytes": 332
+      },
+      "codex-component.json": {
+        "sha256": "e6f1c56f5c491ce8baecfdf35db67a8c5094aeb6933d313050d70e5045d75a5c",
+        "bytes": 1699
+      },
+      "plugin.pyz": {
+        "sha256": "d7d918a5f27cd82df4d8c89b36b453de235e099c711544a0fd09fa1218e9d1e2",
+        "bytes": 30214
+      }
+    }
+  },
+  "inputs_unchanged": true
+}

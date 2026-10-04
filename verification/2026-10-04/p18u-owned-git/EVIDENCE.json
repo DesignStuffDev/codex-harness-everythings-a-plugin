@@ -1,0 +1,466 @@
+{
+  "schema": "codex-maintenance-owned-git-evidence-v1",
+  "date": "2026-10-04",
+  "component_id": "codex.maintenance.upstream-review",
+  "package_version": "0.1.1",
+  "host_api": 1,
+  "tool_contract": 1,
+  "source_count": 8964,
+  "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+  "published_predecessor": "777ee7ce49eb284d1fea80c927207433ca64a9fc",
+  "host_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+  "host_rebuilt": false,
+  "new_native_extracted_families": 0,
+  "native_families_total_unchanged": 3,
+  "current_runs": {
+    "package": {
+      "source_count": 8964,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "source_unchanged": true,
+      "started_utc": "2026-10-04T23:47:33Z",
+      "finished_utc": "2026-10-04T23:50:45Z",
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p18u-resume-20261004-01/package.strict.json",
+        "--",
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/upstream_maintenance_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--sdk-python",
+        "/tmp/p18u-resume-sdk-20261004/bin/python",
+        "--request",
+        "/workspace/acceptance/p18u-installed-impact-01/request.json",
+        "--work-dir",
+        "/workspace/acceptance/p18u-resume-20261004-package-runtime"
+      ],
+      "strict": {
+        "command": [
+          "python3",
+          "-B",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/upstream_maintenance_acceptance.py",
+          "--host",
+          "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+          "--sdk-python",
+          "/tmp/p18u-resume-sdk-20261004/bin/python",
+          "--request",
+          "/workspace/acceptance/p18u-installed-impact-01/request.json",
+          "--work-dir",
+          "/workspace/acceptance/p18u-resume-20261004-package-runtime"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 695,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 695,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 190.601808121
+      },
+      "report_file": "PACKAGE.json",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-01/package.source.json",
+        "bytes": 3731963,
+        "sha256": "ad3d8aadcd96d6bc8d9d1cbb2da0965f863ee45e385bc84a5894b749a0bc5553"
+      },
+      "strict_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-01/package.strict.json",
+        "bytes": 769,
+        "sha256": "74ba8ea79a8641c9ba49a2eeb82c60ebcd7ff76458c2207fb1b2bf8ec6182bf8"
+      },
+      "report_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-package-runtime/acceptance.json",
+        "bytes": 24316,
+        "sha256": "bfb9fa2c4fd0690eacf4b5782ba7765a7b20f484be2d905e075722d7df25ff0b"
+      }
+    },
+    "abrupt": {
+      "source_count": 8964,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "source_unchanged": true,
+      "started_utc": "2026-10-04T23:49:15Z",
+      "finished_utc": "2026-10-04T23:50:06Z",
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p18u-resume-20261004-01/abrupt.strict.json",
+        "--",
+        "python3",
+        "-B",
+        "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+        "--repo",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--package",
+        "/workspace/acceptance/p18u-resume-20261004-package-runtime/package-0",
+        "--request",
+        "/workspace/acceptance/p18u-installed-impact-01/request.json",
+        "--real-git",
+        "/usr/local/bin/git",
+        "--work-dir",
+        "/workspace/acceptance/p18u-resume-20261004-abrupt-runtime"
+      ],
+      "strict": {
+        "command": [
+          "python3",
+          "-B",
+          "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+          "--repo",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--host",
+          "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+          "--package",
+          "/workspace/acceptance/p18u-resume-20261004-package-runtime/package-0",
+          "--request",
+          "/workspace/acceptance/p18u-installed-impact-01/request.json",
+          "--real-git",
+          "/usr/local/bin/git",
+          "--work-dir",
+          "/workspace/acceptance/p18u-resume-20261004-abrupt-runtime"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 4959,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 4959,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 49.39111644299999
+      },
+      "report_file": "ABRUPT.json",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-01/abrupt.source.json",
+        "bytes": 3732105,
+        "sha256": "1c0b9d53c5260896e9fb4ebc00a5dc54d09ba408f382b90c431e52f46b516eb4"
+      },
+      "strict_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-01/abrupt.strict.json",
+        "bytes": 918,
+        "sha256": "a2d09d6027808271995b0c1ca3ededb139b7fecb2c5902b49902a7304111c629"
+      },
+      "report_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-abrupt-runtime/acceptance-private.json",
+        "bytes": 4944,
+        "sha256": "9346ece84966f93858870a907266dc9e77165408db4304b072b178317e0d69ae"
+      }
+    },
+    "protocol": {
+      "source_count": 8964,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "source_unchanged": true,
+      "started_utc": "2026-10-04T23:49:59Z",
+      "finished_utc": "2026-10-04T23:50:50Z",
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p18u-resume-20261004-01/protocol.strict.json",
+        "--",
+        "python3",
+        "-B",
+        "/workspace/recovery-backups/20260930T165936Z/p18u-protocol-git-cancellation-helper-01/protocol_git_acceptance.py",
+        "--repo",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--package",
+        "/workspace/acceptance/p18u-resume-20261004-package-runtime/package-0",
+        "--request",
+        "/workspace/acceptance/p18u-installed-impact-01/request.json",
+        "--real-git",
+        "/usr/local/bin/git",
+        "--expected-version",
+        "0.1.1",
+        "--prior-helper",
+        "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+        "--work-dir",
+        "/workspace/acceptance/p18u-resume-20261004-protocol-runtime"
+      ],
+      "strict": {
+        "command": [
+          "python3",
+          "-B",
+          "/workspace/recovery-backups/20260930T165936Z/p18u-protocol-git-cancellation-helper-01/protocol_git_acceptance.py",
+          "--repo",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--host",
+          "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+          "--package",
+          "/workspace/acceptance/p18u-resume-20261004-package-runtime/package-0",
+          "--request",
+          "/workspace/acceptance/p18u-installed-impact-01/request.json",
+          "--real-git",
+          "/usr/local/bin/git",
+          "--expected-version",
+          "0.1.1",
+          "--prior-helper",
+          "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+          "--work-dir",
+          "/workspace/acceptance/p18u-resume-20261004-protocol-runtime"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 8525,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 8525,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 49.67122718600001
+      },
+      "report_file": "PROTOCOL.json",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-01/protocol.source.json",
+        "bytes": 3732290,
+        "sha256": "539ee6ef2c7018fde3ece6122c3220d6695d31873b2d0e637984b0c1d6f45d01"
+      },
+      "strict_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-01/protocol.strict.json",
+        "bytes": 1101,
+        "sha256": "f3b2bd37aad1c599c7bc2bbb35bfcb6d60268962a089a17dddd9d2cd3da9ccd6"
+      },
+      "report_receipt": {
+        "path": "/workspace/acceptance/p18u-resume-20261004-protocol-runtime/acceptance-private.json",
+        "bytes": 5465,
+        "sha256": "02fa3313c928d0840cf57f8ccb9a8f75dad88c2bf607f1b9dca88bad78675390"
+      }
+    }
+  },
+  "package_identities": [
+    {
+      "id": "codex.maintenance.upstream-review",
+      "version": "0.1.1",
+      "files": {
+        "LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "README.md": {
+          "bytes": 7277,
+          "sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3"
+        },
+        "SDK-LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "SDK-NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "bootstrap.py": {
+          "bytes": 332,
+          "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e"
+        },
+        "codex-component.json": {
+          "bytes": 1699,
+          "sha256": "e6f1c56f5c491ce8baecfdf35db67a8c5094aeb6933d313050d70e5045d75a5c"
+        },
+        "plugin.pyz": {
+          "bytes": 30214,
+          "sha256": "d7d918a5f27cd82df4d8c89b36b453de235e099c711544a0fd09fa1218e9d1e2"
+        }
+      }
+    },
+    {
+      "id": "codex.maintenance.upstream-review.replacement",
+      "version": "0.1.1",
+      "files": {
+        "LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "README.md": {
+          "bytes": 7277,
+          "sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3"
+        },
+        "SDK-LICENSE": {
+          "bytes": 10926,
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc"
+        },
+        "SDK-NOTICE": {
+          "bytes": 242,
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915"
+        },
+        "bootstrap.py": {
+          "bytes": 332,
+          "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e"
+        },
+        "codex-component.json": {
+          "bytes": 1711,
+          "sha256": "0784c2c89e2945a3acf72261e6233947be8f534a8889cab863a5c465591d9806"
+        },
+        "plugin.pyz": {
+          "bytes": 30229,
+          "sha256": "743166917400d5cedd23fc2ded389875cc5f228aa75ea15bf1739f5184be90df"
+        }
+      }
+    }
+  ],
+  "historical_october2_fixed_runs": [
+    {
+      "label": "installed",
+      "status": "finished",
+      "returncode": 0,
+      "source_unchanged": true,
+      "detailed_tmp_report_currently_absent": true,
+      "use": "historical successful outer receipt only; not substituted for current detailed proof",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/runtime.source.json",
+        "bytes": 3731934,
+        "sha256": "907025913620cf6480ef9ec021a4f241c7960ea5cc7c12537d110bb8989801fb"
+      }
+    },
+    {
+      "label": "abrupt",
+      "status": "finished",
+      "returncode": 0,
+      "source_unchanged": true,
+      "detailed_tmp_report_currently_absent": true,
+      "use": "historical successful outer receipt only; not substituted for current detailed proof",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-active-git-cancel-new-01.source.json",
+        "bytes": 3732061,
+        "sha256": "f93541bc0246fa44d8df8c1cf657c8e1c0f2eb9a5f48c7dcb3a13218beb9a09b"
+      }
+    }
+  ],
+  "focused_test_evidence": {
+    "file": "FOCUSED_TESTS.json",
+    "total": 58,
+    "run_date": "2026-10-02",
+    "same_source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+    "new_focused_rerun_claimed": false
+  },
+  "model_fixture": "none; actual native Git against a deterministic held object-read barrier; no model or engine turn involved",
+  "gui_evidence": "None in this maintenance lifecycle checkpoint; prior source42/914cc593 GUI evidence remains separately scoped.",
+  "guarantee": "Direct ordinary Git child custody on Linux plus installed SDK cooperative cancellation; not arbitrary descendant-tree containment, portable abrupt parent-death handling, whole-host graceful shutdown, bounded streaming capture, or upstream update/rollback acceptance.",
+  "inputs": [
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-01/package.source.json",
+      "bytes": 3731963,
+      "sha256": "ad3d8aadcd96d6bc8d9d1cbb2da0965f863ee45e385bc84a5894b749a0bc5553"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-01/package.strict.json",
+      "bytes": 769,
+      "sha256": "74ba8ea79a8641c9ba49a2eeb82c60ebcd7ff76458c2207fb1b2bf8ec6182bf8"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-package-runtime/acceptance.json",
+      "bytes": 24316,
+      "sha256": "bfb9fa2c4fd0690eacf4b5782ba7765a7b20f484be2d905e075722d7df25ff0b"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-01/abrupt.source.json",
+      "bytes": 3732105,
+      "sha256": "1c0b9d53c5260896e9fb4ebc00a5dc54d09ba408f382b90c431e52f46b516eb4"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-01/abrupt.strict.json",
+      "bytes": 918,
+      "sha256": "a2d09d6027808271995b0c1ca3ededb139b7fecb2c5902b49902a7304111c629"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-abrupt-runtime/acceptance-private.json",
+      "bytes": 4944,
+      "sha256": "9346ece84966f93858870a907266dc9e77165408db4304b072b178317e0d69ae"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-01/protocol.source.json",
+      "bytes": 3732290,
+      "sha256": "539ee6ef2c7018fde3ece6122c3220d6695d31873b2d0e637984b0c1d6f45d01"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-01/protocol.strict.json",
+      "bytes": 1101,
+      "sha256": "f3b2bd37aad1c599c7bc2bbb35bfcb6d60268962a089a17dddd9d2cd3da9ccd6"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-protocol-runtime/acceptance-private.json",
+      "bytes": 5465,
+      "sha256": "02fa3313c928d0840cf57f8ccb9a8f75dad88c2bf607f1b9dca88bad78675390"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-abrupt-runtime/primary-before-rescue.json",
+      "bytes": 235,
+      "sha256": "db8b1a2c74aec0db8ee62abe4b8fefab489638f64c4141e3f2a624f99755e77b"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-protocol-runtime/primary-before-rescue.json",
+      "bytes": 1139,
+      "sha256": "ed491211588a78156cc1d88fc2bc0a97aa9c2065d09fe7231af3830bfb06f319"
+    },
+    {
+      "path": "/workspace/acceptance/p18u-resume-20261004-protocol-runtime/recovery.stdout",
+      "bytes": 6708,
+      "sha256": "2bf6f16ec484f98ea6aa852147f485eb8871b8e93c0a2678ba658c0bfdae2ba8"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-owned-git-adoption-01/CANDIDATE_FORMATTED.json",
+      "bytes": 1237994,
+      "sha256": "51fda6355cb9f071b2e0a9b422c2e5580c668e20949a46c3c86c2ed3d6411ee3"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-owned-git-evidence-stage-01/BASELINE_FAILURE.json",
+      "bytes": 5984,
+      "sha256": "52a80147ac93c8cb695d634ed02e63945586b0f197ef70827af9ec59995bf9e9"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-owned-git-evidence-stage-01/FOCUSED_TESTS.json",
+      "bytes": 7912,
+      "sha256": "3b98d48250fe03a575c4a64e686b38906edae54a9e60a8ddf3386dbbbb48fbdc"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "bytes": 11936,
+      "sha256": "8257c0f1d7d1bfb22ccaa03a64878598c07f891e28f712ef27c543da1f52181e"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-protocol-git-cancellation-helper-01/protocol_git_acceptance.py",
+      "bytes": 14081,
+      "sha256": "65c8704d1d7696ca478d1fde35f0dbd7fff2112f3982b6211ead20c6985b93db"
+    }
+  ],
+  "global_process_observation_limit": {
+    "source": "root reported during final review",
+    "pid": 2006,
+    "state": "Z",
+    "ppid": 1,
+    "context": "Observed after an initial object-cache fetch failed shallow-alternate parent traversal; original failure is separately preserved.",
+    "causal_ownership": "not independently attested; not attributed to package acceptance children",
+    "consequence": "Three tracked acceptance owners passed unchanged strict checks; no global process-cleanliness or whole-host cleanup claim."
+  }
+}

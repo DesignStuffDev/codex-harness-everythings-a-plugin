@@ -1,12 +1,48 @@
 # Codex Harness Compartmentalized — execution state
 
-Updated 2026-10-02. **Partial platform; P03 remains incomplete.** Read this file,
+Updated 2026-10-04. **Partial platform; P03 remains incomplete.** Read this file,
 [roadmap](IMPLEMENTATION_ROADMAP.md), [inventory](COMPONENT_INVENTORY.md), root
 AGENTS.md and [upstream maintenance](UPSTREAM_MAINTENANCE.md) before resuming.
 Full earlier receipts/actions are preserved in
 [pre-runtime ledger](verification/2026-10-02/p03-auth-refresh-pre-runtime-ledger.md),
 [prior snapshot](verification/2026-10-02/p03-auth-refresh-ledger-history.md) and
 [checkpoint history](EXECUTION_CHECKPOINT_HISTORY.md).
+
+## Current resume checkpoint — 2026-10-04
+
+The same task-bound environment reattached and the original checkout/index survived.
+All8,964 current source paths match map
+`285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f`.
+The adopted maintenance0.1.1 package closes the direct-Git cancellation gate:
+58 focused cases, fresh external package acceptance23commands/19manager,
+manager-only SIGINT cleanup and cooperative SDK shutdown all pass. Both cancellation
+cases hold real Git on a verified FIFO, require tracked absence before release,
+use no rescue, and then invoke successfully through unchanged managerf054.
+Cooperative cancellation returns a typed cancelled result and exits0; abrupt manager
+SIGINT exits-2 and is not graceful manager forwarding. See
+[exact evidence](verification/2026-10-04/p18u-owned-git/README.md).
+
+The two interrupted October2 wrappers finished0, but their detailed reports were
+lost with `/tmp`; the new October4 reports/package identities live under A/p18u-resume-
+20261004-* and are independent current proof. Original0.1.0 failure evidence remains.
+The old object mirror is absent. Its promisor repair had completed (original config
+SHA49772cc restored); do not replay it. Chosen revision2e5fea64 and custom914cc593
+objects were reacquired into a bare **test object cache**, with no new checkout,
+branch reset or working-tree replacement. Source staging remains unadopted/unverified.
+
+No earlier GUI/viewer/build processes survived reattachment; their disappearance
+is not a successful shutdown test. Production CLI8e8a/managerf054 hashes survive.
+Temporary memory increased, but missing backing now affects1,875 metadata files,
+11 static libraries and1,484 registry archives. Overlay remains roughly362MB;
+the prior output/overlap/reserve comparator alone needs2.16GB, before missing-input
+recovery and remaining validation. Native admission stays closed; do not infer that
+free tmpfs repairs the build. R/p03-reattached-capacity-audit-20261004-01 preserves
+exact inventories. Keep auth/MCP proposals and every archive; no Rust build started.
+
+Next: publish this verified maintenance lifecycle slice on the existing WIP,
+then adopt the reviewed bounded source-input capsule, run its focused and real
+later-revision installed-package acceptance, and recheck feasible storage/GUI gates.
+A capsule is not a merged candidate or updater rollback. All P18U release gates remain.
 
 ## Identity, publication and preservation
 
@@ -16,7 +52,12 @@ Full earlier receipts/actions are preserved in
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Last verified publication: `914cc59374c1149463e78bc33851d83e3f14d0a4`, tree
+- Latest documentation checkpoint: `777ee7ce49eb284d1fea80c927207433ca64a9fc`, tree
+  `4feff5ab7324d77c2824e6cd829eb6804457faf6`. All5 selected files/109,741B and
+  both refs read back; records914cc593 acceptance, exact native capacity gate and
+  preserved unadopted work. Receipt R/p18u-resume-ledger-publication-01/PUBLICATION.json
+  SHA256 `8557006b06c4b94fbd864dd9037a309b76b75842d4e35addf387ad7449206387`.
+- Last verified implementation publication: `914cc59374c1149463e78bc33851d83e3f14d0a4`, tree
   `0f692771abe238cac759b2a034b5f8c820165236`, on
   `wip/p03-process-final-and-mcp-preservation-20261002`.
   All31 selected files/727,161B and both refs were read back. This publishes the
@@ -125,12 +166,14 @@ No runtime source or tests changed after acceptance; original receipts retain930
 [source mapping](upstream/p18u-installed-impact-lineage.json).
 Published and read back at914cc593 on the existing WIP branch; main promotion remains blocked.
 
-The maintenance adapter’s active Git cancellation remains fixture-only. Real later-upstream integration,
+The original0.1.0 active-Git cancellation gap is closed by the separately verified0.1.1 checkpoint above. Real later-upstream integration,
 coordinated versions/migrations, candidate activation and failed-update/state
 restoration are not implemented or proved. The standalone entrypoint inspects;
 it cannot recover a failed installation. P18U release gates remain open.
 
-## Resources and preservation
+## Historical resource state before reattachment
+
+The October4 observation above supersedes live-process and volatile-file presence claims here.
 
 No current acceptance command remains active after root41618; preserved older GUI/viewer services remain. Final observed free
 overlay448,634,880B, /tmp391,753,728B, hard-unused memory986,247,168B; OOM10/kill5

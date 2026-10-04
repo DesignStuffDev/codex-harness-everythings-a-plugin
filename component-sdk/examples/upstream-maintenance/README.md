@@ -79,10 +79,24 @@ work. The normal tool result is report text bounded to 8 KiB; the bootstrap can 
 planner's wider existing 8 MiB bound. This is a report-text bound; JSON escaping adds outer protocol framing, which remains subject to the SDK frame cap. A native model caller may impose a smaller response budget. Omitted details always block approval.
 
 The existing SDK supplies startup, request/result framing and one-shot shutdown.
-The adapter observes cancellation between Git calls and stops admitting commands
-after a 90-second job deadline. Each owned Git call has at most a 30-second timeout.
-The host's existing 120-second one-shot timeout and process-group cleanup remain
-the outer limits. This is not an instantaneous graceful-cancellation guarantee.
+Package 0.1.1 polls active Git calls for SDK shutdown cancellation at 100 ms
+intervals and stops admitting commands after a 90-second job deadline. Each Git
+call retains a 30-second execution budget; cancellation, timeout or an interrupted
+read kills and waits up to two seconds to reap the direct child. A failed reap is
+reported as `owned_git_cleanup_unconfirmed`, never successful cleanup. These
+terminal errors bypass the vendored planner's recoverable object-read failures and
+stop further admission on that object owner. Caller cancellation or deadline expiry
+returns `status:cancelled`; unconfirmed cleanup returns `status:invalid`. Neither
+result reports a completed plan or tool success.
+
+On Linux a fresh Python wrapper arms `PR_SET_PDEATHSIG(SIGKILL)` before replacing
+itself with Git, checking the expected parent before and after arming. The wrapper
+avoids `preexec_fn` in the multithreaded plugin and works from the installed zipapp.
+This protects the direct Git process if its plugin parent dies abruptly, including
+manager-only termination. It does not isolate arbitrary descendants, and non-Linux
+platforms do not gain parent-death protection. Children remain in the host's existing
+process group. The 120-second one-shot host timeout and process-group cleanup remain
+outer limits; there is no instantaneous or whole-tree graceful-cleanup guarantee.
 Git capture limits remain post-capture, not streaming-memory bounds. The package
 is trusted executable code, not an OS sandbox or new broker permission grant.
 
@@ -96,9 +110,14 @@ fetch or mutate the repository. Invoke the bootstrap with the host intentionally
 unavailable. Remove the package and require discovery/invocation to fail. Reinstall
 and exercise explicit replacement selection with a second package identity.
 
-The 17 planner, 22 lineage and 11 adapter checks passed, followed by 23 acceptance commands,
+For package 0.1.0, the 17 planner, 22 lineage and 11 adapter checks passed, followed by 23 acceptance commands,
 including 19 through the unchanged real manager. See the repository's
 `verification/2026-10-02/p18u-installed-impact/README.md` for exact source identities,
 package hashes and limits. Real later-upstream integration, current semantic
 closure, custom-plugin/UI preservation, coordinated versions, migration and
 failed-update recovery are still required for complete P18U acceptance.
+
+Package 0.1.1 additionally requires real installed-package cancellation and manager-only
+termination checks while actual Git is held in a read, tracked child cleanup, and
+a successful subsequent invocation. Proposal source and unit tests alone do not
+establish that acceptance.

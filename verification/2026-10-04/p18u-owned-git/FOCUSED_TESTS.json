@@ -1,0 +1,192 @@
+{
+  "schema": "codex-maintenance-owned-git-focused-tests-v1",
+  "accepted_counts": {
+    "planner": 17,
+    "lineage02": 22,
+    "adapter02": 13,
+    "owned": 6
+  },
+  "accepted_total": 58,
+  "nonacceptance_attempts": [
+    "lineage: zero discovered tests due wrong filename",
+    "adapter: import failure because SDK missing from Python import path"
+  ],
+  "runs": [
+    {
+      "name": "planner",
+      "returncode": 0,
+      "status": "finished",
+      "scoped_source_unchanged": true,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/upstream",
+        "-p",
+        "test_plan_upstream_impact.py"
+      ],
+      "log": ".................\n----------------------------------------------------------------------\nRan 17 tests in 0.003s\n\nOK\n",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/planner.source.json",
+        "bytes": 3731457,
+        "sha256": "5515e9f12b7726aa5348455067e14fa1c55923aabe83fb890ce570eba0e6f9be"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/planner.log",
+        "bytes": 116,
+        "sha256": "4daab40b5c31aee0924067166c7d6b2cc07596caa8d23a9055cd15c5bb3c6bb9"
+      }
+    },
+    {
+      "name": "lineage",
+      "returncode": 5,
+      "status": "finished",
+      "scoped_source_unchanged": true,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/upstream",
+        "-p",
+        "test_checkpoint_lineage.py"
+      ],
+      "log": "\n----------------------------------------------------------------------\nRan 0 tests in 0.000s\n\nNO TESTS RAN\n",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/lineage.source.json",
+        "bytes": 3731455,
+        "sha256": "a7d4f5c7c26cb902e50475a95b623cc661484f7fac32b0f0077b643f30522b02"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/lineage.log",
+        "bytes": 108,
+        "sha256": "e70fec2825d9bf206d27463a792768195039599cb39bcca66339f47283f84cce"
+      }
+    },
+    {
+      "name": "lineage02",
+      "returncode": 0,
+      "status": "finished",
+      "scoped_source_unchanged": true,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/upstream",
+        "-p",
+        "test_validate_checkpoint_lineage.py"
+      ],
+      "log": "......................\n----------------------------------------------------------------------\nRan 22 tests in 0.007s\n\nOK\n",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/lineage02.source.json",
+        "bytes": 3731464,
+        "sha256": "ceb31096dc14787d4c9bad5b7982f1d36c6f3dc59639f739adc7063bc4ed9ca2"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/lineage02.log",
+        "bytes": 121,
+        "sha256": "86eaa534cabf5cc8150a0ba91a7d2161ec2a13b9e72dc739d6d21705209efd4b"
+      }
+    },
+    {
+      "name": "adapter",
+      "returncode": 1,
+      "status": "finished",
+      "scoped_source_unchanged": true,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_upstream_maintenance.py"
+      ],
+      "log": "E\n======================================================================\nERROR: test_upstream_maintenance (unittest.loader._FailedTest.test_upstream_maintenance)\n----------------------------------------------------------------------\nImportError: Failed to import test module: test_upstream_maintenance\nTraceback (most recent call last):\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 396, in _find_test_path\n    module = self._get_module_from_name(name)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/loader.py\", line 339, in _get_module_from_name\n    __import__(name)\n  File \"/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/test_upstream_maintenance.py\", line 25, in <module>\n    plugin_spec.loader.exec_module(plugin)\n  File \"/workspace/codex-harness-everythings-a-plugin/component-sdk/examples/upstream-maintenance/plugin.py\", line 5, in <module>\n    from codex_component_sdk import Plugin, PluginError\nModuleNotFoundError: No module named 'codex_component_sdk'\n\n\n----------------------------------------------------------------------\nRan 1 test in 0.000s\n\nFAILED (errors=1)\n",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/adapter.source.json",
+        "bytes": 3731468,
+        "sha256": "4cd26f139cb6fc60cbcbc4028b1e9aaa53ba0c973cd0f817d5e5336499d6a349"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/adapter.log",
+        "bytes": 1253,
+        "sha256": "9e001466f6145f2f7f88aedb369d0f83367e2813de5539c02472c3ac520f51f4"
+      }
+    },
+    {
+      "name": "adapter02",
+      "returncode": 0,
+      "status": "finished",
+      "scoped_source_unchanged": true,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "command": [
+        "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_upstream_maintenance.py"
+      ],
+      "log": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.007s\n\nOK\n",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/adapter02.source.json",
+        "bytes": 3731516,
+        "sha256": "4fe65a642fe9a94447d2f486eb02cd2eff7e80cb3f47c591ea3d9d5fc0cf3ce5"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/adapter02.log",
+        "bytes": 112,
+        "sha256": "cac5b565578e1b31f6787112c1d12a0e79d4751c7f652d4b10f39d4362432419"
+      }
+    },
+    {
+      "name": "owned",
+      "returncode": 0,
+      "status": "finished",
+      "scoped_source_unchanged": true,
+      "source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+      "command": [
+        "/tmp/p18u-installed-impact-01/venv/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_owned_git.py"
+      ],
+      "log": "......\n----------------------------------------------------------------------\nRan 6 tests in 0.004s\n\nOK\n",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/owned.source.json",
+        "bytes": 3731505,
+        "sha256": "4f9f38db6a76ccf17a36bcbb53bc3fdbd0ba87741027eb2cc34e4e7fb78ffa8d"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-owned-git-01/owned.log",
+        "bytes": 104,
+        "sha256": "065c7d15facfd20f14fb9182747be315f3349fa1d5e1a0e966047509f4bfa9b1"
+      }
+    }
+  ]
+}

@@ -127,12 +127,56 @@ class InstalledImpactBoundaryTests(unittest.TestCase):
         stop = threading.Event()
         stop.set()
         objects = review.LocalObjects(self.root, stop)
-        with patch.object(review.subprocess, "run") as command:
+        with patch.object(review.owned_git.subprocess, "Popen") as command:
             with self.assertRaisesRegex(
-                review.ReviewUnavailable, "cancelled_or_deadline_reached"
+                review.owned_git.OwnedGitError, "cancelled_or_deadline_reached"
             ):
                 objects.command("cat-file", "-t", "1" * 40)
         command.assert_not_called()
+
+    def test_terminal_custody_failures_escape_planner_recovery(self):
+        def recover_value_errors(index, objects, *args):
+            for _ in range(2):
+                try:
+                    objects.command("cat-file", "-t", "1" * 40)
+                except ValueError:
+                    continue
+            return {"status": "unresolved", "invalid": 0, "changed_paths": []}
+
+        for code, status in (
+            ("owned_git_cleanup_unconfirmed", "invalid"),
+            ("cancelled_or_deadline_reached", "cancelled"),
+            ("local_object_timeout", "cancelled"),
+        ):
+            with (
+                self.subTest(code=code),
+                patch.object(review.planner, "plan", side_effect=recover_value_errors),
+                patch.object(
+                    review.owned_git,
+                    "capture",
+                    side_effect=review.owned_git.OwnedGitError(code),
+                ) as command,
+            ):
+                result = review.review_request(self.request)
+            self.assertEqual(result["status"], status)
+            self.assertEqual(result["diagnostic_code"], code)
+            self.assertNotIn("report", result)
+            self.assertFalse(result["update_allowed"])
+            command.assert_called_once()
+
+    def test_terminal_object_owner_does_not_admit_more_commands(self):
+        objects = review.LocalObjects(self.root, threading.Event())
+        with patch.object(
+            review.owned_git,
+            "capture",
+            side_effect=review.owned_git.OwnedGitError("owned_git_cleanup_unconfirmed"),
+        ) as command:
+            for _ in range(2):
+                with self.assertRaisesRegex(
+                    review.owned_git.OwnedGitError, "owned_git_cleanup_unconfirmed"
+                ):
+                    objects.command("cat-file", "-t", "1" * 40)
+        command.assert_called_once()
 
     def test_cancelled_report_is_not_success(self):
         stop = threading.Event()

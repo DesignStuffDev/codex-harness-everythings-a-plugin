@@ -10,6 +10,7 @@ import sys
 import threading
 import time
 
+import owned_git
 import plan_upstream_impact as planner
 import validate_checkpoint_lineage as lineage
 
@@ -63,35 +64,35 @@ def exact_file(name, expected):
 class LocalObjects(lineage.GitObjects):
     """The existing read-only Git adapter with a whole-job admission deadline.
 
-    Each owned Git call still has the original 30-second limit. Cancellation is
-    observed between calls; the host may force its process group to stop earlier.
-    Output limits remain post-capture and are not streaming-memory guarantees.
+    Each owned Git call retains the 30-second limit and observes active
+    cancellation. Linux direct-child parent-death protection complements the
+    host's process-group cleanup. Output bounds remain post-capture.
     """
 
     def __init__(self, repository, stop):
         super().__init__(repository)
         self.stop = stop
         self.deadline = time.monotonic() + JOB_SECONDS
+        self.terminal_failure = None
 
     def command(self, *args):
-        remaining = self.deadline - time.monotonic()
-        if self.stop.is_set() or remaining <= 0:
-            raise ReviewUnavailable("cancelled_or_deadline_reached")
-        result = subprocess.run(
-            ["git", "--no-pager", "-C", str(self.repository), *args],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.DEVNULL,
-            env=dict(
-                os.environ,
-                GIT_OPTIONAL_LOCKS="0",
-                GIT_NO_LAZY_FETCH="1",
-                GIT_NO_REPLACE_OBJECTS="1",
-            ),
-            timeout=min(30, remaining),
-            check=False,
-        )
-        if self.stop.is_set() or time.monotonic() >= self.deadline:
-            raise ReviewUnavailable("cancelled_or_deadline_reached")
+        if self.terminal_failure is not None:
+            raise owned_git.OwnedGitError(self.terminal_failure)
+        try:
+            result = owned_git.capture(
+                ["--no-pager", "-C", str(self.repository), *args],
+                env=dict(
+                    os.environ,
+                    GIT_OPTIONAL_LOCKS="0",
+                    GIT_NO_LAZY_FETCH="1",
+                    GIT_NO_REPLACE_OBJECTS="1",
+                ),
+                stop=self.stop,
+                deadline=self.deadline,
+            )
+        except owned_git.OwnedGitError as error:
+            self.terminal_failure = str(error)
+            raise
         if result.returncode or len(result.stdout) > lineage.MAX_INPUT:
             raise ReviewUnavailable("local_object_unavailable_or_limit")
         return result.stdout
@@ -220,14 +221,25 @@ def review_request(request, stop=None, *, full_report=False):
         OSError,
         RecursionError,
         subprocess.TimeoutExpired,
+        owned_git.OwnedGitError,
     ) as error:
         # Do not expose a partly assembled report or retain its success status.
         envelope = dict(
             base,
             diagnostic_code=str(error)
-            if isinstance(error, ReviewUnavailable)
+            if isinstance(error, (ReviewUnavailable, owned_git.OwnedGitError))
             else "invalid_or_unavailable_input",
         )
+        if isinstance(error, owned_git.OwnedGitError):
+            if str(error) in {"cancelled_or_deadline_reached", "local_object_timeout"}:
+                envelope.update(
+                    status="cancelled",
+                    required_next_action="No update was applied. Explicitly invoke a new review after resolving the cancellation or deadline.",
+                )
+            else:
+                envelope["required_next_action"] = (
+                    "Direct Git cleanup was not confirmed. Inspect owned process state before retrying; no update was applied."
+                )
     if len(canonical(envelope)) > output_limit:
         envelope = dict(base, diagnostic_code="component_report_limit_reached")
     return envelope

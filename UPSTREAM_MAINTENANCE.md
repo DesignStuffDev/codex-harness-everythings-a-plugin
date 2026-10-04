@@ -19,9 +19,27 @@ This is an additive maintenance adapter, not another native extraction or a comp
 updater. The actual local-object request used the original upstream revision and
 published ad2fc047 as the requested composition; it correctly retained no-advance,
 historical-lineage and unavailable-local-composition blockers. It always returns
-`update_allowed:false`. No later upstream revision integration, active cancellation,
-state restoration or rollback is proved. No polling or live installation mutation
+`update_allowed:false`. The separately verified0.1.1 checkpoint below adds direct-Git active cancellation.
+No later upstream integration, state restoration or rollback is proved. No polling or live installation mutation
 was enabled. The standalone bootstrap currently inspects; it cannot restore.
+
+The maintenance0.1.1 lifecycle correction now passes58 focused cases and three
+fresh retained runtime gates:23-command external package acceptance, manager-only
+SIGINT with tracked direct-Git cleanup, and cooperative SDK shutdown returning typed
+cancellation. Both cancellation gates retain the FIFO until cleanup is established,
+use no rescue, and subsequently invoke successfully. The manager binary is unchanged.
+[Evidence and reproduction](verification/2026-10-04/p18u-owned-git/README.md) distinguish
+Linux direct-child parent-death protection from arbitrary descendants/non-Linux
+abrupt termination and manager graceful forwarding. No host rebuild or new native
+subsystem extraction is claimed.
+
+Next is separately packaged, bounded source-input preparation against the actual
+chosen descendant `2e5fea64eefcaa19f48458b2386011b619f69c70` and published custom
+`914cc59374c1149463e78bc33851d83e3f14d0a4`. Its13-path inputs include a custom
+scenarios.rs blob and need exact provenance, retained incomplete state and a
+host-independent integrity inspector. This is a proposed prerequisite only;
+adapted-candidate construction, compatibility/version/migration gates, real-host/UI
+verification and failed-update recovery remain required before P18U acceptance.
 
 The earlier [offline impact planner](upstream/UPSTREAM_IMPACT_README.md) compares exact local
 revision trees and joins changed paths to the existing historical lineage index. It retains
