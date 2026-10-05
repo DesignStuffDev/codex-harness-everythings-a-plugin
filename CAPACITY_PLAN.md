@@ -48,44 +48,97 @@ These are historical point/sample observations; no OOM counters changed, but no
 compiler/linker peak or complete-sequence success was demonstrated. Do not repeat
 the same failed build or retire unique recovery material to recover headroom.
 
-## Conditional writable-output capacity comparison
+## Current deduplicated phase ledger — no admission
 
-The bounded retained-fingerprint audit maps 895 restored metadata seeds to 963
-direct consumers and a potential reverse closure of 1,483 nodes, including the
-121 auth nodes in the earlier plan. This is a conservative dependency-propagation
-scenario: it is not Cargo's actual dirty schedule, and does not prove every listed
-artifact must be rewritten. Restored metadata mtimes provide a plausible trigger;
-the exact Cargo dirty decision has not been traced.
+[Handoff design](NATIVE_OUTPUT_HANDOFF.md) and [exact evidence](verification/2026-10-05/p03-writable-output-capacity/README.md)
+replace the earlier aggregate comparisons as the current planning reference. The
+CoW probe measured ENOTSUP within workspace and tmpfs, EXDEV across them; no copy
+saving is credited. Its baseline is 3,957,055,488 persistent free bytes, 5,808,566,272
+/tmp free, 9,212,276,736 /dev/shm free and 8,647,585,792 hard-unused cgroup bytes.
+The two tmpfs mounts share one 17,179,869,184-byte limit. This timestamped baseline
+is retained for the following arithmetic; root's later measurements do not silently
+replace it.
 
-| Conditional scenario with separate persistent writable copies | Planning bytes |
-|---|---:|
-| Earlier auth-specific envelope |3,797,387,752|
-| Additional 792 relocated rlibs in potential reverse closure |2,463,023,104|
-| Additional 645 restored metadata payloads in that closure |575,684,608|
-| Combined direct-consumer/reverse-closure comparison |6,836,095,464|
-| Broader scenario: earlier envelope + 1,042 relocated rlibs + all 895 metadata seeds |7,127,788,008|
+Only proc-macro2 compilation was observed. The 895 restored metadata seeds / 963
+direct consumers / 1,483-node reverse closure remain a conditional graph, not a
+Cargo dirty schedule. The following byte scenarios deduplicate paths across phases;
+new test/production ELFs use rounded logical allocations. No output-slot replacement,
+tmp output placement, future reuse or old-backing retirement is credited.
 
-The broader scenario includes 2,634,170,368 bytes of relocated rlibs and 696,229,888
-bytes of metadata. It is an allocation/coexistence comparison, not an upper bound
-on all future compiler output, native peak RAM, or runtime state. The historical
-core/TUI 442,593,280-byte pair allowance is already in the earlier envelope and must
-not be counted twice. Placing writable copies in tmpfs moves their allocation into
-the shared memory budget; it does not create independent capacity.
+| Phase | Distinct rlib increment | Metadata increment | Test ELF increment | Cumulative new outputs | Peak scenario with allowances |
+|---|---:|---:|---:|---:|---:|
+| Focused |2,046,898,176|575,684,608|354,086,912|3,419,262,976|5,122,912,256|
+| Full login |0|0|139,878,400|3,559,141,376|5,262,790,656|
+| Provider |0|0|111,263,744|3,670,405,120|5,374,054,400|
+| Lint |0|0|0|3,670,405,120|5,374,054,400|
+| Production |416,124,928|0|0|4,729,806,848|6,433,456,128|
 
-With roughly 3.96 GB persistent free at the failed retry, **4 GiB additional usable
-persistent space is a planning target** for the reviewed writable handoff and
-sequence, not guaranteed sufficiency or permission to run another build. Recheck
-both filesystems, actual ownership, remaining outputs and memory before admission.
-The same 16 GiB memory limit still needs fresh guards and eventual real compiler/
-runtime evidence. A narrow disposable-output review found only 162,336,768 bytes
-of conditional download/package-list/foreign-browser candidates, not certified
-for retirement and far below the gap. No named recovery archive can be discarded.
+Core/TUI missing pairs are counted once: 442,593,280 bytes. Production adds a
+643,276,800-byte gross CLI/manager comparator. Lint's 429,985,792 bytes of other
+regular outputs are a replacement/overlap comparator, not another lasting copy.
+The peak column adds growth 536,870,912, shared source/evidence 134,217,728, recovery
+floor 268,435,456, historical ordinary-archive overlap 227,254,272 and other linker/
+build-script scratch 536,870,912. These are estimates, not measured upper bounds.
+**6,433,456,128 bytes is neither an exact minimum nor guaranteed sufficient space.**
+The previous 3.797/6.836/7.128 GB totals remain historical comparisons, not admission.
+A global handoff of all 1,047 rlibs is not bounded by the all-metadata-seed scenario;
+five rlibs lie outside that recorded upper output set. Reject global eager handoff.
 
-No callable live same-instance volume expansion or authenticated bulk export is
-established. A separately prepared cold-archive transfer proposal must name a
-concrete authorized private destination, manifest exact contents, verify remote
-integrity and restoration, and obtain explicit retention decisions before local
-retirement. That proposal is not authorization to upload, delete or replace this VM.
+Already-resident selected tmp inputs total 3,559,895,040 bytes. Do not charge their
+existing archives again or treat tmpfs free space as independent memory. The old
+non-shmem peak plus current probe shmem plus a 2 GiB contingency is 12,834,566,144
+bytes, a provisional comparison only. Extra writable metadata on tmp would add
+575,684,608 bytes; routing 792 rlibs there would add 2,463,023,104, with no routing
+proof. Compiler, browser and compressor phases must not overlap. Optional new-host
+proof archival needs a separate 192 MiB compressed estimate and 643,276,800-byte
+full-restore probe; the accepted-host archive is already paid.
+
+After successful production, the twelve existing runtime recipes plus the separate
+new auth consumer still require current-source evidence. Known package copies are
+666,832,896 bytes within a 1.5 GiB provisional runtime tmp allowance: 512 MiB state/
+profile growth, 128 MiB browser transient and 272,691,200 unassigned. Add auth-consumer
+64 MiB tmp and 128 MiB process estimate separately; that excludes native host memory.
+A fresh 4 GiB hard-unused runtime/browser guard and the shared 128 MiB evidence
+allowance are provisional; count earlier failed receipts and later screenshots.
+Neither these estimates nor historical Chromium/deterministic-model passes prove a
+new runtime peak, in-app Browser behavior or live-provider behavior.
+
+The staged alternative remains inadmissible. Corrected historical accepted-inode
+allocation is 634,273,792 bytes; full tmp restore is 643,276,800. No relocation
+credit is approved. Even granting old-inode relocation, the focused scenario with
+required durable metadata fallback is short 531,582,976 bytes. A later full-login
+selected-rlib recreation scenario is short 766,865,408 after the hypothetical
+post-focused handoff. Preserving a new archive, fully restoring it and releasing
+inactive old tmp backing can rebalance RAM only after a complete admitted command;
+it cannot fund the initial peak or guarantee subsequent reuse. The sealed erratum
+corrects original ledger attribution/arithmetic without changing its original bytes.
+
+## Concrete capacity/access decision
+
+An additional 4 GiB usable persistent capacity remains a planning target, not a
+native pass guarantee. The provisional 28 historical binary/proof archives occupy
+4,320,051,200 bytes; certified reclaim is zero. Preserve full source/workspace,
+current accepted baseline and new cache recovery locally. The small 162,336,768-byte
+disposable-candidate review is also uncertified and cannot close the multi-GB gap.
+
+The exact private destination/instance identifiers are intentionally absent from
+public docs. The sealed access card bound in EVIDENCE.json requests only its single
+exact HTTPS hostname, preserving restricted mode, package-manager and unrelated
+grants, normal inherited HTTPS proxy and certificate verification. Raw TCP grants
+are not required merely for HTTPS CONNECT. An operator must provide a supported
+same-instance apply/private DNS-route workflow without reset/replacement; no such
+apply/resize/export tool is exposed here. Read back the actual task-bound enforced
+policy and readiness afterward; publishing saved configuration alone is insufficient.
+
+Then establish an existing scoped private DAV account/directory and 12 GiB usable
+quota through the private credential surface. Transport/TLS and authenticated
+read-only directory/quota checks remain separate gates. Only separately authorized
+transfer may start the encrypted pilot, independent download/decryption/full restore
+and recovery-key verification. Remote checksums alone do not justify retirement;
+explicit retention approval and fresh local ownership checks are still required.
+No unchanged access retry, upload, public tunnel, paid provider or archive deletion
+is authorized by this review. If no same-instance route or genuine capacity change
+is available, preserve state and report that material blocker before any handoff.
 
 ## Earlier completed repairs and guard measurements
 
@@ -353,9 +406,9 @@ The full private metadata inventory is preserved in the workspace under
 
 These seals identify audit reports, not fresh archive payload integrity. They are
 workspace-local checkpoints, not demonstrated external backups. Published GitHub
-source protects only included source. Current next action is the recoverable
-writable-output handoff and renewed dirty-closure capacity admission for the native
-sequence. The installed-overlay gate and input/duplicate/rlib/registry repairs are
+source protects only included source. Current next action is the necessary operator access decision or a real capacity
+change, followed by bounded handoff/helper recovery testing and renewed full native
+admission. The installed-overlay gate and input/duplicate/rlib/registry repairs are
 complete; preserve their evidence and do not replay them. PC and home Proxmox are
 potential private destinations; no supported bulk cloud transfer is proven. No
 public management endpoint or unapproved upload. Prepare the concrete route/access,

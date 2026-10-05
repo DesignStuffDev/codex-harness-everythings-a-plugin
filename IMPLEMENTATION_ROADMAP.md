@@ -1,11 +1,16 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Current order, 2026-10-05:** repair native compiler-output ownership and renew
-capacity admission for the critical P03 sequence. The coherent eight-path external-
-token-install change is adopted and formatted, but remains **untested, unaccepted
-and unpublished**. Exact 8,980-path source map:
-`b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b`.
+**Current order, 2026-10-05:** resolve a concrete same-instance operator access or
+capacity change before native output handoff. The [handoff design](NATIVE_OUTPUT_HANDOFF.md),
+[deduplicated phase ledger](CAPACITY_PLAN.md) and [review checkpoint](verification/2026-10-05/p03-writable-output-capacity/README.md)
+are proposals, not native admission. CoW failed on the actual filesystems; no tmp
+output-placement or future cache-reuse credit is established. The staged alternative
+also fails admission. Necessary access is described in a sealed private exact-host
+card; no private destination/instance identifiers are published here.
 
+The coherent eight-path external-token-install change is adopted and formatted,
+but remains **untested, unaccepted and unpublished**. Exact 8,980-path source map:
+`b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b`.
 The first focused attempt exited 102 on missing offline metadata inputs. An
 additional 227 genuine current-lock archives were then restored and verified while
 preserving the earlier 902; no source extraction or unrelated 166-file restoration.
@@ -48,8 +53,8 @@ renewed whole-sequence allowance; larger P03 gates also need separate admission.
 See [capacity plan](CAPACITY_PLAN.md).
 
 Latest published checkpoint before this documentation update is
-`25e9732a7350d31551ff58181b23d747b8c1dcf0` (tree
-`c178f8de696759e3fa372bbfca6473f8963dce8d`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
+`95359037b45621f54c4284c049873f0834f3f123` (tree
+`b30e7e35b17411f1fc9710105cf6c78154052f9d`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
 The original conservative8GiB-free recommendation is not mandatory. Recovery
 `rehydrate`/`recover` paths also passed three disposable synthetic cases/18 phase
 calls for normal, lost-backing and interrupted-exchange recovery; this is not

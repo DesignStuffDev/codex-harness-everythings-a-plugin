@@ -11,7 +11,7 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: writable native outputs and renewed capacity admission — 2026-10-05
+## Current priority: operator access/capacity decision before native handoff — 2026-10-05
 
 The coherent eight-path external-token-install cohort is **adopted and formatted
 in the working tree, not accepted or published**. `just fmt` exited 0. Its exact
@@ -42,21 +42,33 @@ compiler outputs and budget the expanded dirty dependency closure, simultaneous
 recovery/output copies, linker overlap and full required validation sequence before
 any further Rust command. Do not chmod protected recovery backing, reset
 fingerprints/mtimes to force reuse, or repeat the failed build unchanged.
-The conditional broader output-coexistence comparison is 7,127,788,008 bytes versus
-roughly 3.96 GB free at the retry. An additional 4 GiB of usable persistent capacity
-is a planning target, not guaranteed native admission; the actual dirty schedule,
-writable handoff and shared-memory peaks still require review. No safe multi-GB
-disposable set or supported live expansion/transfer is established. See the exact
-conditional scenarios and access limits in [capacity plan](CAPACITY_PLAN.md).
-[Current input/build checkpoint](verification/2026-10-05/p03-token-install-build-inputs/README.md)
-binds repair, metadata success and the separate compiler-input failure.
+The completed capacity-only review now has a [bounded output-handoff design](NATIVE_OUTPUT_HANDOFF.md)
+and [phase ledger/access checkpoint](verification/2026-10-05/p03-writable-output-capacity/README.md).
+The measured CoW probe returned ENOTSUP within both filesystems and EXDEV across
+filesystems. No CoW, output-placement, cache-reuse or speculative retirement credit
+is admitted. Only proc-macro2 compilation was observed; the larger reverse graph
+is conditional. The deduplicated five-phase scenario reaches 6,433,456,128 bytes
+against its stated 3,957,055,488-byte free-space baseline; neither is an exact
+minimum or a future peak guarantee. The staged alternative also fails admission.
+The older 6.836/7.128 GB comparisons remain historical, not new admission targets.
 
-Latest published/read-back WIP checkpoint before this documentation update:
-**25e9732a7350d31551ff58181b23d747b8c1dcf0**, tree
-`c178f8de696759e3fa372bbfca6473f8963dce8d`. It preserves the first native input-blocker
-report; the native eight-path working change is not included or runtime-proved.
-Collector and broader updater/planner/scope-validator work remain paused. Native
-capacity success requires the source-bound test/lint/production/runtime sequence.
+Next is a necessary same-instance operator access decision or a real capacity
+change. The sealed private card identifies one exact-host restricted HTTPS request,
+supported private routing, scoped destination credentials and 12 GiB quota.
+No callable same-instance apply/resize/export operation is exposed; a saved-environment
+publication does not prove this running task changed. Do not retry unchanged access.
+The 28 historical archive candidates total 4,320,051,200 allocated bytes, but
+**zero bytes are certified reclaimable**. Independent transfer/restore verification
+and explicit retention approval precede any local retirement; current source,
+accepted baseline and new cache-recovery archives stay local.
+
+Latest published/read-back checkpoint before this documentation update:
+**95359037b45621f54c4284c049873f0834f3f123**, tree
+`b30e7e35b17411f1fc9710105cf6c78154052f9d`. Its parent is 25e9732a. It publishes the
+registry/metadata success and separate compiler-input failure, not the eight native
+working paths. Root subsequently rehashed all 8,980 bound files and original index
+unchanged. Collector/updater work remains paused. The output handoff and combined
+archive-to-metadata recovery drill are proposals, not executed acceptance.
 
 Exact preserved resumption points:
 
@@ -351,16 +363,17 @@ live activation/hot replacement within running sessions.
    archives/aliases and unfinished proposals. Never replay completed cache mutations.
 2. The exact paused installed-overlay gate is DONE; preserve its bounded evidence
    and do not replay it. Collector and broad updater feature work remain paused.
-3. The registry metadata repair and actual offline metadata pass are DONE. Preserve
-   both failed focused attempts and the canonical rlib path absent after retry. Design
-   and verify a recoverable writable-output handoff with immutable recovery bytes
-   retained; diagnose the dirty dependency closure without falsifying fingerprints.
-   Re-admit both filesystems and shared RAM for the entire remaining sequence before
-   another Rust command. Adoption and formatting are complete; do not replay them.
-   Focused/full login/provider `just test`, scoped login `just fix`, production
-   CLI/manager and runtime checks remain pending. Old source42 passes are not proof
-   for the current source. The current 3.85 GB planning floor alone is insufficient
-   to certify the newly exposed dirty-output sequence.
+3. Resolve the concrete same-instance operator access/capacity decision in the
+   private sealed access card, or establish a real independently verified capacity
+   change. No unchanged network or Rust retry. Preserve all 28 uncertified archive
+   candidates and the current recovery set. After that change, review the bounded
+   cohort handoff/helper and test its disposable crash/epoch cases plus the combined
+   archive-to-metadata recovery path. Re-admit disk/tmpfs/shared RAM for the entire
+   sequence before Rust. No global alias removal, chmod of recovery backing,
+   fingerprint reset, inferred tmp output placement or future cache-reuse credit.
+   Registry repair, metadata, adoption and formatting are complete; do not replay
+   them. Focused/full login/provider `just test`, scoped login `just fix`, production
+   CLI/manager and current-source runtime checks remain pending.
 4. Reexercise installed storage/migration/GUI/attachments, normal/forced Launch,
    cancellation/recovery and the held ownership matrix against that new host. Include
    the new auth-install real consumer gate and all12 prior runtime recipes; do not
