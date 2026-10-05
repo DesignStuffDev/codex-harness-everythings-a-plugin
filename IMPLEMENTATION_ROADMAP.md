@@ -826,6 +826,14 @@ blocked. Complete final-inventory audit, trusted filesystem collection, persiste
 profiles, interactive UI, live A/B routing and recovery remain separate gates.
 This supplied-evidence policy support adds no native extracted family.
 
+The next pure [final supplied-inventory audit](verification/2026-10-05/p18u-final-scope/README.md)
+passes50 scoped cases (18 new,19 plan,13 adapter) on8977-path sourcef27ab9e9.
+It checks every supplied before/after difference against selected all-owner grants,
+including executable modes and rename endpoints; unknown mapping stays blocked.
+Trusted filesystem collection, original-object/semantic attestation and installed
+audit exposure remain separate gates. All activation/authority flags remain false.
+
+
 ### P19 — Final v1 acceptance and kernel audit
 
 **Prerequisites:** every functional inventory row accepted; no unexplained coupled

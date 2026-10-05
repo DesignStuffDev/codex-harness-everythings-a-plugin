@@ -128,6 +128,14 @@ blocked. Complete final-inventory audit, trusted filesystem collection, persiste
 profiles, interactive UI, live A/B routing and recovery remain separate gates.
 This supplied-evidence policy support adds no native extracted family.
 
+The next pure [final supplied-inventory audit](verification/2026-10-05/p18u-final-scope/README.md)
+passes50 scoped cases (18 new,19 plan,13 adapter) on8977-path sourcef27ab9e9.
+It checks every supplied before/after difference against selected all-owner grants,
+including executable modes and rename endpoints; unknown mapping stays blocked.
+Trusted filesystem collection, original-object/semantic attestation and installed
+audit exposure remain separate gates. All activation/authority flags remain false.
+
+
 The separately installable maintenance component should take an exact upstream revision, the current imported-source lineage, local extraction changes and installed component compatibility information. It should produce a reviewable change classification, an isolated candidate build/package, compatibility and regression evidence, and an explicit activation/rollback result. It must detect upstream changes to owned boundaries and shared schemas rather than assuming a clean textual merge proves behavior. Reuse the C00 manifest/version/dependency contracts and C26 build/conformance tools; require C02/C03 persistence compatibility and C19 client lifecycle checks. Preserve licenses, notices, plugin configuration, user data and the last known working distribution. No automatic publication, destructive replacement or silent migration is implied by this design.
 
 A small external recovery/bootstrap path is a justified proposed SUPPORT/kernel exception: it must be able to locate and restore a previously accepted distribution when the candidate host or updater cannot start. It should have minimal checkpoint/integrity and activation responsibilities, with a versioned on-disk recovery record independent of the failing host's runtime ABI. Upstream fetch/diff/porting rules, compatibility policy, migration planning and test orchestration remain owned by the replaceable maintenance component or explicit build services; they are not a reason to retain a second full harness inside bootstrap. Required upstream activation uses immutable A/B generations: keep A usable during isolated B staging, health B before switching new-session routing, pin existing A sessions and fence compatible shared-state owners. Unsupported overlap leaves B pending. Retain a local previous release and independent recovery; rollback must preserve newer writes and active B-session ownership. Controlled drain remains required where a chosen state restoration needs it; do not call uncertain cleanup completed rollback.

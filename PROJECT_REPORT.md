@@ -87,6 +87,11 @@ synthetic successful policy cases from the real upstream report's unresolved map
 Trusted final-diff enforcement, persistent UI profiles and activation remain pending.
 This is additive maintenance functionality, not another native subsystem extraction.
 
+The next pure final-scope validator passes **50 focused/affected cases**. It derives
+all supplied inventory differences and rejects out-of-scope operations, omitted
+changes and missing owners’ grants. It does not yet collect trusted filesystem
+inventories or expose an installed audit operation.
+
 ## What has actually been tested
 
 Evidence is bound to each tested source map, package and binary, rather than one
@@ -138,8 +143,8 @@ deployment remain outside this scope.
 
 ## Capacity, preservation and immediate work
 
-The latest completed runtime observed about **293 MB persistent free space**,
-9.17 GB temporary RAM-backed space and a 16 GiB memory limit. It inventoried **8.17 GB
+The latest completed runtime observed about **287 MB persistent free space**,
+9.16 GB temporary RAM-backed space and a 16 GiB memory limit. It inventoried **8.17 GB
 of recovery archives**, including a conditional historical shortlist of 700 MB.
 **Zero bytes are certified safe to delete.** Native builds remain blocked by both
 disk headroom and missing volatile backing for cached inputs; free tmpfs alone does

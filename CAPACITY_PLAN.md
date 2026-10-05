@@ -31,6 +31,10 @@ Latest completed0.4 runtime snapshot (2026-10-05 01:42:09 UTC): persistent
 bytes, OOM/kill0 unchanged. A subsequent956,383-byte private runtime export is
 preserved. These are point observations; remeasure before each new admitted stage.
 
+After the next50-case pure final-scope run at2026-10-05 01:58:06 UTC:
+persistent287,522,816B, tmp9,163,165,696B, hard-unused memory13,681,459,200B;
+OOM/kill0 unchanged. No native admission or recovery retirement followed.
+
 ## Protected inputs versus conditional cold storage
 
 The bounded inventory deduplicated allocations by device/inode and kept cross-class

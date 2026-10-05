@@ -1,0 +1,141 @@
+{
+  "schema": "p18u-final-scope-source-lineage-v1",
+  "classification": "Original custom additive C27 maintenance support primitive; no native subsystem extraction",
+  "upstream_provenance": {
+    "repository": "https://github.com/openai/codex",
+    "base_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "original_upstream_paths_or_symbols": [],
+    "upstream_code_copied_in_this_slice": false,
+    "note": "Upstream/custom fixture revisions describe retained review inputs, not this implementation or an activated updated harness."
+  },
+  "source_identity": {
+    "count": 8977,
+    "map_sha256": "f27ab9e949b997ff910baf0c891465e3847879a94b0b29b498b04c01246ed4b2",
+    "base_count": 8975,
+    "base_map_sha256": "d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99",
+    "all8975_prior_scoped_paths_unchanged": true,
+    "new_paths": [
+      {
+        "path": "component-sdk/examples/upstream-maintenance/final_scope.py",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "692a7797ab2415a2a26d6bf8424fb6db80681b4f158d3a26ee42c6ad05345bf3",
+        "bytes": 5528,
+        "lines": 130
+      },
+      {
+        "path": "component-sdk/tests/test_final_scope.py",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "79c20a1ec2eef9e8c1be482e87fd1eed0ba0763026e1ead23ebb807e13186a03",
+        "bytes": 12475,
+        "lines": 295
+      }
+    ],
+    "scope": [
+      "codex-rs",
+      "component-sdk",
+      "MODULE.bazel",
+      "MODULE.bazel.lock"
+    ],
+    "candidate_receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-final-scope-adoption-20261005-01/CANDIDATE.json",
+      "bytes": 1239316,
+      "sha256": "923d97e4a20cc404128f0a457f0b53c069c38f98ca7b3e63a3d53063d620b9be"
+    },
+    "adoption_intent": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-final-scope-adoption-20261005-01/INTENT.json",
+      "bytes": 903,
+      "sha256": "efdc89a8eb359ab4da71fcb092df8e2dbd8262ac37e6c87439d606f09a2c4083"
+    },
+    "format_receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-final-scope-adoption-20261005-01/FORMAT.json",
+      "bytes": 192,
+      "sha256": "bed09af55602671319578a35787277d7fcebabe211e65c083ae4b4ac297f0941"
+    },
+    "format_command": "just fmt",
+    "format_exit": 0,
+    "format_changed_source": false,
+    "root_documents_and_recovery_files_not_in_scope": true
+  },
+  "symbols": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/final_scope.py",
+      "symbol": "inventory",
+      "line": 11,
+      "end_line": 31
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/final_scope.py",
+      "symbol": "audit_scope",
+      "line": 34,
+      "end_line": 130
+    }
+  ],
+  "contracts": {
+    "entrypoint": "final_scope.audit_scope(plan,before,after,expected_plan_id)",
+    "plan": "Existing immutable SelectionPlan, revalidated using restore_plan",
+    "inventory_schema": "contract_version=1,namespace,completeness=complete,entries:{relative_path:{kind=file,mode,blob,sha256,bytes}}",
+    "outputs": "supplied_inventory_conforms or blocked receipt with exact plan/before/after identities, computed differences, all inherited findings/gates and content-derived receipt_sha256; malformed input raises PolicyError.",
+    "state_owner": "Caller owns supplied records and persistence; module has no filesystem/process state.",
+    "dependencies": [
+      "selection_plan.py",
+      "Python standard library json/unicodedata"
+    ],
+    "lifecycle": "Synchronous bounded pure function; no startup/shutdown worker or cancellation contract introduced.",
+    "limits": {
+      "entries_per_inventory": 16384,
+      "canonical_input_output_bytes": 4194304,
+      "regular_file_modes": [
+        "100644",
+        "100755"
+      ],
+      "declared_size_min": 0,
+      "declared_size_max_exclusive": 9223372036854775808
+    },
+    "installed_wire_surface": "None added; no package rebuild/runtime acceptance in this slice.",
+    "before_binding": "Whole canonical before envelope; legacy compact inventories require a new plan and invalidate older evidence.",
+    "trust": "Supplied completeness/ownership/categories/hashes are unauthenticated assertions. This library cannot attest real disk bytes or enforce an OS security boundary.",
+    "authority": {
+      "update_allowed": false,
+      "activation_allowed": false,
+      "complete_candidate": false,
+      "enforcement_authority": false
+    }
+  },
+  "preserved_proposals": [
+    {
+      "manifest": {
+        "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-scope-proposal-01/MANIFEST.json",
+        "bytes": 1049,
+        "sha256": "9bfe6440e034bd84d7eda82b4d2ba906e1589f461f78a0b7a797800288d71f12"
+      },
+      "listed_files": 5,
+      "all_listed_original_bytes_verified": true,
+      "adopted": false,
+      "full_previous_proposal_preserved": true
+    },
+    {
+      "manifest": {
+        "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-final-scope-proposal-01/MANIFEST.json",
+        "bytes": 1161,
+        "sha256": "520745072491498096e2ab7b0319caf32d76010534cf7a1ac75a80710fe1f445"
+      },
+      "listed_files": 7,
+      "all_listed_original_bytes_verified": true,
+      "adopted": true,
+      "full_previous_proposal_preserved": true
+    }
+  ],
+  "verification": "verification/2026-10-05/p18u-final-scope/EVIDENCE.json",
+  "next_boundary": "Trusted independent inventory collection and current source/component classification, then bounded installed audit integration and interactive maintenance owner; full updater/A-B/recovery gates remain required.",
+  "limitations": [
+    "Pure supplied-data validation only. Positive blob IDs/content hashes/sizes and owner/category mappings are invented fixtures; coherent lies are not authenticated.",
+    "The completeness field is a caller assertion. There is no trusted filesystem collector, real object hashing, race-resistant snapshot, semantic ownership classification or actual candidate filesystem enforcement.",
+    "Retained historical13-path impact projection remains blocked in the fixture; no fresh upstream Git invocation or accepted real component selection was performed.",
+    "No new installed tool surface, package build/installation or manager/native-model runtime proof for final_scope.py. The earlier0.4 installed proof remains bound to8975/d84 source.",
+    "No GUI/browser/storage/migration rerun, native extraction/capacity pass, complete updated candidate, A/B routing, activation or rollback acceptance.",
+    "Case-only renames and file/directory transitions are intentionally unsupported under the union alias/prefix rules, even with delete/add permissions.",
+    "Synchronous pure calculation has finite input/output bounds but no new CPU/deadline/preemptive-cancellation guarantee. No output clipping permits silent omission."
+  ]
+}
