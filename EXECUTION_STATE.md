@@ -21,12 +21,12 @@ I1–I5 infrastructure gate, all remaining P00–P19 phases/C00–C27 coverage, 
 exceptions, collector/updater/A-B requirements and final acceptance. Its detailed
 phase requirements remain those of the canonical roadmap, not a reduced endpoint.
 
-Latest verified publication entering this continuation is
-`47b225fc3b5ee4bd3cf1b37e056f5818f58a54ac`, tree
-`95e4081aee7d0f3df26770bacef7cb86975b04bd`: five coordination documents read back
+Latest verified publication entering this companion-selection continuation is
+`e8470e04f20b044d0b882717ce9292bbcf21606e`, tree
+`b37bf4f0fd4dbeedb100c46bfff6ba4a3d530775`: seven coordination documents read back
 exactly, original index unchanged. No candidate source or private payload was published.
 This continuation prepared a private 32-payload/1,550,203-byte source/control packet:
-eight exact auth files, fourteen private runtime helpers, five bootstrap controls,
+eight exact auth files, fourteen privately retained runtime helpers, five bootstrap controls,
 four command references and the full portable 8,980-path map. Selected originals
 and index are unchanged. The [readiness receipt](verification/2026-10-05/completion-handoff/MANIFEST.json)
 binds its private custody. After the requested pause, the original checkout/index,
@@ -36,14 +36,22 @@ files passed independent review. A bounded static content review then covered
 companion-input gaps. [Bootstrap control requirements](verification/2026-10-05/completion-handoff/BOOTSTRAP_CONTROLS.md)
 record source/index envelope, environment override order, observer success receipts,
 private GUI reports and notice obligations. This is not export authorization or
-runtime proof. Exact source/control delivery selection, adaptation, OS/sysroot/tool
-closure, monitoring integration, fresh package proofs, worker access and native
-acceptance remain pending. No feature work, native command, worker provisioning or
+runtime proof. The subsequent [static companion selection](verification/2026-10-05/worker-companion-selection/README.md)
+now binds 89 origin/hash records and their import/layout, publication and notice
+relationships, reusing the existing review. Twelve of the fourteen runtime helpers
+already match published source exactly; two do not. Across the full packet,
+20 payloads have no exact pinned-tree blob. Historical attachment/held inputs are
+not new proof. The private delivery channel, portable adaptation, OS/sysroot/tool
+closure, monitoring, fresh package proofs, worker access and native acceptance
+remain pending. No feature work, native command, worker provisioning or private
 export occurred.
 
-**Next action:** hand the infrastructure coordinator the reviewed source/control
-packet manifest and worker bootstrap gaps; finish the companion-input/delivery
-selection and derive separately hashed portable controls/image recipe. On actual authenticated worker readiness,
+**Next action:** use the completed static selection with the infrastructure owner;
+await authenticated command/file access and resource admission, including VM105's
+32 GiB onboot commitment and physical storage/IO reconciliation. Then complete
+the exact private delivery route/selection, separately reviewed portable controls
+and OS/native/browser recipe. Do not repeat static reviews, unchanged original-VM
+builds or infer worker admission. On actual authenticated worker readiness,
 admitted resources and reviewed portable controls, deliver pinned source plus the
 explicitly unverified coherent eight-path overlay, rebuild cleanly and close I1–I5
 with current evidence. Then resume remaining native auth/P03 automatically. Installed
@@ -61,8 +69,9 @@ prepares source custody; it does not create another checkout/VM or provision acc
 are the next execution reference. Exact comparison to published c041 found the coherent
 eight-file auth overlay, nine separate unactivated document/helper variants and 325
 published preservation paths that must remain inherited. The source projection remains
-8,980 paths/b75efc97; no candidate build or native tests passed. Fourteen private
-control sources and independent-package lock/proof gaps are explicitly identified.
+8,980 paths/b75efc97; no candidate build or native tests passed. Fourteen controls
+have private custody; twelve already have exact published equivalents. Portable
+controls and independent-package lock/proof gaps remain explicitly identified.
 
 Historical verified publication before the source-custody coordination update is
 `c0412a00d90cca162e7a54b5c6aa06cb67979f55`, tree

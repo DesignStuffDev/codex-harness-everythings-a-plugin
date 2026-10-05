@@ -23,6 +23,12 @@ retain concrete source-envelope, observer, companion-input, notices and private-
 requirements. It grants no payload export. No worker access, transfer or native pass
 is implied.
 
+The later [static companion selection](verification/2026-10-05/worker-companion-selection/README.md)
+closes the selected local-file/import inventory and exact pinned-source routes.
+It distinguishes historical inputs from worker-generated proof and retains
+portable-control, acquisition and admission gaps. VM105 memory/storage commitments
+are still under independent infrastructure review, not granted resources.
+
 ## Immutable source references
 
 | Reference | Identity |
@@ -196,8 +202,10 @@ executed, but not in-app Browser/manual or live-provider evidence. No viewer is 
 prerequisite. Worker process/loopback/tracing capabilities must support unchanged
 assertions; a skipped gate is not a pass.
 
-The runtime recipe binds 44 helper inputs, including 14 private unpublished sources;
-this is not the complete bootstrap-control closure. Four environment scripts and
+The runtime recipe binds 44 helper inputs, including 14 privately retained sources.
+The later exact-blob comparison corrects the earlier "unpublished" classification:
+12 of those 14 already match published source; two have no match in the pinned tree.
+This is not the complete runnable bootstrap closure. Four environment scripts and
 the resource observer are separately identified in the manifest. Known
 portability gaps are absolute root/Python paths, local main-reference assumptions,
 trusted Git/strace hashes, source-absence and package timestamp assertions, and old

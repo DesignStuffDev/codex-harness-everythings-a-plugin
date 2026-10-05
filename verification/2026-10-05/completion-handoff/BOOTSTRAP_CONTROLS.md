@@ -12,6 +12,13 @@ separate variants are unchanged. This is VM-local custody, not external backup.
 Content review and byte identity do not establish runtime portability or authorize
 publication of the private packet. Keep its originals and all correction history.
 
+Follow-up: the [static companion selection](../worker-companion-selection/README.md)
+now binds the adjacent metadata/GUI observer, held schema/source references,
+package helper imports and notices. It also identifies exact existing published
+bytes: 12 of the packet's 14 runtime helpers. Static selection is complete for the
+bounded discovered companions; fresh worker derivations and actual delivery are
+still pending. The table below retains those execution requirements.
+
 ## Required worker derivations
 
 | Input / boundary | Concrete issue found by static review | Required worker preparation |
@@ -54,7 +61,7 @@ selection; no private packet, archive or raw evidence export is performed here.
    Rust/Cargo/Git/V8 pins and nine GStreamer/ORC package identities are useful inputs,
    not a complete image or recursive native-library closure. Verify acquisition and
    executable identities on the worker rather than reuse the damaged target cache.
-3. Finish the derived controls and companion-input inventory above. Bind exact
+3. Use the completed static companion selection and finish derived controls. Bind exact
    original and derived hashes, effective configuration and per-command acceptance
    receipts; establish fresh deterministic fixtures without personal credentials.
 4. Deliver/read back the pinned source plus explicitly unverified eight-file
