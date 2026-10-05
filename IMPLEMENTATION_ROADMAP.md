@@ -1,11 +1,20 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Current order, 2026-10-05:** the exact paused installed-overlay lifecycle gate
-has completed on the unchanged host. Return immediately to the critical native
-P03 eight-path auth-install/test/lint/production/runtime sequence. Collector and
-broad updater/planner/scope-validator work remain paused. No Python or installed
-maintenance pass clears the native capacity gate; the native cohort remains
-unadopted/unbuilt at this documentation checkpoint.
+**Current order, 2026-10-05:** repair the offline registry metadata/input closure
+for the critical native P03 sequence. The coherent eight-path external-token-install
+change is adopted and `just fmt` passed, but it is **uncompiled, untested and not
+published/accepted**. Exact source:8,980 paths,
+`b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b`.
+The first focused `just test --locked --retries 0` exited102 before compilation:
+Nextest's offline all-features metadata step needed `alsa 0.11.0`; zero native tests
+ran, without source drift or new OOM. Do not blindly repeat that command.
+
+[Native input-blocker checkpoint](verification/2026-10-05/p03-token-install-input-blocker/README.md)
+binds adoption/formatting, all eight paths and the original failure. The store and
+caller must remain one coherent operation; a split pre-save check is not a safe
+intermediate change. Focused/full login/provider tests, scoped lint, production
+CLI/manager rebuild, all12 prior runtime recipes and the new auth consumer gate
+remain pending. Collector and broad updater/planner/scope-validator work stay paused.
 
 [Installed lifecycle evidence](verification/2026-10-05/p18u-installed-overlay-lifecycle/README.md):
 five source/strict stages passed, with eight normal commands (two setup and six
@@ -13,7 +22,7 @@ recovery) and two direct installed-SDK primaries. Cooperative shutdown and abrup
 plugin-only death both left incomplete jobs, all six tracked identities disappeared
 without rescue, and each subsequent normal-manager invocation prepared a verified
 13-path overlay. Installed package0.4/legacy overlay0.3 reused pyz913e0842 from prior
-8,975-path d84cf069 source; current8,977-path f27ab9e source stayed unchanged. The
+8,975-path d84cf069 source; then-current8,977-path f27ab9e source stayed unchanged. The
 held Git was observed at exec, not during computation beyond exec. Manager graceful
 forwarding, complete updated-host integration, rollback, UI/native validation and
 all seven updater release gates remain unproved. Do not replay the completed gate.
@@ -30,13 +39,21 @@ core/TUI pairs once and covers tests/lint/production/runtime/evidence/recovery;
 larger remaining P03 gates require separate admission. See [capacity plan](CAPACITY_PLAN.md).
 
 Latest published checkpoint before this documentation update is
-`4a02af815a3c6a6129574530d8a1097cf02981dc` (tree
-`44379122ccf497b72bd7197ee7d26dca9b26968b`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
+`073cdeda69f08221c76c4017c09e0d7a09a57576` (tree
+`d45435be8b712f24a7e4fac19e72a7fe3453007b`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
 The original conservative8GiB-free recommendation is not mandatory. Recovery
 `rehydrate`/`recover` paths also passed three disposable synthetic cases/18 phase
 calls for normal, lost-backing and interrupted-exchange recovery; this is not
 power-loss or production-disaster proof. The actual full restoration did execute. Historical instructions below to advance unrelated small
 maintenance work are superseded by this exact resumption order.
+
+The accepted CLI/manager now also have a140,182,904-byte archive, fully restored
+and hash-verified before only the duplicate restore probe was released. Scoped
+clean-cache advice preserved exact contents/metadata and yielded9,139,257,344
+hard-unused bytes. The earlier8,486,326,272-byte admission refusal remains preserved;
+no mutation/build ran in that refused attempt. Full details and archive identity
+are in the native checkpoint above. Neither restored backing nor formatting proves
+that the complete native validation sequence fits or passes.
 
 Status: **incomplete platform; verified partial baseline**. Current checkpoint2026-10-05.
 
@@ -59,7 +76,7 @@ native commands, Stop, streaming, file search, cold history and actual manager C
 These used deterministic inference; in-app Browser and live-provider validation are
 unavailable. Earlier source7a GUI01 timeout remains preserved with unresolved cause.
 
-Current auth source passes301 login +108 provider tests, focused4 overlapping301,
+Preserved October2 source42 passes301 login +108 provider tests, focused4 overlapping301,
 zero skips/retries, serialized full-package execution and scoped login lint02. The
 preceding reload slice passed297+108 and scoped lint03. Native HTTP Stage A139 plus
 four CA-classification checks and Stage B553 plus real HTTP composition retain their

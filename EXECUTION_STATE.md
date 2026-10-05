@@ -11,26 +11,28 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: native P03 eight-path auth ownership — 2026-10-05
+## Current priority: repair native test metadata inputs — 2026-10-05
 
-The exact paused installed-overlay lifecycle acceptance is **complete**. Five
-source/strict stages passed on the unchanged host: two direct installed-SDK
-primaries, plus setup and separate normal-manager recovery after each primary.
-All six tracked process/thread identities were absent, with no rescue. See the
-[bounded runtime evidence](verification/2026-10-05/p18u-installed-overlay-lifecycle/README.md).
-Do not replay this gate. Collector and broader updater/planner/scope-validator
-work remain paused; return immediately to the eight-path native auth-install
-sequence under the repaired capacity guards.
+The coherent eight-path external-token-install cohort is now **adopted and
+formatted in the working tree, not accepted or published**. `just fmt` exited0.
+Its exact 8,980-path source map is
+`b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b`;
+596 changed lines include tests and required formatter expansion. Preserve the
+complete store-plus-caller change: splitting out a pre-save check is unsafe.
 
-**The critical native build/validation gate has not run.** These Python/installed
-package checks do not prove native capacity, a complete updater, or completion of
-P03. The native cohort remains unadopted at this documentation checkpoint.
+The first focused `just test --locked --retries 0` attempt exited102 before
+compilation: Nextest's offline all-features metadata step needed `alsa 0.11.0`.
+**Zero native tests ran.** Source/index and bound inputs stayed unchanged; no new
+OOM occurred. Repair and verify the required registry metadata/input closure with
+bounded preservation and fresh resources before a new attempt; do not repeat the
+unchanged failed command blindly. [Exact checkpoint](verification/2026-10-05/p03-token-install-input-blocker/README.md).
 
-Latest published checkpoint before this documentation update:
-**4a02af815a3c6a6129574530d8a1097cf02981dc**, tree
-`44379122ccf497b72bd7197ee7d26dca9b26968b`, on the existing WIP branch. Preserve its
-capacity repairs, source/final-scope publication2690688 and earlier395aac0; never
-replay their mutations or completed acceptance operations.
+Latest published/read-back WIP checkpoint:
+**073cdeda69f08221c76c4017c09e0d7a09a57576**, tree
+`d45435be8b712f24a7e4fac19e72a7fe3453007b`. It preserves the completed installed-overlay
+lifecycle gate; the newer native working changes are not included or runtime-proved.
+Collector and broader updater/planner/scope-validator work remain paused. Native
+capacity success still requires the source-bound test/lint/production/runtime sequence.
 
 Exact preserved resumption points:
 
@@ -45,8 +47,14 @@ Exact preserved resumption points:
   unadopted. Resource-estimate correction at
   R/p18u-small-stage-resource-correction-20261005-01 remains preserved; earlier small
   estimates were exceeded, so do not claim their budget passed.
-- Native auth: R/p03-ephemeral-token-install-cohort-proposal-01 remains unadopted,
-  uncompiled and untested. Preserve the complete eight-path cohort and all alternatives.
+- Native auth: the complete eight-path proposal is adopted/formatted but uncompiled
+  and untested. R/p03-token-install-adoption-20261005-02 preserves preimages, journal,
+  formatted patch and `CANDIDATE_FORMATTED.json` SHA256
+  `5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc`.
+  Preserve the original proposal and all alternatives; do not replay adoption/formatting.
+- Failed native entrypoint: A/p03-token-install-focused-20261005-02 retains source,
+  strict, observer and log receipts. Exit102 is an offline metadata-input failure,
+  not a compilation or test result. Registry-closure repair is the next action.
 
 ## Completed capacity repairs and conditional native admission
 
@@ -86,6 +94,21 @@ before every remaining stage. Jobs1 already applied historically; it is not a ne
 saving. Old near-limit production included10.35GB shmem, much larger than current
 selected backing. No blanket8GiB disk requirement or RAM-expansion claim remains.
 No native build, targeted native test or new GUI run has occurred for these repairs.
+
+### Accepted-binary preservation before native adoption
+
+The first source-adoption admission refused before any mutation:8,486,326,272
+hard-unused bytes were below the8GiB guard. Preserve
+R/p03-token-install-admission-refused-20261005-02/REFUSAL.json; it was not a build.
+The exact accepted CLI/manager were then archived to a140,182,904-byte file, SHA256
+`5c5a49bfd0bbe4f9774d9a008ade1e0e96e9fd39c0815d7a7b8f40970afcedfb`.
+Both binaries were fully restored and hashed (643,276,800 allocated bytes).
+Only the two owned duplicate probe files were released; originals/archive remain.
+Scoped clean-cache advice on these exact verified files, without global cache
+drop or metadata/content changes, yielded9,139,257,344 hard-unused bytes and
+3,978,465,280 persistent free bytes. See
+R/p03-token-install-baseline-preservation-20261005-02. These are point measurements,
+not reservations or native acceptance. The archive is VM-local, not an offsite copy.
 
 ## Identity and preservation
 
@@ -293,14 +316,16 @@ live activation/hot replacement within running sessions.
    archives/aliases and unfinished proposals. Never replay completed cache mutations.
 2. The exact paused installed-overlay gate is DONE; preserve its bounded evidence
    and do not replay it. Collector and broad updater feature work remain paused.
-3. Proceed immediately with the coherent eight-path native auth-install cohort. Recheck
-   all source preimages and whole-sequence capacity before adoption. Run required
-   formatting, grouped focused/full login and provider `just test`, scoped login
-   `just fix`, then production CLI/manager rebuild with retained flags/toolchain.
-   Bind actual new-source/binary results; older source42 passes are not new proof.
+3. Repair the required offline registry metadata/input closure exposed by missing
+   `alsa 0.11.0`; preserve the failed exit102 receipts. Recheck source/binary bindings
+   and whole-sequence resources before retry. Adoption and `just fmt` are complete;
+   do not replay them. Focused/full login and provider `just test`, scoped login
+   `just fix`, and production CLI/manager rebuild remain pending with exact retained
+   flags/toolchain. Bind new-source/binary results; source42 passes are not new proof.
 4. Reexercise installed storage/migration/GUI/attachments, normal/forced Launch,
    cancellation/recovery and the held ownership matrix against that new host. Include
-   the new auth-install real consumer gate; do not substitute native unit fixtures.
+   the new auth-install real consumer gate and all12 prior runtime recipes; do not
+   substitute native unit fixtures. None has run on the new source.
    In-app Browser remains unavailable; identify actual Chromium/deterministic-model
    fallback explicitly. Native capacity success requires this source-bound sequence.
 5. Separately budget remaining TUI6/two snapshots, App Server16, same-process

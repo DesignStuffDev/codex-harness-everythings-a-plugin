@@ -1,0 +1,321 @@
+{
+  "accepted_binary_recovery": {
+    "archive_bytes": 140182904,
+    "archive_sha256": "5c5a49bfd0bbe4f9774d9a008ade1e0e96e9fd39c0815d7a7b8f40970afcedfb",
+    "full_restore_and_hash_passed": true,
+    "global_cache_drop": false,
+    "offsite_copy": false,
+    "only_owned_duplicate_probe_released": true,
+    "originals_retained": true,
+    "post_advice_resources": {
+      "disk_available": 3978465280,
+      "hard_unused": 9139257344,
+      "memory_current": 8040611840,
+      "memory_limit": 17179869184,
+      "tmp_available": 5808566272
+    },
+    "restore_allocated_bytes": 643276800,
+    "restored_count": 2,
+    "scoped_advice_preserved_content_and_metadata": true
+  },
+  "attempt": {
+    "argv": [
+      "just",
+      "test",
+      "--locked",
+      "--retries",
+      "0",
+      "-p",
+      "codex-cli",
+      "-p",
+      "codex-login",
+      "--lib",
+      "-E",
+      "package(codex-login) & (test(auth::manager::auth_install_tests::) | test(auth::manager::auth_source_tests::) | test(auth::storage::ephemeral_install_store::tests::))",
+      "--test-threads=1"
+    ],
+    "compilation_started": false,
+    "exit": 102,
+    "failure_stage": "Nextest cargo metadata --all-features --filter-platform x86_64-unknown-linux-gnu --locked, offline",
+    "finished_utc": "2026-10-05T04:06:44Z",
+    "first_missing_package": "alsa 0.11.0",
+    "guard_results": {
+      "admission_unchanged": true,
+      "bound_inputs_unchanged": true,
+      "candidate_unchanged": true,
+      "index_unchanged": true,
+      "memory_events_unchanged": true,
+      "observer_unchanged": true,
+      "persistent_recovery_floor_retained": true,
+      "plan_unchanged": true,
+      "source_receipt_finished": true,
+      "strict_runner_passed": false
+    },
+    "metadata_child_exit": 101,
+    "native_tests_run": 0,
+    "new_oom_events": false,
+    "outer_command_returncode": 102,
+    "outer_reaped_only_own_command": true,
+    "outer_strict_runner_error": null,
+    "sample_count": 2,
+    "sampled_minimum": {
+      "persistent_available": 3970629632,
+      "tmp_available": 5808566272
+    },
+    "sampled_peaks": {
+      "memory_current": 8205713408,
+      "owned_rss": 655360
+    },
+    "sampling_is_not_a_peak_bound_or_containment": true,
+    "source_unchanged": true,
+    "started_utc": "2026-10-05T04:06:42Z",
+    "timeout_or_signal_sent": false
+  },
+  "coherent_scope": {
+    "implementation": "Process-local native external-token installation tickets and checked publication; store and caller adopted together.",
+    "not_complete_ownership": "Legacy external refresh/identity/raw writers, request dispatch and other storage modes remain outside this slice.",
+    "proposal_mapping": "p03-ephemeral-token-install-cohort-proposal-01/PROVENANCE.md",
+    "provenance": "Original native storage.rs::EPHEMERAL_AUTH_STORE/EphemeralAuthStorage moves into ephemeral_install_store.rs; custom auth_source/install and auth_reload/replace_auth_owner route through its checked commit. Original key derivation/factory semantics stay native."
+  },
+  "date": "2026-10-05",
+  "initial_admission_refusal": {
+    "disk_free": 4118769664,
+    "failure": "fresh memory guard before first mutation",
+    "hard_unused_memory": 8486326272,
+    "required_hard_unused": 8589934592,
+    "rust_build_started": false,
+    "source_adopted": false,
+    "stage": "source adoption preflight"
+  },
+  "last_published_tree": "d45435be8b712f24a7e4fac19e72a7fe3453007b",
+  "last_published_wip": "073cdeda69f08221c76c4017c09e0d7a09a57576",
+  "limits": [
+    "No native tests or compiler result exist for this source.",
+    "No new GUI, installation/replacement, migration or shutdown/recovery proof exists for this source.",
+    "Successful preservation/formatting and a metadata failure do not prove whole-sequence capacity.",
+    "Native code is working-tree state and must not be described as published or accepted."
+  ],
+  "paused": [
+    "collector",
+    "broad updater/planner/scope-validator feature work"
+  ],
+  "pending": [
+    "Verified bounded repair of offline registry metadata/input closure and fresh admission before retry.",
+    "Focused auth install/source/storage tests through just test.",
+    "Full login/provider packages and scoped login lint.",
+    "Production CLI/manager rebuild with retained target/flags/toolchain.",
+    "All 12 existing runtime recipes plus new native auth-install consumer.",
+    "Any separate larger P03 gate requires its own admission."
+  ],
+  "receipt_roots": {
+    "A": "/workspace/acceptance",
+    "R": "/workspace/recovery-backups/20260930T165936Z"
+  },
+  "receipts": {
+    "p03-ephemeral-token-install-cohort-proposal-01/ACCEPTANCE.md": {
+      "bytes": 3355,
+      "root": "R",
+      "sha256": "5f839ab1fbbcba0739355e8f3865600082e5e65e2b8b46c6870f4bdcdbfe5a8f"
+    },
+    "p03-ephemeral-token-install-cohort-proposal-01/CONTRACT_DRAFT.md": {
+      "bytes": 1947,
+      "root": "R",
+      "sha256": "be330319a18d95b32d8fee4b3d4d7679c28dc0286877eea8acd89a78e7091ddd"
+    },
+    "p03-ephemeral-token-install-cohort-proposal-01/MANIFEST.json": {
+      "bytes": 4351,
+      "root": "R",
+      "sha256": "3d79df183f1c5c5cff24b481eab0fc0791b590cf165611eb9d579bf01cc38e34"
+    },
+    "p03-ephemeral-token-install-cohort-proposal-01/PROVENANCE.md": {
+      "bytes": 2530,
+      "root": "R",
+      "sha256": "4ead22a446148e4b2d05ba3435412efca01aab79f6ff73891de6eb070193cf78"
+    },
+    "p03-ephemeral-token-install-cohort-proposal-01/README.md": {
+      "bytes": 5889,
+      "root": "R",
+      "sha256": "2e56768a58e80a8dbc207d94a92ea83596c8e45802e9039e888ee3c9ce591c5b"
+    },
+    "p03-token-install-admission-refused-20261005-02/REFUSAL.json": {
+      "bytes": 533,
+      "root": "R",
+      "sha256": "497456d5bae7a7859c94b26eb41b78c12e9db3a8b9cd93ad4ea2d8a9b10d128c"
+    },
+    "p03-token-install-adoption-20261005-02/ADOPTED.jsonl": {
+      "bytes": 1086,
+      "root": "R",
+      "sha256": "2d06eb7c8028bf0f2138879bd46e5801bbe4ec9e55d37bd330abd7dd846e74f1"
+    },
+    "p03-token-install-adoption-20261005-02/CANDIDATE.json": {
+      "bytes": 1239661,
+      "root": "R",
+      "sha256": "d5c4072cb2f3532cba3aac77b6efc5769e67cc636698441ab59ea2d722bd7655"
+    },
+    "p03-token-install-adoption-20261005-02/CANDIDATE_FORMATTED.json": {
+      "bytes": 1241989,
+      "root": "R",
+      "sha256": "5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc"
+    },
+    "p03-token-install-adoption-20261005-02/FORMAT.log": {
+      "bytes": 0,
+      "root": "R",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "p03-token-install-adoption-20261005-02/FORMATTED.patch": {
+      "bytes": 28769,
+      "root": "R",
+      "sha256": "20ea3119f5fb22b303c0d917c473dd729673493a5e5de1e048262e9f8556f2fe"
+    },
+    "p03-token-install-adoption-20261005-02/FORMAT_BEFORE.json": {
+      "bytes": 1401080,
+      "root": "R",
+      "sha256": "097952949f27e47c04c9e165bee76441f7bc51fb3dfca020e883164e9d2a2390"
+    },
+    "p03-token-install-adoption-20261005-02/FORMAT_RESULT.json": {
+      "bytes": 1541,
+      "root": "R",
+      "sha256": "12e000bc958ae1dbc1ada2b0497c640675d715604fe135957d29da4a4ca69771"
+    },
+    "p03-token-install-adoption-20261005-02/INTENT.json": {
+      "bytes": 3142,
+      "root": "R",
+      "sha256": "49ebfabde9f6aa408e0222b6c0722d18c2d31984381f01f696c2af7bc6750cd1"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/ARCHIVE.json": {
+      "bytes": 746,
+      "root": "R",
+      "sha256": "1eb91ded1568eaa283dc8023d02d1a74f510e1a3d5ec66d08e0a9958f810a519"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/CARD.md": {
+      "bytes": 6590,
+      "root": "R",
+      "sha256": "f0023eb472991b936a989b791d70bfe0bed84ea27d18c9f0a04dac4c41b00d0d"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/CLEAN_CACHE_ADVICE.json": {
+      "bytes": 1663,
+      "root": "R",
+      "sha256": "e2904e575935db797337717511beda3d3728e1288dc82bbadca4265fcfe5d504"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/MANIFEST.json": {
+      "bytes": 615,
+      "root": "R",
+      "sha256": "a14ff6636a1b6c37e01cd42bddd68003679e610114d5d2ab137f874c9f93d916"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/PLAN.json": {
+      "bytes": 2115,
+      "root": "R",
+      "sha256": "4e406bad3f91dfcfa09ce4a556b8952d2a1f3c8116cbf1d3267cde36e94149a1"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/PROBE_RELEASED.json": {
+      "bytes": 325,
+      "root": "R",
+      "sha256": "0c82ab289e09dda3cf4d5e2b8822089de384fa75234e397951f120132a6a642e"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/PROBE_RELEASE_INTENT.json": {
+      "bytes": 847,
+      "root": "R",
+      "sha256": "6519f50d71299971520e5da34bdd44d2ed9e3a8d596074f10b6d52ff6f4071b6"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/VERIFIED_RESTORE.json": {
+      "bytes": 1459,
+      "root": "R",
+      "sha256": "6d148753c8fe0d39432beb2e7aeb2a13a6ddc53a4fe7a92167614bd3194c6d09"
+    },
+    "p03-token-install-baseline-preservation-20261005-02/preserve.py": {
+      "bytes": 15035,
+      "root": "R",
+      "sha256": "ecef8f0aa8ac59de031cf826b6c385dd71579a55998899046aaaf567abadfd38"
+    },
+    "p03-token-install-focused-20261005-02.log": {
+      "bytes": 500,
+      "root": "A",
+      "sha256": "b7825e9c2bdb8f5b73979a1311ed20318e80a37799b2057bef7f64665a3839d3"
+    },
+    "p03-token-install-focused-20261005-02.observer.json": {
+      "bytes": 5734,
+      "root": "A",
+      "sha256": "cc64d2037b6b8d5c621bb9aeba2430253f65077b7bfbcab424c93a13ff3cde28"
+    },
+    "p03-token-install-focused-20261005-02.source.json": {
+      "bytes": 3740206,
+      "root": "A",
+      "sha256": "7d7a1ffe118b8adbaf2176170887a47116dc059763720e6566ab992129d3032a"
+    },
+    "p03-token-install-focused-20261005-02.strict.json": {
+      "bytes": 660,
+      "root": "A",
+      "sha256": "80680e7826cfaf50c7a9e35f67cc3eadc2f4e068cb667bfacfc321e801eb7f6c"
+    }
+  },
+  "schema": "codex-native-token-install-input-blocker-v1",
+  "source": {
+    "candidate_manifest_sha256": "5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc",
+    "changed_lines_including_tests_and_formatting": 596,
+    "count": 8980,
+    "format_exit": 0,
+    "map_sha256": "b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b",
+    "new_native_extracted_family": false,
+    "paths": [
+      {
+        "added": 171,
+        "after_sha256": "162de50245086173d2b84fde0e20ecd778f80a052ed089c6e7525eb3bce170b6",
+        "before_sha256": null,
+        "path": "codex-rs/login/src/auth/auth_install_storage_tests.rs",
+        "removed": 0
+      },
+      {
+        "added": 7,
+        "after_sha256": "beefc4be910a1aaa267f3d5e8e2410039f2fa04fe414ffac26c550bf3bebc804",
+        "before_sha256": "bc54d238cf3751237145bacda20f9496a6de792f2bb350d9cedd0ad9e07a77dd",
+        "path": "codex-rs/login/src/auth/auth_install_tests.rs",
+        "removed": 2
+      },
+      {
+        "added": 23,
+        "after_sha256": "19cb5bf6d63a0069f5d139ac216287c3a42752dc77e2846043fc1da5b7fad153",
+        "before_sha256": "b04f9c51e67655862469ad1109d52fbb8ef273f1ca965860e2dd09d1d9b663ea",
+        "path": "codex-rs/login/src/auth/auth_reload.rs",
+        "removed": 6
+      },
+      {
+        "added": 56,
+        "after_sha256": "9d08ee722d24b453bc5d6a7d80dcf2d15d2c7a6ac14ed5601de2accd310d768c",
+        "before_sha256": "edd33dd2837383e219f4dd8c9a9fc05f35428cec2781084b9964a999ad4e3617",
+        "path": "codex-rs/login/src/auth/auth_source.rs",
+        "removed": 5
+      },
+      {
+        "added": 192,
+        "after_sha256": "227ab71455c2ca3ff37ed374a17dbb7fc5ee9a8c2d30e7da367a2b43400894a1",
+        "before_sha256": null,
+        "path": "codex-rs/login/src/auth/ephemeral_install_store.rs",
+        "removed": 0
+      },
+      {
+        "added": 81,
+        "after_sha256": "4d2f989732d01e9c1f4c0104c8902aff0ad5530901f50f58e669f93be3f35738",
+        "before_sha256": null,
+        "path": "codex-rs/login/src/auth/ephemeral_install_store_tests.rs",
+        "removed": 0
+      },
+      {
+        "added": 6,
+        "after_sha256": "c2873fd7db6c1e3f126d3edeb77fe6c1ef5979244c146b431043eb2983371085",
+        "before_sha256": "7a975b9db5d6d92a3997285bccb3d357acea709d63a71c3a8b8169eb2539d77b",
+        "path": "codex-rs/login/src/auth/storage.rs",
+        "removed": 45
+      },
+      {
+        "added": 1,
+        "after_sha256": "15b20781d66c2bdb3cb7f2a22f0f69a2c18a9c5875e16ed0518edbacd05e39a1",
+        "before_sha256": "aa5bb210c95dec9395307d1e17bb2a806f41da0ee0b51f996c06df52538ad53a",
+        "path": "codex-rs/login/src/auth/storage_telemetry.rs",
+        "removed": 1
+      }
+    ],
+    "prior_map_sha256": "f27ab9e949b997ff910baf0c891465e3847879a94b0b29b498b04c01246ed4b2"
+  },
+  "status": "adopted_formatted_not_compiled_tested_accepted_or_published",
+  "upstream_pin": "d42056091aded7feb1d88ac7e83972108b2aa478"
+}
