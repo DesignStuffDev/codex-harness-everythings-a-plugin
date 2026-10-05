@@ -1,6 +1,10 @@
 # Upstream maintenance and recovery contract
 
-Status: **installed review and source-input preparation verified; candidate integration, activation and recovery remain incomplete**.
+Status: **installed review, source-input preparation and sparse transformation verified; full candidate integration, activation and recovery remain incomplete**.
+Required scope now includes the [interactive walkthrough](UPDATE_WALKTHROUGH.md),
+dependency-valid selection, enforceable per-plugin modification limits, verified
+full recovery sets and user-triggered later rollback after new writes. These are
+not implemented by the current review/capsule/patch-set tools.
 This workflow preserves a maintainable OpenAI Codex fork as native services become
 independently installable. It does not count as extraction of an existing engine
 subsystem. It must ship as its own replaceable package, with an external recovery
@@ -48,10 +52,18 @@ also records fresh storage/migration and two Chromium GUI regression cycles on t
 unchanged production host. Model responses are deterministic; no in-app Browser
 or live-provider validation is claimed.
 
-Next is a sparse transformation over the pinned custom tree: genuinely reconcile
-the retained base/upstream/custom content, preserve exact before/after provenance,
-and reject ambiguous conflicts or unsupported entries. No source-input capsule is
-a merged candidate, complete backup or rollback artifact. Adapted-candidate
+The0.3.0 package now performs a sparse transformation over the pinned custom tree.
+All47 scoped cases and61 real installed commands pass. Its13 outputs match an
+independent actual-Git oracle; one real three-way merge retains the custom import
+removal and all later-upstream changes. The unchanged manager upgrades an isolated
+0.2 installation by explicit remove/install, retaining restored capsule state, both
+package objects and both old tool contracts. This is non-atomic package upgrade,
+not installation rollback. New active-merge interruption and current0.3 GUI gates
+are not proved by older receipts; the fresh0.2 GUI remains separately bound.
+
+Next are immutable selection/scope plans and the independent walkthrough owner,
+followed by complete candidate and recovery work. No source-input capsule or sparse
+overlay is a complete candidate, full backup or rollback artifact. Adapted-candidate
 construction, compatibility/version/migration gates, real-host/UI verification of
 the updated host and external failed-update recovery remain required before P18U
 acceptance. No runtime activation, polling or live installation mutation is enabled.
@@ -330,7 +342,9 @@ Proposed selector: `maintenance:upstream`, contract version 1. This kind is not
 currently admitted by the component host. Its package must contain its worker,
 manifest, license, documented CLI/bootstrap entrypoint and conformance tests.
 Install/remove must use the same immutable package mechanism as other components.
-Restart activation is sufficient; no live engine replacement is required.
+Ordinary component activation may use restart. The required upstream updater adds
+immutable A/B release routing with sessions pinned to their original generation;
+no hot replacement inside an active session is required.
 
 The host admits an explicit maintenance job and renders progress. The worker owns
 its job journal, fetched objects, candidate source directory, analysis, build/test
@@ -354,14 +368,26 @@ version, failed gate, cancelled, cleanup uncertain and artifact unavailable.
 Failures must not be inferred from raw command output. Record diagnostics in
 redacted artifacts and keep credentials out of patches, journals and reports.
 
-The job state machine is planned → staged → validating → reviewable, with explicit
-failed/cancelled states. Publication and activation are separate transitions.
+The target job state machine is initiated → pinned → mapped → selected → scoped →
+B-staging → validating → recovery-set-verified → B-health-verified →
+state-handoff-ready → route-intent → route-committed → A-draining → accepted. It also supports blocked/failed/cancelled and resumable
+recovery states, plus rescue-newer-state → rollback-planned → restoring → recovered.
+These transitions are required design, not existing callable behavior. Publication,
+activation and user-triggered later rollback are separate operations.
 No implicit retry may replay a source mutation, migration, push or activation.
 Cancellation preserves accepted artifacts and marks incomplete gates; shutdown
 joins owned processes according to their execution contracts. A lost connection
 does not mean a build, migration or remote write was rolled back.
 
 ## Chosen-revision workflow
+
+Every update begins with explicit user initiation. The GUI displays exact current
+and proposed versions, summaries/diffs, source-to-component/customization mappings,
+conflicts, unknown ownership, migrations and staging/backup/restore estimates.
+It must remain usable while the engine is stopped; current desktop launch exits
+when App Server closes, so a separately owned maintenance session or recovery
+presentation mode is a prerequisite for activation UI. Transient SSE is not a
+durable job journal. See [the walkthrough contract](UPDATE_WALKTHROUGH.md).
 
 1. **Freeze inputs.** Verify target repository identity, source/worktree state,
    remote refs and the chosen immutable upstream SHA. Record tracked, untracked
@@ -375,6 +401,12 @@ does not mean a build, migration or remote write was rolled back.
    to lineage. Review moves, deletions, generated schemas, dependencies, feature
    flags, configuration defaults, managed policy, licenses and platform changes.
    Include native code not yet extracted. Unknown impact remains a gate.
+   Let the user include/exclude components, features and coherent groups, exposing
+   required dependencies and only valid finer selections. Retain exclusions across
+   later plans. Reject invalid combinations and test the actual selected combination.
+   Record per-plugin allowed implementation/configuration/contract/dependency/schema
+   changes; compare them with the final diff. No unknown or broadened scope passes
+   implicitly. Any selection/scope change creates a new immutable plan revision.
 4. **Create an isolated candidate.** Use an existing verified commit and resolved
    revision before creating a worktree. Keep the active checkout, runtime and
    WIP source intact. Reapply our maintained contracts/adapters against the new
@@ -393,8 +425,15 @@ does not mean a build, migration or remote write was rolled back.
    coherent verified work separately from unfinished experiments.
 8. **Publish/activate under applicable authorization.** Recheck destination refs,
    use a non-force update or review branch, then verify remote object identity.
-   Activation requires a quiescent runtime and recoverable state checkpoint.
+   Normal activation requires a healthy isolated B, consistent recovery checkpoint
+   and proved state coexistence/handoff. Atomically route new sessions to B while
+   existing A sessions remain pinned. Incompatible B stays pending with A usable.
    It is never an automatic consequence of fetching, staging or test success.
+   Show backup destination, coverage, restore verification and failed/skipped gates;
+   bind release evidence to the exact selected source/package/configuration/plan
+   identities. Quiesce relevant writers before a consistent recovery set/migration;
+   revalidate its state revision before activation. Persist phase progress and
+   health-check outcomes so interrupted activation can be inspected and recovered.
 
 This document starts no polling, scheduler, fetch, live application or push.
 Future unattended jobs require an explicit policy with limits and notifications;
@@ -466,18 +505,39 @@ backend. State upgrade and downgrade support must be explicit per owner.
 - Use the requested in-app Browser when accessible; record the exact limitation
   and real fallback browser evidence when unavailable. Deterministic provider
   fixtures do not establish live-model provider access or remote viewer reachability.
+- Interactive update flow: explicit pinned initiation, actual conflict and mapping
+  presentation, dependency-invalid selection rejection, deliberate exclusions and
+  prohibited per-plugin scope enforcement against the final diff. A whole-candidate
+  test run cannot validate a different selected subset.
+- Full verified backup/restore plus interrupted migration and failed activation,
+  including candidate-host/updater-unavailable recovery. Exercise a later manual
+  rollback after new conversations/attachments/state writes; prove the newer rescue
+  data survives and clearly distinguish retaining it, reverse migration, export and
+  restoration of the older snapshot. Browser flow and affected regressions are both
+  required; CLI-only artifacts cannot complete the walkthrough gate.
 
 ## Rollback and bootstrap recovery
 
 Before activation retain the old source commit, upstream object references,
 verified host/package/SDK artifacts and hashes, configuration/selections, state
-schema manifest, quiescent snapshots and complete migration journal. Preserve
+schema manifest, consistent provider snapshots and complete migration journal. Preserve
 untracked and WIP source separately. Credentials require protected private storage
 and must never enter a public source bundle or verification report.
+The recovery set must cover exact host/package bytes and versions, enabled/selected
+components, configuration, custom modifications, conversations, attachments, every
+affected persistent repository and migration metadata. Record a consistency epoch,
+coverage/missing items, destination, encryption/secret-reference handling, checksums,
+restore tool and actual restore validation. A hash-valid partial archive is not a
+complete recovery set. Show this status in the walkthrough before activation.
 
-Drain the actual launcher and owning services before a consistent state snapshot.
-If shutdown times out, mark durability uncertain and use a backend-supported
-backup/recovery procedure; copying open database files is not a proven backup.
+Keep A usable while B stages against isolated state. Obtain coordinated provider
+snapshots and bounded catch-up while A writes; health B before new-session route
+commitment. Pin existing A sessions and fence compatible shared-state ownership.
+Unsupported coexistence leaves B pending. Never promote a stale candidate snapshot.
+The A/B contract in UPDATE_WALKTHROUGH.md supersedes earlier global-stop guidance.
+A provider barrier or explicit recovery drain remains necessary for destructive
+state restoration; forced/uncertain cleanup is not consistency proof. Copying open
+database files is not a proven backup.
 For irreversible migrations keep a restorable pre-upgrade snapshot. Do not point
 an old binary at a new incompatible schema and call it rollback.
 
@@ -486,6 +546,19 @@ active ownership, restore a compatible host/package/configuration/state set,
 and run a recovery smoke check without loading the failed candidate harness.
 It must not depend on that candidate's component registry or GUI to recover.
 Retain failed-candidate source/logs for diagnosis; never reset the user's checkout.
+
+Later rollback is an explicit supported user operation, not just automatic recovery
+from a failed activation. Inventory active B sessions and preserve a verified rescue
+copy of newer data. Compatible software rollback routes new sessions back to retained
+A while B sessions stay pinned or explicitly drain. Only a destructive state restore
+uses the separately reviewed writer-fencing/drain path. Compute whether the prior software can read
+that state, a tested reverse migration can retain it, or a protected export must
+remain available alongside restoration of the old snapshot. Present these options,
+versions and data consequences; require an explicit choice for destructive state
+replacement. Do not erase newer conversations merely because an older snapshot
+exists. A software rollback does not by itself roll back state. Journal the rescue,
+restoration and health checks so loss of the updated host or maintenance worker
+does not remove the recovery path or its evidence.
 
 Distinguish cloud-local checkpoints from external backups. The recovered archive
 documented in RECOVERY is local to this VM; published source on GitHub protects

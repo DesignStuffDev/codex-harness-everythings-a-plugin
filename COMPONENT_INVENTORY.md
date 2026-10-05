@@ -99,10 +99,26 @@ Chromium GUI cycles pass with deterministic inference on unchanged host binaries
 and package hashes. This is preparation only: no adapted candidate, coordinated
 version/migration acceptance, updated-host runtime or failed-update rollback.
 The inspector does not attest prior crash durability or restore an installation.
+The0.3 successor adds sparse source transformation with actual owned Git merging:
+47 scoped cases and61 real installed commands verify the13-path result and isolated
+0.2→0.3 remove/install upgrade with retained state and old contracts. This remains
+ADDITIVE maintenance support; active-merge lifecycle, complete updated-host runtime
+and rollback are separate open gates.
+
+C27 now also requires the [interactive update walkthrough](UPDATE_WALKTHROUGH.md):
+dependency-valid selective updates, persisted exclusions and enforceable per-plugin
+implementation/config/contract/dependency/schema limits; full consistent verified
+backups; failed activation and host-independent recovery; later manual rollback
+with protected newer-data rescue. C19 must present the flow while the engine is
+quiesced; its current App Server lifetime coupling is a prerequisite to resolve.
+These UI/selection/backup/recovery operations are planned, not implemented by the
+three current tool-v1 endpoints. C02/C03/C04 own consistent persistent-state backup
+semantics; C00/C26 own safe composition/build boundaries, and the external recovery
+entrypoint remains minimal support rather than a second hidden harness.
 
 The separately installable maintenance component should take an exact upstream revision, the current imported-source lineage, local extraction changes and installed component compatibility information. It should produce a reviewable change classification, an isolated candidate build/package, compatibility and regression evidence, and an explicit activation/rollback result. It must detect upstream changes to owned boundaries and shared schemas rather than assuming a clean textual merge proves behavior. Reuse the C00 manifest/version/dependency contracts and C26 build/conformance tools; require C02/C03 persistence compatibility and C19 client lifecycle checks. Preserve licenses, notices, plugin configuration, user data and the last known working distribution. No automatic publication, destructive replacement or silent migration is implied by this design.
 
-A small external recovery/bootstrap path is a justified proposed SUPPORT/kernel exception: it must be able to locate and restore a previously accepted distribution when the candidate host or updater cannot start. It should have minimal checkpoint/integrity and activation responsibilities, with a versioned on-disk recovery record independent of the failing host's runtime ABI. Upstream fetch/diff/porting rules, compatibility policy, migration planning and test orchestration remain owned by the replaceable maintenance component or explicit build services; they are not a reason to retain a second full harness inside bootstrap. Activation must join active owners or occur after shutdown, stage changes without disturbing the active distribution, and distinguish completed rollback from uncertain data durability.
+A small external recovery/bootstrap path is a justified proposed SUPPORT/kernel exception: it must be able to locate and restore a previously accepted distribution when the candidate host or updater cannot start. It should have minimal checkpoint/integrity and activation responsibilities, with a versioned on-disk recovery record independent of the failing host's runtime ABI. Upstream fetch/diff/porting rules, compatibility policy, migration planning and test orchestration remain owned by the replaceable maintenance component or explicit build services; they are not a reason to retain a second full harness inside bootstrap. Required upstream activation uses immutable A/B generations: keep A usable during isolated B staging, health B before switching new-session routing, pin existing A sessions and fence compatible shared-state owners. Unsupported overlap leaves B pending. Retain a local previous release and independent recovery; rollback must preserve newer writes and active B-session ownership. Controlled drain remains required where a chosen state restoration needs it; do not call uncertain cleanup completed rollback.
 
 Acceptance must exercise a real later pinned upstream revision in an isolated candidate, explain changes to extracted boundaries, retain an already installed external component without rebuilding that component when its API stays compatible, and reject incompatible versions clearly. Prove both successful activation/recovery and failed-candidate rollback with preserved sessions/configuration. Until that exists, the updater execution and recovery gates remain unverified. Current source mapping and the read-only checker provide the bounded metadata evidence described below. C27 currently has no Rust workspace member, so adding this requirement does not itself add a member to the ledger below.
 

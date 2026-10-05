@@ -1,0 +1,409 @@
+{
+  "schema_version": 1,
+  "kind": "read_only_source_and_document_constraints_for_proposed_ab_update_design",
+  "recorded_at_utc": "2026-10-05T01:06:57.312303+00:00",
+  "repository": "/workspace/codex-harness-everythings-a-plugin",
+  "scope": "Bounded inspected interfaces; no global absence claim, implementation or new runtime evidence",
+  "document_versions_read": [
+    {
+      "path": "UPDATE_WALKTHROUGH.md",
+      "sha256": "5e78e4fb6941f47878423938053f32e514c08767e9b7473be379d62899aeea41",
+      "bytes": 17304,
+      "lines": 210
+    },
+    {
+      "path": "UPSTREAM_MAINTENANCE.md",
+      "sha256": "846d584c3438744be805e67187de9e82f6229127a08661a15fe60977d2186010",
+      "bytes": 67391,
+      "lines": 875
+    },
+    {
+      "path": "IMPLEMENTATION_ROADMAP.md",
+      "sha256": "a6456435ad685765a840f11b5f339f163aa1f7df86b85cb64ff9989924b35a72",
+      "bytes": 92052,
+      "lines": 1268
+    },
+    {
+      "path": "EXECUTION_STATE.md",
+      "sha256": "8497b66dcaf8e27d40e4aa9b636ff127bb82bdcab7d2f9abfed2d8ff04518dee",
+      "bytes": 26661,
+      "lines": 368
+    }
+  ],
+  "source_constraints": [
+    {
+      "path": "codex-rs/component-host/src/management.rs",
+      "sha256": "2c93b14286e7cf346b4735d29e526868f7ed60fe522c7b8a84c0799b264f44bb",
+      "bytes": 6133,
+      "anchors": {
+        "install": [
+          47,
+          86
+        ],
+        "remove": [
+          96,
+          113
+        ],
+        "select": [
+          116,
+          131
+        ],
+        "write_settings": [
+          134,
+          140
+        ]
+      },
+      "finding": "Distinct immutable objects; same-ID remove-before-install; one config-file update, no coherent route transaction."
+    },
+    {
+      "path": "codex-rs/component-api/src/lib.rs",
+      "sha256": "4ceaee48795dadb36645d6ce99d1f81916ac41df0616cabe0ac374c1009508d7",
+      "bytes": 4013,
+      "anchors": {
+        "ComponentSettings": [
+          84,
+          95
+        ]
+      },
+      "finding": "Installed/enabled/config/selections only; no deployment generation/health/journal record."
+    },
+    {
+      "path": "codex-rs/component-host/src/catalog.rs",
+      "sha256": "07dbe4fb5903684216536350fc1731ae201fd11361e142af6b6b19c8a75952db",
+      "bytes": 11790,
+      "anchors": {
+        "ComponentCatalog": [
+          25,
+          27
+        ],
+        "binding": [
+          121,
+          134
+        ],
+        "manifest_compatibility": [
+          227,
+          280
+        ]
+      },
+      "finding": "Snapshot bindings, shared per-plugin state root, API/contract equality; no persisted-schema overlap contract."
+    },
+    {
+      "path": "codex-rs/component-adapters/src/lib.rs",
+      "sha256": "55449c02057ce8d1b472b61bc763f21cd49694dea9e6718899d6f89e9b1424dd",
+      "bytes": 1825,
+      "anchors": {
+        "retained_bindings": [
+          15,
+          18
+        ]
+      },
+      "finding": "Existing bindings retained to host drop; useful pinning primitive, not coherent deployment identity."
+    },
+    {
+      "path": "codex-rs/core/src/component_persistence.rs",
+      "sha256": "3058fe225b05cfd5a63b502394368528a67e23fc17cea3f58268bc15ac8d9771",
+      "bytes": 3538,
+      "anchors": {
+        "persistence_from_config": [
+          52,
+          82
+        ]
+      },
+      "finding": "Persistence selected at engine startup."
+    },
+    {
+      "path": "codex-rs/core/src/session/session.rs",
+      "sha256": "e3496ef88b2233cc7c90718e3f58e11a0897bae6871834d95e9759eff0e58650",
+      "bytes": 94991,
+      "anchors": {
+        "catalog": [
+          787,
+          796
+        ],
+        "store": [
+          1737,
+          1737
+        ],
+        "model_transport": [
+          1765,
+          1765
+        ]
+      },
+      "finding": "Per-session catalog selection differs from shared-store lifetime; no common A/B composition epoch in this construction."
+    },
+    {
+      "path": "codex-rs/app-server/src/lib.rs",
+      "sha256": "f415956b04388f3931f260918d660b0fa0cb0bc3e4e7b5c2fec8c2238db08e44",
+      "bytes": 71592,
+      "anchors": {
+        "persistence_and_search": [
+          675,
+          684
+        ]
+      },
+      "finding": "Process startup separately selects persistence and search."
+    },
+    {
+      "path": "codex-rs/file-search-runtime/src/selection.rs",
+      "sha256": "5108d05c924a59dc32ebc6395cfecfa323cc04ede6bf74ac35febadef658e3b3",
+      "bytes": 6917,
+      "anchors": {
+        "SelectedSearchProvider": [
+          30,
+          42
+        ],
+        "catalog_load": [
+          82,
+          82
+        ]
+      },
+      "finding": "Search provider pinned until owner drop; separate selection lifetime."
+    },
+    {
+      "path": "codex-rs/component-host/src/session_options.rs",
+      "sha256": "5aa81b1a5b7d67ddedbe6ac27170e714cf80cc66469b9dd8c6d8398363cc54eb",
+      "bytes": 1157,
+      "anchors": {
+        "cwd_warning": [
+          7,
+          8
+        ],
+        "options": [
+          20,
+          27
+        ]
+      },
+      "finding": "Cwd does not establish filesystem sandbox; no B staging isolation guarantee."
+    },
+    {
+      "path": "component-sdk/examples/desktop/desktop_ui/gateway.py",
+      "sha256": "94f85a3500bff28a0e67ab6037d63eb9b4aeb6ba920deca5bcf4876ae9aa0399",
+      "bytes": 20094,
+      "anchors": {
+        "environment_child": [
+          60,
+          71
+        ],
+        "bridge_state": [
+          50,
+          55
+        ],
+        "approval_and_events": [
+          102,
+          151
+        ],
+        "single_bridge": [
+          312,
+          312
+        ],
+        "status": [
+          408,
+          408
+        ],
+        "sse": [
+          426,
+          426
+        ],
+        "rpc_and_reply": [
+          480,
+          484
+        ]
+      },
+      "finding": "One child/Bridge; routing/approvals/streams owned by that bridge, no stable dual-engine route owner."
+    },
+    {
+      "path": "component-sdk/examples/desktop/plugin.py",
+      "sha256": "c4f4b8d5d8d4b0163cf3841f3f53bd695830d8bdd0ebb87894bd9051cdc9546a",
+      "bytes": 1943,
+      "anchors": {
+        "launch_disconnect": [
+          38,
+          38
+        ]
+      },
+      "finding": "Child disconnect ends ordinary desktop session; no independent update controller lifetime."
+    },
+    {
+      "path": "codex-rs/thread-store-component/src/contract.rs",
+      "sha256": "2049f0091b3d2545358e6f03119d139880084ca870dd2aab8de5652bbda84586",
+      "bytes": 5245,
+      "anchors": {
+        "StorageInitialization": [
+          20,
+          31
+        ],
+        "StorageCapabilities": [
+          43,
+          65
+        ]
+      },
+      "finding": "Shared root paths reach host-owned domains; wire/features/manual migration do not express all-provider snapshot or schema rollback."
+    },
+    {
+      "path": "codex-rs/thread-store/src/store.rs",
+      "sha256": "930e45cac2fc58554080d529a9a6f0cb13281950811570866fe2f591b553de21",
+      "bytes": 23299,
+      "anchors": {
+        "ThreadStore": [
+          95,
+          95
+        ],
+        "durability": [
+          238,
+          256
+        ],
+        "fork_freeze": [
+          285,
+          293
+        ],
+        "revert_thread": [
+          296,
+          296
+        ]
+      },
+      "finding": "Per-thread operations and manual migration; inspected trait has no whole-store snapshot watermark/change feed or reverse schema migration."
+    },
+    {
+      "path": "codex-rs/thread-store/src/live_thread.rs",
+      "sha256": "d4ee8d511232a3047f2e5a8d667a50f9012e194c4ebe4b5e6efdd5e59b6529f4",
+      "bytes": 16024,
+      "anchors": {
+        "retained_store": [
+          37,
+          37
+        ],
+        "append_and_metadata": [
+          229,
+          250
+        ]
+      },
+      "finding": "Store Arc retained; append and metadata updates are separate logical operations."
+    },
+    {
+      "path": "codex-rs/rollout/src/writer_lock.rs",
+      "sha256": "e9a49bef7540dc688de8243d6df1ee9a24cf328c082934b1352d8bebef857468",
+      "bytes": 6875,
+      "anchors": {
+        "WriterLockCoordinator": [
+          20,
+          20
+        ]
+      },
+      "finding": "Real home-scoped exclusive file locks exist; not an attested A/B generation token."
+    },
+    {
+      "path": "codex-rs/thread-store/src/types.rs",
+      "sha256": "def83e334e7c07fd5bcec253a90d1356d64fa82f6b58fe92c74554ff37499d11",
+      "bytes": 43306,
+      "anchors": {
+        "AppendThreadItemsParams": [
+          152,
+          152
+        ],
+        "metadata_update": [
+          963,
+          963
+        ]
+      },
+      "finding": "Inspected write parameters carry no A/B epoch."
+    },
+    {
+      "path": "codex-rs/thread-store/src/local/rollout_migration.rs",
+      "sha256": "4283fb9a6f0120e61fdd814e053bdb9c63aba6535482155ae31bd8ebd66cfff5",
+      "bytes": 55761,
+      "anchors": {
+        "skip_active_writers": [
+          597,
+          597
+        ]
+      },
+      "finding": "Migration skips active writers; progress revision does not become ordered durable-write position."
+    },
+    {
+      "path": "codex-rs/thread-store/src/local/mod.rs",
+      "sha256": "ca8c663b92e2d267b830a1bc834b13d50909dfa6212f120977889ed0a1af6db9",
+      "bytes": 80356,
+      "anchors": {
+        "local_store": [
+          133,
+          133
+        ]
+      },
+      "finding": "Snapshot inventory must cover canonical rollouts and SQLite projection state."
+    },
+    {
+      "path": "codex-rs/thread-store/src/local/live_writer.rs",
+      "sha256": "34e75a27040a357d34c59ea91d00a0ea40c51ade7dcf328aa0ac62f3f03e5722",
+      "bytes": 13023,
+      "anchors": {
+        "write_and_project": [
+          317,
+          317
+        ]
+      },
+      "finding": "Rollout and projection writes require coordinated consistency, not independent file copying."
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/candidate_overlay.py",
+      "sha256": "1b263aae6865d86ab77f4fb7f4dc7484d54fe2fbd694efbd5722e66b57c03a11",
+      "bytes": 21250,
+      "anchors": {
+        "GATES": [
+          19,
+          26
+        ],
+        "inspect_overlay": [
+          96,
+          96
+        ],
+        "prepare_overlay": [
+          281,
+          281
+        ],
+        "authority_false": [
+          470,
+          472
+        ]
+      },
+      "finding": "Current sparse transform keeps all seven release gates pending and candidate_assembled/update_allowed/activation_allowed false."
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/overlay_bootstrap.py",
+      "sha256": "be3947d29acb923af921832b74d89c1a6835dbb03936286ef90a89a55b12db86",
+      "bytes": 616,
+      "anchors": {
+        "standalone_inspector": [
+          1,
+          21
+        ]
+      },
+      "finding": "Standalone retained-artifact inspection only; no deployment restore or routing operation."
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/source_capsule.py",
+      "sha256": "b93092ef63590d552d6213efb3afb318931fd2e723d80a7d4e6cae542d0ad467",
+      "bytes": 15447,
+      "anchors": {
+        "inspect_capsule": [
+          68,
+          69
+        ],
+        "scope": [
+          287,
+          291
+        ]
+      },
+      "finding": "Committed-tree-only source inputs; no live-state snapshot/restore guarantee."
+    }
+  ],
+  "prior_evidence_remains_separate": {
+    "native_capacity_admitted": false,
+    "ab_implemented": false,
+    "ab_runtime_tested": false,
+    "ab_browser_tested": false,
+    "source_edits": false,
+    "tests_executed": false,
+    "repository_mutation": false,
+    "publication": false
+  }
+}

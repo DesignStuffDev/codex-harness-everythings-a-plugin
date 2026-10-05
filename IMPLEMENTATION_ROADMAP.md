@@ -76,6 +76,12 @@ fixtures and artifact inspection from unproved crash durability and live inferen
 Next is sparse content reconciliation with exact custom provenance and conflict
 rejection, followed by coordinated candidate build/version/migration and recovery
 gates. Source preparation is not candidate integration or rollback.
+The0.3.0 successor now passes47 focused cases and61 real installed commands:
+it upgrades an isolated0.2 installation using remove/install, preserves restored
+capsule state and both old contracts, and produces13 exact source outputs. The
+one genuine three-way merge retains our custom change and the later upstream
+changes. This is a sparse patch set over pinned custom914cc593, not a complete
+candidate or updated-host acceptance. Active-merge cancellation remains separate.
 Reattachment cleared volatile build backing and prior services; the native gate
 remains closed despite more free RAM. Follow the current execution-state inventory
 and qualified recovery plan before any further Rust compilation.
@@ -107,12 +113,19 @@ file move, additive contributor, staged worker, or successful build alone does
 not satisfy extraction. Every grouped family below must retain separate contracts
 where implementations have independent ownership; a phase is not one giant plugin.
 
+Required upstream updates additionally use immutable A/B generations: A remains
+available during B preparation, healthy B receives new sessions and existing A
+sessions remain pinned. Ordinary plugin activation may still use restart. See
+[LIVE_UPDATE_GENERATIONS.md](LIVE_UPDATE_GENERATIONS.md); this is not hot replacement
+inside running sessions and is not implemented by current package remove/install.
+
 ### Permitted kernel responsibilities
 
 | Responsibility | Why it remains in the kernel | What must move out |
 | --- | --- | --- |
 | Bootstrap and administrative installation/selection commands | Something must locate and activate components before domain code runs. | Interactive CLI/TUI, application configuration resolution, marketplace workflows. |
 | Manifest/contract compatibility and immutable composition | Prevent incompatible or missing required implementations from becoming an active session. | Provider/model selection and domain defaults. |
+| Stable deployment routing and independent recovery | A failing release cannot be its own only route/recovery owner; retain journaled generation identities and session pins. | Update planning, porting, domain migration policy, building/testing and normal UI remain components. |
 | Process supervision, bounded transport, cancellation ownership | A failed component cannot be its own only cleanup owner. | Domain session state machines, maintenance policy, agent scheduling. |
 | Capability issuance/revocation and owner/incarnation identity | Cross-component calls need an authority independent of their requester. | OAuth implementation, credential storage backend, policy scoring and approval UI. |
 | Permission-ceiling validation and OS enforcement boundary | A reviewer or executor cannot authorize its own privilege expansion. | Rule interpretation/scoring, sandbox backend mechanisms, approval presentation. |
@@ -681,6 +694,8 @@ class, schema/conformance tools, dependency/capability examples, build/export/pa
 commands and documented language-neutral wire protocol. Complete transactional
 install/enable/disable/configure/select/upgrade/rollback/remove/GC operations,
 integrity/path validation, version solver, lock/composition file and migrations.
+Add immutable release compositions, stable launcher/router, durable session pins,
+reference-safe retention and journaled new-session route transactions for A/B updates.
 Baseline remove+install and Python contract1 templates are not the final SDK.
 **Acceptance:** build outside source tree with only published SDK; install after
 host hash recorded; remove build sources; run, upgrade and roll back compatible
@@ -694,6 +709,12 @@ Cargo/Bazel metadata, Linux/macOS/Windows packaging and termination behavior.
 guide, migration/compatibility matrix, supported-platform results and honest limits.
 
 ### P18U — Upstream maintenance and update component
+
+**Required product behavior:** an interactive update walkthrough in the separately
+installed GUI, with equivalent typed headless operations and independent recovery.
+Selection, per-plugin modification limits, verified backups and later rollback
+after new writes are release requirements, not optional UI polish. The concrete
+contract and implementation order are in [UPDATE_WALKTHROUGH.md](UPDATE_WALKTHROUGH.md).
 
 **Prerequisites:** maintain current lineage through P00M now; do not defer missing
 provenance until updater implementation. Implement candidate integration after P03
@@ -730,6 +751,41 @@ and [upstream/lineage.json](upstream/lineage.json) for the concrete workflow/led
    bootstrap/recovery command must inspect/restore a known-good deployment even if
    the updated host or maintenance component cannot start. Never claim binary
    rollback reverses an incompatible data migration.
+7. Implement the walkthrough and enforce its selected plan throughout staging:
+   explicitly initiated pinned revision; current/proposed versions, diffs, affected
+   components and source/custom mapping; conflicts and unresolved mappings; migration,
+   backup and storage estimates. Select/exclude components, features and coherent
+   change groups, including finer review only where valid. Show required dependencies,
+   reject invalid combinations and validate the exact selected combination. Persist
+   deliberate exclusions for later updates rather than silently reintroducing them.
+8. Enforce per-plugin allowed changes to implementation, configuration, public
+   contracts, dependencies and state schemas against the final classified diff.
+   Unknown classifications and scope expansion block preparation/activation; a user
+   change creates a new plan identity and invalidates affected evidence. Never broaden
+   permissions silently to make an upstream patch fit.
+9. Keep A usable while isolated immutable B builds/tests. Before activation verify a consistent recovery set
+   covering host, exact packages/versions/selections, configuration, custom changes,
+   conversations, attachments, auxiliary state and migration metadata. Protect secrets;
+   show destination, completeness and verification, and demonstrate restoration.
+   Stage/build/test outside the active installation, bind every gate to exact source,
+   packages, configuration and plan, and display failed or skipped gates. Journal
+   activation progress and coordinate versions. Health B before recoverably/atomically
+   routing new sessions to it; existing sessions stay pinned to A and drain normally.
+   Require consistent provider snapshots/catch-up, additive old/new schema overlap
+   and fenced single-session/job ownership. Never promote stale candidate data.
+   Incompatible or resource-blocked updates stay pending with A usable. Preflight
+   A+B+recovery+build/migration+continuing writes; cap background CPU/RAM/I/O and share
+   only verified immutable objects, never writable hard-link aliases.
+10. Offer user-triggered later rollback for bugs discovered after successful updates.
+    First preserve and verify a rescue copy of newer writes. Distinguish software
+    rollback from state-snapshot restoration, show whether newer conversations can
+    remain compatible, be reverse-migrated or exported, and never silently discard
+    them. The external recovery entrypoint must work with the candidate host/updater
+    unavailable. Keep update/recovery presentation alive independently of the engine
+    being replaced; the current GUI/App Server lifetime coupling must be resolved.
+    Retain the previous usable release locally and independent recovery. Software
+    rollback routes new sessions while preserving newer data and explicitly pinning/
+    draining active B sessions. Defer destructive schema cleanup past the rollback window.
 
 **Acceptance:** integrate at least one real, later pinned upstream Codex revision
 into an isolated candidate. Prove compatible, already-installed custom replacement
@@ -742,6 +798,16 @@ changes persistent schemas, exercise the actual migration on preserved state,
 interrupt or fail it after mutation begins, and prove recovery through a supported
 downgrade or a pre-upgrade snapshot with its compatible host/package/schema tuple.
 Record the no-migration compatibility basis when schemas remain unchanged.
+The interactive browser flow must additionally exercise custom conflicts, invalid
+selections, prohibited-scope changes, verified backup restoration, interrupted
+migration, failed activation, host-unavailable recovery and manual rollback after
+new post-update conversations/attachments/state writes. Verify those newer writes
+remain recoverable; a pre-activation failure or software-only downgrade is not a
+substitute. Prove A remains responsive and writes/streams during B staging, isolated
+candidate tests cause no production side effects, new sessions route to B while
+existing A sessions continue, and no job/session has duplicate ownership. Exercise
+lost replies/interrupted cutover, insufficient-capacity refusal with A usable and
+rollback with active B sessions. Repeat affected regressions and preserve actual failed/skipped results.
 **Regression:** upstream/fork contract corpus, independent builds, installation/
 upgrade lifecycle, old-data migration, security boundaries and actual GUI/manager
 shutdown. **Exit:** exact provenance, dependency impact and rollback are reproducible;
@@ -765,6 +831,15 @@ remove a selected required dependency and receive an explicit activation error;
 restore a valid composition and continue from preserved data. Host hashes never
 change. Repeat the custom-behavior and UI/headless checks against the accepted
 isolated upstream-update candidate, then exercise its breaking-update rollback.
+Complete the interactive P18U walkthrough with dependency-valid selections and
+enforced per-plugin scope; verify full recovery-set restoration, interrupted
+migration/activation and host-independent recovery. After a successful update,
+create new conversation/attachment/state data, initiate later rollback through the
+browser, and prove both the recovered old installation and the protected newer-data
+rescue/export or supported reverse migration. Prove immutable A/B staging, healthy
+new-session cutover, pinned old sessions, write preservation/duplicate prevention,
+capacity rejection with A usable, failed/interrupted activation and rollback while B
+has active sessions. No silent data loss or stale-snapshot promotion is acceptable.
 Verify at least one configured real provider or local model in addition to
 deterministic protocol fixtures; report unavailable credentials as a pending gate.
 **Regression:** complete upstream/fork suites and differential contract corpus;

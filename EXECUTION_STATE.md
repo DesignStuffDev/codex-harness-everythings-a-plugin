@@ -1,6 +1,6 @@
 # Codex Harness Compartmentalized — execution state
 
-Updated 2026-10-04. **Partial platform; P03 remains incomplete.** Read this file,
+Updated 2026-10-05. **Partial platform; P03 remains incomplete.** Read this file,
 [roadmap](IMPLEMENTATION_ROADMAP.md), [inventory](COMPONENT_INVENTORY.md), root
 AGENTS.md and [upstream maintenance](UPSTREAM_MAINTENANCE.md) before resuming.
 Full earlier receipts/actions are preserved in
@@ -8,7 +8,7 @@ Full earlier receipts/actions are preserved in
 [prior snapshot](verification/2026-10-02/p03-auth-refresh-ledger-history.md) and
 [checkpoint history](EXECUTION_CHECKPOINT_HISTORY.md).
 
-## Current resume checkpoint — 2026-10-04
+## Current resume checkpoint — 2026-10-04 / 05
 
 The same task-bound environment reattached and the original checkout/index survived.
 The accepted maintenance0.1.1 source has8,964 paths/map
@@ -71,12 +71,95 @@ A subsequent README-only correction qualifies best-effort failure-marker persist
 current documented map `0d2ec165627ff4a0e9236ead57bd6f6e42c13512eacae2c00c84604541e5e515`.
 Runtime code/tests are unchanged; original test/package hashes remain authoritative.
 See verification/2026-10-04/p18u-source-capsule/POST_TEST_DOCUMENTATION.json.
-Next feasible P18U action: produce a bounded sparse transformation from the sealed
+The next action at0.2 was a bounded sparse transformation from the sealed
 inputs, preserving custom changes and rejecting conflicts/unsupported entries;
 prove installation, interruption and host-independent inspection. A sparse overlay
 must remain explicitly incomplete until coordinated build/version/migration,
 real-host/UI compatibility and external failed-update recovery gates pass.
 No merged candidate, update activation or rollback is accepted by this checkpoint.
+
+Published successor bec32f7: the seven-path maintenance0.3.0
+sparse-overlay proposal is adopted under R/p18u-overlay-adoption-20261004-01.
+Formatter89017 finished0; four changed Python ASTs are identical to the proposal.
+Formatted source count8,970/map
+`37656871852bcc56799a3b8340c1a90786d1cee7aebd012e94b7556f84bb1c90`.
+All47 scoped cases (17 overlay,11 capsule,13 reviewer,6 direct-Git fixtures) pass;
+root99763/source unchanged/strict0, full receipts gzip-verified under
+R/p18u-overlay-focused-20261004-01. No Rust change/build is part of this slice.
+The bounded Python-only sequence is recorded in
+R/p18u-overlay-run-admission-20261004-01/PLAN.json; do not treat it as native capacity
+admission. Root84216 completed0:61 real installed commands, exact source unchanged,
+strict0/null and OOM/kill unchanged. The isolated non-atomic remove/install upgrade
+from0.2 to0.3 retains both package objects, a restored copy of the prior capsule and
+both old tool contracts. All13 outputs match independent actual-Git expectations;
+the scenarios.rs merge retains our exact import removal and all upstream changes.
+Pyz SHA `4a860c3c55d69bbfe3554cb3a1812d3bb797dfde3fd02dd9e05d074c98c681bf`.
+Private runtime export is readback-verified under
+R/p18u-overlay-real-runtime-export-20261004-01, archive SHA
+`276f6e3ee6d74527138f3d270e56f399b5e09abfcaf4c79e43734e85de4b2978`.
+It is a workspace-only checkpoint, not an offsite backup. No active test remains.
+After testing, a README-only clarification changes “textual result” to “source
+result” for direct binary copies. Runtime/test bytes are unchanged. Documented map
+`bdcc5e785e6a761ddbfde73b806df50f8391ebddc1c357d1ba7ee61d160404d4`; original
+47/61 results remain bound to tested map376568. See the overlay evidence
+POST_TEST_DOCUMENTATION.json; no rerun or rebinding is claimed.
+All seven updated-host release gates remain pending; source transformation is not
+full candidate integration. Active-merge lifecycle proof remains separate from
+earlier capsule cancellation, and the fresh GUI evidence belongs to0.2/source0b7c.
+
+## Required update walkthrough and capacity follow-up
+
+The user now requires an interactive P18U/P19 browser walkthrough, not optional
+polish: explicitly initiate/pin an update; show versions/diffs/mapping/conflicts,
+components, migrations and storage estimates; select/exclude dependency-valid
+components/features/coherent groups; enforce per-plugin implementation/config/
+public-contract/dependency/schema limits against the final diff. Persist deliberate
+exclusions and invalidate affected evidence whenever the selected plan changes.
+
+Before activation, use provider-supported consistency barriers and verify a complete recovery
+set covering host/packages/selections/config/custom changes/conversations/attachments/
+state/migration metadata, with protected secrets and demonstrated restoration.
+Stage/build/test separately, expose failed/skipped gates, journal activation and
+health checks, recover with host/updater unavailable, and support later user-triggered
+rollback after new writes. Preserve a verified rescue copy of newer data first;
+show software rollback versus state restoration and retain/reverse-migrate/export
+new conversations without silent loss. [UPDATE_WALKTHROUGH.md](UPDATE_WALKTHROUGH.md)
+is the concrete required contract and sequence. None of this UI/recovery behavior
+is implemented by the current maintenance tool examples.
+
+The verified0.3 patch-set is published; this roadmap records the expanded requirements.
+Next advance selection/scope planning and independent maintenance/UI lifetime
+before activation work; close active-merge lifecycle separately. The current GUI
+exits with App Server, so it cannot yet own an update screen across engine quiescence.
+No scheduled polling, unattended activation or running-session hot replacement.
+
+The offsite question authorizes a bounded read-only inventory/proposal only. Separate
+active build inputs/cache backing/recovery requirements from inactive archives;
+quantify conditional reclaim and transfer/restore staging before any retirement.
+Require manifests, protected secrets, remote integrity plus tested restoration,
+fresh ownership and explicit retention decisions. Do not upload, select a paid
+provider, delete archives, change infrastructure or replace the environment based
+on that question. Investigate supported same-environment disk expansion without
+assuming a saved configuration changes this running task. Native admission stays
+closed until a complete qualified sequence fits; offsite capacity alone is not proof.
+
+Required live update behavior: immutable A/B generations behind a stable launcher/
+router. A stays responsive during isolated B build/test; B must pass health and
+state-coexistence gates before new-session route commitment. Existing A sessions
+remain pinned and drain. Retain previous software locally and independent recovery;
+rollback preserves newer writes and explicitly handles active B sessions. Unsupported
+coexistence or capacity leaves B pending and A usable. No such routing/snapshot/
+catch-up/ownership capability is implemented by0.3. UPDATE_WALKTHROUGH.md is updated
+from the earlier global-stop design; no running-session hot replacement is implied.
+
+The read-only [capacity proposal](CAPACITY_PLAN.md) records 2026-10-05 01:00:58Z:
+306,339,840 persistent free bytes,9,186,902,016 tmp free,16GiB memory limit. Recovery
+archives occupy8,174,936,064 allocated bytes; a700,407,808-byte historical shortlist
+is conditional, with zero certified safe retirement. Drive is a candidate only;
+quota/access/VM-byte transport and full restoration remain unverified. No upload,
+deletion or resize was performed. Small Python cycles need fresh bounded admission;
+no complete native requirement or safe same-instance expansion has been established.
+[PROJECT_REPORT.md](PROJECT_REPORT.md) gives the overall implemented/tested/planned view.
 
 ## Identity, publication and preservation
 
@@ -86,7 +169,23 @@ No merged candidate, update activation or rollback is accepted by this checkpoin
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Latest verified implementation/evidence checkpoint: `1d94c37a6619aa11b9b252d9693ee79bbeb4e466`,
+- Latest verified sparse-transformation implementation/evidence checkpoint:
+  `bec32f7295411c2b048e4d2fa8286547994471ae`, tree
+  `1bbfdbdfc126462a14b482423f2dc4c09c46691e`, same WIP branch. All16 selected
+  files/163,030B and both refs read back; main unchanged. Receipt
+  R/p18u-overlay-publication-20261005-01/PUBLICATION.json SHA256
+  `82ade6a7e83577c596d3d45988537bb6789920cbb993cfdbe6c70b3a06f00edb`.
+  This is normal sparse-transform/upgrade proof, not active-merge cancellation,
+  a complete updated host, live A/B activation or rollback acceptance.
+- Prior verified source-input implementation/evidence checkpoint:
+  `5e3e9128d77e3c39b724cc3e85c52401ae6f6ad1`, tree
+  `a29d839c3e43e9d3ad446af01a5a62d7cb4b61cd`, same WIP branch. All26 selected
+  files/837,651B and both refs read back; main unchanged. Receipt
+  R/p18u-capsule-publication-20261004-02/PUBLICATION.json SHA256
+  `7f9a33cdadd1d6357db1ba871b256d01551f464e7b997ca3e5868aa457d3a38c`.
+  The earlier frozen publication01 is preserved but was not published;02 includes
+  the post-test README-only qualification and exact tested/documented identities.
+- Prior maintenance custody checkpoint: `1d94c37a6619aa11b9b252d9693ee79bbeb4e466`,
   tree `7278f32d25e43319e5300c47d0f514d44b49a45d`, same WIP branch. All20 selected
   files/319,269B and both refs read back; main unchanged. Receipt R/p18u-owned-git-
   publication-20261004-01/PUBLICATION.json SHA256
@@ -271,9 +370,14 @@ and remote-viewer processes. Never replay actions after selector reuse.
    with separate native/custom build/install/select/remove/cancel/UI proof on unchanged
    host. Continue remaining P04–P19; three bounded families are not the endpoint.
 5. Required P18U: installed review/cancellation and real source-input staging now
-   pass, as recorded at the top. Advance sparse candidate transformation next while
-   native capacity is blocked. Preserve exact custom base and input digests; reject
-   ambiguous content/mode/deletion changes. Then coordinate versions/state migrations,
+   pass; the0.3 sparse transformation/upgrade gates above also pass, with active-merge
+   lifecycle and full candidate release gates still open. Advance immutable selection/
+   scope plans and independent walkthrough ownership while native capacity is blocked.
+   Preserve exact custom base/input digests, persisted exclusions and enforced final
+   diff scopes; reject ambiguous content/mode/deletion changes. Then complete full
+   recovery-set/restore and newer-write rescue contracts, immutable A/B compositions,
+   stable new-session routing, consistent snapshots/catch-up and pinned-session
+   coexistence. Coordinate versions/migrations and resource-capped staging with A usable,
    real later-upstream integration preserving custom plugins/UI, incompatible-update
    rejection and external-bootstrap rollback. Input integrity or a clean text merge
    cannot satisfy those gates. No scheduled polling or unattended live update.
