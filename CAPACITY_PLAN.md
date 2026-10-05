@@ -1,9 +1,36 @@
 # Development capacity and cold-artifact preservation
 
-Read-only assessment, 2026-10-05. **Native admission remains closed. No upload,
+Historical assessment with capacity-only priority override, 2026-10-05.
+All feature work is paused. Reversible verified selected-input repairs and safe
+duplicate-only reclaim are now authorized; the historical inventories below do
+not themselves authorize any deletion. See EXECUTION_STATE.md for current order.
+**Native admission remains closed. No upload,
 archive deletion, provider purchase, environment change or replacement is approved
-by this assessment.** Continue bounded maintenance-plugin work on the unchanged
-host. Preserve both source worktrees, accepted binaries, original index and WIP.
+by this assessment.** Do not continue feature work while restoring capacity. Preserve both source worktrees, accepted binaries, original index and WIP.
+
+## Completed reversible repairs and current next step
+
+See [actual repair evidence](verification/2026-10-05/p03-capacity-repair/README.md).
+All895 selected metadata and902 genuine registry archives are now restored exactly;
+all payloads/aliases read back. Combined827,656,451 logical bytes, with block overhead,
+occupy original temporary backing.55 duplicate-only paths reclaimed1,786,339,328B;
+actual restoration preceded retirement and exact retained bytes/journals reverified.
+No recovery archive or unique evidence was removed. Approximately2.065GB persistent
+space is now free. The rest of this file retains historical measurements, not current
+claims that nothing has been repaired or that more Python work is authorized.
+
+The full native gate remains open. A conservative8GiB persistent recommendation is
+not a measured minimum. A narrower phased plan plus verified recoverable relocation
+of unchanged selected libraries is being assessed to stay on this VM. Historic
+production's10.35GB shmem explains much of its near16GiB pressure; jobs1 already
+applied and must not be advertised as a new saving. Scoped test serialization can
+reduce runner overlap but does not bound linking. Source-bound native validation
+and the full runtime/evidence/recovery sequence are still required.
+
+Existing PC/home archive storage is a possible destination, not usable build/link
+space. The one cloud DNS/HTTPS check of the provided home service failed (no address;
+proxy CONNECT403). No bulk export/live-resize tool is exposed and no private upload,
+public tunnel, VPN change, new guest or Proxmox-management exposure occurred.
 
 ## Latest observed capacity
 
@@ -172,6 +199,7 @@ The full private metadata inventory is preserved in the workspace under
 
 These seals identify audit reports, not fresh archive payload integrity. They are
 workspace-local checkpoints, not demonstrated external backups. Published GitHub
-source protects only included source. Next: continue admitted small plugin work;
-independently resolve exact native dependency closure and a supported private
-transfer/restore route before requesting a concrete retention action.
+source protects only included source. Next: restore verified selected build inputs, evaluate exact duplicate-only reclaim,
+and establish the full native disk/RAM sequence. PC and home Proxmox are potential
+private destinations; no supported cloud transfer is yet proven. No public management
+endpoint or unapproved upload. Record concrete access needs after bounded repair.

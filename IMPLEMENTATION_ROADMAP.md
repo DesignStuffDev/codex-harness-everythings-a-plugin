@@ -1,5 +1,15 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
+**Priority override, 2026-10-05:** all updater/planner/scope-validator and other
+feature work is PAUSED. The sole active workstream restores development capacity
+for the critical native P03 auth-install and full targeted validation sequence.
+Historical instructions below to advance independent small maintenance work no
+longer apply. See EXECUTION_STATE.md for exact preserved proposals/resumption points.
+No feature pass clears the disk/RAM/build/runtime gate. P18U/P19 remain required later.
+Latest resumption order: once capacity is restored, finish only the paused installed-
+overlay cancellation acceptance to a verified checkpoint, then return to critical
+native P03. The collector stays a preserved parallel draft; no broad updater queue.
+
 Status: **incomplete platform; verified partial baseline**. Updated 2026-10-04.
 The current source42 production/runtime checkpoint now passes the12 planned
 rebuilt-host gates. Source code is preserved by WIP047e91e; subsequent15bd9d1 records

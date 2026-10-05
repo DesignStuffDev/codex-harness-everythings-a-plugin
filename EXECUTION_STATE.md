@@ -11,6 +11,56 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
+## Current priority: capacity restoration only — 2026-10-05
+
+User instruction supersedes the maintenance detour: **all feature development is
+paused**, including updater, planner, scope validator, collector and cancellation
+acceptance. Restore capacity for the critical native P03 eight-path auth-install
+sequence. Do not finish a feature milestone first or count Python passes as native
+admission. Original source/index, archives, accepted binaries and proposals remain
+preserved. Pause receipt/preimages: R/p03-capacity-only-pause-20261005-02.
+
+Latest completed publication is **2690688f7ad542f127824f5f69cd8580d0a89109**;
+R/p18u-final-scope-publication-20261005-01/PUBLICATION.json is already read back.
+Do not replay it. Paused resumption points, only after capacity restoration:
+
+- Installed-overlay cancellation: sealed R/p18u-overlay-installed-lifecycle-proposal-01,
+  not admitted or executed; review its complete bounded sequence before any run.
+- Inventory collector: R/p18u-inventory-collector-proposal-01/files contains two
+  unsealed draft files plus PRE_FORMAT.json; no tests or adoption ran.
+- Synthetic trace evidence: sealed R/p18u-overlay-trace-calibration-evidence-20261005-01
+  remains unadopted. It is not installed cancellation proof.
+- Resource estimate correction: R/p18u-small-stage-resource-correction-20261005-01
+  retained; proposed amendment directory does not exist. Earlier estimates were
+  exceeded, while the observed persistent reserve held. Do not claim budget pass.
+
+All895 selected missing metadata payloads now match exactly (694,368,532B), not
+just16. R/p03-native-metadata-fullprobe-20261005-01/MANIFEST.json has SHA256
+`ef59fecac1c24e1cb16c6ab102c29d980f1237c01c35fcc03f9e7a29b899c345`.
+Availability alone is not restored backing, Cargo reuse or native admission.
+The capacity workstream will restore only verified selected backing with current
+ownership/hash/resource checks, assess selected core/TUI regeneration, and establish
+a full disk/RAM/linker/test/runtime/recovery envelope. No Rust command is active.
+
+## Actual capacity repair checkpoint — 2026-10-05
+
+[Repair evidence](verification/2026-10-05/p03-capacity-repair/README.md): all895
+metadata files and902 genuine registry archives are restored/read-back exact.
+Combined827,656,451 logical bytes now have original temporary backing.55 duplicate
+paths were safely retired after actual restore and exclusive-lease/alias checks;
+1,786,339,328 allocated bytes reclaimed, two independent accepted storage-plugin
+copies and all raw evidence retained. No archive/source/state retirement. Source,
+index and accepted CLI/manager hashes remain unchanged. Persistent free space is
+approximately2.065GB at this checkpoint; no Rust build or native admission yet.
+
+Private receipt: R/p03-capacity-repair-checkpoint-20261005-02/CHECKPOINT.json.
+Do not rerun the completed restore/retirement commands. The exact native phase plan
+and selected reproducible-cache relocation are under review. Prior8GiB free-space
+recommendation is conservative, not a proved minimum. Historical near-limit build
+included10.35GB shmem; current selected backing is much smaller, so RAM expansion
+is not established as necessary. The single home-service check failed DNS and proxy
+CONNECT403; do not retry unchanged access or expose Proxmox publicly.
+
 ## Identity and preservation
 
 - P: `/workspace/codex-harness-everythings-a-plugin`; origin:
@@ -186,31 +236,34 @@ live activation/hot replacement within running sessions.
 
 ## Ordered next actions
 
-1. Read R/p18u-final-scope-publication-20261005-01/PUBLICATION.json and fresh WIP
-   ref. If already published/read back, advance without replay; otherwise publish
-   the exact verified stage. Keep0.4 installed proof bound to d84, not later source.
-2. Review/admit the smallest actual installed-overlay cancellation gate using the
-   passed synthetic barrier: cooperative SDK shutdown and abrupt plugin death,
-   tracked Git cleanup before rescue, incomplete jobs, then successful manager call.
-   Reuse exact separately built0.4 package; distinguish its build source from current
-   repo. Preserve failures and use bounded owned-process cleanup/deadlines.
-3. Add a trusted read-only inventory collector and exact candidate/provenance mapping,
-   then a bounded installed scope-audit operation. Do not treat caller data as disk
-   attestation or unknown semantic ownership as resolved. Follow with persistent
-   maintenance job/profile ownership and independently living GUI walkthrough.
-4. Independently close the native input-recovery/full-sequence capacity plan. Preserve
-   R/p03-ephemeral-token-install-cohort-proposal-01; its coherent eight-path native
-   install-ownership slice remains unadopted. Only an actual capacity change or a
-   reviewed recoverable plan covering both filesystems/memory/link/runtime permits
-   scoped native tests/lint, rebuilt host and storage/migration/GUI/replacement gates.
-5. Continue dependency-ordered P04–P19 boundaries from canonical inventory: auth/
-   providers, state/context/compaction, permissions/execution/tools/MCP, orchestration,
-   events/background services and presentation. Kernel exceptions need explicit audit.
-6. P18U/P19 still require full real later-upstream candidate integration, custom
-   behavior preservation, coordinated versions/migrations, browser walkthrough,
-   invalid-selection/scope rejection, consistent backup restoration, A/B active-session
-   continuity, failed/interrupted activation and host-unavailable/later rollback after
-   newer writes. Finish clean-install native/custom plugin and headless/GUI scenario.
+1. Preserve paused proposals and inspect current source/index/processes/resources.
+   Read the pause receipt above; do not replay completed publication/mutations.
+2. DONE: selected metadata and registry repairs plus55-path exact duplicate reclaim.
+   Inspect their final receipts instead of replaying completed mutations.
+3. Close the complete eight-path native sequence admission: selected core/TUI
+   regeneration, registry necessity, scoped tests/lint, production CLI/manager,
+   linker overlap, real installed storage/migration/replacement/GUI/cancellation,
+   source-bound evidence and preserved recovery. No doomed partial Rust attempt.
+4. Carry out verified reversible reclaim if available. Evaluate an authenticated
+   exact-byte export to the user's PC (reported1080.03GiB free), or supported same-VM
+   expansion. No public tunnel, unapproved private upload, archive retirement,
+   replacement environment or paid/account changes. Remote readback and demonstrated
+   restoration precede retirement of protected cold artifacts.
+5. Latest user order: after capacity restoration, FIRST finish the exact paused
+   root-owned installed-overlay cancellation acceptance (sealed proposal above):
+   source/package-bound cooperative SDK shutdown, abrupt plugin death, tracked Git
+   cleanup before rescue, incomplete-job behavior and successful manager invocation
+   after each primary, then checkpoint exact evidence. The helper was reviewed but
+   never admitted/executed. Collector was parallel draft preparation, not the current
+   primary milestone; preserve it and do not restart a broad maintenance queue.
+6. Then return to critical native P03 extraction. Capacity success still requires
+   the current-source native build/targeted validation, not that Python milestone.
+   P18U/P19 walkthrough/A-B/rollback requirements remain in scope later.
+
+The user's home Proxmox (>40TB reported) is another cold-storage destination to
+assess with the coordinator. No provisioning or checkout relocation is authorized;
+prove a private authenticated cloud-to-home route and exact restore before uploads
+or retirement. Never expose Proxmox management publicly.
 
 Use `just test` for Rust and scoped `just fix`; never direct `cargo test` or kill Rust
 commands. Run `just fmt` after code. Full workspace suite still needs separate user
