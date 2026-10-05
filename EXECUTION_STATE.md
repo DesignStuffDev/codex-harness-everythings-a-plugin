@@ -107,6 +107,24 @@ All seven updated-host release gates remain pending; source transformation is no
 full candidate integration. Active-merge lifecycle proof remains separate from
 earlier capsule cancellation, and the fresh GUI evidence belongs to0.2/source0b7c.
 
+Next bounded source slice is adopted and fixture-verified (publication pending):
+`selection_plan.py`, its19-case test and exact13-path historical projection.
+Map8,973 `ee5e3ad3afed565b6e701b35c59ed497d4c6ced7b7485bf451e7c92461f57718`;
+all8,970 prior source paths unchanged. Root70446/sourcewrapper/strict completed0;
+solecommand44565 reaped0, no runner error/OOM change. justfmt52594 completed0 with
+unchanged source. Full compressed receipts: R/p18u-selection-plan-focused-20261005-01.
+[Evidence](verification/2026-10-05/p18u-selection-plan/README.md) separates synthetic
+policy fixtures and retained actual-report refusal from current native ownership.
+The primitive freezes explicit selections/exclusions, dependency/coherent-group rules,
+per-owner scope bindings and evidence identity. It does not collect/audit a final
+filesystem diff, validate baseline inventory bytes, persist profiles or authorize an
+update. No installed planning-tool or new GUI result is claimed. The complete later
+audit remains sealed/unadopted at R/p18u-selection-scope-proposal-01.
+Next bounded action is independently admitted0.4planning-tool packaging and actual
+unchanged-manager acceptance, followed by the preserved complete inventory-diff
+validator. CPU/cancellation work guarantees need separate evidence. Native build
+capacity remains closed; no Rust implementation was adopted or compiled.
+
 ## Required update walkthrough and capacity follow-up
 
 The user now requires an interactive P18U/P19 browser walkthrough, not optional
@@ -169,6 +187,14 @@ no complete native requirement or safe same-instance expansion has been establis
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
+- Latest required-roadmap/report checkpoint:
+  `4ed754fe0eca24c8bae5c00205b3df02efcca2dc`, tree
+  `ac0934ef1674149d0fbc8a71476832739902c755`. All9 selected files/320,311B and
+  both refs read back; main unchanged. Receipt R/p18u-live-roadmap-publication-
+  20261005-01/PUBLICATION.json SHA256
+  `696b9682c0c53099408ac88182018d7ee6eef48d0514c16e4446d17da2252a03`.
+  Records required selection/scope/recovery/live A/B behavior and read-only capacity/
+  Drive assessment; no new native extraction or update activation proof.
 - Latest verified sparse-transformation implementation/evidence checkpoint:
   `bec32f7295411c2b048e4d2fa8286547994471ae`, tree
   `1bbfdbdfc126462a14b482423f2dc4c09c46691e`, same WIP branch. All16 selected

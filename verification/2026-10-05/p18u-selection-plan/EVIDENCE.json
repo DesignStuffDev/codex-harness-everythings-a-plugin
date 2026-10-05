@@ -1,0 +1,251 @@
+{
+  "schema": "p18u-selection-plan-primitive-evidence-v1",
+  "status": "fixture_verified_partial_support_primitive",
+  "generated_at_utc": "2026-10-05T01:27:16.355161+00:00",
+  "component_inventory_id": "C27",
+  "native_extraction_added": false,
+  "registered_installed_capability": false,
+  "contract_version": 1,
+  "source": {
+    "candidate_manifest": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-adoption-20261005-01/CANDIDATE.json",
+      "bytes": 1238920,
+      "sha256": "51e5bee34e460fa93e15bfba53d868f3b540bdbfe8322f2815a248cf75aa3198"
+    },
+    "tested_scope": [
+      "codex-rs",
+      "component-sdk",
+      "MODULE.bazel",
+      "MODULE.bazel.lock"
+    ],
+    "source_count": 8973,
+    "source_map_sha256": "ee5e3ad3afed565b6e701b35c59ed497d4c6ced7b7485bf451e7c92461f57718",
+    "source_before_equals_candidate": true,
+    "source_after_equals_candidate": true,
+    "base_count": 8970,
+    "base_source_map_sha256": "bdcc5e785e6a761ddbfde73b806df50f8391ebddc1c357d1ba7ee61d160404d4",
+    "base_reconstructed_by_removing_exact_three_additions": true,
+    "native_source_unchanged_from_base": true,
+    "changed_paths": [
+      {
+        "path": "component-sdk/examples/upstream-maintenance/selection_plan.py",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "fab88595958b46e67033f1ebb87bc3783d12cc76c8f20c68c5a7d97543758cba",
+        "bytes": 13938,
+        "lines": 376
+      },
+      {
+        "path": "component-sdk/tests/fixtures/selection_scope_actual_impact.json",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "3fecc889401336339dc84cc5befa1a55f3f17e5fe09fe160245bd1445afaac9b",
+        "bytes": 3142,
+        "lines": 66
+      },
+      {
+        "path": "component-sdk/tests/test_selection_plan.py",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "d6ccba0f937bf8a271f01cc48bda93f571ca71b6a676f5fcf995a8bf0f28ef46",
+        "bytes": 14655,
+        "lines": 357
+      }
+    ],
+    "published_predecessors": {
+      "maintenance_03_source": "bec32f7295411c2b048e4d2fa8286547994471ae",
+      "canonical_roadmap_docs": "4ed754fe0eca24c8bae5c00205b3df02efcca2dc"
+    },
+    "local_main_label_is_not_tested_source": "f2cc6c2ed7dd84f606d43947a3c71f85bfc0daad"
+  },
+  "format": {
+    "command": "just fmt",
+    "workdir": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+    "session": 52594,
+    "exit": 0,
+    "source_unchanged": true,
+    "source_map_sha256": "ee5e3ad3afed565b6e701b35c59ed497d4c6ced7b7485bf451e7c92461f57718",
+    "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-adoption-20261005-01/FORMAT.json",
+      "bytes": 335,
+      "sha256": "93ba3fff1505837e114bd7ddac54e030bc409d7732ea2f5ee7c4b365d23138ab"
+    }
+  },
+  "focused": {
+    "kind": "Python unit/policy fixtures",
+    "test_count": 19,
+    "passed": 19,
+    "failed": 0,
+    "reported_unittest_seconds": 0.024,
+    "test_names": [
+      "test_actual_impact_projection_keeps_historical_mapping_blocked",
+      "test_atomic_groups_and_group_constraints_cannot_be_bypassed",
+      "test_canonical_key_order_and_input_mutation_do_not_change_frozen_plan",
+      "test_changed_catalog_profile_or_policy_invalidates_earlier_evidence",
+      "test_cycles_and_unknown_graph_edges_are_invalid",
+      "test_each_semantic_category_requires_its_own_explicit_scope",
+      "test_every_owner_and_exact_original_symbol_binding_required",
+      "test_feature_cannot_bypass_containing_component_constraints",
+      "test_incomplete_or_rebound_impact_report_cannot_clear_plan",
+      "test_missing_dependency_not_implicitly_selected",
+      "test_oversized_input_rejected_before_graph_walk",
+      "test_partial_plan_never_authorizes_update",
+      "test_paths_symlinks_and_symbol_only_scope_fail_closed",
+      "test_persisted_plan_revalidation_rejects_self_modified_policy",
+      "test_persistent_exclusions_and_membership_expand_without_scope_broadening",
+      "test_selected_group_with_all_members_excluded_stays_blocked",
+      "test_unknown_overlap_and_duplicate_choices",
+      "test_unsupported_versions_and_boolean_revisions_are_rejected",
+      "test_valid_group_selects_all_members_and_requires_each_scope"
+    ],
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/recovery-backups/20260930T165936Z/run-process-final-check.py",
+      "--candidate-manifest",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-adoption-20261005-01/CANDIDATE.json",
+      "--prefix",
+      "/tmp/p18u-selection-plan-focused-20261005-01",
+      "--scope",
+      "codex-rs",
+      "--scope",
+      "component-sdk",
+      "--scope",
+      "MODULE.bazel",
+      "--scope",
+      "MODULE.bazel.lock",
+      "--",
+      "python3",
+      "-B",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/tmp/p18u-selection-plan-focused-20261005-01.strict.json",
+      "--",
+      "/tmp/p18u-resume-sdk-20261004/bin/python",
+      "-I",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+      "-p",
+      "test_selection_plan.py",
+      "-v"
+    ],
+    "cwd": "/workspace/codex-harness-everythings-a-plugin/codex-rs",
+    "started_utc": "2026-10-05T01:21:04Z",
+    "finished_utc": "2026-10-05T01:21:06Z",
+    "returncode": 0,
+    "strict": {
+      "command": [
+        "/tmp/p18u-resume-sdk-20261004/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_selection_plan.py",
+        "-v"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 44565,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 44565,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 0.09115665100034676
+    },
+    "oom_unchanged": true,
+    "runtime_or_installed_package_acceptance": false,
+    "result_receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-focused-20261005-01/RESULT.json",
+      "bytes": 3218,
+      "sha256": "0a81a0a8a8b416ad438872c0687f2de05448d965e398be8b2917577b2245d558"
+    },
+    "archived_full_receipts": [
+      {
+        "original_path": "/tmp/p18u-selection-plan-focused-20261005-01.source.json",
+        "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-focused-20261005-01/p18u-selection-plan-focused-20261005-01.source.json.gz",
+        "bytes": 3735037,
+        "sha256": "5fc4355a6f83829980b570595b944df812089f40c6ac69c621153748693aad7a",
+        "archive_bytes": 1316854,
+        "archive_sha256": "81f0d206729c8315dbfac5f74262510b281c9f428da4cc52c3002a3ac85c337a",
+        "hashes_and_decompression_independently_checked": true
+      },
+      {
+        "original_path": "/tmp/p18u-selection-plan-focused-20261005-01.strict.json",
+        "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-focused-20261005-01/p18u-selection-plan-focused-20261005-01.strict.json.gz",
+        "bytes": 548,
+        "sha256": "895e15520ea0962dabbbf90e517562eb40211df4a7df8d2e7c172b775a488fe2",
+        "archive_bytes": 302,
+        "archive_sha256": "785a571e9804cdf5e78fba30cad3d52f8221a0ded1859609eda42bceb214544e",
+        "hashes_and_decompression_independently_checked": true
+      },
+      {
+        "original_path": "/tmp/p18u-selection-plan-focused-20261005-01.log",
+        "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-focused-20261005-01/p18u-selection-plan-focused-20261005-01.log.gz",
+        "bytes": 3213,
+        "sha256": "802054290ae572d144c19dd77b362e036f9d4c73a2103fe5e41eb7cd25b61fbf",
+        "archive_bytes": 725,
+        "archive_sha256": "c7ba79c7f0fd16e6d0cd9844bc6116ed7df39c60ef9b862713928a51dd49e1d0",
+        "hashes_and_decompression_independently_checked": true
+      }
+    ]
+  },
+  "actual_impact_projection": {
+    "scope": "Retained historical actual-review projection; fixture-only supplied-evidence refusal, not a fresh Git invocation or semantic ownership audit",
+    "source_manifest": {
+      "local_path": "/workspace/acceptance/p18u-capsule-real-20261004-runtime/component-home/components/state/codex.maintenance.upstream-review/upstream-capsules/fb0730778d0a41dea9984705e1efec43/MANIFEST.json",
+      "bytes": 23343,
+      "sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c"
+    },
+    "source_report_canonical_sha256": "97b0977a14d1a54a1f6adf7605a8f364f61350b72f98f3b533ad84862c0b1100",
+    "required_projection_canonical_sha256": "05059f8235edff0ed7ddd1153bf3cd0d10f7603cfff7002bdc4eaf8e49c7817e",
+    "original_and_factored_fixture_projection_equal": true,
+    "changed_paths": 13,
+    "commits": {
+      "base": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "custom": "914cc59374c1149463e78bc33851d83e3f14d0a4",
+      "upstream": "2e5fea64eefcaa19f48458b2386011b619f69c70"
+    },
+    "still_blocked_findings": [
+      "historical_index_not_current_composition",
+      "original_source_boundary_mapping_missing",
+      "ownership_unknown",
+      "mapped_change_inventory_incomplete"
+    ],
+    "verification_method": "Read/decode retained capsule manifest; independently reconstruct required schema/status/unresolved/summary/path-findings projection; compare canonical SHA and exact projection objects; no product code import or execution."
+  },
+  "limits": [
+    "Pure supplied-evidence policy fixtures only; no installed planning capability, package build/install/invocation, real host or GUI acceptance in this slice.",
+    "Graph ownership, mapping and dependency declarations are supplied assertions; this module does not discover or attest their current semantic truth.",
+    "Whole-file scope bindings are checked; actual final diffs/operations/content and filesystem completeness are not collected or audited.",
+    "Allowed operations are validated and retained, not checked against actual before/after changes. Symbol literals are identity bindings, not semantic scope enforcement.",
+    "Baseline inventory SHA is bound but baseline inventory bytes are not provided or verified by this primitive.",
+    "Frozen canonical bytes and restore/revalidation detect altered results or stale expected IDs; they do not authenticate publishers or persist profiles/receipts.",
+    "4MiB canonical JSON and structural row limits do not establish a measured CPU/deadline/cancellation budget; installed exposure requires separate work admission and cancellation.",
+    "No sandbox, state migration, candidate build/activation, A/B routing, snapshot/catch-up, external recovery or rollback behavior is implemented or accepted.",
+    "Prior installed 0.3 and 0.2 GUI/storage results retain their original source identities and are not retested or relabeled here.",
+    "No new native extracted subsystem; current native build capacity gate remains closed."
+  ],
+  "next_gates": [
+    "Actual baseline/final inventory verification including extra/missing/rename/mode/operation checks",
+    "Measured work admission and cancellation before installed exposure",
+    "Independent external build/install/version/replacement/removal for a future registered planning tool",
+    "Caller-owned durable profile/receipt persistence and planning GUI",
+    "All seven existing updated-host release gates and required live A/B/recovery acceptance"
+  ],
+  "archive_durability": "Receipts preserved in this workspace; external durability of selected source/evidence requires separate publication/readback."
+}

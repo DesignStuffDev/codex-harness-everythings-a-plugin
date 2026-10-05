@@ -1,0 +1,212 @@
+{
+  "schema": "p18u-selection-plan-source-lineage-v1",
+  "classification": "Original custom additive maintenance support primitive; no existing native functionality extracted",
+  "inventory_component": "C27",
+  "upstream_provenance": {
+    "repository": "https://github.com/openai/codex",
+    "base_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "upstream_code_copied_in_this_slice": false,
+    "original_upstream_paths_or_symbols": [],
+    "note": "Later upstream and custom revisions below identify historical review data only, not this primitive or an accepted updated harness."
+  },
+  "source_identity": {
+    "base_source_count": 8970,
+    "base_source_map_sha256": "bdcc5e785e6a761ddbfde73b806df50f8391ebddc1c357d1ba7ee61d160404d4",
+    "tested_source_count": 8973,
+    "tested_source_map_sha256": "ee5e3ad3afed565b6e701b35c59ed497d4c6ced7b7485bf451e7c92461f57718",
+    "candidate_manifest_sha256": "51e5bee34e460fa93e15bfba53d868f3b540bdbfe8322f2815a248cf75aa3198",
+    "format_changed_source": false,
+    "all_existing_base_paths_identical_in_recorded_source_maps": true,
+    "scope_limits": "Recorded scope covers codex-rs/component-sdk/MODULE.bazel/MODULE.bazel.lock, not every root document or untracked recovery file."
+  },
+  "new_paths": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/selection_plan.py",
+      "operation": "add",
+      "before_sha256": null,
+      "tested_sha256": "fab88595958b46e67033f1ebb87bc3783d12cc76c8f20c68c5a7d97543758cba",
+      "bytes": 13938,
+      "lines": 376
+    },
+    {
+      "path": "component-sdk/tests/fixtures/selection_scope_actual_impact.json",
+      "operation": "add",
+      "before_sha256": null,
+      "tested_sha256": "3fecc889401336339dc84cc5befa1a55f3f17e5fe09fe160245bd1445afaac9b",
+      "bytes": 3142,
+      "lines": 66
+    },
+    {
+      "path": "component-sdk/tests/test_selection_plan.py",
+      "operation": "add",
+      "before_sha256": null,
+      "tested_sha256": "d6ccba0f937bf8a271f01cc48bda93f571ca71b6a676f5fcf995a8bf0f28ef46",
+      "bytes": 14655,
+      "lines": 357
+    }
+  ],
+  "symbols": [
+    {
+      "symbol": "canonical",
+      "line": 36,
+      "end_line": 44,
+      "role": "Bounded canonical JSON and deterministic content identity; not authenticity"
+    },
+    {
+      "symbol": "validate_graph",
+      "line": 97,
+      "end_line": 175,
+      "role": "Supplied graph/entry/origin/type/reference/cycle checks"
+    },
+    {
+      "symbol": "impact_findings",
+      "line": 178,
+      "end_line": 213,
+      "role": "Retain legacy impact blockers and incomplete path coverage"
+    },
+    {
+      "symbol": "SelectionPlan",
+      "line": 217,
+      "end_line": 230,
+      "role": "Frozen canonical plan bytes with content-derived identity"
+    },
+    {
+      "symbol": "plan_selection",
+      "line": 233,
+      "end_line": 363,
+      "role": "Explicit membership selection, dependency/coherent-group/component constraints and per-owner rule bindings"
+    },
+    {
+      "symbol": "restore_plan",
+      "line": 366,
+      "end_line": 376,
+      "role": "Recompute exact canonical result and verify expected plan ID"
+    }
+  ],
+  "contracts": {
+    "entrypoints": [
+      "plan_selection(graph, profile, policy, review)",
+      "restore_plan(payload, expected_plan_id)"
+    ],
+    "wire_exposure": "None in this slice; pure Python API and supplied contract-version-1 documents",
+    "input_bindings": [
+      "base_revision",
+      "upstream_revision",
+      "custom_revision",
+      "composition_sha256",
+      "before_inventory_sha256",
+      "lineage_sha256",
+      "review_sha256",
+      "capsule_sha256",
+      "profile_id_and_revision",
+      "profile_catalog_sha256",
+      "include_and_exclude",
+      "policy_id_and_revision",
+      "whole_file_scope_rules_for_all_declared_owners"
+    ],
+    "outputs": "Frozen canonical SelectionPlan.payload, plan_id and reconstructed document; result status blocked or scoped_plan; no authority granted",
+    "state_owner": "Caller owns persistence/profile history; this module has no filesystem or process state",
+    "dependencies": [
+      "Python standard library dataclasses/hashlib/json/re",
+      "Supplied offline-impact review schema codex-upstream-offline-impact-v1"
+    ],
+    "limits": {
+      "canonical_json_bytes": 4194304,
+      "max_rows": 4096,
+      "max_units": 1024,
+      "scope_granularity": "whole-file only",
+      "measured_cpu_work_budget": false,
+      "deadline_or_cancellation_contract": false
+    },
+    "lifecycle": "Synchronous pure call; malformed/unsupported inputs raise PolicyError, findings return blocked; no process start/stop or storage transaction",
+    "authority": {
+      "update_allowed": false,
+      "activation_allowed": false,
+      "complete_candidate": false,
+      "enforcement_authority": false
+    },
+    "required_later_gates": {
+      "trusted_inventory_and_scope_enforcement": "pending",
+      "isolated_build_and_regressions": "pending",
+      "consistent_recovery_restore": "pending",
+      "ab_staging_resource_reservation": "pending",
+      "candidate_external_effects_fenced": "pending",
+      "coexistence_or_lossless_handoff": "pending",
+      "health_and_atomic_route_switch": "pending",
+      "session_generation_pinning_and_drain": "pending",
+      "post_update_write_preserving_rollback": "pending",
+      "external_recovery_without_host": "pending"
+    }
+  },
+  "historical_fixture_lineage": {
+    "scope": "Retained historical actual-review projection; fixture-only supplied-evidence refusal, not a fresh Git invocation or semantic ownership audit",
+    "source_manifest": {
+      "local_path": "/workspace/acceptance/p18u-capsule-real-20261004-runtime/component-home/components/state/codex.maintenance.upstream-review/upstream-capsules/fb0730778d0a41dea9984705e1efec43/MANIFEST.json",
+      "bytes": 23343,
+      "sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c"
+    },
+    "source_report_canonical_sha256": "97b0977a14d1a54a1f6adf7605a8f364f61350b72f98f3b533ad84862c0b1100",
+    "required_projection_canonical_sha256": "05059f8235edff0ed7ddd1153bf3cd0d10f7603cfff7002bdc4eaf8e49c7817e",
+    "original_and_factored_fixture_projection_equal": true,
+    "changed_paths": 13,
+    "commits": {
+      "base": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "custom": "914cc59374c1149463e78bc33851d83e3f14d0a4",
+      "upstream": "2e5fea64eefcaa19f48458b2386011b619f69c70"
+    },
+    "still_blocked_findings": [
+      "historical_index_not_current_composition",
+      "original_source_boundary_mapping_missing",
+      "ownership_unknown",
+      "mapped_change_inventory_incomplete"
+    ],
+    "verification_method": "Read/decode retained capsule manifest; independently reconstruct required schema/status/unresolved/summary/path-findings projection; compare canonical SHA and exact projection objects; no product code import or execution."
+  },
+  "verification": "verification/2026-10-05/p18u-selection-plan/EVIDENCE.json",
+  "preserved_proposals": {
+    "adopted_first_slice": {
+      "manifest": {
+        "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-plan-proposal-01/MANIFEST.json",
+        "bytes": 1301,
+        "sha256": "b06f8daddfa9b1e506a383c9f7e41b8fea5c28218064932ada8345cc5efd7e89"
+      },
+      "scope": {
+        "original_full_proposal": "p18u-selection-scope-proposal-01",
+        "split": "Immutable selection/permission plan first; full final inventory diff audit preserved separately.",
+        "lines": 799,
+        "production": 376,
+        "tests": 357,
+        "mechanical_fixture": 66,
+        "complex_guidance": "Further splitting graph closure, per-owner permission binding and immutable evidence identity would expose a partially checked plan; the coherent first boundary retains all fail-closed validation. Tests cover actual holes found by static review; fixture data is mechanical exact projection.",
+        "root_reviewed": true
+      },
+      "proposal_unexecuted_label_is_historical": true
+    },
+    "unadopted_full_audit": {
+      "manifest": {
+        "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-scope-proposal-01/MANIFEST.json",
+        "bytes": 1049,
+        "sha256": "9bfe6440e034bd84d7eda82b4d2ba906e1589f461f78a0b7a797800288d71f12"
+      },
+      "accepted_by_this_test": false
+    }
+  },
+  "intentional_custom_changes": [
+    "Immutable explicit selection/permission plan identity separate from installed plugin IDs and Cxx inventory IDs",
+    "Membership expansion does not silently add dependencies; containing component and atomic-group constraints cannot be bypassed by selecting features/members",
+    "Exact owner/path/category/before/origin bindings with unsupported fragment scopes rejected",
+    "Historical actual impact gaps remain blocked; supplied graph and inventory digests are not promoted to source/semantic attestation"
+  ],
+  "scope_limits": [
+    "Pure supplied-evidence policy fixtures only; no installed planning capability, package build/install/invocation, real host or GUI acceptance in this slice.",
+    "Graph ownership, mapping and dependency declarations are supplied assertions; this module does not discover or attest their current semantic truth.",
+    "Whole-file scope bindings are checked; actual final diffs/operations/content and filesystem completeness are not collected or audited.",
+    "Allowed operations are validated and retained, not checked against actual before/after changes. Symbol literals are identity bindings, not semantic scope enforcement.",
+    "Baseline inventory SHA is bound but baseline inventory bytes are not provided or verified by this primitive.",
+    "Frozen canonical bytes and restore/revalidation detect altered results or stale expected IDs; they do not authenticate publishers or persist profiles/receipts.",
+    "4MiB canonical JSON and structural row limits do not establish a measured CPU/deadline/cancellation budget; installed exposure requires separate work admission and cancellation.",
+    "No sandbox, state migration, candidate build/activation, A/B routing, snapshot/catch-up, external recovery or rollback behavior is implemented or accepted.",
+    "Prior installed 0.3 and 0.2 GUI/storage results retain their original source identities and are not retested or relabeled here.",
+    "No new native extracted subsystem; current native build capacity gate remains closed."
+  ]
+}

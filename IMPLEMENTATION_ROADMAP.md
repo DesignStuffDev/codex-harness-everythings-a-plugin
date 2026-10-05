@@ -814,6 +814,15 @@ shutdown. **Exit:** exact provenance, dependency impact and rollback are reprodu
 the updater is installable separately; ambiguous changes are flagged; neither a
 polling schedule nor live application is implied by candidate creation.
 
+
+The subsequent [immutable selection-plan primitive](verification/2026-10-05/p18u-selection-plan/README.md)
+passes19 scoped fixtures on exact sourceee5e3ad3. It binds explicit choices/exclusions,
+graph constraints and per-owner whole-file permission plans; historical real-impact
+mapping gaps remain blocked. This is pure supplied-evidence policy support, not
+installed-tool exposure, final filesystem-diff enforcement, persistence or update
+acceptance. The bounded0.4installed planning adapter and complete final-inventory
+audit are separate next stages; no native extracted family is added.
+
 ### P19 — Final v1 acceptance and kernel audit
 
 **Prerequisites:** every functional inventory row accepted; no unexplained coupled

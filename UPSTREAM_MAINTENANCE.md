@@ -94,6 +94,15 @@ passed with unchanged source; new production/UI gates subsequently pass; see the
 do not validate this source, and no updater
 integration result is implied.
 
+
+The subsequent [immutable selection-plan primitive](verification/2026-10-05/p18u-selection-plan/README.md)
+passes19 scoped fixtures on exact sourceee5e3ad3. It binds explicit choices/exclusions,
+graph constraints and per-owner whole-file permission plans; historical real-impact
+mapping gaps remain blocked. This is pure supplied-evidence policy support, not
+installed-tool exposure, final filesystem-diff enforcement, persistence or update
+acceptance. The bounded0.4installed planning adapter and complete final-inventory
+audit are separate next stages; no native extracted family is added.
+
 ## Recorded starting point
 
 - Upstream: <https://github.com/openai/codex>, exact revision

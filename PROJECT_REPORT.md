@@ -76,6 +76,11 @@ gates remain pending. Source merging and artifact inspection do not establish
 behavioral compatibility, complete backups or update rollback. Active-merge
 cancellation is also a distinct pending gate.
 
+The next pure selection-plan implementation also passes **19 focused fixtures**.
+It binds selections/exclusions, graph constraints and per-owner scope permissions to
+immutable evidence identities. Installed exposure, actual final-diff enforcement and
+persistent UI profiles remain separate gates; it adds no native extraction.
+
 ## What has actually been tested
 
 Evidence is bound to each tested source map, package and binary, rather than one
