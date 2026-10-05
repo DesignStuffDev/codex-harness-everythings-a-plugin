@@ -1,5 +1,18 @@
 # Development capacity and cold-artifact preservation
 
+## Current infrastructure direction
+
+The latest instruction makes durable expandable development capacity the exclusive
+priority and allows a future separate native worker. Preserve the original VM and
+all unique work/recovery state. [NATIVE_BUILD_WORKER_HANDOFF.md](NATIVE_BUILD_WORKER_HANDOFF.md)
+now defines source custody, clean dependency reconstruction, exact native/runtime
+recipes and missing worker access/portability prerequisites. It does not provision
+or admit a worker. No Rust attempt, cache rework, private export or product feature
+is authorized by this documentation. The completed original-VM review below remains
+historical evidence; do not repeat it or apply its warm-cache allowances to a clean
+worker. Private cold-archive transport is a separate retention workstream, not a
+prerequisite for the recommended source-first build-worker setup.
+
 Updated 2026-10-05 after the additional registry repair and a failed native retry.
 **Native admission is closed pending writable compiler-output handoff and a renewed
 budget for the dirty dependency closure.** The exact paused installed-overlay gate

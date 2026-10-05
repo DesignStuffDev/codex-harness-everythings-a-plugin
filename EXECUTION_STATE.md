@@ -11,7 +11,35 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: operator access/capacity decision before native handoff — 2026-10-05
+## Current priority: durable expandable infrastructure — 2026-10-05
+
+All product work is paused by the latest user instruction. A separately provisioned
+native worker may now be considered; the original capped VM is no longer required
+to be the sole executor. Preserve this original environment, both workspaces, source,
+index, accepted binaries, failed state and every recovery archive. This owning task
+prepares source custody; it does not create another checkout/VM or provision access.
+
+[Native worker handoff](NATIVE_BUILD_WORKER_HANDOFF.md) and its
+[source/control manifest](verification/2026-10-05/native-worker-handoff/MANIFEST.json)
+are the next execution reference. Exact comparison to published c041 found the coherent
+eight-file auth overlay, nine separate unactivated document/helper variants and 325
+published preservation paths that must remain inherited. The source projection remains
+8,980 paths/b75efc97; no candidate build or native tests passed. Fourteen private
+control sources and independent-package lock/proof gaps are explicitly identified.
+
+Latest verified publication before this coordination update is
+`c0412a00d90cca162e7a54b5c6aa06cb67979f55`, tree
+`72afcf70ca516071911c4732ec22ec5c90eff3b3`. It is a capacity/documentation checkpoint.
+The future worker should acquire pinned source/dependencies and build fresh targets
+and independent plugins. It must not depend on the damaged warm cache or private
+session data. Worker access, clean-build admission, source/control delivery/readback
+and reproducible bootstrap remain missing. No provisioning/transfer/build occurred.
+Do not repeat closed capacity reviews, installed-overlay acceptance, original-VM
+Rust attempts or unchanged network failures. Same-VM-only options below are historical;
+private archive transport remains separate from source-first worker bootstrapping.
+
+## Preserved original-VM capacity checkpoint
+
 
 The coherent eight-path external-token-install cohort is **adopted and formatted
 in the working tree, not accepted or published**. `just fmt` exited 0. Its exact
@@ -160,7 +188,8 @@ not reservations or native acceptance. The archive is VM-local, not an offsite c
 
 - P: `/workspace/codex-harness-everythings-a-plugin`; origin:
   `https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin.git`.
-  Preserve sibling `/workspace/codex-harness-next-components`; no new checkout/VM.
+  Preserve sibling `/workspace/codex-harness-next-components`; this task creates no
+  checkout/VM. A future separate worker is coordinated under the latest instruction.
 - R: `/workspace/recovery-backups/20260930T165936Z`; A: `/workspace/acceptance`.
 - Upstream imported pin and local HEAD:
   `d42056091aded7feb1d88ac7e83972108b2aa478`, official `openai/codex`.
@@ -358,37 +387,27 @@ live activation/hot replacement within running sessions.
 
 ## Ordered next actions
 
-1. Read both completed repair seals, source/index bindings and exact phased budget;
-   reconcile current processes and fresh disk/tmpfs/memory counters. Preserve all
-   archives/aliases and unfinished proposals. Never replay completed cache mutations.
-2. The exact paused installed-overlay gate is DONE; preserve its bounded evidence
-   and do not replay it. Collector and broad updater feature work remain paused.
-3. Resolve the concrete same-instance operator access/capacity decision in the
-   private sealed access card, or establish a real independently verified capacity
-   change. No unchanged network or Rust retry. Preserve all 28 uncertified archive
-   candidates and the current recovery set. After that change, review the bounded
-   cohort handoff/helper and test its disposable crash/epoch cases plus the combined
-   archive-to-metadata recovery path. Re-admit disk/tmpfs/shared RAM for the entire
-   sequence before Rust. No global alias removal, chmod of recovery backing,
-   fingerprint reset, inferred tmp output placement or future cache-reuse credit.
-   Registry repair, metadata, adoption and formatting are complete; do not replay
-   them. Focused/full login/provider `just test`, scoped login `just fix`, production
-   CLI/manager and current-source runtime checks remain pending.
-4. Reexercise installed storage/migration/GUI/attachments, normal/forced Launch,
-   cancellation/recovery and the held ownership matrix against that new host. Include
-   the new auth-install real consumer gate and all12 prior runtime recipes; do not
-   substitute native unit fixtures. None has run on the new source.
-   In-app Browser remains unavailable; identify actual Chromium/deterministic-model
-   fallback explicitly. Native capacity success requires this source-bound sequence.
-5. Separately budget remaining TUI6/two snapshots, App Server16, same-process
-   replacement and lower-transport/MCP/durability debt. The auth-specific9-root
-   capacity plan does not admit those larger or unresolved builds. Collector and
-   broad P18U/P19 feature work stay paused until the critical native priority is met.
+1. Read NATIVE_BUILD_WORKER_HANDOFF.md and its exact custody manifest. Preserve all
+   original files/index/failed state; no cache reset, repair replay or product work.
+2. The focused infrastructure owner supplies a retained worker proposal with an
+   authenticated command/file-access method, durable expandable storage, independent
+   clean-build resource admission and demonstrated dependency/source access.
+3. Prepare a reviewed explicitly UNVERIFIED source-handoff commit containing the
+   complete eight-file cohort plus portable source map. Preserve all nine other
+   variants separately and retain inherited published preservation files. Deliver
+   reviewed small controls through the source path; no private raw-data upload.
+4. Implement a pinned worker bootstrap and derived path/tool/package controls,
+   preserving source/license/standalone-lock custody and unchanged test assertions.
+   No original target, registry symlinks, fingerprints or Git index is a prerequisite.
+5. Only after that infrastructure is ready, admit the source-bound native, fresh
+   independent-package and real runtime/UI capacity-proof sequence. Full workspace
+   approval boundaries remain. New proof cannot reuse old producer/package identities.
+   Product features, collector/updater work and this VM's Rust attempts stay paused.
 
-The user's home Proxmox (>40TB reported) is another cold-storage destination to
-assess with the coordinator. No provisioning or checkout relocation is authorized;
-prove a private authenticated cloud-to-home route and exact restore before uploads
-or retirement. Never expose Proxmox management publicly.
+The focused infrastructure chat owns the separate worker proposal and provisioning
+review. This original task creates no guest or checkout. Private archival to home
+storage stays separately gated: prove an authenticated route and exact restoration
+before approved uploads/retirement. Never expose Proxmox management publicly.
 
 Use `just test` for Rust and scoped `just fix`; never direct `cargo test` or kill Rust
 commands. Run `just fmt` after code. Full workspace suite still needs separate user

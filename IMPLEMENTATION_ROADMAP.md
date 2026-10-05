@@ -1,12 +1,21 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Current order, 2026-10-05:** resolve a concrete same-instance operator access or
-capacity change before native output handoff. The [handoff design](NATIVE_OUTPUT_HANDOFF.md),
-[deduplicated phase ledger](CAPACITY_PLAN.md) and [review checkpoint](verification/2026-10-05/p03-writable-output-capacity/README.md)
-are proposals, not native admission. CoW failed on the actual filesystems; no tmp
-output-placement or future cache-reuse credit is established. The staged alternative
-also fails admission. Necessary access is described in a sealed private exact-host
-card; no private destination/instance identifiers are published here.
+**Current order, 2026-10-05: infrastructure only; all product work paused.**
+The user now permits a separately provisioned expandable native worker, while the
+original environment and all work remain intact. [Source/control handoff](NATIVE_BUILD_WORKER_HANDOFF.md)
+and its [exact manifest](verification/2026-10-05/native-worker-handoff/MANIFEST.json)
+replace the same-VM-only resumption order. No worker, source transfer, dependency
+bootstrap or native execution has occurred. Required next inputs are authenticated
+worker access, admitted clean-build resources, pinned dependency access, source/control
+custody and reproducible bootstrap. Do not copy the damaged warm target or use the
+old conditional warm-cache budget for the clean worker. Do not resume product
+extraction/updater work or repeat completed reviews/blocked original-VM commands.
+
+The prior [handoff/capacity design](NATIVE_OUTPUT_HANDOFF.md) stays preserved as
+original-VM recovery guidance, not permission for another attempt. The source audit
+identified eight adopted auth paths, nine separate unpublished document/helper
+variants, fourteen private runtime controls and standalone package/proof portability
+gaps. Only nonsecret coordination evidence is published by this checkpoint.
 
 The coherent eight-path external-token-install change is adopted and formatted,
 but remains **untested, unaccepted and unpublished**. Exact 8,980-path source map:
