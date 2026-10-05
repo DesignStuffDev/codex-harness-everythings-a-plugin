@@ -120,10 +120,13 @@ entrypoint remains minimal support rather than a second hidden harness.
 The subsequent [immutable selection-plan primitive](verification/2026-10-05/p18u-selection-plan/README.md)
 passes19 scoped fixtures on exact sourceee5e3ad3. It binds explicit choices/exclusions,
 graph constraints and per-owner whole-file permission plans; historical real-impact
-mapping gaps remain blocked. This is pure supplied-evidence policy support, not
-installed-tool exposure, final filesystem-diff enforcement, persistence or update
-acceptance. The bounded0.4installed planning adapter and complete final-inventory
-audit are separate next stages; no native extracted family is added.
+mapping gaps remain blocked. The subsequent0.4installed planning/revalidation adapter
+passes79 focused/affected cases and36 direct installed-package commands on unchanged
+managerf054; [exact evidence](verification/2026-10-05/p18u-selection-tools/README.md).
+Its positive policy cases remain synthetic and the actual13-path mapping stays
+blocked. Complete final-inventory audit, trusted filesystem collection, persisted
+profiles, interactive UI, live A/B routing and recovery remain separate gates.
+This supplied-evidence policy support adds no native extracted family.
 
 The separately installable maintenance component should take an exact upstream revision, the current imported-source lineage, local extraction changes and installed component compatibility information. It should produce a reviewable change classification, an isolated candidate build/package, compatibility and regression evidence, and an explicit activation/rollback result. It must detect upstream changes to owned boundaries and shared schemas rather than assuming a clean textual merge proves behavior. Reuse the C00 manifest/version/dependency contracts and C26 build/conformance tools; require C02/C03 persistence compatibility and C19 client lifecycle checks. Preserve licenses, notices, plugin configuration, user data and the last known working distribution. No automatic publication, destructive replacement or silent migration is implied by this design.
 

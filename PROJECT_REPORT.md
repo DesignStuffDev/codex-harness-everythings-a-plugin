@@ -62,7 +62,7 @@ The additive maintenance component now has three installed operations:
 Published implementation checkpoint: [`bec32f7`](https://github.com/DesignStuffDev/codex-harness-everythings-a-plugin/commit/bec32f7295411c2b048e4d2fa8286547994471ae)
 on the existing WIP branch; all 16 selected files were read back exactly.
 
-The latest 0.3 milestone passed **47 focused tests and 61 real installed-package
+The 0.3 milestone passed **47 focused tests and 61 real installed-package
 commands** using the unchanged production manager. It processed 13 actual changed
 paths from later official revision `2e5fea64eefcaa19f48458b2386011b619f69c70`, based
 on committed custom composition `914cc593`. Independent byte comparisons confirmed
@@ -76,10 +76,16 @@ gates remain pending. Source merging and artifact inspection do not establish
 behavioral compatibility, complete backups or update rollback. Active-merge
 cancellation is also a distinct pending gate.
 
-The next pure selection-plan implementation also passes **19 focused fixtures**.
-It binds selections/exclusions, graph constraints and per-owner scope permissions to
-immutable evidence identities. Installed exposure, actual final-diff enforcement and
-persistent UI profiles remain separate gates; it adds no native extraction.
+The selection primitive is published at `b66c9f2`. Its separately built **0.4.0
+planning/revalidation package now passes 79 focused/affected tests and 36 direct
+commands, including 31 manager commands and 17 tool responses**. It installs on the
+unchanged host, rejects invalid/stale plans, preserves deliberate exclusions, retains
+the three earlier operations and survives removal with retained artifacts. The
+0.3→0.4 upgrade is explicit remove/install with an inactive interval, not live A/B.
+[Evidence](verification/2026-10-05/p18u-selection-tools/README.md) distinguishes
+synthetic successful policy cases from the real upstream report's unresolved mapping.
+Trusted final-diff enforcement, persistent UI profiles and activation remain pending.
+This is additive maintenance functionality, not another native subsystem extraction.
 
 ## What has actually been tested
 
@@ -94,7 +100,7 @@ ever-growing test total. Earlier failures and unverified stages are retained.
   Ctrl+C with tracked process cleanup.
 - Those browser tests used real Chromium/Playwright with deterministic model
   responses. They were neither the requested in-app Browser nor live-model proof.
-  No new 0.3 GUI/storage/migration rerun is claimed.
+  No new 0.3/0.4 GUI/storage/migration rerun is claimed.
 - Native tests and runtime receipts from prior milestones remain separately
   documented. Current Rust build capacity is insufficient, so newer unbuilt auth
   proposals are not credited with older results. No complete workspace suite is
@@ -132,8 +138,8 @@ deployment remain outside this scope.
 
 ## Capacity, preservation and immediate work
 
-The latest bounded capacity audit found about **306 MB persistent free space**,
-9.19 GB temporary RAM-backed space and a 16 GiB memory limit. It inventoried **8.17 GB
+The latest completed runtime observed about **293 MB persistent free space**,
+9.17 GB temporary RAM-backed space and a 16 GiB memory limit. It inventoried **8.17 GB
 of recovery archives**, including a conditional historical shortlist of 700 MB.
 **Zero bytes are certified safe to delete.** Native builds remain blocked by both
 disk headroom and missing volatile backing for cached inputs; free tmpfs alone does
@@ -153,7 +159,7 @@ published to the existing WIP branch; `main` and the original local index are
 preserved. Remote-desktop networking is separate and does not block feasible code
 work. There is no verified locally reachable live viewer URL to report.
 
-Next feasible implementation: selection/dependency and final-diff scope enforcement,
+Next feasible implementation: supplied-inventory final-diff scope validation, then trusted collection,
 then durable maintenance ownership and UI lifetime separation. Full candidate
 assembly, A/B routing, consistent recovery and later rollback remain explicit
 subsequent gates, alongside the blocked native extraction queue.

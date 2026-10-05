@@ -107,7 +107,7 @@ All seven updated-host release gates remain pending; source transformation is no
 full candidate integration. Active-merge lifecycle proof remains separate from
 earlier capsule cancellation, and the fresh GUI evidence belongs to0.2/source0b7c.
 
-Next bounded source slice is adopted and fixture-verified (publication pending):
+Published b66c9f2: the next bounded source slice is adopted and fixture-verified:
 `selection_plan.py`, its19-case test and exact13-path historical projection.
 Map8,973 `ee5e3ad3afed565b6e701b35c59ed497d4c6ced7b7485bf451e7c92461f57718`;
 all8,970 prior source paths unchanged. Root70446/sourcewrapper/strict completed0;
@@ -118,12 +118,44 @@ policy fixtures and retained actual-report refusal from current native ownership
 The primitive freezes explicit selections/exclusions, dependency/coherent-group rules,
 per-owner scope bindings and evidence identity. It does not collect/audit a final
 filesystem diff, validate baseline inventory bytes, persist profiles or authorize an
-update. No installed planning-tool or new GUI result is claimed. The complete later
-audit remains sealed/unadopted at R/p18u-selection-scope-proposal-01.
-Next bounded action is independently admitted0.4planning-tool packaging and actual
-unchanged-manager acceptance, followed by the preserved complete inventory-diff
-validator. CPU/cancellation work guarantees need separate evidence. Native build
-capacity remains closed; no Rust implementation was adopted or compiled.
+update. Installed exposure is now separately accepted below; no new GUI result is
+claimed. The original complete later audit remains sealed/unadopted at
+R/p18u-selection-scope-proposal-01 and is being split/rebased into a bounded stage.
+
+Maintenance0.4.0 now exposes planning and caller-held plan revalidation through two
+installed tool-v1 operations. Exact8,975-path source map
+`d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99` passed79
+focused/affected cases (19 plan,13 adapter,17 overlay,11 capsule,13 reviewer,6 Git).
+Root87363/solechild45435/strict0, source unchanged and no OOM change. Formatter17653
+completed0 before tests, with no source change. Root37038 then passed36 direct
+commands/31 manager commands/17 tool responses on unchanged managerf054, including
+external package build, non-atomic0.3→0.4 replacement, retained three earlier tools,
+invalid/stale-plan refusals, removal and retained state/host-independent old-overlay
+inspection. Strict runner recorded only child46637 exit0, no runner error/OOM change.
+Pyz SHA `913e0842bfae1ec72e80c118612b8aed73575625ea13b7bd71d4bf073dd87a29`.
+The real13-path impact projection retains its unresolved mapping blockers; positive
+selection/scope cases use explicit synthetic graphs. Four computed-blocked plans
+and four invalid-tool refusals are expected behavior, not ignored test failures.
+The caller retains exported plan bytes; persistent profiles and offline selection
+revalidation are not implemented. Responses omit oversized complete plans explicitly;
+reconstructed SDK frames do not prove native model-tool nontruncation.
+
+[0.4 evidence](verification/2026-10-05/p18u-selection-tools/README.md) retains exact
+source/package/helper/receipt identities. Private runtime export:
+R/p18u-selection-tools-real-runtime-export-20261005-01/private-runtime.tar.gz,
+SHA `889e743fa68e54fdb5e770d598c26525bb36fb529734f8e8939f7d09a465303a`,
+956,383 compressed/4,618,748 member bytes, complete readback and source rehash.
+This is VM-local, not external backup. Original tmp artifacts remain. A root seal-
+check script used the wrong manifest shape before launch; all helper seals were
+correctly checked afterward. The unchanged source wrapper/strict acceptance passed;
+the orchestration correction is preserved separately, not recast as a testcase.
+No test remains active. No new GUI/native build or A/B activation is credited.
+
+Next bounded action: review and independently admit the complete supplied-inventory
+diff validator, then actual filesystem attestation and the independent walkthrough
+owner. Active-merge cancellation requires separate owned-process proof; pure plan
+calculation has no preemptive CPU/cancellation guarantee. Native capacity remains
+closed; no untested Rust proposal was adopted or compiled.
 
 ## Required update walkthrough and capacity follow-up
 
@@ -187,6 +219,12 @@ no complete native requirement or safe same-instance expansion has been establis
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
+- Latest published selection primitive: `b66c9f234937a01f3eb7b0153fed39f6667f6002`,
+  tree `cfd377871e621c9fdd5b5c8b1328f919a9bc77a2`. All11 selected files/332,025B
+  and both refs read back; main/index unchanged. Receipt
+  R/p18u-selection-plan-publication-20261005-01/PUBLICATION.json SHA
+  `83b27e18e4afefda935147cccf4714915a5d1f4542b1419b20faeb481739ded1`.
+  The0.4 source/runtime checkpoint above awaits its own selected publication receipt.
 - Latest required-roadmap/report checkpoint:
   `4ed754fe0eca24c8bae5c00205b3df02efcca2dc`, tree
   `ac0934ef1674149d0fbc8a71476832739902c755`. All9 selected files/320,311B and

@@ -1,0 +1,149 @@
+{
+  "schema": "p18u-selection-tools-source-lineage-v1",
+  "classification": "Original custom additive C27 installed maintenance adapter; no native extraction",
+  "upstream_provenance": {
+    "repository": "https://github.com/openai/codex",
+    "base_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "upstream_code_copied_in_this_slice": false,
+    "original_upstream_paths_or_symbols": [],
+    "note": "Later upstream/custom revisions identify review inputs only; no running harness upstream revision advance."
+  },
+  "source_identity": {
+    "base_count": 8973,
+    "base_map_sha256": "ee5e3ad3afed565b6e701b35c59ed497d4c6ced7b7485bf451e7c92461f57718",
+    "tested_count": 8975,
+    "tested_map_sha256": "d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99",
+    "candidate_manifest_sha256": "4c3f630fdcbb54b80282c0803ee3aca248f6dccabcd93d352972520252537fa7",
+    "format_changed_source": false,
+    "native_paths_changed_in_this_slice": [],
+    "changes": [
+      {
+        "path": "component-sdk/examples/upstream-maintenance/README.md",
+        "operation": "modify",
+        "before_sha256": "42380c0827f5183459478d28dc487a1a0ab42a181e749e834f6b1e7926e4245a",
+        "tested_sha256": "877db177ce4bc9798b62a063bec5719d89f7b8082d52868ea2bcf4a709b71dc8",
+        "bytes": 14297
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/codex-component.json",
+        "operation": "modify",
+        "before_sha256": "7b5342a94f32ed5b952f1f59e7f2e45e673e218c849d10cb8534c96a6326eacc",
+        "tested_sha256": "c8328de28a6e3f41f6158f7853a3c062f26f3da854e5436f71d9be0bfd0957b8",
+        "bytes": 4646
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+        "operation": "modify",
+        "before_sha256": "5cfaa28400198725e07e2d033e307b0ab4b9b0d8125f1bfcda3917bc50527dee",
+        "tested_sha256": "db0e245fe078e93c85dbf5f3cd2cddecaa9f839db617d105bbee1ddc75280dab",
+        "bytes": 3213
+      },
+      {
+        "path": "component-sdk/examples/upstream-maintenance/selection_tools.py",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "2704e2c99af029465928093b427bbfd45f132a2b102c9c959e647f99c168e2f5",
+        "bytes": 6256
+      },
+      {
+        "path": "component-sdk/tests/test_selection_tools.py",
+        "operation": "add",
+        "before_sha256": null,
+        "tested_sha256": "4ce2c73c0adfe8922050fbf799ca54a15cdc4e584407358ad0d62023676df86b",
+        "bytes": 10232
+      }
+    ]
+  },
+  "symbols": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/selection_tools.py",
+      "symbol": "bounded_rows",
+      "line": 17,
+      "end_line": 22,
+      "role": "Finite adapter row/shape admission before graph work"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/selection_tools.py",
+      "symbol": "admit",
+      "line": 25,
+      "end_line": 58,
+      "role": "Smaller cardinality/reference limits over caller-owned supplied inputs"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/selection_tools.py",
+      "symbol": "response",
+      "line": 61,
+      "end_line": 66,
+      "role": "Bounded complete JSON tool-v1 text and escaped result object"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/selection_tools.py",
+      "symbol": "failure",
+      "line": 69,
+      "end_line": 83,
+      "role": "Stable non-authorizing invalid/cancelled result"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/selection_tools.py",
+      "symbol": "invoke",
+      "line": 86,
+      "end_line": 167,
+      "role": "Dispatch new selection/restore contracts, boundary cancellation checks and explicit complete-plan omission"
+    }
+  ],
+  "dependencies": [
+    "selection_plan.py pure caller-evidence primitive",
+    "codex_component_sdk.Plugin tool-v1 dispatch and RequestContext.watch_shutdown",
+    "Python standard library json"
+  ],
+  "package": {
+    "id": "codex.maintenance.upstream-review",
+    "version": "0.4.0",
+    "api_version": 1,
+    "previous_version": "0.3.0",
+    "new_components": [
+      "tool:upstream_selection_plan@1",
+      "tool:upstream_selection_restore@1"
+    ],
+    "old_three_component_declarations_identical": true,
+    "zipapp_sha256": "913e0842bfae1ec72e80c118612b8aed73575625ea13b7bd71d4bf073dd87a29",
+    "manager_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+  },
+  "contracts": {
+    "plan_input": "contract_version=1,purpose=plan_selection,graph,profile,policy,review",
+    "restore_input": "contract_version=1,purpose=restore_selection,plan_id,plan_json",
+    "state_owner": "Caller owns exported canonical plan/profile persistence. Adapter writes no files and launches no children.",
+    "output": "success=True means computed scoped_plan or blocked, not authority. success=False denotes invalid/cancelled. Larger results explicitly omit complete canonical bytes/findings.",
+    "lifecycle": "Existing one-call SDK subprocess lifecycle. watch_shutdown is checked before/after bounded pure work; not preemptive execution or a durable update job.",
+    "limits": {
+      "units": 64,
+      "changes": 256,
+      "scope_rules": 512,
+      "review_paths": 256,
+      "total_references": 1024,
+      "plan_request_bytes": 131072,
+      "restore_request_bytes": 262144,
+      "canonical_plan_bytes": 98304,
+      "decoded_text_bytes": 8192,
+      "escaped_tool_object_bytes": 32768
+    },
+    "update_allowed": false,
+    "activation_allowed": false,
+    "complete_candidate": false,
+    "enforcement_authority": false,
+    "offline_selection_restore": false,
+    "scope_limits": "No trusted filesystem-diff enforcement, OS sandbox or session routing authority."
+  },
+  "verification": "verification/2026-10-05/p18u-selection-tools/EVIDENCE.json",
+  "next_gates": [
+    "Additive C27 maintenance tool surface; no pre-existing native subsystem extracted in this slice.",
+    "Positive scope/dependency/owner cases use explicitly synthetic supplied graphs and object identities through a real installed package.",
+    "Real13-path review remains unresolved. Empty supplied catalog uses fixture-only composition/inventory placeholders; it is refusal evidence, not attested ownership or compatible-selection evidence.",
+    "No final filesystem diff enforcement, trusted inventory generation, persistent profile service, or supported offline selection-plan restore entrypoint.",
+    "No GUI/browser/storage/migration regression rerun in this slice. Earlier evidence remains bound to its own source/package.",
+    "No A/B routing, live update, complete candidate, state migration, installation recovery/rollback, newer-write rescue or native auth/P03 capacity pass.",
+    "Cancellation fixtures check adapter boundaries/owned-Git mocks; this normal installed run is not active-merge interruption or graceful shutdown acceptance.",
+    "Direct manager JSON and reconstructed SDK frames do not guarantee nontruncation under smaller native model per-call tool-output budgets.",
+    "Raw runtime packages and private state are not published. Workspace archives are not externally durable backups."
+  ]
+}

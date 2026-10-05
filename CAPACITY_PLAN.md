@@ -26,6 +26,11 @@ fresh admission: provisionally no more than 16 MiB total new durable writes,
 floor. Count concurrent writes, failed-run evidence and package copies. This is not
 blanket admission for every test or a new GUI run.
 
+Latest completed0.4 runtime snapshot (2026-10-05 01:42:09 UTC): persistent
+293,318,656 bytes, tmp9,170,685,952 bytes, hard-unused cgroup memory13,695,922,176
+bytes, OOM/kill0 unchanged. A subsequent956,383-byte private runtime export is
+preserved. These are point observations; remeasure before each new admitted stage.
+
 ## Protected inputs versus conditional cold storage
 
 The bounded inventory deduplicated allocations by device/inode and kept cross-class
@@ -74,6 +79,31 @@ until those remaining closure costs are bounded. No unchanged Rust build/admissi
 was repeated. No available environment tool exposed a disk-size/resize operation.
 An operator would need to identify a supported quota increase that preserves this
 task's filesystem; a saved environment edit or guest resize command is not proof.
+
+## Refined recorded native dependency closure
+
+A new read-only audit resolves nine recorded test/lint/production roots to2,268
+unique fingerprint nodes, with no ambiguous/unresolved recorded edges. It narrows
+recovery terms without running Cargo or reopening native admission:
+
+- 895 selected missing metadata files:694,368,532 historical logical bytes. All have
+ paired live rlibs. Exact ELF-section hashing authenticated16/76,049,503 bytes;
+ remaining879/618,319,029 bytes are unprobed. No files were extracted or restored.
+- The old eleven relocated rlibs are outside this union, but two additional ordinary
+ core/TUI test-library pairs are absent:442,593,280 historical allocated bytes.
+- 902 selected missing registry archives:133,287,919 compressed bytes. Their retained
+ hashes match Cargo.lock and all902 unpacked source directories exist; a requirement
+ to restore every archive has not been established.
+
+Those rows are historical planning terms, not a sufficient free-space demand or
+proof Cargo will reuse surviving outputs. New-source regeneration, library/linker
+peaks, complete affected native tests/lint/production and runtime/retention growth
+remain unbounded. No honest sufficient extra disk/RAM request follows yet. The
+read-only audit and independent review are sealed at
+`p03-native-closure-readonly-20261005-01/MANIFEST.json`, SHA256
+`dabf8eaf994bf724ec7aeb27f86e3637c9c3ff40c77a7f32ac3cbca1ec3a1260` under the
+recovery root. This supersedes indiscriminate whole-cache restoration as the next
+investigation; native auth/P03 remains blocked. No recovery archive was retired.
 
 ## Google Drive and other offsite candidates
 

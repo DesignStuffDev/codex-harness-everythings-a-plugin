@@ -818,10 +818,13 @@ polling schedule nor live application is implied by candidate creation.
 The subsequent [immutable selection-plan primitive](verification/2026-10-05/p18u-selection-plan/README.md)
 passes19 scoped fixtures on exact sourceee5e3ad3. It binds explicit choices/exclusions,
 graph constraints and per-owner whole-file permission plans; historical real-impact
-mapping gaps remain blocked. This is pure supplied-evidence policy support, not
-installed-tool exposure, final filesystem-diff enforcement, persistence or update
-acceptance. The bounded0.4installed planning adapter and complete final-inventory
-audit are separate next stages; no native extracted family is added.
+mapping gaps remain blocked. The subsequent0.4installed planning/revalidation adapter
+passes79 focused/affected cases and36 direct installed-package commands on unchanged
+managerf054; [exact evidence](verification/2026-10-05/p18u-selection-tools/README.md).
+Its positive policy cases remain synthetic and the actual13-path mapping stays
+blocked. Complete final-inventory audit, trusted filesystem collection, persisted
+profiles, interactive UI, live A/B routing and recovery remain separate gates.
+This supplied-evidence policy support adds no native extracted family.
 
 ### P19 — Final v1 acceptance and kernel audit
 

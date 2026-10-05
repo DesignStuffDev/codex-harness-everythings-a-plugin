@@ -187,3 +187,42 @@ Keep both job directories in their original component state layout. Removal reta
 these artifacts. Inspection neither replays the merge nor attests prior durability,
 semantic compatibility, installation recovery or rollback. This capability requires
 its own independent build, real installed-package upgrade and runtime evidence.
+
+## Caller-owned selection plans (package 0.4.0)
+
+`upstream_selection_plan` and `upstream_selection_restore` add tool-v1 access to
+`selection_plan.py`. Existing impact-review, source-capsule and sparse-overlay
+contracts remain v1. These new operations read no files, start no subprocesses,
+write no state and never authorize installation, migration or activation.
+
+Planning arguments are exactly `{contract_version:1,purpose:"plan_selection",
+graph,profile,policy,review}`; the graph/profile/policy contracts are defined in
+`selection_plan.py` and exercised in the SDK's selection-plan fixtures. Restore
+arguments are exactly `{contract_version:1,purpose:"restore_selection",plan_id,
+plan_json}`. Use the existing tool-v1 invocation envelope and the matching tool
+name. Restore recomputes the supplied canonical plan and requires its exact hash;
+it is plan revalidation, not deployment or conversation-state recovery.
+
+The adapter admits at most 64 catalog units, 256 mapped changes, 512 scope rules,
+256 review paths and 1,024 summed references. Canonical requests are capped at
+128 KiB for planning and 256 KiB for restore; saved plan bytes are capped at 96 KiB.
+These are size/cardinality bounds, not CPU deadlines. Shutdown is observed before
+and after pure computation; preemptive cancellation is not implemented here.
+
+The result's ASCII JSON `text` is at most 8 KiB, below the native tool adapter's
+16 KiB maximum. A native caller may impose a smaller per-call response budget and
+truncate even this text; complete JSON is only guaranteed within an adequate
+caller budget. The escaped tool result is at most 32 KiB, well below the SDK's
+4 MiB frame limit (outer protocol framing also counts toward that limit).
+Small plans return exact canonical `plan_json` bytes and `plan_id`. Larger plans
+return `plan_json:null,plan_json_omitted:true` with the identity and bounded summary;
+that summary is not an exported/restorable plan. `findings_omitted` explicitly
+marks clipped finding lists. Successful computation sets tool `success:true` for
+both `scoped_plan` and `blocked`; authority flags remain false in either case.
+Malformed, unsupported, oversized or boundary-cancelled calls return false.
+
+Input catalogs, classifications, inventories and review bytes belong to the caller;
+their hashes do not prove actual file ownership, final diffs or permitted effects.
+The historical real-upstream impact report remains blocked by unresolved mappings.
+No persistence or standalone offline selection-restore entry point is supplied.
+Package removal does not erase plan bytes already retained by the caller.

@@ -21,11 +21,13 @@ when the App Server reader ends, and `Gateway.close` also closes HTTP. Consequen
 this presentation cannot currently remain an update/recovery controller while its
 own host stops. Its SSE replay and `/status` are transient, not an update journal.
 
-The maintenance source currently declares bounded `tool:upstream_impact_review`,
-`tool:upstream_source_capsule` and0.3 `tool:upstream_candidate_overlay` contracts;
-root tracks the separate0.3 runtime/checkpoint outcome. They inspect chosen local
-objects, retain exact sparse inputs and prepare
-sparse outputs. They do not fetch a chosen revision, assemble/build a complete
+The maintenance source declares bounded `tool:upstream_impact_review`,
+`tool:upstream_source_capsule` and `tool:upstream_candidate_overlay` contracts.
+The0.4 installed adapter adds `tool:upstream_selection_plan` and
+`tool:upstream_selection_restore`; its79 scoped tests and36 direct runtime commands
+are recorded separately. These inspect chosen local objects, retain sparse inputs,
+prepare sparse outputs, and plan/revalidate caller-supplied selections. They do not
+collect trusted filesystem inventories or persist selection profiles. They do not fetch a chosen revision, assemble/build a complete
 candidate, snapshot live stores, activate or restore. Current component installation
 upgrades by non-atomic remove/install, retaining old objects/state; it is not a
 distribution transaction. Native manual rollout migration is a supervised migration

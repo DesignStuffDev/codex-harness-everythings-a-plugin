@@ -1,7 +1,7 @@
 {
   "api_version": 1,
   "id": "codex.maintenance.upstream-review",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "entrypoint": "plugin.pyz",
   "args": [],
   "dependencies": {},
@@ -62,6 +62,44 @@
           "limits": {"type": "object"}
         },
         "required": ["contract_version", "purpose", "source_capsule_id", "expected_manifest_sha256", "limits"],
+        "additionalProperties": false
+      }
+    }
+  }, {
+    "kind": "tool",
+    "name": "upstream_selection_plan",
+    "contract_version": 1,
+    "metadata": {
+      "description": "Compute a bounded immutable selection/scope plan from caller-supplied evidence. May return only an explicit compact summary. Never authorizes an update or attests filesystem changes.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "contract_version": {"type": "integer", "const": 1},
+          "purpose": {"type": "string", "const": "plan_selection"},
+          "graph": {"type": "object"},
+          "profile": {"type": "object"},
+          "policy": {"type": "object"},
+          "review": {"type": "object"}
+        },
+        "required": ["contract_version", "purpose", "graph", "profile", "policy", "review"],
+        "additionalProperties": false
+      }
+    }
+  }, {
+    "kind": "tool",
+    "name": "upstream_selection_restore",
+    "contract_version": 1,
+    "metadata": {
+      "description": "Revalidate caller-owned canonical selection-plan bytes against their exact identity and bounded input contracts. Restores no deployment or state and grants no update authority.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "contract_version": {"type": "integer", "const": 1},
+          "purpose": {"type": "string", "const": "restore_selection"},
+          "plan_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "plan_json": {"type": "string", "maxLength": 98304}
+        },
+        "required": ["contract_version", "purpose", "plan_id", "plan_json"],
         "additionalProperties": false
       }
     }

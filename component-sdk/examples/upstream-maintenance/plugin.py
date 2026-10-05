@@ -77,3 +77,17 @@ def overlay(params, context):
         "success": result["status"] == "prepared"
         and result.get("durability") == "directory_fsync_completed",
     }
+
+
+@app.handle("tool", "upstream_selection_plan", "invoke")
+def selection_plan(params, context):
+    from selection_tools import PLAN_TOOL, invoke
+
+    return invoke(PLAN_TOOL, params, context.watch_shutdown())
+
+
+@app.handle("tool", "upstream_selection_restore", "invoke")
+def selection_restore(params, context):
+    from selection_tools import RESTORE_TOOL, invoke
+
+    return invoke(RESTORE_TOOL, params, context.watch_shutdown())

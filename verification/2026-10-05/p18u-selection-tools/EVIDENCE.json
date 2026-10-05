@@ -1,0 +1,1157 @@
+{
+  "schema": "p18u-installed-selection-tools-evidence-v1",
+  "status": "passed_bounded_scope",
+  "classification": "additive_maintenance_not_native_extraction",
+  "source": {
+    "count": 8975,
+    "map_sha256": "d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99",
+    "candidate_receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-adoption-20261005-01/CANDIDATE.json",
+      "bytes": 1239269,
+      "sha256": "4c3f630fdcbb54b80282c0803ee3aca248f6dccabcd93d352972520252537fa7"
+    },
+    "scope": [
+      "codex-rs",
+      "component-sdk",
+      "MODULE.bazel",
+      "MODULE.bazel.lock"
+    ],
+    "note": "Not a complete dirty-workspace/root-document fingerprint; both test runs equal this exact scope before and after."
+  },
+  "package": {
+    "id": "codex.maintenance.upstream-review",
+    "version": "0.4.0",
+    "api_version": 1,
+    "zipapp": {
+      "bytes": 46687,
+      "sha256": "913e0842bfae1ec72e80c118612b8aed73575625ea13b7bd71d4bf073dd87a29"
+    },
+    "manifest": {
+      "bytes": 6274,
+      "sha256": "e1a3cd057da14aaa35afa4507fd8ab4cbacf895ecb98cca6bb75e9f0a07ab9e7"
+    },
+    "external_sdk_build": true,
+    "disposable_build_source_removed_before_install": true,
+    "host_rebuilt": false,
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "sdk": {
+      "version": "0.1.0",
+      "source_imported_from_checkout": false
+    },
+    "tool_contracts": {
+      "upstream_impact_review": 1,
+      "upstream_source_capsule": 1,
+      "upstream_candidate_overlay": 1,
+      "upstream_selection_plan": 1,
+      "upstream_selection_restore": 1
+    }
+  },
+  "focused": {
+    "cases": 79,
+    "failures": 0,
+    "skipped": 0,
+    "groups": {
+      "test_selection_plan.py": 19,
+      "test_selection_tools.py": 13,
+      "test_candidate_overlay.py": 17,
+      "test_source_capsule.py": 11,
+      "test_upstream_maintenance.py": 13,
+      "test_owned_git.py": 6
+    },
+    "scope": "Pure supplied-evidence/adapter fixtures, real local Git capsule/merge fixtures, and owned-Git mocked lifecycle cases; not79 installed end-to-end scenarios."
+  },
+  "real_runtime": {
+    "acceptance_receipt": {
+      "local_path": "/tmp/p18u-selection-tools-real-20261005-01-runtime/acceptance.json",
+      "bytes": 254165,
+      "sha256": "351a2bf556945fe8b51ac523469c7432b32a8cf9044abe4671480c6292bd72e8"
+    },
+    "commands": [
+      {
+        "label": "installed SDK identity",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "fbcdd12b829c04fed340de4f99108d54e8d529cb58ff791b428c9c6609f62510",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 123,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "external 0.4 package build",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "eaab41d7b86395c9d8f92829d87ecef43724027c31501647fc31dbe06a175c6e",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 59,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "install existing 0.3",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "661153ed002a9c76504180da89e6e8aa7c1e7e94cdb6ee7be0ac3c66239af410",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 34,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "list installed 0.3",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "0cf45d3d8cb257784f41ee54bde222270a131bd762605241089e5c24aa2be427",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 207,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "0.3 existing review contract",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "f19e6e64faa06e62d5a965c651b3023a1ad08f1f3762bf5055042d514d6fe586",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5001,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "0.3 inspect retained overlay without host or Git",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "f2eaf8c7d1c676be6c662d5f1d02633fba473df54e9e90f0dd0468b98c2284b6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 814,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "duplicate installation rejected",
+        "exit": 1,
+        "expected_exit": null,
+        "expected_nonzero": true,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "7c5fc5de1dd4f80fce2ed4f363929d648f7d996f01f5ffe0fce12960e9465f5b",
+        "stdout_bytes": 0,
+        "stderr_bytes": 70
+      },
+      {
+        "label": "remove 0.3 activation",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "observe nonatomic inactive upgrade intermediate",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "deebb6115a873e64652f5ced811a57275f3718a80cdec09a4e9cf82498976989",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 59,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "install 0.4 activation",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "661153ed002a9c76504180da89e6e8aa7c1e7e94cdb6ee7be0ac3c66239af410",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 34,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "list installed 0.4",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "5a5a8bbee241998a2d0c0262ebbd9669f49b19b05d814071dd09e7e7e14da756",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 207,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "0.4 retained review contract",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "f19e6e64faa06e62d5a965c651b3023a1ad08f1f3762bf5055042d514d6fe586",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5001,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "standalone real 13-path impact report",
+        "exit": 2,
+        "expected_exit": 2,
+        "expected_nonzero": false,
+        "stdout_sha256": "445a0b92da9dfe78036fbff645b5e6e70c70685bd31a752a1fe261cca0d00ef4",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 14901,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "0.4 retained capsule contract",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "12fe5448c981c60abcc35ef9d83da8baa9ed50f178a28e1b3057a817772f2b3c",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 445,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "0.4 retained overlay contract",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "8f77d05be7c0b31c65a51ec0394463cb50ecd24e63800e2c1c59f39f0f8da5cd",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 876,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic explicit exclusion",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "a12ad6fa143bde5f2a7e4b0fc3fb3dd0feb7f219195b18c890a8bd3d6cc3ea17",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5807,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic missing excluded dependency",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "c45ae1524fa794f5288f54a0d442108f3fa6a3ada8130d1f14c68514ede0cd8b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5890,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic explicit dependency satisfied",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "41016dc80c82507976ac7db95d40cab1c0e8086d58454424bb4d1518abb6e40b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5858,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic second owner scope missing",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "3460577b3aa9ec38935ce4b491b413807597ad42c1efcf1ca56a917eae480ccb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5907,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic both owner scopes explicit",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "9c660a608ff071b3925cfd8e3331ba1c6d478afb598bcb5c3b0bb35fa0437d32",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 6230,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic stale catalog profile",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "ab754126999d88335b611d9b04fa218427a2f280f8ac51d73a8f62a49509cf97",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5837,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic bounded invalid graph",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "84ea81677b78263d029714261ed88062b28dc954b4966fe25f4a0cacd2c693b9",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 294,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "synthetic changed profile identity",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "2e78f9147d48be1ee7344cab7ca12b631b10f09f9be3fb5dec6513402e2325af",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5807,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "real 13-path gaps remain blocked",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "9951c0a1aa5e42cc8702d6cb952afbdad3a826d23b81997de4b09048eb3c5f55",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 2076,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "installed caller plan revalidation",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "96a7c1852a2f0599718fd1b99607edacfcc9aa9f7e76dbe583c964791669b2fa",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 5806,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "stale caller plan rejected",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "0edbbfdf71c41914716e0cb9fd9efe2f878986f76d5e7fb8b372c00007655680",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 290,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "altered caller result rejected",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "58c952b41a68673e1a09df2d60c5e71f0878669493da6d83210bef438f957954",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 283,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "incompatible selection contract rejected",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "b64eb01aa5d608d0180e4bf43a0072119524dac3fc6ce63a2a5aad3508fde10f",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 298,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "remove 0.4 activation",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 0,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "list after removal",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "deebb6115a873e64652f5ced811a57275f3718a80cdec09a4e9cf82498976989",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 59,
+        "stderr_bytes": 0
+      },
+      {
+        "label": "removed upstream_impact_review",
+        "exit": 1,
+        "expected_exit": null,
+        "expected_nonzero": true,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0eb2475e9786dc710d24bb0de99afb44ee53ae990936ab01b3943b0e4b6a071f",
+        "stdout_bytes": 0,
+        "stderr_bytes": 56
+      },
+      {
+        "label": "removed upstream_source_capsule",
+        "exit": 1,
+        "expected_exit": null,
+        "expected_nonzero": true,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0eb2475e9786dc710d24bb0de99afb44ee53ae990936ab01b3943b0e4b6a071f",
+        "stdout_bytes": 0,
+        "stderr_bytes": 56
+      },
+      {
+        "label": "removed upstream_candidate_overlay",
+        "exit": 1,
+        "expected_exit": null,
+        "expected_nonzero": true,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0eb2475e9786dc710d24bb0de99afb44ee53ae990936ab01b3943b0e4b6a071f",
+        "stdout_bytes": 0,
+        "stderr_bytes": 56
+      },
+      {
+        "label": "removed upstream_selection_plan",
+        "exit": 1,
+        "expected_exit": null,
+        "expected_nonzero": true,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0eb2475e9786dc710d24bb0de99afb44ee53ae990936ab01b3943b0e4b6a071f",
+        "stdout_bytes": 0,
+        "stderr_bytes": 56
+      },
+      {
+        "label": "removed upstream_selection_restore",
+        "exit": 1,
+        "expected_exit": null,
+        "expected_nonzero": true,
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "0eb2475e9786dc710d24bb0de99afb44ee53ae990936ab01b3943b0e4b6a071f",
+        "stdout_bytes": 0,
+        "stderr_bytes": 56
+      },
+      {
+        "label": "retained overlay inspection after removal",
+        "exit": 0,
+        "expected_exit": 0,
+        "expected_nonzero": false,
+        "stdout_sha256": "f2eaf8c7d1c676be6c662d5f1d02633fba473df54e9e90f0dd0468b98c2284b6",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 814,
+        "stderr_bytes": 0
+      }
+    ],
+    "command_count": 36,
+    "manager_commands": 31,
+    "other_commands": {
+      "sdk_identity": 1,
+      "external_build": 1,
+      "standalone_full_impact_review": 1,
+      "offline_overlay_inspection": 2
+    },
+    "tool_response_count": 17,
+    "expected_nonzero_commands": 7,
+    "nonzero_meanings": {
+      "duplicate_installation_refusal": 1,
+      "removed_tool_refusals": 5,
+      "bootstrap_review_required_exit2": 1
+    },
+    "invalid_tool_refusals": 4,
+    "computed_blocked_plans": 4,
+    "tool_results": [
+      {
+        "label": "0.3 existing review contract",
+        "name": "upstream_impact_review",
+        "success": true,
+        "arguments_sha256": "16a4c6d6b011537a9e6efa920dc7d6fbadfe920973d1426a881ba4af36b9e000",
+        "reconstructed_max_id_frame_bytes": null,
+        "result": {
+          "status": "review_required",
+          "plan_id": "ee8d9996678fa55a7ff85720c2c345fb76481f74826e03a0d793fa0a435693d0",
+          "update_allowed": false
+        }
+      },
+      {
+        "label": "0.4 retained review contract",
+        "name": "upstream_impact_review",
+        "success": true,
+        "arguments_sha256": "16a4c6d6b011537a9e6efa920dc7d6fbadfe920973d1426a881ba4af36b9e000",
+        "reconstructed_max_id_frame_bytes": null,
+        "result": {
+          "status": "review_required",
+          "plan_id": "ee8d9996678fa55a7ff85720c2c345fb76481f74826e03a0d793fa0a435693d0",
+          "update_allowed": false
+        }
+      },
+      {
+        "label": "0.4 retained capsule contract",
+        "name": "upstream_source_capsule",
+        "success": true,
+        "arguments_sha256": "a67486b95b565ea2e9c6da7eececffc1ec77398606ad0d87817a6973f2bb4d7a",
+        "reconstructed_max_id_frame_bytes": null,
+        "result": {
+          "status": "sealed",
+          "update_allowed": false,
+          "activation_allowed": false
+        }
+      },
+      {
+        "label": "0.4 retained overlay contract",
+        "name": "upstream_candidate_overlay",
+        "success": true,
+        "arguments_sha256": "45b07883de812b2bccf7b053f848f02825f00fed1e73d2415d1d33eee4a07153",
+        "reconstructed_max_id_frame_bytes": null,
+        "result": {
+          "status": "prepared",
+          "update_allowed": false,
+          "activation_allowed": false
+        }
+      },
+      {
+        "label": "synthetic explicit exclusion",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "c31bdb08c1fd64474db97e006a10c7305a4855b461f2775857703dbddd0599df",
+        "reconstructed_max_id_frame_bytes": 5851,
+        "result": {
+          "status": "scoped_plan",
+          "plan_id": "62433e092a5d63b054c6513b8cd92370c7a8a7c9fc8f2cb6fb86b0c397c38f66",
+          "plan_bytes": 3445,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 0,
+          "findings_omitted": false,
+          "findings": [],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic missing excluded dependency",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "1563f56dbd285aaa07d0fb7d1bcccc752480aa96049a426b66b6f07392e6bfaa",
+        "reconstructed_max_id_frame_bytes": 5934,
+        "result": {
+          "status": "blocked",
+          "plan_id": "98ac32dbab61677b5eeb244c39d5807351df3a623643184b01a9c96edaa3f293",
+          "plan_bytes": 3486,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 1,
+          "findings_omitted": false,
+          "findings": [
+            "missing_dependency:component:b"
+          ],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic explicit dependency satisfied",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "82505f9634f5355ffb149df49022377c106adc02e5ab0d758265198c559ea2ef",
+        "reconstructed_max_id_frame_bytes": 5902,
+        "result": {
+          "status": "scoped_plan",
+          "plan_id": "e939f0dc9c50b110ef2037b6eda5f2364fd7be5eec832e552f48a94e499eb97d",
+          "plan_bytes": 3478,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 2,
+          "selected_change_count": 2,
+          "excluded_count": 0,
+          "finding_count": 0,
+          "findings_omitted": false,
+          "findings": [],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic second owner scope missing",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "c0e59b6b65866a7ecdbdd5e19439960dc03c7aca02a400671df39ae5f8450c07",
+        "reconstructed_max_id_frame_bytes": 5951,
+        "result": {
+          "status": "blocked",
+          "plan_id": "04548c3bcca81e0c062919f5d50958811f8dec4623543d0fa7a03ee6218afca9",
+          "plan_bytes": 3496,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 1,
+          "findings_omitted": false,
+          "findings": [
+            "scope_binding_missing:a:plugin.shared"
+          ],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic both owner scopes explicit",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "fa17c23780b0257d654559318ca1fe96ce1922af0421892398a75d718b90d60c",
+        "reconstructed_max_id_frame_bytes": 6274,
+        "result": {
+          "status": "scoped_plan",
+          "plan_id": "df474a96d8027a9956f3d3ece658d1c7747717a1bb1aa25c7ac1533fcbdb0b39",
+          "plan_bytes": 3748,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 0,
+          "findings_omitted": false,
+          "findings": [],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic stale catalog profile",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "ab461d4e5aae632acbffe45e73e5fedfbed7a39963f6e580da81feb6c66af7db",
+        "reconstructed_max_id_frame_bytes": 5881,
+        "result": {
+          "status": "blocked",
+          "plan_id": "5ff93166eb0f6c751155159b10ab261984aaeb2d30860a539caa88154108892b",
+          "plan_bytes": 3456,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 1,
+          "findings_omitted": false,
+          "findings": [
+            "stale_profile"
+          ],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic bounded invalid graph",
+        "name": "upstream_selection_plan",
+        "success": false,
+        "arguments_sha256": "b18727b215e68964aa514500cf0d0a29260ef6b2e9b89387a38c6410f6ff2a45",
+        "reconstructed_max_id_frame_bytes": 338,
+        "result": {
+          "status": "invalid",
+          "diagnostic_code": "tool_row_limit_or_shape",
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "synthetic changed profile identity",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "d6b3e4e6bc7b115ff4351009d9097b30691091032ff001b1289082c883fbb697",
+        "reconstructed_max_id_frame_bytes": 5851,
+        "result": {
+          "status": "scoped_plan",
+          "plan_id": "7557632ab82f2bde95ed11cbcb1afe7f32ba08df5a1d8a327950c0f766e1d8bc",
+          "plan_bytes": 3445,
+          "plan_json_omitted": false,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 0,
+          "findings_omitted": false,
+          "findings": [],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "real 13-path gaps remain blocked",
+        "name": "upstream_selection_plan",
+        "success": true,
+        "arguments_sha256": "78149606e4c48a28f8555cca19bda650bdc6dc3962e3c295089b00e0fe435a72",
+        "reconstructed_max_id_frame_bytes": 2120,
+        "result": {
+          "status": "blocked",
+          "plan_id": "36d3d0f2c56335281c6ad936e1d0aafd4b74d4e789303297ec525c5a982890c7",
+          "plan_bytes": 7567,
+          "plan_json_omitted": true,
+          "plan_revalidated": false,
+          "selected_count": 1,
+          "selected_change_count": 0,
+          "excluded_count": 1,
+          "finding_count": 22,
+          "findings_omitted": true,
+          "findings": [
+            "catalog:current_component_mapping_not_attested",
+            "impact:candidate_authenticity_and_later_revision_ancestry",
+            "impact:contract_and_coordinated_package_sdk_versions",
+            "impact:current_composition_source_and_ownership_closure",
+            "impact:existing_lineage_findings_remain_unresolved",
+            "impact:historical_index_not_current_composition",
+            "impact:incompatible_update_refusal_and_failed_activation_state_recovery",
+            "impact:isolated_customization_preserving_candidate",
+            "impact:license_notice_and_platform_review",
+            "impact:lineage_does_not_cover_requested_composition",
+            "impact:original_source_boundary_mapping_missing",
+            "impact:ownership_unknown",
+            "impact:permissions_credentials_sandbox_security_review",
+            "impact:persistent_schema_migration_and_downgrade_review",
+            "impact:real_host_independent_plugin_headless_and_gui_regression",
+            "impact:real_later_upstream_revision_integration"
+          ],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "installed caller plan revalidation",
+        "name": "upstream_selection_restore",
+        "success": true,
+        "arguments_sha256": "5a1ccdc35dac4670d63eb50776060d46c2a0f4541c2d6ecf47e5c63bf7a1a969",
+        "reconstructed_max_id_frame_bytes": 5850,
+        "result": {
+          "status": "scoped_plan",
+          "plan_id": "62433e092a5d63b054c6513b8cd92370c7a8a7c9fc8f2cb6fb86b0c397c38f66",
+          "plan_bytes": 3445,
+          "plan_json_omitted": false,
+          "plan_revalidated": true,
+          "selected_count": 1,
+          "selected_change_count": 1,
+          "excluded_count": 1,
+          "finding_count": 0,
+          "findings_omitted": false,
+          "findings": [],
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "stale caller plan rejected",
+        "name": "upstream_selection_restore",
+        "success": false,
+        "arguments_sha256": "f644d489658044695fb5e12223878c0d7951b8e756bfb30836751570e486adfa",
+        "reconstructed_max_id_frame_bytes": 334,
+        "result": {
+          "status": "invalid",
+          "diagnostic_code": "stale_plan_evidence",
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "altered caller result rejected",
+        "name": "upstream_selection_restore",
+        "success": false,
+        "arguments_sha256": "fbb9691011db5857d5f7c3211dd221b23e3948363007292b9ae2956f48132276",
+        "reconstructed_max_id_frame_bytes": 327,
+        "result": {
+          "status": "invalid",
+          "diagnostic_code": "altered_plan",
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      },
+      {
+        "label": "incompatible selection contract rejected",
+        "name": "upstream_selection_plan",
+        "success": false,
+        "arguments_sha256": "ffc9e9ae0e99ef6153e2ea63a94b7c2af7ac900df54035309eb979dcc1325217",
+        "reconstructed_max_id_frame_bytes": 342,
+        "result": {
+          "status": "invalid",
+          "diagnostic_code": "unsupported_policy_contract",
+          "update_allowed": false,
+          "activation_allowed": false,
+          "complete_candidate": false,
+          "enforcement_authority": false,
+          "state_written": false
+        }
+      }
+    ],
+    "framing": {
+      "method": "Reconstruct compact SDK type=result envelope at maximum u64 request id from manager-decoded result and JSON-roundtrip it; no raw SDK-frame capture.",
+      "observed_reconstructed_min_bytes": 327,
+      "observed_reconstructed_max_bytes": 6274,
+      "asserted_text_limit_bytes": 8192,
+      "asserted_tool_object_limit_bytes": 32768,
+      "asserted_reconstructed_frame_limit_bytes": 65536,
+      "model_per_call_budget_nontruncation_proven": false
+    },
+    "upgrade": {
+      "from_version": "0.3.0",
+      "to_version": "0.4.0",
+      "method": "remove_then_install",
+      "atomic": false,
+      "inactive_intermediate_observed": true,
+      "old_package_retained": true,
+      "copied_state_retained": true
+    },
+    "previous_contracts": {
+      "review_report_equal_across_packages": true,
+      "report_sha256": "97b0977a14d1a54a1f6adf7605a8f364f61350b72f98f3b533ad84862c0b1100",
+      "fresh_capsule": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "directory_fsync_completed",
+        "job_id": "a3153c27132f46718f469a329e4c7ef4",
+        "manifest_sha256": "7220f7ad596f87a2dfb2c710c16f42853d8520d793dd91cc9062e045f3f5913c",
+        "retained_blob_bytes": 1228513,
+        "self_contained_candidate": false,
+        "source_materials_ready": true,
+        "status": "sealed",
+        "update_allowed": false
+      },
+      "fresh_overlay": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "directory_fsync_completed",
+        "integrity": "verified",
+        "job_id": "1d95df0977f54963baf3b28730a3feb3",
+        "overlay_complete": true,
+        "overlay_sha256": "bf51de00d6b3a5a6270e0cfdbb9325e7afe9156af197de1cac98e469a35c6c36",
+        "release_gates": {
+          "candidate_build": "pending",
+          "coordinated_versions": "pending",
+          "custom_plugin_runtime": "pending",
+          "external_bootstrap_rollback": "pending",
+          "security_and_contract_review": "pending",
+          "state_migration_review": "pending",
+          "ui_headless_regression": "pending"
+        },
+        "self_contained_candidate": false,
+        "source_manifest_sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c",
+        "source_transformed": true,
+        "status": "prepared",
+        "unresolved_paths": 0,
+        "update_allowed": false
+      },
+      "all13_path_records_and_output_bytes_equal_retained_overlay": true,
+      "old_overlay_schema_package_version": "0.3.0",
+      "new_wrapper_package_version": "0.4.0",
+      "normal_compatibility_only": true
+    },
+    "state": {
+      "planning_created_or_modified_state_files": false,
+      "directory_metadata_unchanged_claimed": false,
+      "preserved_original_inputs_source_manager_git_metadata": true,
+      "old_and_new_package_objects_retained_after_removal": true,
+      "all_five_tools_unavailable_after_removal": true,
+      "caller_plan_bytes_and_identity_retained": true,
+      "caller_plan": "62433e092a5d63b054c6513b8cd92370c7a8a7c9fc8f2cb6fb86b0c397c38f66",
+      "offline_selection_restore_supported": false,
+      "old_overlay_independently_inspectable_without_host_or_git": true
+    },
+    "retained_work_bytes_before_report": 4364583
+  },
+  "actual_review": {
+    "upstream_base": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "chosen_later_revision": "2e5fea64eefcaa19f48458b2386011b619f69c70",
+    "input_custom_composition": "914cc59374c1149463e78bc33851d83e3f14d0a4",
+    "report_sha256": "97b0977a14d1a54a1f6adf7605a8f364f61350b72f98f3b533ad84862c0b1100",
+    "projection_sha256": "88404d88bcce7c6bc1b137a2267f703fa9242ca9702308928ee2a56683dca549",
+    "changed_paths": 13,
+    "selected_mapped_changes": 0,
+    "plan_finding_count": 22,
+    "returned_findings": 16,
+    "plan_bytes": 7567,
+    "plan_json_omitted": true,
+    "update_allowed": false,
+    "activation_allowed": false,
+    "real_mapping_scope": "Empty unresolved catalog retains fixture-only composition/inventory placeholders and preserves all actual impact gaps; source labels never promoted to owner mappings"
+  },
+  "receipts": {
+    "focused": {
+      "source_receipt": {
+        "local_path": "/tmp/p18u-selection-tools-focused-20261005-01.source.json",
+        "bytes": 3735830,
+        "sha256": "ec9a879f78513c7f630e35c55832d98e1866f221f301876e8c0cf1a817e171e5"
+      },
+      "strict_receipt": {
+        "local_path": "/tmp/p18u-selection-tools-focused-20261005-01.strict.json",
+        "bytes": 468,
+        "sha256": "d42858ababe364c44601be17537184b20eec15c28489aa71b8d47d221eb05fde"
+      },
+      "log": {
+        "local_path": "/tmp/p18u-selection-tools-focused-20261005-01.log",
+        "bytes": 13692,
+        "sha256": "a626f3eb651b1316c32e39ab38824fa6b08e4416ffec9f5fd8f51ae6bbb1d102"
+      },
+      "result_receipt": {
+        "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-focused-20261005-01/RESULT.json",
+        "bytes": 3155,
+        "sha256": "52ee938a00520564799ad38702b8c64d488a1229a386a7d94c0394da53626c4c"
+      },
+      "started_utc": "2026-10-05T01:37:21Z",
+      "finished_utc": "2026-10-05T01:37:37Z",
+      "source_before_after_equal": true,
+      "source_map_sha256": "d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99",
+      "returncode": 0,
+      "strict": {
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 45435,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 45435,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 15.22228295000059
+      },
+      "process_scope": "Strict runner recorded only its acceptance command as reaped with exit0; no active-merge interruption test or universal descendant-exit0 claim.",
+      "resources": {
+        "before": {
+          "utc": "2026-10-05T01:37:20Z",
+          "overlay": 296001536,
+          "tmp": 9183158272,
+          "hard_unused": 13721202688,
+          "events": {
+            "low": "0",
+            "high": "0",
+            "max": "0",
+            "oom": "0",
+            "oom_kill": "0",
+            "oom_group_kill": "0"
+          }
+        },
+        "after": {
+          "utc": "2026-10-05T01:37:38Z",
+          "overlay": 294666240,
+          "tmp": 9179398144,
+          "hard_unused": 13705375744,
+          "events": {
+            "low": "0",
+            "high": "0",
+            "max": "0",
+            "oom": "0",
+            "oom_kill": "0",
+            "oom_group_kill": "0"
+          }
+        },
+        "oom_unchanged": true
+      },
+      "archive_receipts": [
+        {
+          "original_path": "/tmp/p18u-selection-tools-focused-20261005-01.source.json",
+          "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-focused-20261005-01/p18u-selection-tools-focused-20261005-01.source.json.gz",
+          "bytes": 3735830,
+          "sha256": "ec9a879f78513c7f630e35c55832d98e1866f221f301876e8c0cf1a817e171e5",
+          "archive_bytes": 1317098,
+          "archive_sha256": "770cd5c4176c2060578c77ee51260b69d6eeb2ca0ab0e47582bd0fd69b4e2d30"
+        },
+        {
+          "original_path": "/tmp/p18u-selection-tools-focused-20261005-01.strict.json",
+          "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-focused-20261005-01/p18u-selection-tools-focused-20261005-01.strict.json.gz",
+          "bytes": 468,
+          "sha256": "d42858ababe364c44601be17537184b20eec15c28489aa71b8d47d221eb05fde",
+          "archive_bytes": 279,
+          "archive_sha256": "44ba654a74b983b85b00d621f6a47cac4ef49fe85bae6de5dbda8fdd90b79ebc"
+        },
+        {
+          "original_path": "/tmp/p18u-selection-tools-focused-20261005-01.log",
+          "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-focused-20261005-01/p18u-selection-tools-focused-20261005-01.log.gz",
+          "bytes": 13692,
+          "sha256": "a626f3eb651b1316c32e39ab38824fa6b08e4416ffec9f5fd8f51ae6bbb1d102",
+          "archive_bytes": 2465,
+          "archive_sha256": "eb95a2fd1e88930b466dbf633ee63089b441d58d42df1cd5be938996178e76a9"
+        }
+      ]
+    },
+    "real": {
+      "source_receipt": {
+        "local_path": "/tmp/p18u-selection-tools-real-20261005-01.source.json",
+        "bytes": 3736882,
+        "sha256": "40a12983eafdaaad3cf7550843a866a54290a21e6c6c021e66f354db784927a7"
+      },
+      "strict_receipt": {
+        "local_path": "/tmp/p18u-selection-tools-real-20261005-01.strict.json",
+        "bytes": 1524,
+        "sha256": "17e60ba618a4a2b0aac437a818214b33acc47b5ce3841f9a61a157dc037ac134"
+      },
+      "log": {
+        "local_path": "/tmp/p18u-selection-tools-real-20261005-01.log",
+        "bytes": 67,
+        "sha256": "5439f7a22e1e041d25a3a4031edbb1081e256a0748f41fa9ebcb732a71aa758d"
+      },
+      "result_receipt": {
+        "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-real-20261005-01/RESULT.json",
+        "bytes": 4170,
+        "sha256": "eb88ba85f862b384c771ce21b09f6584b37f374d45f83dbb6cabad6416a01b3a"
+      },
+      "started_utc": "2026-10-05T01:38:58Z",
+      "finished_utc": "2026-10-05T01:42:09Z",
+      "source_before_after_equal": true,
+      "source_map_sha256": "d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99",
+      "returncode": 0,
+      "strict": {
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 46637,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 46637,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 189.00444649899964
+      },
+      "process_scope": "Strict runner recorded only its acceptance command as reaped with exit0; no active-merge interruption test or universal descendant-exit0 claim.",
+      "resources": {
+        "before": {
+          "utc": "2026-10-05T01:38:57Z",
+          "overlay": 294653952,
+          "tmp": 9179398144,
+          "hard_unused": 13716103168,
+          "events": {
+            "low": "0",
+            "high": "0",
+            "max": "0",
+            "oom": "0",
+            "oom_kill": "0",
+            "oom_group_kill": "0"
+          }
+        },
+        "after": {
+          "utc": "2026-10-05T01:42:09Z",
+          "overlay": 293318656,
+          "tmp": 9170685952,
+          "hard_unused": 13695922176,
+          "events": {
+            "low": "0",
+            "high": "0",
+            "max": "0",
+            "oom": "0",
+            "oom_kill": "0",
+            "oom_group_kill": "0"
+          }
+        },
+        "oom_unchanged": true
+      },
+      "archive_receipts": [
+        {
+          "original_path": "/tmp/p18u-selection-tools-real-20261005-01.source.json",
+          "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-real-20261005-01/p18u-selection-tools-real-20261005-01.source.json.gz",
+          "bytes": 3736882,
+          "sha256": "40a12983eafdaaad3cf7550843a866a54290a21e6c6c021e66f354db784927a7",
+          "archive_bytes": 1317364,
+          "archive_sha256": "20c55b495a22cd88a8ad319376199a03cd519aceccfc9a48d95378531a713b5c"
+        },
+        {
+          "original_path": "/tmp/p18u-selection-tools-real-20261005-01.strict.json",
+          "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-real-20261005-01/p18u-selection-tools-real-20261005-01.strict.json.gz",
+          "bytes": 1524,
+          "sha256": "17e60ba618a4a2b0aac437a818214b33acc47b5ce3841f9a61a157dc037ac134",
+          "archive_bytes": 592,
+          "archive_sha256": "adeb50670f6db5f80635c996d43de5aff446dc51b6b8696ffa98f8c3c918f32d"
+        },
+        {
+          "original_path": "/tmp/p18u-selection-tools-real-20261005-01.log",
+          "archived_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-real-20261005-01/p18u-selection-tools-real-20261005-01.log.gz",
+          "bytes": 67,
+          "sha256": "5439f7a22e1e041d25a3a4031edbb1081e256a0748f41fa9ebcb732a71aa758d",
+          "archive_bytes": 81,
+          "archive_sha256": "20b1b1fce1a702a47756c806257d799923d1ad7355100d1b0b26e278443046e4"
+        }
+      ]
+    }
+  },
+  "private_export": {
+    "archive_sha256": "889e743fa68e54fdb5e770d598c26525bb36fb529734f8e8939f7d09a465303a",
+    "archive_bytes": 956383,
+    "uncompressed_bytes": 4618748,
+    "complete_regular_scope": true,
+    "readback_verified": true,
+    "source_deleted": false,
+    "durability": "workspace-only recovery checkpoint; not external backup",
+    "receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-real-runtime-export-20261005-01/EXPORT.json",
+      "bytes": 36570,
+      "sha256": "2f8bc76d779c044f2e33d4df7766d80fa9291f8f204bce8369ffafb80d66977d"
+    },
+    "regular_file_count": 127,
+    "private_runtime_state_in_public_evidence": false,
+    "scope": "Existing private full regular-file runtime export and readback, not an external backup or full installation recovery set."
+  },
+  "orchestration_correction": {
+    "status": "root_recorded_correction_receipt",
+    "note": "A seal-check script assumed a list instead of a dict and raised TypeError before launch; it did not gate the separate subsequent runtime invocation. Root had already read helper/card and later verified every sealed helper file correctly. This is not a product testcase failure or rerun; no runtime receipt was changed.",
+    "receipt": {
+      "local_path": "/workspace/recovery-backups/20260930T165936Z/p18u-selection-tools-adoption-20261005-01/ORCHESTRATION_CORRECTION.json",
+      "bytes": 1150,
+      "sha256": "7e4c8be45f9b6eaeb3927abbbe306a352f669aef34dfda49fc994f13c80dab28"
+    }
+  },
+  "limitations": [
+    "Additive C27 maintenance tool surface; no pre-existing native subsystem extracted in this slice.",
+    "Positive scope/dependency/owner cases use explicitly synthetic supplied graphs and object identities through a real installed package.",
+    "Real13-path review remains unresolved. Empty supplied catalog uses fixture-only composition/inventory placeholders; it is refusal evidence, not attested ownership or compatible-selection evidence.",
+    "No final filesystem diff enforcement, trusted inventory generation, persistent profile service, or supported offline selection-plan restore entrypoint.",
+    "No GUI/browser/storage/migration regression rerun in this slice. Earlier evidence remains bound to its own source/package.",
+    "No A/B routing, live update, complete candidate, state migration, installation recovery/rollback, newer-write rescue or native auth/P03 capacity pass.",
+    "Cancellation fixtures check adapter boundaries/owned-Git mocks; this normal installed run is not active-merge interruption or graceful shutdown acceptance.",
+    "Direct manager JSON and reconstructed SDK frames do not guarantee nontruncation under smaller native model per-call tool-output budgets.",
+    "Raw runtime packages and private state are not published. Workspace archives are not externally durable backups."
+  ],
+  "required_later_planning_gates": {
+    "ab_staging_resource_reservation": "pending",
+    "candidate_external_effects_fenced": "pending",
+    "coexistence_or_lossless_handoff": "pending",
+    "consistent_recovery_restore": "pending",
+    "external_recovery_without_host": "pending",
+    "health_and_atomic_route_switch": "pending",
+    "isolated_build_and_regressions": "pending",
+    "post_update_write_preserving_rollback": "pending",
+    "session_generation_pinning_and_drain": "pending",
+    "trusted_inventory_and_scope_enforcement": "pending"
+  }
+}
