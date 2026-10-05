@@ -1,20 +1,28 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Current order, 2026-10-05:** repair the offline registry metadata/input closure
-for the critical native P03 sequence. The coherent eight-path external-token-install
-change is adopted and `just fmt` passed, but it is **uncompiled, untested and not
-published/accepted**. Exact source:8,980 paths,
+**Current order, 2026-10-05:** repair native compiler-output ownership and renew
+capacity admission for the critical P03 sequence. The coherent eight-path external-
+token-install change is adopted and formatted, but remains **untested, unaccepted
+and unpublished**. Exact 8,980-path source map:
 `b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b`.
-The first focused `just test --locked --retries 0` exited102 before compilation:
-Nextest's offline all-features metadata step needed `alsa 0.11.0`; zero native tests
-ran, without source drift or new OOM. Do not blindly repeat that command.
 
-[Native input-blocker checkpoint](verification/2026-10-05/p03-token-install-input-blocker/README.md)
-binds adoption/formatting, all eight paths and the original failure. The store and
-caller must remain one coherent operation; a split pre-save check is not a safe
-intermediate change. Focused/full login/provider tests, scoped lint, production
-CLI/manager rebuild, all12 prior runtime recipes and the new auth consumer gate
-remain pending. Collector and broad updater/planner/scope-validator work stay paused.
+The first focused attempt exited 102 on missing offline metadata inputs. An
+additional 227 genuine current-lock archives were then restored and verified while
+preserving the earlier 902; no source extraction or unrelated 166-file restoration.
+Actual locked/offline metadata passed on unchanged source/index (1,315 packages,
+7,058,322 output bytes). Focused retry `03` subsequently exited 101 at the first
+dependency compile: restored proc-macro2 metadata was read-only. **Zero native tests
+ran in either focused attempt.** All 1,047 preserved rlib backing payloads remain;
+one canonical proc-macro2 rlib alias is now absent and 1,046 remain intact.
+
+[Current checkpoint](verification/2026-10-05/p03-token-install-build-inputs/README.md)
+keeps these separate results and their exact identities. Native admission is closed
+until a recoverable writable-output handoff and expanded dirty-closure budget cover
+the full required sequence. Do not chmod recovery backing, reset fingerprints or
+blindly retry. The eight-path store/caller operation must remain coherent.
+Focused/full login/provider tests, scoped lint, production CLI/manager, all 12 prior
+runtime recipes and the new auth consumer remain pending. Collector and broader
+updater/planner/scope-validator work stay paused.
 
 [Installed lifecycle evidence](verification/2026-10-05/p18u-installed-overlay-lifecycle/README.md):
 five source/strict stages passed, with eight normal commands (two setup and six
@@ -34,13 +42,14 @@ byte verified archive and fully restored before journaled alias substitution.
 All original source/index/accepted binary identities remain preserved. Postcheck
 observed4,126,289,920 persistent free bytes and8,842,485,760 hard-unused memory,
 above the conditional3.85GB/8GiB guards. This is repaired headroom, **not a native
-acceptance pass**. The auth-specific3,797,387,752-byte phase budget counts missing
-core/TUI pairs once and covers tests/lint/production/runtime/evidence/recovery;
-larger remaining P03 gates require separate admission. See [capacity plan](CAPACITY_PLAN.md).
+acceptance pass**. The historical auth-specific3,797,387,752-byte phase budget counted missing
+core/TUI pairs once. The newly observed dirty-output/ownership issue requires a
+renewed whole-sequence allowance; larger P03 gates also need separate admission.
+See [capacity plan](CAPACITY_PLAN.md).
 
 Latest published checkpoint before this documentation update is
-`073cdeda69f08221c76c4017c09e0d7a09a57576` (tree
-`d45435be8b712f24a7e4fac19e72a7fe3453007b`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
+`25e9732a7350d31551ff58181b23d747b8c1dcf0` (tree
+`c178f8de696759e3fa372bbfca6473f8963dce8d`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
 The original conservative8GiB-free recommendation is not mandatory. Recovery
 `rehydrate`/`recover` paths also passed three disposable synthetic cases/18 phase
 calls for normal, lost-backing and interrupted-exchange recovery; this is not

@@ -1,14 +1,93 @@
 # Development capacity and cold-artifact preservation
 
-Updated2026-10-05 after two completed reversible repairs. Selected backing and
-planned headroom are restored in the original checkout; **native build/validation
-is still pending**. Resume only the exact paused installed-overlay cancellation
-acceptance, then the critical eight-path native auth sequence. Collector and broad
-updater/planner/scope-validator feature work stay paused. Preserve both worktrees,
-accepted binaries, original index, recovery archives and WIP. No upload, paid/account
-change, public tunnel, replacement VM or cold-archive retirement is implied.
+Updated 2026-10-05 after the additional registry repair and a failed native retry.
+**Native admission is closed pending writable compiler-output handoff and a renewed
+budget for the dirty dependency closure.** The exact paused installed-overlay gate
+is complete; the next priority remains the coherent eight-path native auth sequence.
+Collector and broad updater/planner/scope-validator work stay paused. Preserve both
+worktrees, accepted binaries, original index, all recovery archives and failed-run
+state. No upload, replacement VM or cold-archive retirement is implied.
 
-## Current repaired capacity and guards
+## Current blocker after successful offline metadata
+
+[Current evidence](verification/2026-10-05/p03-token-install-build-inputs/README.md):
+227 genuine current-lock archives (93,459,106 logical / 93,941,760 allocated bytes)
+were restored without extracting sources. The previous 902 remain exact; combined
+1,129 payloads plus marker occupy 229,072,896 tmpfs bytes. The 166 entries lacking
+existing source/history bindings were excluded. The exact standalone offline
+metadata command passed: 1,315 packages and 7,058,322 output bytes, unchanged source
+and original index, no new OOM. It ran no compiler or native tests.
+
+Focused retry `03` then exited 101 at the first dependency compile because restored
+`libproc_macro2-92b5deb833e57d8a.rmeta` was mode 0444. No native tests ran. The failed
+interval left one proc-macro2 canonical rlib name absent; the specific unlink actor
+is unproven. All 1,046 other relocated
+aliases and all 1,047 protected backing payloads remain. Preserve the failed
+fingerprint state and existing recovery archives. Simply making protected backing
+writable would allow compiler output to overwrite recovery input; it is not an
+approved repair. Resetting timestamps/fingerprints to pretend cache freshness is
+also not a valid reuse proof.
+
+Required admission work: isolate writable compiler output ownership while retaining
+exact protected input bytes; determine the affected dirty dependency descendants
+for focused/full tests, lint and production; count both retained and replacement
+payloads, link overlap, ongoing evidence/recovery and runtime/UI working state
+across persistent disk, tmpfs and the shared 16 GiB memory cgroup. No next Rust
+attempt is admitted by the old comparator alone. The independent bounded diagnosis
+and current capacity comparison remain inputs to that review, not build proof.
+
+| Last retry observer measurement | Bytes |
+|---|---:|
+| Persistent available after failed retry |3,957,968,896|
+| Cgroup current / limit after failed retry |8,428,298,240 /17,179,869,184|
+| Sampled peak cgroup current during retry |8,521,949,184|
+| `/tmp` available |5,808,566,272|
+| `/dev/shm` available |9,212,276,736|
+
+These are historical point/sample observations; no OOM counters changed, but no
+compiler/linker peak or complete-sequence success was demonstrated. Do not repeat
+the same failed build or retire unique recovery material to recover headroom.
+
+## Conditional writable-output capacity comparison
+
+The bounded retained-fingerprint audit maps 895 restored metadata seeds to 963
+direct consumers and a potential reverse closure of 1,483 nodes, including the
+121 auth nodes in the earlier plan. This is a conservative dependency-propagation
+scenario: it is not Cargo's actual dirty schedule, and does not prove every listed
+artifact must be rewritten. Restored metadata mtimes provide a plausible trigger;
+the exact Cargo dirty decision has not been traced.
+
+| Conditional scenario with separate persistent writable copies | Planning bytes |
+|---|---:|
+| Earlier auth-specific envelope |3,797,387,752|
+| Additional 792 relocated rlibs in potential reverse closure |2,463,023,104|
+| Additional 645 restored metadata payloads in that closure |575,684,608|
+| Combined direct-consumer/reverse-closure comparison |6,836,095,464|
+| Broader scenario: earlier envelope + 1,042 relocated rlibs + all 895 metadata seeds |7,127,788,008|
+
+The broader scenario includes 2,634,170,368 bytes of relocated rlibs and 696,229,888
+bytes of metadata. It is an allocation/coexistence comparison, not an upper bound
+on all future compiler output, native peak RAM, or runtime state. The historical
+core/TUI 442,593,280-byte pair allowance is already in the earlier envelope and must
+not be counted twice. Placing writable copies in tmpfs moves their allocation into
+the shared memory budget; it does not create independent capacity.
+
+With roughly 3.96 GB persistent free at the failed retry, **4 GiB additional usable
+persistent space is a planning target** for the reviewed writable handoff and
+sequence, not guaranteed sufficiency or permission to run another build. Recheck
+both filesystems, actual ownership, remaining outputs and memory before admission.
+The same 16 GiB memory limit still needs fresh guards and eventual real compiler/
+runtime evidence. A narrow disposable-output review found only 162,336,768 bytes
+of conditional download/package-list/foreign-browser candidates, not certified
+for retirement and far below the gap. No named recovery archive can be discarded.
+
+No callable live same-instance volume expansion or authenticated bulk export is
+established. A separately prepared cold-archive transfer proposal must name a
+concrete authorized private destination, manifest exact contents, verify remote
+integrity and restoration, and obtain explicit retention decisions before local
+retirement. That proposal is not authorization to upload, delete or replace this VM.
+
+## Earlier completed repairs and guard measurements
 
 [First repair](verification/2026-10-05/p03-capacity-repair/README.md) restored895 exact
 metadata files and902 genuine registry archives (827,656,451 logical bytes), then
@@ -32,10 +111,12 @@ These values passed the repaired-headroom check at the recorded moment. They do 
 reserve capacity or demonstrate Cargo reuse, native build/test success or future
 peak memory. Current-epoch OOM/max/kill counters were zero. Preserve prior failures.
 
-## Exact conditional native phase envelope
+## Earlier conditional native phase envelope — requires renewed admission
 
-The reviewed9-root auth-specific plan uses **3,797,387,752 bytes** of persistent
-planning allowance against a **3,850,000,000-byte** starting-free requirement:
+The earlier reviewed 9-root auth-specific plan used **3,797,387,752 bytes** of
+persistent planning allowance against a **3,850,000,000-byte** starting-free
+requirement. It did not prove Cargo would reuse repaired outputs; the observed
+read-only output failure now requires a dirty-closure and writable-overlap review:
 
 | Term | Bytes |
 |---|---:|
@@ -95,8 +176,9 @@ restoration during the actual repair also executed; keep these claims distinct.
 No source or private artifact was uploaded. The PC/home destination remains unproven:
 the one cloud DNS/HTTPS check failed (no address; proxy CONNECT403). No supported
 same-instance resize/export route is exposed. Do not retry unchanged access, create
-a public tunnel or expose Proxmox management. External storage is optional now;
-finish the bounded resumption order before broader capacity/product work.
+a public tunnel or expose Proxmox management. External storage remains an unproven candidate;
+resolve writable-output ownership and re-admit the critical native sequence before
+broader product work. External access remains a separate, unproven option.
 
 ## Historical observations before the completed repairs
 
@@ -271,8 +353,10 @@ The full private metadata inventory is preserved in the workspace under
 
 These seals identify audit reports, not fresh archive payload integrity. They are
 workspace-local checkpoints, not demonstrated external backups. Published GitHub
-source protects only included source. Current next action is the exact paused
-installed-overlay acceptance, then the critical native source-bound sequence under
-the repaired conditional plan. The input/duplicate/rlib repairs are complete; do not replay them. PC and home Proxmox are potential
-private destinations; no supported cloud transfer is yet proven. No public management
-endpoint or unapproved upload. Record concrete access needs after bounded repair.
+source protects only included source. Current next action is the recoverable
+writable-output handoff and renewed dirty-closure capacity admission for the native
+sequence. The installed-overlay gate and input/duplicate/rlib/registry repairs are
+complete; preserve their evidence and do not replay them. PC and home Proxmox are
+potential private destinations; no supported bulk cloud transfer is proven. No
+public management endpoint or unapproved upload. Prepare the concrete route/access,
+integrity/restore and retention decision before any protected archive retirement.

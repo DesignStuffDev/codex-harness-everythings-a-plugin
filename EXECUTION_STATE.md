@@ -11,28 +11,52 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: repair native test metadata inputs — 2026-10-05
+## Current priority: writable native outputs and renewed capacity admission — 2026-10-05
 
-The coherent eight-path external-token-install cohort is now **adopted and
-formatted in the working tree, not accepted or published**. `just fmt` exited0.
-Its exact 8,980-path source map is
+The coherent eight-path external-token-install cohort is **adopted and formatted
+in the working tree, not accepted or published**. `just fmt` exited 0. Its exact
+8,980-path source map is
 `b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b`;
 596 changed lines include tests and required formatter expansion. Preserve the
 complete store-plus-caller change: splitting out a pre-save check is unsafe.
 
-The first focused `just test --locked --retries 0` attempt exited102 before
-compilation: Nextest's offline all-features metadata step needed `alsa 0.11.0`.
-**Zero native tests ran.** Source/index and bound inputs stayed unchanged; no new
-OOM occurred. Repair and verify the required registry metadata/input closure with
-bounded preservation and fresh resources before a new attempt; do not repeat the
-unchanged failed command blindly. [Exact checkpoint](verification/2026-10-05/p03-token-install-input-blocker/README.md).
+The first focused attempt exited 102 before compilation because offline metadata
+needed `alsa 0.11.0`. That blocker is now repaired: 227 additional current-lock
+archives with existing unpacked sources were downloaded and read back exactly
+(93,459,106 logical bytes), preserving the previous 902 archives. No source
+extraction occurred; 166 unbound optional/cross-platform entries remain untouched.
+The actual standalone locked/offline metadata command then passed on unchanged
+source/index: 1,315 packages, 7,058,322 output bytes. Metadata success is not a test.
 
-Latest published/read-back WIP checkpoint:
-**073cdeda69f08221c76c4017c09e0d7a09a57576**, tree
-`d45435be8b712f24a7e4fac19e72a7fe3453007b`. It preserves the completed installed-overlay
-lifecycle gate; the newer native working changes are not included or runtime-proved.
+The subsequent focused `just test --locked --retries 0` attempt, suffix `03`,
+exited 101 at the first dependency compilation: rustc could not write the restored
+read-only `libproc_macro2-92b5deb833e57d8a.rmeta`. **Zero native tests ran.** The
+candidate source stayed unchanged and no new OOM occurred. The strict runner reaped
+only its own failed command and reported no runner error; this is not a passing
+suite. Of the 1,047 relocated rlib aliases, 1,046 remain; the proc-macro2 canonical rlib alias became absent during the
+failed build interval, while all 1,047 preserved temporary payloads remain.
+Keep the absent canonical path and failed fingerprint state as evidence.
+
+**Native admission is closed again.** Prepare a recoverable handoff to writable
+compiler outputs and budget the expanded dirty dependency closure, simultaneous
+recovery/output copies, linker overlap and full required validation sequence before
+any further Rust command. Do not chmod protected recovery backing, reset
+fingerprints/mtimes to force reuse, or repeat the failed build unchanged.
+The conditional broader output-coexistence comparison is 7,127,788,008 bytes versus
+roughly 3.96 GB free at the retry. An additional 4 GiB of usable persistent capacity
+is a planning target, not guaranteed native admission; the actual dirty schedule,
+writable handoff and shared-memory peaks still require review. No safe multi-GB
+disposable set or supported live expansion/transfer is established. See the exact
+conditional scenarios and access limits in [capacity plan](CAPACITY_PLAN.md).
+[Current input/build checkpoint](verification/2026-10-05/p03-token-install-build-inputs/README.md)
+binds repair, metadata success and the separate compiler-input failure.
+
+Latest published/read-back WIP checkpoint before this documentation update:
+**25e9732a7350d31551ff58181b23d747b8c1dcf0**, tree
+`c178f8de696759e3fa372bbfca6473f8963dce8d`. It preserves the first native input-blocker
+report; the native eight-path working change is not included or runtime-proved.
 Collector and broader updater/planner/scope-validator work remain paused. Native
-capacity success still requires the source-bound test/lint/production/runtime sequence.
+capacity success requires the source-bound test/lint/production/runtime sequence.
 
 Exact preserved resumption points:
 
@@ -52,11 +76,17 @@ Exact preserved resumption points:
   formatted patch and `CANDIDATE_FORMATTED.json` SHA256
   `5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc`.
   Preserve the original proposal and all alternatives; do not replay adoption/formatting.
-- Failed native entrypoint: A/p03-token-install-focused-20261005-02 retains source,
-  strict, observer and log receipts. Exit102 is an offline metadata-input failure,
-  not a compilation or test result. Registry-closure repair is the next action.
+- Failed native entrypoints: A/p03-token-install-focused-20261005-02 (exit 102,
+  missing offline registry metadata input) and suffix `03` (exit 101, first dependency
+  output not writable) retain separate source/strict/observer/log receipts. Neither
+  ran native tests. A/p03-token-install-metadata-20261005-02 records the intervening
+  actual offline metadata pass. Do not relabel or replay the failed attempts.
+- Input repair: R/p03-registry-metadata-restore-20261005-02 preserves all ten successful
+  download chunks, final exact 227-file verification, prior 902 evidence checks and
+  post-repair readiness. R/p03-token-install-readonly-output-diagnosis-20261005-02
+  records the compiler-output investigation; handoff/admission remains pending.
 
-## Completed capacity repairs and conditional native admission
+## Completed capacity repairs and historical conditional admission
 
 [First repair](verification/2026-10-05/p03-capacity-repair/README.md), publishedfd28a6c:
 all895 metadata and902 genuine registry archives restored/read-back exact,
@@ -75,10 +105,12 @@ files,16,906 fingerprint/depinfo inputs, the original index and accepted binarie
 Postcheck observed **4,126,289,920 persistent free bytes** and **8,842,485,760
 hard-unused memory bytes**, exceeding the reviewed3,850,000,000-byte disk and8GiB
 memory requirements. These are point measurements, not future reservations. The
-phased3,797,387,752-byte planning envelope includes all required new test/production
-outputs, growth, lint/link overlap, evidence, proof archives and a256MiB recovery
-floor. Its442,593,280-byte missing ordinary core/TUI pair is counted once, within
-the focused output comparator. It does not admit giant TUI/App Server/P03 debt.
+phased3,797,387,752-byte envelope was the historical auth-only planning assumption
+for test/production outputs, growth, lint/link overlap, evidence, proof archives and
+a256MiB recovery floor. That assumption is superseded by the closed admission and
+expanded dirty-closure comparison above. Its442,593,280-byte missing ordinary
+core/TUI pair is counted once, within the focused comparator. It does not admit
+giant TUI/App Server/P03 debt.
 
 Receipts: R/p03-cache-relocation-20261005-02/COMPLETE_MANIFEST.json SHA256
 `8ce4184c7a95a18b3cb94bf465775e08a98add362970a8ae117eff2fbb58db6b`.
@@ -93,7 +125,9 @@ Read [CAPACITY_PLAN.md](CAPACITY_PLAN.md), the exact phased card and fresh count
 before every remaining stage. Jobs1 already applied historically; it is not a new
 saving. Old near-limit production included10.35GB shmem, much larger than current
 selected backing. No blanket8GiB disk requirement or RAM-expansion claim remains.
-No native build, targeted native test or new GUI run has occurred for these repairs.
+The later focused retry reached dependency compilation and failed on a read-only
+output; no native tests or new GUI run passed. The historical allowance below must
+be reviewed against the dirty closure and writable-output overlap before reuse.
 
 ### Accepted-binary preservation before native adoption
 
@@ -293,8 +327,9 @@ do not repeat unchanged access or expose Proxmox management publicly.
 Drive/PC/home storage remain optional private cold-archive candidates. No upload,
 provider purchase, account creation or archive retirement is implied. Remote
 integrity, demonstrated restoration and explicit retention decisions precede any
-protected artifact retirement. The measured same-VM repairs permit the specified
-bounded resumption order; they do not reopen a broad small-feature queue.
+protected artifact retirement. The measured same-VM repairs enabled the completed installed-overlay gate and
+metadata probe. The native gate is now closed on writable-output/dirty-closure
+admission; no broad small-feature queue is reopened.
 
 Required P18U/P19 behavior is documented in [walkthrough](UPDATE_WALKTHROUGH.md)
 and [live generations](LIVE_UPDATE_GENERATIONS.md): user-initiated pinned updates,
@@ -316,12 +351,16 @@ live activation/hot replacement within running sessions.
    archives/aliases and unfinished proposals. Never replay completed cache mutations.
 2. The exact paused installed-overlay gate is DONE; preserve its bounded evidence
    and do not replay it. Collector and broad updater feature work remain paused.
-3. Repair the required offline registry metadata/input closure exposed by missing
-   `alsa 0.11.0`; preserve the failed exit102 receipts. Recheck source/binary bindings
-   and whole-sequence resources before retry. Adoption and `just fmt` are complete;
-   do not replay them. Focused/full login and provider `just test`, scoped login
-   `just fix`, and production CLI/manager rebuild remain pending with exact retained
-   flags/toolchain. Bind new-source/binary results; source42 passes are not new proof.
+3. The registry metadata repair and actual offline metadata pass are DONE. Preserve
+   both failed focused attempts and the canonical rlib path absent after retry. Design
+   and verify a recoverable writable-output handoff with immutable recovery bytes
+   retained; diagnose the dirty dependency closure without falsifying fingerprints.
+   Re-admit both filesystems and shared RAM for the entire remaining sequence before
+   another Rust command. Adoption and formatting are complete; do not replay them.
+   Focused/full login/provider `just test`, scoped login `just fix`, production
+   CLI/manager and runtime checks remain pending. Old source42 passes are not proof
+   for the current source. The current 3.85 GB planning floor alone is insufficient
+   to certify the newly exposed dirty-output sequence.
 4. Reexercise installed storage/migration/GUI/attachments, normal/forced Launch,
    cancellation/recovery and the held ownership matrix against that new host. Include
    the new auth-install real consumer gate and all12 prior runtime recipes; do not

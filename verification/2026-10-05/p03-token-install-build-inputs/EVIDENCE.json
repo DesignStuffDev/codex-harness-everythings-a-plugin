@@ -1,0 +1,737 @@
+{
+  "admission": {
+    "actual_cargo_dirty_trace": false,
+    "additional_usable_persistent_planning_target_bytes": 4294967296,
+    "collector_and_broad_features_paused": true,
+    "conditional_all_metadata_seed_comparison_bytes": 7127788008,
+    "conditional_reverse_closure_comparison_bytes": 6836095464,
+    "full_workspace_testing_approval_not_extended": true,
+    "guaranteed_sufficiency": false,
+    "native_gate_open": false,
+    "native_working_change_published": false,
+    "requires": [
+      "recoverable writable-output handoff preserving exact recovery bytes",
+      "expanded dirty-closure/output-overlap capacity review across both filesystems and shared RAM",
+      "whole critical validation sequence remains required"
+    ],
+    "unchanged_build_retry_permitted": false
+  },
+  "candidate_manifest": {
+    "bytes": 1241989,
+    "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-adoption-20261005-02/CANDIDATE_FORMATTED.json",
+    "sha256": "5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc"
+  },
+  "capacity_material_decision": {
+    "bindings": [
+      {
+        "bytes": 906,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-capacity-material-decision-20261005-02/MANIFEST.json",
+        "sha256": "691761fd3a50633b5d35798894e6613faf2fd0468939307bcffbabf46729d67d"
+      },
+      {
+        "bytes": 9855,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-capacity-material-decision-20261005-02/DECISION_CARD.md",
+        "sha256": "f32ef40c0bfee1a11812f391b12c43e21ccae9e964adb1c5f9355dade005d958"
+      },
+      {
+        "bytes": 59820,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-capacity-material-decision-20261005-02/SHORTLIST.json",
+        "sha256": "db6e84fa829aca24ed5e191bfd3aac2193523f9e01828297ead84d67ef5a9406"
+      }
+    ],
+    "certified_reclaimable_bytes": 0,
+    "native_admission": false,
+    "preserve_locally": [
+      "current full source/workspace archives",
+      "accepted baseline binaries/recovery",
+      "new metadata/rlib/cache recovery archives"
+    ],
+    "provisional_allocated_bytes": 4320051200,
+    "provisional_compressed_logical_bytes": 4319878229,
+    "provisional_historical_archive_count": 28,
+    "required_destination_conditions": [
+      "same-VM authenticated private HTTPS/DNS route",
+      "scoped private DAV credential and destination directory",
+      "12 GiB verified available destination quota",
+      "small pilot transfer with independent download/decryption/full restoration before wider transfer",
+      "exact manifest/content validation and explicit retention decision before local retirement"
+    ],
+    "scope": "Fresh metadata identity shortlist only; no payload content/hash sweep, upload, remote integrity, restore or local retirement performed.",
+    "sensitive_destination_details": "Remain only in private decision card; no credential value is recorded or exposed."
+  },
+  "documentation_only": true,
+  "focused_retry03": {
+    "bindings": [
+      {
+        "bytes": 5736,
+        "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.observer.json",
+        "sha256": "74171bed9f6e9504df22aac67765e8e2aaa2525ad7c398eb7124af3c464ae6e4"
+      },
+      {
+        "bytes": 664,
+        "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.log",
+        "sha256": "23b2a0d059147f99bcbede10bdf98a365153ca939c9335529ac0fb64e3259ed5"
+      },
+      {
+        "bytes": 3740206,
+        "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.source.json",
+        "sha256": "3ef9832d7f147be07d4fcb22b609626c2b0c6d0b7599fdd4669a5f3aa2649814"
+      },
+      {
+        "bytes": 659,
+        "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.strict.json",
+        "sha256": "e2897421e7689a5277bcaf68666e7c77df80bba7f08a907faff941b26efa8ac4"
+      },
+      {
+        "bytes": 2219,
+        "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.resources.jsonl",
+        "sha256": "907710e2ddf6534c1e73b220252a3c4f6b08edb902c1ad8ed03d09a5375d32b4"
+      }
+    ],
+    "log": "RUST_MIN_STACK=8388608 NEXTEST_PROFILE=local cargo nextest run --no-fail-fast \"$@\"\n   Compiling proc-macro2 v1.0.106\nerror: output file /workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/libproc_macro2-92b5deb833e57d8a.rmeta is not writeable -- check its permissions\n\nerror: could not compile `proc-macro2` (lib) due to 1 previous error\nerror: command `/workspace/toolchains/rustup/toolchains/1.95.0-x86_64-unknown-linux-gnu/bin/cargo '--color=auto' test --no-run --message-format json-render-diagnostics --package codex-cli --package codex-login --lib --locked` exited with code 101\nerror: recipe `test` failed on line 88 with exit code 101\n",
+    "native_tests_executed": 0,
+    "observer": {
+      "admission_sha256": "244eb66c6f58c56ef5e7c4cf97f21a4bfd53694c56931a65c88e638202fed015",
+      "argv": [
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "-p",
+        "codex-cli",
+        "-p",
+        "codex-login",
+        "--lib",
+        "-E",
+        "package(codex-login) & (test(auth::manager::auth_install_tests::) | test(auth::manager::auth_source_tests::) | test(auth::storage::ephemeral_install_store::tests::))",
+        "--test-threads=1"
+      ],
+      "candidate_sha256": "5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc",
+      "command_id": "focused",
+      "complete_success": false,
+      "final": {
+        "cgroup": {
+          "memory.current": 8428298240,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.max": 17179869184,
+          "memory.peak": 11553624064,
+          "memory.stat": {
+            "anon": 45056000,
+            "file": 7589306368,
+            "shmem": 3861856256
+          },
+          "memory.swap.current": 0,
+          "pids.current": 35
+        },
+        "filesystems": {
+          "/dev/shm": {
+            "available_bytes": 9212276736,
+            "available_inodes": 2303885
+          },
+          "/tmp": {
+            "available_bytes": 5808566272,
+            "available_inodes": 2294402
+          },
+          "/workspace": {
+            "available_bytes": 3957968896,
+            "available_inodes": 1694013
+          }
+        },
+        "monotonic": 16424.898278779,
+        "unix": 1791173846.30636
+      },
+      "guards": {
+        "admission_unchanged": true,
+        "bound_inputs_unchanged": true,
+        "candidate_unchanged": true,
+        "index_unchanged": true,
+        "memory_events_unchanged": true,
+        "observer_unchanged": true,
+        "persistent_recovery_floor_retained": true,
+        "plan_unchanged": true,
+        "source_receipt_finished": true,
+        "strict_runner_passed": false
+      },
+      "initial": {
+        "cgroup": {
+          "memory.current": 8321130496,
+          "memory.events": {
+            "high": 0,
+            "low": 0,
+            "max": 0,
+            "oom": 0,
+            "oom_group_kill": 0,
+            "oom_kill": 0
+          },
+          "memory.max": 17179869184,
+          "memory.peak": 11553624064,
+          "memory.stat": {
+            "anon": 44933120,
+            "file": 7482630144,
+            "shmem": 3861856256
+          },
+          "memory.swap.current": 0,
+          "pids.current": 35
+        },
+        "filesystems": {
+          "/dev/shm": {
+            "available_bytes": 9212276736,
+            "available_inodes": 2303885
+          },
+          "/tmp": {
+            "available_bytes": 5808566272,
+            "available_inodes": 2294402
+          },
+          "/workspace": {
+            "available_bytes": 3957985280,
+            "available_inodes": 1694018
+          }
+        },
+        "monotonic": 16414.893233284,
+        "unix": 1791173836.3013146
+      },
+      "monitor_errors": [],
+      "omitted_samples_after_cap": 0,
+      "original_wrapper_returncode": 101,
+      "plan_sha256": "d5f06752ce0acbab5c2b8ef30f8b473e67944309ec72bd3164cc89c846a8239e",
+      "receipts": {
+        "log": {
+          "bytes": 664,
+          "exists": true,
+          "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.log",
+          "sha256": "23b2a0d059147f99bcbede10bdf98a365153ca939c9335529ac0fb64e3259ed5"
+        },
+        "sample": {
+          "bytes": 2219,
+          "exists": true,
+          "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.resources.jsonl",
+          "sha256": "907710e2ddf6534c1e73b220252a3c4f6b08edb902c1ad8ed03d09a5375d32b4"
+        },
+        "source": {
+          "bytes": 3740206,
+          "exists": true,
+          "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.source.json",
+          "sha256": "3ef9832d7f147be07d4fcb22b609626c2b0c6d0b7599fdd4669a5f3aa2649814"
+        },
+        "strict": {
+          "bytes": 659,
+          "exists": true,
+          "path": "/workspace/acceptance/p03-token-install-focused-20261005-03.strict.json",
+          "sha256": "e2897421e7689a5277bcaf68666e7c77df80bba7f08a907faff941b26efa8ac4"
+        }
+      },
+      "received_signals_not_forwarded": [],
+      "remaining_observed_processes": {
+        "owned_count": 0,
+        "processes": [],
+        "read_errors": 0,
+        "rss_sum_bytes": 0,
+        "truncated": false
+      },
+      "sample_count": 3,
+      "sample_log_bytes": 2219,
+      "sampled_minimum": {
+        "persistent_available": 3957968896,
+        "tmp_available": 5808566272
+      },
+      "sampled_peaks": {
+        "memory_current": 8521949184,
+        "owned_rss": 99688448
+      },
+      "sampling_is_not_a_peak_bound_or_containment": true,
+      "schema": "native-resource-observer-v1",
+      "scoped_source_unchanged": true,
+      "source_change_requires_review": false,
+      "timeout_or_signal_sent": false,
+      "truncated_process_samples": 0,
+      "wrapper_argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/recovery-backups/20260930T165936Z/run-process-final-check.py",
+        "--candidate-manifest",
+        "/workspace/recovery-backups/20260930T165936Z/p03-token-install-adoption-20261005-02/CANDIDATE_FORMATTED.json",
+        "--prefix",
+        "/workspace/acceptance/p03-token-install-focused-20261005-03",
+        "--scope",
+        "codex-rs",
+        "--scope",
+        "component-sdk",
+        "--scope",
+        "MODULE.bazel",
+        "--scope",
+        "MODULE.bazel.lock",
+        "--",
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-token-install-focused-20261005-03.strict.json",
+        "--",
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "-p",
+        "codex-cli",
+        "-p",
+        "codex-login",
+        "--lib",
+        "-E",
+        "package(codex-login) & (test(auth::manager::auth_install_tests::) | test(auth::manager::auth_source_tests::) | test(auth::storage::ephemeral_install_store::tests::))",
+        "--test-threads=1"
+      ]
+    },
+    "strict": {
+      "command": [
+        "just",
+        "test",
+        "--locked",
+        "--retries",
+        "0",
+        "-p",
+        "codex-cli",
+        "-p",
+        "codex-login",
+        "--lib",
+        "-E",
+        "package(codex-login) & (test(auth::manager::auth_install_tests::) | test(auth::manager::auth_source_tests::) | test(auth::storage::ephemeral_install_store::tests::))",
+        "--test-threads=1"
+      ],
+      "command_pid": 60015,
+      "command_returncode": 101,
+      "command_wait_status": 25856,
+      "elapsed_seconds": 2.748691267999675,
+      "exit_status": 101,
+      "reaped": [
+        {
+          "pid": 60015,
+          "returncode": 101,
+          "wait_status": 25856
+        }
+      ],
+      "runner_error": null,
+      "subreaper": true
+    }
+  },
+  "offline_metadata": {
+    "bindings": [
+      {
+        "bytes": 1804,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-metadata-probe-20261005-02/INTENT.json",
+        "sha256": "cb96adac1b438682985b3bc3b016a9c14d1c97b7b2c930851c1adea2b5c7f306"
+      },
+      {
+        "bytes": 1056,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-metadata-probe-20261005-02/RESULT.json",
+        "sha256": "be86b67de8f768fdf020540fa3569949bb9d9b83f4b7e4a8d649ed76eb1945ea"
+      },
+      {
+        "bytes": 7058322,
+        "path": "/workspace/acceptance/p03-token-install-metadata-20261005-02.log",
+        "sha256": "cb4d41389ab89df7a8a6ba455dcee4d51120fa681e78e6c66076f5861c58f540"
+      },
+      {
+        "bytes": 3740037,
+        "path": "/workspace/acceptance/p03-token-install-metadata-20261005-02.source.json",
+        "sha256": "29ec6ef49253d22ff3297d549bb51155ea110db7edc46dc2aacf6bb76bda33d8"
+      },
+      {
+        "bytes": 477,
+        "path": "/workspace/acceptance/p03-token-install-metadata-20261005-02.strict.json",
+        "sha256": "c7f89b61c62c58f85fc92f70c214f1aa7c8d924e5010e72aca945788796ea181"
+      }
+    ],
+    "intent": {
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/recovery-backups/20260930T165936Z/run-process-final-check.py",
+        "--candidate-manifest",
+        "/workspace/recovery-backups/20260930T165936Z/p03-token-install-adoption-20261005-02/CANDIDATE_FORMATTED.json",
+        "--prefix",
+        "/workspace/acceptance/p03-token-install-metadata-20261005-02",
+        "--scope",
+        "codex-rs",
+        "--scope",
+        "component-sdk",
+        "--scope",
+        "MODULE.bazel",
+        "--scope",
+        "MODULE.bazel.lock",
+        "--",
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p03-token-install-metadata-20261005-02.strict.json",
+        "--",
+        "cargo",
+        "metadata",
+        "--format-version",
+        "1",
+        "--all-features",
+        "--filter-platform",
+        "x86_64-unknown-linux-gnu",
+        "--locked",
+        "--offline"
+      ],
+      "before": {
+        "filesystems": {
+          "/dev/shm": {
+            "available": 9212276736,
+            "inodes": 2303885
+          },
+          "/tmp": {
+            "available": 5808566272,
+            "inodes": 2294402
+          },
+          "/workspace": {
+            "available": 3968966656,
+            "inodes": 1694028
+          }
+        },
+        "memory_current": 8298995712,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+        "memory_max": 17179869184
+      },
+      "candidate_sha256": "5bc49e31186aa91be93e7c1ffb356d4a7e656276a643881896664a07aefc06fc",
+      "created_unix": 1791173805.432113,
+      "existing227_repair_result_sha256": "30e13f4c3430b6e752789a88831c47fab82d62755fbe60fcec2f47502f9853a9",
+      "metadata_only": true,
+      "no_compile": true,
+      "output_estimate_bytes": 8388608
+    },
+    "result": {
+      "after": {
+        "filesystems": {
+          "/dev/shm": {
+            "available": 9212276736,
+            "inodes": 2303885
+          },
+          "/tmp": {
+            "available": 5808566272,
+            "inodes": 2294402
+          },
+          "/workspace": {
+            "available": 3958153216,
+            "inodes": 1694024
+          }
+        },
+        "memory_current": 8358182912,
+        "memory_events": "low 0\nhigh 0\nmax 0\noom 0\noom_kill 0\noom_group_kill 0\n",
+        "memory_max": 17179869184
+      },
+      "checks": {
+        "index_unchanged": true,
+        "memory_events_unchanged": true,
+        "source_after_is_candidate": true,
+        "source_before_is_candidate": true,
+        "source_unchanged": true,
+        "strict_clean": true
+      },
+      "metadata_packages": 1315,
+      "native_test_count": 0,
+      "output_bytes": 7058322,
+      "output_sha256": "cb4d41389ab89df7a8a6ba455dcee4d51120fa681e78e6c66076f5861c58f540",
+      "passed": true,
+      "returncode": 0,
+      "source_sha256": "29ec6ef49253d22ff3297d549bb51155ea110db7edc46dc2aacf6bb76bda33d8",
+      "strict_sha256": "c7f89b61c62c58f85fc92f70c214f1aa7c8d924e5010e72aca945788796ea181"
+    }
+  },
+  "post_failure_cache_ownership": {
+    "binding": {
+      "bytes": 828,
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-cache-postfail-20261005-02.json",
+      "sha256": "243154293935a5f11461fae5c10bd71912485f1a8cdac9ca14c6bf13607a2890"
+    },
+    "result": {
+      "absent_canonical": [
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/libproc_macro2-92b5deb833e57d8a.rlib"
+      ],
+      "backing_identities_equal": 1047,
+      "canonical_alias_identity_and_destinations_equal": 1046,
+      "created_unix": 1791174477.8688982,
+      "journal_sha256": "46803c0df3084812fd08751c0fcd4573a734a5bfa47337bf7454d0d832c7fe6c",
+      "method": "Compare every RESTORE file lstat dev/ino/uid/gid/mode/nlink/size/allocation/mtime/ctime exactly; every surviving canonical lstat symlink inode and readlink destination to relocation journal. No payload read or input mutation.",
+      "native_command_performed": false,
+      "payload_rehash_performed": false,
+      "restore_sha256": "c1f9ffc131ee559d644a3cc53266d963475305c5c3ce2a4959ee396c1243c74b",
+      "schema": "root-readonly-cache-postfailure-check-v1"
+    },
+    "scope": "Metadata/stat identity and alias checks; no complete payload rehash or input mutation."
+  },
+  "prepared_no_build_or_network_by_documentation_worker": true,
+  "prior_publication": {
+    "branch": "wip/p03-process-final-and-mcp-preservation-20261002",
+    "commit": "25e9732a7350d31551ff58181b23d747b8c1dcf0",
+    "files": [
+      {
+        "bytes": 23339,
+        "exact_content": true,
+        "path": "EXECUTION_STATE.md",
+        "sha": "e843a645e84dcb233236481584ca73fd775bc0d1",
+        "sha256": "0d71c4da4d809995715ba4adac5ec6b2267d0879bbdf9be6b3506e6ec3a1b5fe"
+      },
+      {
+        "bytes": 100126,
+        "exact_content": true,
+        "path": "IMPLEMENTATION_ROADMAP.md",
+        "sha": "546a1920c014154b6a6932773b2091c556382e9f",
+        "sha256": "2351a1931d5a9b549161c82ea3f24475567ef70064bddb77ba275553fa6e1e59"
+      },
+      {
+        "bytes": 12896,
+        "exact_content": true,
+        "path": "verification/2026-10-05/p03-token-install-input-blocker/EVIDENCE.json",
+        "sha": "a7f520b1dfe92e05cfd6c7dd8f5aea89bde7cec7",
+        "sha256": "ceb664ccbe346dcf784703d042c388219c475d284c56ef4a86224a01d9bcbf01"
+      },
+      {
+        "bytes": 5308,
+        "exact_content": true,
+        "path": "verification/2026-10-05/p03-token-install-input-blocker/README.md",
+        "sha": "3fde677b0398e742c58ead10272f32361229f184",
+        "sha256": "4aa3e8254a4b6596ad9bf52422f2632fe1014a680c6d02c709303cd945d77774"
+      }
+    ],
+    "main_unchanged": "781080f7e3c8bfe1953378001d777dff33d74bc3",
+    "native_source_published": false,
+    "parent": "073cdeda69f08221c76c4017c09e0d7a09a57576",
+    "readback_complete": true,
+    "schema": "native-input-blocker-docs-publication-v1",
+    "tree": "c178f8de696759e3fa372bbfca6473f8963dce8d"
+  },
+  "private_artifact_durability": "VM-local paths only; publication durability covers included source/documentation/evidence, not private payload archives",
+  "read_only_diagnosis": {
+    "bindings": [
+      {
+        "bytes": 6073,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-readonly-output-diagnosis-20261005-02/OBSERVATIONS.json",
+        "sha256": "b22e17220c67678e6e9837f50b225199051bfc2363fbbc9938dc2a088550854b"
+      },
+      {
+        "bytes": 12503,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-readonly-output-diagnosis-20261005-02/FAILED_FINGERPRINTS.json",
+        "sha256": "9243ff2692ece31d8c6d130d188f6d355777bb949bceeb767b9371eb158b71a3"
+      },
+      {
+        "bytes": 21381,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-readonly-output-diagnosis-20261005-02/GRAPH_SCENARIO.json",
+        "sha256": "e69a2a5a99d2bd3117e7fa5e919527089221d10125cf9be8f7963d2bd9624b51"
+      },
+      {
+        "bytes": 8758,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-readonly-output-diagnosis-20261005-02/graph_scenario.py",
+        "sha256": "9b44e642665c1ccf5438e93786be394a6829a3d566113b5ef2b5f0973cbd3c12"
+      },
+      {
+        "bytes": 1064,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-readonly-output-diagnosis-20261005-02/MANIFEST.json",
+        "sha256": "3927d4b84d17a83b6d9731368cb924260be100e59c236554d3439efed3aed193"
+      },
+      {
+        "bytes": 6723,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-token-install-readonly-output-diagnosis-20261005-02/REPORT.md",
+        "sha256": "8ff08c178c78312c4a457c0f1e378486413eb11bc6cae5f2a13e78e303ef6a3a"
+      }
+    ],
+    "observations": {
+      "causality": {
+        "actor_limit": "No syscall trace identifies whether Cargo or rustc removed the canonical alias; do not claim a specific unlink actor.",
+        "directly_observed": "Restored metadata backing is mode0444 and compiler explicitly rejected it as nonwriteable. Canonical rlib alias existed at completed relocation postcheck and is absent after the failed build interval; exact old rlib bytes remain retained.",
+        "mtime_trigger": "Plausible, not proven Cargo dirty reason. Retained proc_macro2 fingerprint JSON still matches prior hash/features/profile/config/deps; unicode-ident dependency rmeta now has fresh restoration mtime while its rlib and caller fingerprint are old. No dirty-reason trace was captured.",
+        "old_standalone_rmeta_mode_or_mtime": "Not established by inspected authenticated receipts; do not guess from paired rlib or symlink timestamps.",
+        "restoration_policy": "Metadata restore explicitly used new target mtimes and mode0444; it did not establish Cargo reuse/admission.",
+        "source_mtimes": "All11 direct proc-macro2 source inputs named by its .d have mtime1153704088000000000; these source mtimes are not new."
+      },
+      "current_resource_observation": {
+        "disk_available": 3957620736,
+        "memory_current": 8537731072,
+        "memory_max": 17179869184,
+        "tmp_available": 5808566272
+      },
+      "failed_command": {
+        "error": "output rmeta is not writeable",
+        "exit": 101,
+        "first_compile": "proc-macro2 v1.0.106",
+        "log": "/workspace/acceptance/p03-token-install-focused-20261005-03.log",
+        "log_sha256": "23b2a0d059147f99bcbede10bdf98a365153ca939c9335529ac0fb64e3259ed5",
+        "source_receipt": "/workspace/acceptance/p03-token-install-focused-20261005-03.source.json",
+        "source_receipt_sha256": "3ef9832d7f147be07d4fcb22b609626c2b0c6d0b7599fdd4669a5f3aa2649814",
+        "tests_executed": 0
+      },
+      "failure_fingerprint_observations": {
+        "fingerprint_digest_file": "lib-proc_macro2 changed from historical16bytes to zero bytes; preserve failed state",
+        "fingerprint_json": "lib-proc_macro2.json exact SHA473c66287ed343b408c3fa00994fcac0d641599c3bd05ba76f36eaaa2ef3c4b5 matches retained graph",
+        "invoked_timestamp_and_depfile": "mtime now in failed build interval; content/historical comparisons in FAILED_FINGERPRINTS.json",
+        "no_fingerprint_rewind": true
+      },
+      "fresh_small_payload_hash_checks": {
+        "performed_in_previous_read_only_diagnostic_command": true,
+        "rlib": {
+          "before_after_identity_stable": true,
+          "bytes": 1210096,
+          "sha256": "2f22b8d47758604f85fcfa7d34acbe56ae7183be7dc0eddf7fc97fd86259cfd7"
+        },
+        "rmeta": {
+          "before_after_identity_stable": true,
+          "bytes": 342835,
+          "sha256": "7e5ac33de6a5cb8ea8d9c4137ac4c46527ba3a4b2df01cf7d747775ab3d74c81"
+        },
+        "total_payload_bytes_read": 1552931
+      },
+      "native_retry_admitted": false,
+      "observed_utc_epoch": 1791174312.2884274,
+      "protected_recovery": {
+        "archive_rehashed_in_diagnosis": false,
+        "archive_sha256_from_completed_proof": "0691ef18f30d705eacb611a0637e59dcecb241b04488952767cd72323254c353",
+        "cache_archive": "p03-cache-relocation-20261005-02/selected-rlibs.tar.zst",
+        "metadata_restoration_record": "p03-metadata-restore-20261005-02/CHUNK-008.jsonl",
+        "prior_cache_postcheck": "p03-cache-relocation-20261005-02/POSTCHECK.json",
+        "prior_cache_postcheck_sha256": "8e092b62956e8b7c998af4a34b05917806896bca16ad29192b0467b41f2de667"
+      },
+      "schema": "native-readonly-output-failure-diagnosis-v1",
+      "scope": "Bounded read-only diagnosis; only this separate evidence directory is written. No Cargo, build, fingerprint restoration, chmod, utime, canonical restoration or retirement.",
+      "selected_known_rlib_stat_scan": {
+        "declared_rlibs": 1142,
+        "meaning": "No fourth missing rlib was found within this recorded nine-root output union; this does not prove the whole current Cargo graph is identical.",
+        "missing": [
+          {
+            "historically_absent": true,
+            "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/libcodex_core-60003fedd2493676.rlib"
+          },
+          {
+            "historically_absent": true,
+            "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/libcodex_tui-0f947099065ccc9e.rlib"
+          },
+          {
+            "current_lexists": false,
+            "historically_absent": false,
+            "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/libproc_macro2-92b5deb833e57d8a.rlib",
+            "previously_verified_as_relocated_alias": true
+          }
+        ],
+        "missing_count": 3,
+        "performed_once_before_this_receipt": true
+      },
+      "target_state": {
+        "canonical_rlib_absent": true,
+        "rlib_backing": {
+          "identity": {
+            "allocated_bytes": 1212416,
+            "ctime_ns": 1791171651772821650,
+            "dev": 33,
+            "gid": 1000,
+            "ino": 21875,
+            "mode": 33152,
+            "mtime_ns": 1790773007569488281,
+            "nlink": 1,
+            "size": 1210096,
+            "uid": 1000
+          },
+          "path": "/tmp/p03-selected-rlibs-20261005-02/libproc_macro2-92b5deb833e57d8a.rlib"
+        },
+        "rmeta_backing": {
+          "identity": {
+            "allocated_bytes": 344064,
+            "ctime_ns": 1791170524070677244,
+            "dev": 33,
+            "gid": 1000,
+            "ino": 20807,
+            "mode": 33060,
+            "mtime_ns": 1791170524069576512,
+            "nlink": 1,
+            "size": 342835,
+            "uid": 1000
+          },
+          "path": "/tmp/codex-build-metadata-20260930/libproc_macro2-92b5deb833e57d8a.rmeta"
+        },
+        "rmeta_canonical": {
+          "identity": {
+            "allocated_bytes": 4096,
+            "ctime_ns": 1790780117507054233,
+            "dev": 27,
+            "gid": 1000,
+            "ino": 1190231,
+            "mode": 41471,
+            "mtime_ns": 1790773007432222109,
+            "nlink": 1,
+            "size": 72,
+            "uid": 1000
+          },
+          "path": "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/deps/libproc_macro2-92b5deb833e57d8a.rmeta",
+          "target": "/tmp/codex-build-metadata-20260930/libproc_macro2-92b5deb833e57d8a.rmeta"
+        }
+      }
+    }
+  },
+  "registry_repair": {
+    "bindings": [
+      {
+        "bytes": 8964,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-registry-metadata-restore-20261005-02/RESULT.json",
+        "sha256": "19e35b125b1f40903c3b32d947b2ada4effc71c38ab0206d1a6fc7c9ca4eb1c8"
+      },
+      {
+        "bytes": 14606,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-registry-metadata-restore-20261005-02/COMPLETE_MANIFEST.json.gz",
+        "sha256": "c091b001ab2af0a23c5aa38918e2115ec57ca8bebe8a2c40f949c7c3097d6301"
+      },
+      {
+        "bytes": 446,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-registry-metadata-restore-20261005-02/COMPLETE_SEAL.json",
+        "sha256": "e5538d05243751b2ef7a6888479dede04055b136b678ddb1f6cfc8864606ef6a"
+      },
+      {
+        "bytes": 438,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-registry-metadata-restore-20261005-02/ROOT_ADMISSION.json",
+        "sha256": "3d80c1ebd02fd0892fdebb1cbdf20b8598c4e901ef68d322f5826a0b0ba70500"
+      },
+      {
+        "bytes": 2971,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-registry-metadata-restore-20261005-02/ROOT_STEPS.json",
+        "sha256": "30e13f4c3430b6e752789a88831c47fab82d62755fbe60fcec2f47502f9853a9"
+      },
+      {
+        "bytes": 124516,
+        "path": "/workspace/recovery-backups/20260930T165936Z/p03-registry-metadata-restore-20261005-02/READINESS.json.gz",
+        "sha256": "2a81bc1a97178eb8312c4d019dcd07f8203e8bc685ff89e8ec90a83dbd5149d6"
+      }
+    ],
+    "summary": {
+      "backing_marker_allocated_bytes": 4096,
+      "cargo_or_compile_acceptance_claimed": false,
+      "combined_archives": 1129,
+      "combined_payload_allocated_bytes": 229068800,
+      "current_source_map_sha256": "b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b",
+      "excluded166_unchanged_and_absent": true,
+      "index_and_lock_unchanged": true,
+      "memory_events_unchanged_root_report": true,
+      "new_allocated_bytes": 93941760,
+      "new_archives": 227,
+      "new_logical_bytes": 93459106,
+      "old902_evidence_files_unchanged": 994,
+      "old902_manifest_sha256": "5c814cf4d299926cecba6b33abae38b6f01935c2d6bcfc224d4a065bbc721335",
+      "recorded_maxrss_bytes": 39727104,
+      "recorded_min_workspace_available": 3969069056,
+      "root_steps": 11,
+      "root_steps_all_exit_zero": true,
+      "runtime_receipt_count": 227,
+      "status": "passed"
+    }
+  },
+  "schema": "native-token-install-build-input-checkpoint-v1",
+  "source_count": 8980,
+  "source_map_sha256": "b75efc9751977009a9b28f2893c120db45a8f6e79f4993125e3685ae90d6cf5b",
+  "status": "registry repair and offline metadata passed; focused compiler-input failure; native admission closed"
+}
