@@ -51,3 +51,29 @@ def capsule(params, context):
         "success": result["status"] == "sealed"
         and result.get("durability") == "directory_fsync_completed",
     }
+
+
+@app.handle("tool", "upstream_candidate_overlay", "invoke")
+def overlay(params, context):
+    from candidate_overlay import prepare_overlay
+
+    if (
+        not isinstance(params, dict)
+        or set(params) != {"call_id", "name", "arguments"}
+        or not isinstance(params["call_id"], str)
+        or not 1 <= len(params["call_id"]) <= 256
+        or params["name"] != "upstream_candidate_overlay"
+        or not isinstance(params["arguments"], dict)
+    ):
+        raise PluginError("invalid tool-v1 invocation envelope")
+    result = prepare_overlay(
+        params["arguments"],
+        context.initialization.state_dir,
+        context.watch_shutdown(),
+        context.emit,
+    )
+    return {
+        "text": json.dumps(result, sort_keys=True, separators=(",", ":")),
+        "success": result["status"] == "prepared"
+        and result.get("durability") == "directory_fsync_completed",
+    }

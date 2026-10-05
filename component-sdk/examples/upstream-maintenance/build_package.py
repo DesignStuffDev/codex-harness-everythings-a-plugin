@@ -31,6 +31,9 @@ def main():
     shutil.copyfile(
         source / "capsule_bootstrap.py", args.output / "capsule_bootstrap.py"
     )
+    shutil.copyfile(
+        source / "overlay_bootstrap.py", args.output / "overlay_bootstrap.py"
+    )
     print(args.output.absolute())
 
 

@@ -148,3 +148,42 @@ Run `python3 -B /package/capsule_bootstrap.py /absolute/job-directory` to inspec
 job without the host or Git. This is source-artifact inspection, not state rollback.
 The new capsule producer and tests require their own recorded runtime acceptance;
 the earlier review-only evidence does not validate this added capability.
+
+## Candidate source overlays (package 0.3.0)
+
+`tool:upstream_candidate_overlay` v1 transforms a sealed source capsule into a
+bounded, reviewable overlay. Arguments are `contract_version:1`,
+`purpose:"prepare_candidate_overlay"`, `source_capsule_id`,
+`expected_manifest_sha256`, and `limits` (`max_changed_paths` up to 1024,
+`max_output_bytes` up to 67108864, `max_manifest_bytes` up to 8388608).
+Only component-owned input/output jobs are used; model-supplied filesystem paths
+are not accepted. Package 0.3.0 preserves both older tool-v1 contracts and capsule-v1
+state. Upgrading the maintenance package does not update the harness engine.
+
+Unmodified custom paths take upstream bytes; already matching changes retain exact
+bytes. Divergent regular text uses owned `git merge-file --stdout --diff3`.
+Deletion, executable-mode change, add/add divergence, binary divergence, oversized
+merge inputs and nonzero merge results explicitly require review. Conflict output
+is a diagnostic artifact, never an executable candidate path. A clean textual merge
+does not establish behavioral compatibility or authorize update/activation.
+
+Merge inputs are capped at 128 KiB each; larger direct selections retain the capsule's
+4 MiB blob limit. Three reusable private scratch files plus at most one partial
+replacement use at most 512 KiB. Retained result/diagnostic blobs respect the caller's
+output budget. Git stdout limits are enforced after capture, not a streaming memory
+bound. The 90-second job and existing 30-second command/two-second cleanup ownership
+limits apply; terminal receipt writes remain best effort under filesystem failure.
+
+The result is an overlay on the exact committed custom tree, with untouched paths
+inherited by reference. It is not a complete checkout, source backup or runnable
+candidate. Uncommitted work is excluded. `prepared` means every changed path has a
+source result; coordinated versions, state migrations, security/contracts, a new
+candidate build, unchanged custom-plugin behavior, GUI/headless tests and external
+rollback remain explicitly pending. All approval and activation flags stay false.
+
+`python3 -B /package/overlay_bootstrap.py /absolute/overlay-job` checks present
+artifact integrity and its retained source capsule with Git/host absent from PATH.
+Keep both job directories in their original component state layout. Removal retains
+these artifacts. Inspection neither replays the merge nor attests prior durability,
+semantic compatibility, installation recovery or rollback. This capability requires
+its own independent build, real installed-package upgrade and runtime evidence.

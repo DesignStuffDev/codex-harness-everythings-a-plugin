@@ -1,0 +1,80 @@
+{
+  "schema": "codex-candidate-overlay-evidence-v1",
+  "status": "verified limited checkpoint prepared for root publication",
+  "component_id": "codex.maintenance.upstream-review",
+  "package_version": "0.3.0",
+  "host_api": 1,
+  "tool_contract": 1,
+  "boundary": "C27",
+  "source_binding": {
+    "source_count": 8970,
+    "source_map_sha256": "37656871852bcc56799a3b8340c1a90786d1cee7aebd012e94b7556f84bb1c90",
+    "before_source_map_sha256": "0d2ec165627ff4a0e9236ead57bd6f6e42c13512eacae2c00c84604541e5e515",
+    "candidate_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-overlay-adoption-20261004-01/CANDIDATE_FORMATTED.json",
+      "bytes": 1240373,
+      "sha256": "192ae336fbc9461b05e9e0ce1270f95129e156a57260eac04cd991727b39d885"
+    },
+    "changed_paths": [
+      "component-sdk/examples/upstream-maintenance/README.md",
+      "component-sdk/examples/upstream-maintenance/build_package.py",
+      "component-sdk/examples/upstream-maintenance/candidate_overlay.py",
+      "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "component-sdk/examples/upstream-maintenance/overlay_bootstrap.py",
+      "component-sdk/examples/upstream-maintenance/plugin.py",
+      "component-sdk/tests/test_candidate_overlay.py"
+    ],
+    "original_native_8949_paths_unchanged_in_recorded_maps": true,
+    "no_new_host_build": true,
+    "actual_rust_runtime_reverification": "No0.3GUI/storage/migration rerun; older0.2source0b7cproofs separate",
+    "formatted_delta": {
+      "added": 997,
+      "removed": 1,
+      "production_module_lines": 535,
+      "test_module_lines": 356,
+      "coherent_slice_rationale_receipt": "/workspace/recovery-backups/20260930T165936Z/p18u-overlay-adoption-20261004-01/REVIEW_SCOPE.json"
+    },
+    "receipt_field_caution": "Candidate changed_paths.after_sha256 records adopted preformat bytes. Current formatted bytes are bound by source_map and actual file hashes; formatter equivalence recorded separately."
+  },
+  "focused_cases": 47,
+  "installed_normal_acceptance_commands": 61,
+  "real_output_paths": 13,
+  "package_pyz_sha256": "4a860c3c55d69bbfe3554cb3a1812d3bb797dfde3fd02dd9e05d074c98c681bf",
+  "overlay_manifest_sha256": "81fb203ded8a7dc3dc87b3a8938e8f946eccf147d9306c4f24b63874bae4e1c2",
+  "all13_outputs_match_independent_oracle": true,
+  "authority": {
+    "candidate_assembled": false,
+    "update_allowed": false,
+    "activation_allowed": false,
+    "self_contained_candidate": false
+  },
+  "release_gates": {
+    "candidate_build": "pending",
+    "coordinated_versions": "pending",
+    "custom_plugin_runtime": "pending",
+    "external_bootstrap_rollback": "pending",
+    "security_and_contract_review": "pending",
+    "state_migration_review": "pending",
+    "ui_headless_regression": "pending"
+  },
+  "native_families_added": 0,
+  "native_families_total_unchanged": 3,
+  "native_auth_P03_capacity_gate": "closed; no native admission",
+  "new_active_merge_lifecycle": "open",
+  "current0_3GUI_storage_migration": "not rerun",
+  "files": {
+    "focused": "FOCUSED_AND_SOURCE.json",
+    "runtime": "REAL_RUNTIME.json",
+    "source": "SOURCE_INPUTS.json",
+    "historical_regressions": "PRIOR_REGRESSION_CONTEXT.json"
+  },
+  "limits": [
+    "Sparse output only; untouched custom tree referenced",
+    "Non-atomic package replacement on restored statecopy",
+    "Clean text merge is not updated-host compatibility/migration/security/rollback",
+    "No0.3active merge orGUIpass inferred",
+    "Standalone current integrity, not historical crash durability",
+    "Same-VM archive not external backup",
+    "No polling/live deployment/hot replacement"
+  ]
+}

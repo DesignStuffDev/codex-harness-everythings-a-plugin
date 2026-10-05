@@ -1,0 +1,411 @@
+{
+  "schema": "codex-candidate-overlay-lineage-v1",
+  "status": "verified limited normal transformation and upgrade; lifecycle/release gates open",
+  "phase": "P18U",
+  "boundary": "C27",
+  "published_predecessor": "5e3e9128d77e3c39b724cc3e85c52401ae6f6ad1",
+  "official_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "imported_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "chosen_input_only_revision": "2e5fea64eefcaa19f48458b2386011b619f69c70",
+    "installed_upstream_revision_advanced": false,
+    "source_paths_extracted_by_this_slice": []
+  },
+  "component_id": "codex.maintenance.upstream-review",
+  "before_version": "0.2.0",
+  "version": "0.3.0",
+  "host_api": 1,
+  "contracts": [
+    {
+      "kind": "tool",
+      "name": "upstream_impact_review",
+      "version": 1,
+      "change": "retained"
+    },
+    {
+      "kind": "tool",
+      "name": "upstream_source_capsule",
+      "version": 1,
+      "change": "retained"
+    },
+    {
+      "kind": "tool",
+      "name": "upstream_candidate_overlay",
+      "version": 1,
+      "change": "added"
+    }
+  ],
+  "source_binding": {
+    "source_count": 8970,
+    "source_map_sha256": "37656871852bcc56799a3b8340c1a90786d1cee7aebd012e94b7556f84bb1c90",
+    "before_source_map_sha256": "0d2ec165627ff4a0e9236ead57bd6f6e42c13512eacae2c00c84604541e5e515",
+    "candidate_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-overlay-adoption-20261004-01/CANDIDATE_FORMATTED.json",
+      "bytes": 1240373,
+      "sha256": "192ae336fbc9461b05e9e0ce1270f95129e156a57260eac04cd991727b39d885"
+    },
+    "changed_paths": [
+      "component-sdk/examples/upstream-maintenance/README.md",
+      "component-sdk/examples/upstream-maintenance/build_package.py",
+      "component-sdk/examples/upstream-maintenance/candidate_overlay.py",
+      "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "component-sdk/examples/upstream-maintenance/overlay_bootstrap.py",
+      "component-sdk/examples/upstream-maintenance/plugin.py",
+      "component-sdk/tests/test_candidate_overlay.py"
+    ],
+    "original_native_8949_paths_unchanged_in_recorded_maps": true,
+    "no_new_host_build": true,
+    "actual_rust_runtime_reverification": "No0.3GUI/storage/migration rerun; older0.2source0b7cproofs separate",
+    "formatted_delta": {
+      "added": 997,
+      "removed": 1,
+      "production_module_lines": 535,
+      "test_module_lines": 356,
+      "coherent_slice_rationale_receipt": "/workspace/recovery-backups/20260930T165936Z/p18u-overlay-adoption-20261004-01/REVIEW_SCOPE.json"
+    },
+    "receipt_field_caution": "Candidate changed_paths.after_sha256 records adopted preformat bytes. Current formatted bytes are bound by source_map and actual file hashes; formatter equivalence recorded separately."
+  },
+  "source_rows": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/README.md",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": "df8937791595e7a4ecb2f0fd7ec5fd31c727a295055afd35429b2d40a941b6e6",
+      "adopted_preformat_sha256": "695af2bd8ff0d888c51a10cd3a4ade62ce9108d9b757232e2168fefaa5f169d6",
+      "formatted_sha256": "695af2bd8ff0d888c51a10cd3a4ade62ce9108d9b757232e2168fefaa5f169d6",
+      "bytes": 11693,
+      "external_project_binding": {
+        "sha256": "695af2bd8ff0d888c51a10cd3a4ade62ce9108d9b757232e2168fefaa5f169d6",
+        "bytes": 11693
+      },
+      "runtime_package_binding": {
+        "container": "package_files",
+        "member": "README.md",
+        "sha256": "695af2bd8ff0d888c51a10cd3a4ade62ce9108d9b757232e2168fefaa5f169d6",
+        "bytes": 11693
+      }
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/build_package.py",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": "c54493309af995122138cc595c3b2a038bd0d7ae27c31a3a9ae30f8228a4f1a9",
+      "adopted_preformat_sha256": "7d63fc62a2ec7a5012c32496c15b10826a029e1703dc8ccda65eb3e130cc17b3",
+      "formatted_sha256": "7d63fc62a2ec7a5012c32496c15b10826a029e1703dc8ccda65eb3e130cc17b3",
+      "bytes": 1311,
+      "external_project_binding": {
+        "sha256": "7d63fc62a2ec7a5012c32496c15b10826a029e1703dc8ccda65eb3e130cc17b3",
+        "bytes": 1311
+      },
+      "runtime_package_binding": {
+        "container": "package_members",
+        "member": "build_package.py",
+        "sha256": "7d63fc62a2ec7a5012c32496c15b10826a029e1703dc8ccda65eb3e130cc17b3",
+        "bytes": 1311
+      }
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/candidate_overlay.py",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": null,
+      "adopted_preformat_sha256": "6f67e0cc5793303b61606dedcf654b2ceb220ce6e690a4e02a06ee74b870eab3",
+      "formatted_sha256": "1b263aae6865d86ab77f4fb7f4dc7484d54fe2fbd694efbd5722e66b57c03a11",
+      "bytes": 21250,
+      "external_project_binding": {
+        "sha256": "1b263aae6865d86ab77f4fb7f4dc7484d54fe2fbd694efbd5722e66b57c03a11",
+        "bytes": 21250
+      },
+      "runtime_package_binding": {
+        "container": "package_members",
+        "member": "candidate_overlay.py",
+        "sha256": "1b263aae6865d86ab77f4fb7f4dc7484d54fe2fbd694efbd5722e66b57c03a11",
+        "bytes": 21250
+      }
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": "4d1cabc09d1ea4a6c3a97c0cad2eac315c62ebd616c04f27f2327750d7180021",
+      "adopted_preformat_sha256": "7b5342a94f32ed5b952f1f59e7f2e45e673e218c849d10cb8534c96a6326eacc",
+      "formatted_sha256": "7b5342a94f32ed5b952f1f59e7f2e45e673e218c849d10cb8534c96a6326eacc",
+      "bytes": 3013,
+      "external_project_binding": {
+        "sha256": "7b5342a94f32ed5b952f1f59e7f2e45e673e218c849d10cb8534c96a6326eacc",
+        "bytes": 3013
+      },
+      "runtime_package_binding": {
+        "container": "package_files",
+        "member": "codex-component.json",
+        "sha256": "e0e54b197d48363589959c7e6795a6c9bd8f37880cb872817d9b5fbf23f7f447",
+        "bytes": 4049,
+        "source_JSON_semantics_equal": true,
+        "SDK_JSON_reserialization": true
+      }
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/overlay_bootstrap.py",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": null,
+      "adopted_preformat_sha256": "b9692b98bb853ee29283905b6427ffffb835ca87b446202372a7f819e7899b9b",
+      "formatted_sha256": "be3947d29acb923af921832b74d89c1a6835dbb03936286ef90a89a55b12db86",
+      "bytes": 616,
+      "external_project_binding": {
+        "sha256": "be3947d29acb923af921832b74d89c1a6835dbb03936286ef90a89a55b12db86",
+        "bytes": 616
+      },
+      "runtime_package_binding": {
+        "container": "package_members",
+        "member": "overlay_bootstrap.py",
+        "sha256": "be3947d29acb923af921832b74d89c1a6835dbb03936286ef90a89a55b12db86",
+        "bytes": 616
+      }
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": "e4fddab20f8109362f09c8dd7452522b08f0584c75515b2c4276144bc5141b26",
+      "adopted_preformat_sha256": "2b80deef79f732616b8cd3b1909a1420ae2ac665f4d7af350c6b5f09fd88498f",
+      "formatted_sha256": "5cfaa28400198725e07e2d033e307b0ab4b9b0d8125f1bfcda3917bc50527dee",
+      "bytes": 2781,
+      "external_project_binding": {
+        "sha256": "5cfaa28400198725e07e2d033e307b0ab4b9b0d8125f1bfcda3917bc50527dee",
+        "bytes": 2781
+      },
+      "runtime_package_binding": {
+        "container": "package_members",
+        "member": "plugin.py",
+        "sha256": "5cfaa28400198725e07e2d033e307b0ab4b9b0d8125f1bfcda3917bc50527dee",
+        "bytes": 2781
+      }
+    },
+    {
+      "path": "component-sdk/tests/test_candidate_overlay.py",
+      "original_upstream_path": null,
+      "original_upstream_symbol": null,
+      "classification": "project-authored additive C27 maintenance; not native extraction",
+      "before_sha256": null,
+      "adopted_preformat_sha256": "aec00efe860c8e417aecfbfa02aa558048f68b4623ebc173abecec927e59a95b",
+      "formatted_sha256": "fd071d51e8265e105c3421928852df42fd240ca2570ba0625dab2d4a9427fb6c",
+      "bytes": 15002,
+      "runtime_package_binding": "Test file source-bound by current focused run; not packaged."
+    }
+  ],
+  "symbol_mapping": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/build_package.py",
+      "symbols": [
+        {
+          "symbol": "main",
+          "line": 12,
+          "end_line": 37
+        }
+      ],
+      "owner": "independent SDK package build and bootstrap inclusion",
+      "origin": "intentional project code"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/candidate_overlay.py",
+      "symbols": [
+        {
+          "symbol": "digest",
+          "line": 37,
+          "end_line": 38
+        },
+        {
+          "symbol": "blob_identity",
+          "line": 41,
+          "end_line": 48
+        },
+        {
+          "symbol": "valid_limits",
+          "line": 51,
+          "end_line": 58
+        },
+        {
+          "symbol": "classify",
+          "line": 61,
+          "end_line": 75
+        },
+        {
+          "symbol": "source_input",
+          "line": 78,
+          "end_line": 93
+        },
+        {
+          "symbol": "inspect_overlay",
+          "line": 96,
+          "end_line": 278
+        },
+        {
+          "symbol": "prepare_overlay",
+          "line": 281,
+          "end_line": 535
+        }
+      ],
+      "owner": "bounded sparse source transformation and independent verifier; owned Git for eligible divergent text",
+      "origin": "intentional project code"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/overlay_bootstrap.py",
+      "symbols": [],
+      "owner": "host/Git-independent present artifact inspection; retained capsule required; not deployment recovery",
+      "origin": "intentional project code"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+      "symbols": [
+        {
+          "symbol": "overlay",
+          "line": 57,
+          "end_line": 79
+        }
+      ],
+      "owner": "tool-v1 envelope plus initialized component state, shutdown and progress adapter",
+      "origin": "intentional project code"
+    },
+    {
+      "path": "component-sdk/tests/test_candidate_overlay.py",
+      "symbols": [
+        {
+          "symbol": "CandidateOverlayTests",
+          "line": 24,
+          "end_line": 352
+        }
+      ],
+      "owner": "fixture conformance; future result bound separately",
+      "origin": "intentional project code"
+    }
+  ],
+  "unchanged_dependencies": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/source_capsule.py",
+      "sha256": "b93092ef63590d552d6213efb3afb318931fd2e723d80a7d4e6cae542d0ad467",
+      "symbols": [
+        "atomic_file",
+        "canonical",
+        "inspect_capsule",
+        "outcome",
+        "regular_bytes",
+        "sync_directory",
+        "CapsuleError"
+      ],
+      "unchanged_by_this_slice": true
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/owned_git.py",
+      "sha256": "9ce921c3d864bdc7be223f521a5f86b8711c03749843697c12bd2a0bdf9a8976",
+      "symbols": [
+        "capture",
+        "OwnedGitError"
+      ],
+      "unchanged_by_this_slice": true
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+      "sha256": "41b92269918b3e8fb69fe08c275aa6e9624eb0324affd8861c333ceb96f12a96",
+      "symbols": [
+        "LocalObjects",
+        "review_request"
+      ],
+      "unchanged_by_this_slice": true
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plan_upstream_impact.py",
+      "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+      "symbols": [
+        "plan"
+      ],
+      "unchanged_by_this_slice": true
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/validate_checkpoint_lineage.py",
+      "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c",
+      "symbols": [
+        "GitObjects"
+      ],
+      "unchanged_by_this_slice": true
+    }
+  ],
+  "state_ownership": {
+    "input": "component-owned capsule ID and expected manifest hash; no model-supplied arbitrary input/output filesystem paths",
+    "producer_output": "exclusive private state_dir/upstream-overlays/<uuid>; INTENT, bounded source/diagnostic blobs, OVERLAY, SEALED or best-effort TERMINAL",
+    "application_base": "exact committed custom tree; untouched paths inherited by reference, not copied",
+    "merge": "eligible Git three-way source merge in reusable private scratch, no checkout/index mutation; nonzero result retained for review",
+    "cancellation": "existing direct-Git custody and checks between phases; blocking filesystem operations unbounded; new installed active-merge acceptance pending",
+    "inspection": "present source/overlay byte consistency and authority/gate metadata only; no merge replay, publisher authentication, historical durability or deployment/state recovery",
+    "old_state_schema": "source-input-capsule-v1 retained",
+    "new_state_schema": "candidate-overlay-v1, candidate-overlay-intent-v1, candidate-overlay-seal-v1",
+    "upgrade": "Actual non-atomic0.2\u21920.3 remove-activation/install passed with old object and restored statecopy retained; no migration. Coordinated host/component version/migration release gates pending."
+  },
+  "new_native_families": 0,
+  "native_families_total_unchanged": 3,
+  "native_auth_P03_capacity_gate": "closed; no new native admission",
+  "evidence": "verification/2026-10-04/p18u-candidate-overlay/README.md",
+  "remaining_gates": [
+    "new active-merge cancellation/abrupt custody and subsequent success",
+    "affected storage/manual migration/GUI regression at current source",
+    "assembled full candidate, application/adaptation review and build",
+    "custom-plugin behavior preserved on actual later-upstream host",
+    "security/contracts/coordinated host/plugin versions",
+    "persistent schema migration compatibility and failure recovery",
+    "external bootstrap deployment/state rollback",
+    "final clean-install plugin/UI acceptance"
+  ],
+  "focused_evidence": {
+    "passed": 47,
+    "source_map": "37656871852bcc56799a3b8340c1a90786d1cee7aebd012e94b7556f84bb1c90",
+    "evidence": "verification/2026-10-04/p18u-candidate-overlay/FOCUSED_AND_SOURCE.json"
+  },
+  "installed_runtime": {
+    "passed": true,
+    "commands": 61,
+    "manager_commands": 20,
+    "package_pyz_sha256": "4a860c3c55d69bbfe3554cb3a1812d3bb797dfde3fd02dd9e05d074c98c681bf",
+    "normal_transformation_paths": 13,
+    "unresolved_source_paths": 0,
+    "upgrade_atomic": false,
+    "state_is_restored_copy": true,
+    "evidence": "verification/2026-10-04/p18u-candidate-overlay/REAL_RUNTIME.json"
+  },
+  "new_active_merge_lifecycle": "open;47fixtures and0.2active-read proof do not close it",
+  "current0_3GUI_storage_migration": "not rerun; prior0.2source0b7ccontext separate",
+  "release_gates": {
+    "candidate_build": "pending",
+    "coordinated_versions": "pending",
+    "custom_plugin_runtime": "pending",
+    "external_bootstrap_rollback": "pending",
+    "security_and_contract_review": "pending",
+    "state_migration_review": "pending",
+    "ui_headless_regression": "pending"
+  },
+  "post_test_documentation": {
+    "schema": "codex-post-test-documentation-v1",
+    "tested_source_map_sha256": "37656871852bcc56799a3b8340c1a90786d1cee7aebd012e94b7556f84bb1c90",
+    "published_documented_source_map_sha256": "bdcc5e785e6a761ddbfde73b806df50f8391ebddc1c357d1ba7ee61d160404d4",
+    "source_count": 8970,
+    "changed_documentation": [
+      {
+        "path": "component-sdk/examples/upstream-maintenance/README.md",
+        "before_sha256": "695af2bd8ff0d888c51a10cd3a4ade62ce9108d9b757232e2168fefaa5f169d6",
+        "after_sha256": "42380c0827f5183459478d28dc487a1a0ab42a181e749e834f6b1e7926e4245a",
+        "reason": "Clarify that prepared paths have source results, including direct binary copies; runtime source/tests unchanged."
+      }
+    ],
+    "runtime_source_unchanged": true,
+    "tested_package_pyz_sha256": "4a860c3c55d69bbfe3554cb3a1812d3bb797dfde3fd02dd9e05d074c98c681bf",
+    "tested_package_readme_sha256": "695af2bd8ff0d888c51a10cd3a4ade62ce9108d9b757232e2168fefaa5f169d6",
+    "runtime_tests_not_rebound": true,
+    "documented_manifest_path": "/workspace/recovery-backups/20260930T165936Z/p18u-overlay-adoption-20261004-01/CANDIDATE_DOCUMENTED.json",
+    "documented_manifest_sha256": "ec48e7ed4e499ac3395343fe9089fc9c028c6dd24432b4372a5d9a8d75ec8e54"
+  }
+}

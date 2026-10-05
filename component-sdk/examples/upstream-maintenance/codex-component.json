@@ -1,7 +1,7 @@
 {
   "api_version": 1,
   "id": "codex.maintenance.upstream-review",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "entrypoint": "plugin.pyz",
   "args": [],
   "dependencies": {},
@@ -43,6 +43,25 @@
           "limits": {"type": "object"}
         },
         "required": ["contract_version", "purpose", "review_request", "expected_plan_id", "limits"],
+        "additionalProperties": false
+      }
+    }
+  }, {
+    "kind": "tool",
+    "name": "upstream_candidate_overlay",
+    "contract_version": 1,
+    "metadata": {
+      "description": "Prepare bounded upstream/custom source transformations from a sealed capsule in component-owned state. Unresolved text, deletion and mode changes require review; no update is approved or activated.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "contract_version": {"type": "integer", "const": 1},
+          "purpose": {"type": "string", "const": "prepare_candidate_overlay"},
+          "source_capsule_id": {"type": "string", "pattern": "^[a-f0-9]{32}$"},
+          "expected_manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "limits": {"type": "object"}
+        },
+        "required": ["contract_version", "purpose", "source_capsule_id", "expected_manifest_sha256", "limits"],
         "additionalProperties": false
       }
     }
