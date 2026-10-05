@@ -1,0 +1,162 @@
+{
+  "schema": "p03-selected-cache-restoration-checkpoint-v1",
+  "date": "2026-10-05",
+  "status": "repaired_inputs_and_measured_conditional_headroom; native_build_validation_pending",
+  "prior_publication": "fd28a6c0187a7548c60812a8541aad30099e1344",
+  "source": {
+    "files": 8977,
+    "map_sha256": "f27ab9e949b997ff910baf0c891465e3847879a94b0b29b498b04c01246ed4b2",
+    "fingerprint_depinfo_inputs_verified": 16906,
+    "original_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59",
+    "index_and_accepted_binaries_unchanged": true
+  },
+  "first_repair": {
+    "metadata_files": 895,
+    "registry_archives": 902,
+    "combined_logical_bytes": 827656451,
+    "duplicate_paths": 55,
+    "reclaimed_allocated_bytes": 1786339328,
+    "reference": "../p03-capacity-repair/README.md"
+  },
+  "selected_rlib_repair": {
+    "count": 1047,
+    "archive_bytes": 565190455,
+    "archive_allocated_bytes": 565194752,
+    "archive_sha256": "0691ef18f30d705eacb611a0637e59dcecb241b04488952767cd72323254c353",
+    "archive_durability": "same_VM_persistent_filesystem_only",
+    "restored_backing_allocated_bytes": 2634592256,
+    "full_restore_and_payload_hash_verification_executed": true,
+    "payload_proof_owner": "completed root/helper preserve, restore and final original-alias readback",
+    "metadata_postcheck_payload_bytes_read": 0,
+    "canonical_aliases_verified": 1047,
+    "portable_metadata_matches": 1047,
+    "journal_events": 3141,
+    "journal_phase_counts": {
+      "exchanged": 1047,
+      "intent": 1047,
+      "relocated": 1047
+    },
+    "journal_sha256": "46803c0df3084812fd08751c0fcd4573a734a5bfa47337bf7454d0d832c7fe6c",
+    "displaced_original_slots_absent": true,
+    "accepted_source_or_recovery_archive_retired": false
+  },
+  "root_admission_observation": {
+    "disk_available": 4126310400,
+    "disk_required": 3850000000,
+    "hard_unused_memory": 8838963200,
+    "memory_required": 8589934592,
+    "passed": true
+  },
+  "independent_postcheck_observation": {
+    "disk_available_before_postcheck_evidence": 4126289920,
+    "hard_unused_memory": 8842485760,
+    "memory_current": 8337383424,
+    "memory_limit": 17179869184,
+    "tmp_available": 5831925760
+  },
+  "current_epoch_memory_events": {
+    "low": 0,
+    "high": 0,
+    "max": 0,
+    "oom": 0,
+    "oom_kill": 0,
+    "oom_group_kill": 0
+  },
+  "phased_plan": {
+    "starting_persistent_requirement_bytes": 3850000000,
+    "hard_unused_memory_requirement_bytes": 8589934592,
+    "persistent_planning_envelope_bytes": 3797387752,
+    "missing_ordinary_core_tui_pairs_allocated_once": 442593280,
+    "runtime_known_package_allocation_bytes": 666832896,
+    "new_temporary_runtime_envelope_bytes": 1610612736,
+    "persistent_untouched_recovery_floor_bytes": 268435456,
+    "historical_comparators_and_contingencies_not_measured_future_upper_bounds": true,
+    "broader_tui_appserver_p03_gates_admitted": false
+  },
+  "recovery": {
+    "full_restoration_executed": true,
+    "missing_tmp_backing_rehydrate_implemented_static_reviewed": true,
+    "disaster_rehydrate_executed": false,
+    "persistent_regular_file_recover_implemented_static_reviewed": true,
+    "disaster_recover_executed": false,
+    "new_regular_compiler_outputs_preserved_by_recovery_contract": true,
+    "disposable_helper_exercise": {
+      "passed": true,
+      "cases": 3,
+      "phase_calls": 18,
+      "scenarios": [
+        "normal full restoration and regular-output recovery",
+        "lost temporary backing while retaining a newer regular output",
+        "injected interruptions after real forward/reverse exchange followed by successful recovery"
+      ],
+      "synthetic_payloads_not_actual_rlibs": true,
+      "power_loss_or_production_disaster_simulated": false,
+      "helper_sha256": "0a10738a8600b382ec5110523c11fa0b97aea50a3968253ebdde4b26be6f2cef"
+    }
+  },
+  "scope_limits": [
+    "No Rust build, targeted native test or new UI run occurred in these capacity repairs.",
+    "No broad feature resumption: only paused installed-overlay cancellation acceptance, then critical native eight-path sequence.",
+    "Collector remains paused; no native capacity success until source-bound build and required targeted/runtime gates pass.",
+    "No live-provider or in-app Browser evidence is introduced.",
+    "No remote backup, upload, new environment or expanded VM capacity is claimed.",
+    "Postcheck verified metadata and ownership; it did not independently rehash payload bytes."
+  ],
+  "private_receipts": [
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/COMPLETE_MANIFEST.json",
+      "bytes": 2571,
+      "sha256": "8ce4184c7a95a18b3cb94bf465775e08a98add362970a8ae117eff2fbb58db6b"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/ARCHIVE.json",
+      "bytes": 389730,
+      "sha256": "29520bd1241d331c1a9509c90622686110795564f4ff0767e9a6f9895867d07e"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/MANIFEST.json",
+      "bytes": 633,
+      "sha256": "11a9e441b94427872768ed8304f0ebe6579728d7a69e870d2a557d7c55df9ce4"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/POSTCHECK.json",
+      "bytes": 2037,
+      "sha256": "8e092b62956e8b7c998af4a34b05917806896bca16ad29192b0467b41f2de667"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/RELOCATED.json",
+      "bytes": 821,
+      "sha256": "ac576f3fcdc3bc64bf9418b383d70de3311b6aa347a3625ff8674aca3d433c4a"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/RELOCATION.jsonl",
+      "bytes": 1803891,
+      "sha256": "46803c0df3084812fd08751c0fcd4573a734a5bfa47337bf7454d0d832c7fe6c"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/REPORT.completed.md",
+      "bytes": 2762,
+      "sha256": "51b462f56d350faccff505caaf704698429f3820d6dadc019658ff816128918f"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/RESTORE.json",
+      "bytes": 354054,
+      "sha256": "c1f9ffc131ee559d644a3cc53266d963475305c5c3ce2a4959ee396c1243c74b"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/ROOT_AFTER.json",
+      "bytes": 1098,
+      "sha256": "0b374127ae041e03cd0cef537b60fe6b5ed3ab6c9731283ec3f1e4a08eca4c2a"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-20261005-02/ROOT_BEFORE.json",
+      "bytes": 587,
+      "sha256": "1bc81865866cdb194fad07af83010402b05f627c9447063cbe273f8e35afdb8d"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p03-cache-relocation-disposable-review-20261005-02/RESULT.json",
+      "bytes": 10698,
+      "sha256": "c25300bdeb5203404be234ae0f0ce709bd3d4883011b5be8e13a77d4cd59f072"
+    }
+  ]
+}

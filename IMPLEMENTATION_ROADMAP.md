@@ -1,16 +1,34 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Priority override, 2026-10-05:** all updater/planner/scope-validator and other
-feature work is PAUSED. The sole active workstream restores development capacity
-for the critical native P03 auth-install and full targeted validation sequence.
-Historical instructions below to advance independent small maintenance work no
-longer apply. See EXECUTION_STATE.md for exact preserved proposals/resumption points.
-No feature pass clears the disk/RAM/build/runtime gate. P18U/P19 remain required later.
-Latest resumption order: once capacity is restored, finish only the paused installed-
-overlay cancellation acceptance to a verified checkpoint, then return to critical
-native P03. The collector stays a preserved parallel draft; no broad updater queue.
+**Current order,2026-10-05:** selected build backing and measured headroom are
+repaired on the original VM. Finish only the exact paused installed-overlay
+cancellation acceptance, then return immediately to the critical native P03
+eight-path auth-install/test/lint/production/runtime sequence. Collector and broad
+updater/planner/scope-validator work remain paused. No Python feature pass clears
+the native gate, and no native build/validation ran as part of the repair.
 
-Status: **incomplete platform; verified partial baseline**. Updated 2026-10-04.
+[Completed capacity evidence](verification/2026-10-05/p03-capacity-restored/README.md):
+895 metadata and902 genuine registry archives restored;55 duplicate-only paths
+reclaimed1,786,339,328 bytes;1,047 selected unchanged rlibs preserved in a565,190,455-
+byte verified archive and fully restored before journaled alias substitution.
+All original source/index/accepted binary identities remain preserved. Postcheck
+observed4,126,289,920 persistent free bytes and8,842,485,760 hard-unused memory,
+above the conditional3.85GB/8GiB guards. This is repaired headroom, **not a native
+acceptance pass**. The auth-specific3,797,387,752-byte phase budget counts missing
+core/TUI pairs once and covers tests/lint/production/runtime/evidence/recovery;
+larger remaining P03 gates require separate admission. See [capacity plan](CAPACITY_PLAN.md).
+
+Latest published checkpoint before this documentation update isfd28a6c on the
+existing WIP branch. Preserve completed repair receipts; do not replay relocation.
+The original conservative8GiB-free recommendation is not mandatory. Recovery
+`rehydrate`/`recover` paths also passed three disposable synthetic cases/18 phase
+calls for normal, lost-backing and interrupted-exchange recovery; this is not
+power-loss or production-disaster proof. The actual full restoration did execute. Historical instructions below to advance unrelated small
+maintenance work are superseded by this exact resumption order.
+
+Status: **incomplete platform; verified partial baseline**. Current checkpoint2026-10-05.
+
+### Preserved October2 source42 build/runtime baseline
 The current source42 production/runtime checkpoint now passes the12 planned
 rebuilt-host gates. Source code is preserved by WIP047e91e; subsequent15bd9d1 records
 409 package tests and scoped lint. Current build/runtime evidence is published at `ad2fc04768ff7abc8bbd623de462dee6d9b69c07`
@@ -40,9 +58,9 @@ retroactively rebind old package results or prove universally graceful cleanup.
 
 [Preservation evidence](verification/2026-10-02/p03-auth-refresh-production-resources/README.md)
 records fully restored proof archives before exact test-artifact/cache retirement.
-The remaining roughly477MB overlay is insufficient admission for another substantial
-Rust build without a new resource plan; advance independent feasible work rather than
-repeat an unchanged blocked build. P03 credential writes, MCP/lower transport custody,
+At that historical checkpoint, roughly477MB overlay blocked another substantial
+Rust build. The completed October5 repairs and conditional plan above supersede
+that capacity observation and the earlier instruction to pursue small-feature detours. P03 credential writes, MCP/lower transport custody,
 actual broker/catalog activation and the remaining subsystem extractions stay open.
 
 Coverage is still three bounded native replacement families: thread storage/manual
@@ -67,8 +85,10 @@ later-revision integration or rollback result. The complete P18U release gates b
 remain required; see [evidence](verification/2026-10-02/p18u-installed-impact/README.md).
 Published/read-back checkpoint: `914cc59374c1149463e78bc33851d83e3f14d0a4` on the
 existing WIP branch. Fresh migration and two Chromium GUI cycles also passed; the
-next native auth-install slice remains source-only pending the documented
-[capacity gate](verification/2026-10-02/p18u-installed-impact/NEXT_NATIVE_CAPACITY.md).
+next native auth-install slice remains source-only. Its
+[historical capacity gate](verification/2026-10-02/p18u-installed-impact/NEXT_NATIVE_CAPACITY.md)
+is superseded for resource planning by the completed repair and fresh phased guards;
+current-source native acceptance still has to run.
 
 The October4 maintenance0.1.1 checkpoint closes its real direct-Git lifecycle gap:
 58 focused cases and fresh external install/replacement/removal, abrupt manager
@@ -92,9 +112,10 @@ capsule state and both old contracts, and produces13 exact source outputs. The
 one genuine three-way merge retains our custom change and the later upstream
 changes. This is a sparse patch set over pinned custom914cc593, not a complete
 candidate or updated-host acceptance. Active-merge cancellation remains separate.
-Reattachment cleared volatile build backing and prior services; the native gate
-remains closed despite more free RAM. Follow the current execution-state inventory
-and qualified recovery plan before any further Rust compilation.
+Reattachment had cleared volatile backing and services. The October5 repairs now
+restore selected backing and pass the conditional resource guards; that does not
+rebind old test results or prove the new native cohort. Follow EXECUTION_STATE.md
+and the phased plan before any further Rust compilation.
 
 ## 1. Endpoint and scope
 

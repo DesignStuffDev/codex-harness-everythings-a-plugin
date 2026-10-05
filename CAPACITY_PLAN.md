@@ -1,38 +1,108 @@
 # Development capacity and cold-artifact preservation
 
-Historical assessment with capacity-only priority override, 2026-10-05.
-All feature work is paused. Reversible verified selected-input repairs and safe
-duplicate-only reclaim are now authorized; the historical inventories below do
-not themselves authorize any deletion. See EXECUTION_STATE.md for current order.
-**Native admission remains closed. No upload,
-archive deletion, provider purchase, environment change or replacement is approved
-by this assessment.** Do not continue feature work while restoring capacity. Preserve both source worktrees, accepted binaries, original index and WIP.
+Updated2026-10-05 after two completed reversible repairs. Selected backing and
+planned headroom are restored in the original checkout; **native build/validation
+is still pending**. Resume only the exact paused installed-overlay cancellation
+acceptance, then the critical eight-path native auth sequence. Collector and broad
+updater/planner/scope-validator feature work stay paused. Preserve both worktrees,
+accepted binaries, original index, recovery archives and WIP. No upload, paid/account
+change, public tunnel, replacement VM or cold-archive retirement is implied.
 
-## Completed reversible repairs and current next step
+## Current repaired capacity and guards
 
-See [actual repair evidence](verification/2026-10-05/p03-capacity-repair/README.md).
-All895 selected metadata and902 genuine registry archives are now restored exactly;
-all payloads/aliases read back. Combined827,656,451 logical bytes, with block overhead,
-occupy original temporary backing.55 duplicate-only paths reclaimed1,786,339,328B;
-actual restoration preceded retirement and exact retained bytes/journals reverified.
-No recovery archive or unique evidence was removed. Approximately2.065GB persistent
-space is now free. The rest of this file retains historical measurements, not current
-claims that nothing has been repaired or that more Python work is authorized.
+[First repair](verification/2026-10-05/p03-capacity-repair/README.md) restored895 exact
+metadata files and902 genuine registry archives (827,656,451 logical bytes), then
+reclaimed1,786,339,328 allocated bytes from55 verified duplicate-only paths.
+[Second repair](verification/2026-10-05/p03-capacity-restored/README.md) archived1,047
+selected unchanged rlibs, fully restored them to verified temporary backing, and
+journaled canonical-path aliases. Archive565,190,455 bytes/SHA256
+`0691ef18f30d705eacb611a0637e59dcecb241b04488952767cd72323254c353` remains durable
+on this VM. Backing allocation2,634,592,256 bytes; all1,047 aliases and3,141 journal
+events verified. Source/index/accepted binaries and16,906 fingerprint inputs stayed
+unchanged. No recovery archive or unique evidence was retired.
 
-The full native gate remains open. A conservative8GiB persistent recommendation is
-not a measured minimum. A narrower phased plan plus verified recoverable relocation
-of unchanged selected libraries is being assessed to stay on this VM. Historic
-production's10.35GB shmem explains much of its near16GiB pressure; jobs1 already
-applied and must not be advertised as a new saving. Scoped test serialization can
-reduce runner overlap but does not bound linking. Source-bound native validation
-and the full runtime/evidence/recovery sequence are still required.
+| Completed postcheck measurement | Bytes | Reviewed requirement |
+|---|---:|---|
+| Persistent free |4,126,289,920|3,850,000,000|
+| Hard-unused cgroup memory |8,842,485,760|8GiB /8,589,934,592|
+| Memory current / limit |8,337,383,424 /17,179,869,184|Shared by compilers, tmpfs and runtime|
+| `/tmp` free |5,831,925,760|Remeasure before each phase|
 
-Existing PC/home archive storage is a possible destination, not usable build/link
-space. The one cloud DNS/HTTPS check of the provided home service failed (no address;
-proxy CONNECT403). No bulk export/live-resize tool is exposed and no private upload,
-public tunnel, VPN change, new guest or Proxmox-management exposure occurred.
+These values passed the repaired-headroom check at the recorded moment. They do not
+reserve capacity or demonstrate Cargo reuse, native build/test success or future
+peak memory. Current-epoch OOM/max/kill counters were zero. Preserve prior failures.
 
-## Latest observed capacity
+## Exact conditional native phase envelope
+
+The reviewed9-root auth-specific plan uses **3,797,387,752 bytes** of persistent
+planning allowance against a **3,850,000,000-byte** starting-free requirement:
+
+| Term | Bytes |
+|---|---:|
+| Missing ordinary core/TUI pairs |442,593,280|
+| CLI/login/integration/provider test ELFs |605,217,752|
+| New production CLI + manager |643,274,256|
+| Aggregate growth/variant allowance |536,870,912|
+| Source/evidence allowance |134,217,728|
+| Serial new proof archives |402,653,184|
+| Untouched recovery floor |268,435,456|
+| Historical ordinary-output overlap |227,254,272|
+| Additional linker/output-parent scratch |536,870,912|
+
+The442.6MB pair debt is already inside the older792.5MB focused-output comparator;
+never add both totals. Warm affected output slots are reused, with replacement
+scratch charged; accepted proof executables and archive bytes remain preserved.
+Actual runtime package-copy inventory is666,832,896 bytes; the reviewed new temporary
+runtime envelope is1.5GiB including state/browser/fixture growth. Run compiler,
+archive verification and GUI/runtime phases serially. Recheck actual residual
+space, owners, package hashes, source and memory at each transition. Do not kill Rust.
+The512MiB growth and512MiB scratch values are explicit contingencies, not measured
+upper bounds. Unexpected selectors/overruns require review before another phase.
+
+Required sequence: coherent eight-path adoption/format; grouped focused then full
+login and provider `just test`; scoped login lint; locked/offline production
+CLI/manager; fresh-source installed storage/migration/GUI/attachment/slow-shutdown/
+recovery/held-ownership gates plus the real auth-install consumer. Preserve failed
+attempts and rollback proof. The giant TUI6/App Server16 and other P03 debts are
+separate; this plan does not admit them or a full workspace suite.
+
+Original8GiB-free recommendation is a conservative fallback, not a mandatory
+minimum. Old production's near16GiB cgroup total included10.35GB standing shmem;
+selected repaired/moved backing is much smaller. Same16GiB capacity is plausible,
+not a claim that a future compiler peak is known. Jobs1 already applied historically.
+Fresh guard measurements and actual native results must decide success.
+
+Private exact card: R/p03-capacity-sequence-20261005-02/PHASED_REPORT.md;
+separate seal MANIFEST.phased.json SHA256
+`278b4741b379de56b08259c297a2ddde8bd943702e76659cc010039bade2ca1c`.
+Do not overwrite canonical older MANIFEST.json, which remains37653c7a.
+Completed repair seal: R/p03-cache-relocation-20261005-02/COMPLETE_MANIFEST.json,
+SHA256 `8ce4184c7a95a18b3cb94bf465775e08a98add362970a8ae117eff2fbb58db6b`.
+
+## Recovery and external-storage limits
+
+Keep selected-rlibs.tar.zst, ARCHIVE.json, RESTORE.json, alias journals and ownership
+receipts. If temporary backing is absent, the implemented/static-reviewed `rehydrate`
+entry point restores exact archive bytes to temporary storage after fresh guards,
+preserves current regular compiler outputs and emits a new epoch receipt. Returning
+to ordinary persistent files uses guarded `recover` after separately admitting~2.63GB
+plus reserve. Three disposable synthetic cases/18 phase calls passed: normal
+restoration, missing temporary backing with newer regular output preserved, and
+injected interruptions after real forward/reverse exchanges followed by recovery.
+This is fixture behavior, not power-loss or production-disaster proof. Full
+restoration during the actual repair also executed; keep these claims distinct.
+
+No source or private artifact was uploaded. The PC/home destination remains unproven:
+the one cloud DNS/HTTPS check failed (no address; proxy CONNECT403). No supported
+same-instance resize/export route is exposed. Do not retry unchanged access, create
+a public tunnel or expose Proxmox management. External storage is optional now;
+finish the bounded resumption order before broader capacity/product work.
+
+## Historical observations before the completed repairs
+
+The following snapshots, inventories and blocked conclusions describe their original
+observations. The two repairs and phased guard measurements above supersede them
+as current capacity facts; old receipts remain unchanged.
 
 Snapshot: 2026-10-05 01:00:58 UTC. Values are measurements, not reserved resources.
 
@@ -47,7 +117,7 @@ Snapshot: 2026-10-05 01:00:58 UTC. Values are measurements, not reserved resourc
 Current epoch OOM counters are zero. Prior counters and services did not survive
 reattachment; this is not evidence that older processes shut down cleanly.
 
-Small Python contract, planner, inspector and installed-package checks can fit with
+At that historical checkpoint, small Python checks were considered with
 fresh admission: provisionally no more than 16 MiB total new durable writes,
 256 MiB scratch and 128 MiB extra process memory, preserving the 256 MiB disk
 floor. Count concurrent writes, failed-run evidence and package copies. This is not
@@ -75,7 +145,7 @@ hardlinks separate. Allocated bytes are not guaranteed reclaimable bytes.
 | Acceptance artifacts excluding cross-class links | 4,131,401,728 | Mixed packages, evidence and state; preserve ownership individually |
 | Cross-class hardlinks | 267,460,608 | Counted once; removing a name may free nothing |
 
-**Certified safe retirement: zero bytes.** The one process snapshot saw no open
+**At that archive inventory: zero bytes certified for archive retirement.** The one process snapshot saw no open
 archive descriptors or symlink backing, but had three access errors and cannot
 certify inactivity. Refresh owner/reference/alias checks immediately before any
 eventual removal. Current CLI, storage worker aliases, Rust toolchains, extracted
@@ -85,7 +155,7 @@ The narrow 700 MB shortlist alone would remain below the historical native outpu
 comparator. Individually clearing enough of the broader 8.17 GB pool could materially
 help; no whole-pool retirement or guaranteed freed-space figure is established.
 
-## Why the native sequence is still blocked
+## Historical reason for the earlier closed native gate
 
 The existing output/link-overlap/reserve comparator is **2,160,322,264 bytes** before
 selected missing-input regeneration, lint/production closure growth, remaining
@@ -111,7 +181,7 @@ was repeated. No available environment tool exposed a disk-size/resize operation
 An operator would need to identify a supported quota increase that preserves this
 task's filesystem; a saved environment edit or guest resize command is not proof.
 
-## Refined recorded native dependency closure
+## Historical refined dependency audit, before restoration
 
 A new read-only audit resolves nine recorded test/lint/production roots to2,268
 unique fingerprint nodes, with no ambiguous/unresolved recorded edges. It narrows
@@ -119,12 +189,13 @@ recovery terms without running Cargo or reopening native admission:
 
 - 895 selected missing metadata files:694,368,532 historical logical bytes. All have
  paired live rlibs. Exact ELF-section hashing authenticated16/76,049,503 bytes;
- remaining879/618,319,029 bytes are unprobed. No files were extracted or restored.
+ remaining879/618,319,029 bytes were unprobed then. The later full probe matched all895;
+ both completed repairs above supersede this missing-backing snapshot.
 - The old eleven relocated rlibs are outside this union, but two additional ordinary
  core/TUI test-library pairs are absent:442,593,280 historical allocated bytes.
 - 902 selected missing registry archives:133,287,919 compressed bytes. Their retained
- hashes match Cargo.lock and all902 unpacked source directories exist; a requirement
- to restore every archive has not been established.
+ hashes match Cargo.lock and all902 unpacked source directories exist; the subsequent repair restored all902 exact selected archives. The preserved offline
+ Inflector failure shows unpacked sources alone did not suffice.
 
 Those rows are historical planning terms, not a sufficient free-space demand or
 proof Cargo will reuse surviving outputs. New-source regeneration, library/linker
@@ -134,7 +205,8 @@ read-only audit and independent review are sealed at
 `p03-native-closure-readonly-20261005-01/MANIFEST.json`, SHA256
 `dabf8eaf994bf724ec7aeb27f86e3637c9c3ff40c77a7f32ac3cbca1ec3a1260` under the
 recovery root. This supersedes indiscriminate whole-cache restoration as the next
-investigation; native auth/P03 remains blocked. No recovery archive was retired.
+investigation at that time. Native auth/P03 proof remains pending after repair; no
+ recovery archive was retired.
 
 ## Google Drive and other offsite candidates
 
@@ -199,7 +271,8 @@ The full private metadata inventory is preserved in the workspace under
 
 These seals identify audit reports, not fresh archive payload integrity. They are
 workspace-local checkpoints, not demonstrated external backups. Published GitHub
-source protects only included source. Next: restore verified selected build inputs, evaluate exact duplicate-only reclaim,
-and establish the full native disk/RAM sequence. PC and home Proxmox are potential
+source protects only included source. Current next action is the exact paused
+installed-overlay acceptance, then the critical native source-bound sequence under
+the repaired conditional plan. The input/duplicate/rlib repairs are complete; do not replay them. PC and home Proxmox are potential
 private destinations; no supported cloud transfer is yet proven. No public management
 endpoint or unapproved upload. Record concrete access needs after bounded repair.

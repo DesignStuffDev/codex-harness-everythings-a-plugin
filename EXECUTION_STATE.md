@@ -11,55 +11,73 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: capacity restoration only — 2026-10-05
+## Current priority: finish the paused acceptance, then native P03 — 2026-10-05
 
-User instruction supersedes the maintenance detour: **all feature development is
-paused**, including updater, planner, scope validator, collector and cancellation
-acceptance. Restore capacity for the critical native P03 eight-path auth-install
-sequence. Do not finish a feature milestone first or count Python passes as native
-admission. Original source/index, archives, accepted binaries and proposals remain
-preserved. Pause receipt/preimages: R/p03-capacity-only-pause-20261005-02.
+Selected build backing and measured headroom are now repaired in this same checkout.
+**The critical native build/validation gate has not run.** Resume only the exact
+paused installed-overlay cancellation acceptance to a bounded verified checkpoint,
+then the eight-path native auth-install sequence. The collector and broader updater,
+planner and scope-validator work remain paused; do not start a maintenance detour.
+A Python acceptance pass will not prove native capacity or complete P03.
 
-Latest completed publication is **2690688f7ad542f127824f5f69cd8580d0a89109**;
-R/p18u-final-scope-publication-20261005-01/PUBLICATION.json is already read back.
-Do not replay it. Paused resumption points, only after capacity restoration:
+Latest published checkpoint before this documentation update:
+**fd28a6c0187a7548c60812a8541aad30099e1344** on the existing WIP branch. The completed
+source/final-scope publication2690688 and earlier395aac0 remain preserved. Do not
+replay their mutations or the completed capacity operations.
 
-- Installed-overlay cancellation: sealed R/p18u-overlay-installed-lifecycle-proposal-01,
-  not admitted or executed; review its complete bounded sequence before any run.
+Exact preserved resumption points:
+
+- Installed-overlay cancellation: sealed R/p18u-overlay-installed-lifecycle-proposal-01;
+  its cooperative SDK shutdown, abrupt plugin death, tracked Git cleanup and successful
+  manager invocation after each primary still require fresh source/package/resource
+  admission and actual execution. The synthetic trace calibration is not this proof.
 - Inventory collector: R/p18u-inventory-collector-proposal-01/files contains two
-  unsealed draft files plus PRE_FORMAT.json; no tests or adoption ran.
-- Synthetic trace evidence: sealed R/p18u-overlay-trace-calibration-evidence-20261005-01
-  remains unadopted. It is not installed cancellation proof.
-- Resource estimate correction: R/p18u-small-stage-resource-correction-20261005-01
-  retained; proposed amendment directory does not exist. Earlier estimates were
-  exceeded, while the observed persistent reserve held. Do not claim budget pass.
+  unsealed draft files plus PRE_FORMAT.json; no tests/adoption ran. Keep paused.
+- Synthetic trace evidence: R/p18u-overlay-trace-calibration-evidence-20261005-01 remains
+  unadopted. Resource-estimate correction at
+  R/p18u-small-stage-resource-correction-20261005-01 remains preserved; earlier small
+  estimates were exceeded, so do not claim their budget passed.
+- Native auth: R/p03-ephemeral-token-install-cohort-proposal-01 remains unadopted,
+  uncompiled and untested. Preserve the complete eight-path cohort and all alternatives.
 
-All895 selected missing metadata payloads now match exactly (694,368,532B), not
-just16. R/p03-native-metadata-fullprobe-20261005-01/MANIFEST.json has SHA256
-`ef59fecac1c24e1cb16c6ab102c29d980f1237c01c35fcc03f9e7a29b899c345`.
-Availability alone is not restored backing, Cargo reuse or native admission.
-The capacity workstream will restore only verified selected backing with current
-ownership/hash/resource checks, assess selected core/TUI regeneration, and establish
-a full disk/RAM/linker/test/runtime/recovery envelope. No Rust command is active.
+## Completed capacity repairs and conditional native admission
 
-## Actual capacity repair checkpoint — 2026-10-05
+[First repair](verification/2026-10-05/p03-capacity-repair/README.md), publishedfd28a6c:
+all895 metadata and902 genuine registry archives restored/read-back exact,
+827,656,451 logical bytes.55 duplicate-only paths reclaimed1,786,339,328 allocated
+bytes after restoration/lease/alias checks. No recovery archive, source or unique
+raw evidence was retired. Approximately2.065GB persistent space was free then.
 
-[Repair evidence](verification/2026-10-05/p03-capacity-repair/README.md): all895
-metadata files and902 genuine registry archives are restored/read-back exact.
-Combined827,656,451 logical bytes now have original temporary backing.55 duplicate
-paths were safely retired after actual restore and exclusive-lease/alias checks;
-1,786,339,328 allocated bytes reclaimed, two independent accepted storage-plugin
-copies and all raw evidence retained. No archive/source/state retirement. Source,
-index and accepted CLI/manager hashes remain unchanged. Persistent free space is
-approximately2.065GB at this checkpoint; no Rust build or native admission yet.
+[Second repair](verification/2026-10-05/p03-capacity-restored/README.md): root preserved
+1,047 selected unchanged rlibs in a565,190,455-byte verified durable archive,
+fully restored exact payloads to temporary backing, then journaled canonical alias
+replacement. Final backing allocates2,634,592,256 bytes. The independent metadata
+postcheck verified all1,047 aliases/portable identities and3,141 journal events;
+it did not rehash payloads or run a build. Root separately verified8,977 source
+files,16,906 fingerprint/depinfo inputs, the original index and accepted binaries.
 
-Private receipt: R/p03-capacity-repair-checkpoint-20261005-02/CHECKPOINT.json.
-Do not rerun the completed restore/retirement commands. The exact native phase plan
-and selected reproducible-cache relocation are under review. Prior8GiB free-space
-recommendation is conservative, not a proved minimum. Historical near-limit build
-included10.35GB shmem; current selected backing is much smaller, so RAM expansion
-is not established as necessary. The single home-service check failed DNS and proxy
-CONNECT403; do not retry unchanged access or expose Proxmox publicly.
+Postcheck observed **4,126,289,920 persistent free bytes** and **8,842,485,760
+hard-unused memory bytes**, exceeding the reviewed3,850,000,000-byte disk and8GiB
+memory requirements. These are point measurements, not future reservations. The
+phased3,797,387,752-byte planning envelope includes all required new test/production
+outputs, growth, lint/link overlap, evidence, proof archives and a256MiB recovery
+floor. Its442,593,280-byte missing ordinary core/TUI pair is counted once, within
+the focused output comparator. It does not admit giant TUI/App Server/P03 debt.
+
+Receipts: R/p03-cache-relocation-20261005-02/COMPLETE_MANIFEST.json SHA256
+`8ce4184c7a95a18b3cb94bf465775e08a98add362970a8ae117eff2fbb58db6b`.
+Archive SHA256 `0691ef18f30d705eacb611a0637e59dcecb241b04488952767cd72323254c353`.
+Preserve archive, ownership/restore receipts and journals. Rehydrate/recover paths
+are documented in the evidence. Three disposable synthetic cases/18 phase calls
+passed, including lost backing, newer regular output preservation and interrupted
+forward/reverse exchange recovery. They were not power-loss or production-disaster
+rehearsals. Archives remain VM-local. Do not rerun preserve/restore/relocate.
+
+Read [CAPACITY_PLAN.md](CAPACITY_PLAN.md), the exact phased card and fresh counters
+before every remaining stage. Jobs1 already applied historically; it is not a new
+saving. Old near-limit production included10.35GB shmem, much larger than current
+selected backing. No blanket8GiB disk requirement or RAM-expansion claim remains.
+No native build, targeted native test or new GUI run has occurred for these repairs.
 
 ## Identity and preservation
 
@@ -194,32 +212,27 @@ strict0/source unchanged. R/p18u-overlay-owned-trace-admission-20261005-01 retai
 all tiny runtime files and binary bindings; result SHA
 `d886acfad59b4cbabf282ea8234da7c40c57f5c7c35861bb5cd1ce3442c23e1d`.
 This proves an exec-boundary test mechanism, not installed-plugin cancellation or
-that merging had begun. An R-only actual installed-overlay lifecycle proposal is
-in preparation; no invocation from that proposal has run. The unchanged strict
+that merging had begun. The R-only actual installed-overlay lifecycle proposal is
+sealed and remains unexecuted at this checkpoint. The unchanged strict
 runner has no command timeout; root supplied timeout15s TERM/+5s KILL inside it.
 Every deadline/rescue/nonzero remains failure. No test command remains active.
 
 ## Capacity and required product scope
 
-After the50-case run (2026-10-05 01:58:06 UTC): persistent287,522,816B,
-tmp9,163,165,696B, hard-unused cgroup13,681,459,200B; OOM/kill0 unchanged. Temporary
-space shares the16GiB memory limit. Native auth/P03 admission remains closed.
-Do not restart a blocked Rust build on unchanged assumptions or adopt untestable auth.
+Historical pre-repair observations at01:58:06 UTC were287,522,816 persistent bytes
+and a closed native gate. The earlier16-section pilot left879 unprobed then; the
+later full probe authenticated all895, and both repairs above supersede those
+missing-backing and free-space descriptions. They do not supersede old failed tests.
+The8.17GB historical archive inventory remains protected; no recovery archive was
+retired. No supported same-instance resize or authenticated cloud-to-home export
+is established. The single home-service check failed DNS and proxy CONNECT403;
+do not repeat unchanged access or expose Proxmox management publicly.
 
-[CAPACITY_PLAN.md](CAPACITY_PLAN.md) retains the8.17GB archive inventory and zero
-certified safe retirement. The refined read-only closure selects895 missing metadata
-files/694,368,532B plus separate missing core/TUI pairs/442,593,280 historical
-allocated bytes;902 missing archive payloads/133,287,919B have present unpacked
-sources.16 ELF metadata sections match exactly;879 remain unprobed. No recovery or
-Cargo command ran. Future regeneration/link/runtime/rollback peaks still prevent
-an honest sufficient disk/RAM request. No supported same-instance resize is exposed.
-
-Drive is evaluation-only: quota/access/exact-VM-byte transport remain unverified.
-Require protected contents, manifests, independent remote readback, full demonstrated
-restoration and explicit retention decisions before retirement. No upload/provider
-purchase/archive deletion. Avoid a new full archive on this disk. Current small
-Python stages need fresh, bounded whole-sequence admission and256MiB persistent
-reserve; no blanket budget for a new GUI run or compiled host.
+Drive/PC/home storage remain optional private cold-archive candidates. No upload,
+provider purchase, account creation or archive retirement is implied. Remote
+integrity, demonstrated restoration and explicit retention decisions precede any
+protected artifact retirement. The measured same-VM repairs permit the specified
+bounded resumption order; they do not reopen a broad small-feature queue.
 
 Required P18U/P19 behavior is documented in [walkthrough](UPDATE_WALKTHROUGH.md)
 and [live generations](LIVE_UPDATE_GENERATIONS.md): user-initiated pinned updates,
@@ -236,29 +249,28 @@ live activation/hot replacement within running sessions.
 
 ## Ordered next actions
 
-1. Preserve paused proposals and inspect current source/index/processes/resources.
-   Read the pause receipt above; do not replay completed publication/mutations.
-2. DONE: selected metadata and registry repairs plus55-path exact duplicate reclaim.
-   Inspect their final receipts instead of replaying completed mutations.
-3. Close the complete eight-path native sequence admission: selected core/TUI
-   regeneration, registry necessity, scoped tests/lint, production CLI/manager,
-   linker overlap, real installed storage/migration/replacement/GUI/cancellation,
-   source-bound evidence and preserved recovery. No doomed partial Rust attempt.
-4. Carry out verified reversible reclaim if available. Evaluate an authenticated
-   exact-byte export to the user's PC (reported1080.03GiB free), or supported same-VM
-   expansion. No public tunnel, unapproved private upload, archive retirement,
-   replacement environment or paid/account changes. Remote readback and demonstrated
-   restoration precede retirement of protected cold artifacts.
-5. Latest user order: after capacity restoration, FIRST finish the exact paused
-   root-owned installed-overlay cancellation acceptance (sealed proposal above):
-   source/package-bound cooperative SDK shutdown, abrupt plugin death, tracked Git
-   cleanup before rescue, incomplete-job behavior and successful manager invocation
-   after each primary, then checkpoint exact evidence. The helper was reviewed but
-   never admitted/executed. Collector was parallel draft preparation, not the current
-   primary milestone; preserve it and do not restart a broad maintenance queue.
-6. Then return to critical native P03 extraction. Capacity success still requires
-   the current-source native build/targeted validation, not that Python milestone.
-   P18U/P19 walkthrough/A-B/rollback requirements remain in scope later.
+1. Read both completed repair seals, source/index bindings and exact phased budget;
+   reconcile current processes and fresh disk/tmpfs/memory counters. Preserve all
+   archives/aliases and unfinished proposals. Never replay completed cache mutations.
+2. Finish only the paused installed-overlay cancellation acceptance: separately built
+   installed package with the unchanged manager, cooperative SDK shutdown, abrupt
+   plugin death, tracked Git cleanup before rescue, incomplete-job outcomes and
+   subsequent successful manager invocation after each primary. Use fresh no-clobber
+   evidence and exact package/source identities; preserve failures and checkpoint.
+3. Return immediately to the coherent eight-path native auth-install cohort. Recheck
+   all source preimages and whole-sequence capacity before adoption. Run required
+   formatting, grouped focused/full login and provider `just test`, scoped login
+   `just fix`, then production CLI/manager rebuild with retained flags/toolchain.
+   Bind actual new-source/binary results; older source42 passes are not new proof.
+4. Reexercise installed storage/migration/GUI/attachments, normal/forced Launch,
+   cancellation/recovery and the held ownership matrix against that new host. Include
+   the new auth-install real consumer gate; do not substitute native unit fixtures.
+   In-app Browser remains unavailable; identify actual Chromium/deterministic-model
+   fallback explicitly. Native capacity success requires this source-bound sequence.
+5. Separately budget remaining TUI6/two snapshots, App Server16, same-process
+   replacement and lower-transport/MCP/durability debt. The auth-specific9-root
+   capacity plan does not admit those larger or unresolved builds. Collector and
+   broad P18U/P19 feature work stay paused until the critical native priority is met.
 
 The user's home Proxmox (>40TB reported) is another cold-storage destination to
 assess with the coordinator. No provisioning or checkout relocation is authorized;
