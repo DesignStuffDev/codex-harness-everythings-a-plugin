@@ -8,6 +8,21 @@ payload and establishes no build or runtime acceptance. The accompanying
 [manifest](verification/2026-10-05/native-worker-handoff/MANIFEST.json) binds exact
 source/control identities and private evidence references without their contents.
 
+Continuation: cloud environments remain primary; Proxmox provides explicitly
+offloaded builds and durable recovery. Product work resumes automatically after
+the infrastructure acceptance gate in [COMPLETION_HANDOFF.md](COMPLETION_HANDOFF.md).
+The immutable references below remain the source assembly baseline. Publication
+`47b225fc3b5ee4bd3cf1b37e056f5818f58a54ac` added only five coordination files; it did
+not publish the eight-file overlay or private runtime controls. New private packet
+preparation preserves exact originals and does not make those controls portable or
+approved for public export. The [continuation readiness receipt](verification/2026-10-05/completion-handoff/MANIFEST.json)
+records 32 privately staged payloads/1,550,203 bytes with exact readback, including
+the full canonical source map. The resumed bounded static review covers 31 selected
+source/control files; [bootstrap requirements](verification/2026-10-05/completion-handoff/BOOTSTRAP_CONTROLS.md)
+retain concrete source-envelope, observer, companion-input, notices and private-log
+requirements. It grants no payload export. No worker access, transfer or native pass
+is implied.
+
 ## Immutable source references
 
 | Reference | Identity |

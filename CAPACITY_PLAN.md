@@ -2,7 +2,14 @@
 
 ## Current infrastructure direction
 
-The latest instruction makes durable expandable development capacity the exclusive
+OpenAI cloud environments remain primary; Proxmox supplies explicitly offloaded
+builds and durable recovery. The latest instruction requires automatic continued
+product execution after infrastructure acceptance, without repeated continuation
+questions. [COMPLETION_HANDOFF.md](COMPLETION_HANDOFF.md) defines the I1–I5 gate,
+source-bound validation sequence and dependency-ordered product resumption. Until
+that gate passes, feature work remains paused and preparation stays infrastructure-only.
+
+Durable expandable development capacity remains the immediate
 priority and allows a future separate native worker. Preserve the original VM and
 all unique work/recovery state. [NATIVE_BUILD_WORKER_HANDOFF.md](NATIVE_BUILD_WORKER_HANDOFF.md)
 now defines source custody, clean dependency reconstruction, exact native/runtime
@@ -14,8 +21,10 @@ worker. Private cold-archive transport is a separate retention workstream, not a
 prerequisite for the recommended source-first build-worker setup.
 
 Updated 2026-10-05 after the additional registry repair and a failed native retry.
-**Native admission is closed pending writable compiler-output handoff and a renewed
-budget for the dirty dependency closure.** The exact paused installed-overlay gate
+**Original-VM native admission is closed pending writable compiler-output handoff
+and a renewed budget for the dirty dependency closure.** A clean offloaded worker
+instead follows I1–I5 with fresh writable outputs; it need not repair this cache.
+The exact paused installed-overlay gate
 is complete; the next priority remains the coherent eight-path native auth sequence.
 Collector and broad updater/planner/scope-validator work stay paused. Preserve both
 worktrees, accepted binaries, original index, all recovery archives and failed-run

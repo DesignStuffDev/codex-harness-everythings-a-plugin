@@ -1,15 +1,24 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Current order, 2026-10-05: infrastructure only; all product work paused.**
-The user now permits a separately provisioned expandable native worker, while the
+**Current order, 2026-10-05: infrastructure acceptance, then automatic continuation
+through all remaining product phases.** OpenAI cloud environments remain primary;
+Proxmox provides explicitly offloaded builds and durable recovery. The consolidated
+[completion handoff](COMPLETION_HANDOFF.md) maps the infrastructure gate, every phase,
+all inventory families and final acceptance. It does not narrow this roadmap.
+Feature work remains paused while that gate is open; after it passes, continue
+successive dependency-ready milestones without repeatedly asking to continue.
+
+The user permits a separately provisioned expandable native worker, while the
 original environment and all work remain intact. [Source/control handoff](NATIVE_BUILD_WORKER_HANDOFF.md)
 and its [exact manifest](verification/2026-10-05/native-worker-handoff/MANIFEST.json)
 replace the same-VM-only resumption order. No worker, source transfer, dependency
-bootstrap or native execution has occurred. Required next inputs are authenticated
+bootstrap or native execution has occurred in this source-readiness continuation.
+Required next inputs are authenticated
 worker access, admitted clean-build resources, pinned dependency access, source/control
 custody and reproducible bootstrap. Do not copy the damaged warm target or use the
 old conditional warm-cache budget for the clean worker. Do not resume product
-extraction/updater work or repeat completed reviews/blocked original-VM commands.
+extraction/updater work before infrastructure acceptance or repeat completed
+reviews/blocked original-VM commands.
 
 The prior [handoff/capacity design](NATIVE_OUTPUT_HANDOFF.md) stays preserved as
 original-VM recovery guidance, not permission for another attempt. The source audit
@@ -30,10 +39,11 @@ ran in either focused attempt.** All 1,047 preserved rlib backing payloads remai
 one canonical proc-macro2 rlib alias is now absent and 1,046 remain intact.
 
 [Current checkpoint](verification/2026-10-05/p03-token-install-build-inputs/README.md)
-keeps these separate results and their exact identities. Native admission is closed
+keeps these separate results and their exact identities. Original-VM native admission is closed
 until a recoverable writable-output handoff and expanded dirty-closure budget cover
 the full required sequence. Do not chmod recovery backing, reset fingerprints or
-blindly retry. The eight-path store/caller operation must remain coherent.
+blindly retry. A clean offloaded worker follows I1–I5 without repairing these
+protected aliases. The eight-path store/caller operation must remain coherent.
 Focused/full login/provider tests, scoped lint, production CLI/manager, all 12 prior
 runtime recipes and the new auth consumer remain pending. Collector and broader
 updater/planner/scope-validator work stay paused.
@@ -965,7 +975,9 @@ an explicitly partial development checkpoint/release candidate.
    custom behavior change); reject failure without accidental native fallback.
 4. Run focused meaningful tests through `just test`, then affected regression gates.
    For core/common/protocol, the complete suite is required before full acceptance;
-   existing user authorization covers necessary regression work. A resource-blocked
+   separate user approval is required for a complete workspace suite unless an
+   explicit applicable approval is already recorded; general continuation is not
+   that approval. A resource-blocked
    run is a recorded limitation, not a pass. Never weaken lifecycle/security tests.
 5. Exercise the existing GUI at each real-host integration cycle: streaming, tool
    progress, approvals, Stop, persistence/recovery and manager Launch Ctrl+C. The
@@ -975,7 +987,9 @@ an explicitly partial development checkpoint/release candidate.
    relay or falsely label fallback tests as in-app Browser tests.
 6. Run scoped `just fix`, `just fmt`; update generated config/protocol schemas and
    `just bazel-lock-update` when applicable. Do not repeat runtime tests solely for
-   formatting; substantive fixes require their own appropriate checks.
+   formatting; follow AGENTS' no-test-rerun-after-fix/fmt rule. Source-changing lint
+   requires an explicit new source/acceptance decision; never bind earlier passes
+   to a semantically changed tree.
 7. Record commands, statuses, actual tested tree/diff, binary/package hashes, OS,
    fixtures and failures. Preserve original failed runs and corrected-run provenance.
 8. Update inventory, execution queue, validation and P00M provenance. Bind each

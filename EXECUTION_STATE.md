@@ -11,9 +11,46 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: durable expandable infrastructure — 2026-10-05
+## Current priority: hybrid infrastructure, then automatic product continuation — 2026-10-05
 
-All product work is paused by the latest user instruction. A separately provisioned
+The latest instruction requires a complete implementation/build plan and continued
+execution after infrastructure acceptance, without repeated requests to continue.
+OpenAI cloud environments remain primary; Proxmox is for explicitly offloaded builds
+and durable recovery. [COMPLETION_HANDOFF.md](COMPLETION_HANDOFF.md) consolidates the
+I1–I5 infrastructure gate, all remaining P00–P19 phases/C00–C27 coverage, kernel
+exceptions, collector/updater/A-B requirements and final acceptance. Its detailed
+phase requirements remain those of the canonical roadmap, not a reduced endpoint.
+
+Latest verified publication entering this continuation is
+`47b225fc3b5ee4bd3cf1b37e056f5818f58a54ac`, tree
+`95e4081aee7d0f3df26770bacef7cb86975b04bd`: five coordination documents read back
+exactly, original index unchanged. No candidate source or private payload was published.
+This continuation prepared a private 32-payload/1,550,203-byte source/control packet:
+eight exact auth files, fourteen private runtime helpers, five bootstrap controls,
+four command references and the full portable 8,980-path map. Selected originals
+and index are unchanged. The [readiness receipt](verification/2026-10-05/completion-handoff/MANIFEST.json)
+binds its private custody. After the requested pause, the original checkout/index,
+packet and selected source hashes reconciled exactly; the six saved documentation
+files passed independent review. A bounded static content review then covered
+31 code/control files (364,822 bytes), identifying concrete portable-control and
+companion-input gaps. [Bootstrap control requirements](verification/2026-10-05/completion-handoff/BOOTSTRAP_CONTROLS.md)
+record source/index envelope, environment override order, observer success receipts,
+private GUI reports and notice obligations. This is not export authorization or
+runtime proof. Exact source/control delivery selection, adaptation, OS/sysroot/tool
+closure, monitoring integration, fresh package proofs, worker access and native
+acceptance remain pending. No feature work, native command, worker provisioning or
+export occurred.
+
+**Next action:** hand the infrastructure coordinator the reviewed source/control
+packet manifest and worker bootstrap gaps; finish the companion-input/delivery
+selection and derive separately hashed portable controls/image recipe. On actual authenticated worker readiness,
+admitted resources and reviewed portable controls, deliver pinned source plus the
+explicitly unverified coherent eight-path overlay, rebuild cleanly and close I1–I5
+with current evidence. Then resume remaining native auth/P03 automatically. Installed
+overlay cancellation is already complete; collector drafts stay preserved for P18U.
+Keep full-workspace-suite approval separate from this general continuation authority.
+
+All product work remains paused until infrastructure acceptance. A separately provisioned
 native worker may now be considered; the original capped VM is no longer required
 to be the sole executor. Preserve this original environment, both workspaces, source,
 index, accepted binaries, failed state and every recovery archive. This owning task
@@ -27,7 +64,7 @@ published preservation paths that must remain inherited. The source projection r
 8,980 paths/b75efc97; no candidate build or native tests passed. Fourteen private
 control sources and independent-package lock/proof gaps are explicitly identified.
 
-Latest verified publication before this coordination update is
+Historical verified publication before the source-custody coordination update is
 `c0412a00d90cca162e7a54b5c6aa06cb67979f55`, tree
 `72afcf70ca516071911c4732ec22ec5c90eff3b3`. It is a capacity/documentation checkpoint.
 The future worker should acquire pinned source/dependencies and build fresh targets
