@@ -1,0 +1,584 @@
+{
+  "bounds": {
+    "native_validation_pending": true,
+    "outer_timeout_seconds": {
+      "each_primary": 20,
+      "each_recovery": 140,
+      "setup": 60
+    },
+    "outer_timeout_term_then_kill_after_seconds": 5,
+    "point_measurements_not_reservations": true,
+    "root_postcheck_disk_free_bytes": 4118978560,
+    "root_postcheck_hard_unused_memory_bytes": 8825147392,
+    "timeouts_fired": false,
+    "whole_cycle_allocated_before_final_receipt_and_documentation_bytes": 6950912,
+    "whole_cycle_cap_bytes": 8388608
+  },
+  "counts": {
+    "direct_installed_sdk_primaries": 2,
+    "normal_commands": 8,
+    "product_test_replays": 0,
+    "rebuilds": 0,
+    "recovery_commands": 6,
+    "removals": 0,
+    "setup_commands": 2,
+    "source_and_strict_stages": 5,
+    "tracked_identities_absent": 6,
+    "upgrades": 0
+  },
+  "date": "2026-10-05",
+  "export_correction": {
+    "event": "exclusive destination RESULT.json already contained wrapper result; metadata export refused collision",
+    "primary_saved_as": "PRIMARY_RESULT.json",
+    "receipt": "p18u-selection-overlayshutdown02-20261005-01/EXPORT_CORRECTION.json",
+    "test_replayed": false,
+    "wrapper_overwritten": false
+  },
+  "identity": {
+    "base_upstream": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "capsule_manifest_sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c",
+    "custom_source": "914cc59374c1149463e78bc33851d83e3f14d0a4",
+    "installed_build_source_map_sha256": "d84cf069cea7be4da7aa68cbc43d56f72483d3ea05546f1b340eab28b9e30c99",
+    "installed_build_source_paths": 8975,
+    "installed_manifest_sha256": "e1a3cd057da14aaa35afa4507fd8ab4cbacf895ecb98cca6bb75e9f0a07ab9e7",
+    "installed_package_version": "0.4.0",
+    "installed_pyz_sha256": "913e0842bfae1ec72e80c118612b8aed73575625ea13b7bd71d4bf073dd87a29",
+    "later_upstream": "2e5fea64eefcaa19f48458b2386011b619f69c70",
+    "legacy_overlay_version": "0.3.0",
+    "repository_code_unchanged": true,
+    "repository_source_map_sha256": "f27ab9e949b997ff910baf0c891465e3847879a94b0b29b498b04c01246ed4b2",
+    "repository_source_paths": 8977,
+    "unchanged_manager_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954"
+  },
+  "limits": [
+    "The held Git is proven at real exec, not after computation beyond exec.",
+    "Direct installed-SDK shutdown does not prove graceful manager-to-SDK forwarding.",
+    "Abrupt primary helper adopted/reaped Git; sole outer-command reaping is not absence of inner adoption.",
+    "Current source identity differs from prior installed package build source.",
+    "Prepared 13-path source overlay is not a complete updated host. All seven release gates remain pending.",
+    "No new native build, native capacity pass, UI regression, walkthrough, activation or rollback is claimed.",
+    "Raw receipts and runtime state remain VM-local; publication only makes included source and sanitized evidence durable."
+  ],
+  "next_action": "Recheck cohort preimages and fresh phased capacity, then critical native eight-path auth-install sequence. Collector and broad updater remain paused.",
+  "normal_commands": {
+    "abrupt-recovery": [
+      {
+        "exit": 2,
+        "expected_exit": 2,
+        "label": "offline inspect interrupted job",
+        "offline_empty_path": true,
+        "timed_out": false,
+        "timeout_seconds": 10
+      },
+      {
+        "exit": 0,
+        "expected_exit": 0,
+        "label": "ordinary manager recovery",
+        "offline_empty_path": false,
+        "timed_out": false,
+        "timeout_seconds": 105
+      },
+      {
+        "exit": 0,
+        "expected_exit": 0,
+        "label": "offline inspect prepared recovery",
+        "offline_empty_path": true,
+        "timed_out": false,
+        "timeout_seconds": 10
+      }
+    ],
+    "setup": [
+      {
+        "exit": 0,
+        "expected_exit": 0,
+        "label": "install exact 0.4 package",
+        "offline_empty_path": false,
+        "timed_out": false,
+        "timeout_seconds": 20
+      },
+      {
+        "exit": 0,
+        "expected_exit": 0,
+        "label": "list isolated installation",
+        "offline_empty_path": false,
+        "timed_out": false,
+        "timeout_seconds": 20
+      }
+    ],
+    "shutdown-recovery": [
+      {
+        "exit": 2,
+        "expected_exit": 2,
+        "label": "offline inspect interrupted job",
+        "offline_empty_path": true,
+        "timed_out": false,
+        "timeout_seconds": 10
+      },
+      {
+        "exit": 0,
+        "expected_exit": 0,
+        "label": "ordinary manager recovery",
+        "offline_empty_path": false,
+        "timed_out": false,
+        "timeout_seconds": 105
+      },
+      {
+        "exit": 0,
+        "expected_exit": 0,
+        "label": "offline inspect prepared recovery",
+        "offline_empty_path": true,
+        "timed_out": false,
+        "timeout_seconds": 10
+      }
+    ]
+  },
+  "primaries": {
+    "abrupt": {
+      "admission_seconds": 5,
+      "adopted_git_returncode": -9,
+      "cleanup_seconds": 3,
+      "current_repository_is_not_installed_artifact": true,
+      "git_observation_boundary": "real exec, detached before primary; no claim of computation beyond exec",
+      "incomplete_files_verified": true,
+      "installed_sdk_tested": true,
+      "manager_recovery_is_separate": true,
+      "passed": true,
+      "plugin_exit": -9,
+      "primary_seconds": 5,
+      "reader_role": "SDK_shutdown_reader_not_git_spawner",
+      "rescue_used": false,
+      "scope": "direct_installed_0.4_legacy_overlay_primary_only",
+      "self_signals": [],
+      "supervisor_git_reap": true,
+      "tracked_absent_before_rescue": true,
+      "tracked_identity_count": 3
+    },
+    "shutdown": {
+      "admission_seconds": 5,
+      "cleanup_seconds": 3,
+      "cooperative_git_exitcode_observed": false,
+      "current_repository_is_not_installed_artifact": true,
+      "git_observation_boundary": "real exec, detached before primary; no claim of computation beyond exec",
+      "incomplete_files_verified": true,
+      "installed_sdk_tested": true,
+      "manager_recovery_is_separate": true,
+      "passed": true,
+      "plugin_exit": 0,
+      "primary_seconds": 5,
+      "reader_role": "SDK_shutdown_reader_not_git_spawner",
+      "rescue_used": false,
+      "scope": "direct_installed_0.4_legacy_overlay_primary_only",
+      "self_signals": [],
+      "supervisor_git_reap": false,
+      "tracked_absent_before_rescue": true,
+      "tracked_identity_count": 3
+    }
+  },
+  "private_receipt_root": "/workspace/recovery-backups/20260930T165936Z",
+  "published_parent": "4a02af815a3c6a6129574530d8a1097cf02981dc",
+  "published_parent_tree": "44379122ccf497b72bd7197ee7d26dca9b26968b",
+  "receipts": {
+    "p18u-overlay-installed-lifecycle-proposal-01/RECOVERY_ENVELOPE.json": {
+      "bytes": 396,
+      "sha256": "01b24846563eb52d59e20bbe4807725ac538a260d221d01423ef752b68566806"
+    },
+    "p18u-overlay-installed-lifecycle-proposal-01/installed_overlay_primary.py": {
+      "bytes": 20806,
+      "sha256": "844fb8ea5d990d61a11059451e02749a55ca3a777ce96686963deac7739f1d51"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/ARGV.json": {
+      "bytes": 5726,
+      "sha256": "fc82140c0f033d4fa48059c149436cd157e91ca73c62449f6b80827d4335ff8e"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/BINDINGS.json": {
+      "bytes": 17257,
+      "sha256": "0a93eba980aa86e2b85c7e590f762705b6f4dd8010e91fa45a0a6b78aede02d3"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/CARD.md": {
+      "bytes": 7096,
+      "sha256": "e73eb230a95f85b3146ae8a79c377f92b3cbaa6f1b241391212e6e006a455c3f"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/MANIFEST.json": {
+      "bytes": 1182,
+      "sha256": "b21aa33edc5490b900cf7c5ffb6f5609d3a9285622aa308ef416192657550622"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/REVIEW_CORRECTIONS.diff": {
+      "bytes": 5220,
+      "sha256": "c883b2bd4409b866cbb538fef3e746f6b44baa8d2377cdd25d7e2b677bf188c4"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/ROOT_ACCEPTANCE.json": {
+      "bytes": 6024,
+      "sha256": "a5571914b90468a2060361dcc3910e9b2be6b8f78785de70e708ddb2a54602c0"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/ROOT_ADMISSION.json": {
+      "bytes": 1190,
+      "sha256": "4729d5ab13f78ab4b4a217d011d3733146f0a5ee13a79a092f3e33e569ce57a2"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/STATIC_REVIEW.json": {
+      "bytes": 1047,
+      "sha256": "1537af252d77ed1411d0f94e10366182e14f86e1d2c4794d93fd4dbac19ba9eb"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/orchestrate.py": {
+      "bytes": 22302,
+      "sha256": "94ce2c5e68087b0cc11aa200c779248b18b773c7c97802ed2e32741c3a4b4772"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/orchestrate.review-preimage.py": {
+      "bytes": 20750,
+      "sha256": "42641e67f0b395f5be01dd08390d267db769d9e60b1dc018c5b17ebf388de584"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/abrupt-recovery.intent.json": {
+      "bytes": 5691,
+      "sha256": "0102dc6bffe1049be4f69b60664f20ad28b48b3de9767bfb76dd943eda26fa6b"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/abrupt-recovery.outcome-before-observations.json": {
+      "bytes": 15782,
+      "sha256": "a0a991274c0a5ecd39bcd886208a1ae7f3f9f64cb01a2de49383c99106f12360"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/abrupt-recovery.result.json": {
+      "bytes": 16719,
+      "sha256": "a3378b4776d12253feba6184fbb9c68c218f7ba86919c1768bac8b485ce93243"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/setup.intent.json": {
+      "bytes": 5676,
+      "sha256": "895c0798e8960264c71f621d90f12e2f3de3cddb62db496cd2c8a488ceb35599"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/setup.outcome-before-observations.json": {
+      "bytes": 11053,
+      "sha256": "a5f805ab5392ab3dd477b86237549d98abb80952e6947ac7debc9629bdabac65"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/setup.result.json": {
+      "bytes": 11992,
+      "sha256": "9f76aaeca7d1d0404ccca1172353a94f79f79d7da0ebdd5bc8fc1d56f133eeea"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/shutdown-recovery.intent.json": {
+      "bytes": 5692,
+      "sha256": "e7e108a8b4cd4fe613bce5aba488019aed813525e30efe5ed0e80da7b73c3c78"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/shutdown-recovery.outcome-before-observations.json": {
+      "bytes": 15669,
+      "sha256": "122b7b34ec49d15a8f3132e1cb085a85a9317a49c0731a4cff452668a6d0e1c6"
+    },
+    "p18u-overlay-installed-orchestration-20261005-02/runs/shutdown-recovery.result.json": {
+      "bytes": 16607,
+      "sha256": "eba1d99038ecbde4c05dcf30325a0a64a0f9ece839cf20c72deea372415d96a5"
+    },
+    "p18u-overlay-owned-trace-proposal-01/owned_trace_calibration.py": {
+      "bytes": 25738,
+      "sha256": "623f03bc6e4962147cafd74d77433873a3d4ad688f4a224ef1ea2ac2ba0c742b"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/BEFORE_PRIMARY.json": {
+      "bytes": 5889,
+      "sha256": "2354645ae939dbd7c3f33ea562e06a395adf02b413bd61f97edef6706f8b9151"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/INTENT.json": {
+      "bytes": 1735,
+      "sha256": "9e2aed8b2a53a568774598fe307a4c32b7b48a8bbb6c9aff4288db3541a5c9ce"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/PRIMARY_RESULT.json": {
+      "bytes": 8273,
+      "sha256": "9e8e832b2b9c2a15429fd52f4e192f08c5adf1e7e9576374fc4f457279197755"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/RESULT.json": {
+      "bytes": 3646,
+      "sha256": "01e6e47f480f3e8719cdf54492287b9078c05ae4f2a15d4e4f4261cf10dec3a2"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/p18u-selection-overlayabrupt02-20261005-01.log.gz": {
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/p18u-selection-overlayabrupt02-20261005-01.source.json.gz": {
+      "bytes": 1317550,
+      "sha256": "c21fb582767f019c983975c2907e9dc7966cec5337ecb69a351e01d895ffb373"
+    },
+    "p18u-selection-overlayabrupt02-20261005-01/p18u-selection-overlayabrupt02-20261005-01.strict.json.gz": {
+      "bytes": 433,
+      "sha256": "2d2c9aa4463407b9b6e64bdfb553d2682326632fc36e97d5380171e531811b22"
+    },
+    "p18u-selection-overlayabruptrecovery02-20261005-01/INTENT.json": {
+      "bytes": 1424,
+      "sha256": "f6e87d701e8278fb3c84830dc1a878295e0a968dff5454cb3ff69603bd61bf06"
+    },
+    "p18u-selection-overlayabruptrecovery02-20261005-01/RESULT.json": {
+      "bytes": 3410,
+      "sha256": "3593cde68b7fa22464de75068961351783c60ff1ecea3b8985854656e356d9b6"
+    },
+    "p18u-selection-overlayabruptrecovery02-20261005-01/p18u-selection-overlayabruptrecovery02-20261005-01.log.gz": {
+      "bytes": 157,
+      "sha256": "1250668bfa84889cfc0361876cee17866c44598db907396902a84de94c732fb1"
+    },
+    "p18u-selection-overlayabruptrecovery02-20261005-01/p18u-selection-overlayabruptrecovery02-20261005-01.source.json.gz": {
+      "bytes": 1317454,
+      "sha256": "e57693d97f89083b19bd9e77e1e127d33c88b338f5f079a8a6d08d0cbd4a29dd"
+    },
+    "p18u-selection-overlayabruptrecovery02-20261005-01/p18u-selection-overlayabruptrecovery02-20261005-01.strict.json.gz": {
+      "bytes": 341,
+      "sha256": "eec13938709ad08c2832027382dd536595c6e637a9c41726dfabcb59d89a3150"
+    },
+    "p18u-selection-overlaysetup02-20261005-01/INTENT.json": {
+      "bytes": 1366,
+      "sha256": "1d1fb299b986fc3b32f0b160b77bd06909fcbe0cb4a146e4391d05f90155990d"
+    },
+    "p18u-selection-overlaysetup02-20261005-01/RESULT.json": {
+      "bytes": 3271,
+      "sha256": "8bae6ed997d0d43dc9cdc9f45b4f771f0d0c2f6951aefea2267b4a49aa9c161d"
+    },
+    "p18u-selection-overlaysetup02-20261005-01/p18u-selection-overlaysetup02-20261005-01.log.gz": {
+      "bytes": 154,
+      "sha256": "e3b3cebf9b652cff347da87c7e9c7dc2127877ade6bae36c0cd129b3e7e5f70f"
+    },
+    "p18u-selection-overlaysetup02-20261005-01/p18u-selection-overlaysetup02-20261005-01.source.json.gz": {
+      "bytes": 1317441,
+      "sha256": "b0290df86aaadac2309f2972ac77b0b8e1c6f5c8087eabf585b6c0e55e3f2532"
+    },
+    "p18u-selection-overlaysetup02-20261005-01/p18u-selection-overlaysetup02-20261005-01.strict.json.gz": {
+      "bytes": 331,
+      "sha256": "95f46115b1a72c17e3675acaaf180300ae2aa070cca654ee7eed67f3a9f9042a"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/BEFORE_PRIMARY.json": {
+      "bytes": 5891,
+      "sha256": "632090873fd5c975dd2c5984fef893ee5e980701ea0e69d5fe07e2c18c714680"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/EXPORT_CORRECTION.json": {
+      "bytes": 298,
+      "sha256": "72df59bbe6e7ee13b598dd3b3cdce0f1a8f8f6631b43da0c94e431a060c83f64"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/INTENT.json": {
+      "bytes": 1745,
+      "sha256": "1cbb07f291242b29f75a944f8ee1f6e67e771d135094580884c161b131a006f8"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/PRIMARY_RESULT.json": {
+      "bytes": 8657,
+      "sha256": "ce7a9d4c7f00f7aacd903c40ce5929d49b7c5f832c3c34e5f308d8f6f14a6282"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/RESULT.json": {
+      "bytes": 3674,
+      "sha256": "9d32534457784c46d1cc1c8c2ad6825ca703725adde95fe7573f56f8b96ac3f0"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/p18u-selection-overlayshutdown02-20261005-01.log.gz": {
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/p18u-selection-overlayshutdown02-20261005-01.source.json.gz": {
+      "bytes": 1317547,
+      "sha256": "90b9abd73b6ea0ab9cca4a56577f10810c5dcd8cfea9f71e866ed2e7626f8e75"
+    },
+    "p18u-selection-overlayshutdown02-20261005-01/p18u-selection-overlayshutdown02-20261005-01.strict.json.gz": {
+      "bytes": 434,
+      "sha256": "2564bc8c5a19b626e6e71fc2004a9aedf3df1e1e47391f09b80726ab7d02d454"
+    },
+    "p18u-selection-overlayshutdownrecovery02-20261005-01/INTENT.json": {
+      "bytes": 1432,
+      "sha256": "f6ce15c33801b07fffc341219f778bea7319dd09f4167da102aeac907aa5863d"
+    },
+    "p18u-selection-overlayshutdownrecovery02-20261005-01/RESULT.json": {
+      "bytes": 3436,
+      "sha256": "6e034e017003d616839210cd555ab882204207632d9cbd143ac32b0524902e2e"
+    },
+    "p18u-selection-overlayshutdownrecovery02-20261005-01/p18u-selection-overlayshutdownrecovery02-20261005-01.log.gz": {
+      "bytes": 159,
+      "sha256": "b30054f2271f705a6e5530772d5feacc7c3bb5845c7b555f6438b8863b2b7760"
+    },
+    "p18u-selection-overlayshutdownrecovery02-20261005-01/p18u-selection-overlayshutdownrecovery02-20261005-01.source.json.gz": {
+      "bytes": 1317455,
+      "sha256": "3ef4386d966c920075315269261c1a0c514d4fe6cca0f13443ab6ceb96768db2"
+    },
+    "p18u-selection-overlayshutdownrecovery02-20261005-01/p18u-selection-overlayshutdownrecovery02-20261005-01.strict.json.gz": {
+      "bytes": 344,
+      "sha256": "b871df5d115c8f1f012a168aa221e301b913d42e6ba96b3f743fee973ae55621"
+    },
+    "run-p18u-small-maintenance-check-20261005.py": {
+      "bytes": 3790,
+      "sha256": "a3251c9bd70d903098ff50ddf1448573974962708b04cd2f72bdfcb47339830b"
+    },
+    "run-process-final-check.py": {
+      "bytes": 2888,
+      "sha256": "dca49c6943b57a9a3d04f5f8f342a4acb955a7a0779b5270f8b288c0738e835e"
+    }
+  },
+  "recovery_results": {
+    "abrupt-recovery": {
+      "custom_import_deletion_preserved": true,
+      "independent_thirteen_path_comparison": true,
+      "manager_report": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "directory_fsync_completed",
+        "integrity": "verified",
+        "overlay_complete": true,
+        "overlay_sha256": "ec90792fbe0b8ea243377fd1e2d123f05a2b42e87ad7f261ef48059a1ebf57f6",
+        "release_gates": {
+          "candidate_build": "pending",
+          "coordinated_versions": "pending",
+          "custom_plugin_runtime": "pending",
+          "external_bootstrap_rollback": "pending",
+          "security_and_contract_review": "pending",
+          "state_migration_review": "pending",
+          "ui_headless_regression": "pending"
+        },
+        "self_contained_candidate": false,
+        "source_manifest_sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c",
+        "source_transformed": true,
+        "status": "prepared",
+        "unresolved_paths": 0,
+        "update_allowed": false
+      },
+      "offline_incomplete": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "overlay_complete": false,
+        "self_contained_candidate": false,
+        "status": "incomplete_or_uncertain",
+        "update_allowed": false
+      },
+      "offline_prepared": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "not_attested_by_inspection",
+        "integrity": "verified",
+        "overlay_complete": true,
+        "overlay_sha256": "ec90792fbe0b8ea243377fd1e2d123f05a2b42e87ad7f261ef48059a1ebf57f6",
+        "release_gates": {
+          "candidate_build": "pending",
+          "coordinated_versions": "pending",
+          "custom_plugin_runtime": "pending",
+          "external_bootstrap_rollback": "pending",
+          "security_and_contract_review": "pending",
+          "state_migration_review": "pending",
+          "ui_headless_regression": "pending"
+        },
+        "self_contained_candidate": false,
+        "source_manifest_sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c",
+        "source_transformed": true,
+        "status": "prepared",
+        "unresolved_paths": 0,
+        "update_allowed": false
+      }
+    },
+    "shutdown-recovery": {
+      "custom_import_deletion_preserved": true,
+      "independent_thirteen_path_comparison": true,
+      "manager_report": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "directory_fsync_completed",
+        "integrity": "verified",
+        "overlay_complete": true,
+        "overlay_sha256": "c1e12495d57707cc014478058898c3b45b5a4f6f8336b21b3a2bed4693dec238",
+        "release_gates": {
+          "candidate_build": "pending",
+          "coordinated_versions": "pending",
+          "custom_plugin_runtime": "pending",
+          "external_bootstrap_rollback": "pending",
+          "security_and_contract_review": "pending",
+          "state_migration_review": "pending",
+          "ui_headless_regression": "pending"
+        },
+        "self_contained_candidate": false,
+        "source_manifest_sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c",
+        "source_transformed": true,
+        "status": "prepared",
+        "unresolved_paths": 0,
+        "update_allowed": false
+      },
+      "offline_incomplete": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "overlay_complete": false,
+        "self_contained_candidate": false,
+        "status": "incomplete_or_uncertain",
+        "update_allowed": false
+      },
+      "offline_prepared": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "not_attested_by_inspection",
+        "integrity": "verified",
+        "overlay_complete": true,
+        "overlay_sha256": "c1e12495d57707cc014478058898c3b45b5a4f6f8336b21b3a2bed4693dec238",
+        "release_gates": {
+          "candidate_build": "pending",
+          "coordinated_versions": "pending",
+          "custom_plugin_runtime": "pending",
+          "external_bootstrap_rollback": "pending",
+          "security_and_contract_review": "pending",
+          "state_migration_review": "pending",
+          "ui_headless_regression": "pending"
+        },
+        "self_contained_candidate": false,
+        "source_manifest_sha256": "b44b3d6ae38f0af85b23bdc112aed7fff94180bf47c527aa1eaf07b8769f2e8c",
+        "source_transformed": true,
+        "status": "prepared",
+        "unresolved_paths": 0,
+        "update_allowed": false
+      }
+    }
+  },
+  "schema": "codex-installed-overlay-lifecycle-evidence-v1",
+  "stages": [
+    {
+      "allocated_bytes": 1335296,
+      "command_exit": 0,
+      "elapsed_seconds": 0.16184447100022226,
+      "outer_reaped_count": 1,
+      "outer_reaped_only_own_command": true,
+      "runner_error": null,
+      "stage": "overlaysetup02",
+      "strict_exit": 0,
+      "strict_subreaper": true,
+      "wrapper_result_sha256": "8bae6ed997d0d43dc9cdc9f45b4f771f0d0c2f6951aefea2267b4a49aa9c161d"
+    },
+    {
+      "allocated_bytes": 1359872,
+      "command_exit": 0,
+      "elapsed_seconds": 0.2830625529986719,
+      "outer_reaped_count": 1,
+      "outer_reaped_only_own_command": true,
+      "runner_error": null,
+      "stage": "overlayshutdown02",
+      "strict_exit": 0,
+      "strict_subreaper": true,
+      "wrapper_result_sha256": "9d32534457784c46d1cc1c8c2ad6825ca703725adde95fe7573f56f8b96ac3f0"
+    },
+    {
+      "allocated_bytes": 1335296,
+      "command_exit": 0,
+      "elapsed_seconds": 0.41027603799921053,
+      "outer_reaped_count": 1,
+      "outer_reaped_only_own_command": true,
+      "runner_error": null,
+      "stage": "overlayshutdownrecovery02",
+      "strict_exit": 0,
+      "strict_subreaper": true,
+      "wrapper_result_sha256": "6e034e017003d616839210cd555ab882204207632d9cbd143ac32b0524902e2e"
+    },
+    {
+      "allocated_bytes": 1355776,
+      "command_exit": 0,
+      "elapsed_seconds": 0.19210372599991388,
+      "outer_reaped_count": 1,
+      "outer_reaped_only_own_command": true,
+      "runner_error": null,
+      "stage": "overlayabrupt02",
+      "strict_exit": 0,
+      "strict_subreaper": true,
+      "wrapper_result_sha256": "01e6e47f480f3e8719cdf54492287b9078c05ae4f2a15d4e4f4261cf10dec3a2"
+    },
+    {
+      "allocated_bytes": 1335296,
+      "command_exit": 0,
+      "elapsed_seconds": 0.4040294919996086,
+      "outer_reaped_count": 1,
+      "outer_reaped_only_own_command": true,
+      "runner_error": null,
+      "stage": "overlayabruptrecovery02",
+      "strict_exit": 0,
+      "strict_subreaper": true,
+      "wrapper_result_sha256": "3593cde68b7fa22464de75068961351783c60ff1ecea3b8985854656e356d9b6"
+    }
+  ],
+  "status": "bounded_installed_gate_passed_native_gate_pending"
+}

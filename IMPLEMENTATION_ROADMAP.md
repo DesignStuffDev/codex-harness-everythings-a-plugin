@@ -1,11 +1,22 @@
 # Codex Harness Compartmentalized — canonical implementation roadmap
 
-**Current order,2026-10-05:** selected build backing and measured headroom are
-repaired on the original VM. Finish only the exact paused installed-overlay
-cancellation acceptance, then return immediately to the critical native P03
-eight-path auth-install/test/lint/production/runtime sequence. Collector and broad
-updater/planner/scope-validator work remain paused. No Python feature pass clears
-the native gate, and no native build/validation ran as part of the repair.
+**Current order, 2026-10-05:** the exact paused installed-overlay lifecycle gate
+has completed on the unchanged host. Return immediately to the critical native
+P03 eight-path auth-install/test/lint/production/runtime sequence. Collector and
+broad updater/planner/scope-validator work remain paused. No Python or installed
+maintenance pass clears the native capacity gate; the native cohort remains
+unadopted/unbuilt at this documentation checkpoint.
+
+[Installed lifecycle evidence](verification/2026-10-05/p18u-installed-overlay-lifecycle/README.md):
+five source/strict stages passed, with eight normal commands (two setup and six
+recovery) and two direct installed-SDK primaries. Cooperative shutdown and abrupt
+plugin-only death both left incomplete jobs, all six tracked identities disappeared
+without rescue, and each subsequent normal-manager invocation prepared a verified
+13-path overlay. Installed package0.4/legacy overlay0.3 reused pyz913e0842 from prior
+8,975-path d84cf069 source; current8,977-path f27ab9e source stayed unchanged. The
+held Git was observed at exec, not during computation beyond exec. Manager graceful
+forwarding, complete updated-host integration, rollback, UI/native validation and
+all seven updater release gates remain unproved. Do not replay the completed gate.
 
 [Completed capacity evidence](verification/2026-10-05/p03-capacity-restored/README.md):
 895 metadata and902 genuine registry archives restored;55 duplicate-only paths
@@ -18,8 +29,9 @@ acceptance pass**. The auth-specific3,797,387,752-byte phase budget counts missi
 core/TUI pairs once and covers tests/lint/production/runtime/evidence/recovery;
 larger remaining P03 gates require separate admission. See [capacity plan](CAPACITY_PLAN.md).
 
-Latest published checkpoint before this documentation update isfd28a6c on the
-existing WIP branch. Preserve completed repair receipts; do not replay relocation.
+Latest published checkpoint before this documentation update is
+`4a02af815a3c6a6129574530d8a1097cf02981dc` (tree
+`44379122ccf497b72bd7197ee7d26dca9b26968b`) on the existing WIP branch. Preserve completed repair receipts; do not replay relocation.
 The original conservative8GiB-free recommendation is not mandatory. Recovery
 `rehydrate`/`recover` paths also passed three disposable synthetic cases/18 phase
 calls for normal, lost-backing and interrupted-exchange recovery; this is not
@@ -111,7 +123,9 @@ it upgrades an isolated0.2 installation using remove/install, preserves restored
 capsule state and both old contracts, and produces13 exact source outputs. The
 one genuine three-way merge retains our custom change and the later upstream
 changes. This is a sparse patch set over pinned custom914cc593, not a complete
-candidate or updated-host acceptance. Active-merge cancellation remains separate.
+candidate or updated-host acceptance. The later installed exec-boundary lifecycle
+evidence above closes the bounded paused gate; cancellation after Git computation
+has progressed beyond exec remains unproved.
 Reattachment had cleared volatile backing and services. The October5 repairs now
 restore selected backing and pass the conditional resource guards; that does not
 rebind old test results or prove the new native cohort. Follow EXECUTION_STATE.md

@@ -11,26 +11,34 @@ it: [exact prior ledger at395aac0](https://github.com/DesignStuffDev/codex-harne
 R/p18u-final-scope-docs-20261005-01/EXECUTION_STATE.md retain earlier actions/results.
 Never replay a completed mutation from a historical next-action paragraph.
 
-## Current priority: finish the paused acceptance, then native P03 — 2026-10-05
+## Current priority: native P03 eight-path auth ownership — 2026-10-05
 
-Selected build backing and measured headroom are now repaired in this same checkout.
-**The critical native build/validation gate has not run.** Resume only the exact
-paused installed-overlay cancellation acceptance to a bounded verified checkpoint,
-then the eight-path native auth-install sequence. The collector and broader updater,
-planner and scope-validator work remain paused; do not start a maintenance detour.
-A Python acceptance pass will not prove native capacity or complete P03.
+The exact paused installed-overlay lifecycle acceptance is **complete**. Five
+source/strict stages passed on the unchanged host: two direct installed-SDK
+primaries, plus setup and separate normal-manager recovery after each primary.
+All six tracked process/thread identities were absent, with no rescue. See the
+[bounded runtime evidence](verification/2026-10-05/p18u-installed-overlay-lifecycle/README.md).
+Do not replay this gate. Collector and broader updater/planner/scope-validator
+work remain paused; return immediately to the eight-path native auth-install
+sequence under the repaired capacity guards.
+
+**The critical native build/validation gate has not run.** These Python/installed
+package checks do not prove native capacity, a complete updater, or completion of
+P03. The native cohort remains unadopted at this documentation checkpoint.
 
 Latest published checkpoint before this documentation update:
-**fd28a6c0187a7548c60812a8541aad30099e1344** on the existing WIP branch. The completed
-source/final-scope publication2690688 and earlier395aac0 remain preserved. Do not
-replay their mutations or the completed capacity operations.
+**4a02af815a3c6a6129574530d8a1097cf02981dc**, tree
+`44379122ccf497b72bd7197ee7d26dca9b26968b`, on the existing WIP branch. Preserve its
+capacity repairs, source/final-scope publication2690688 and earlier395aac0; never
+replay their mutations or completed acceptance operations.
 
 Exact preserved resumption points:
 
-- Installed-overlay cancellation: sealed R/p18u-overlay-installed-lifecycle-proposal-01;
-  its cooperative SDK shutdown, abrupt plugin death, tracked Git cleanup and successful
-  manager invocation after each primary still require fresh source/package/resource
-  admission and actual execution. The synthetic trace calibration is not this proof.
+- Installed-overlay cancellation: DONE within the documented exec-boundary scope.
+  R/p18u-overlay-installed-orchestration-20261005-02/ROOT_ACCEPTANCE.json SHA256
+  `a5571914b90468a2060361dcc3910e9b2be6b8f78785de70e708ddb2a54602c0`.
+  Preserve both direct-SDK primary results and separate manager-recovery receipts.
+  No manager graceful-shutdown forwarding or Git computation past exec was proved.
 - Inventory collector: R/p18u-inventory-collector-proposal-01/files contains two
   unsealed draft files plus PRE_FORMAT.json; no tests/adoption ran. Keep paused.
 - Synthetic trace evidence: R/p18u-overlay-trace-calibration-evidence-20261005-01 remains
@@ -160,8 +168,9 @@ network blockers or let them block independent development.
 3. **0.3 sparse transformation:**47 focused cases and61 installed commands. All13
    actual later-upstream output records/bytes verified independently, including
    custom scenarios.rs import removal. Source merge is not complete updated-host
-   integration. All seven release gates remain pending; active-merge cancellation
-   is still separate. [Evidence](verification/2026-10-04/p18u-candidate-overlay/README.md).
+   integration. All seven release gates remain pending. The later installed
+   exec-boundary lifecycle check below does not prove cancellation during Git
+   computation beyond exec. [Evidence](verification/2026-10-04/p18u-candidate-overlay/README.md).
 4. **Selection primitive:**19 pure fixtures; immutable selections/exclusions,
    dependencies/coherent groups and owner scopes. Publishedb66c9f2.
 5. **Installed0.4 planning/revalidation:**79 focused/affected cases and36 direct
@@ -211,11 +220,41 @@ SIGCONT, and the worker normally reaps Git with exact output. No rescue/signals,
 strict0/source unchanged. R/p18u-overlay-owned-trace-admission-20261005-01 retains
 all tiny runtime files and binary bindings; result SHA
 `d886acfad59b4cbabf282ea8234da7c40c57f5c7c35861bb5cd1ce3442c23e1d`.
-This proves an exec-boundary test mechanism, not installed-plugin cancellation or
-that merging had begun. The R-only actual installed-overlay lifecycle proposal is
-sealed and remains unexecuted at this checkpoint. The unchanged strict
-runner has no command timeout; root supplied timeout15s TERM/+5s KILL inside it.
-Every deadline/rescue/nonzero remains failure. No test command remains active.
+This historical result proves the exec-boundary test mechanism, not installed-plugin
+cancellation or that merging had begun. Its timeout15s TERM/+5s KILL remains the
+original calibration's binding. The separate installed lifecycle gate subsequently
+completed as recorded below; the calibration is not relabeled as installed proof.
+
+### Completed installed-overlay lifecycle gate
+
+[New runtime evidence](verification/2026-10-05/p18u-installed-overlay-lifecycle/README.md):
+all five source/strict stages passed, eight normal commands (two setup and six
+recovery) plus two direct installed-SDK primaries. The repository stayed at the
+8,977-path f27ab9e source map; installed package0.4 reused exact pyz913e0842 from
+prior8,975-path d84cf069 source. Its legacy overlay implementation remains0.3.
+There was no rebuild, upgrade, removal or product-test replay.
+
+Cooperative SDK shutdown exited0, reported cancellation and left an incomplete
+job. Abrupt plugin-only SIGKILL exited-9; the primary helper adopted/reaped the Git
+child with-9. Neither primary used rescue or additional self-signals; all six
+tracked identities were absent before rescue. The outer strict runner reaped only
+its own command in each stage; that does not erase the inner helper's adoption.
+Git was traced/detached and held at its real exec boundary, so computation beyond
+exec and graceful manager-to-SDK forwarding remain unproved.
+
+After each primary, separate offline inspection returned the expected incomplete
+exit2; a normal manager invocation prepared a fresh13-path overlay with independent
+byte comparison/custom import deletion preserved; offline prepared inspection
+returned0. All seven release gates remain pending and update/activation stay
+forbidden. This proves recovery of this installed operation, not release activation,
+rollback, the walkthrough, UI regression, a native build or whole-P03 completion.
+
+Five strict wrappers exited0 with no runner errors; no timeout fired. Whole-cycle
+allocation was6,950,912B below the8MiB cap before the small final receipt and this
+separate documentation checkpoint. A shutdown metadata export initially refused
+an exclusive `RESULT.json` collision; the wrapper was never overwritten, the test
+was not replayed, and the primary was saved as `PRIMARY_RESULT.json`. Preserve
+`EXPORT_CORRECTION.json` alongside both results.
 
 ## Capacity and required product scope
 
@@ -252,12 +291,9 @@ live activation/hot replacement within running sessions.
 1. Read both completed repair seals, source/index bindings and exact phased budget;
    reconcile current processes and fresh disk/tmpfs/memory counters. Preserve all
    archives/aliases and unfinished proposals. Never replay completed cache mutations.
-2. Finish only the paused installed-overlay cancellation acceptance: separately built
-   installed package with the unchanged manager, cooperative SDK shutdown, abrupt
-   plugin death, tracked Git cleanup before rescue, incomplete-job outcomes and
-   subsequent successful manager invocation after each primary. Use fresh no-clobber
-   evidence and exact package/source identities; preserve failures and checkpoint.
-3. Return immediately to the coherent eight-path native auth-install cohort. Recheck
+2. The exact paused installed-overlay gate is DONE; preserve its bounded evidence
+   and do not replay it. Collector and broad updater feature work remain paused.
+3. Proceed immediately with the coherent eight-path native auth-install cohort. Recheck
    all source preimages and whole-sequence capacity before adoption. Run required
    formatting, grouped focused/full login and provider `just test`, scoped login
    `just fix`, then production CLI/manager rebuild with retained flags/toolchain.
