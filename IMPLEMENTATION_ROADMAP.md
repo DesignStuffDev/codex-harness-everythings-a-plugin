@@ -65,9 +65,17 @@ The October4 maintenance0.1.1 checkpoint closes its real direct-Git lifecycle ga
 SIGINT, cooperative protocol shutdown and subsequent invocation pass on unchanged
 hostf054. [Evidence](verification/2026-10-04/p18u-owned-git/README.md) preserves the
 original failed cancellation and the lost temporary-report limitation. This adds
-no native extracted family. The next feasible P18U slice is a bounded, independently
-installed source-input capsule for actual later upstream2e5fea64 and custom914cc593;
-source preparation must not be relabeled candidate integration or rollback.
+no native extracted family. The subsequent0.2.0 independently installed source-input
+capsule now passes49 real-package commands against actual later upstream2e5fea64
+and custom914cc593:13paths/25blobs/1,228,513B with distinct custom content retained.
+Eleven capsule fixtures,13 reviewer regressions, admitted native-Git cancellation/
+SIGKILL and subsequent successful invocations pass. Fresh storage/manual migration
+and two real Chromium GUI cycles also pass on unchanged production binaries.
+[Evidence](verification/2026-10-04/p18u-source-capsule/README.md) separates real runtime,
+fixtures and artifact inspection from unproved crash durability and live inference.
+Next is sparse content reconciliation with exact custom provenance and conflict
+rejection, followed by coordinated candidate build/version/migration and recovery
+gates. Source preparation is not candidate integration or rollback.
 Reattachment cleared volatile build backing and prior services; the native gate
 remains closed despite more free RAM. Follow the current execution-state inventory
 and qualified recovery plan before any further Rust compilation.

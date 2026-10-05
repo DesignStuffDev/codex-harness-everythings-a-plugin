@@ -1,0 +1,483 @@
+{
+  "schema": "installed-source-capsule-lifecycle-projection-v1",
+  "passed": true,
+  "scope": "direct installed SDK protocol; recovery through real component manager",
+  "source": {
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+      "--report",
+      "/workspace/acceptance/p18u-capsule-20261004-01/lifecycle.strict.json",
+      "--",
+      "python3",
+      "-B",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-capsule-lifecycle-helper-20261005-02/capsule_lifecycle_acceptance.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--host",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--package",
+      "/workspace/acceptance/p18u-capsule-real-20261004-runtime/package",
+      "--request",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/REAL_REVIEW_REQUEST.json",
+      "--real-git",
+      "/usr/local/bin/git",
+      "--prior-helper",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "--work-dir",
+      "/workspace/acceptance/p18u-capsule-lifecycle-20261004-runtime"
+    ],
+    "started_utc": "2026-10-05T00:09:23Z",
+    "finished_utc": "2026-10-05T00:13:24Z",
+    "returncode": 0,
+    "scoped_source_unchanged": true,
+    "receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-20261004-01/lifecycle.source.json",
+      "bytes": 3733910,
+      "sha256": "59a5891b4d20779a10b44434c2240240766bcb33c02dfe5a4f61b90455b57bb4"
+    },
+    "source_count": 8967,
+    "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269"
+  },
+  "strict": {
+    "command": [
+      "python3",
+      "-B",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-capsule-lifecycle-helper-20261005-02/capsule_lifecycle_acceptance.py",
+      "--repo",
+      "/workspace/codex-harness-everythings-a-plugin",
+      "--host",
+      "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+      "--package",
+      "/workspace/acceptance/p18u-capsule-real-20261004-runtime/package",
+      "--request",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/REAL_REVIEW_REQUEST.json",
+      "--real-git",
+      "/usr/local/bin/git",
+      "--prior-helper",
+      "/workspace/recovery-backups/20260930T165936Z/p18u-active-git-cancellation-helper-01/active_git_acceptance.py",
+      "--work-dir",
+      "/workspace/acceptance/p18u-capsule-lifecycle-20261004-runtime"
+    ],
+    "subreaper": true,
+    "reaped": [
+      {
+        "pid": 23345,
+        "wait_status": 0,
+        "returncode": 0
+      }
+    ],
+    "command_pid": 23345,
+    "command_wait_status": 0,
+    "command_returncode": 0,
+    "runner_error": null,
+    "exit_status": 0,
+    "elapsed_seconds": 239.74224439099999
+  },
+  "strict_receipt": {
+    "path": "/workspace/acceptance/p18u-capsule-20261004-01/lifecycle.strict.json",
+    "bytes": 1103,
+    "sha256": "138ccc839826ddf28442ffa2dee59f4ab841cc4af37e2d7a8633f3d5627317d0"
+  },
+  "raw_runtime_receipt": {
+    "path": "/workspace/acceptance/p18u-capsule-lifecycle-20261004-runtime/acceptance-private.json",
+    "bytes": 967610,
+    "sha256": "b6e2f8bf3d5ae6b62600e36adb9ce23e76cd6f250c568658860130b08b491a73"
+  },
+  "cases": [
+    {
+      "mode": "shutdown",
+      "passed": true,
+      "admission_verified": true,
+      "barrier_verified": true,
+      "rescue_used": false,
+      "abrupt_durability": null,
+      "control": {
+        "type": "shutdown"
+      },
+      "admission_event": {
+        "type": "event",
+        "id": 1,
+        "event": {
+          "stage": "source_inputs_admitted",
+          "job_id": "666521e060624fa18205b59f1c4ebdbc",
+          "changed_paths": 13
+        }
+      },
+      "job_id": "666521e060624fa18205b59f1c4ebdbc",
+      "admission_observed_monotonic_ns": 1634180359210,
+      "readiness": {
+        "git": {
+          "pid": 27239,
+          "ppid": 25270,
+          "group": 25270,
+          "state": "S",
+          "start_ticks": "163417",
+          "executable": "/usr/local/bin/git"
+        },
+        "fifo_dev_inode": [
+          27,
+          1103919
+        ],
+        "git_fifo_fd": 3,
+        "ack_monotonic_ns": 1634240145706
+      },
+      "writer_held": true,
+      "typed_result": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "diagnostic_code": "cancelled_or_deadline_reached",
+        "job_id": "666521e060624fa18205b59f1c4ebdbc",
+        "self_contained_candidate": false,
+        "source_materials_ready": false,
+        "status": "incomplete_or_unavailable",
+        "update_allowed": false
+      },
+      "plugin_status": 0,
+      "cleanup_elapsed_seconds": 0.11650067199980185,
+      "offline_inspection": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "self_contained_candidate": false,
+        "source_materials_ready": false,
+        "status": "incomplete_or_uncertain",
+        "update_allowed": false
+      },
+      "reaped_orphans": [],
+      "remaining": [],
+      "recovery": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "directory_fsync_completed",
+        "job_id": "55918eb1a5c0450c8efeaa14889b7384",
+        "manifest_sha256": "0793ddac22fb91673e7a1548e4b990959afabe4ffa8458ff5775a89f9939527b",
+        "retained_blob_bytes": 1228513,
+        "self_contained_candidate": false,
+        "source_materials_ready": true,
+        "status": "sealed",
+        "update_allowed": false
+      },
+      "interrupted_job_files": {
+        "INTENT.json": {
+          "sha256": "b69eacbaec7adf9f17a547616ec5de891cbe4a28070cbd7769521bf679676f89",
+          "bytes": 678
+        },
+        "TERMINAL.json": {
+          "sha256": "65268af02a38783d42ce468adb473c8e3c15704e7baf2a827d4055a7e385ce78",
+          "bytes": 86
+        }
+      },
+      "drain": {
+        "passed": true,
+        "reaped": []
+      },
+      "historical_tracked_identity_count": 1918,
+      "tracked_identity_canonical_sha256": "107c1558adf03b53c176845623ebbaed5bddef276a2445425fce45c982d28624"
+    },
+    {
+      "mode": "abrupt",
+      "passed": true,
+      "admission_verified": true,
+      "barrier_verified": true,
+      "rescue_used": false,
+      "abrupt_durability": "not attested",
+      "control": {
+        "signal": "SIGKILL",
+        "target": "installed plugin only"
+      },
+      "admission_event": {
+        "type": "event",
+        "id": 1,
+        "event": {
+          "stage": "source_inputs_admitted",
+          "job_id": "7276e72598f04f98ad6309a654e8374f",
+          "changed_paths": 13
+        }
+      },
+      "job_id": "7276e72598f04f98ad6309a654e8374f",
+      "admission_observed_monotonic_ns": 1730460177111,
+      "readiness": {
+        "git": {
+          "pid": 31201,
+          "ppid": 29267,
+          "group": 29267,
+          "state": "S",
+          "start_ticks": "173046",
+          "executable": "/usr/local/bin/git"
+        },
+        "fifo_dev_inode": [
+          27,
+          1103928
+        ],
+        "git_fifo_fd": 3,
+        "ack_monotonic_ns": 1730536367127
+      },
+      "writer_held": true,
+      "plugin_status": -9,
+      "cleanup_elapsed_seconds": 0.07495016899997609,
+      "offline_inspection": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "self_contained_candidate": false,
+        "source_materials_ready": false,
+        "status": "incomplete_or_uncertain",
+        "update_allowed": false
+      },
+      "reaped_orphans": [
+        {
+          "pid": 31201,
+          "returncode": -9
+        }
+      ],
+      "remaining": [],
+      "recovery": {
+        "activation_allowed": false,
+        "candidate_assembled": false,
+        "changed_paths": 13,
+        "durability": "directory_fsync_completed",
+        "job_id": "183a54a2b51a4e21b6e6ba37f7307d98",
+        "manifest_sha256": "aa4330e4627ca1522e87bb3d6eb16811c13b4067b67b161fed05558fea00fda7",
+        "retained_blob_bytes": 1228513,
+        "self_contained_candidate": false,
+        "source_materials_ready": true,
+        "status": "sealed",
+        "update_allowed": false
+      },
+      "interrupted_job_files": {
+        "INTENT.json": {
+          "sha256": "f9ac93217ede03ad0f80e93938d478bbf65645506ae8a80e0d2d27dfdf1a2e62",
+          "bytes": 678
+        }
+      },
+      "drain": {
+        "passed": true,
+        "reaped": []
+      },
+      "historical_tracked_identity_count": 1918,
+      "tracked_identity_canonical_sha256": "ea319be6279fc09a68a4b2fe1673fd460e7f3ea825ca865042ba17dc61d2ada5"
+    }
+  ],
+  "before": {
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "package": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "README.md": {
+        "sha256": "bb594dd537ca33b95130f54e65f1378b71cd093fd5b24749bc962586c930ce6b",
+        "bytes": 8869
+      },
+      "SDK-LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "SDK-NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "bootstrap.py": {
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+        "bytes": 332
+      },
+      "capsule_bootstrap.py": {
+        "sha256": "56ef2c3d2618abb0eceee92adbd567b3f66559efca59c46df90fd8c4cd7b0d25",
+        "bytes": 610
+      },
+      "codex-component.json": {
+        "sha256": "961e49943b08f68e9829a744e4b0063f332a787080854a0a81868278729cb075",
+        "bytes": 2806
+      },
+      "plugin.pyz": {
+        "sha256": "2e5adafa9a231ace5b7687c685447afedc7c6f81b230373ab6b05581259b018f",
+        "bytes": 34924
+      }
+    },
+    "inputs": {
+      "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/REAL_REVIEW_REQUEST.json": {
+        "sha256": "b54a9b5783a6f9f2cc3937c26881ff8a314c5e99b0251ccf7b8b5ef4319ff5ee",
+        "bytes": 656
+      },
+      "/workspace/codex-harness-everythings-a-plugin/upstream/CHECKPOINT_LINEAGE_INDEX.json": {
+        "sha256": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+        "bytes": 465826
+      },
+      "/workspace/codex-harness-everythings-a-plugin/upstream/CHECKPOINT_LINEAGE_PUBLICATION_RECEIPT.json": {
+        "sha256": "bdeb54ad3b69ef3d62d486e8c1d56a512dcad87b27c157a69bf0a1cc69b64a30",
+        "bytes": 728
+      },
+      "/workspace/acceptance/p18u-upstream-objects-20261004.git/shallow": {
+        "sha256": "9b8cdec6b4b346cecb8866e4c66263cf1dd67b19523156fdfbbf3f12380ded66",
+        "bytes": 82
+      }
+    }
+  },
+  "after": {
+    "host": {
+      "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+      "bytes": 7274296
+    },
+    "package": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "README.md": {
+        "sha256": "bb594dd537ca33b95130f54e65f1378b71cd093fd5b24749bc962586c930ce6b",
+        "bytes": 8869
+      },
+      "SDK-LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "bytes": 10926
+      },
+      "SDK-NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "bytes": 242
+      },
+      "bootstrap.py": {
+        "sha256": "1bb4588d29b69cd0568c3f86c3610003938395bcc09000afa6199dffb715b06e",
+        "bytes": 332
+      },
+      "capsule_bootstrap.py": {
+        "sha256": "56ef2c3d2618abb0eceee92adbd567b3f66559efca59c46df90fd8c4cd7b0d25",
+        "bytes": 610
+      },
+      "codex-component.json": {
+        "sha256": "961e49943b08f68e9829a744e4b0063f332a787080854a0a81868278729cb075",
+        "bytes": 2806
+      },
+      "plugin.pyz": {
+        "sha256": "2e5adafa9a231ace5b7687c685447afedc7c6f81b230373ab6b05581259b018f",
+        "bytes": 34924
+      }
+    },
+    "inputs": {
+      "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/REAL_REVIEW_REQUEST.json": {
+        "sha256": "b54a9b5783a6f9f2cc3937c26881ff8a314c5e99b0251ccf7b8b5ef4319ff5ee",
+        "bytes": 656
+      },
+      "/workspace/codex-harness-everythings-a-plugin/upstream/CHECKPOINT_LINEAGE_INDEX.json": {
+        "sha256": "a6e5ca82863260e055b8678a3defe427120b62c3d3c78800ec46fdf4b8e48e68",
+        "bytes": 465826
+      },
+      "/workspace/codex-harness-everythings-a-plugin/upstream/CHECKPOINT_LINEAGE_PUBLICATION_RECEIPT.json": {
+        "sha256": "bdeb54ad3b69ef3d62d486e8c1d56a512dcad87b27c157a69bf0a1cc69b64a30",
+        "bytes": 728
+      },
+      "/workspace/acceptance/p18u-upstream-objects-20261004.git/shallow": {
+        "sha256": "9b8cdec6b4b346cecb8866e4c66263cf1dd67b19523156fdfbbf3f12380ded66",
+        "bytes": 82
+      }
+    }
+  },
+  "inputs_unchanged": true,
+  "installed_package_unchanged": true,
+  "fixture_shallow": {
+    "source": "/workspace/acceptance/p18u-upstream-objects-20261004.git/shallow",
+    "present": true,
+    "copied": true,
+    "sha256": "9b8cdec6b4b346cecb8866e4c66263cf1dd67b19523156fdfbbf3f12380ded66",
+    "bytes": 82,
+    "boundaries": 2
+  },
+  "rescue_used": false,
+  "final_drain": {
+    "passed": true,
+    "reaped": []
+  },
+  "commands": [
+    {
+      "label": "install",
+      "pid": 23346,
+      "returncode": 0
+    },
+    {
+      "label": "list",
+      "pid": 23352,
+      "returncode": 0
+    },
+    {
+      "label": "git-init",
+      "pid": 23358,
+      "returncode": 0
+    },
+    {
+      "label": "git-common",
+      "pid": 23360,
+      "returncode": 0
+    },
+    {
+      "label": "review",
+      "pid": 23362,
+      "returncode": 0
+    },
+    {
+      "label": "shutdown",
+      "pid": 25270
+    },
+    {
+      "label": "shutdown-inspect",
+      "pid": 27240,
+      "returncode": 2
+    },
+    {
+      "label": "shutdown-recovery",
+      "pid": 27242,
+      "returncode": 0
+    },
+    {
+      "label": "shutdown-recovery-inspect",
+      "pid": 29265,
+      "returncode": 0
+    },
+    {
+      "label": "abrupt",
+      "pid": 29267
+    },
+    {
+      "label": "abrupt-inspect",
+      "pid": 31202,
+      "returncode": 2
+    },
+    {
+      "label": "abrupt-recovery",
+      "pid": 31204,
+      "returncode": 0
+    },
+    {
+      "label": "abrupt-recovery-inspect",
+      "pid": 33179,
+      "returncode": 0
+    }
+  ],
+  "manager_graceful_forwarding_tested": false,
+  "update_or_rollback_tested": false,
+  "tracking_limit": "Counts represent accumulated historical sampled identities during each sequential invocation, not simultaneously alive processes. Full identities are retained in the private original report bound above; existing owner/subreaper assertions are unchanged.",
+  "barrier_race": "Admission-to-FIFO replacement may lose scheduling race; any blob or missing native FD fails establishment.",
+  "reproduction_helper": {
+    "path": "/workspace/recovery-backups/20260930T165936Z/p18u-capsule-lifecycle-helper-20261005-02/capsule_lifecycle_acceptance.py",
+    "bytes": 19640,
+    "sha256": "2d3626442173e1d0bae1b676f8014374a6722bdccc176fb214f332b33969f9ec"
+  },
+  "unexecuted_prior_helper_revision": {
+    "manifest": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-capsule-lifecycle-helper-20261005-01/MANIFEST.json",
+      "bytes": 551,
+      "sha256": "62a92eed1baec82df37ccca59fd7c6825ec8f002e6d59c7f795f70830789e280"
+    },
+    "reason": "revision02 adds bounded exact shallow-history metadata to fresh fixture before execution; original revision and patch retained, no original runtime failure claimed"
+  }
+}

@@ -1,6 +1,6 @@
 # Upstream maintenance and recovery contract
 
-Status: **independently installed review support verified; update preparation, activation and recovery remain incomplete**.
+Status: **installed review and source-input preparation verified; candidate integration, activation and recovery remain incomplete**.
 This workflow preserves a maintainable OpenAI Codex fork as native services become
 independently installable. It does not count as extraction of an existing engine
 subsystem. It must ship as its own replaceable package, with an external recovery
@@ -33,13 +33,28 @@ Linux direct-child parent-death protection from arbitrary descendants/non-Linux
 abrupt termination and manager graceful forwarding. No host rebuild or new native
 subsystem extraction is claimed.
 
-Next is separately packaged, bounded source-input preparation against the actual
-chosen descendant `2e5fea64eefcaa19f48458b2386011b619f69c70` and published custom
-`914cc59374c1149463e78bc33851d83e3f14d0a4`. Its13-path inputs include a custom
-scenarios.rs blob and need exact provenance, retained incomplete state and a
-host-independent integrity inspector. This is a proposed prerequisite only;
-adapted-candidate construction, compatibility/version/migration gates, real-host/UI
-verification and failed-update recovery remain required before P18U acceptance.
+The0.2.0 package now independently builds and installs bounded source-input
+preparation against actual chosen descendant
+`2e5fea64eefcaa19f48458b2386011b619f69c70` and published custom
+`914cc59374c1149463e78bc33851d83e3f14d0a4`. Its49-command real gate retains13paths,
+25blobs/1,228,513B, including distinct custom scenarios.rs content, with exact Git
+and SHA256 provenance. Eleven capsule fixtures and13 reviewer regressions pass.
+Cancellation/SIGKILL during actual admitted Git reads retain incomplete jobs;
+subsequent manager invocation succeeds without altering them. A packaged offline
+inspector works with host/Git absent from PATH and after removal. It checks present
+artifact integrity, not historical crash durability; terminal persistence under
+additional I/O failure is best effort. [Evidence](verification/2026-10-04/p18u-source-capsule/README.md)
+also records fresh storage/migration and two Chromium GUI regression cycles on the
+unchanged production host. Model responses are deterministic; no in-app Browser
+or live-provider validation is claimed.
+
+Next is a sparse transformation over the pinned custom tree: genuinely reconcile
+the retained base/upstream/custom content, preserve exact before/after provenance,
+and reject ambiguous conflicts or unsupported entries. No source-input capsule is
+a merged candidate, complete backup or rollback artifact. Adapted-candidate
+construction, compatibility/version/migration gates, real-host/UI verification of
+the updated host and external failed-update recovery remain required before P18U
+acceptance. No runtime activation, polling or live installation mutation is enabled.
 
 The earlier [offline impact planner](upstream/UPSTREAM_IMPACT_README.md) compares exact local
 revision trees and joins changed paths to the existing historical lineage index. It retains

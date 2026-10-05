@@ -6,7 +6,7 @@ validator, with exact source digests in `static/TOOL_PROVENANCE.json`. It is an
 additive maintenance adapter, not extraction of another native subsystem.
 
 The dedicated `maintenance:upstream` service is not supported by the current host.
-This package does not fetch revisions, create a checkout, modify source or state,
+The review operation does not fetch revisions, create a checkout, modify source or state,
 approve an update, run builds, publish, migrate, activate or roll back anything.
 It never schedules polling. Every report has `update_allowed:false`.
 
@@ -58,9 +58,9 @@ The normalized lineage index still describes its historical checkpoint; this
 component does not silently advance it to the latest custom source.
 
 The request, report and packaged-tool digests bind a deterministic `plan_id`.
-There is no mutable job state, deployment journal or resumable update in this
-milestone. Inputs belong to the caller; the plugin owns only its request process
-and read-only Git subprocesses. Reports are returned, not written into a live home.
+The review operation has no mutable job state, deployment journal or resumable
+update. Its inputs belong to the caller; it owns its request process and read-only
+Git subprocesses. Review reports are returned, not written into a live home.
 
 ## Standalone bootstrap and lifecycle
 
@@ -121,3 +121,30 @@ Package 0.1.1 additionally requires real installed-package cancellation and mana
 termination checks while actual Git is held in a read, tracked child cleanup, and
 a successful subsequent invocation. Proposal source and unit tests alone do not
 establish that acceptance.
+
+## Source-input capsules (package 0.2.0)
+
+`tool:upstream_source_capsule` v1 adds bounded preparation in a fresh private job
+under the component's own state directory. Its tool-v1 arguments contain
+`contract_version:1`, `purpose:"prepare_source_inputs"`, the exact `review_request`,
+its `expected_plan_id`, and `limits` (`max_changed_paths` up to 1024,
+`max_unique_blob_bytes` up to 67108864, `max_manifest_bytes` up to 8388608).
+The chosen revision must be a distinct verified descendant and all three committed
+trees must already exist locally. No implicit fetch, checkout or source application occurs.
+
+The capsule stores exact changed-path base/upstream/custom entries and bounded blob
+bytes. It is sparse, not a complete source backup or runnable candidate. Uncommitted
+work and unchanged blobs are outside its committed-tree scope. Historical ownership
+and compatibility findings remain unresolved; every update/activation flag stays false.
+Unsupported entries or exceeded budgets refuse success. Partial jobs are retained.
+The producer acknowledges successful directory fsync; standalone inspection checks
+current integrity and does not attest historical crash durability. A successfully
+persisted terminal marker keeps inspection incomplete even if the seal file became
+visible. Recording that marker is best effort: if its write also fails, later
+inspection cannot reconstruct the producer's known I/O failure. Producer failure
+never approves an update.
+
+Run `python3 -B /package/capsule_bootstrap.py /absolute/job-directory` to inspect a
+job without the host or Git. This is source-artifact inspection, not state rollback.
+The new capsule producer and tests require their own recorded runtime acceptance;
+the earlier review-only evidence does not validate this added capability.

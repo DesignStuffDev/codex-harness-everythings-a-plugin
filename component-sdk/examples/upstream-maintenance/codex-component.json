@@ -1,7 +1,7 @@
 {
   "api_version": 1,
   "id": "codex.maintenance.upstream-review",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "entrypoint": "plugin.pyz",
   "args": [],
   "dependencies": {},
@@ -24,6 +24,25 @@
           "publication_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
         },
         "required": ["contract_version", "repository", "lineage_index", "lineage_sha256", "candidate_revision", "composition_revision"],
+        "additionalProperties": false
+      }
+    }
+  }, {
+    "kind": "tool",
+    "name": "upstream_source_capsule",
+    "contract_version": 1,
+    "metadata": {
+      "description": "Prepare bounded immutable upstream source-input artifacts in component-owned state. Does not assemble, approve or activate an update.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "contract_version": {"type": "integer", "const": 1},
+          "purpose": {"type": "string", "const": "prepare_source_inputs"},
+          "review_request": {"type": "object"},
+          "expected_plan_id": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+          "limits": {"type": "object"}
+        },
+        "required": ["contract_version", "purpose", "review_request", "expected_plan_id", "limits"],
         "additionalProperties": false
       }
     }

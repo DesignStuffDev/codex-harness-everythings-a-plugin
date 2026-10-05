@@ -1,0 +1,154 @@
+{
+  "schema": "source-capsule-focused-and-source-v1",
+  "runs": [
+    {
+      "command": [
+        "/tmp/p18u-resume-sdk-20261004/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_source_capsule.py"
+      ],
+      "started_utc": "2026-10-05T00:00:10Z",
+      "finished_utc": "2026-10-05T00:00:16Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "name": "capsule",
+      "source_count": 8967,
+      "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/capsule.source.json",
+        "bytes": 3733124,
+        "sha256": "c2ff195dd42fca7624d4199ce809d6e1c3886fe66dc0c81d68b25548134db646"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/capsule.log",
+        "bytes": 110,
+        "sha256": "b3e725bd91215930406dabad500b9eebce3587e47a1c3a93af16117d8705284e"
+      },
+      "tests": 11,
+      "log": "...........\n----------------------------------------------------------------------\nRan 11 tests in 4.898s\n\nOK\n"
+    },
+    {
+      "command": [
+        "/tmp/p18u-resume-sdk-20261004/bin/python",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests",
+        "-p",
+        "test_upstream_maintenance.py"
+      ],
+      "started_utc": "2026-10-05T00:00:17Z",
+      "finished_utc": "2026-10-05T00:00:19Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "name": "review-regression",
+      "source_count": 8967,
+      "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/review-regression.source.json",
+        "bytes": 3733130,
+        "sha256": "3869dd42a4a30772433032ecd17142571941278e8f86d8c940aa21d7d8e41554"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/review-regression.log",
+        "bytes": 112,
+        "sha256": "1b54e7bd3e4f0557cdf06d1076b6ef63ce21d6c17ecec62d2881ac93eafe1fed"
+      },
+      "tests": 13,
+      "log": ".............\n----------------------------------------------------------------------\nRan 13 tests in 0.006s\n\nOK\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p18u-capsule-20261004-01/real.strict.json",
+        "--",
+        "/tmp/p18u-resume-sdk-20261004/bin/python",
+        "-I",
+        "-B",
+        "/workspace/recovery-backups/20260930T165936Z/p18u-real-capsule-acceptance-proposal-01/real_capsule_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--sdk-python",
+        "/tmp/p18u-resume-sdk-20261004/bin/python",
+        "--project",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/examples/upstream-maintenance",
+        "--source-root",
+        "/workspace/codex-harness-everythings-a-plugin",
+        "--request",
+        "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/REAL_REVIEW_REQUEST.json",
+        "--work-dir",
+        "/workspace/acceptance/p18u-capsule-real-20261004-runtime"
+      ],
+      "started_utc": "2026-10-05T00:01:20Z",
+      "finished_utc": "2026-10-05T00:05:06Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "name": "real",
+      "source_count": 8967,
+      "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+      "source_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/real.source.json",
+        "bytes": 3733855,
+        "sha256": "1334cc7cb97af0e290aeb3552a90501a44dc1bfeebe0beb40ca1a6c33768b0e0"
+      },
+      "log_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/real.log",
+        "bytes": 73,
+        "sha256": "83e56ab6efa146ff6e8f91ebf9a6253247f8edd8d19b01be8da4d312ef23de1d"
+      },
+      "strict": {
+        "command": [
+          "/tmp/p18u-resume-sdk-20261004/bin/python",
+          "-I",
+          "-B",
+          "/workspace/recovery-backups/20260930T165936Z/p18u-real-capsule-acceptance-proposal-01/real_capsule_acceptance.py",
+          "--host",
+          "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+          "--sdk-python",
+          "/tmp/p18u-resume-sdk-20261004/bin/python",
+          "--project",
+          "/workspace/codex-harness-everythings-a-plugin/component-sdk/examples/upstream-maintenance",
+          "--source-root",
+          "/workspace/codex-harness-everythings-a-plugin",
+          "--request",
+          "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/REAL_REVIEW_REQUEST.json",
+          "--work-dir",
+          "/workspace/acceptance/p18u-capsule-real-20261004-runtime"
+        ],
+        "subreaper": true,
+        "reaped": [
+          {
+            "pid": 13184,
+            "wait_status": 0,
+            "returncode": 0
+          }
+        ],
+        "command_pid": 13184,
+        "command_wait_status": 0,
+        "command_returncode": 0,
+        "runner_error": null,
+        "exit_status": 0,
+        "elapsed_seconds": 225.07146604799982
+      },
+      "strict_receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-20261004-01/real.strict.json",
+        "bytes": 1053,
+        "sha256": "1a78f9e6b6b8c912409d8533b4a6390b333da5476b1fd7089051f31d6b08d426"
+      }
+    }
+  ],
+  "limits": "11 capsule tests use actual local bare Git fixtures with mocked planner result. 13 adapter cases are existing review regressions. Neither substitutes for installed real-revision acceptance."
+}

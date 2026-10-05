@@ -1,0 +1,254 @@
+{
+  "schema": "codex-source-capsule-lineage-v1",
+  "phase": "P18U",
+  "boundary": "C27",
+  "published_predecessor": "1d94c37a6619aa11b9b252d9693ee79bbeb4e466",
+  "official_upstream": {
+    "repository": "https://github.com/openai/codex",
+    "imported_revision": "d42056091aded7feb1d88ac7e83972108b2aa478",
+    "chosen_input_only_revision": "2e5fea64eefcaa19f48458b2386011b619f69c70",
+    "installed_upstream_revision_advanced": false,
+    "source_paths_extracted_by_this_slice": []
+  },
+  "component_id": "codex.maintenance.upstream-review",
+  "before_version": "0.1.1",
+  "version": "0.2.0",
+  "host_api": 1,
+  "contracts": [
+    {
+      "kind": "tool",
+      "name": "upstream_impact_review",
+      "version": 1,
+      "change": "retained"
+    },
+    {
+      "kind": "tool",
+      "name": "upstream_source_capsule",
+      "version": 1,
+      "change": "added"
+    }
+  ],
+  "source_binding": {
+    "source_count": 8967,
+    "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+    "before_source_map_sha256": "285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f",
+    "candidate_receipt": {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-capsule-adoption-20261004-01/CANDIDATE_FORMATTED.json",
+      "bytes": 1238798,
+      "sha256": "d4791a1361ee486d849d324b74e7f2d72a4958aa0e379d4458a80ec930731b3c"
+    },
+    "changed_paths": [
+      "component-sdk/examples/upstream-maintenance/README.md",
+      "component-sdk/examples/upstream-maintenance/build_package.py",
+      "component-sdk/examples/upstream-maintenance/capsule_bootstrap.py",
+      "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "component-sdk/examples/upstream-maintenance/plugin.py",
+      "component-sdk/examples/upstream-maintenance/source_capsule.py",
+      "component-sdk/tests/test_source_capsule.py"
+    ],
+    "rust_source_unchanged": true,
+    "no_new_host_build": true
+  },
+  "source_rows": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/README.md",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": "b3e08f157b0cb0e95b02c8543a519e8f9cc86a7060094bf16713b8382de267a3",
+      "formatted_sha256": "bb594dd537ca33b95130f54e65f1378b71cd093fd5b24749bc962586c930ce6b",
+      "bytes": 8869
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/build_package.py",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": "0663b25e849232573278de480a5603b81837481ef6f65bae33296f4437527988",
+      "formatted_sha256": "c54493309af995122138cc595c3b2a038bd0d7ae27c31a3a9ae30f8228a4f1a9",
+      "bytes": 1206
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/capsule_bootstrap.py",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": null,
+      "formatted_sha256": "56ef2c3d2618abb0eceee92adbd567b3f66559efca59c46df90fd8c4cd7b0d25",
+      "bytes": 610
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/codex-component.json",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": "e15a73933c45f901cd1a1a2f0078eed89a89c397f3948ee7db3cf653a02b8220",
+      "formatted_sha256": "4d1cabc09d1ea4a6c3a97c0cad2eac315c62ebd616c04f27f2327750d7180021",
+      "bytes": 2080
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": "530163f565ec34c6108ffca6f006a058c2e3c058337428675bb5fc1fb3c9090a",
+      "formatted_sha256": "e4fddab20f8109362f09c8dd7452522b08f0584c75515b2c4276144bc5141b26",
+      "bytes": 1874
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/source_capsule.py",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": null,
+      "formatted_sha256": "b93092ef63590d552d6213efb3afb318931fd2e723d80a7d4e6cae542d0ad467",
+      "bytes": 15447
+    },
+    {
+      "path": "component-sdk/tests/test_source_capsule.py",
+      "original_upstream_path": null,
+      "classification": "project-authored additive source-input maintenance support, not native extraction",
+      "before_sha256": null,
+      "formatted_sha256": "42a23114c1919ec42d273ed1655131a0ee0cdcf6975380c5f7c389be64151379",
+      "bytes": 10788
+    }
+  ],
+  "symbol_mapping": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/source_capsule.py",
+      "symbols": [
+        "prepare_capsule",
+        "atomic_file",
+        "inspect_capsule",
+        "regular_bytes",
+        "sync_directory",
+        "outcome"
+      ],
+      "owner": "new request-scoped sparse source-input transaction and offline artifact verifier",
+      "origin": "intentional project code"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plugin.py",
+      "symbols": [
+        "capsule"
+      ],
+      "owner": "existing SDK tool-v1 envelope, initialization state directory and shutdown event adapter",
+      "origin": "intentional project adapter"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/capsule_bootstrap.py",
+      "symbols": [
+        "inspect_capsule invocation"
+      ],
+      "owner": "standalone source-capsule artifact integrity inspection with no running host/Git dependency",
+      "origin": "intentional project bootstrap; not deployment/state restoration"
+    }
+  ],
+  "unchanged_dependencies": [
+    {
+      "path": "component-sdk/examples/upstream-maintenance/maintenance_review.py",
+      "sha256": "41b92269918b3e8fb69fe08c275aa6e9624eb0324affd8861c333ceb96f12a96",
+      "symbols": [
+        "LocalObjects",
+        "review_request",
+        "exact_file"
+      ],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/owned_git.py",
+      "sha256": "9ce921c3d864bdc7be223f521a5f86b8711c03749843697c12bd2a0bdf9a8976",
+      "symbols": [
+        "capture",
+        "OwnedGitError"
+      ],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/plan_upstream_impact.py",
+      "sha256": "67a38e355fcfb2041d35793288317cdc58617b8093cd6c9b161844f986c4a19e",
+      "symbols": [
+        "plan"
+      ],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/validate_checkpoint_lineage.py",
+      "sha256": "31d61fbcb28f5fcaf9fd298daac95bd286c7102c211b0251dab00f381cc9b91c",
+      "symbols": [
+        "GitObjects"
+      ],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    },
+    {
+      "path": "component-sdk/examples/upstream-maintenance/static/TOOL_PROVENANCE.json",
+      "sha256": "a951e414f8cc85ed17f141da5cf17fb50e239bda66e651cb2babcb3d334acb0c",
+      "symbols": [],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    },
+    {
+      "path": "component-sdk/codex_component_sdk/__init__.py",
+      "sha256": "1987d1ca5b6fb76f01eed3cc79ab27f2022dc8962d09a2a5f22b0b771c755738",
+      "symbols": [
+        "Plugin",
+        "RequestContext"
+      ],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    },
+    {
+      "path": "codex-rs/component-host/src/main.rs",
+      "sha256": "902694445ccbb2b905ec05630d9ea6f5a65bc9e4cc367e0d2c7ce5e8591a3952",
+      "symbols": [
+        "Command::Call"
+      ],
+      "classification": "retained project support; vendored planner/validator are exact project copies, not native upstream services"
+    }
+  ],
+  "state_ownership": {
+    "input_commit_trees_and_blobs": "caller-owned immutable object repository; no fetch/checkouts performed by plugin",
+    "plugin_state": "fresh exclusive private job under initialized state_dir/upstream-capsules; existing jobs retained",
+    "files": "INTENT before blobs, bounded MANIFEST, hash-bound SEALED; best-effort TERMINAL after failure",
+    "cancellation": "Preparation checks a 90-second deadline; initial review retains its own 90-second Git-owner deadline, while subsequent capsule Git work is capped to the preparation deadline. SDK shutdown and retained direct-Git custody apply; blocking filesystem operations have no hard deadline.",
+    "inspection": "checks current bound bytes, never attests prior crash durability or reconstructs a deployment"
+  },
+  "new_native_families": 0,
+  "native_families_total_unchanged": 3,
+  "known_remaining": [
+    "coordinated candidate assembly/adaptation and build",
+    "custom plugin/UI behavior preserved on actual later-upstream host",
+    "host/plugin version and persistent schema migration gates",
+    "incompatible-update rejection and failed-activation/state restoration",
+    "minimal external deployment recovery when host fails",
+    "current normalized semantic ownership closure",
+    "0.2.0 replacement/upgrade compatibility matrix not exercised by real49-command gate"
+  ],
+  "evidence": "verification/2026-10-04/p18u-source-capsule/README.md",
+  "lifecycle_evidence": {
+    "status": "passed separate installed SDK lifecycle and manager subsequent source materialization",
+    "shutdown_plugin_status": 0,
+    "abrupt_plugin_status": -9,
+    "incomplete_jobs_preserved": true,
+    "installation_rollback_proven": false,
+    "evidence": "verification/2026-10-04/p18u-source-capsule/LIFECYCLE.json"
+  },
+  "regressions": {
+    "storage": "passed reused-package current-host gate",
+    "migration": "passed10commands",
+    "GUI": "passed2Chromiumcycles49+38browsercommands; deterministic inference; no in-app Browser",
+    "evidence": "verification/2026-10-04/p18u-source-capsule/REGRESSIONS.json"
+  },
+  "post_test_documentation": {
+    "schema": "codex-post-test-documentation-v1",
+    "tested_source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+    "published_documented_source_map_sha256": "0d2ec165627ff4a0e9236ead57bd6f6e42c13512eacae2c00c84604541e5e515",
+    "source_count": 8967,
+    "changed_documentation": [
+      {
+        "path": "component-sdk/examples/upstream-maintenance/README.md",
+        "before_sha256": "bb594dd537ca33b95130f54e65f1378b71cd093fd5b24749bc962586c930ce6b",
+        "after_sha256": "df8937791595e7a4ecb2f0fd7ec5fd31c727a295055afd35429b2d40a941b6e6",
+        "reason": "Qualify failure-marker persistence as best effort; runtime source and tests unchanged."
+      }
+    ],
+    "runtime_source_unchanged": true,
+    "tested_package_pyz_sha256": "2e5adafa9a231ace5b7687c685447afedc7c6f81b230373ab6b05581259b018f",
+    "tested_package_readme_sha256": "bb594dd537ca33b95130f54e65f1378b71cd093fd5b24749bc962586c930ce6b",
+    "runtime_tests_not_rebound": true,
+    "documented_manifest_path": "/workspace/recovery-backups/20260930T165936Z/p18u-capsule-adoption-20261004-01/CANDIDATE_DOCUMENTED.json",
+    "documented_manifest_sha256": "b4b3f00e056aab04bacf2e9b8ab4345bc8caa93a96b9bbd70db8880e2b488207"
+  }
+}

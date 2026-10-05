@@ -1,0 +1,66 @@
+{
+  "schema": "source-capsule-checkpoint-evidence-v1",
+  "client_date": "2026-10-04",
+  "raw_runtime_timestamps_timezone": "UTC",
+  "component": "codex.maintenance.upstream-review",
+  "package_version": "0.2.0",
+  "host_api": 1,
+  "new_tool_contract": "tool:upstream_source_capsule/v1",
+  "source_count": 8967,
+  "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+  "host_sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+  "plugin_sha256": "2e5adafa9a231ace5b7687c685447afedc7c6f81b230373ab6b05581259b018f",
+  "new_host_build": false,
+  "native_extracted_families_added": 0,
+  "native_bounded_families_total_unchanged": 3,
+  "completed": {
+    "capsule_fixture_cases": 11,
+    "review_adapter_cases": 13,
+    "real_preparation_commands": 49,
+    "real_upstream_changed_paths": 13,
+    "retained_unique_blobs": 25,
+    "retained_blob_bytes": 1228513,
+    "direct_installed_lifecycle_modes": [
+      "SDK shutdown",
+      "SIGKILL to plugin only"
+    ],
+    "successful_subsequent_manager_preparations": 2,
+    "current_source_wrappers_unchanged": true,
+    "fresh_storage_regression": true,
+    "fresh_migration_commands": 10,
+    "fresh_GUI_cycles": 2,
+    "fresh_GUI_browser_commands": [
+      49,
+      38
+    ],
+    "fresh_GUI_Launch_first_SIGINT_statuses": [
+      0,
+      0
+    ]
+  },
+  "pending": [
+    "0.2.0 replacement/upgrade matrix",
+    "actual later-upstream adapted candidate integration",
+    "coordinated versions and schemas",
+    "custom behavior/UI retention on updated host",
+    "incompatible-update rejection and external-bootstrap failed-update/state restoration"
+  ],
+  "interpretation": "Source-input materialization and bounded installed lifecycle support, not source adaptation, assembled candidate, deployment, migration or rollback. All update/activation/candidate flags remain false.",
+  "artifact_refs": [
+    "FOCUSED_AND_SOURCE.json",
+    "REAL_RUNTIME.json",
+    "SOURCE_INPUTS.json",
+    "OBJECT_SETUP.json",
+    "LIFECYCLE.json",
+    "REGRESSIONS.json"
+  ],
+  "limits": [
+    "per-job rather than cumulative retained-state quotas",
+    "owner-writable artifacts and trusted executable package",
+    "best-effort TERMINAL persistence; combined seal-fsync plus terminal-write failure untested",
+    "inspection attests present integrity only, not prior durability/authenticity or semantic compatibility",
+    "blocking filesystem operations not hard-deadline bounded",
+    "sampled child identities and scope-specific cleanup, not whole-host graceful shutdown",
+    "no full workspace, live model or in-app Browser result claimed"
+  ]
+}

@@ -28,6 +28,9 @@ def main():
     bootstrap = args.output / "bootstrap.py"
     shutil.copyfile(source / "bootstrap_entry.py", bootstrap)
     bootstrap.chmod(0o700)
+    shutil.copyfile(
+        source / "capsule_bootstrap.py", args.output / "capsule_bootstrap.py"
+    )
     print(args.output.absolute())
 
 

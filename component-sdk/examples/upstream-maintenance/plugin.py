@@ -25,3 +25,29 @@ def plan(params, context):
         "text": json.dumps(report, sort_keys=True, separators=(",", ":")),
         "success": report["status"] == "review_required",
     }
+
+
+@app.handle("tool", "upstream_source_capsule", "invoke")
+def capsule(params, context):
+    from source_capsule import prepare_capsule
+
+    if (
+        not isinstance(params, dict)
+        or set(params) != {"call_id", "name", "arguments"}
+        or not isinstance(params["call_id"], str)
+        or not 1 <= len(params["call_id"]) <= 256
+        or params["name"] != "upstream_source_capsule"
+        or not isinstance(params["arguments"], dict)
+    ):
+        raise PluginError("invalid tool-v1 invocation envelope")
+    result = prepare_capsule(
+        params["arguments"],
+        context.initialization.state_dir,
+        context.watch_shutdown(),
+        context.emit,
+    )
+    return {
+        "text": json.dumps(result, sort_keys=True, separators=(",", ":")),
+        "success": result["status"] == "sealed"
+        and result.get("durability") == "directory_fsync_completed",
+    }

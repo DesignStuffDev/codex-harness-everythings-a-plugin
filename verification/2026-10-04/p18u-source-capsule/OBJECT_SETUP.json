@@ -1,0 +1,124 @@
+{
+  "schema": "capsule-input-object-cache-provenance-v1",
+  "setup_performed_by_root_not_maintenance_plugin": true,
+  "original_project_checkout_or_index_modified": false,
+  "records": {
+    "OBJECT_CACHE_INTENT.json": {
+      "kind": "disposable bare object cache, not checkout",
+      "reason": "previous tmp mirror absent after reattachment",
+      "path": "/workspace/acceptance/p18u-upstream-objects-20261004.git",
+      "base": "d42056091aded7feb1d88ac7e83972108b2aa478",
+      "chosen": "2e5fea64eefcaa19f48458b2386011b619f69c70",
+      "custom": "914cc59374c1149463e78bc33851d83e3f14d0a4",
+      "index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59"
+    },
+    "OBJECT_CACHE_FAILURE.json": {
+      "exit": 128,
+      "stage": "initial upstream fetch",
+      "cause": "alternate source contains d420 commit with unavailable parent; shallow boundary was not copied",
+      "source_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59"
+    },
+    "OBJECT_CACHE_RESULT.json": {
+      "completed": true,
+      "cache": "/workspace/acceptance/p18u-upstream-objects-20261004.git",
+      "preserved_source_shallow_boundary": true,
+      "no_worktree_created": true,
+      "original_index_sha256": "0dc35ffe37ae1f620b6d14d4db0a6f6056a03ac6a20cf3af8925d5d2f4223d59"
+    },
+    "OBJECT_BLOBS_RESULT.json": [
+      {
+        "remote": "upstream",
+        "oid": "1dc5b0f2191e0a2d7a1f6ca4507f4858ec221793",
+        "bytes": 17031
+      },
+      {
+        "remote": "upstream",
+        "oid": "27a7ab9a2606bf02694f8ab457b08b132ab3eb4f",
+        "bytes": 37428
+      },
+      {
+        "remote": "upstream",
+        "oid": "379facebdc6266527401f59f260bc8fc2ce3a6a1",
+        "bytes": 60445
+      },
+      {
+        "remote": "upstream",
+        "oid": "43a322feacdd3c8cfaa6f74842fc3f464b432179",
+        "bytes": 229970
+      },
+      {
+        "remote": "upstream",
+        "oid": "493ba3f02afc177131b293df0e37a35af5806c67",
+        "bytes": 13411
+      },
+      {
+        "remote": "upstream",
+        "oid": "62e5dcd7b9072801b2d4524015e0b67891788b72",
+        "bytes": 19047
+      },
+      {
+        "remote": "upstream",
+        "oid": "682d909fb2e1678b6331085e79da36687b49849d",
+        "bytes": 2751
+      },
+      {
+        "remote": "upstream",
+        "oid": "68bef0e2eae3ac38d551bf683da0765e66cbe3c3",
+        "bytes": 33204
+      },
+      {
+        "remote": "upstream",
+        "oid": "6c143ee22694d45db74a46171088bbd5ccc3d921",
+        "bytes": 66580
+      },
+      {
+        "remote": "upstream",
+        "oid": "a42a4b5db2e69dd966a880c3be7ab38fdf1c401f",
+        "bytes": 66922
+      },
+      {
+        "remote": "upstream",
+        "oid": "a4da82ad46dca0067d7cb24121b9c36c790d1724",
+        "bytes": 21851
+      },
+      {
+        "remote": "upstream",
+        "oid": "db685166a5d0a289ab20b1d95da987bb3bd6ed91",
+        "bytes": 5465
+      },
+      {
+        "remote": "upstream",
+        "oid": "fbf0e773be5b2d00031db23ce3b97aa170448d48",
+        "bytes": 13128
+      },
+      {
+        "remote": "custom",
+        "oid": "c7877bb57993107e256a89d80046e8b8cd94975a",
+        "bytes": 65804
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/OBJECT_CACHE_INTENT.json",
+      "bytes": 442,
+      "sha256": "915feb4629fba92e083c8f09dedf976b653fe9b159e39703a10f131e11334da6"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/OBJECT_CACHE_FAILURE.json",
+      "bytes": 257,
+      "sha256": "6ec05cd37c2c6049824bf78d07055a8823839c989bbf0c8a761ca7dccb6e4ca1"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/OBJECT_CACHE_RESULT.json",
+      "bytes": 266,
+      "sha256": "f428754f6a9bc4a9e2685730451714ccfe7c471dc0a72043f86b6f603de11967"
+    },
+    {
+      "path": "/workspace/recovery-backups/20260930T165936Z/p18u-resume-20261004-01/OBJECT_BLOBS_RESULT.json",
+      "bytes": 1526,
+      "sha256": "9711cd6d586aa30a3ad6631211ff8bc806087c1ced75a5afe0c5b3d652c89ea6"
+    }
+  ],
+  "limit": "Initial isolated-cache fetch failure is preserved; copying the required shallow boundary repaired only disposable cache traversal. This records prepared Git inputs, not an upstream update or installation recovery."
+}

@@ -11,7 +11,7 @@ Full earlier receipts/actions are preserved in
 ## Current resume checkpoint — 2026-10-04
 
 The same task-bound environment reattached and the original checkout/index survived.
-All8,964 current source paths match map
+The accepted maintenance0.1.1 source has8,964 paths/map
 `285c1464a236cf391d7c7b06c68ab17388e8c99079c5fc4a091f8b7595daa36f`.
 The adopted maintenance0.1.1 package closes the direct-Git cancellation gate:
 58 focused cases, fresh external package acceptance23commands/19manager,
@@ -28,7 +28,7 @@ lost with `/tmp`; the new October4 reports/package identities live under A/p18u-
 The old object mirror is absent. Its promisor repair had completed (original config
 SHA49772cc restored); do not replay it. Chosen revision2e5fea64 and custom914cc593
 objects were reacquired into a bare **test object cache**, with no new checkout,
-branch reset or working-tree replacement. Source staging remains unadopted/unverified.
+branch reset or working-tree replacement. Source-input staging now has separate acceptance below.
 
 No earlier GUI/viewer/build processes survived reattachment; their disappearance
 is not a successful shutdown test. Production CLI8e8a/managerf054 hashes survive.
@@ -39,10 +39,44 @@ recovery and remaining validation. Native admission stays closed; do not infer t
 free tmpfs repairs the build. R/p03-reattached-capacity-audit-20261004-01 preserves
 exact inventories. Keep auth/MCP proposals and every archive; no Rust build started.
 
-Next: publish this verified maintenance lifecycle slice on the existing WIP,
-then adopt the reviewed bounded source-input capsule, run its focused and real
-later-revision installed-package acceptance, and recheck feasible storage/GUI gates.
-A capsule is not a merged candidate or updater rollback. All P18U release gates remain.
+The maintenance0.2.0 source-input capsule is adopted, formatted and runtime-tested,
+8,967-path map `0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269`.
+Eleven capsule fixtures and13 reviewer regressions pass. Fresh external build and
+49-command installed acceptance retain13 changed paths/25 blobs/1,228,513B from
+actual upstream descendant2e5fea64 and committed custom914cc593. The divergent
+custom scenarios.rs is preserved as an input, not silently replaced. Package0.2.0
+pyz SHA `2e5adafa9a231ace5b7687c685447afedc7c6f81b230373ab6b05581259b018f`.
+Cooperative cancellation and abrupt plugin SIGKILL both leave incomplete jobs;
+actual Git cleanup is established with the FIFO held and no rescue, then new
+manager invocations seal new capsules without changing interrupted jobs. Empty-PATH
+inspection works after removal. This inspector verifies artifacts, not prior crash
+durability. Terminal failure persistence is best effort under further I/O failure.
+
+Fresh installed storage, one manual migration and two real Chromium GUI cycles
+also pass on unchanged CLI8e8a/managerf054 and unchanged native package. The GUI
+exercises approvals/native tools/Stop/streaming/search/cold history and actual
+Launch Ctrl+C; deterministic inference is not live-provider or in-app Browser proof.
+Private runtime reports/state/screenshots were exported out of /tmp to A before
+publication. Overlay318,586,880B, tmp9,198,415,872B and hard-unused15,274,414,080B
+were observed after the GUI; OOM/kill0 unchanged. No acceptance command remains active.
+No Rust build was attempted, and missing cache backing is still unresolved.
+One separately observed Git PID2006 remains Z/PPID1 after the first failed isolated
+object-cache fetch; its causal owner is not independently attested. It is not
+dismissed or counted as successful cleanup. Narrow acceptance reports prove only
+their tracked process identities; no whole-host clean-process claim is made.
+
+See [source-input evidence](verification/2026-10-04/p18u-source-capsule/README.md).
+R/p18u-capsule-adoption-20261004-01 preserves exact preimages and formatted manifest.
+A subsequent README-only correction qualifies best-effort failure-marker persistence;
+current documented map `0d2ec165627ff4a0e9236ead57bd6f6e42c13512eacae2c00c84604541e5e515`.
+Runtime code/tests are unchanged; original test/package hashes remain authoritative.
+See verification/2026-10-04/p18u-source-capsule/POST_TEST_DOCUMENTATION.json.
+Next feasible P18U action: produce a bounded sparse transformation from the sealed
+inputs, preserving custom changes and rejecting conflicts/unsupported entries;
+prove installation, interruption and host-independent inspection. A sparse overlay
+must remain explicitly incomplete until coordinated build/version/migration,
+real-host/UI compatibility and external failed-update recovery gates pass.
+No merged candidate, update activation or rollback is accepted by this checkpoint.
 
 ## Identity, publication and preservation
 
@@ -52,12 +86,17 @@ A capsule is not a merged candidate or updater rollback. All P18U release gates 
   Preserve sibling `/workspace/codex-harness-next-components`. No new VM/checkout/chat.
 - Upstream: `openai/codex@d42056091aded7feb1d88ac7e83972108b2aa478`.
   Apache LICENSE/NOTICE/provenance retained. No Cordis/second-harness replacement.
-- Latest documentation checkpoint: `777ee7ce49eb284d1fea80c927207433ca64a9fc`, tree
+- Latest verified implementation/evidence checkpoint: `1d94c37a6619aa11b9b252d9693ee79bbeb4e466`,
+  tree `7278f32d25e43319e5300c47d0f514d44b49a45d`, same WIP branch. All20 selected
+  files/319,269B and both refs read back; main unchanged. Receipt R/p18u-owned-git-
+  publication-20261004-01/PUBLICATION.json SHA256
+  `16bb1891271f009a0ad0bf8b355799dd192ab383a140d962c229a0ffd4558707`.
+- Prior documentation checkpoint: `777ee7ce49eb284d1fea80c927207433ca64a9fc`, tree
   `4feff5ab7324d77c2824e6cd829eb6804457faf6`. All5 selected files/109,741B and
   both refs read back; records914cc593 acceptance, exact native capacity gate and
   preserved unadopted work. Receipt R/p18u-resume-ledger-publication-01/PUBLICATION.json
   SHA256 `8557006b06c4b94fbd864dd9037a309b76b75842d4e35addf387ad7449206387`.
-- Last verified implementation publication: `914cc59374c1149463e78bc33851d83e3f14d0a4`, tree
+- Prior verified implementation publication: `914cc59374c1149463e78bc33851d83e3f14d0a4`, tree
   `0f692771abe238cac759b2a034b5f8c820165236`, on
   `wip/p03-process-final-and-mcp-preservation-20261002`.
   All31 selected files/727,161B and both refs were read back. This publishes the
@@ -135,7 +174,7 @@ Raw-input/response-only history, native attachment resolve/envelope/blob durabil
 active constructor/lower-transport/MCP custody and whole-host graceful cleanup remain
 unproved. Nonzero adopted statuses are not dismissed as zombies or universally graceful.
 
-## Latest additive maintenance checkpoint
+## Historical additive maintenance0.1.0 checkpoint
 
 `codex.maintenance.upstream-review` v0.1.0 is now implemented and accepted as an
 independently installed tool-v1 package. It is read-only review support, not a new
@@ -231,10 +270,13 @@ and remote-viewer processes. Never replay actions after selector reuse.
    model2 grants, then extract actual native OpenAiModelsManager discovery/merge/cache
    with separate native/custom build/install/select/remove/cancel/UI proof on unchanged
    host. Continue remaining P04–P19; three bounded families are not the endpoint.
-5. Required P18U: installed maintenance plus external recovery; chosen later upstream
-   integration preserving custom plugins/UI, coordinated versions/state migrations,
-   incompatible-update rejection and rollback. Offline17+22 support fixtures do not
-   satisfy those gates. No scheduled polling or unattended live update.
+5. Required P18U: installed review/cancellation and real source-input staging now
+   pass, as recorded at the top. Advance sparse candidate transformation next while
+   native capacity is blocked. Preserve exact custom base and input digests; reject
+   ambiguous content/mode/deletion changes. Then coordinate versions/state migrations,
+   real later-upstream integration preserving custom plugins/UI, incompatible-update
+   rejection and external-bootstrap rollback. Input integrity or a clean text merge
+   cannot satisfy those gates. No scheduled polling or unattended live update.
 6. Publish reviewed milestones on existing WIP branch with nonforce/current-ref checks;
    retain accepted main until its gates pass. Preserve unfinished source separately
    and update this queue/evidence/provenance every run.

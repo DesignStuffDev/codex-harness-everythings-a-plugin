@@ -1,0 +1,584 @@
+{
+  "schema": "source-capsule-affected-regressions-v1",
+  "storage": {
+    "passed": true,
+    "source": {
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/subreaper_runner.py",
+        "--report",
+        "/workspace/acceptance/p18u-capsule-storage-20261004-01.strict.json",
+        "--",
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/reused_storage_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--codex",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+        "--independent-report",
+        "/workspace/acceptance/thread-store-p01-0.2.0/independent-report.json",
+        "--work-dir",
+        "/tmp/p18u-capsule-storage-20261004-01-runtime"
+      ],
+      "started_utc": "2026-10-05T00:08:09Z",
+      "finished_utc": "2026-10-05T00:08:14Z",
+      "returncode": 0,
+      "scoped_source_unchanged": true,
+      "receipt": {
+        "path": "/workspace/acceptance/p18u-capsule-storage-20261004-01.source.json",
+        "bytes": 3733612,
+        "sha256": "d9f54d040da12c44640c9bf5c4479dabcb8ad6d9136d80e12c57ae1e33aab922"
+      },
+      "source_count": 8967,
+      "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269"
+    },
+    "strict": {
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/reused_storage_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--codex",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+        "--independent-report",
+        "/workspace/acceptance/thread-store-p01-0.2.0/independent-report.json",
+        "--work-dir",
+        "/tmp/p18u-capsule-storage-20261004-01-runtime"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 23041,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 23039,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 23122,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 23121,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 23214,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 23215,
+          "wait_status": 0,
+          "returncode": 0
+        },
+        {
+          "pid": 23289,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 23290,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 22965,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 22965,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 3.9601857109998946
+    },
+    "adopted_status_counts": {
+      "-9": 7,
+      "0": 2
+    },
+    "evidence_kind": "reused_package_new_host",
+    "new_independent_build": false,
+    "binaries": {
+      "host": {
+        "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+        "mtime_ns": 1790930910034328288,
+        "bytes": 7274296
+      },
+      "codex": {
+        "sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+        "mtime_ns": 1790978090244186929,
+        "bytes": 635999960
+      }
+    },
+    "package_files": {
+      "LICENSE": {
+        "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+        "mtime_ns": 1790816732780801252,
+        "bytes": 10926
+      },
+      "NOTICE": {
+        "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+        "mtime_ns": 1790816732780865717,
+        "bytes": 242
+      },
+      "codex-component.json": {
+        "sha256": "6466377b1297a00630d7c70961805a2c15cea29006ac7fbfb265023c1502cd48",
+        "mtime_ns": 1790816732780996350,
+        "bytes": 309
+      },
+      "codex-thread-store-local-plugin": {
+        "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+        "mtime_ns": 1790816732933022938,
+        "bytes": 71203368
+      }
+    },
+    "source_build_report_fingerprint": {
+      "sha256": "ab41bc4a0c542b835725a83c81035e21b0fd084279620c0d8a1a997fcff7df1e",
+      "mtime_ns": 1790816736909030006,
+      "bytes": 8530
+    },
+    "verified": [
+      "original independent build provenance validated",
+      "unchanged old package installed against current host and CLI",
+      "real CLI turns, tool execution, streaming and cold session resume",
+      "storage child termination and native restoration with retained history"
+    ],
+    "raw_report_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-storage-20261004-01.artifacts/independent-report.json",
+      "bytes": 5880,
+      "sha256": "277de5c444684c3ff97a18138b67dbccb634f5465dcacb23829258db6e92324f"
+    },
+    "export_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-storage-20261004-01.export.json",
+      "bytes": 18984,
+      "sha256": "d4f2c12f484de6608fc25a1267b8e6de5163f5b76ffb284d761acecbb8ce38c6"
+    },
+    "limit": "Existing external storage package and accepted host/CLI reused; deterministic model fixture, not new storage extraction/build, live provider or universally graceful descendant shutdown. Exact nonzero adopted statuses retained."
+  },
+  "migration": {
+    "passed": true,
+    "started_utc": "2026-10-05T00:16:15.721513+00:00",
+    "finished_utc": "2026-10-05T00:16:19.903931+00:00",
+    "source_count": 8967,
+    "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+    "source_unchanged": true,
+    "source_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-migration-20261004-01.source.json",
+      "bytes": 3733619,
+      "sha256": "ff37e573bc79d225adad760423de44430941fbcc7ec8d374f92ae7c791f99603"
+    },
+    "strict": {
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/manual_migration_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--codex",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+        "--independent-report",
+        "/tmp/p18u-capsule-storage-20261004-01-runtime/independent-report.json",
+        "--work-dir",
+        "/tmp/p18u-capsule-migration-20261004-01-runtime"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 33678,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 33677,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 33767,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 33768,
+          "wait_status": 9,
+          "returncode": -9
+        },
+        {
+          "pid": 33358,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 33358,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 4.7337622619998
+    },
+    "strict_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-migration-20261004-01.strict.json",
+      "bytes": 1129,
+      "sha256": "dd426a5e3fce291ac1101f1e5d59fba667918775412f81abd3146e8ee936a55e"
+    },
+    "adopted_status_counts": {
+      "-9": 4,
+      "0": 1
+    },
+    "report_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-migration-20261004-01.artifacts/manual-migration-report.json",
+      "bytes": 8832,
+      "sha256": "b039869f1fd45ae2752b630add09fb139900f5111742a4ab38230f4424131cbe"
+    },
+    "export_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-migration-20261004-01.export.json",
+      "bytes": 23303,
+      "sha256": "ce45144f7643cec88c24b5b5157274c79f2292cfd2260b410f31d314e2d1f8b6"
+    },
+    "commands": [
+      {
+        "label": "prepare-gui",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "install-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "select-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "selected-dry-run",
+        "status": 0,
+        "storage_pids": [
+          33506
+        ]
+      },
+      {
+        "label": "reset-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "native-dry-run",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "reselect-native",
+        "status": 0,
+        "storage_pids": []
+      },
+      {
+        "label": "selected-apply",
+        "status": 0,
+        "storage_pids": [
+          33549
+        ]
+      },
+      {
+        "label": "selected-repeated",
+        "status": 0,
+        "storage_pids": [
+          33579
+        ]
+      },
+      {
+        "label": "cli-resume",
+        "status": 0,
+        "storage_pids": [
+          33613
+        ]
+      }
+    ],
+    "binaries": {
+      "host": {
+        "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+        "mtime_ns": 1790930910034328288,
+        "bytes": 7274296
+      },
+      "codex": {
+        "sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+        "mtime_ns": 1790978090244186929,
+        "bytes": 635999960
+      }
+    },
+    "independent_report_fingerprint": {
+      "sha256": "277de5c444684c3ff97a18138b67dbccb634f5465dcacb23829258db6e92324f",
+      "mtime_ns": 1791158893420560257,
+      "bytes": 5880
+    },
+    "inference": "deterministic external GUI fixture, not a live provider",
+    "verified": [
+      "matching independent-source package and unchanged host",
+      "real legacy App Server conversation",
+      "native/selected dry-run parity and unchanged storage bytes",
+      "selected CLI migration and idempotent repeated apply",
+      "cold CLI resume retains user/assistant history",
+      "cold App Server paginated history",
+      "post-migration turn cancellation and process reaping"
+    ],
+    "gui_gate_separate": true,
+    "limit": "Fresh selected-storage migration with existing host/package and deterministic provider fixture, not a new updater migration or upstream schema compatibility proof. Nonzero adopted statuses retained without attributing universally graceful shutdown."
+  },
+  "GUI": {
+    "passed": true,
+    "source_count": 8967,
+    "source_map_sha256": "0b7c68b95eadc215474ac0466c07ae98a1f124ba3631f075babfc63155ad8269",
+    "source_unchanged": true,
+    "started_utc": "2026-10-05T00:16:44.202788+00:00",
+    "finished_utc": "2026-10-05T00:17:03.557801+00:00",
+    "source_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-gui-20261004-01.source.json",
+      "bytes": 3733640,
+      "sha256": "eadff5c2863825db3df2bc319b33a3b3e0ba2554e680947ced6c7f21f3092d4b"
+    },
+    "strict": {
+      "command": [
+        "python3",
+        "-B",
+        "/workspace/codex-harness-everythings-a-plugin/component-sdk/tests/p01_gui_acceptance.py",
+        "--host",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex-component",
+        "--codex",
+        "/workspace/codex-harness-everythings-a-plugin/codex-rs/target/debug/codex",
+        "--manual-migration-report",
+        "/tmp/p18u-capsule-migration-20261004-01-runtime/manual-migration-report.json",
+        "--exercise-file-search",
+        "--work-dir",
+        "/tmp/p18u-capsule-gui-20261004-01-runtime"
+      ],
+      "subreaper": true,
+      "reaped": [
+        {
+          "pid": 33815,
+          "wait_status": 0,
+          "returncode": 0
+        }
+      ],
+      "command_pid": 33815,
+      "command_wait_status": 0,
+      "command_returncode": 0,
+      "runner_error": null,
+      "exit_status": 0,
+      "elapsed_seconds": 19.419154083999956
+    },
+    "strict_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-gui-20261004-01.strict.json",
+      "bytes": 839,
+      "sha256": "f8856f79c277ab39b7c376978b487e91a63840da0e9c6100658e99a4932289f5"
+    },
+    "private_runtime_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-gui-20261004-01.artifacts/acceptance-private.json",
+      "bytes": 22099,
+      "sha256": "e546391b837ab776426df7d49a0ea9c514e9cdd81ada9433f19acee906280bce"
+    },
+    "private_export_receipt": {
+      "path": "/workspace/acceptance/p18u-capsule-gui-20261004-01.export.json",
+      "bytes": 3283,
+      "sha256": "7b397b51e494b124dd7a39d7a797c164005eb9a41d680b52bc417123226742da"
+    },
+    "browser": "Chromium through Playwright; not in-app Browser",
+    "inference": "deterministic fixture; no live provider",
+    "binaries": {
+      "host": {
+        "sha256": "f054d84acba3ea6edb6c20f08a037a087dc324fb953ca29f9649f1ab8f473954",
+        "mtime_ns": 1790930910034328288,
+        "bytes": 7274296
+      },
+      "codex": {
+        "sha256": "8e8a5dac859825a910403fc85dc7aed4a4ddaf3cc1c7d585f3a0fb27a7d64dc0",
+        "mtime_ns": 1790978090244186929,
+        "bytes": 635999960
+      }
+    },
+    "installed_packages_unchanged": true,
+    "tracking_scope": "observed descendant identities plus child-subreaper drain; scans can miss short-lived descendants",
+    "cycles": [
+      {
+        "cycle": 1,
+        "passed": true,
+        "browser_commands": 49,
+        "browser_closed": true,
+        "page_errors": 0,
+        "browser_report_receipt": {
+          "path": "/workspace/acceptance/p18u-capsule-gui-20261004-01.artifacts/browser-1.json",
+          "bytes": 32565,
+          "sha256": "4771f0213a13eaeebc8a7c66402b7261ef3e4bc8250644314cbe4ab75a19e7e8"
+        },
+        "streaming_turn_completed": true,
+        "approval_turn_completed": true,
+        "interrupted_turn_completed": true,
+        "shutdown_with_active_model": true,
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.314480728000035,
+        "tracked_processes_absent": true,
+        "file_search": {
+          "passed": true,
+          "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
+          "verified": [
+            "real filesystem results",
+            "relative root rejected without RPC or draft/input changes",
+            "click insertion with spaces/quotes/backslash",
+            "keyboard insertion without submitting",
+            "draft preservation",
+            "A-B-A query fence",
+            "root replacement fence",
+            "explicit close fence",
+            "task replacement fence"
+          ],
+          "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged"
+        },
+        "installed_storage_fingerprint": {
+          "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+          "mtime_ns": 1791159376698298278,
+          "bytes": 71203368
+        },
+        "runner_reaped_manager_orphans": [],
+        "runner_reaped_browser_orphans": [
+          {
+            "pid": 33934,
+            "returncode": 0
+          },
+          {
+            "pid": 33933,
+            "returncode": 0
+          }
+        ],
+        "subreaper_drain": {
+          "passed": true,
+          "reaped": [
+            {
+              "pid": 33928,
+              "returncode": 0
+            },
+            {
+              "pid": 33930,
+              "returncode": 0
+            },
+            {
+              "pid": 34049,
+              "returncode": 0
+            }
+          ]
+        },
+        "historical_manager_identity_count": 27,
+        "historical_browser_identity_count": 11
+      },
+      {
+        "cycle": 2,
+        "passed": true,
+        "browser_commands": 38,
+        "browser_closed": true,
+        "page_errors": 0,
+        "browser_report_receipt": {
+          "path": "/workspace/acceptance/p18u-capsule-gui-20261004-01.artifacts/browser-2.json",
+          "bytes": 26685,
+          "sha256": "770a216db5f96e0c6d5f7a687ffcb650350a4cf6ce1cc8b45fc5988795ea9662"
+        },
+        "streaming_turn_completed": true,
+        "approval_turn_completed": false,
+        "interrupted_turn_completed": false,
+        "shutdown_with_active_model": true,
+        "first_sigint": true,
+        "manager_status": 0,
+        "shutdown_seconds": 0.36446072100011406,
+        "tracked_processes_absent": true,
+        "file_search": {
+          "passed": true,
+          "backend": "real frozen-host native fuzzyFileSearch; no selected search component",
+          "verified": [
+            "real filesystem results",
+            "relative root rejected without RPC or draft/input changes",
+            "click insertion with spaces/quotes/backslash",
+            "keyboard insertion without submitting",
+            "draft preservation",
+            "A-B-A query fence",
+            "root replacement fence",
+            "explicit close fence",
+            "task replacement fence"
+          ],
+          "response_barriers": "Delayed actual route.fetch responses; result bodies unchanged"
+        },
+        "installed_storage_fingerprint": {
+          "sha256": "0e691de19cf3239f702e384b7c483ecfcf1b72ba5711e196103160427cba0f99",
+          "mtime_ns": 1791159376698298278,
+          "bytes": 71203368
+        },
+        "runner_reaped_manager_orphans": [],
+        "runner_reaped_browser_orphans": [
+          {
+            "pid": 34342,
+            "returncode": 0
+          },
+          {
+            "pid": 34339,
+            "returncode": 0
+          }
+        ],
+        "subreaper_drain": {
+          "passed": true,
+          "reaped": [
+            {
+              "pid": 34337,
+              "returncode": 0
+            },
+            {
+              "pid": 34341,
+              "returncode": 0
+            }
+          ]
+        },
+        "historical_manager_identity_count": 18,
+        "historical_browser_identity_count": 12
+      }
+    ],
+    "final_drain": {
+      "passed": true,
+      "reaped": []
+    },
+    "requested_in_app_Browser": "Unavailable. Actual Chromium/Playwright fallback; no in-app manual Browser or live-provider claim.",
+    "maintenance_tool_invoked_in_GUI": false,
+    "screenshots": [
+      {
+        "file": "screenshots/approval.png",
+        "bytes": 132991,
+        "sha256": "d5957c2033c3fbd3029c59d06ac1cece783991498fe36904437fd1b4fd379a4e",
+        "root_visual_review": "Root explicitly viewed original export; no credential/browser URL visible. Real rendered approval/native command, recovered conversation or quoted file reference insertion respectively.",
+        "worker_visual_review_performed": false
+      },
+      {
+        "file": "screenshots/recovered-2.png",
+        "bytes": 144747,
+        "sha256": "4c4d6e2d6e884d2a616b26fd1b3e07d649c4f956af4a4cd8254e30a14d1feb3c",
+        "root_visual_review": "Root explicitly viewed original export; no credential/browser URL visible. Real rendered approval/native command, recovered conversation or quoted file reference insertion respectively.",
+        "worker_visual_review_performed": false
+      },
+      {
+        "file": "screenshots/search-inserted-2.png",
+        "bytes": 120989,
+        "sha256": "ed9d47ae64ebfc34fafed21c0c8ca7f8df35495922aeb6c7ad494d587236454d",
+        "root_visual_review": "Root explicitly viewed original export; no credential/browser URL visible. Real rendered approval/native command, recovered conversation or quoted file reference insertion respectively.",
+        "worker_visual_review_performed": false
+      }
+    ],
+    "raw_exports_published": false,
+    "limit": "Regression of existing GUI/native-storage/native-search behavior on unchanged production binaries. No selected external search package in this cycle; no new plugin UI feature, upstream-updated host, whole-host graceful proof or live inference."
+  }
+}

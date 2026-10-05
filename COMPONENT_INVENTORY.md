@@ -75,7 +75,7 @@ The current `codex-rs/state/src/runtime` modules with production domain behavior
 
 ### C27 Upstream maintenance and update capability
 
-**ADDITIVE installed review support verified; updater application/recovery remain unimplemented; no native-extraction claim.** The project must support bringing later official Codex changes into the compartmentalized distribution while preserving independently installed components and existing sessions. This is a required delivery track, not an optional future feature. Its design and recorded provenance are in `UPSTREAM_MAINTENANCE.md` and `upstream/lineage.json`.
+**ADDITIVE installed review and source-input preparation verified; updater application/recovery remain unimplemented; no native-extraction claim.** The project must support bringing later official Codex changes into the compartmentalized distribution while preserving independently installed components and existing sessions. This is a required delivery track, not an optional future feature. Its design and recorded provenance are in `UPSTREAM_MAINTENANCE.md` and `upstream/lineage.json`.
 
 `component-sdk/examples/upstream-maintenance` now packages the existing read-only
 planner/validator behind tool-v1. An external SDK build and 23 acceptance commands (19 through the real manager)
@@ -83,11 +83,22 @@ verified install/invoke, version rejection, explicit replacement/removal, unchan
 host identity and packaged inspection with Codex absent from PATH. Fifty focused
 checks passed. Every report blocks update approval; the observed same-upstream
 request retained unavailable-composition and historical ownership findings. This
-does not prove application, state recovery, active cancellation or engine-turn
+does not prove application, state recovery or engine-turn
 invocation. [Source mapping](upstream/p18u-installed-impact-lineage.json) records all
 13 additions and reused contracts. There is still no native C27 subsystem to count
 as extracted. The nine non-Rust language-package manifests above are unchanged;
 this adds an example component manifest, not a Rust workspace or language package.
+
+The later0.1.1 checkpoint adds real direct-Git cancellation/recovery, and0.2.0 adds
+`tool:upstream_source_capsule` v1 with bounded private job state and an offline
+integrity inspector. The49-command real gate retains inputs for13 changed paths
+from chosen upstream2e5fea64 and custom914cc593; cancellation/SIGKILL retain incomplete
+jobs and subsequent manager invocations succeed. Fresh storage/migration and two
+Chromium GUI cycles pass with deterministic inference on unchanged host binaries.
+[Evidence](verification/2026-10-04/p18u-source-capsule/README.md) records exact source
+and package hashes. This is preparation only: no adapted candidate, coordinated
+version/migration acceptance, updated-host runtime or failed-update rollback.
+The inspector does not attest prior crash durability or restore an installation.
 
 The separately installable maintenance component should take an exact upstream revision, the current imported-source lineage, local extraction changes and installed component compatibility information. It should produce a reviewable change classification, an isolated candidate build/package, compatibility and regression evidence, and an explicit activation/rollback result. It must detect upstream changes to owned boundaries and shared schemas rather than assuming a clean textual merge proves behavior. Reuse the C00 manifest/version/dependency contracts and C26 build/conformance tools; require C02/C03 persistence compatibility and C19 client lifecycle checks. Preserve licenses, notices, plugin configuration, user data and the last known working distribution. No automatic publication, destructive replacement or silent migration is implied by this design.
 
